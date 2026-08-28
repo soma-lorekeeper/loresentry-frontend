@@ -4046,11 +4046,12 @@
       "id": "G40MQB",
       "x": 4480,
       "y": 0,
-      "name": "C · Dark Focus",
+      "name": "C · Dark Focus · SELECTED",
       "clip": true,
       "width": 1440,
       "height": 900,
       "fill": "#1E1E1C",
+      "stroke": "#8F8F88",
       "children": [
         {
           "type": "frame",
@@ -5676,6 +5677,592 @@
                   ]
                 }
               ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "vqmlx",
+      "x": 6000,
+      "y": 0,
+      "name": "04 · Wireframe Decision",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "#F5F5F2",
+      "layout": "vertical",
+      "gap": 18,
+      "padding": [
+        42,
+        48
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "f4zk98",
+          "name": "Decision Header",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 6,
+          "children": [
+            {
+              "type": "text",
+              "id": "KcRPm",
+              "name": "Decision Eyebrow",
+              "fill": "#70706A",
+              "content": "LOREKEEPER-305 · WIREFRAME DIRECTION",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "600",
+              "letterSpacing": 1.2
+            },
+            {
+              "type": "text",
+              "id": "Ux1HZ",
+              "name": "Decision Title",
+              "fill": "#222220",
+              "content": "기준 UI 방향 선택",
+              "fontFamily": "Inter",
+              "fontSize": 30,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "E2Ajzx",
+              "name": "Decision Subtitle",
+              "fill": "#666660",
+              "content": "동일한 정보 구조를 비교한 결과이며 색상·폰트·간격 체계는 아직 확정하지 않는다.",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "o8py6O",
+          "name": "Selected Direction",
+          "width": "fill_container",
+          "height": 92,
+          "fill": "#1E1E1C",
+          "gap": 18,
+          "padding": [
+            18,
+            22
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "USAei",
+              "name": "Selected Badge",
+              "fill": "#E8E8E2",
+              "padding": [
+                8,
+                12
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "SL8Gj",
+                  "name": "Selected Badge Label",
+                  "fill": "#1E1E1C",
+                  "content": "SELECTED",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "700",
+                  "letterSpacing": 1
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "LmDkE",
+              "name": "Selected Copy",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 5,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "gi846",
+                  "name": "Selected Title",
+                  "fill": "#F3F3EF",
+                  "content": "C · Dark Focus",
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "gCZHw",
+                  "name": "Selected Rationale",
+                  "fill": "#BEBEB8",
+                  "content": "장시간 집필과 몰입을 기본으로 삼고, B의 탐색 구분과 A의 가독성을 상세 설계에서 보완한다.",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "njYgF",
+          "name": "Criteria Title",
+          "fill": "#2A2A27",
+          "content": "비교 기준별 판단",
+          "fontFamily": "Inter",
+          "fontSize": 18,
+          "fontWeight": "700"
+        },
+        {
+          "type": "frame",
+          "id": "X4mAaa",
+          "name": "Criteria Cards",
+          "width": "fill_container",
+          "height": 132,
+          "gap": 12,
+          "children": [
+            {
+              "type": "frame",
+              "id": "A0jFy",
+              "name": "Criterion · 작업 재개 우선순위",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#EAEAE6",
+              "stroke": "#D2D2CC",
+              "layout": "vertical",
+              "gap": 7,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "NsAp1",
+                  "name": "작업 재개 우선순위 Label",
+                  "fill": "#686862",
+                  "content": "작업 재개 우선순위",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "D7dvnn",
+                  "name": "작업 재개 우선순위 State",
+                  "fill": "#242421",
+                  "content": "강함",
+                  "fontFamily": "Inter",
+                  "fontSize": 17,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "YKaGA",
+                  "name": "작업 재개 우선순위 Note",
+                  "fill": "#575752",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "프로젝트 맥락 → 마지막 작업 → 생성 → 최근 파일 순서가 분명하다.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "GBbGn",
+              "name": "Criterion · 탐색성",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#EAEAE6",
+              "stroke": "#D2D2CC",
+              "layout": "vertical",
+              "gap": 7,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "BXecp",
+                  "name": "탐색성 Label",
+                  "fill": "#686862",
+                  "content": "탐색성",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "fknDj",
+                  "name": "탐색성 State",
+                  "fill": "#242421",
+                  "content": "보완 필요",
+                  "fontFamily": "Inter",
+                  "fontSize": 17,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "mSbKV",
+                  "name": "탐색성 Note",
+                  "fill": "#575752",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "구조는 명확하지만 어두운 트리의 선택·펼침 상태는 B의 대비를 참고한다.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "kpznG",
+              "name": "Criterion · 패널 확장 여유",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#EAEAE6",
+              "stroke": "#D2D2CC",
+              "layout": "vertical",
+              "gap": 7,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "bInPy",
+                  "name": "패널 확장 여유 Label",
+                  "fill": "#686862",
+                  "content": "패널 확장 여유",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "IdKLd",
+                  "name": "패널 확장 여유 State",
+                  "fill": "#242421",
+                  "content": "적합",
+                  "fontFamily": "Inter",
+                  "fontSize": 17,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "MQZiA",
+                  "name": "패널 확장 여유 Note",
+                  "fill": "#575752",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "좌측 탐색·중앙 작업·우측 AI 패널의 3영역 구조를 유지할 수 있다.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "r93pq",
+              "name": "Criterion · 장시간 사용 피로",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#EAEAE6",
+              "stroke": "#D2D2CC",
+              "layout": "vertical",
+              "gap": 7,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "yhwuU",
+                  "name": "장시간 사용 피로 Label",
+                  "fill": "#686862",
+                  "content": "장시간 사용 피로",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "RE7Wx",
+                  "name": "장시간 사용 피로 State",
+                  "fill": "#242421",
+                  "content": "가장 적합",
+                  "fontFamily": "Inter",
+                  "fontSize": 17,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "Sg0jj",
+                  "name": "장시간 사용 피로 Note",
+                  "fill": "#575752",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "넓은 밝은 면을 줄여 집필 집중에 유리하다. 실제 대비와 피로도는 후속 검증한다.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "TWNxz",
+          "name": "Direction Decisions",
+          "width": "fill_container",
+          "height": 138,
+          "gap": 12,
+          "children": [
+            {
+              "type": "frame",
+              "id": "P8JmHH",
+              "name": "유지할 구조",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "stroke": "#D2D2CC",
+              "layout": "vertical",
+              "gap": 9,
+              "padding": [
+                16,
+                18
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "OYMbG",
+                  "name": "유지할 구조 Title",
+                  "fill": "#292926",
+                  "content": "유지할 구조",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "aiUUV",
+                  "name": "유지할 구조 Body",
+                  "fill": "#555550",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "• 통합 작업공간의 좌측 사이드바·중앙 탭·우측 AI 패널\n• 새 탭의 맥락·작업 재개·새 파일·최근 파일 순서\n• 집필 중심의 낮은 시각 자극과 넓은 작업 영역",
+                  "lineHeight": 1.6,
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "L0S9V",
+              "name": "상세 디자인에서 조정",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "stroke": "#D2D2CC",
+              "layout": "vertical",
+              "gap": 9,
+              "padding": [
+                16,
+                18
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "X3wyx",
+                  "name": "상세 디자인에서 조정 Title",
+                  "fill": "#292926",
+                  "content": "상세 디자인에서 조정",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "H6CMg",
+                  "name": "상세 디자인에서 조정 Body",
+                  "fill": "#555550",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "• 색상·대비·폰트·간격 토큰은 후속 단계에서 확정\n• 파일 트리와 활성 탭의 탐색 단서 강화\n• AI·파일 메모 패널과 좁은 폭에서 반응형 동작 검증",
+                  "lineHeight": 1.6,
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "ER0um",
+          "name": "Alternatives Title",
+          "fill": "#2A2A27",
+          "content": "선택하지 않은 안",
+          "fontFamily": "Inter",
+          "fontSize": 18,
+          "fontWeight": "700"
+        },
+        {
+          "type": "frame",
+          "id": "rg7BH",
+          "name": "Alternative Cards",
+          "width": "fill_container",
+          "height": 118,
+          "gap": 12,
+          "children": [
+            {
+              "type": "frame",
+              "id": "p02w9a",
+              "name": "Alternative · A · Light Productivity",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#EDEDE9",
+              "stroke": "#D2D2CC",
+              "layout": "vertical",
+              "gap": 7,
+              "padding": [
+                14,
+                18
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "dTd7p",
+                  "name": "A · Light Productivity Title",
+                  "fill": "#2C2C29",
+                  "content": "A · Light Productivity",
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "Jslsl",
+                  "name": "A · Light Productivity Advantage",
+                  "fill": "#555550",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "장점: 읽기 쉽고 친숙하며 기능 발견이 빠르다.",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "OZoG5",
+                  "name": "A · Light Productivity Exclusion",
+                  "fill": "#555550",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "제외: 넓은 밝은 면과 약한 영역 구분이 장시간 집필의 기본값에는 덜 적합하다.",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "K7eb6P",
+              "name": "Alternative · B · Hybrid Navigation",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#EDEDE9",
+              "stroke": "#D2D2CC",
+              "layout": "vertical",
+              "gap": 7,
+              "padding": [
+                14,
+                18
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "W2CuJ",
+                  "name": "B · Hybrid Navigation Title",
+                  "fill": "#2C2C29",
+                  "content": "B · Hybrid Navigation",
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "w8O04",
+                  "name": "B · Hybrid Navigation Advantage",
+                  "fill": "#555550",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "장점: 탐색 영역과 작업 영역의 구분이 가장 명확하다.",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "qOFRx",
+                  "name": "B · Hybrid Navigation Exclusion",
+                  "fill": "#555550",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "제외: 밝은 중앙 작업 면을 기본으로 삼기보다, 탐색 대비만 C에 차용하는 편이 목표에 맞다.",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "d6AHkA",
+          "name": "IA Cross-check Note",
+          "width": "fill_container",
+          "height": 50,
+          "fill": "#DEDED8",
+          "gap": 10,
+          "padding": [
+            0,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "SQ0Ah",
+              "name": "IA Cross-check Label",
+              "fill": "#4E4E49",
+              "content": "IA CHECK",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "700",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "i5ATd",
+              "name": "IA Cross-check Body",
+              "fill": "#4E4E49",
+              "content": "사이드바 탐색 · 중앙 탭/새 탭 · 우측 AI 패널 구조가 docs/design/workspace와 일치한다.",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
             }
           ]
         }
