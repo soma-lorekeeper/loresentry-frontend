@@ -1,0 +1,814 @@
+{
+  "version": "2.17",
+  "children": [
+    {
+      "type": "frame",
+      "id": "RFai6",
+      "x": 0,
+      "y": 0,
+      "name": "00 · Wireframe Brief",
+      "clip": true,
+      "width": 1200,
+      "fill": "#F7F7F5",
+      "stroke": "#C9C9C4",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": 28,
+      "padding": 48,
+      "children": [
+        {
+          "type": "frame",
+          "id": "I84ukB",
+          "name": "Brief Header",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 10,
+          "children": [
+            {
+              "type": "text",
+              "id": "ZQl8l",
+              "name": "Brief Eyebrow",
+              "fill": "#65655F",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "LOREKEEPER · UI EXPLORATION",
+              "lineHeight": 1.35,
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "G6aNG7",
+              "name": "Brief Title",
+              "fill": "#20201E",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "통합 작업공간 와이어프레임 기준",
+              "lineHeight": 1.35,
+              "fontFamily": "Inter",
+              "fontSize": 34,
+              "fontWeight": "650"
+            },
+            {
+              "type": "text",
+              "id": "PqypC",
+              "name": "Brief Description",
+              "fill": "#5A5A55",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "같은 콘텐츠로 세 가지 화면 구조와 명도 방향을 비교한다. 이번 단계에서는 화면 구획과 정보 우선순위만 판단한다.",
+              "lineHeight": 1.35,
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "iJdbv",
+          "name": "Baseline Summary",
+          "width": "fill_container",
+          "gap": 12,
+          "children": [
+            {
+              "type": "frame",
+              "id": "G2O6f",
+              "name": "Viewport Summary",
+              "width": "fill_container",
+              "fill": "#ECECE8",
+              "cornerRadius": 8,
+              "layout": "vertical",
+              "gap": 5,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "H94woA",
+                  "name": "Viewport Label",
+                  "fill": "#6B6B65",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "기준 화면",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "yyfoa",
+                  "name": "Viewport Value",
+                  "fill": "#292927",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "1440 × 900",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "BDP5r",
+              "name": "Scenario Summary",
+              "width": "fill_container",
+              "fill": "#ECECE8",
+              "cornerRadius": 8,
+              "layout": "vertical",
+              "gap": 5,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "vXUBa",
+                  "name": "Scenario Label",
+                  "fill": "#6B6B65",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "기준 상태",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "Ur9Sq",
+                  "name": "Scenario Value",
+                  "fill": "#292927",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "통합 작업공간 · 새 탭",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "B5Pvgh",
+              "name": "Fidelity Summary",
+              "width": "fill_container",
+              "fill": "#ECECE8",
+              "cornerRadius": 8,
+              "layout": "vertical",
+              "gap": 5,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "x29uwg",
+                  "name": "Fidelity Label",
+                  "fill": "#6B6B65",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "표현 수준",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "A97h2C",
+                  "name": "Fidelity Value",
+                  "fill": "#292927",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "회색조 저충실도",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ULywl",
+          "name": "Shared Requirements",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 14,
+          "children": [
+            {
+              "type": "text",
+              "id": "HnYzm",
+              "name": "Shared Requirements Title",
+              "fill": "#20201E",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "세 안이 공유할 구조",
+              "lineHeight": 1.35,
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "650"
+            },
+            {
+              "type": "frame",
+              "id": "j1FeuM",
+              "name": "Shared Requirements Columns",
+              "width": "fill_container",
+              "gap": 40,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "cgNC2",
+                  "name": "Workspace Shell Requirements",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "kULwT",
+                      "name": "Workspace Shell Label",
+                      "fill": "#555550",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "작업공간 셸",
+                      "lineHeight": 1.35,
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "650"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "AG5vQ",
+                      "name": "Sidebar Requirement",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 3,
+                          "id": "KcZwG",
+                          "name": "Sidebar Requirement Marker",
+                          "fill": "#4A4A46",
+                          "width": 6,
+                          "height": 6
+                        },
+                        {
+                          "type": "text",
+                          "id": "sv3pe",
+                          "name": "Sidebar Requirement Text",
+                          "fill": "#343432",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "사용자·프로젝트 문맥과 파일 탐색 사이드바",
+                          "lineHeight": 1.35,
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "oxsBf",
+                      "name": "Tabs Requirement",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 3,
+                          "id": "oSo1y",
+                          "name": "Tabs Requirement Marker",
+                          "fill": "#4A4A46",
+                          "width": 6,
+                          "height": 6
+                        },
+                        {
+                          "type": "text",
+                          "id": "C9FSkK",
+                          "name": "Tabs Requirement Text",
+                          "fill": "#343432",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "사이드바 토글·열린 탭·새 탭·AI 챗이 있는 탭 바",
+                          "lineHeight": 1.35,
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "WgSro",
+                      "name": "New Tab Requirement",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 3,
+                          "id": "AqVz3",
+                          "name": "New Tab Requirement Marker",
+                          "fill": "#4A4A46",
+                          "width": 6,
+                          "height": 6
+                        },
+                        {
+                          "type": "text",
+                          "id": "U2Ulc",
+                          "name": "New Tab Requirement Text",
+                          "fill": "#343432",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "작업 재개·새 파일 만들기·최근 파일이 있는 중심 영역",
+                          "lineHeight": 1.35,
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "g6MFr",
+                      "name": "AI Requirement",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 3,
+                          "id": "QgjC5",
+                          "name": "AI Requirement Marker",
+                          "fill": "#4A4A46",
+                          "width": 6,
+                          "height": 6
+                        },
+                        {
+                          "type": "text",
+                          "id": "kq0X9",
+                          "name": "AI Requirement Text",
+                          "fill": "#343432",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "오른쪽 보조 패널을 여닫는 AI 챗 진입점",
+                          "lineHeight": 1.35,
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "YUzR8",
+                  "name": "Comparison Content",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "hrD5T",
+                      "name": "Comparison Content Label",
+                      "fill": "#555550",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "동일한 비교용 콘텐츠",
+                      "lineHeight": 1.35,
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "650"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "elbvA",
+                      "name": "Project Content",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 3,
+                          "id": "MC84b",
+                          "name": "Project Content Marker",
+                          "fill": "#4A4A46",
+                          "width": 6,
+                          "height": 6
+                        },
+                        {
+                          "type": "text",
+                          "id": "N9pKb",
+                          "name": "Project Content Text",
+                          "fill": "#343432",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "프로젝트: 유리 정원의 기록",
+                          "lineHeight": 1.35,
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "RtITR",
+                      "name": "Resume Content",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 3,
+                          "id": "NNT9e",
+                          "name": "Resume Content Marker",
+                          "fill": "#4A4A46",
+                          "width": 6,
+                          "height": 6
+                        },
+                        {
+                          "type": "text",
+                          "id": "TtIo4",
+                          "name": "Resume Content Text",
+                          "fill": "#343432",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "마지막 작업: 12화 · 균열의 밤 / 18분 전",
+                          "lineHeight": 1.35,
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "qDLgq",
+                      "name": "Create Content",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 3,
+                          "id": "OVwoa",
+                          "name": "Create Content Marker",
+                          "fill": "#4A4A46",
+                          "width": 6,
+                          "height": 6
+                        },
+                        {
+                          "type": "text",
+                          "id": "pSmYp",
+                          "name": "Create Content Text",
+                          "fill": "#343432",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "원고·설정·캐릭터·이벤트·조직·아이템·장소·세계관",
+                          "lineHeight": 1.35,
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "S06nu",
+                      "name": "Recent Content",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 3,
+                          "id": "LW6Ue",
+                          "name": "Recent Content Marker",
+                          "fill": "#4A4A46",
+                          "width": 6,
+                          "height": 6
+                        },
+                        {
+                          "type": "text",
+                          "id": "oMXRS",
+                          "name": "Recent Content Text",
+                          "fill": "#343432",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "최근 파일: 왕도 지도, 주인공 설정, 11화 초고",
+                          "lineHeight": 1.35,
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "z1OO4",
+          "name": "Comparison Criteria",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 14,
+          "children": [
+            {
+              "type": "text",
+              "id": "D5fY2x",
+              "name": "Comparison Criteria Title",
+              "fill": "#20201E",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "비교 기준",
+              "lineHeight": 1.35,
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "650"
+            },
+            {
+              "type": "frame",
+              "id": "BZnMc",
+              "name": "Comparison Criteria Row",
+              "width": "fill_container",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "sgdkT",
+                  "name": "Resume Priority Criterion",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "stroke": "#D6D6D1",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "f96st",
+                      "name": "Resume Priority Number",
+                      "fill": "#7A7A73",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "01",
+                      "lineHeight": 1.35,
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "650"
+                    },
+                    {
+                      "type": "text",
+                      "id": "jDWaq",
+                      "name": "Resume Priority Title",
+                      "fill": "#252523",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "작업 재개 우선순위",
+                      "lineHeight": 1.35,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "650"
+                    },
+                    {
+                      "type": "text",
+                      "id": "bK5Ne",
+                      "name": "Resume Priority Description",
+                      "fill": "#5E5E59",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "원고와 이어서 작업하기가 가장 먼저 보이는가",
+                      "lineHeight": 1.35,
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ShevC",
+                  "name": "Navigation Criterion",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "stroke": "#D6D6D1",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "e7reIQ",
+                      "name": "Navigation Number",
+                      "fill": "#7A7A73",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "02",
+                      "lineHeight": 1.35,
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "650"
+                    },
+                    {
+                      "type": "text",
+                      "id": "OYBr0",
+                      "name": "Navigation Title",
+                      "fill": "#252523",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "탐색성",
+                      "lineHeight": 1.35,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "650"
+                    },
+                    {
+                      "type": "text",
+                      "id": "LAVs1",
+                      "name": "Navigation Description",
+                      "fill": "#5E5E59",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "파일이 많아져도 현재 위치와 선택 상태를 이해할 수 있는가",
+                      "lineHeight": 1.35,
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "EVm04",
+                  "name": "Panel Capacity Criterion",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "stroke": "#D6D6D1",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Qi4sr",
+                      "name": "Panel Capacity Number",
+                      "fill": "#7A7A73",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "03",
+                      "lineHeight": 1.35,
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "650"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Je12P",
+                      "name": "Panel Capacity Title",
+                      "fill": "#252523",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "패널 확장 여유",
+                      "lineHeight": 1.35,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "650"
+                    },
+                    {
+                      "type": "text",
+                      "id": "l26LFN",
+                      "name": "Panel Capacity Description",
+                      "fill": "#5E5E59",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "AI 챗을 열어도 중심 작업 영역이 충분한가",
+                      "lineHeight": 1.35,
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "oO0PI",
+                  "name": "Long Session Criterion",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "stroke": "#D6D6D1",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "uHi75",
+                      "name": "Long Session Number",
+                      "fill": "#7A7A73",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "04",
+                      "lineHeight": 1.35,
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "650"
+                    },
+                    {
+                      "type": "text",
+                      "id": "fyQR5",
+                      "name": "Long Session Title",
+                      "fill": "#252523",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "장시간 사용 피로",
+                      "lineHeight": 1.35,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "650"
+                    },
+                    {
+                      "type": "text",
+                      "id": "wkSXK",
+                      "name": "Long Session Description",
+                      "fill": "#5E5E59",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "명도 대비와 정보 밀도가 오래 쓰기에 무리가 없는가",
+                      "lineHeight": 1.35,
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "G2A0P",
+          "name": "Out of Scope",
+          "width": "fill_container",
+          "fill": "#E7E7E2",
+          "cornerRadius": 8,
+          "layout": "vertical",
+          "gap": 10,
+          "padding": [
+            20,
+            22
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "UcRV6",
+              "name": "Out of Scope Title",
+              "fill": "#3E3E3A",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "이번 단계에서 결정하지 않는 것",
+              "lineHeight": 1.35,
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "650"
+            },
+            {
+              "type": "text",
+              "id": "R0ETeD",
+              "name": "Out of Scope Description",
+              "fill": "#555550",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "랜딩·로그인·프로젝트 목록의 상세 디자인 · 색상·폰트·간격 토큰 확정 · frontend 구현 코드 · 새로운 제품 정책",
+              "lineHeight": 1.35,
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "fileToken": "76840935-c7be-4847-afe7-fd05de908901"
+}
