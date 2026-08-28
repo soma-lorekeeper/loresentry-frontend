@@ -2,6 +2,8 @@
 
 Lorekeeper의 전체 화면 구조는 다음과 같다.
 
+시각·상호작용 판단은 [Lorekeeper 디자인 방향](./design-direction.md)을 따른다.
+
 ```text
 랜딩 페이지(선택) → 로그인 → 프로젝트 목록 → 통합 작업공간
 ```
