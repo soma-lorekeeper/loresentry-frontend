@@ -1,0 +1,30 @@
+name: lorekeeper-frontend-local
+
+services:
+  frontend:
+    image: mcr.microsoft.com/devcontainers/javascript-node:24-bookworm
+    init: true
+    user: node
+    working_dir: /workspace
+    command:
+      - bash
+      - -lc
+      - |
+        sudo chown node:node node_modules /home/node/.local/share/pnpm/store
+        corepack enable --install-directory /usr/local/share/npm-global/bin
+        pnpm install --frozen-lockfile
+        exec pnpm dev --hostname 0.0.0.0
+    environment:
+      COREPACK_ENABLE_DOWNLOAD_PROMPT: "0"
+      pnpm_config_store_dir: /home/node/.local/share/pnpm/store
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8080
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/workspace
+      - node-modules:/workspace/node_modules
+      - pnpm-store:/home/node/.local/share/pnpm/store
+
+volumes:
+  node-modules:
+  pnpm-store:

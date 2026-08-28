@@ -1,0 +1,39 @@
+# Information Architecture
+
+Lorekeeper의 전체 화면 구조는 다음과 같다.
+
+```text
+랜딩 페이지(선택) → 로그인 → 프로젝트 목록 → 통합 작업공간
+```
+
+## 페이지
+
+- [랜딩 페이지](./landing/README.md)
+- [로그인 페이지](./login/README.md)
+- [프로젝트 목록](./project-list/README.md)
+- [프로젝트 생성](./project-list/create-project.md)
+- [프로젝트 휴지통](./project-list/trash.md)
+- [통합 작업공간](./workspace/README.md)
+- [기본 섹션](./workspace/files-and-favorites.md)
+- [파일·폴더 동작](./workspace/file-and-folder-actions.md)
+- [파일·폴더 휴지통](./workspace/trash.md)
+- [중앙 작업 영역 탭](./workspace/tabs.md)
+- [새 탭 화면](./workspace/new-tab.md)
+- [AI 챗 보조 사이드 패널](./workspace/ai-chat-panel.md)
+- [파일 헤더](./workspace/file-header.md)
+- [파일 메모 패널](./workspace/file-memo-panel.md)
+- [원고 편집 영역](./workspace/manuscript-editor.md)
+
+## Workflow
+
+- [서비스 진입](./workflow/service-entry.md)
+- [Google OAuth 인증](./workflow/authentication.md)
+- [프로젝트 진입](./workflow/project-entry.md)
+- [프로젝트 생성](./workflow/project-creation.md)
+- [프로젝트 휴지통](./workflow/project-trash.md)
+- [프로젝트 전환](./workflow/project-switching.md)
+- [즐겨찾기](./workflow/favorites.md)
+- [파일·폴더 이동](./workflow/item-movement.md)
+- [파일·폴더 생성과 이름 변경](./workflow/item-creation-and-renaming.md)
+- [파일·폴더 휴지통](./workflow/workspace-trash.md)
+- [작업공간 콘텐츠 열기](./workflow/workspace-navigation.md)

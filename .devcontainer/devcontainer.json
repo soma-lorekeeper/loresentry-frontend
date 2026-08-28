@@ -1,0 +1,34 @@
+{
+  "name": "Lorekeeper Frontend",
+  "dockerComposeFile": "../compose.local.yml",
+  "service": "frontend",
+  "workspaceFolder": "/workspace",
+  "overrideCommand": false,
+  "shutdownAction": "none",
+  "remoteUser": "node",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Lorekeeper Frontend",
+      "onAutoForward": "openBrowser",
+      "requireLocalPort": true
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "highagency.pencildev",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "redhat.vscode-yaml"
+      ],
+      "settings": {
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "prettier.requireConfig": true
+      }
+    }
+  }
+}
