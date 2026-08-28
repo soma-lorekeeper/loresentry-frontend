@@ -1,6 +1,6 @@
 # Lorekeeper 대표 화면 시각 방향 탐색
 
-- 상태: 대표 화면 시각 방향 승인 완료
+- 상태: 대표 화면 승인 및 재사용 기준 확정
 - 기준 화면: `12 · Manuscript Editor · Memo · Work Selected`
 - Pencil 프레임 ID: `BGPNV`
 - 구조 고정 기준본: `16 · Visual Baseline · STRUCTURE LOCKED`
@@ -126,6 +126,13 @@ AI 챗이 열린 상태는 이번 대표 화면에서 제외한다. 메모 패�
 
 파일 저장이나 자동 레이아웃 검사가 아니라 사용자의 위 명시적 응답을 최종 승인
 근거로 사용한다.
+
+## 후속 적용 기준
+
+승인 화면에서 도출한 정확한 변수값과 시각 원칙은
+[`design-direction.md`](./design-direction.md), 재사용 원본의 유지·수정·폐기 판정은
+[`component-library.md`](./component-library.md), 최종 검증 결과는
+[`final-validation.md`](./final-validation.md)를 사실의 기준으로 사용한다.
 
 ## 시각안별로 변경할 요소
 
