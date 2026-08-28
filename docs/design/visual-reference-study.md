@@ -1,6 +1,6 @@
 # Lorekeeper 대표 화면 시각 방향 탐색
 
-- 상태: 대표 화면 기준본 고정
+- 상태: 참고 근거별 비교 시각안 준비
 - 기준 화면: `12 · Manuscript Editor · Memo · Work Selected`
 - Pencil 프레임 ID: `BGPNV`
 - 구조 고정 기준본: `16 · Visual Baseline · STRUCTURE LOCKED`
@@ -61,6 +61,27 @@ AI 챗이 열린 상태는 이번 대표 화면에서 제외한다. 메모 패�
 구조 변경이 필요하다고 판단되면 시각안 안에서 함께 수정하지 않고 별도 UX 작업으로
 분리한다. Pencil 스키마에는 편집 잠금 속성이 없으므로 프레임 이름의
 `STRUCTURE LOCKED` 표시와 이 문서의 고정 목록을 변경 금지 기준으로 사용한다.
+
+## 참고 근거별 비교 시각안
+
+세 시각안은 모두 기준본과 동일한 145개 노드, 문구와 선택 상태를 사용한다. 화면
+크기, 패널 폭과 컨트롤 배치를 바꾸지 않았으며, 참고 제품마다 다른 문제 해결 방식을
+색상·텍스트 대비·경계와 아이콘 선 굵기에만 적용했다.
+
+| Pencil 프레임 | 참고 근거 | 적용한 선택 |
+| --- | --- | --- |
+| `17 · Visual Option · Softer Boundaries · Ulysses` (`FreFO`) | [Ulysses 공식 Dark Mode 화면](https://ulysses.app/assets/press/screenshots/mac/Mac-2.png) | 따뜻한 저명도 표면(`#1D1C1A`, `#171614`), 낮은 경계 대비(`#35332E`), 부드러운 본문 대비와 1.74 줄 간격, 가는 350 굵기 아이콘을 사용한다. 추가 카드나 장식 없이 패널 밀도를 기준본과 같게 유지한다. |
+| `18 · Visual Option · Editorial Contrast · iA Writer` (`v6YZP`) | [iA Writer 공식 집중 편집 화면](https://static.ia.net/2024/09/WriterStatsOn.webp) | 중앙 원고 면(`#252523`)과 원고 텍스트(`#F0EEE8`)를 주변 탐색·메모보다 분명하게 하고, 주변 UI의 2차 텍스트 대비를 낮춘다. 본문 줄 간격은 1.78, 아이콘은 400 굵기를 사용하며 도구 밀도는 늘리지 않는다. |
+| `19 · Visual Option · Clear Panel States · Scrivener` (`Tc6Ms`) | [Scrivener 공식 Binder·Editor·Inspector 화면](https://www.literatureandlatte.com/wp-content/uploads/2025/04/navigate1-1.png) | 패널 경계(`#4A463F`)와 선택 상태(`#3B372E`, `#D6C6A4`)를 더 분명하게 하고 2차 레이블도 읽기 쉽게 유지한다. 본문 줄 간격은 1.70, 아이콘은 500 굵기를 사용하되 도구나 Inspector 기능은 추가하지 않는다. |
+
+### 같은 조건에서 볼 차이
+
+- Ulysses 근거안은 원고와 주변 도구가 한 화면에 조용히 이어지는 정도를 본다.
+- iA Writer 근거안은 주변 도구보다 중앙 원고가 먼저 읽히는 정도를 본다.
+- Scrivener 근거안은 좌측 탐색·중앙 원고·우측 메모의 경계와 현재 상태를 찾기 쉬운지
+  본다.
+- 세 안 모두 기존 C의 다크 포커스 방향을 유지하며 그라디언트, 발광, 배경 이미지와
+  새로운 장식 요소를 사용하지 않는다.
 
 ## 시각안별로 변경할 요소
 
