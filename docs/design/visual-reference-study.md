@@ -1,6 +1,6 @@
 # Lorekeeper 대표 화면 시각 방향 탐색
 
-- 상태: 대표 화면과 비교 범위 확정
+- 상태: 참고자료 정리 완료, 시각 선호 확정 대기
 - 기준 화면: `12 · Manuscript Editor · Memo · Work Selected`
 - Pencil 프레임 ID: `BGPNV`
 - 비교 크기: 1440 × 900
@@ -58,6 +58,113 @@ AI 챗이 열린 상태는 이번 대표 화면에서 제외한다. 메모 패�
 - 각 시각안에 참고한 실제 제품과 적용한 요소를 기록한다.
 - 작업 집중, 가독성, 정보 위계와 사용자 선호를 같은 기준으로 비교한다.
 - 단순 저장이나 레이아웃 오류 없음은 디자인 승인으로 간주하지 않는다.
+
+## 실제 제품 참고자료
+
+참고자료는 3개 제품의 공식 문서와 공식 배포 이미지만 사용한다. 각 화면에서
+문제를 해결하는 요소만 가져오며 제품의 전체 스타일을 복제하지 않는다.
+
+### iA Writer
+
+#### 1. Library·Editor·Preview가 열린 3영역 화면
+
+- 출처: [iA Writer Quick Tour](https://ia.net/writer/how-to/quick-tour),
+  [공식 화면 이미지](https://static.ia.net/2024/09/WriterAllPanesOpen.webp)
+- 활용할 요소: 중앙 Editor를 가장 넓고 단순한 면으로 두고, 좌우 보조 영역은
+  얇은 경계와 명도 차이로만 분리한다. 화면의 역할을 Library, Editor, Preview로
+  명확히 나누면서도 각 영역을 별도 카드로 감싸지 않는다.
+- 피할 요소: Preview처럼 결과 미리보기를 항상 오른쪽에 두는 구조와 밝은 표면
+  대비를 그대로 사용하지 않는다. Lorekeeper의 오른쪽 영역은 현재 파일과
+  연결된 메모이며 필요할 때만 열린다.
+- Lorekeeper 적용 근거: 현재 C의 좌측 탐색·중앙 편집·우측 메모 구조와 가장
+  직접적으로 비교할 수 있다. 중앙 원고를 넓게 유지하면서 보조 영역의 존재를
+  분명히 하는 기준으로 사용한다.
+
+#### 2. Library를 숨긴 집중 편집 화면
+
+- 출처: [iA Writer Write With Focus](https://ia.net/writer/how-to/write-with-focus),
+  [공식 화면 이미지](https://static.ia.net/2024/09/WriterStatsOn.webp)
+- 활용할 요소: 본문 줄 길이를 제한하고 편집 면 안에 충분한 여백을 둔다. 단어
+  수와 같은 보조 정보는 화면 하단에서 낮은 우선순위로 표시한다.
+- 피할 요소: 현재 문장 외의 본문을 항상 흐리게 만드는 Focus Mode와 탐색 영역을
+  기본적으로 모두 숨기는 방식은 사용하지 않는다. 장편 원고를 고치거나 앞뒤
+  맥락을 확인할 때 가독성과 위치 파악을 방해할 수 있다.
+- Lorekeeper 적용 근거: 원고가 화면에서 가장 먼저 읽히게 하면서도 프로젝트
+  맥락과 메모를 유지해야 하므로, Editor의 본문 폭과 여백만 참고한다.
+
+### Ulysses
+
+#### 3. Library·Sheet List·Editor 3영역 화면
+
+- 출처: [Ulysses 공식 미디어 자료](https://ulysses.app/press/media/),
+  [Mac 공식 화면 이미지](https://ulysses.app/assets/press/screenshots/mac/Mac-1.png)
+- 활용할 요소: Library와 Sheet List는 압축된 밀도로 두고 Editor로 갈수록
+  시각적 여백을 늘린다. 반복되는 카드 대신 목록, 선택 행과 얇은 구분선으로
+  정보 위계를 만든다.
+- 피할 요소: Library와 Sheet List처럼 유사한 탐색 목록을 한 단계 더 추가하지
+  않는다. Lorekeeper에는 이미 파일 트리와 열린 탭이 있으므로 중간 목록을
+  추가하면 같은 이동 경로가 중복된다.
+- Lorekeeper 적용 근거: 탐색 영역은 많은 정보를 다루되 원고 편집 영역과
+  경쟁하지 않아야 한다. 좌측은 압축하고 중앙에는 호흡을 주는 밀도 차이의
+  기준으로 사용한다.
+
+#### 4. Editor Focus와 Dark Mode 화면
+
+- 출처: [Ulysses 공식 미디어 자료](https://ulysses.app/press/media/),
+  [Mac 공식 화면 이미지](https://ulysses.app/assets/press/screenshots/mac/Mac-2.png)
+- 활용할 요소: 다크 배경에서도 본문 면을 별도 카드로 강조하지 않고, 제한된
+  본문 폭과 차분한 텍스트 대비로 집중 영역을 만든다. 주변 도구의 대비는 본문보다
+  낮게 유지한다.
+- 피할 요소: 현재 문장만 과도하게 강조하거나 Markdown 표식을 다수의 색으로
+  드러내는 표현을 기본 상태로 사용하지 않는다. 원고 전체를 읽을 때 시각적
+  연속성을 해칠 수 있다.
+- Lorekeeper 적용 근거: 현재 C의 다크 무채색 방향을 유지하면서 AI가 만든
+  발광·그라디언트 없이도 본문 우선순위를 만드는 근거가 된다.
+
+### Scrivener
+
+#### 5. Binder·Editor·Inspector가 열린 기본 화면
+
+- 출처: [Scrivener Navigate 공식 설명](https://www.literatureandlatte.com/blog/how-to-use-scriveners-navigate-menu-to-access-elements-of-your-projects),
+  [공식 화면 이미지](https://www.literatureandlatte.com/wp-content/uploads/2025/04/navigate1-1.png)
+- 활용할 요소: Binder, Editor와 Inspector의 기능 경계를 분명히 하고, Inspector는
+  현재 문서에 연결된 보조 정보를 보여준다. 보조 패널을 닫아 Editor 폭을 되돌릴
+  수 있는 구조를 참고한다.
+- 피할 요소: 상단 도구막대의 많은 아이콘과 메뉴, Inspector 안의 여러 기능을
+  한꺼번에 노출하는 높은 밀도는 사용하지 않는다. 핵심 행동의 발견성과 원고
+  집중을 동시에 낮출 수 있다.
+- Lorekeeper 적용 근거: 파일 트리·원고·작품 메모의 기능 관계가 대표 화면과 가장
+  유사하다. 메모를 현재 작업에 연결하되 필요하지 않을 때 원고 영역을 회복하는
+  기준으로 사용한다.
+
+#### 6. Composition Mode 집중 화면
+
+- 출처: [Scrivener Navigate 공식 설명](https://www.literatureandlatte.com/blog/how-to-use-scriveners-navigate-menu-to-access-elements-of-your-projects),
+  [공식 화면 이미지](https://www.literatureandlatte.com/wp-content/uploads/2025/04/navigate3-scaled-1.png)
+- 활용할 요소: 원고를 화면 중앙의 제한된 폭에 두고, 집필 중 필요하지 않은
+  도구를 낮은 우선순위로 보내는 방식만 참고한다.
+- 피할 요소: 배경 이미지와 테마 장식, 별도의 모드로 완전히 전환하면서 탐색을
+  숨기는 방식은 기본 작업공간에 적용하지 않는다. Lorekeeper는 집필 중에도 파일,
+  설정과 메모를 오가야 한다.
+- Lorekeeper 적용 근거: 현재 통합 작업공간을 유지하면서도 중앙 원고가 시각적으로
+  독립돼 보이는 정도를 판단하는 반대 사례로 사용한다.
+
+## 참고자료에서 공통으로 채택할 원칙
+
+- 원고 편집 영역을 가장 넓고 단순한 표면으로 유지한다.
+- 좌우 보조 영역은 카드보다 명도 차이와 얇은 경계로 구분한다.
+- 탐색 영역은 압축하고 본문 영역에는 충분한 여백과 제한된 줄 길이를 둔다.
+- 보조 패널은 현재 문맥에 연결하고 사용자가 닫아 원고 폭을 회복할 수 있게 한다.
+- 다크 화면의 집중감은 장식이 아니라 텍스트 대비와 주변 도구의 낮은 우선순위로
+  만든다.
+
+## 참고자료에서 공통으로 제외할 원칙
+
+- 현재 문장 외의 원고를 기본적으로 흐리게 표시하는 것
+- 배경 이미지, 발광, 그라디언트와 테마 장식으로 집필 분위기를 만드는 것
+- 비슷한 역할의 탐색 목록을 여러 열로 중복하는 것
+- 많은 도구 아이콘과 보조 기능을 기본 화면에 동시에 노출하는 것
+- 패널을 열 때 원고의 사용 가능한 폭을 확인하지 않는 것
 
 ## 이번 Deliverable에서 제외할 범위
 
