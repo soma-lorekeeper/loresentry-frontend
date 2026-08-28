@@ -23650,6 +23650,1718 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "r3XP5v",
+      "x": 16669,
+      "y": -3369,
+      "name": "16 · Visual Baseline · STRUCTURE LOCKED",
+      "context": "LOREKEEPER-309 file memo open, revised from user-defined UX. Header: close, add work memo, below/right placement toggle. Work memos are project-wide cards with delete controls; manuscript memo is direct input for the current file.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$color-bg-canvas",
+      "stroke": "#8F8F88",
+      "children": [
+        {
+          "type": "frame",
+          "id": "UL8fH",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "fill": "$color-surface-navigation",
+          "stroke": "$color-border-default",
+          "strokeWidth": {
+            "right": 1
+          },
+          "layout": "vertical",
+          "gap": "$space-4",
+          "padding": [
+            18,
+            "$space-4"
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "ObCgb",
+              "name": "C User",
+              "width": "fill_container",
+              "gap": "$space-3",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "oJu5P",
+                  "name": "C User Avatar",
+                  "fill": "#575752",
+                  "width": 28,
+                  "height": 28
+                },
+                {
+                  "type": "text",
+                  "id": "a2Mv3",
+                  "name": "C User Name",
+                  "fill": "$color-text-primary",
+                  "content": "이승주",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nk3j7",
+              "name": "C Project Switcher",
+              "width": "fill_container",
+              "fill": "$color-surface-default",
+              "cornerRadius": "$radius-control",
+              "gap": "$space-2",
+              "padding": "$space-3",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "UAcMd",
+                  "name": "C Project Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "book-open",
+                  "library": "lucide",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "Q0nTt4",
+                  "name": "C Project Name",
+                  "fill": "$color-text-primary",
+                  "content": "유리 정원의 기록",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "LvLKY",
+                  "name": "C Project Spacer",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "icon",
+                  "id": "U8TiZC",
+                  "name": "C Project Chevron",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "chevron-down",
+                  "library": "lucide",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "uJeDa",
+              "name": "C Primary Navigation",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-1",
+              "children": [
+                {
+                  "id": "V8nWmi",
+                  "type": "ref",
+                  "ref": "fR7lD",
+                  "name": "Sidebar Item Instance · Graph",
+                  "width": "fill_container",
+                  "height": 35,
+                  "descendants": {
+                    "w8SAbr": {
+                      "icon": "share-2"
+                    },
+                    "Ejt7i": {
+                      "content": "그래프"
+                    }
+                  }
+                },
+                {
+                  "id": "D3wFEF",
+                  "type": "ref",
+                  "ref": "fR7lD",
+                  "name": "Sidebar Item Instance · Memo",
+                  "width": "fill_container",
+                  "height": 35,
+                  "descendants": {
+                    "w8SAbr": {
+                      "icon": "sticky-note"
+                    },
+                    "Ejt7i": {
+                      "content": "메모"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "aDecv",
+              "name": "C File Tree",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-1",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "B8Rcy",
+                  "name": "C Favorites Header",
+                  "width": "fill_container",
+                  "gap": "$space-2",
+                  "padding": "$space-2",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "qwHLG",
+                      "name": "C Favorites Chevron",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "chevron-down",
+                      "library": "lucide",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Ww70r",
+                      "name": "C Favorites Label",
+                      "fill": "$color-text-primary",
+                      "content": "즐겨찾기",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-label",
+                      "fontWeight": "650"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "DBHcB",
+                  "name": "C Favorite Manuscript",
+                  "width": "fill_container",
+                  "fill": "$color-surface-navigation",
+                  "cornerRadius": "$radius-control",
+                  "gap": "$space-3",
+                  "padding": [
+                    "$space-2",
+                    "$space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "M0TZuH",
+                      "name": "C Favorite Manuscript Indent",
+                      "width": 12,
+                      "height": 1
+                    },
+                    {
+                      "type": "icon",
+                      "id": "VnJqj",
+                      "name": "C Favorite Manuscript Icon",
+                      "width": 15,
+                      "height": 15,
+                      "icon": "file-text",
+                      "library": "lucide",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "XjRxc",
+                      "name": "C Favorite Manuscript Label",
+                      "fill": "$color-text-primary",
+                      "content": "12화 · 균열의 밤",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "FkPZL",
+                  "name": "C Files Header",
+                  "width": "fill_container",
+                  "gap": "$space-2",
+                  "padding": "$space-2",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "r6zB1",
+                      "name": "C Files Chevron",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "chevron-down",
+                      "library": "lucide",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "f3YMV",
+                      "name": "C Files Label",
+                      "fill": "$color-text-primary",
+                      "content": "파일",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-label",
+                      "fontWeight": "650"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "IKgDL",
+                  "name": "C Manuscript Folder",
+                  "width": "fill_container",
+                  "fill": "$color-surface-navigation",
+                  "cornerRadius": "$radius-control",
+                  "gap": "$space-3",
+                  "padding": [
+                    "$space-2",
+                    "$space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "DPeGB",
+                      "name": "C Manuscript Folder Indent",
+                      "width": 12,
+                      "height": 1
+                    },
+                    {
+                      "type": "icon",
+                      "id": "ZiAHy",
+                      "name": "C Manuscript Folder Icon",
+                      "width": 15,
+                      "height": 15,
+                      "icon": "folder-open",
+                      "library": "lucide",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "h78bwG",
+                      "name": "C Manuscript Folder Label",
+                      "fill": "$color-text-primary",
+                      "content": "원고",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Eoiz5",
+                  "name": "C Current Manuscript",
+                  "width": "fill_container",
+                  "fill": "$color-surface-navigation",
+                  "cornerRadius": "$radius-control",
+                  "gap": "$space-3",
+                  "padding": [
+                    "$space-2",
+                    "$space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "jbl4Y",
+                      "name": "C Current Manuscript Indent",
+                      "width": 28,
+                      "height": 1
+                    },
+                    {
+                      "type": "icon",
+                      "id": "pgJCs",
+                      "name": "C Current Manuscript Icon",
+                      "width": 15,
+                      "height": 15,
+                      "icon": "file-text",
+                      "library": "lucide",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "mvZHD",
+                      "name": "C Current Manuscript Label",
+                      "fill": "$color-text-primary",
+                      "content": "12화 · 균열의 밤",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "XPiRQ",
+                  "name": "C Previous Manuscript",
+                  "width": "fill_container",
+                  "fill": "$color-surface-navigation",
+                  "cornerRadius": "$radius-control",
+                  "gap": "$space-3",
+                  "padding": [
+                    "$space-2",
+                    "$space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "KqAxm",
+                      "name": "C Previous Manuscript Indent",
+                      "width": 28,
+                      "height": 1
+                    },
+                    {
+                      "type": "icon",
+                      "id": "bIeuY",
+                      "name": "C Previous Manuscript Icon",
+                      "width": 15,
+                      "height": 15,
+                      "icon": "file-text",
+                      "library": "lucide",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "t4Gp9",
+                      "name": "C Previous Manuscript Label",
+                      "fill": "$color-text-primary",
+                      "content": "11화 · 유리 정원",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "x011z",
+                  "name": "C Setting File",
+                  "width": "fill_container",
+                  "fill": "$color-surface-navigation",
+                  "cornerRadius": "$radius-control",
+                  "gap": "$space-3",
+                  "padding": [
+                    "$space-2",
+                    "$space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Z1zpY",
+                      "name": "C Setting File Indent",
+                      "width": 12,
+                      "height": 1
+                    },
+                    {
+                      "type": "icon",
+                      "id": "DuEmI",
+                      "name": "C Setting File Icon",
+                      "width": 15,
+                      "height": 15,
+                      "icon": "notebook-tabs",
+                      "library": "lucide",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "EIECY",
+                      "name": "C Setting File Label",
+                      "fill": "$color-text-primary",
+                      "content": "설정",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "vBKvI",
+                  "name": "C Character File",
+                  "width": "fill_container",
+                  "fill": "$color-surface-navigation",
+                  "cornerRadius": "$radius-control",
+                  "gap": "$space-3",
+                  "padding": [
+                    "$space-2",
+                    "$space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nRRF6",
+                      "name": "C Character File Indent",
+                      "width": 12,
+                      "height": 1
+                    },
+                    {
+                      "type": "icon",
+                      "id": "oeMxu",
+                      "name": "C Character File Icon",
+                      "width": 15,
+                      "height": 15,
+                      "icon": "user-round",
+                      "library": "lucide",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "tsYGf",
+                      "name": "C Character File Label",
+                      "fill": "$color-text-primary",
+                      "content": "캐릭터",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "srZzB",
+              "name": "C Sidebar Spacer",
+              "width": "fill_container",
+              "height": "fill_container"
+            },
+            {
+              "type": "frame",
+              "id": "Dgcts",
+              "name": "C Utility Navigation",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-1",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "teFeU",
+                  "name": "C Trash",
+                  "width": "fill_container",
+                  "fill": "$color-surface-navigation",
+                  "cornerRadius": "$radius-control",
+                  "gap": "$space-3",
+                  "padding": [
+                    "$space-2",
+                    "$space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "ED0xy",
+                      "name": "C Trash Icon",
+                      "width": 15,
+                      "height": 15,
+                      "icon": "trash-2",
+                      "library": "lucide",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "P6iTd3",
+                      "name": "C Trash Label",
+                      "fill": "$color-text-primary",
+                      "content": "휴지통",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "WOHAC",
+                  "name": "C Settings",
+                  "width": "fill_container",
+                  "fill": "$color-surface-navigation",
+                  "cornerRadius": "$radius-control",
+                  "gap": "$space-3",
+                  "padding": [
+                    "$space-2",
+                    "$space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "lGivk",
+                      "name": "C Settings Icon",
+                      "width": 15,
+                      "height": 15,
+                      "icon": "settings",
+                      "library": "lucide",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "aXQVR",
+                      "name": "C Settings Label",
+                      "fill": "$color-text-primary",
+                      "content": "설정",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "au2uv",
+                  "name": "C Help",
+                  "width": "fill_container",
+                  "fill": "$color-surface-navigation",
+                  "cornerRadius": "$radius-control",
+                  "gap": "$space-3",
+                  "padding": [
+                    "$space-2",
+                    "$space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "xq7Ga",
+                      "name": "C Help Icon",
+                      "width": 15,
+                      "height": 15,
+                      "icon": "circle-question-mark",
+                      "library": "lucide",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "BlN7S",
+                      "name": "C Help Label",
+                      "fill": "$color-text-primary",
+                      "content": "도움말",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "H5aVL",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "UH0Jz",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "$color-surface-topbar",
+              "stroke": "$color-border-default",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "gap": "$space-2",
+              "padding": [
+                "$space-2",
+                "$space-3"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "v4ezU",
+                  "name": "C Sidebar Toggle",
+                  "width": 36,
+                  "height": 36,
+                  "cornerRadius": "$radius-control",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "TPi6h",
+                      "name": "C Sidebar Toggle Icon",
+                      "width": 17,
+                      "height": 17,
+                      "icon": "panel-left",
+                      "library": "lucide",
+                      "fill": "$color-icon-default"
+                    }
+                  ]
+                },
+                {
+                  "id": "EA55V",
+                  "type": "ref",
+                  "ref": "kJPYz",
+                  "name": "Tab Instance · Manuscript Active",
+                  "width": 157,
+                  "height": 36,
+                  "descendants": {
+                    "WTLe4": {
+                      "icon": "file-text"
+                    },
+                    "y3ori": {
+                      "content": "12화 · 균열의 밤"
+                    },
+                    "O58HF": {
+                      "icon": "x"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "j82tnG",
+                  "name": "C Add Tab",
+                  "width": 36,
+                  "height": 36,
+                  "cornerRadius": "$radius-control",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "C4X0Xl",
+                      "name": "C Add Tab Icon",
+                      "width": 17,
+                      "height": 17,
+                      "icon": "plus",
+                      "library": "lucide",
+                      "fill": "$color-icon-default"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "J8Pp6d",
+                  "name": "C Tab Spacer",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "id": "wOenI",
+                  "type": "ref",
+                  "ref": "NEXTx",
+                  "name": "Button Instance · AI Chat",
+                  "width": 76,
+                  "height": 36,
+                  "context": "Opens AI chat in the auxiliary side panel.",
+                  "fill": "#00000000",
+                  "stroke": "$color-border-default",
+                  "descendants": {
+                    "TkCpk": {
+                      "icon": "sparkles"
+                    },
+                    "qmT53": {
+                      "content": "AI 챗",
+                      "fontWeight": "600"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "gleYg",
+              "name": "Manuscript Workspace",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$color-bg-canvas",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "AaFMi",
+                  "name": "Manuscript File Header",
+                  "width": "fill_container",
+                  "height": 48,
+                  "fill": "$color-bg-canvas",
+                  "stroke": "$color-border-default",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "gap": "$space-2",
+                  "padding": [
+                    0,
+                    "$space-4"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "mJ3Gb",
+                      "name": "File Header Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FQ79L",
+                      "name": "File Header 메모",
+                      "context": "Active toggle. Enter or Space closes file memo; keyboard focus remains on this button.",
+                      "height": 32,
+                      "fill": "$color-state-selected",
+                      "cornerRadius": "$radius-control",
+                      "stroke": "$color-accent-primary",
+                      "strokeWidth": 1,
+                      "gap": "$space-2",
+                      "padding": [
+                        0,
+                        "$space-3"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "bduAF",
+                          "name": "메모 Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "notebook-pen",
+                          "library": "lucide",
+                          "fill": "$color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "WeeqT",
+                          "name": "메모 Label",
+                          "fill": "$color-text-primary",
+                          "content": "메모",
+                          "fontFamily": "$font-family-ui",
+                          "fontSize": "$font-size-body",
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "pGrry",
+                      "name": "File Header 버전",
+                      "height": 32,
+                      "cornerRadius": "$radius-control",
+                      "gap": "$space-2",
+                      "padding": [
+                        0,
+                        "$space-3"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "h85kg",
+                          "name": "버전 Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "history",
+                          "library": "lucide",
+                          "fill": "$color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "JGeBO",
+                          "name": "버전 Label",
+                          "fill": "$color-text-secondary",
+                          "content": "버전",
+                          "fontFamily": "$font-family-ui",
+                          "fontSize": "$font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "lB8lZ",
+                      "name": "File Header 내보내기",
+                      "height": 32,
+                      "cornerRadius": "$radius-control",
+                      "gap": "$space-2",
+                      "padding": [
+                        0,
+                        "$space-3"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "njpWb",
+                          "name": "내보내기 Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "download",
+                          "library": "lucide",
+                          "fill": "$color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "kHKnB",
+                          "name": "내보내기 Label",
+                          "fill": "$color-text-secondary",
+                          "content": "내보내기",
+                          "fontFamily": "$font-family-ui",
+                          "fontSize": "$font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "D73zu",
+                      "name": "File Header 잠금",
+                      "height": 32,
+                      "cornerRadius": "$radius-control",
+                      "gap": "$space-2",
+                      "padding": [
+                        0,
+                        "$space-3"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "p79VwT",
+                          "name": "잠금 Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "lock",
+                          "library": "lucide",
+                          "fill": "$color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "a5UnuT",
+                          "name": "잠금 Label",
+                          "fill": "$color-text-secondary",
+                          "content": "잠금",
+                          "fontFamily": "$font-family-ui",
+                          "fontSize": "$font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "YPvS6",
+                  "name": "Editor and File Memo Split",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "vnt5m",
+                      "name": "Reduced Manuscript Editor",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "VdG9K",
+                          "name": "Manuscript Editing Toolbar Compact",
+                          "width": "fill_container",
+                          "height": 52,
+                          "fill": "$color-surface-default",
+                          "stroke": "$color-border-default",
+                          "strokeWidth": {
+                            "bottom": 1
+                          },
+                          "gap": "$space-1",
+                          "padding": [
+                            "$space-2",
+                            "$space-3"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "anMEt",
+                              "name": "Compact Undo",
+                              "width": 30,
+                              "height": 30,
+                              "cornerRadius": "$radius-control",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "EhcJq",
+                                  "name": "Compact Undo Icon",
+                                  "width": 15,
+                                  "height": 15,
+                                  "icon": "undo-2",
+                                  "library": "lucide",
+                                  "fill": "$color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "bKMNX",
+                              "name": "Compact Redo",
+                              "width": 30,
+                              "height": 30,
+                              "cornerRadius": "$radius-control",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "wICFP",
+                                  "name": "Compact Redo Icon",
+                                  "width": 15,
+                                  "height": 15,
+                                  "icon": "redo-2",
+                                  "library": "lucide",
+                                  "fill": "$color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "rectangle",
+                              "id": "Y5xbn",
+                              "name": "Compact Separator 1",
+                              "fill": "$color-border-default",
+                              "width": 1,
+                              "height": 24
+                            },
+                            {
+                              "type": "frame",
+                              "id": "ffPwB",
+                              "name": "Compact Font",
+                              "width": 76,
+                              "height": 30,
+                              "cornerRadius": "$radius-control",
+                              "stroke": "$color-border-default",
+                              "strokeWidth": 1,
+                              "gap": "$space-1",
+                              "padding": [
+                                0,
+                                "$space-2"
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "ktbkf",
+                                  "name": "Compact Font Value",
+                                  "fill": "$color-text-secondary",
+                                  "content": "Inter",
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": "$font-size-label",
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "s0VEm",
+                                  "name": "Compact Font Spacer",
+                                  "width": "fill_container",
+                                  "height": 1
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "J0ww2D",
+                                  "name": "Compact Font Chevron",
+                                  "width": 12,
+                                  "height": 12,
+                                  "icon": "chevron-down",
+                                  "library": "lucide",
+                                  "fill": "$color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "I0Srs",
+                              "name": "Compact Size",
+                              "width": 48,
+                              "height": 30,
+                              "cornerRadius": "$radius-control",
+                              "stroke": "$color-border-default",
+                              "strokeWidth": 1,
+                              "gap": "$space-1",
+                              "padding": [
+                                0,
+                                "$space-2"
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "w6dc5l",
+                                  "name": "Compact Size Value",
+                                  "fill": "$color-text-secondary",
+                                  "content": "16",
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": "$font-size-label",
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "grCN6",
+                                  "name": "Compact Size Spacer",
+                                  "width": "fill_container",
+                                  "height": 1
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "F8OF48",
+                                  "name": "Compact Size Chevron",
+                                  "width": 12,
+                                  "height": 12,
+                                  "icon": "chevron-down",
+                                  "library": "lucide",
+                                  "fill": "$color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "rectangle",
+                              "id": "bLfGF",
+                              "name": "Compact Separator 2",
+                              "fill": "$color-border-default",
+                              "width": 1,
+                              "height": 24
+                            },
+                            {
+                              "type": "frame",
+                              "id": "erI44",
+                              "name": "Compact Bold",
+                              "width": 30,
+                              "height": 30,
+                              "cornerRadius": "$radius-control",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "T3fYu8",
+                                  "name": "Compact Bold Icon",
+                                  "width": 15,
+                                  "height": 15,
+                                  "icon": "bold",
+                                  "library": "lucide",
+                                  "fill": "$color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "YYYJa",
+                              "name": "Compact Italic",
+                              "width": 30,
+                              "height": 30,
+                              "cornerRadius": "$radius-control",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "ov02Y",
+                                  "name": "Compact Italic Icon",
+                                  "width": 15,
+                                  "height": 15,
+                                  "icon": "italic",
+                                  "library": "lucide",
+                                  "fill": "$color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "z0KI1N",
+                              "name": "Compact More Formatting",
+                              "height": 30,
+                              "cornerRadius": "$radius-control",
+                              "stroke": "$color-border-default",
+                              "strokeWidth": 1,
+                              "gap": "$space-1",
+                              "padding": [
+                                0,
+                                "$space-2"
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "F48nlN",
+                                  "name": "Compact More Formatting Icon",
+                                  "width": 15,
+                                  "height": 15,
+                                  "icon": "ellipsis",
+                                  "library": "lucide",
+                                  "fill": "$color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "dGmC4",
+                                  "name": "Compact More Formatting Label",
+                                  "fill": "$color-text-secondary",
+                                  "content": "더보기",
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": "$font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "w7qw3",
+                              "name": "Compact Toolbar Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "frame",
+                              "id": "W1Fba",
+                              "name": "Compact Autosave Status",
+                              "gap": "$space-1",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "UVdNl",
+                                  "name": "Compact Autosave Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "cloud-check",
+                                  "library": "lucide",
+                                  "fill": "$color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "j1hGOz",
+                                  "name": "Compact Autosave Label",
+                                  "fill": "$color-text-secondary",
+                                  "content": "저장됨",
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": "$font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "rectangle",
+                              "id": "SP7mc",
+                              "name": "Compact Separator 3",
+                              "fill": "$color-border-default",
+                              "width": 1,
+                              "height": 24
+                            },
+                            {
+                              "type": "text",
+                              "id": "vhSVZ",
+                              "name": "Compact Character Count",
+                              "fill": "$color-text-secondary",
+                              "content": "3,842자",
+                              "fontFamily": "$font-family-ui",
+                              "fontSize": "$font-size-label",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "nSQS9",
+                          "name": "Manuscript Writing Canvas",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "fill": "$color-bg-canvas",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "zkK8o",
+                              "name": "Manuscript Reading Column",
+                              "width": 720,
+                              "height": "fill_container",
+                              "layout": "vertical",
+                              "gap": "$space-6",
+                              "padding": [
+                                52,
+                                0,
+                                40,
+                                0
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "NYx5o",
+                                  "name": "Manuscript Editable Title",
+                                  "fill": "$color-text-primary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "12화 · 균열의 밤",
+                                  "lineHeight": 1.25,
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": 30,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "hvKk2",
+                                  "name": "Manuscript Editable Body",
+                                  "fill": "$color-text-primary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "정원은 밤이 오면 유리보다 먼저 숨을 죽였다. 달빛이 온실의 지붕을 훑고 지나갈 때마다, 금이 간 창마다 은빛 선이 번졌다. 서윤은 그 선들이 모두 한곳을 가리키고 있다는 사실을 세 번째 순찰에서야 알아차렸다.\n\n오래 잠겨 있던 북쪽 문 앞에는 발자국이 하나뿐이었다. 안으로 들어간 흔적은 있었지만 돌아 나온 흔적은 없었다. 손잡이에 손을 얹자 차가운 진동이 손목을 타고 올라왔다. 어젯밤 메모에 적어 둔 문장이 떠올랐다. ‘균열은 문이 아니라 기억의 방향이다.’\n\n서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다. 어둠 너머에서 익숙한 목소리가 이름을 불렀다. 아주 오래전, 이 정원을 떠난 사람이 마지막으로 불렀던 방식 그대로였다.",
+                                  "lineHeight": 1.72,
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": 16,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "mAIXX",
+                      "name": "Memo Panel",
+                      "context": "File memo for current manuscript. Close button returns focus to the active Memo button in the file header.",
+                      "width": 320,
+                      "height": "fill_container",
+                      "fill": "$color-surface-navigation",
+                      "stroke": "$color-border-default",
+                      "strokeWidth": {
+                        "left": 1
+                      },
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "i7A4u",
+                          "name": "Memo Panel Header",
+                          "width": "fill_container",
+                          "height": 48,
+                          "stroke": "$color-border-default",
+                          "strokeWidth": {
+                            "bottom": 1
+                          },
+                          "gap": "$space-2",
+                          "padding": [
+                            0,
+                            "$space-4"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "id": "uDjTN",
+                              "type": "ref",
+                              "ref": "MkSEW",
+                              "name": "Icon Button Instance · Close Memo",
+                              "width": 32,
+                              "height": 32,
+                              "context": "Closes the memo panel and returns keyboard focus to the file-header Memo button.",
+                              "descendants": {
+                                "CAgtP": {
+                                  "icon": "x"
+                                }
+                              }
+                            },
+                            {
+                              "type": "text",
+                              "id": "bTLs9",
+                              "name": "Memo Panel Title",
+                              "fill": "$color-text-primary",
+                              "content": "메모",
+                              "fontFamily": "$font-family-ui",
+                              "fontSize": "$font-size-context",
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Utwuk",
+                              "name": "File Memo Header Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "text",
+                              "id": "XF8Ac",
+                              "x": 168,
+                              "y": 15.5,
+                              "name": "File Memo Toggle Hint",
+                              "enabled": false,
+                              "fill": "$color-text-secondary",
+                              "content": "메모 버튼으로 닫기",
+                              "fontFamily": "$font-family-ui",
+                              "fontSize": "$font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "cwIFe",
+                              "name": "Memo Panel Placement Toggle",
+                              "context": "Switches the memo panel between below and right docking.",
+                              "height": 40,
+                              "cornerRadius": "$radius-control",
+                              "stroke": "$color-border-default",
+                              "strokeWidth": 1,
+                              "gap": "$space-1",
+                              "padding": "$space-1",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "HoaZm",
+                                  "name": "Place Memo Below",
+                                  "context": "Expands the file memo below the editor.",
+                                  "height": 32,
+                                  "cornerRadius": 4,
+                                  "gap": "$space-1",
+                                  "padding": [
+                                    0,
+                                    "$space-2"
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "bovKZ",
+                                      "name": "Place Memo Below Icon",
+                                      "width": 13,
+                                      "height": 13,
+                                      "icon": "panel-bottom",
+                                      "library": "lucide",
+                                      "fill": "$color-icon-default"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "xjPhx",
+                                      "name": "Place Memo Below Label",
+                                      "fill": "$color-text-secondary",
+                                      "content": "아래",
+                                      "fontFamily": "$font-family-ui",
+                                      "fontSize": "$font-size-label",
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "Ot4gm",
+                                  "name": "Place Memo Right Selected",
+                                  "context": "Current placement: dock the file memo to the editor's right.",
+                                  "height": 32,
+                                  "fill": "$color-state-selected",
+                                  "cornerRadius": 4,
+                                  "gap": "$space-1",
+                                  "padding": [
+                                    0,
+                                    "$space-2"
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "kTQXu",
+                                      "name": "Place Memo Right Icon",
+                                      "width": 13,
+                                      "height": 13,
+                                      "icon": "panel-right",
+                                      "library": "lucide",
+                                      "fill": "$color-icon-default"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "DzI9P",
+                                      "name": "Place Memo Right Label",
+                                      "fill": "$color-text-primary",
+                                      "content": "오른쪽",
+                                      "fontFamily": "$font-family-ui",
+                                      "fontSize": "$font-size-label",
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "j5zS5",
+                          "name": "Memo Scope Tabs",
+                          "width": "fill_container",
+                          "height": 48,
+                          "stroke": "$color-border-default",
+                          "strokeWidth": {
+                            "bottom": 1
+                          },
+                          "padding": [
+                            0,
+                            "$space-4"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "RZyeD",
+                              "name": "Work Memo Tab Selected",
+                              "context": "Shows memo cards shared across the work.",
+                              "height": "fill_container",
+                              "stroke": "$color-accent-primary",
+                              "strokeWidth": {
+                                "bottom": 2
+                              },
+                              "padding": [
+                                0,
+                                "$space-2"
+                              ],
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "vuzew",
+                                  "name": "Work Memo Tab Label",
+                                  "fill": "$color-text-primary",
+                                  "content": "작품 메모",
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": "$font-size-context",
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "jGe2w",
+                              "name": "Manuscript Memo Tab",
+                              "context": "Shows the memo linked only to the current manuscript file.",
+                              "height": "fill_container",
+                              "padding": [
+                                0,
+                                "$space-2"
+                              ],
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "kvNxe",
+                                  "name": "Manuscript Memo Tab Label",
+                                  "fill": "$color-text-secondary",
+                                  "content": "원고 메모",
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": "$font-size-context",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "mUnsc",
+                              "name": "Memo Scope Actions Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "id": "n3ZVv",
+                              "type": "ref",
+                              "ref": "MkSEW",
+                              "name": "Icon Button Instance · Add Work Memo",
+                              "width": 32,
+                              "height": 32,
+                              "enabled": true,
+                              "context": "Visible only for Work Memo; adds a new work-wide memo card.",
+                              "descendants": {
+                                "CAgtP": {
+                                  "icon": "plus"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "KHQEi",
+                          "name": "Work Memo Card List",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$space-3",
+                          "padding": "$space-4",
+                          "children": [
+                            {
+                              "id": "QfjLU",
+                              "type": "ref",
+                              "ref": "UABoE",
+                              "name": "Memo Card Instance · North Door",
+                              "width": "fill_container",
+                              "enabled": true,
+                              "descendants": {
+                                "snsFt": {
+                                  "content": "북쪽 문과 균열"
+                                },
+                                "jcoW0": {
+                                  "content": "북쪽 문은 서윤의 기억에 반응한다. 문 너머의 목소리는 3화에서 떠난 인물과 연결한다."
+                                }
+                              }
+                            },
+                            {
+                              "id": "dYXhJ",
+                              "type": "ref",
+                              "ref": "UABoE",
+                              "name": "Memo Card Instance · Lantern Rule",
+                              "width": "fill_container",
+                              "enabled": true,
+                              "descendants": {
+                                "snsFt": {
+                                  "content": "등불 규칙"
+                                },
+                                "jcoW0": {
+                                  "content": "등불이 꺼지는 순간을 장면 전환점으로 사용한다. 다른 원고에서도 같은 규칙을 유지한다."
+                                }
+                              }
+                            },
+                            {
+                              "type": "frame",
+                              "id": "rbxQo",
+                              "x": 16,
+                              "y": 220,
+                              "name": "Manuscript Memo Section",
+                              "enabled": false,
+                              "width": "fill_container(288)",
+                              "stroke": "$color-border-default",
+                              "strokeWidth": {
+                                "top": 1
+                              },
+                              "layout": "vertical",
+                              "gap": "$space-2",
+                              "padding": [
+                                "$space-4",
+                                0,
+                                0,
+                                0
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "UIv0i",
+                                  "name": "Manuscript Memo Section Header",
+                                  "width": "fill_container",
+                                  "gap": "$space-2",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "nwZaa",
+                                      "name": "Manuscript Memo Section Title",
+                                      "fill": "$color-text-primary",
+                                      "content": "원고 메모",
+                                      "fontFamily": "$font-family-ui",
+                                      "fontSize": "$font-size-context",
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "C7c8P5",
+                                      "name": "Manuscript Memo Header Spacer",
+                                      "width": "fill_container",
+                                      "height": 1
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "p6fsy",
+                                      "name": "Manuscript Memo File Name",
+                                      "fill": "$color-text-secondary",
+                                      "content": "12화 · 균열의 밤",
+                                      "fontFamily": "$font-family-ui",
+                                      "fontSize": "$font-size-label",
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "ImTMp",
+                                  "name": "Manuscript Memo Direct Input",
+                                  "context": "Directly editable memo linked only to the current manuscript file.",
+                                  "fill": "$color-text-primary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "손잡이 진동 묘사는 한 번만 사용한다. ‘균열’이라는 단어는 마지막 문장까지 아껴 두기.",
+                                  "lineHeight": 1.55,
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": "$font-size-body",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "nXL9v",
+                          "x": 0,
+                          "y": 760,
+                          "name": "File Memo Status",
+                          "enabled": false,
+                          "width": "fill_container(320)",
+                          "height": 40,
+                          "stroke": "$color-border-default",
+                          "strokeWidth": {
+                            "top": 1
+                          },
+                          "gap": "$space-1",
+                          "padding": [
+                            0,
+                            "$space-4"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "MVWhs",
+                              "name": "File Memo Autosave Icon",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "cloud-check",
+                              "library": "lucide",
+                              "fill": "$color-icon-default"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Otlt1",
+                              "name": "File Memo Autosave Label",
+                              "fill": "$color-text-secondary",
+                              "content": "자동 저장됨 · 312자",
+                              "fontFamily": "$font-family-ui",
+                              "fontSize": "$font-size-label",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "variables": {
