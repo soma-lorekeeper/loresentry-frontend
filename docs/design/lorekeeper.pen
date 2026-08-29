@@ -12058,7 +12058,7 @@
       "width": 1440,
       "height": 900,
       "fill": "$color-bg-canvas",
-      "stroke": "#8F8F88",
+      "stroke": "$color-border-frame",
       "children": [
         {
           "type": "frame",
@@ -12066,7 +12066,7 @@
           "name": "C Sidebar",
           "width": 236,
           "height": "fill_container",
-          "fill": "$color-surface-navigation",
+          "fill": "$color-surface-sidebar",
           "stroke": "$color-border-default",
           "strokeWidth": {
             "right": 1
@@ -12090,7 +12090,7 @@
                   "type": "ellipse",
                   "id": "Fk197",
                   "name": "C User Avatar",
-                  "fill": "#575752",
+                  "fill": "$color-surface-avatar",
                   "width": 28,
                   "height": 28
                 },
@@ -12125,6 +12125,7 @@
                   "height": 16,
                   "icon": "book-open",
                   "library": "lucide",
+                  "weight": "$icon-weight-default",
                   "fill": "$color-icon-default"
                 },
                 {
@@ -12152,6 +12153,7 @@
                   "height": 14,
                   "icon": "chevron-down",
                   "library": "lucide",
+                  "weight": "$icon-weight-default",
                   "fill": "$color-icon-default"
                 }
               ]
@@ -12223,6 +12225,7 @@
                       "height": 14,
                       "icon": "chevron-down",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -12266,6 +12269,7 @@
                       "height": 15,
                       "icon": "file-text",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -12297,6 +12301,7 @@
                       "height": 14,
                       "icon": "chevron-down",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -12340,6 +12345,7 @@
                       "height": 15,
                       "icon": "folder-open",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -12383,6 +12389,7 @@
                       "height": 15,
                       "icon": "file-text",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -12426,6 +12433,7 @@
                       "height": 15,
                       "icon": "file-text",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -12469,6 +12477,7 @@
                       "height": 15,
                       "icon": "notebook-tabs",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -12512,6 +12521,7 @@
                       "height": 15,
                       "icon": "user-round",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -12565,6 +12575,7 @@
                       "height": 15,
                       "icon": "trash-2",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -12601,6 +12612,7 @@
                       "height": 15,
                       "icon": "settings",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -12637,6 +12649,7 @@
                       "height": 15,
                       "icon": "circle-question-mark",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -12700,6 +12713,7 @@
                       "height": 17,
                       "icon": "panel-left",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     }
                   ]
@@ -12766,6 +12780,7 @@
                       "height": 15,
                       "icon": "sparkles",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -12869,7 +12884,7 @@
                       "gap": "$space-2",
                       "padding": [
                         0,
-                        16
+                        "$space-4"
                       ],
                       "alignItems": "center",
                       "children": [
@@ -12891,6 +12906,7 @@
                           "height": 15,
                           "icon": "arrow-right",
                           "library": "lucide",
+                          "weight": "$icon-weight-default",
                           "fill": "$color-text-on-accent"
                         }
                       ]
@@ -12937,6 +12953,7 @@
                           "height": 14,
                           "icon": "upload",
                           "library": "lucide",
+                          "weight": "$icon-weight-default",
                           "fill": "$color-icon-default"
                         },
                         {
@@ -12994,6 +13011,7 @@
                                   "height": 15,
                                   "icon": "file-text",
                                   "library": "lucide",
+                                  "weight": "$icon-weight-default",
                                   "fill": "$color-icon-default"
                                 }
                               ]
@@ -13046,6 +13064,7 @@
                                   "height": 15,
                                   "icon": "notebook-tabs",
                                   "library": "lucide",
+                                  "weight": "$icon-weight-default",
                                   "fill": "$color-icon-default"
                                 }
                               ]
@@ -13098,6 +13117,7 @@
                                   "height": 15,
                                   "icon": "user-round",
                                   "library": "lucide",
+                                  "weight": "$icon-weight-default",
                                   "fill": "$color-icon-default"
                                 }
                               ]
@@ -13150,6 +13170,7 @@
                                   "height": 15,
                                   "icon": "calendar-days",
                                   "library": "lucide",
+                                  "weight": "$icon-weight-default",
                                   "fill": "$color-icon-default"
                                 }
                               ]
@@ -13211,6 +13232,7 @@
                                   "height": 15,
                                   "icon": "users-round",
                                   "library": "lucide",
+                                  "weight": "$icon-weight-default",
                                   "fill": "$color-icon-default"
                                 }
                               ]
@@ -13263,6 +13285,7 @@
                                   "height": 15,
                                   "icon": "gem",
                                   "library": "lucide",
+                                  "weight": "$icon-weight-default",
                                   "fill": "$color-icon-default"
                                 }
                               ]
@@ -13315,6 +13338,7 @@
                                   "height": 15,
                                   "icon": "map-pin",
                                   "library": "lucide",
+                                  "weight": "$icon-weight-default",
                                   "fill": "$color-icon-default"
                                 }
                               ]
@@ -13367,6 +13391,7 @@
                                   "height": 15,
                                   "icon": "globe",
                                   "library": "lucide",
+                                  "weight": "$icon-weight-default",
                                   "fill": "$color-icon-default"
                                 }
                               ]
@@ -13437,6 +13462,7 @@
                           "height": 15,
                           "icon": "map",
                           "library": "lucide",
+                          "weight": "$icon-weight-default",
                           "fill": "$color-icon-default"
                         },
                         {
@@ -13474,6 +13500,7 @@
                           "height": 14,
                           "icon": "arrow-up-right",
                           "library": "lucide",
+                          "weight": "$icon-weight-default",
                           "fill": "$color-icon-default"
                         }
                       ]
@@ -13504,6 +13531,7 @@
                           "height": 15,
                           "icon": "user-round",
                           "library": "lucide",
+                          "weight": "$icon-weight-default",
                           "fill": "$color-icon-default"
                         },
                         {
@@ -13541,6 +13569,7 @@
                           "height": 14,
                           "icon": "arrow-up-right",
                           "library": "lucide",
+                          "weight": "$icon-weight-default",
                           "fill": "$color-icon-default"
                         }
                       ]
@@ -13571,6 +13600,7 @@
                           "height": 15,
                           "icon": "file-text",
                           "library": "lucide",
+                          "weight": "$icon-weight-default",
                           "fill": "$color-icon-default"
                         },
                         {
@@ -13608,6 +13638,7 @@
                           "height": 14,
                           "icon": "arrow-up-right",
                           "library": "lucide",
+                          "weight": "$icon-weight-default",
                           "fill": "$color-icon-default"
                         }
                       ]
@@ -13631,7 +13662,7 @@
       "width": 1440,
       "height": 900,
       "fill": "$color-bg-canvas",
-      "stroke": "#8F8F88",
+      "stroke": "$color-border-frame",
       "children": [
         {
           "type": "frame",
@@ -13639,7 +13670,7 @@
           "name": "C Sidebar",
           "width": 236,
           "height": "fill_container",
-          "fill": "$color-surface-navigation",
+          "fill": "$color-surface-sidebar",
           "stroke": "$color-border-default",
           "strokeWidth": {
             "right": 1
@@ -13663,7 +13694,7 @@
                   "type": "ellipse",
                   "id": "fkfil",
                   "name": "C User Avatar",
-                  "fill": "#575752",
+                  "fill": "$color-surface-avatar",
                   "width": 28,
                   "height": 28
                 },
@@ -13698,6 +13729,7 @@
                   "height": 16,
                   "icon": "book-open",
                   "library": "lucide",
+                  "weight": "$icon-weight-default",
                   "fill": "$color-icon-default"
                 },
                 {
@@ -13725,6 +13757,7 @@
                   "height": 14,
                   "icon": "chevron-down",
                   "library": "lucide",
+                  "weight": "$icon-weight-default",
                   "fill": "$color-icon-default"
                 }
               ]
@@ -13796,6 +13829,7 @@
                       "height": 14,
                       "icon": "chevron-down",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -13839,6 +13873,7 @@
                       "height": 15,
                       "icon": "file-text",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -13870,6 +13905,7 @@
                       "height": 14,
                       "icon": "chevron-down",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -13913,6 +13949,7 @@
                       "height": 15,
                       "icon": "folder-open",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -13956,6 +13993,7 @@
                       "height": 15,
                       "icon": "file-text",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -13999,6 +14037,7 @@
                       "height": 15,
                       "icon": "file-text",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -14042,6 +14081,7 @@
                       "height": 15,
                       "icon": "notebook-tabs",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -14085,6 +14125,7 @@
                       "height": 15,
                       "icon": "user-round",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -14138,6 +14179,7 @@
                       "height": 15,
                       "icon": "trash-2",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -14174,6 +14216,7 @@
                       "height": 15,
                       "icon": "settings",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -14210,6 +14253,7 @@
                       "height": 15,
                       "icon": "circle-question-mark",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -14273,6 +14317,7 @@
                       "height": 17,
                       "icon": "panel-left",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     }
                   ]
@@ -14339,6 +14384,7 @@
                       "height": 15,
                       "icon": "sparkles",
                       "library": "lucide",
+                      "weight": "$icon-weight-default",
                       "fill": "$color-icon-default"
                     },
                     {
@@ -14442,7 +14488,7 @@
                       "gap": "$space-2",
                       "padding": [
                         0,
-                        16
+                        "$space-4"
                       ],
                       "alignItems": "center",
                       "children": [
@@ -14464,6 +14510,7 @@
                           "height": 15,
                           "icon": "plus",
                           "library": "lucide",
+                          "weight": "$icon-weight-default",
                           "fill": "$color-text-on-accent"
                         }
                       ]
@@ -14510,6 +14557,7 @@
                           "height": 14,
                           "icon": "upload",
                           "library": "lucide",
+                          "weight": "$icon-weight-default",
                           "fill": "$color-icon-default"
                         },
                         {
@@ -14567,6 +14615,7 @@
                                   "height": 15,
                                   "icon": "file-text",
                                   "library": "lucide",
+                                  "weight": "$icon-weight-default",
                                   "fill": "$color-icon-default"
                                 }
                               ]
@@ -14619,6 +14668,7 @@
                                   "height": 15,
                                   "icon": "notebook-tabs",
                                   "library": "lucide",
+                                  "weight": "$icon-weight-default",
                                   "fill": "$color-icon-default"
                                 }
                               ]
@@ -14671,6 +14721,7 @@
                                   "height": 15,
                                   "icon": "user-round",
                                   "library": "lucide",
+                                  "weight": "$icon-weight-default",
                                   "fill": "$color-icon-default"
                                 }
                               ]
@@ -14723,6 +14774,7 @@
                                   "height": 15,
                                   "icon": "calendar-days",
                                   "library": "lucide",
+                                  "weight": "$icon-weight-default",
                                   "fill": "$color-icon-default"
                                 }
                               ]
@@ -14784,6 +14836,7 @@
                                   "height": 15,
                                   "icon": "users-round",
                                   "library": "lucide",
+                                  "weight": "$icon-weight-default",
                                   "fill": "$color-icon-default"
                                 }
                               ]
@@ -14836,6 +14889,7 @@
                                   "height": 15,
                                   "icon": "gem",
                                   "library": "lucide",
+                                  "weight": "$icon-weight-default",
                                   "fill": "$color-icon-default"
                                 }
                               ]
@@ -14888,6 +14942,7 @@
                                   "height": 15,
                                   "icon": "map-pin",
                                   "library": "lucide",
+                                  "weight": "$icon-weight-default",
                                   "fill": "$color-icon-default"
                                 }
                               ]
@@ -14940,6 +14995,7 @@
                                   "height": 15,
                                   "icon": "globe",
                                   "library": "lucide",
+                                  "weight": "$icon-weight-default",
                                   "fill": "$color-icon-default"
                                 }
                               ]
@@ -15002,6 +15058,7 @@
                           "height": 18,
                           "icon": "clock-3",
                           "library": "lucide",
+                          "weight": "$icon-weight-default",
                           "fill": "$color-icon-default"
                         },
                         {
