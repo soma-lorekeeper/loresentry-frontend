@@ -5565,6 +5565,2276 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "XsqLR",
+      "x": 5087,
+      "y": 0,
+      "name": "AI Chat Panel / Open",
+      "context": "AI chat auxiliary panel. No internal close button; close with the active AI Chat toggle.",
+      "reusable": true,
+      "width": 320,
+      "height": 900,
+      "fill": "$color-surface-navigation",
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "left": 1
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "VaySs",
+          "name": "AI Chat Session Management",
+          "width": "fill_container",
+          "height": 52,
+          "fill": "$color-surface-topbar",
+          "stroke": "$color-border-default",
+          "strokeWidth": {
+            "bottom": 1
+          },
+          "gap": "$space-1",
+          "padding": [
+            "$space-2",
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "QpQcD",
+              "name": "Current Chat Session",
+              "height": 36,
+              "gap": "$space-2",
+              "padding": [
+                0,
+                "$space-2"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "X8Q7KI",
+                  "name": "Current Chat Session Name",
+                  "fill": "$color-text-primary",
+                  "content": "균열 장면 다듬기",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "icon",
+                  "id": "P6Xdhv",
+                  "name": "Session Picker Chevron",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "chevron-down",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "SizO7",
+              "name": "Session Header Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "Y6mp0",
+              "name": "New Chat Session",
+              "width": 32,
+              "height": 32,
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "GpZrg",
+                  "name": "New Chat Session Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "plus",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "twTRV",
+              "name": "Chat Session More",
+              "width": 32,
+              "height": 32,
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "QXmp5",
+                  "name": "Chat Session More Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "ellipsis",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "fgD1R",
+          "name": "AI Chat Conversation History",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-4",
+          "padding": "$space-4",
+          "children": [
+            {
+              "type": "text",
+              "id": "WWgEB",
+              "name": "AI Chat File Context",
+              "fill": "$color-text-secondary",
+              "content": "현재 원고 · 12화 · 균열의 밤",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "yZC6C",
+              "name": "User Message Row",
+              "width": "fill_container",
+              "justifyContent": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "oU0EM",
+                  "name": "User Message",
+                  "width": 236,
+                  "fill": "$color-surface-raised",
+                  "cornerRadius": "$radius-card",
+                  "padding": "$space-3",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "r9HlwE",
+                      "name": "User Message Text",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "문이 열리기 직전 장면의 긴장감을 더 높일 방법을 알려줘.",
+                      "lineHeight": "$line-height-context",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "CKMGW",
+              "name": "AI Response",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-2",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "rgCNY",
+                  "name": "AI Response Label",
+                  "gap": "$space-2",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "OkiUI",
+                      "name": "AI Response Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "sparkles",
+                      "library": "lucide",
+                      "weight": "$icon-weight-default",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "RqH0u",
+                      "name": "AI Response Name",
+                      "fill": "$color-text-secondary",
+                      "content": "Lorekeeper AI",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "RDs8M",
+                  "name": "AI Response Text",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "문을 열기 전에 세 가지 감각을 짧게 쌓아 보세요. 손잡이의 진동, 등불이 흔들리는 소리, 그리고 문 너머의 목소리를 한 문장씩 좁혀 가면 독자가 서윤의 망설임을 함께 느낄 수 있습니다.",
+                  "lineHeight": "$line-height-context",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "oVVwo",
+          "name": "AI Chat Message Input Area",
+          "width": "fill_container",
+          "height": 120,
+          "stroke": "$color-border-default",
+          "strokeWidth": {
+            "top": 1
+          },
+          "padding": "$space-3",
+          "children": [
+            {
+              "type": "frame",
+              "id": "MFqyd",
+              "name": "AI Chat Composer",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$color-surface-raised",
+              "cornerRadius": "$radius-card",
+              "stroke": "$color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": "$space-2",
+              "padding": "$space-3",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "X0Bp7V",
+                  "name": "AI Chat Input Placeholder",
+                  "fill": "$color-text-secondary",
+                  "content": "메시지 입력",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "g2OB80",
+                  "name": "AI Chat Composer Actions",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "TMBsU",
+                      "name": "Composer Action Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ABvqP",
+                      "name": "Send Message · Disabled",
+                      "context": "Disabled while the message input is empty.",
+                      "width": 30,
+                      "height": 30,
+                      "fill": "$color-surface-icon",
+                      "cornerRadius": "$radius-control",
+                      "stroke": "$color-border-default",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "OieI2",
+                          "name": "Send Message Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "arrow-up",
+                          "library": "lucide",
+                          "weight": "$icon-weight-default",
+                          "fill": "$color-text-secondary"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "U83MAI",
+      "x": 5487,
+      "y": 0,
+      "name": "AI Chat Panel / Session List Open",
+      "context": "AI chat auxiliary panel. No internal close button; close with the active AI Chat toggle.",
+      "reusable": true,
+      "width": 320,
+      "height": 900,
+      "fill": "$color-surface-navigation",
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "left": 1
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "KV8cY",
+          "name": "AI Chat Session Management",
+          "width": "fill_container",
+          "height": 52,
+          "fill": "$color-surface-topbar",
+          "stroke": "$color-border-default",
+          "strokeWidth": {
+            "bottom": 1
+          },
+          "gap": "$space-1",
+          "padding": [
+            "$space-2",
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "n2CZvx",
+              "name": "Current Chat Session",
+              "height": 36,
+              "fill": "$color-state-selected",
+              "cornerRadius": "$radius-control",
+              "gap": "$space-2",
+              "padding": [
+                0,
+                "$space-2"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nAfeP",
+                  "name": "Current Chat Session Name",
+                  "fill": "$color-text-primary",
+                  "content": "균열 장면 다듬기",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "icon",
+                  "id": "YO5FK",
+                  "name": "Session Picker Chevron",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "chevron-up",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "G6hm7c",
+              "name": "Session Header Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "Mf9Pb",
+              "name": "New Chat Session",
+              "width": 32,
+              "height": 32,
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "axv9k",
+                  "name": "New Chat Session Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "plus",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "JFbfA",
+              "name": "Chat Session More",
+              "width": 32,
+              "height": 32,
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "usQlX",
+                  "name": "Chat Session More Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "ellipsis",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "k6b5Rz",
+          "name": "AI Chat Conversation History",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-4",
+          "padding": "$space-4",
+          "children": [
+            {
+              "type": "text",
+              "id": "PztO9",
+              "name": "AI Chat File Context",
+              "fill": "$color-text-secondary",
+              "content": "현재 원고 · 12화 · 균열의 밤",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "YI6LM",
+              "name": "User Message Row",
+              "width": "fill_container",
+              "justifyContent": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Kgb6I",
+                  "name": "User Message",
+                  "width": 236,
+                  "fill": "$color-surface-raised",
+                  "cornerRadius": "$radius-card",
+                  "padding": "$space-3",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "lgJrp",
+                      "name": "User Message Text",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "문이 열리기 직전 장면의 긴장감을 더 높일 방법을 알려줘.",
+                      "lineHeight": "$line-height-context",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Ck3RT",
+              "name": "AI Response",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-2",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "dMk54",
+                  "name": "AI Response Label",
+                  "gap": "$space-2",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "iAnO9",
+                      "name": "AI Response Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "sparkles",
+                      "library": "lucide",
+                      "weight": "$icon-weight-default",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "H2M6V",
+                      "name": "AI Response Name",
+                      "fill": "$color-text-secondary",
+                      "content": "Lorekeeper AI",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "eGyzJ",
+                  "name": "AI Response Text",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "문을 열기 전에 세 가지 감각을 짧게 쌓아 보세요. 손잡이의 진동, 등불이 흔들리는 소리, 그리고 문 너머의 목소리를 한 문장씩 좁혀 가면 독자가 서윤의 망설임을 함께 느낄 수 있습니다.",
+                  "lineHeight": "$line-height-context",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ZoP40",
+          "name": "AI Chat Message Input Area",
+          "width": "fill_container",
+          "height": 120,
+          "stroke": "$color-border-default",
+          "strokeWidth": {
+            "top": 1
+          },
+          "padding": "$space-3",
+          "children": [
+            {
+              "type": "frame",
+              "id": "zcoeY",
+              "name": "AI Chat Composer",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$color-surface-raised",
+              "cornerRadius": "$radius-card",
+              "stroke": "$color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": "$space-2",
+              "padding": "$space-3",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Q7uZ0",
+                  "name": "AI Chat Input Placeholder",
+                  "fill": "$color-text-secondary",
+                  "content": "메시지 입력",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "c9av6",
+                  "name": "AI Chat Composer Actions",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "VbEFa",
+                      "name": "Composer Action Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ZR4mz",
+                      "name": "Send Message · Disabled",
+                      "context": "Disabled while the message input is empty.",
+                      "width": 30,
+                      "height": 30,
+                      "fill": "$color-surface-icon",
+                      "cornerRadius": "$radius-control",
+                      "stroke": "$color-border-default",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "E0MYL",
+                          "name": "Send Message Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "arrow-up",
+                          "library": "lucide",
+                          "weight": "$icon-weight-default",
+                          "fill": "$color-text-secondary"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "cgSPQ",
+          "layoutPosition": "absolute",
+          "x": 8,
+          "y": 48,
+          "name": "AI Chat Session List",
+          "width": 304,
+          "fill": "$color-surface-raised",
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#00000055",
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "gap": "$space-1",
+          "padding": "$space-2",
+          "children": [
+            {
+              "type": "frame",
+              "id": "MxZWj",
+              "name": "Session List Item · Current",
+              "width": "fill_container",
+              "height": 40,
+              "fill": "$color-state-selected",
+              "cornerRadius": "$radius-control",
+              "gap": "$space-2",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "PuOHf",
+                  "name": "Current Session Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "message-square",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "x0U5mC",
+                  "name": "Current Session Label",
+                  "fill": "$color-text-primary",
+                  "content": "균열 장면 다듬기",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "UKVjY",
+                  "name": "Current Session Spacer",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "icon",
+                  "id": "aA2Ga",
+                  "name": "Current Session Check",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "check",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-accent-primary"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "CsGP6",
+              "name": "Session List Item · Recent 1",
+              "width": "fill_container",
+              "height": 40,
+              "cornerRadius": "$radius-control",
+              "gap": "$space-2",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "vVEM6",
+                  "name": "Recent Session 1 Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "message-square",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "Dl1Dd",
+                  "name": "Recent Session 1 Label",
+                  "fill": "$color-text-primary",
+                  "content": "북쪽 문 복선 정리",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "xbj5G",
+              "name": "Session List Item · Recent 2",
+              "width": "fill_container",
+              "height": 40,
+              "cornerRadius": "$radius-control",
+              "gap": "$space-2",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "Jmkob",
+                  "name": "Recent Session 2 Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "message-square",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "N6XDC",
+                  "name": "Recent Session 2 Label",
+                  "fill": "$color-text-primary",
+                  "content": "12화 문장 톤 검토",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "nFN00",
+      "x": 5887,
+      "y": 0,
+      "name": "AI Chat Panel / Session Menu Open",
+      "context": "AI chat auxiliary panel. No internal close button; close with the active AI Chat toggle.",
+      "reusable": true,
+      "width": 320,
+      "height": 900,
+      "fill": "$color-surface-navigation",
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "left": 1
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "srNSB",
+          "name": "AI Chat Session Management",
+          "width": "fill_container",
+          "height": 52,
+          "fill": "$color-surface-topbar",
+          "stroke": "$color-border-default",
+          "strokeWidth": {
+            "bottom": 1
+          },
+          "gap": "$space-1",
+          "padding": [
+            "$space-2",
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "TNTER",
+              "name": "Current Chat Session",
+              "height": 36,
+              "gap": "$space-2",
+              "padding": [
+                0,
+                "$space-2"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "kFSsS",
+                  "name": "Current Chat Session Name",
+                  "fill": "$color-text-primary",
+                  "content": "균열 장면 다듬기",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "icon",
+                  "id": "CaZGL",
+                  "name": "Session Picker Chevron",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "chevron-down",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "HiYWk",
+              "name": "Session Header Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "ffhR0",
+              "name": "New Chat Session",
+              "width": 32,
+              "height": 32,
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "chz92",
+                  "name": "New Chat Session Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "plus",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "i8YwLN",
+              "name": "Chat Session More",
+              "width": 32,
+              "height": 32,
+              "fill": "$color-state-selected",
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "trYAo",
+                  "name": "Chat Session More Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "ellipsis",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "QqQYs",
+          "name": "AI Chat Conversation History",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-4",
+          "padding": "$space-4",
+          "children": [
+            {
+              "type": "text",
+              "id": "X6aJK",
+              "name": "AI Chat File Context",
+              "fill": "$color-text-secondary",
+              "content": "현재 원고 · 12화 · 균열의 밤",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "dg3GS",
+              "name": "User Message Row",
+              "width": "fill_container",
+              "justifyContent": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "o7IxU4",
+                  "name": "User Message",
+                  "width": 236,
+                  "fill": "$color-surface-raised",
+                  "cornerRadius": "$radius-card",
+                  "padding": "$space-3",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Yv9MI",
+                      "name": "User Message Text",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "문이 열리기 직전 장면의 긴장감을 더 높일 방법을 알려줘.",
+                      "lineHeight": "$line-height-context",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "J7R0uY",
+              "name": "AI Response",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-2",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "J6wHG5",
+                  "name": "AI Response Label",
+                  "gap": "$space-2",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "A4rNT",
+                      "name": "AI Response Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "sparkles",
+                      "library": "lucide",
+                      "weight": "$icon-weight-default",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "IKr82",
+                      "name": "AI Response Name",
+                      "fill": "$color-text-secondary",
+                      "content": "Lorekeeper AI",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "kITWk",
+                  "name": "AI Response Text",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "문을 열기 전에 세 가지 감각을 짧게 쌓아 보세요. 손잡이의 진동, 등불이 흔들리는 소리, 그리고 문 너머의 목소리를 한 문장씩 좁혀 가면 독자가 서윤의 망설임을 함께 느낄 수 있습니다.",
+                  "lineHeight": "$line-height-context",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "EEzde",
+          "name": "AI Chat Message Input Area",
+          "width": "fill_container",
+          "height": 120,
+          "stroke": "$color-border-default",
+          "strokeWidth": {
+            "top": 1
+          },
+          "padding": "$space-3",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Lq2o3",
+              "name": "AI Chat Composer",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$color-surface-raised",
+              "cornerRadius": "$radius-card",
+              "stroke": "$color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": "$space-2",
+              "padding": "$space-3",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "hSLjL",
+                  "name": "AI Chat Input Placeholder",
+                  "fill": "$color-text-secondary",
+                  "content": "메시지 입력",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "zbcLt",
+                  "name": "AI Chat Composer Actions",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "eEh33",
+                      "name": "Composer Action Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Rv9Qv",
+                      "name": "Send Message · Disabled",
+                      "context": "Disabled while the message input is empty.",
+                      "width": 30,
+                      "height": 30,
+                      "fill": "$color-surface-icon",
+                      "cornerRadius": "$radius-control",
+                      "stroke": "$color-border-default",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "TrJn4",
+                          "name": "Send Message Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "arrow-up",
+                          "library": "lucide",
+                          "weight": "$icon-weight-default",
+                          "fill": "$color-text-secondary"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "h6JSl",
+          "layoutPosition": "absolute",
+          "x": 148,
+          "y": 48,
+          "name": "AI Chat Session More Menu",
+          "width": 160,
+          "fill": "$color-surface-raised",
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#00000055",
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "gap": "$space-1",
+          "padding": "$space-2",
+          "children": [
+            {
+              "type": "frame",
+              "id": "YWqaV",
+              "name": "Rename Session Menu Item",
+              "width": "fill_container",
+              "height": 36,
+              "cornerRadius": "$radius-control",
+              "gap": "$space-2",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "JMrjW",
+                  "name": "Rename Session Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "pencil",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "q8MT7p",
+                  "name": "Rename Session Label",
+                  "fill": "$color-text-primary",
+                  "content": "이름 변경",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "cnhxg",
+              "name": "Delete Session Menu Item",
+              "width": "fill_container",
+              "height": 36,
+              "cornerRadius": "$radius-control",
+              "gap": "$space-2",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "ti77n",
+                  "name": "Delete Session Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "trash-2",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "CdXOs",
+                  "name": "Delete Session Label",
+                  "fill": "$color-text-primary",
+                  "content": "삭제",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "hbM7Z",
+      "x": 6287,
+      "y": 0,
+      "name": "AI Chat Panel / Session Rename",
+      "context": "AI chat auxiliary panel. No internal close button; close with the active AI Chat toggle.",
+      "reusable": true,
+      "width": 320,
+      "height": 900,
+      "fill": "$color-surface-navigation",
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "left": 1
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "hnzGH",
+          "name": "AI Chat Session Management",
+          "width": "fill_container",
+          "height": 52,
+          "fill": "$color-surface-topbar",
+          "stroke": "$color-border-default",
+          "strokeWidth": {
+            "bottom": 1
+          },
+          "gap": "$space-1",
+          "padding": [
+            "$space-2",
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "egxI6",
+              "name": "Current Chat Session",
+              "height": 36,
+              "fill": "$color-surface-raised",
+              "cornerRadius": "$radius-control",
+              "stroke": "$color-accent-primary",
+              "strokeWidth": 1,
+              "gap": "$space-2",
+              "padding": [
+                0,
+                "$space-2"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "RqP8v",
+                  "name": "Current Chat Session Name",
+                  "fill": "$color-text-primary",
+                  "content": "균열 장면 다듬기",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "rectangle",
+                  "id": "zLHzu",
+                  "name": "Session Rename Caret",
+                  "fill": "$color-accent-primary",
+                  "width": 1,
+                  "height": 18
+                },
+                {
+                  "type": "icon",
+                  "id": "XILOu",
+                  "name": "Confirm Session Rename",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "check",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "RUS1q",
+              "name": "Session Header Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "FA5Pc",
+              "name": "New Chat Session",
+              "width": 32,
+              "height": 32,
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "drBHh",
+                  "name": "New Chat Session Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "plus",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Q7dBp",
+              "name": "Chat Session More",
+              "width": 32,
+              "height": 32,
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "P7CxKq",
+                  "name": "Chat Session More Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "ellipsis",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "IeL3f",
+          "name": "AI Chat Conversation History",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-4",
+          "padding": "$space-4",
+          "children": [
+            {
+              "type": "text",
+              "id": "pnXyd",
+              "name": "AI Chat File Context",
+              "fill": "$color-text-secondary",
+              "content": "현재 원고 · 12화 · 균열의 밤",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "Y9dF4N",
+              "name": "User Message Row",
+              "width": "fill_container",
+              "justifyContent": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "rvXkc",
+                  "name": "User Message",
+                  "width": 236,
+                  "fill": "$color-surface-raised",
+                  "cornerRadius": "$radius-card",
+                  "padding": "$space-3",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "AcXrJ",
+                      "name": "User Message Text",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "문이 열리기 직전 장면의 긴장감을 더 높일 방법을 알려줘.",
+                      "lineHeight": "$line-height-context",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "W6gcz",
+              "name": "AI Response",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-2",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "JSaKP",
+                  "name": "AI Response Label",
+                  "gap": "$space-2",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "fan7L",
+                      "name": "AI Response Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "sparkles",
+                      "library": "lucide",
+                      "weight": "$icon-weight-default",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "r56EkW",
+                      "name": "AI Response Name",
+                      "fill": "$color-text-secondary",
+                      "content": "Lorekeeper AI",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "w1msc",
+                  "name": "AI Response Text",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "문을 열기 전에 세 가지 감각을 짧게 쌓아 보세요. 손잡이의 진동, 등불이 흔들리는 소리, 그리고 문 너머의 목소리를 한 문장씩 좁혀 가면 독자가 서윤의 망설임을 함께 느낄 수 있습니다.",
+                  "lineHeight": "$line-height-context",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PSiOm",
+          "name": "AI Chat Message Input Area",
+          "width": "fill_container",
+          "height": 120,
+          "stroke": "$color-border-default",
+          "strokeWidth": {
+            "top": 1
+          },
+          "padding": "$space-3",
+          "children": [
+            {
+              "type": "frame",
+              "id": "RK5mu",
+              "name": "AI Chat Composer",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$color-surface-raised",
+              "cornerRadius": "$radius-card",
+              "stroke": "$color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": "$space-2",
+              "padding": "$space-3",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "eCxL3",
+                  "name": "AI Chat Input Placeholder",
+                  "fill": "$color-text-secondary",
+                  "content": "메시지 입력",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "aG9tE",
+                  "name": "AI Chat Composer Actions",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "dBto6",
+                      "name": "Composer Action Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "epOlu",
+                      "name": "Send Message · Disabled",
+                      "context": "Disabled while the message input is empty.",
+                      "width": 30,
+                      "height": 30,
+                      "fill": "$color-surface-icon",
+                      "cornerRadius": "$radius-control",
+                      "stroke": "$color-border-default",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "Z2zUYW",
+                          "name": "Send Message Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "arrow-up",
+                          "library": "lucide",
+                          "weight": "$icon-weight-default",
+                          "fill": "$color-text-secondary"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "r6i9oi",
+      "x": 6687,
+      "y": 0,
+      "name": "AI Chat Panel / Delete Confirmation",
+      "context": "AI chat auxiliary panel. No internal close button; close with the active AI Chat toggle.",
+      "reusable": true,
+      "width": 320,
+      "height": 900,
+      "fill": "$color-surface-navigation",
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "left": 1
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "c5GhFg",
+          "name": "AI Chat Session Management",
+          "width": "fill_container",
+          "height": 52,
+          "fill": "$color-surface-topbar",
+          "stroke": "$color-border-default",
+          "strokeWidth": {
+            "bottom": 1
+          },
+          "gap": "$space-1",
+          "padding": [
+            "$space-2",
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "h0vtDw",
+              "name": "Current Chat Session",
+              "height": 36,
+              "gap": "$space-2",
+              "padding": [
+                0,
+                "$space-2"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "A5Ly7l",
+                  "name": "Current Chat Session Name",
+                  "fill": "$color-text-primary",
+                  "content": "균열 장면 다듬기",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "icon",
+                  "id": "damTa",
+                  "name": "Session Picker Chevron",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "chevron-down",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "R3YpFp",
+              "name": "Session Header Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "TL0qe",
+              "name": "New Chat Session",
+              "width": 32,
+              "height": 32,
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "BGOyI",
+                  "name": "New Chat Session Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "plus",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ErtJJ",
+              "name": "Chat Session More",
+              "width": 32,
+              "height": 32,
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "q8J7Md",
+                  "name": "Chat Session More Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "ellipsis",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "xprE9",
+          "name": "AI Chat Conversation History",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-4",
+          "padding": "$space-4",
+          "children": [
+            {
+              "type": "text",
+              "id": "Y9L8aw",
+              "name": "AI Chat File Context",
+              "fill": "$color-text-secondary",
+              "content": "현재 원고 · 12화 · 균열의 밤",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "JKKIr",
+              "name": "User Message Row",
+              "width": "fill_container",
+              "justifyContent": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "RenYW",
+                  "name": "User Message",
+                  "width": 236,
+                  "fill": "$color-surface-raised",
+                  "cornerRadius": "$radius-card",
+                  "padding": "$space-3",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "U8aHzC",
+                      "name": "User Message Text",
+                      "fill": "$color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "문이 열리기 직전 장면의 긴장감을 더 높일 방법을 알려줘.",
+                      "lineHeight": "$line-height-context",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "fXm9J",
+              "name": "AI Response",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-2",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "N0GFU",
+                  "name": "AI Response Label",
+                  "gap": "$space-2",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "wTjxC",
+                      "name": "AI Response Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "sparkles",
+                      "library": "lucide",
+                      "weight": "$icon-weight-default",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "M5AyGo",
+                      "name": "AI Response Name",
+                      "fill": "$color-text-secondary",
+                      "content": "Lorekeeper AI",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "e5FeM",
+                  "name": "AI Response Text",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "문을 열기 전에 세 가지 감각을 짧게 쌓아 보세요. 손잡이의 진동, 등불이 흔들리는 소리, 그리고 문 너머의 목소리를 한 문장씩 좁혀 가면 독자가 서윤의 망설임을 함께 느낄 수 있습니다.",
+                  "lineHeight": "$line-height-context",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "uSw9y",
+          "name": "AI Chat Message Input Area",
+          "width": "fill_container",
+          "height": 120,
+          "stroke": "$color-border-default",
+          "strokeWidth": {
+            "top": 1
+          },
+          "padding": "$space-3",
+          "children": [
+            {
+              "type": "frame",
+              "id": "MULxI",
+              "name": "AI Chat Composer",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$color-surface-raised",
+              "cornerRadius": "$radius-card",
+              "stroke": "$color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": "$space-2",
+              "padding": "$space-3",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "hsfvB",
+                  "name": "AI Chat Input Placeholder",
+                  "fill": "$color-text-secondary",
+                  "content": "메시지 입력",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "vvaZO",
+                  "name": "AI Chat Composer Actions",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "w9piP9",
+                      "name": "Composer Action Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "RrZ8S",
+                      "name": "Send Message · Disabled",
+                      "context": "Disabled while the message input is empty.",
+                      "width": 30,
+                      "height": 30,
+                      "fill": "$color-surface-icon",
+                      "cornerRadius": "$radius-control",
+                      "stroke": "$color-border-default",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "z2kjY",
+                          "name": "Send Message Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "arrow-up",
+                          "library": "lucide",
+                          "weight": "$icon-weight-default",
+                          "fill": "$color-text-secondary"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "flGI6",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 52,
+          "name": "Delete Confirmation Scrim",
+          "opacity": 0.9,
+          "width": 320,
+          "height": 848,
+          "fill": "$color-bg-canvas"
+        },
+        {
+          "type": "frame",
+          "id": "xW2m5",
+          "layoutPosition": "absolute",
+          "x": 24,
+          "y": 286,
+          "name": "Delete Session Confirmation",
+          "width": 272,
+          "fill": "$color-surface-raised",
+          "cornerRadius": "$radius-card",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#00000066",
+            "offset": {
+              "x": 0,
+              "y": 8
+            },
+            "blur": 24
+          },
+          "layout": "vertical",
+          "gap": "$space-3",
+          "padding": "$space-4",
+          "children": [
+            {
+              "type": "text",
+              "id": "v9bMoW",
+              "name": "Delete Confirmation Title",
+              "fill": "$color-text-primary",
+              "content": "채팅 세션을 삭제할까요?",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-heading",
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "ehqv7",
+              "name": "Delete Confirmation Description",
+              "fill": "$color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "‘균열 장면 다듬기’의 대화 내역이 삭제되며 되돌릴 수 없습니다.",
+              "lineHeight": "$line-height-context",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "MiERK",
+              "name": "Delete Confirmation Actions",
+              "width": "fill_container",
+              "gap": "$space-2",
+              "justifyContent": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Qd5zi",
+                  "name": "Cancel Delete Session",
+                  "height": 36,
+                  "cornerRadius": "$radius-control",
+                  "stroke": "$color-border-default",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$space-3"
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Db8Je",
+                      "name": "Cancel Delete Session Label",
+                      "fill": "$color-text-primary",
+                      "content": "취소",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "mpYaS",
+                  "name": "Confirm Delete Session",
+                  "height": 36,
+                  "fill": "$color-state-selected",
+                  "cornerRadius": "$radius-control",
+                  "stroke": "$color-accent-primary",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$space-3"
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "SYLB1",
+                      "name": "Confirm Delete Session Label",
+                      "fill": "$color-text-primary",
+                      "content": "삭제",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "w2wWAM",
+      "x": 7087,
+      "y": 0,
+      "name": "AI Chat Panel / New Session Empty",
+      "context": "AI chat auxiliary panel. No internal close button; close with the active AI Chat toggle.",
+      "reusable": true,
+      "width": 320,
+      "height": 900,
+      "fill": "$color-surface-navigation",
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "left": 1
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "X7K9R",
+          "name": "AI Chat Session Management",
+          "width": "fill_container",
+          "height": 52,
+          "fill": "$color-surface-topbar",
+          "stroke": "$color-border-default",
+          "strokeWidth": {
+            "bottom": 1
+          },
+          "gap": "$space-1",
+          "padding": [
+            "$space-2",
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "CHlYQ",
+              "name": "Current Chat Session",
+              "height": 36,
+              "gap": "$space-2",
+              "padding": [
+                0,
+                "$space-2"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "R2PfY",
+                  "name": "Current Chat Session Name",
+                  "fill": "$color-text-primary",
+                  "content": "새 채팅",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "icon",
+                  "id": "vkGEx",
+                  "name": "Session Picker Chevron",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "chevron-down",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "zaVfu",
+              "name": "Session Header Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "beVgN",
+              "name": "New Chat Session",
+              "width": 32,
+              "height": 32,
+              "fill": "$color-state-selected",
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "Hengb",
+                  "name": "New Chat Session Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "plus",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "U7gmZe",
+              "name": "Chat Session More",
+              "width": 32,
+              "height": 32,
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "ogjCb",
+                  "name": "Chat Session More Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "ellipsis",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "V51Ah",
+          "name": "AI Chat Conversation History",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-4",
+          "padding": "$space-4",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "o4XmP",
+              "name": "New Session Empty State",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-3",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "pnL2B",
+                  "name": "New Session Empty Icon",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "sparkles",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "uKVIr",
+                  "name": "New Session Empty Title",
+                  "fill": "$color-text-primary",
+                  "content": "새 대화를 시작하세요",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-heading",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "UevHT",
+                  "name": "New Session Empty Description",
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 240,
+                  "content": "현재 원고에 대해 질문하거나 장면을 함께 다듬어 보세요.",
+                  "lineHeight": "$line-height-context",
+                  "textAlign": "center",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "txVcA",
+          "name": "AI Chat Message Input Area",
+          "width": "fill_container",
+          "height": 120,
+          "stroke": "$color-border-default",
+          "strokeWidth": {
+            "top": 1
+          },
+          "padding": "$space-3",
+          "children": [
+            {
+              "type": "frame",
+              "id": "YQ0Pw",
+              "name": "AI Chat Composer",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$color-surface-raised",
+              "cornerRadius": "$radius-card",
+              "stroke": "$color-accent-primary",
+              "strokeWidth": 2,
+              "layout": "vertical",
+              "gap": "$space-2",
+              "padding": "$space-3",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "DPlE2",
+                  "name": "AI Chat Input Placeholder",
+                  "fill": "$color-text-secondary",
+                  "content": "메시지를 입력하세요",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "jHIc5",
+                  "name": "AI Chat Composer Actions",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "I9H6Ya",
+                      "name": "Composer Action Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "r8BGd",
+                      "name": "Send Message · Disabled",
+                      "context": "Disabled while the message input is empty.",
+                      "width": 30,
+                      "height": 30,
+                      "fill": "$color-surface-icon",
+                      "cornerRadius": "$radius-control",
+                      "stroke": "$color-border-default",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "OQQqs",
+                          "name": "Send Message Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "arrow-up",
+                          "library": "lucide",
+                          "weight": "$icon-weight-default",
+                          "fill": "$color-text-secondary"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "themes": {

@@ -1,36 +1,68 @@
 # Lorekeeper UI 컴포넌트 라이브러리
 
-`lorekeeper.pen`의 `15 · UI Library` 프레임은 두 개 이상의 핵심 화면에서 반복되는 UI 원본을 관리한다. 현재는 같은 `.pen` 파일 안에서 관리하며 별도 `.lib.pen` 파일로 분리하지 않는다.
+`docs/design/lorekeeper.lib.pen`을 디자인 변수와 재사용 컴포넌트의 단일 원본으로
+사용한다. `docs/design/lorekeeper.pen`은 라이브러리를 `b` 별칭으로 가져오며,
+화면에서는 `$b:*` 변수와 `b:*` 컴포넌트만 참조한다.
 
-- 변수 검토 기준: `20 · Visual Direction · Style B Variables · REVIEW` (`K4irXB`)
-- 재사용 원본: 5개
-- 끊어진 인스턴스 참조: 0개
+## 디자인 변수
 
-## 원본 컴포넌트
+- 전체 변수: 33개
+- 테마 색상 변수: 13개
+- 공통 숫자 변수: 19개
+- 공통 문자열 변수: 1개
+- 테마 축: `mode = dark | light`
 
-| ID·원본 | 판정 | 승인 화면 용도 | 인스턴스에서 바꾸는 값 |
-| --- | --- | --- | --- |
-| `kJPYz` · `Tab / Document` | 유지·토큰 동기화 | 열린 원고 탭 1개 | 아이콘, 제목, 닫기 아이콘 |
-| `fR7lD` · `Sidebar Item / Default` | 유지·토큰 동기화 | 핵심·보조 화면의 검색·그래프·메모 | 아이콘, 라벨, 선택 배경 |
-| `MkSEW` · `Icon Button / Default` | 유지·토큰 동기화 | 메모 닫기·추가 2개 | 아이콘, 크기, 활성 여부 |
-| `NEXTx` · `Button / Icon Label` | 유지·토큰 동기화 | AI 챗 버튼 1개 | 아이콘, 라벨, 선택 배경과 테두리 |
-| `UABoE` · `Memo Card / Work` | 유지·토큰 동기화 | 작품 메모 카드 2개 | 제목, 본문, 너비 |
+색상 변수 하나가 다크와 라이트 값을 함께 가진다. 따라서 색상값은 26개지만
+색상 변수는 13개다. 간격, 반경, 글자 크기, 행간과 아이콘 굵기는 두 테마가 같은
+공통 변수를 사용한다.
 
-## 검토 화면 동기화 결과
+## 재사용 컴포넌트
 
-- 다섯 원본 모두 검토 화면에서 실제 인스턴스로 사용되므로 폐기하지 않는다.
-- 원본의 색상·경계·텍스트는 Style B 값으로 전환한 의미 변수 연결을 유지한다.
-- 모든 원본 아이콘은 `icon-weight-default = 400`을 사용한다.
-- 작품 메모 본문은 `line-height-body = 1.5`를 사용한다.
-- 전체 `.pen`에서 원본별 인스턴스는 Sidebar 49개, Tab 24개, Icon Button 22개,
-  Icon Label Button 13개, Work Memo Card 16개이며 끊어진 `ref`는 없다.
-- 기존 원본 중 수정 없이 폐기하거나 새 원본으로 교체한 항목은 없다.
+라이브러리에는 기본 컴포넌트 14개와 상태 컴포넌트 22개, 총 36개를 둔다.
+
+### 기본 컴포넌트
+
+- `Tab / Document`
+- `Sidebar Item / Default`
+- `Icon Button / Default`
+- `Button / Icon Label`
+- `Memo Card / Work`
+- `Sidebar / Workspace`
+- `Workspace / Tab Bar / New Tab`
+- `Workspace / Tab Bar / Manuscript`
+- `Manuscript / File Header`
+- `Manuscript / Writing Canvas`
+- `New Tab / Resume Banner`
+- `New Tab / Create Action`
+- `New Tab / Recent File Row`
+- `AI Chat Panel / Open`
+
+### 상태 컴포넌트
+
+- 탭: `Active`, `Inactive`, `Dragging`
+- 사이드바 항목: `Selected`
+- 사이드바: `Project Switcher Open`, `Favorites Menu Open`, `Files Menu Open`
+- 메뉴: `Project Switcher / Open`, `Favorites / Open`, `Files / Open`
+- 탭 바: `Overflow`, `Reordering`
+- 파일 헤더: `Memo Active`, `Focus Returned`
+- 메모 패널: `Right / Work Selected`, `Right / Manuscript Selected`,
+  `Below / Work Selected`
+- AI 챗 패널: `Session List Open`, `Session Menu Open`, `Session Rename`,
+  `Delete Confirmation`, `New Session Empty`
 
 ## 컴포넌트 경계
 
-- 여러 화면에서 역할과 구조가 같은 요소만 원본 컴포넌트로 만든다.
-- 선택·비선택과 콘텐츠 차이는 별도 원본을 복제하지 않고 인스턴스 속성으로 표현한다.
-- 사이드바 전체, 탭 바, 편집기, AI 챗 패널과 메모 패널의 배치는 화면 전용 구조로 유지한다.
-- 한 화면에서만 사용하는 조합은 반복이 확인될 때까지 컴포넌트로 추출하지 않는다.
-- 패널 전체와 편집 영역처럼 화면 구조에 속한 조합은 승인 화면에 반복돼도 원본
-  컴포넌트로 승격하지 않는다.
+- 여러 화면에서 구조와 역할이 같은 요소는 기본 컴포넌트로 만든다.
+- 문서에서 독립된 상호작용 상태로 정의하고 화면에서 반복 검증해야 하는 조합은
+  상태 컴포넌트로 만든다.
+- 텍스트, 아이콘과 크기처럼 콘텐츠에 따른 차이는 인스턴스 속성으로 바꾼다.
+- 화면 전체 배치와 한 화면에서만 사용하는 구조는 `lorekeeper.pen`에 유지한다.
+- 상태 화면은 로컬 프레임을 복제하지 않고 `.lib.pen`의 상태 컴포넌트를 참조한다.
+
+## 검증 기준
+
+- `lorekeeper.lib.pen`의 최상위 프레임은 모두 재사용 컴포넌트여야 한다.
+- `lorekeeper.pen`에는 로컬 디자인 변수와 로컬 재사용 컴포넌트를 두지 않는다.
+- 끊어진 컴포넌트 참조, 누락된 변수, 임시 placeholder와 레이아웃 문제를 허용하지
+  않는다.
+- 다크와 라이트 화면은 같은 컴포넌트와 변수 이름을 사용하고 `mode` 값만 바꾼다.

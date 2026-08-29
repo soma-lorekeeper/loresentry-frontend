@@ -1834,320 +1834,12 @@
           ]
         },
         {
-          "type": "frame",
-          "id": "vWtxp",
+          "id": "clDQt",
+          "type": "ref",
+          "ref": "b:XsqLR",
           "name": "AI Chat Auxiliary Panel",
-          "context": "AI chat auxiliary panel. No internal close button; close with the active AI Chat toggle.",
           "width": 320,
-          "height": "fill_container",
-          "fill": "$b:color-surface-navigation",
-          "stroke": "$b:color-border-default",
-          "strokeWidth": {
-            "left": 1
-          },
-          "layout": "vertical",
-          "children": [
-            {
-              "type": "frame",
-              "id": "wS6zQ",
-              "name": "AI Chat Session Management",
-              "width": "fill_container",
-              "height": 52,
-              "fill": "$b:color-surface-topbar",
-              "stroke": "$b:color-border-default",
-              "strokeWidth": {
-                "bottom": 1
-              },
-              "gap": "$b:space-1",
-              "padding": [
-                "$b:space-2",
-                "$b:space-3"
-              ],
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "SYr8g",
-                  "name": "Current Chat Session",
-                  "height": 36,
-                  "gap": "$b:space-2",
-                  "padding": [
-                    0,
-                    "$b:space-2"
-                  ],
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "Q7qoWR",
-                      "name": "Current Chat Session Name",
-                      "fill": "$b:color-text-primary",
-                      "content": "균열 장면 다듬기",
-                      "fontFamily": "$b:font-family-ui",
-                      "fontSize": "$b:font-size-body",
-                      "fontWeight": "600"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "hkHC5",
-                      "name": "Session Picker Chevron",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "chevron-down",
-                      "library": "lucide",
-                      "weight": "$b:icon-weight-default",
-                      "fill": "$b:color-icon-default"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "wBcLz",
-                  "name": "Session Header Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "type": "frame",
-                  "id": "hL1CC",
-                  "name": "New Chat Session",
-                  "width": 32,
-                  "height": 32,
-                  "cornerRadius": "$b:radius-control",
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "GghEE",
-                      "name": "New Chat Session Icon",
-                      "width": 15,
-                      "height": 15,
-                      "icon": "plus",
-                      "library": "lucide",
-                      "weight": "$b:icon-weight-default",
-                      "fill": "$b:color-icon-default"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "l5naLj",
-                  "name": "Chat Session More",
-                  "width": 32,
-                  "height": 32,
-                  "cornerRadius": "$b:radius-control",
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "Ndfw5",
-                      "name": "Chat Session More Icon",
-                      "width": 15,
-                      "height": 15,
-                      "icon": "ellipsis",
-                      "library": "lucide",
-                      "weight": "$b:icon-weight-default",
-                      "fill": "$b:color-icon-default"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "kJZuq",
-              "name": "AI Chat Conversation History",
-              "width": "fill_container",
-              "height": "fill_container",
-              "layout": "vertical",
-              "gap": "$b:space-4",
-              "padding": "$b:space-4",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "FpNz5",
-                  "name": "AI Chat File Context",
-                  "fill": "$b:color-text-secondary",
-                  "content": "현재 원고 · 12화 · 균열의 밤",
-                  "fontFamily": "$b:font-family-ui",
-                  "fontSize": "$b:font-size-label",
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "frame",
-                  "id": "lQdv4",
-                  "name": "User Message Row",
-                  "width": "fill_container",
-                  "justifyContent": "end",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "nerUp",
-                      "name": "User Message",
-                      "width": 236,
-                      "fill": "$b:color-surface-raised",
-                      "cornerRadius": "$b:radius-card",
-                      "padding": "$b:space-3",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "I0n4cc",
-                          "name": "User Message Text",
-                          "fill": "$b:color-text-primary",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "문이 열리기 직전 장면의 긴장감을 더 높일 방법을 알려줘.",
-                          "lineHeight": "$b:line-height-context",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-body",
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "ANC7i",
-                  "name": "AI Response",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": "$b:space-2",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "J0SE1",
-                      "name": "AI Response Label",
-                      "gap": "$b:space-2",
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "icon",
-                          "id": "TGeQF",
-                          "name": "AI Response Icon",
-                          "width": 14,
-                          "height": 14,
-                          "icon": "sparkles",
-                          "library": "lucide",
-                          "weight": "$b:icon-weight-default",
-                          "fill": "$b:color-icon-default"
-                        },
-                        {
-                          "type": "text",
-                          "id": "byQ9X",
-                          "name": "AI Response Name",
-                          "fill": "$b:color-text-secondary",
-                          "content": "Lorekeeper AI",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-label",
-                          "fontWeight": "600"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "text",
-                      "id": "l7QaFe",
-                      "name": "AI Response Text",
-                      "fill": "$b:color-text-primary",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "문을 열기 전에 세 가지 감각을 짧게 쌓아 보세요. 손잡이의 진동, 등불이 흔들리는 소리, 그리고 문 너머의 목소리를 한 문장씩 좁혀 가면 독자가 서윤의 망설임을 함께 느낄 수 있습니다.",
-                      "lineHeight": "$b:line-height-context",
-                      "fontFamily": "$b:font-family-ui",
-                      "fontSize": "$b:font-size-body",
-                      "fontWeight": "normal"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "T2SfCk",
-              "name": "AI Chat Message Input Area",
-              "width": "fill_container",
-              "height": 120,
-              "stroke": "$b:color-border-default",
-              "strokeWidth": {
-                "top": 1
-              },
-              "padding": "$b:space-3",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "vjeTH",
-                  "name": "AI Chat Composer",
-                  "width": "fill_container",
-                  "height": "fill_container",
-                  "fill": "$b:color-surface-raised",
-                  "cornerRadius": "$b:radius-card",
-                  "stroke": "$b:color-border-default",
-                  "strokeWidth": 1,
-                  "layout": "vertical",
-                  "gap": "$b:space-2",
-                  "padding": "$b:space-3",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "eBKwe",
-                      "name": "AI Chat Input Placeholder",
-                      "fill": "$b:color-text-secondary",
-                      "content": "메시지 입력",
-                      "fontFamily": "$b:font-family-ui",
-                      "fontSize": "$b:font-size-body",
-                      "fontWeight": "normal"
-                    },
-                    {
-                      "type": "frame",
-                      "id": "oNX8z",
-                      "name": "AI Chat Composer Actions",
-                      "width": "fill_container",
-                      "height": "fill_container",
-                      "alignItems": "end",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "oyjb6",
-                          "name": "Composer Action Spacer",
-                          "width": "fill_container",
-                          "height": 1
-                        },
-                        {
-                          "type": "frame",
-                          "id": "SjEFK",
-                          "name": "Send Message · Disabled",
-                          "context": "Disabled while the message input is empty.",
-                          "width": 30,
-                          "height": 30,
-                          "fill": "$b:color-surface-icon",
-                          "cornerRadius": "$b:radius-control",
-                          "stroke": "$b:color-border-default",
-                          "strokeWidth": 1,
-                          "justifyContent": "center",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "icon",
-                              "id": "y2rFz",
-                              "name": "Send Message Icon",
-                              "width": 15,
-                              "height": 15,
-                              "icon": "arrow-up",
-                              "library": "lucide",
-                              "weight": "$b:icon-weight-default",
-                              "fill": "$b:color-text-secondary"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+          "height": "fill_container"
         }
       ]
     },
@@ -6637,6 +6329,1956 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "azx8U",
+      "x": 16709,
+      "y": -3369,
+      "name": "15 · Manuscript Editor · AI Chat · Session List Open",
+      "context": "LOREKEEPER-309 AI chat open. The active tab-bar toggle closes the panel and receives keyboard focus. New session moves focus to the message input. Lower-priority toolbar actions collapse into More.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "lUM3A",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "nrXv1",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "mNwKL",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52
+            },
+            {
+              "type": "frame",
+              "id": "TR0wT",
+              "name": "Manuscript Workspace",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "Y7ftw",
+                  "type": "ref",
+                  "ref": "b:zdoWO",
+                  "name": "Manuscript File Header",
+                  "width": "fill_container",
+                  "height": 48
+                },
+                {
+                  "type": "frame",
+                  "id": "T2nsol",
+                  "name": "Manuscript Editing Toolbar Compact",
+                  "width": "fill_container",
+                  "height": 52,
+                  "fill": "$b:color-surface-default",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "gap": "$b:space-1",
+                  "padding": [
+                    "$b:space-2",
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "vn9wF",
+                      "name": "Compact Undo",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "BMqOD",
+                          "name": "Compact Undo Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "undo-2",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "SkYNR",
+                      "name": "Compact Redo",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "c5e0Wl",
+                          "name": "Compact Redo Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "redo-2",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "dsCYw",
+                      "name": "Compact Separator 1",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "JjoU0",
+                      "name": "Compact Font",
+                      "width": 76,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-1",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "B9dDrq",
+                          "name": "Compact Font Value",
+                          "fill": "$b:color-text-secondary",
+                          "content": "Inter",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "djobK",
+                          "name": "Compact Font Spacer",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "icon",
+                          "id": "q3fiW",
+                          "name": "Compact Font Chevron",
+                          "width": 12,
+                          "height": 12,
+                          "icon": "chevron-down",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "IUbeb",
+                      "name": "Compact Size",
+                      "width": 48,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-1",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ObF36",
+                          "name": "Compact Size Value",
+                          "fill": "$b:color-text-secondary",
+                          "content": "16",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "L8KHpf",
+                          "name": "Compact Size Spacer",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "icon",
+                          "id": "FV6lE",
+                          "name": "Compact Size Chevron",
+                          "width": 12,
+                          "height": 12,
+                          "icon": "chevron-down",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "sZlBP",
+                      "name": "Compact Separator 2",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "X1rb5",
+                      "name": "Compact Bold",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "MSpz9",
+                          "name": "Compact Bold Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "bold",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "L8CxTD",
+                      "name": "Compact Italic",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "oe5Bk",
+                          "name": "Compact Italic Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "italic",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ldkvo",
+                      "name": "Compact More Formatting",
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-1",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "JlhDm",
+                          "name": "Compact More Formatting Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "ellipsis",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "a92zK",
+                          "name": "Compact More Formatting Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "더보기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Hie61",
+                      "name": "Compact Toolbar Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "dMjPN",
+                      "name": "Compact Autosave Status",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "WioR5",
+                          "name": "Compact Autosave Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "cloud-check",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "x8XO2d",
+                          "name": "Compact Autosave Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "저장됨",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "Ki5eN",
+                      "name": "Compact Separator 3",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "text",
+                      "id": "h0ufm",
+                      "name": "Compact Character Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "3,842자",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "id": "MDB2W",
+                  "type": "ref",
+                  "ref": "b:cK6jp",
+                  "name": "Manuscript Writing Canvas",
+                  "width": "fill_container",
+                  "height": "fill_container"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "qqVOG",
+          "type": "ref",
+          "ref": "b:U83MAI",
+          "name": "AI Chat Auxiliary Panel · Session List Open",
+          "width": 320,
+          "height": "fill_container"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "qJBRZ",
+      "x": 18269,
+      "y": -3369,
+      "name": "16 · Manuscript Editor · AI Chat · Session Menu Open",
+      "context": "LOREKEEPER-309 AI chat open. The active tab-bar toggle closes the panel and receives keyboard focus. New session moves focus to the message input. Lower-priority toolbar actions collapse into More.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "BzYwK",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "UkExP",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "QLkfX",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52
+            },
+            {
+              "type": "frame",
+              "id": "OJ1N1",
+              "name": "Manuscript Workspace",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "ioyZB",
+                  "type": "ref",
+                  "ref": "b:zdoWO",
+                  "name": "Manuscript File Header",
+                  "width": "fill_container",
+                  "height": 48
+                },
+                {
+                  "type": "frame",
+                  "id": "X7hxZU",
+                  "name": "Manuscript Editing Toolbar Compact",
+                  "width": "fill_container",
+                  "height": 52,
+                  "fill": "$b:color-surface-default",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "gap": "$b:space-1",
+                  "padding": [
+                    "$b:space-2",
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "i54YXc",
+                      "name": "Compact Undo",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "ajvye",
+                          "name": "Compact Undo Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "undo-2",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "CwcnO",
+                      "name": "Compact Redo",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "Cpx9G",
+                          "name": "Compact Redo Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "redo-2",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "YiTSb",
+                      "name": "Compact Separator 1",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "k61n8",
+                      "name": "Compact Font",
+                      "width": 76,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-1",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "NxS5e",
+                          "name": "Compact Font Value",
+                          "fill": "$b:color-text-secondary",
+                          "content": "Inter",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Yf1K1",
+                          "name": "Compact Font Spacer",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "icon",
+                          "id": "cp23G",
+                          "name": "Compact Font Chevron",
+                          "width": 12,
+                          "height": 12,
+                          "icon": "chevron-down",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "j1N5Bf",
+                      "name": "Compact Size",
+                      "width": 48,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-1",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Vtm4W",
+                          "name": "Compact Size Value",
+                          "fill": "$b:color-text-secondary",
+                          "content": "16",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "p2MJps",
+                          "name": "Compact Size Spacer",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "icon",
+                          "id": "Z9R5vf",
+                          "name": "Compact Size Chevron",
+                          "width": 12,
+                          "height": 12,
+                          "icon": "chevron-down",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "vi0iT",
+                      "name": "Compact Separator 2",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "H1dCIz",
+                      "name": "Compact Bold",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "sjiHM",
+                          "name": "Compact Bold Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "bold",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "dSsa3",
+                      "name": "Compact Italic",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "bNWZZ",
+                          "name": "Compact Italic Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "italic",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "N5fKmV",
+                      "name": "Compact More Formatting",
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-1",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "Qgf0s",
+                          "name": "Compact More Formatting Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "ellipsis",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "KZIW4",
+                          "name": "Compact More Formatting Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "더보기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Di5lq",
+                      "name": "Compact Toolbar Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "m18WT",
+                      "name": "Compact Autosave Status",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "dsIF5",
+                          "name": "Compact Autosave Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "cloud-check",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "yfkt1",
+                          "name": "Compact Autosave Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "저장됨",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "na21n",
+                      "name": "Compact Separator 3",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "text",
+                      "id": "V7MgF",
+                      "name": "Compact Character Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "3,842자",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "id": "u3qoip",
+                  "type": "ref",
+                  "ref": "b:cK6jp",
+                  "name": "Manuscript Writing Canvas",
+                  "width": "fill_container",
+                  "height": "fill_container"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "t6DmZ",
+          "type": "ref",
+          "ref": "b:nFN00",
+          "name": "AI Chat Auxiliary Panel · Session Menu Open",
+          "width": 320,
+          "height": "fill_container"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "W0bpE",
+      "x": 19829,
+      "y": -3369,
+      "name": "17 · Manuscript Editor · AI Chat · Session Rename",
+      "context": "LOREKEEPER-309 AI chat open. The active tab-bar toggle closes the panel and receives keyboard focus. New session moves focus to the message input. Lower-priority toolbar actions collapse into More.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "n8uUF",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "q63SK5",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "SveJv",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52
+            },
+            {
+              "type": "frame",
+              "id": "d83NUa",
+              "name": "Manuscript Workspace",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "dOJYG",
+                  "type": "ref",
+                  "ref": "b:zdoWO",
+                  "name": "Manuscript File Header",
+                  "width": "fill_container",
+                  "height": 48
+                },
+                {
+                  "type": "frame",
+                  "id": "w9zUT5",
+                  "name": "Manuscript Editing Toolbar Compact",
+                  "width": "fill_container",
+                  "height": 52,
+                  "fill": "$b:color-surface-default",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "gap": "$b:space-1",
+                  "padding": [
+                    "$b:space-2",
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "FrwnG",
+                      "name": "Compact Undo",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "e36j6t",
+                          "name": "Compact Undo Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "undo-2",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hgzDe",
+                      "name": "Compact Redo",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "s3X88",
+                          "name": "Compact Redo Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "redo-2",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "gmym2",
+                      "name": "Compact Separator 1",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "gpBWN",
+                      "name": "Compact Font",
+                      "width": 76,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-1",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "OUzKH",
+                          "name": "Compact Font Value",
+                          "fill": "$b:color-text-secondary",
+                          "content": "Inter",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "O5iLwx",
+                          "name": "Compact Font Spacer",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "icon",
+                          "id": "QUFlF",
+                          "name": "Compact Font Chevron",
+                          "width": 12,
+                          "height": 12,
+                          "icon": "chevron-down",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "HqtSZ",
+                      "name": "Compact Size",
+                      "width": 48,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-1",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "OlKKX",
+                          "name": "Compact Size Value",
+                          "fill": "$b:color-text-secondary",
+                          "content": "16",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Z8B38W",
+                          "name": "Compact Size Spacer",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "icon",
+                          "id": "NjJMf",
+                          "name": "Compact Size Chevron",
+                          "width": 12,
+                          "height": 12,
+                          "icon": "chevron-down",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "z2Xi0",
+                      "name": "Compact Separator 2",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FWTbD",
+                      "name": "Compact Bold",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "B8nRSH",
+                          "name": "Compact Bold Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "bold",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "N9iGg2",
+                      "name": "Compact Italic",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "x6qFH",
+                          "name": "Compact Italic Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "italic",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XvrXX",
+                      "name": "Compact More Formatting",
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-1",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "vLQWA",
+                          "name": "Compact More Formatting Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "ellipsis",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "DSRbT",
+                          "name": "Compact More Formatting Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "더보기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wv821",
+                      "name": "Compact Toolbar Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "B3CUw",
+                      "name": "Compact Autosave Status",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "dEiIY",
+                          "name": "Compact Autosave Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "cloud-check",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "javfs",
+                          "name": "Compact Autosave Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "저장됨",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "t7QOA",
+                      "name": "Compact Separator 3",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "text",
+                      "id": "c8J81t",
+                      "name": "Compact Character Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "3,842자",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "id": "KIxf3",
+                  "type": "ref",
+                  "ref": "b:cK6jp",
+                  "name": "Manuscript Writing Canvas",
+                  "width": "fill_container",
+                  "height": "fill_container"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nQmPs",
+          "type": "ref",
+          "ref": "b:hbM7Z",
+          "name": "AI Chat Auxiliary Panel · Session Rename",
+          "width": 320,
+          "height": "fill_container"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "V3QwF1",
+      "x": 21389,
+      "y": -3369,
+      "name": "18 · Manuscript Editor · AI Chat · Delete Confirmation",
+      "context": "LOREKEEPER-309 AI chat open. The active tab-bar toggle closes the panel and receives keyboard focus. New session moves focus to the message input. Lower-priority toolbar actions collapse into More.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "i2WEE",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "oaHAv",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "jru8A",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52
+            },
+            {
+              "type": "frame",
+              "id": "iiOEA",
+              "name": "Manuscript Workspace",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "KLDHj",
+                  "type": "ref",
+                  "ref": "b:zdoWO",
+                  "name": "Manuscript File Header",
+                  "width": "fill_container",
+                  "height": 48
+                },
+                {
+                  "type": "frame",
+                  "id": "etuZz",
+                  "name": "Manuscript Editing Toolbar Compact",
+                  "width": "fill_container",
+                  "height": 52,
+                  "fill": "$b:color-surface-default",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "gap": "$b:space-1",
+                  "padding": [
+                    "$b:space-2",
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "mstVU",
+                      "name": "Compact Undo",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "vHX1R",
+                          "name": "Compact Undo Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "undo-2",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "rBNzN",
+                      "name": "Compact Redo",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "hsugE",
+                          "name": "Compact Redo Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "redo-2",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "axzmL",
+                      "name": "Compact Separator 1",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "SQscr",
+                      "name": "Compact Font",
+                      "width": 76,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-1",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "u8LbC",
+                          "name": "Compact Font Value",
+                          "fill": "$b:color-text-secondary",
+                          "content": "Inter",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "v9RTm",
+                          "name": "Compact Font Spacer",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "icon",
+                          "id": "GkrI4",
+                          "name": "Compact Font Chevron",
+                          "width": 12,
+                          "height": 12,
+                          "icon": "chevron-down",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "E67CYZ",
+                      "name": "Compact Size",
+                      "width": 48,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-1",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nf7so",
+                          "name": "Compact Size Value",
+                          "fill": "$b:color-text-secondary",
+                          "content": "16",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "WyurG",
+                          "name": "Compact Size Spacer",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "icon",
+                          "id": "gOLwS",
+                          "name": "Compact Size Chevron",
+                          "width": 12,
+                          "height": 12,
+                          "icon": "chevron-down",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "VJ0BF",
+                      "name": "Compact Separator 2",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hoiYY",
+                      "name": "Compact Bold",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "uMEw3",
+                          "name": "Compact Bold Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "bold",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "j6sb9",
+                      "name": "Compact Italic",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "k6cYug",
+                          "name": "Compact Italic Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "italic",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "j5FUs",
+                      "name": "Compact More Formatting",
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-1",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "xs6is",
+                          "name": "Compact More Formatting Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "ellipsis",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "kv9YU",
+                          "name": "Compact More Formatting Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "더보기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "vJVRv",
+                      "name": "Compact Toolbar Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ycqaA",
+                      "name": "Compact Autosave Status",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "y8Wh4",
+                          "name": "Compact Autosave Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "cloud-check",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ZyqMb",
+                          "name": "Compact Autosave Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "저장됨",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "PDPtp",
+                      "name": "Compact Separator 3",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "text",
+                      "id": "VvgWv",
+                      "name": "Compact Character Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "3,842자",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "id": "T1By9k",
+                  "type": "ref",
+                  "ref": "b:cK6jp",
+                  "name": "Manuscript Writing Canvas",
+                  "width": "fill_container",
+                  "height": "fill_container"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sVJDh",
+          "type": "ref",
+          "ref": "b:r6i9oi",
+          "name": "AI Chat Auxiliary Panel · Delete Confirmation",
+          "width": 320,
+          "height": "fill_container"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "RFf3u",
+      "x": 22949,
+      "y": -3369,
+      "name": "19 · Manuscript Editor · AI Chat · New Session Empty",
+      "context": "LOREKEEPER-309 AI chat open. The active tab-bar toggle closes the panel and receives keyboard focus. New session moves focus to the message input. Lower-priority toolbar actions collapse into More.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "DBhFI",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "woRv6",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "mNT1M",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52
+            },
+            {
+              "type": "frame",
+              "id": "V3FYSa",
+              "name": "Manuscript Workspace",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "f3OxG",
+                  "type": "ref",
+                  "ref": "b:zdoWO",
+                  "name": "Manuscript File Header",
+                  "width": "fill_container",
+                  "height": 48
+                },
+                {
+                  "type": "frame",
+                  "id": "HveCM",
+                  "name": "Manuscript Editing Toolbar Compact",
+                  "width": "fill_container",
+                  "height": 52,
+                  "fill": "$b:color-surface-default",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "gap": "$b:space-1",
+                  "padding": [
+                    "$b:space-2",
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "iIl1N",
+                      "name": "Compact Undo",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "C8n803",
+                          "name": "Compact Undo Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "undo-2",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "JXkbQ",
+                      "name": "Compact Redo",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "GKoMq",
+                          "name": "Compact Redo Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "redo-2",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "Et2l0",
+                      "name": "Compact Separator 1",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "BirJn",
+                      "name": "Compact Font",
+                      "width": 76,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-1",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "i0aY2W",
+                          "name": "Compact Font Value",
+                          "fill": "$b:color-text-secondary",
+                          "content": "Inter",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ERZXr",
+                          "name": "Compact Font Spacer",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "icon",
+                          "id": "P7eqm",
+                          "name": "Compact Font Chevron",
+                          "width": 12,
+                          "height": 12,
+                          "icon": "chevron-down",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "C3ahq",
+                      "name": "Compact Size",
+                      "width": 48,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-1",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "wJi4M",
+                          "name": "Compact Size Value",
+                          "fill": "$b:color-text-secondary",
+                          "content": "16",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "UH2po",
+                          "name": "Compact Size Spacer",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "icon",
+                          "id": "WYIrl",
+                          "name": "Compact Size Chevron",
+                          "width": 12,
+                          "height": 12,
+                          "icon": "chevron-down",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "IBTRP",
+                      "name": "Compact Separator 2",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "UKkJe",
+                      "name": "Compact Bold",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "vwmN1",
+                          "name": "Compact Bold Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "bold",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ZeKy9",
+                      "name": "Compact Italic",
+                      "width": 30,
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "OnB8T",
+                          "name": "Compact Italic Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "italic",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "SC5JT",
+                      "name": "Compact More Formatting",
+                      "height": 30,
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-1",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "EEMjh",
+                          "name": "Compact More Formatting Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "ellipsis",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "A5O3i",
+                          "name": "Compact More Formatting Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "더보기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "X2HK6E",
+                      "name": "Compact Toolbar Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "rTZhw",
+                      "name": "Compact Autosave Status",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "oFLpy",
+                          "name": "Compact Autosave Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "cloud-check",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "gtlx1",
+                          "name": "Compact Autosave Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "저장됨",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "AJzNc",
+                      "name": "Compact Separator 3",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "text",
+                      "id": "LL7LK",
+                      "name": "Compact Character Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "3,842자",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "id": "KcHRM",
+                  "type": "ref",
+                  "ref": "b:cK6jp",
+                  "name": "Manuscript Writing Canvas",
+                  "width": "fill_container",
+                  "height": "fill_container"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "M2q1L",
+          "type": "ref",
+          "ref": "b:w2wWAM",
+          "name": "AI Chat Auxiliary Panel · New Session Empty",
+          "width": 320,
+          "height": "fill_container"
         }
       ]
     }

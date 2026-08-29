@@ -38,3 +38,24 @@ AI 챗은 중앙 작업 영역 오른쪽에서 열리는 보조 사이드 패널
 - 메시지 입력란은 패널 하단에 고정한다.
 - 입력란과 전송 버튼을 제공한다.
 - 빈 메시지는 전송할 수 없다.
+
+## 새 세션 빈 상태
+
+- `+`를 선택하면 현재 패널 안에서 새 세션으로 전환한다.
+- 새 세션의 대화 내역은 비우고 메시지 입력란에 키보드 포커스를 표시한다.
+- 첫 메시지를 입력하기 전까지 전송 버튼은 비활성 상태로 유지한다.
+- 첫 메시지를 보내면 해당 메시지를 기준으로 생성한 세션명을 상단에 표시한다.
+
+## Pencil 시각 참조
+
+- 기본 열린 상태: `11 · Manuscript Editor · AI Chat Open`(`iHWvC`)
+- 세션 목록 열린 상태:
+  `15 · Manuscript Editor · AI Chat · Session List Open`(`azx8U`)
+- 세션 더보기 메뉴 열린 상태:
+  `16 · Manuscript Editor · AI Chat · Session Menu Open`(`qJBRZ`)
+- 세션 이름 인라인 변경 상태:
+  `17 · Manuscript Editor · AI Chat · Session Rename`(`W0bpE`)
+- 세션 삭제 확인 상태:
+  `18 · Manuscript Editor · AI Chat · Delete Confirmation`(`V3QwF1`)
+- 새 세션 빈 상태:
+  `19 · Manuscript Editor · AI Chat · New Session Empty`(`RFf3u`)
