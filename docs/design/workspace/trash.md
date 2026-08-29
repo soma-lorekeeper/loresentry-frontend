@@ -15,3 +15,6 @@
 - 다른 프로젝트에서 삭제한 항목은 표시하지 않는다.
 
 세부 이동과 탭 처리는 [파일·폴더 휴지통 Workflow](../workflow/workspace-trash.md)를 따른다.
+
+휴지통 탭의 기본 상태는 `lorekeeper.pen`의
+`30 · Workspace · Trash`(`NSDvO`)를 시각 기준으로 사용한다.

@@ -8281,6 +8281,1454 @@
           "height": "fill_container"
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "PAM02",
+      "x": 15269,
+      "y": -1921,
+      "name": "27 · Workspace · User Section Menu Open",
+      "context": "Visual reference for the Files section more menu documented in files-and-favorites.md.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "U7A0B",
+          "type": "ref",
+          "ref": "b:YhH3e",
+          "name": "C Sidebar · User Section Menu Open",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:onajC": {
+              "content": "자료"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "ySgTV",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "MnI4f",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG/b:joUxb": {
+                  "enabled": false,
+                  "layoutPosition": "absolute",
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "bObZn",
+              "name": "C New Tab Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                42,
+                120
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "FdBMu",
+                  "name": "C Project Context",
+                  "fill": "$b:color-text-secondary",
+                  "content": "유리 정원의 기록",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "600"
+                },
+                {
+                  "id": "oNmoe",
+                  "type": "ref",
+                  "ref": "b:Bqc8f",
+                  "name": "C Resume Work Banner",
+                  "width": "fill_container",
+                  "height": 112,
+                  "descendants": {
+                    "b:MpuHt": {
+                      "content": "마지막으로 작업한 파일"
+                    },
+                    "b:vpZU8": {
+                      "content": "12화 · 균열의 밤"
+                    },
+                    "b:E59DMi": {
+                      "content": "18분 전 · 마지막 편집 위치에서 열기"
+                    },
+                    "b:ksoQ6": {
+                      "content": "이어서 작업하기"
+                    },
+                    "b:rc39Z": {
+                      "icon": "arrow-right"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "SRASz",
+                  "name": "C Create Section",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "H3mP36",
+                      "name": "C Create Header",
+                      "width": "fill_container",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "YBggJ",
+                          "name": "C Create Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "새로 만들기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading",
+                          "fontWeight": "650"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "thuQ3",
+                          "name": "C Create Header Spacer",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "icon",
+                          "id": "mA6PC",
+                          "name": "C Import Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "upload",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "NTl1D",
+                          "name": "C Import Label",
+                          "fill": "$b:color-text-primary",
+                          "content": "가져오기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "J1OHg",
+                      "name": "C Create Row 1",
+                      "width": "fill_container",
+                      "gap": "$b:space-3",
+                      "children": [
+                        {
+                          "id": "Y7uYj",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 원고",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "file-text"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "원고"
+                            }
+                          }
+                        },
+                        {
+                          "id": "XQshu",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 설정",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "notebook-tabs"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "설정"
+                            }
+                          }
+                        },
+                        {
+                          "id": "NK0J3",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 캐릭터",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "user-round"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "캐릭터"
+                            }
+                          }
+                        },
+                        {
+                          "id": "BHqso",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 이벤트",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "calendar-days"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "이벤트"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "I9Wwh",
+                      "name": "C Create Row 2",
+                      "width": "fill_container",
+                      "gap": "$b:space-3",
+                      "children": [
+                        {
+                          "id": "VHY1f",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 조직",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "users-round"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "조직"
+                            }
+                          }
+                        },
+                        {
+                          "id": "Y9CHJ",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 아이템",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "gem"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "아이템"
+                            }
+                          }
+                        },
+                        {
+                          "id": "gyfwe",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 장소",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "map-pin"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "장소"
+                            }
+                          }
+                        },
+                        {
+                          "id": "eWqHs",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 세계관",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "globe"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "세계관"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "gGCPX",
+                  "name": "C Recent Files",
+                  "width": "fill_container",
+                  "fill": "$b:color-surface-default",
+                  "stroke": "$b:color-border-default",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "LdlhU",
+                      "name": "C Recent Files Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "최근에 연 파일",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "650"
+                    },
+                    {
+                      "id": "TKuIM",
+                      "type": "ref",
+                      "ref": "b:DZ6Mu",
+                      "name": "C Recent 왕도 지도",
+                      "width": "fill_container",
+                      "height": 38,
+                      "descendants": {
+                        "b:AQcnC": {
+                          "icon": "map"
+                        },
+                        "b:NRUc2": {
+                          "content": "왕도 지도"
+                        },
+                        "b:tVZQO": {
+                          "content": "어제"
+                        },
+                        "b:leOqr": {
+                          "icon": "arrow-up-right"
+                        }
+                      }
+                    },
+                    {
+                      "id": "y2wej",
+                      "type": "ref",
+                      "ref": "b:DZ6Mu",
+                      "name": "C Recent 주인공 설정",
+                      "width": "fill_container",
+                      "height": 38,
+                      "descendants": {
+                        "b:AQcnC": {
+                          "icon": "user-round"
+                        },
+                        "b:NRUc2": {
+                          "content": "주인공 설정"
+                        },
+                        "b:tVZQO": {
+                          "content": "2일 전"
+                        },
+                        "b:leOqr": {
+                          "icon": "arrow-up-right"
+                        }
+                      }
+                    },
+                    {
+                      "id": "G8utqI",
+                      "type": "ref",
+                      "ref": "b:DZ6Mu",
+                      "name": "C Recent 11화 · 유리 정원",
+                      "width": "fill_container",
+                      "height": 38,
+                      "descendants": {
+                        "b:AQcnC": {
+                          "icon": "file-text"
+                        },
+                        "b:NRUc2": {
+                          "content": "11화 · 유리 정원"
+                        },
+                        "b:tVZQO": {
+                          "content": "3일 전"
+                        },
+                        "b:leOqr": {
+                          "icon": "arrow-up-right"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "crIf6",
+          "type": "ref",
+          "ref": "b:LqWlX",
+          "name": "User Section More Menu",
+          "x": 16,
+          "y": 364,
+          "width": 204,
+          "layoutPosition": "absolute"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "bleTW",
+      "x": 16789,
+      "y": -1921,
+      "name": "28 · Workspace · File Menu Open",
+      "context": "Visual reference for the Files section more menu documented in files-and-favorites.md.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "wTAx6",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar · File Menu Open",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:INQCc": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "v1BAOs",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "Ntstn",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG/b:joUxb": {
+                  "enabled": false,
+                  "layoutPosition": "absolute",
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "FG1XR",
+              "name": "C New Tab Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                42,
+                120
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "q34W1",
+                  "name": "C Project Context",
+                  "fill": "$b:color-text-secondary",
+                  "content": "유리 정원의 기록",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "600"
+                },
+                {
+                  "id": "Sbyve",
+                  "type": "ref",
+                  "ref": "b:Bqc8f",
+                  "name": "C Resume Work Banner",
+                  "width": "fill_container",
+                  "height": 112,
+                  "descendants": {
+                    "b:MpuHt": {
+                      "content": "마지막으로 작업한 파일"
+                    },
+                    "b:vpZU8": {
+                      "content": "12화 · 균열의 밤"
+                    },
+                    "b:E59DMi": {
+                      "content": "18분 전 · 마지막 편집 위치에서 열기"
+                    },
+                    "b:ksoQ6": {
+                      "content": "이어서 작업하기"
+                    },
+                    "b:rc39Z": {
+                      "icon": "arrow-right"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "GndWp",
+                  "name": "C Create Section",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "cbFMJ",
+                      "name": "C Create Header",
+                      "width": "fill_container",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "s7ubU",
+                          "name": "C Create Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "새로 만들기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading",
+                          "fontWeight": "650"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "tXbiD",
+                          "name": "C Create Header Spacer",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "icon",
+                          "id": "bH2p6",
+                          "name": "C Import Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "upload",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "lubYD",
+                          "name": "C Import Label",
+                          "fill": "$b:color-text-primary",
+                          "content": "가져오기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ciK4c",
+                      "name": "C Create Row 1",
+                      "width": "fill_container",
+                      "gap": "$b:space-3",
+                      "children": [
+                        {
+                          "id": "pIap1",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 원고",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "file-text"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "원고"
+                            }
+                          }
+                        },
+                        {
+                          "id": "C6bdvo",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 설정",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "notebook-tabs"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "설정"
+                            }
+                          }
+                        },
+                        {
+                          "id": "M6W8aF",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 캐릭터",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "user-round"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "캐릭터"
+                            }
+                          }
+                        },
+                        {
+                          "id": "UCsem",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 이벤트",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "calendar-days"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "이벤트"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "TjpQJ",
+                      "name": "C Create Row 2",
+                      "width": "fill_container",
+                      "gap": "$b:space-3",
+                      "children": [
+                        {
+                          "id": "a7nCZ",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 조직",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "users-round"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "조직"
+                            }
+                          }
+                        },
+                        {
+                          "id": "BjlMt",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 아이템",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "gem"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "아이템"
+                            }
+                          }
+                        },
+                        {
+                          "id": "eFOnG",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 장소",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "map-pin"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "장소"
+                            }
+                          }
+                        },
+                        {
+                          "id": "vEUny",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 세계관",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "globe"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "세계관"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "DYGh0",
+                  "name": "C Recent Files",
+                  "width": "fill_container",
+                  "fill": "$b:color-surface-default",
+                  "stroke": "$b:color-border-default",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Q1K9g",
+                      "name": "C Recent Files Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "최근에 연 파일",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "650"
+                    },
+                    {
+                      "id": "u13GY",
+                      "type": "ref",
+                      "ref": "b:DZ6Mu",
+                      "name": "C Recent 왕도 지도",
+                      "width": "fill_container",
+                      "height": 38,
+                      "descendants": {
+                        "b:AQcnC": {
+                          "icon": "map"
+                        },
+                        "b:NRUc2": {
+                          "content": "왕도 지도"
+                        },
+                        "b:tVZQO": {
+                          "content": "어제"
+                        },
+                        "b:leOqr": {
+                          "icon": "arrow-up-right"
+                        }
+                      }
+                    },
+                    {
+                      "id": "mC3b9",
+                      "type": "ref",
+                      "ref": "b:DZ6Mu",
+                      "name": "C Recent 주인공 설정",
+                      "width": "fill_container",
+                      "height": 38,
+                      "descendants": {
+                        "b:AQcnC": {
+                          "icon": "user-round"
+                        },
+                        "b:NRUc2": {
+                          "content": "주인공 설정"
+                        },
+                        "b:tVZQO": {
+                          "content": "2일 전"
+                        },
+                        "b:leOqr": {
+                          "icon": "arrow-up-right"
+                        }
+                      }
+                    },
+                    {
+                      "id": "jf0hA",
+                      "type": "ref",
+                      "ref": "b:DZ6Mu",
+                      "name": "C Recent 11화 · 유리 정원",
+                      "width": "fill_container",
+                      "height": 38,
+                      "descendants": {
+                        "b:AQcnC": {
+                          "icon": "file-text"
+                        },
+                        "b:NRUc2": {
+                          "content": "11화 · 유리 정원"
+                        },
+                        "b:tVZQO": {
+                          "content": "3일 전"
+                        },
+                        "b:leOqr": {
+                          "icon": "arrow-up-right"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "R7PR2",
+          "type": "ref",
+          "ref": "b:Bqm4I",
+          "name": "File More Menu",
+          "x": 16,
+          "y": 435,
+          "width": 204,
+          "layoutPosition": "absolute"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "CVOQc",
+      "x": 18309,
+      "y": -1921,
+      "name": "29 · Workspace · Folder Menu Open",
+      "context": "Visual reference for the Files section more menu documented in files-and-favorites.md.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "xo4aV",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar · Folder Menu Open",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:t5DO0e": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "qQte7",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "JFPHA",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG/b:joUxb": {
+                  "enabled": false,
+                  "layoutPosition": "absolute",
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "t1W0lI",
+              "name": "C New Tab Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                42,
+                120
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "UwGbK",
+                  "name": "C Project Context",
+                  "fill": "$b:color-text-secondary",
+                  "content": "유리 정원의 기록",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "600"
+                },
+                {
+                  "id": "UW3Dw",
+                  "type": "ref",
+                  "ref": "b:Bqc8f",
+                  "name": "C Resume Work Banner",
+                  "width": "fill_container",
+                  "height": 112,
+                  "descendants": {
+                    "b:MpuHt": {
+                      "content": "마지막으로 작업한 파일"
+                    },
+                    "b:vpZU8": {
+                      "content": "12화 · 균열의 밤"
+                    },
+                    "b:E59DMi": {
+                      "content": "18분 전 · 마지막 편집 위치에서 열기"
+                    },
+                    "b:ksoQ6": {
+                      "content": "이어서 작업하기"
+                    },
+                    "b:rc39Z": {
+                      "icon": "arrow-right"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "PsIjY",
+                  "name": "C Create Section",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "B0S0Z",
+                      "name": "C Create Header",
+                      "width": "fill_container",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "K0wMNc",
+                          "name": "C Create Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "새로 만들기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading",
+                          "fontWeight": "650"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "jUrmk",
+                          "name": "C Create Header Spacer",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "icon",
+                          "id": "YLUd3",
+                          "name": "C Import Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "upload",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "WrxFJ",
+                          "name": "C Import Label",
+                          "fill": "$b:color-text-primary",
+                          "content": "가져오기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FtuIo",
+                      "name": "C Create Row 1",
+                      "width": "fill_container",
+                      "gap": "$b:space-3",
+                      "children": [
+                        {
+                          "id": "o1PFz",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 원고",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "file-text"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "원고"
+                            }
+                          }
+                        },
+                        {
+                          "id": "ZWvsQ",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 설정",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "notebook-tabs"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "설정"
+                            }
+                          }
+                        },
+                        {
+                          "id": "F1d8DK",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 캐릭터",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "user-round"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "캐릭터"
+                            }
+                          }
+                        },
+                        {
+                          "id": "RcP5i",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 이벤트",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "calendar-days"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "이벤트"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tri8K",
+                      "name": "C Create Row 2",
+                      "width": "fill_container",
+                      "gap": "$b:space-3",
+                      "children": [
+                        {
+                          "id": "whKOi",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 조직",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "users-round"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "조직"
+                            }
+                          }
+                        },
+                        {
+                          "id": "rgWah",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 아이템",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "gem"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "아이템"
+                            }
+                          }
+                        },
+                        {
+                          "id": "pEFJs",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 장소",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "map-pin"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "장소"
+                            }
+                          }
+                        },
+                        {
+                          "id": "VBlGi",
+                          "type": "ref",
+                          "ref": "b:P7mtV",
+                          "name": "C Create 세계관",
+                          "width": "fill_container",
+                          "height": 62,
+                          "descendants": {
+                            "b:rxBzP": {
+                              "icon": "globe"
+                            },
+                            "b:OZ3Rr": {
+                              "content": "세계관"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "z4SvrL",
+                  "name": "C Recent Files",
+                  "width": "fill_container",
+                  "fill": "$b:color-surface-default",
+                  "stroke": "$b:color-border-default",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "FdyoZ",
+                      "name": "C Recent Files Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "최근에 연 파일",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "650"
+                    },
+                    {
+                      "id": "dOYlE",
+                      "type": "ref",
+                      "ref": "b:DZ6Mu",
+                      "name": "C Recent 왕도 지도",
+                      "width": "fill_container",
+                      "height": 38,
+                      "descendants": {
+                        "b:AQcnC": {
+                          "icon": "map"
+                        },
+                        "b:NRUc2": {
+                          "content": "왕도 지도"
+                        },
+                        "b:tVZQO": {
+                          "content": "어제"
+                        },
+                        "b:leOqr": {
+                          "icon": "arrow-up-right"
+                        }
+                      }
+                    },
+                    {
+                      "id": "QZVwF",
+                      "type": "ref",
+                      "ref": "b:DZ6Mu",
+                      "name": "C Recent 주인공 설정",
+                      "width": "fill_container",
+                      "height": 38,
+                      "descendants": {
+                        "b:AQcnC": {
+                          "icon": "user-round"
+                        },
+                        "b:NRUc2": {
+                          "content": "주인공 설정"
+                        },
+                        "b:tVZQO": {
+                          "content": "2일 전"
+                        },
+                        "b:leOqr": {
+                          "icon": "arrow-up-right"
+                        }
+                      }
+                    },
+                    {
+                      "id": "it8q7",
+                      "type": "ref",
+                      "ref": "b:DZ6Mu",
+                      "name": "C Recent 11화 · 유리 정원",
+                      "width": "fill_container",
+                      "height": 38,
+                      "descendants": {
+                        "b:AQcnC": {
+                          "icon": "file-text"
+                        },
+                        "b:NRUc2": {
+                          "content": "11화 · 유리 정원"
+                        },
+                        "b:tVZQO": {
+                          "content": "3일 전"
+                        },
+                        "b:leOqr": {
+                          "icon": "arrow-up-right"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "gfMoc",
+          "type": "ref",
+          "ref": "b:vL1SQ",
+          "name": "Folder More Menu",
+          "x": 16,
+          "y": 398,
+          "width": 204,
+          "layoutPosition": "absolute"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "NSDvO",
+      "x": 19829,
+      "y": -1921,
+      "name": "30 · Workspace · Trash",
+      "context": "LOREKEEPER-306 default state. Resume opens the last cursor. Create and import replace the current New Tab. Recent files are newest first and each full row is selectable.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "Odcsj",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar · Trash Selected",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:T3kPsw": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "iDfqs",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "Yhb2e",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "C Tab Bar · Trash",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG": {
+                  "width": 118
+                },
+                "b:l101xG/b:QXd7u": {
+                  "icon": "trash-2"
+                },
+                "b:l101xG/b:s9UJUl": {
+                  "content": "휴지통"
+                },
+                "b:l101xG/b:joUxb": {
+                  "enabled": true,
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "TnSwB",
+              "name": "C Trash Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                42,
+                80
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "YdVnS",
+                  "name": "C Trash Project Context",
+                  "fill": "$b:color-text-secondary",
+                  "content": "유리 정원의 기록",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "v7vGJh",
+                  "name": "C Trash Header",
+                  "width": "fill_container",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "a35pV3",
+                      "name": "C Trash Header Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$b:space-1",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "pPgHR",
+                          "name": "C Trash Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "휴지통",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "650"
+                        },
+                        {
+                          "type": "text",
+                          "id": "SkhCN",
+                          "name": "C Trash Description",
+                          "fill": "$b:color-text-secondary",
+                          "content": "현재 프로젝트에서 삭제한 파일과 폴더입니다.",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "c09d6c",
+                      "name": "C Trash Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "3개 항목",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "I5DauU",
+                  "name": "C Trash List",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-card",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "id": "v5yuv",
+                      "type": "ref",
+                      "ref": "b:cvE3I",
+                      "name": "C Trash Item · 12화",
+                      "width": "fill_container",
+                      "height": 72,
+                      "descendants": {
+                        "b:t44Ns": {
+                          "icon": "file-text"
+                        },
+                        "b:y0FvL": {
+                          "content": "12화 · 균열의 밤"
+                        },
+                        "b:c9eMpk": {
+                          "content": "원고 · 삭제 전 위치: 파일/원고 · 2분 전"
+                        }
+                      }
+                    },
+                    {
+                      "id": "j5WKY",
+                      "type": "ref",
+                      "ref": "b:cvE3I",
+                      "name": "C Trash Item · 세계관 설정",
+                      "width": "fill_container",
+                      "height": 72,
+                      "descendants": {
+                        "b:t44Ns": {
+                          "icon": "folder"
+                        },
+                        "b:y0FvL": {
+                          "content": "세계관 설정"
+                        },
+                        "b:c9eMpk": {
+                          "content": "폴더 · 삭제 전 위치: 파일 · 어제"
+                        }
+                      }
+                    },
+                    {
+                      "id": "UlTNx",
+                      "type": "ref",
+                      "ref": "b:cvE3I",
+                      "name": "C Trash Item · 라벤더 항구",
+                      "width": "fill_container",
+                      "height": 72,
+                      "descendants": {
+                        "b:t44Ns": {
+                          "icon": "map-pin"
+                        },
+                        "b:y0FvL": {
+                          "content": "라벤더 항구"
+                        },
+                        "b:c9eMpk": {
+                          "content": "장소 · 삭제 전 위치: 파일/세계관 설정 · 3일 전"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "imports": {

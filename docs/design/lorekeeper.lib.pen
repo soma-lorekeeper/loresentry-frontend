@@ -7835,6 +7835,1199 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "LqWlX",
+      "x": 2168,
+      "y": 1608,
+      "name": "Menu / User Section / Open",
+      "reusable": true,
+      "width": 204,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000055",
+        "offset": {
+          "x": 0,
+          "y": 4
+        },
+        "blur": 16
+      },
+      "layout": "vertical",
+      "gap": "$space-1",
+      "padding": "$space-2",
+      "children": [
+        {
+          "type": "frame",
+          "id": "m2XGeF",
+          "name": "원고 Create Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "HF4Qw",
+              "name": "원고 Create Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "file-text",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "qMGfN",
+              "name": "원고 Create Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "원고",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "E5FBJs",
+          "name": "설정 Create Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "OO0fq",
+              "name": "설정 Create Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "notebook-tabs",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "UwATr",
+              "name": "설정 Create Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "설정",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "wP1me",
+          "name": "캐릭터 Create Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "S7OWP",
+              "name": "캐릭터 Create Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "user-round",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "XR5SX",
+              "name": "캐릭터 Create Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "캐릭터",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "I6E1L",
+          "name": "이벤트 Create Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "PS1wE",
+              "name": "이벤트 Create Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "calendar-days",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "h2IgVi",
+              "name": "이벤트 Create Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "이벤트",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "KkOsQ",
+          "name": "조직 Create Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "OVvMN",
+              "name": "조직 Create Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "users-round",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "C0Avq",
+              "name": "조직 Create Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "조직",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Fm1I4",
+          "name": "아이템 Create Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "cZG8r",
+              "name": "아이템 Create Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "gem",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "sJStH",
+              "name": "아이템 Create Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "아이템",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bxTtq",
+          "name": "장소 Create Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "e3wZQ",
+              "name": "장소 Create Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "map-pin",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "W47mU",
+              "name": "장소 Create Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "장소",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ldjYG",
+          "name": "세계관 Create Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "Q3NxD",
+              "name": "세계관 Create Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "globe",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "AioyY",
+              "name": "세계관 Create Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "세계관",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "cu9od",
+          "name": "Files Menu Separator",
+          "fill": "$color-border-default",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "frame",
+          "id": "SzmS1",
+          "name": "새 폴더 Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "e5Bs8",
+              "name": "새 폴더 Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "folder-plus",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "lJkxk",
+              "name": "새 폴더 Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "새 폴더",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PDtNj",
+          "name": "가져오기 Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "TBaQE",
+              "name": "가져오기 Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "download",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "qFhF4",
+              "name": "가져오기 Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "가져오기",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "hmPjF",
+          "name": "이름 변경 Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "NyYjA",
+              "name": "이름 변경 Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "pencil",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "n1SRAM",
+              "name": "이름 변경 Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "이름 변경",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "axJpt",
+          "name": "User Section Menu Destructive Separator",
+          "fill": "$color-border-default",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "frame",
+          "id": "urwSQ",
+          "name": "섹션 삭제 Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "T0OPK",
+              "name": "섹션 삭제 Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "trash-2",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "kDpwx",
+              "name": "섹션 삭제 Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "섹션 삭제",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Bqm4I",
+      "x": 2452,
+      "y": 1608,
+      "name": "Menu / File / Open",
+      "reusable": true,
+      "width": 204,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000055",
+        "offset": {
+          "x": 0,
+          "y": 4
+        },
+        "blur": 16
+      },
+      "layout": "vertical",
+      "gap": "$space-1",
+      "padding": "$space-2",
+      "children": [
+        {
+          "type": "frame",
+          "id": "sOLFD",
+          "name": "이름 변경 Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "t5vYu",
+              "name": "이름 변경 Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "pencil",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "HymiS",
+              "name": "이름 변경 Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "이름 변경",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "EAFOK",
+          "name": "File Menu Destructive Separator",
+          "fill": "$color-border-default",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "frame",
+          "id": "YavsB",
+          "name": "휴지통으로 이동 Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "eCfLr",
+              "name": "휴지통으로 이동 Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "trash-2",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "CNSeX",
+              "name": "휴지통으로 이동 Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "휴지통으로 이동",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "vL1SQ",
+      "x": 2736,
+      "y": 1608,
+      "name": "Menu / Folder / Open",
+      "reusable": true,
+      "width": 204,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000055",
+        "offset": {
+          "x": 0,
+          "y": 4
+        },
+        "blur": 16
+      },
+      "layout": "vertical",
+      "gap": "$space-1",
+      "padding": "$space-2",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Z7qvj",
+          "name": "원고 Create Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "w5tsQ8",
+              "name": "원고 Create Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "file-text",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "pTEhi",
+              "name": "원고 Create Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "원고",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "IivnC",
+          "name": "설정 Create Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "TnEgw",
+              "name": "설정 Create Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "notebook-tabs",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "gNpiv",
+              "name": "설정 Create Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "설정",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "n7wUNj",
+          "name": "캐릭터 Create Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "d82SEf",
+              "name": "캐릭터 Create Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "user-round",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "vp2Ne",
+              "name": "캐릭터 Create Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "캐릭터",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "wkHZB",
+          "name": "이벤트 Create Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "G3r3j",
+              "name": "이벤트 Create Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "calendar-days",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "b4bJUq",
+              "name": "이벤트 Create Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "이벤트",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "gQ04L",
+          "name": "조직 Create Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "ZHSAe",
+              "name": "조직 Create Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "users-round",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "fyfcF",
+              "name": "조직 Create Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "조직",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "YiNXk",
+          "name": "아이템 Create Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "BQxpI",
+              "name": "아이템 Create Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "gem",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "XVtXg",
+              "name": "아이템 Create Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "아이템",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "cJzmj",
+          "name": "장소 Create Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "Z8KNnW",
+              "name": "장소 Create Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "map-pin",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "cnfb7",
+              "name": "장소 Create Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "장소",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ZRDdM",
+          "name": "세계관 Create Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "GnyHo",
+              "name": "세계관 Create Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "globe",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "A9SXW",
+              "name": "세계관 Create Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "세계관",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "wZH5I",
+          "name": "Files Menu Separator",
+          "fill": "$color-border-default",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "frame",
+          "id": "FI4R3",
+          "name": "새 폴더 Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "eZDTn",
+              "name": "새 폴더 Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "folder-plus",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "x5EQx",
+              "name": "새 폴더 Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "새 폴더",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "gIrmH",
+          "name": "가져오기 Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "Gl6zS",
+              "name": "가져오기 Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "download",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "TBXAP",
+              "name": "가져오기 Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "가져오기",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "lwN0l",
+          "name": "이름 변경 Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "Md6Tv",
+              "name": "이름 변경 Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "pencil",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "m7yjtS",
+              "name": "이름 변경 Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "이름 변경",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "xpaPr",
+          "name": "Folder Menu Destructive Separator",
+          "fill": "$color-border-default",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "frame",
+          "id": "eXUPG",
+          "name": "휴지통으로 이동 Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "kqwt2",
+              "name": "휴지통으로 이동 Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "trash-2",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "J8rFFt",
+              "name": "휴지통으로 이동 Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "휴지통으로 이동",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "cvE3I",
+      "x": 3020,
+      "y": 1608,
+      "name": "Workspace / Trash Item",
+      "reusable": true,
+      "width": 944,
+      "height": 72,
+      "fill": "$color-surface-default",
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "bottom": 1
+      },
+      "gap": "$space-3",
+      "padding": [
+        0,
+        "$space-4"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "L4wh4s",
+          "name": "Trash Item Icon Surface",
+          "width": 34,
+          "height": 34,
+          "fill": "$color-surface-icon",
+          "cornerRadius": "$radius-control",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "t44Ns",
+              "name": "Trash Item Icon",
+              "width": 16,
+              "height": 16,
+              "icon": "file-text",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "HOVIM",
+          "name": "Trash Item Copy",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 2,
+          "children": [
+            {
+              "type": "text",
+              "id": "y0FvL",
+              "name": "Trash Item Name",
+              "fill": "$color-text-primary",
+              "content": "12화 · 균열의 밤",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "c9eMpk",
+              "name": "Trash Item Meta",
+              "fill": "$color-text-secondary",
+              "content": "원고 · 삭제 전 위치: 파일/원고 · 2분 전",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "id": "PbwVO",
+          "type": "ref",
+          "ref": "celDl",
+          "name": "Trash Item Restore Button",
+          "height": 34,
+          "descendants": {
+            "n0keHY": {
+              "icon": "rotate-ccw"
+            },
+            "zprJP": {
+              "content": "복원"
+            }
+          }
+        },
+        {
+          "id": "kvdqt",
+          "type": "ref",
+          "ref": "celDl",
+          "name": "Trash Item Permanent Delete Button",
+          "height": 34,
+          "descendants": {
+            "n0keHY": {
+              "icon": "trash-2"
+            },
+            "zprJP": {
+              "content": "영구 삭제"
+            }
+          }
+        }
+      ]
     }
   ],
   "themes": {

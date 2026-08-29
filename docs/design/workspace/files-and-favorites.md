@@ -77,4 +77,7 @@
 
 `섹션 삭제`는 다른 항목과 구분한 마지막 위험 행동으로 배치한다. 섹션을 삭제할 때 내부 파일과 폴더를 어떻게 처리할지는 추후 결정한다.
 
+사용자 생성 섹션 더보기 메뉴의 열린 상태는 `lorekeeper.pen`의
+`27 · Workspace · User Section Menu Open`(`PAM02`)을 시각 기준으로 사용한다.
+
 파일과 폴더를 만드는 위치와 이름 입력 방식은 [파일·폴더 생성과 이름 변경 Workflow](../workflow/item-creation-and-renaming.md)를 따른다.

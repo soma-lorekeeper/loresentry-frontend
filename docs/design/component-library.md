@@ -18,7 +18,7 @@
 
 ## 재사용 컴포넌트
 
-라이브러리에는 기본 컴포넌트 14개와 상태 컴포넌트 22개, 총 36개를 둔다.
+라이브러리에는 기본 컴포넌트 15개와 상태 컴포넌트 25개, 총 40개를 둔다.
 
 ### 기본 컴포넌트
 
@@ -36,6 +36,7 @@
 - `New Tab / Create Action`
 - `New Tab / Recent File Row`
 - `AI Chat Panel / Open`
+- `Workspace / Trash Item`
 
 ### 상태 컴포넌트
 
@@ -43,6 +44,7 @@
 - 사이드바 항목: `Selected`
 - 사이드바: `Project Switcher Open`, `Favorites Menu Open`, `Files Menu Open`
 - 메뉴: `Project Switcher / Open`, `Favorites / Open`, `Files / Open`
+- 항목 메뉴: `User Section / Open`, `File / Open`, `Folder / Open`
 - 탭 바: `Overflow`, `Reordering`
 - 파일 헤더: `Memo Active`, `Focus Returned`
 - 메모 패널: `Right / Work Selected`, `Right / Manuscript Selected`,
