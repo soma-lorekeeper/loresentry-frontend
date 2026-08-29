@@ -5768,7 +5768,6 @@
                 0,
                 0
               ],
-              "layoutIncludeStroke": true,
               "children": [
                 {
                   "type": "frame",
@@ -23659,8 +23658,8 @@
     {
       "type": "frame",
       "id": "r3XP5v",
-      "x": 10589,
-      "y": -1389,
+      "x": -80,
+      "y": 2876,
       "name": "16 · Visual Baseline · STRUCTURE LOCKED",
       "context": "LOREKEEPER-309 file memo open, revised from user-defined UX. Header: close, add work memo, below/right placement toggle. Work memos are project-wide cards with delete controls; manuscript memo is direct input for the current file.",
       "clip": true,
@@ -25371,8 +25370,8 @@
     {
       "type": "frame",
       "id": "FreFO",
-      "x": 12109,
-      "y": -1389,
+      "x": 1440,
+      "y": 2876,
       "name": "17 · Visual Option · Softer Boundaries · Ulysses",
       "context": "LOREKEEPER-309 file memo open, revised from user-defined UX. Header: close, add work memo, below/right placement toggle. Work memos are project-wide cards with delete controls; manuscript memo is direct input for the current file.",
       "clip": true,
@@ -27113,8 +27112,8 @@
     {
       "type": "frame",
       "id": "v6YZP",
-      "x": 13629,
-      "y": -1389,
+      "x": 2960,
+      "y": 2876,
       "name": "18 · Visual Option · Editorial Contrast · iA Writer",
       "context": "LOREKEEPER-309 file memo open, revised from user-defined UX. Header: close, add work memo, below/right placement toggle. Work memos are project-wide cards with delete controls; manuscript memo is direct input for the current file.",
       "clip": true,
@@ -28855,8 +28854,8 @@
     {
       "type": "frame",
       "id": "Tc6Ms",
-      "x": 15149,
-      "y": -1389,
+      "x": 4480,
+      "y": 2876,
       "name": "19 · Visual Option · Clear Panel States · Scrivener",
       "context": "LOREKEEPER-309 file memo open, revised from user-defined UX. Header: close, add work memo, below/right placement toggle. Work memos are project-wide cards with delete controls; manuscript memo is direct input for the current file.",
       "clip": true,
@@ -30597,8 +30596,8 @@
     {
       "type": "frame",
       "id": "K4irXB",
-      "x": 16669,
-      "y": -1389,
+      "x": 6000,
+      "y": 2876,
       "name": "20 · Visual Direction · Recommended Blend · APPROVED",
       "context": "LOREKEEPER-325 approved on 2026-08-28 as Lorekeeper's representative workspace visual direction. Approval covers this representative screen and its visual language, not all product screens or frontend implementation. No unresolved visual feedback remains.",
       "clip": true,
