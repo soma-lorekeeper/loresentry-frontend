@@ -21,3 +21,4 @@
 - [작업공간 그래프](./workspace-graph.md)
 - [메모 탭](./project-memos.md)
 - [속성 문서 편집](./structured-file-editing.md)
+- [이벤트 시간 흐름 편집](./event-timeline-editing.md)
