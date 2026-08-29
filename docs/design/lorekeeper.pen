@@ -139,7 +139,7 @@
                           "id": "yTxjW",
                           "name": "color-bg-canvas Value",
                           "fill": "$color-text-secondary",
-                          "content": "#1E1E1C",
+                          "content": "#1A1D1F",
                           "fontFamily": "$font-family-ui",
                           "fontSize": 11,
                           "fontWeight": "normal"
@@ -196,7 +196,7 @@
                           "id": "q97N1",
                           "name": "color-surface-navigation Value",
                           "fill": "$color-text-secondary",
-                          "content": "#141413",
+                          "content": "#111416",
                           "fontFamily": "$font-family-ui",
                           "fontSize": 11,
                           "fontWeight": "normal"
@@ -253,7 +253,7 @@
                           "id": "AF317",
                           "name": "color-surface-topbar Value",
                           "fill": "$color-text-secondary",
-                          "content": "#181817",
+                          "content": "#15181A",
                           "fontFamily": "$font-family-ui",
                           "fontSize": 11,
                           "fontWeight": "normal"
@@ -310,7 +310,7 @@
                           "id": "m2PyNA",
                           "name": "color-surface-default Value",
                           "fill": "$color-text-secondary",
-                          "content": "#272725",
+                          "content": "#222629",
                           "fontFamily": "$font-family-ui",
                           "fontSize": 11,
                           "fontWeight": "normal"
@@ -367,7 +367,7 @@
                           "id": "UOIMV",
                           "name": "color-surface-raised Value",
                           "fill": "$color-text-secondary",
-                          "content": "#292927",
+                          "content": "#252A2D",
                           "fontFamily": "$font-family-ui",
                           "fontSize": 11,
                           "fontWeight": "normal"
@@ -424,7 +424,7 @@
                           "id": "O2XDi",
                           "name": "color-surface-icon Value",
                           "fill": "$color-text-secondary",
-                          "content": "#353532",
+                          "content": "#30363A",
                           "fontFamily": "$font-family-ui",
                           "fontSize": 11,
                           "fontWeight": "normal"
@@ -482,7 +482,7 @@
                           "id": "TxuiX",
                           "name": "color-border-default Value",
                           "fill": "$color-text-secondary",
-                          "content": "#3B3B38",
+                          "content": "#3A4246",
                           "fontFamily": "$font-family-ui",
                           "fontSize": 11,
                           "fontWeight": "normal"
@@ -549,7 +549,7 @@
                           "id": "mIKIu",
                           "name": "color-text-primary Value",
                           "fill": "$color-text-secondary",
-                          "content": "#E6E6E1",
+                          "content": "#EDF2F2",
                           "fontFamily": "$font-family-ui",
                           "fontSize": 11,
                           "fontWeight": "normal"
@@ -606,7 +606,7 @@
                           "id": "pfUGo",
                           "name": "color-text-secondary Value",
                           "fill": "$color-text-secondary",
-                          "content": "#9B9B95",
+                          "content": "#9AA6A8",
                           "fontFamily": "$font-family-ui",
                           "fontSize": 11,
                           "fontWeight": "normal"
@@ -663,7 +663,7 @@
                           "id": "m4WMd",
                           "name": "color-icon-default Value",
                           "fill": "$color-text-secondary",
-                          "content": "#B7B7B1",
+                          "content": "#B8C3C5",
                           "fontFamily": "$font-family-ui",
                           "fontSize": 11,
                           "fontWeight": "normal"
@@ -720,7 +720,7 @@
                           "id": "Y412D",
                           "name": "color-accent-primary Value",
                           "fill": "$color-text-secondary",
-                          "content": "#E8E8E2",
+                          "content": "#A9C7D0",
                           "fontFamily": "$font-family-ui",
                           "fontSize": 11,
                           "fontWeight": "normal"
@@ -777,7 +777,7 @@
                           "id": "wLvWZ",
                           "name": "color-text-on-accent Value",
                           "fill": "$color-text-secondary",
-                          "content": "#1D1D1B",
+                          "content": "#111719",
                           "fontFamily": "$font-family-ui",
                           "fontSize": 11,
                           "fontWeight": "normal"
@@ -834,7 +834,7 @@
                           "id": "os3yN",
                           "name": "color-state-selected Value",
                           "fill": "$color-text-secondary",
-                          "content": "#30302D",
+                          "content": "#293237",
                           "fontFamily": "$font-family-ui",
                           "fontSize": 11,
                           "fontWeight": "normal"
@@ -3105,7 +3105,7 @@
       "width": 1440,
       "height": 900,
       "fill": "$color-bg-canvas",
-      "stroke": "$color-border-frame",
+      "stroke": "$color-border-default",
       "children": [
         {
           "type": "frame",
@@ -3113,7 +3113,7 @@
           "name": "C Sidebar",
           "width": 236,
           "height": "fill_container",
-          "fill": "$color-surface-sidebar",
+          "fill": "$color-surface-navigation",
           "stroke": "$color-border-default",
           "strokeWidth": {
             "right": 1
@@ -3137,7 +3137,7 @@
                   "type": "ellipse",
                   "id": "Fk197",
                   "name": "C User Avatar",
-                  "fill": "$color-surface-avatar",
+                  "fill": "$color-surface-icon",
                   "width": 28,
                   "height": 28
                 },
@@ -4780,7 +4780,7 @@
       "width": 1440,
       "height": 900,
       "fill": "$color-bg-canvas",
-      "stroke": "$color-border-frame",
+      "stroke": "$color-border-default",
       "children": [
         {
           "type": "frame",
@@ -4788,7 +4788,7 @@
           "name": "C Sidebar",
           "width": 236,
           "height": "fill_container",
-          "fill": "$color-surface-sidebar",
+          "fill": "$color-surface-navigation",
           "stroke": "$color-border-default",
           "strokeWidth": {
             "right": 1
@@ -4812,7 +4812,7 @@
                   "type": "ellipse",
                   "id": "fkfil",
                   "name": "C User Avatar",
-                  "fill": "$color-surface-avatar",
+                  "fill": "$color-surface-icon",
                   "width": 28,
                   "height": 28
                 },
@@ -6291,7 +6291,7 @@
       "width": 1440,
       "height": 900,
       "fill": "$color-bg-canvas",
-      "stroke": "$color-border-frame",
+      "stroke": "$color-border-default",
       "children": [
         {
           "type": "frame",
@@ -6299,7 +6299,7 @@
           "name": "C Sidebar",
           "width": 236,
           "height": "fill_container",
-          "fill": "$color-surface-sidebar",
+          "fill": "$color-surface-navigation",
           "stroke": "$color-border-default",
           "strokeWidth": {
             "right": 1
@@ -6323,7 +6323,7 @@
                   "type": "ellipse",
                   "id": "m0XcXr",
                   "name": "C User Avatar",
-                  "fill": "$color-surface-avatar",
+                  "fill": "$color-surface-icon",
                   "width": 28,
                   "height": 28
                 },
@@ -7889,7 +7889,7 @@
                   "name": "Manuscript Writing Canvas",
                   "width": "fill_container",
                   "height": "fill_container",
-                  "fill": "$color-surface-editor",
+                  "fill": "$color-surface-default",
                   "justifyContent": "center",
                   "children": [
                     {
@@ -7911,7 +7911,7 @@
                           "type": "text",
                           "id": "dAzxy",
                           "name": "Manuscript Editable Title",
-                          "fill": "$color-text-manuscript-title",
+                          "fill": "$color-text-primary",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "12화 · 균열의 밤",
@@ -7924,7 +7924,7 @@
                           "type": "text",
                           "id": "cMoib",
                           "name": "Manuscript Editable Body",
-                          "fill": "$color-text-manuscript-body",
+                          "fill": "$color-text-primary",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "정원은 밤이 오면 유리보다 먼저 숨을 죽였다. 달빛이 온실의 지붕을 훑고 지나갈 때마다, 금이 간 창마다 은빛 선이 번졌다. 서윤은 그 선들이 모두 한곳을 가리키고 있다는 사실을 세 번째 순찰에서야 알아차렸다.\n\n오래 잠겨 있던 북쪽 문 앞에는 발자국이 하나뿐이었다. 안으로 들어간 흔적은 있었지만 돌아 나온 흔적은 없었다. 손잡이에 손을 얹자 차가운 진동이 손목을 타고 올라왔다. 어젯밤 메모에 적어 둔 문장이 떠올랐다. ‘균열은 문이 아니라 기억의 방향이다.’\n\n서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다. 어둠 너머에서 익숙한 목소리가 이름을 불렀다. 아주 오래전, 이 정원을 떠난 사람이 마지막으로 불렀던 방식 그대로였다.",
@@ -7954,7 +7954,7 @@
       "width": 1440,
       "height": 900,
       "fill": "$color-bg-canvas",
-      "stroke": "$color-border-frame",
+      "stroke": "$color-border-default",
       "children": [
         {
           "type": "frame",
@@ -7962,7 +7962,7 @@
           "name": "C Sidebar",
           "width": 236,
           "height": "fill_container",
-          "fill": "$color-surface-sidebar",
+          "fill": "$color-surface-navigation",
           "stroke": "$color-border-default",
           "strokeWidth": {
             "right": 1
@@ -7986,7 +7986,7 @@
                   "type": "ellipse",
                   "id": "g4dCS6",
                   "name": "C User Avatar",
-                  "fill": "$color-surface-avatar",
+                  "fill": "$color-surface-icon",
                   "width": 28,
                   "height": 28
                 },
@@ -9255,7 +9255,7 @@
                   "name": "Manuscript Writing Canvas",
                   "width": "fill_container",
                   "height": "fill_container",
-                  "fill": "$color-surface-editor",
+                  "fill": "$color-surface-default",
                   "justifyContent": "center",
                   "children": [
                     {
@@ -9277,7 +9277,7 @@
                           "type": "text",
                           "id": "ybZEA",
                           "name": "Manuscript Editable Title",
-                          "fill": "$color-text-manuscript-title",
+                          "fill": "$color-text-primary",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "12화 · 균열의 밤",
@@ -9290,7 +9290,7 @@
                           "type": "text",
                           "id": "JNIHo",
                           "name": "Manuscript Editable Body",
-                          "fill": "$color-text-manuscript-body",
+                          "fill": "$color-text-primary",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "정원은 밤이 오면 유리보다 먼저 숨을 죽였다. 달빛이 온실의 지붕을 훑고 지나갈 때마다, 금이 간 창마다 은빛 선이 번졌다. 서윤은 그 선들이 모두 한곳을 가리키고 있다는 사실을 세 번째 순찰에서야 알아차렸다.\n\n오래 잠겨 있던 북쪽 문 앞에는 발자국이 하나뿐이었다. 안으로 들어간 흔적은 있었지만 돌아 나온 흔적은 없었다. 손잡이에 손을 얹자 차가운 진동이 손목을 타고 올라왔다. 어젯밤 메모에 적어 둔 문장이 떠올랐다. ‘균열은 문이 아니라 기억의 방향이다.’\n\n서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다. 어둠 너머에서 익숙한 목소리가 이름을 불렀다. 아주 오래전, 이 정원을 떠난 사람이 마지막으로 불렀던 방식 그대로였다.",
@@ -9636,7 +9636,7 @@
       "width": 1440,
       "height": 900,
       "fill": "$color-bg-canvas",
-      "stroke": "$color-border-frame",
+      "stroke": "$color-border-default",
       "children": [
         {
           "type": "frame",
@@ -9644,7 +9644,7 @@
           "name": "C Sidebar",
           "width": 236,
           "height": "fill_container",
-          "fill": "$color-surface-sidebar",
+          "fill": "$color-surface-navigation",
           "stroke": "$color-border-default",
           "strokeWidth": {
             "right": 1
@@ -9668,7 +9668,7 @@
                   "type": "ellipse",
                   "id": "K2fru",
                   "name": "C User Avatar",
-                  "fill": "$color-surface-avatar",
+                  "fill": "$color-surface-icon",
                   "width": 28,
                   "height": 28
                 },
@@ -10956,7 +10956,7 @@
                           "name": "Manuscript Writing Canvas",
                           "width": "fill_container",
                           "height": "fill_container",
-                          "fill": "$color-surface-editor",
+                          "fill": "$color-surface-default",
                           "justifyContent": "center",
                           "children": [
                             {
@@ -10978,7 +10978,7 @@
                                   "type": "text",
                                   "id": "Nkv6b",
                                   "name": "Manuscript Editable Title",
-                                  "fill": "$color-text-manuscript-title",
+                                  "fill": "$color-text-primary",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
                                   "content": "12화 · 균열의 밤",
@@ -10991,7 +10991,7 @@
                                   "type": "text",
                                   "id": "F9PFHH",
                                   "name": "Manuscript Editable Body",
-                                  "fill": "$color-text-manuscript-body",
+                                  "fill": "$color-text-primary",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
                                   "content": "정원은 밤이 오면 유리보다 먼저 숨을 죽였다. 달빛이 온실의 지붕을 훑고 지나갈 때마다, 금이 간 창마다 은빛 선이 번졌다. 서윤은 그 선들이 모두 한곳을 가리키고 있다는 사실을 세 번째 순찰에서야 알아차렸다.\n\n오래 잠겨 있던 북쪽 문 앞에는 발자국이 하나뿐이었다. 안으로 들어간 흔적은 있었지만 돌아 나온 흔적은 없었다. 손잡이에 손을 얹자 차가운 진동이 손목을 타고 올라왔다. 어젯밤 메모에 적어 둔 문장이 떠올랐다. ‘균열은 문이 아니라 기억의 방향이다.’\n\n서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다. 어둠 너머에서 익숙한 목소리가 이름을 불렀다. 아주 오래전, 이 정원을 떠난 사람이 마지막으로 불렀던 방식 그대로였다.",
@@ -11013,7 +11013,7 @@
                       "context": "File memo for current manuscript. Close button returns focus to the active Memo button in the file header.",
                       "width": 320,
                       "height": "fill_container",
-                      "fill": "$color-surface-memo",
+                      "fill": "$color-surface-raised",
                       "stroke": "$color-border-default",
                       "strokeWidth": {
                         "left": 1
@@ -11449,7 +11449,7 @@
       "width": 1440,
       "height": 900,
       "fill": "$color-bg-canvas",
-      "stroke": "$color-border-frame",
+      "stroke": "$color-border-default",
       "children": [
         {
           "type": "frame",
@@ -11457,7 +11457,7 @@
           "name": "C Sidebar",
           "width": 236,
           "height": "fill_container",
-          "fill": "$color-surface-sidebar",
+          "fill": "$color-surface-navigation",
           "stroke": "$color-border-default",
           "strokeWidth": {
             "right": 1
@@ -11481,7 +11481,7 @@
                   "type": "ellipse",
                   "id": "V3KKPT",
                   "name": "C User Avatar",
-                  "fill": "$color-surface-avatar",
+                  "fill": "$color-surface-icon",
                   "width": 28,
                   "height": 28
                 },
@@ -12769,7 +12769,7 @@
                           "name": "Manuscript Writing Canvas",
                           "width": "fill_container",
                           "height": "fill_container",
-                          "fill": "$color-surface-editor",
+                          "fill": "$color-surface-default",
                           "justifyContent": "center",
                           "children": [
                             {
@@ -12791,7 +12791,7 @@
                                   "type": "text",
                                   "id": "wnBp3",
                                   "name": "Manuscript Editable Title",
-                                  "fill": "$color-text-manuscript-title",
+                                  "fill": "$color-text-primary",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
                                   "content": "12화 · 균열의 밤",
@@ -12804,7 +12804,7 @@
                                   "type": "text",
                                   "id": "pIn4Y",
                                   "name": "Manuscript Editable Body",
-                                  "fill": "$color-text-manuscript-body",
+                                  "fill": "$color-text-primary",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
                                   "content": "정원은 밤이 오면 유리보다 먼저 숨을 죽였다. 달빛이 온실의 지붕을 훑고 지나갈 때마다, 금이 간 창마다 은빛 선이 번졌다. 서윤은 그 선들이 모두 한곳을 가리키고 있다는 사실을 세 번째 순찰에서야 알아차렸다.\n\n오래 잠겨 있던 북쪽 문 앞에는 발자국이 하나뿐이었다. 안으로 들어간 흔적은 있었지만 돌아 나온 흔적은 없었다. 손잡이에 손을 얹자 차가운 진동이 손목을 타고 올라왔다. 어젯밤 메모에 적어 둔 문장이 떠올랐다. ‘균열은 문이 아니라 기억의 방향이다.’\n\n서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다. 어둠 너머에서 익숙한 목소리가 이름을 불렀다. 아주 오래전, 이 정원을 떠난 사람이 마지막으로 불렀던 방식 그대로였다.",
@@ -12826,7 +12826,7 @@
                       "context": "File memo for current manuscript. Close button returns focus to the active Memo button in the file header.",
                       "width": 320,
                       "height": "fill_container",
-                      "fill": "$color-surface-memo",
+                      "fill": "$color-surface-raised",
                       "stroke": "$color-border-default",
                       "strokeWidth": {
                         "left": 1
@@ -13262,7 +13262,7 @@
       "width": 1440,
       "height": 900,
       "fill": "$color-bg-canvas",
-      "stroke": "$color-border-frame",
+      "stroke": "$color-border-default",
       "children": [
         {
           "type": "frame",
@@ -13270,7 +13270,7 @@
           "name": "C Sidebar",
           "width": 236,
           "height": "fill_container",
-          "fill": "$color-surface-sidebar",
+          "fill": "$color-surface-navigation",
           "stroke": "$color-border-default",
           "strokeWidth": {
             "right": 1
@@ -13294,7 +13294,7 @@
                   "type": "ellipse",
                   "id": "KHWN8",
                   "name": "C User Avatar",
-                  "fill": "$color-surface-avatar",
+                  "fill": "$color-surface-icon",
                   "width": 28,
                   "height": 28
                 },
@@ -14583,7 +14583,7 @@
                           "name": "Manuscript Writing Canvas",
                           "width": "fill_container",
                           "height": "fill_container",
-                          "fill": "$color-surface-editor",
+                          "fill": "$color-surface-default",
                           "justifyContent": "center",
                           "children": [
                             {
@@ -14605,7 +14605,7 @@
                                   "type": "text",
                                   "id": "eAnTS",
                                   "name": "Manuscript Editable Title",
-                                  "fill": "$color-text-manuscript-title",
+                                  "fill": "$color-text-primary",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
                                   "content": "12화 · 균열의 밤",
@@ -14618,7 +14618,7 @@
                                   "type": "text",
                                   "id": "aiiwr",
                                   "name": "Manuscript Editable Body",
-                                  "fill": "$color-text-manuscript-body",
+                                  "fill": "$color-text-primary",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
                                   "content": "정원은 밤이 오면 유리보다 먼저 숨을 죽였다. 달빛이 온실의 지붕을 훑고 지나갈 때마다, 금이 간 창마다 은빛 선이 번졌다. 서윤은 그 선들이 모두 한곳을 가리키고 있다는 사실을 세 번째 순찰에서야 알아차렸다.\n\n오래 잠겨 있던 북쪽 문 앞에는 발자국이 하나뿐이었다. 안으로 들어간 흔적은 있었지만 돌아 나온 흔적은 없었다. 손잡이에 손을 얹자 차가운 진동이 손목을 타고 올라왔다. 어젯밤 메모에 적어 둔 문장이 떠올랐다. ‘균열은 문이 아니라 기억의 방향이다.’\n\n서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다. 어둠 너머에서 익숙한 목소리가 이름을 불렀다. 아주 오래전, 이 정원을 떠난 사람이 마지막으로 불렀던 방식 그대로였다.",
@@ -14640,7 +14640,7 @@
                       "context": "Memo panel docked below the manuscript editor.",
                       "width": "fill_container",
                       "height": 280,
-                      "fill": "$color-surface-memo",
+                      "fill": "$color-surface-raised",
                       "stroke": "$color-border-default",
                       "strokeWidth": {
                         "top": 1
@@ -15427,7 +15427,7 @@
       "width": 1440,
       "height": 900,
       "fill": "$color-bg-canvas",
-      "stroke": "$color-border-frame",
+      "stroke": "$color-border-default",
       "children": [
         {
           "type": "frame",
@@ -15435,7 +15435,7 @@
           "name": "C Sidebar",
           "width": 236,
           "height": "fill_container",
-          "fill": "$color-surface-sidebar",
+          "fill": "$color-surface-navigation",
           "stroke": "$color-border-default",
           "strokeWidth": {
             "right": 1
@@ -15459,7 +15459,7 @@
                   "type": "ellipse",
                   "id": "V06Zhz",
                   "name": "C User Avatar",
-                  "fill": "$color-surface-avatar",
+                  "fill": "$color-surface-icon",
                   "width": 28,
                   "height": 28
                 },
@@ -17262,7 +17262,7 @@
       "width": 1440,
       "height": 900,
       "fill": "$color-bg-canvas",
-      "stroke": "$color-border-frame",
+      "stroke": "$color-border-default",
       "children": [
         {
           "type": "frame",
@@ -17270,7 +17270,7 @@
           "name": "C Sidebar",
           "width": 236,
           "height": "fill_container",
-          "fill": "$color-surface-sidebar",
+          "fill": "$color-surface-navigation",
           "stroke": "$color-border-default",
           "strokeWidth": {
             "right": 1
@@ -17294,7 +17294,7 @@
                   "type": "ellipse",
                   "id": "edQRx",
                   "name": "C User Avatar",
-                  "fill": "$color-surface-avatar",
+                  "fill": "$color-surface-icon",
                   "width": 28,
                   "height": 28
                 },
@@ -19039,7 +19039,7 @@
       "width": 1440,
       "height": 900,
       "fill": "$color-bg-canvas",
-      "stroke": "$color-border-frame",
+      "stroke": "$color-border-default",
       "children": [
         {
           "type": "frame",
@@ -19047,7 +19047,7 @@
           "name": "C Sidebar",
           "width": 236,
           "height": "fill_container",
-          "fill": "$color-surface-sidebar",
+          "fill": "$color-surface-navigation",
           "stroke": "$color-border-default",
           "strokeWidth": {
             "right": 1
@@ -19071,7 +19071,7 @@
                   "type": "ellipse",
                   "id": "pqsMm",
                   "name": "C User Avatar",
-                  "fill": "$color-surface-avatar",
+                  "fill": "$color-surface-icon",
                   "width": 28,
                   "height": 28
                 },
@@ -21157,7 +21157,7 @@
       "width": 1440,
       "height": 900,
       "fill": "$color-bg-canvas",
-      "stroke": "$color-border-frame",
+      "stroke": "$color-border-default",
       "children": [
         {
           "type": "frame",
@@ -21165,7 +21165,7 @@
           "name": "C Sidebar",
           "width": 236,
           "height": "fill_container",
-          "fill": "$color-surface-sidebar",
+          "fill": "$color-surface-navigation",
           "stroke": "$color-border-default",
           "strokeWidth": {
             "right": 1
@@ -21189,7 +21189,7 @@
                   "type": "ellipse",
                   "id": "hFDT5",
                   "name": "C User Avatar",
-                  "fill": "$color-surface-avatar",
+                  "fill": "$color-surface-icon",
                   "width": 28,
                   "height": 28
                 },
@@ -22888,7 +22888,7 @@
                   "name": "Manuscript Writing Canvas",
                   "width": "fill_container",
                   "height": "fill_container",
-                  "fill": "$color-surface-editor",
+                  "fill": "$color-surface-default",
                   "justifyContent": "center",
                   "children": [
                     {
@@ -22910,7 +22910,7 @@
                           "type": "text",
                           "id": "YapGv",
                           "name": "Manuscript Editable Title",
-                          "fill": "$color-text-manuscript-title",
+                          "fill": "$color-text-primary",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "12화 · 균열의 밤",
@@ -22923,7 +22923,7 @@
                           "type": "text",
                           "id": "zVSil",
                           "name": "Manuscript Editable Body",
-                          "fill": "$color-text-manuscript-body",
+                          "fill": "$color-text-primary",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "정원은 밤이 오면 유리보다 먼저 숨을 죽였다. 달빛이 온실의 지붕을 훑고 지나갈 때마다, 금이 간 창마다 은빛 선이 번졌다. 서윤은 그 선들이 모두 한곳을 가리키고 있다는 사실을 세 번째 순찰에서야 알아차렸다.\n\n오래 잠겨 있던 북쪽 문 앞에는 발자국이 하나뿐이었다. 안으로 들어간 흔적은 있었지만 돌아 나온 흔적은 없었다. 손잡이에 손을 얹자 차가운 진동이 손목을 타고 올라왔다. 어젯밤 메모에 적어 둔 문장이 떠올랐다. ‘균열은 문이 아니라 기억의 방향이다.’\n\n서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다. 어둠 너머에서 익숙한 목소리가 이름을 불렀다. 아주 오래전, 이 정원을 떠난 사람이 마지막으로 불렀던 방식 그대로였다.",
@@ -22953,7 +22953,7 @@
       "width": 1440,
       "height": 900,
       "fill": "$color-bg-canvas",
-      "stroke": "$color-border-frame",
+      "stroke": "$color-border-default",
       "children": [
         {
           "type": "frame",
@@ -22961,7 +22961,7 @@
           "name": "C Sidebar",
           "width": 236,
           "height": "fill_container",
-          "fill": "$color-surface-sidebar",
+          "fill": "$color-surface-navigation",
           "stroke": "$color-border-default",
           "strokeWidth": {
             "right": 1
@@ -22985,7 +22985,7 @@
                   "type": "ellipse",
                   "id": "O2O7XD",
                   "name": "C User Avatar",
-                  "fill": "$color-surface-avatar",
+                  "fill": "$color-surface-icon",
                   "width": 28,
                   "height": 28
                 },
@@ -24665,7 +24665,7 @@
                   "name": "Manuscript Writing Canvas",
                   "width": "fill_container",
                   "height": "fill_container",
-                  "fill": "$color-surface-editor",
+                  "fill": "$color-surface-default",
                   "justifyContent": "center",
                   "children": [
                     {
@@ -24687,7 +24687,7 @@
                           "type": "text",
                           "id": "qGhN5",
                           "name": "Manuscript Editable Title",
-                          "fill": "$color-text-manuscript-title",
+                          "fill": "$color-text-primary",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "12화 · 균열의 밤",
@@ -24700,7 +24700,7 @@
                           "type": "text",
                           "id": "OMeqJ",
                           "name": "Manuscript Editable Body",
-                          "fill": "$color-text-manuscript-body",
+                          "fill": "$color-text-primary",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "정원은 밤이 오면 유리보다 먼저 숨을 죽였다. 달빛이 온실의 지붕을 훑고 지나갈 때마다, 금이 간 창마다 은빛 선이 번졌다. 서윤은 그 선들이 모두 한곳을 가리키고 있다는 사실을 세 번째 순찰에서야 알아차렸다.\n\n오래 잠겨 있던 북쪽 문 앞에는 발자국이 하나뿐이었다. 안으로 들어간 흔적은 있었지만 돌아 나온 흔적은 없었다. 손잡이에 손을 얹자 차가운 진동이 손목을 타고 올라왔다. 어젯밤 메모에 적어 둔 문장이 떠올랐다. ‘균열은 문이 아니라 기억의 방향이다.’\n\n서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다. 어둠 너머에서 익숙한 목소리가 이름을 불렀다. 아주 오래전, 이 정원을 떠난 사람이 마지막으로 불렀던 방식 그대로였다.",
@@ -24730,7 +24730,7 @@
       "width": 1440,
       "height": 900,
       "fill": "$color-bg-canvas",
-      "stroke": "$color-border-frame",
+      "stroke": "$color-border-default",
       "children": [
         {
           "type": "frame",
@@ -24738,7 +24738,7 @@
           "name": "C Sidebar",
           "width": 236,
           "height": "fill_container",
-          "fill": "$color-surface-sidebar",
+          "fill": "$color-surface-navigation",
           "stroke": "$color-border-default",
           "strokeWidth": {
             "right": 1
@@ -24762,7 +24762,7 @@
                   "type": "ellipse",
                   "id": "QUfZC",
                   "name": "C User Avatar",
-                  "fill": "$color-surface-avatar",
+                  "fill": "$color-surface-icon",
                   "width": 28,
                   "height": 28
                 },
@@ -26337,7 +26337,7 @@
                   "name": "Manuscript Writing Canvas",
                   "width": "fill_container",
                   "height": "fill_container",
-                  "fill": "$color-surface-editor",
+                  "fill": "$color-surface-default",
                   "justifyContent": "center",
                   "children": [
                     {
@@ -26359,7 +26359,7 @@
                           "type": "text",
                           "id": "zIMRK",
                           "name": "Manuscript Editable Title",
-                          "fill": "$color-text-manuscript-title",
+                          "fill": "$color-text-primary",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "12화 · 균열의 밤",
@@ -26372,7 +26372,7 @@
                           "type": "text",
                           "id": "G3xLhE",
                           "name": "Manuscript Editable Body",
-                          "fill": "$color-text-manuscript-body",
+                          "fill": "$color-text-primary",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "정원은 밤이 오면 유리보다 먼저 숨을 죽였다. 달빛이 온실의 지붕을 훑고 지나갈 때마다, 금이 간 창마다 은빛 선이 번졌다. 서윤은 그 선들이 모두 한곳을 가리키고 있다는 사실을 세 번째 순찰에서야 알아차렸다.\n\n오래 잠겨 있던 북쪽 문 앞에는 발자국이 하나뿐이었다. 안으로 들어간 흔적은 있었지만 돌아 나온 흔적은 없었다. 손잡이에 손을 얹자 차가운 진동이 손목을 타고 올라왔다. 어젯밤 메모에 적어 둔 문장이 떠올랐다. ‘균열은 문이 아니라 기억의 방향이다.’\n\n서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다. 어둠 너머에서 익숙한 목소리가 이름을 불렀다. 아주 오래전, 이 정원을 떠난 사람이 마지막으로 불렀던 방식 그대로였다.",
@@ -26465,7 +26465,7 @@
               "id": "AJ8Xj",
               "name": "Light Color Variables Title",
               "fill": "$color-text-primary",
-              "content": "Color · 20 themed tokens",
+              "content": "Color · 13 themed tokens",
               "fontFamily": "$font-family-ui",
               "fontSize": "$font-size-heading",
               "fontWeight": "700"
@@ -26556,65 +26556,6 @@
                           "name": "color-bg-canvas Light Value",
                           "fill": "$color-text-secondary",
                           "content": "#F4F6F7",
-                          "fontFamily": "$font-family-ui",
-                          "fontSize": 11,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "pA18t",
-                  "name": "Light Token · color-surface-sidebar",
-                  "width": "fill_container",
-                  "height": "fill_container",
-                  "fill": "$color-surface-default",
-                  "cornerRadius": "$radius-card",
-                  "stroke": "$color-border-default",
-                  "strokeWidth": 1,
-                  "gap": 10,
-                  "padding": 10,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "B1aCh",
-                      "name": "color-surface-sidebar Light Swatch",
-                      "width": 34,
-                      "height": 34,
-                      "fill": "$color-surface-sidebar",
-                      "cornerRadius": "$radius-control",
-                      "stroke": "$color-border-default",
-                      "strokeWidth": 1
-                    },
-                    {
-                      "type": "frame",
-                      "id": "zPahW",
-                      "name": "color-surface-sidebar Light Copy",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 3,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "b3hAT",
-                          "name": "color-surface-sidebar Light Name",
-                          "fill": "$color-text-primary",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "color-surface-sidebar",
-                          "fontFamily": "$font-family-ui",
-                          "fontSize": 10,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "cypK7",
-                          "name": "color-surface-sidebar Light Value",
-                          "fill": "$color-text-secondary",
-                          "content": "#F7F9FA",
                           "fontFamily": "$font-family-ui",
                           "fontSize": 11,
                           "fontWeight": "normal"
@@ -26799,22 +26740,12 @@
                       ]
                     }
                   ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "LtzyD",
-              "name": "Light Color Variable Row 2",
-              "width": "fill_container",
-              "height": 68,
-              "gap": 8,
-              "children": [
+                },
                 {
                   "type": "frame",
                   "id": "k841vB",
                   "name": "Light Token · color-surface-raised",
-                  "width": "fill_container",
+                  "width": 265.5,
                   "height": "fill_container",
                   "fill": "$color-surface-default",
                   "cornerRadius": "$radius-card",
@@ -26868,7 +26799,17 @@
                       ]
                     }
                   ]
-                },
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "LtzyD",
+              "name": "Light Color Variable Row 2",
+              "width": "fill_container",
+              "height": 68,
+              "gap": 8,
+              "children": [
                 {
                   "type": "frame",
                   "id": "IigMM",
@@ -26930,193 +26871,6 @@
                 },
                 {
                   "type": "frame",
-                  "id": "B4grp",
-                  "name": "Light Token · color-surface-memo",
-                  "width": "fill_container",
-                  "height": "fill_container",
-                  "fill": "$color-surface-default",
-                  "cornerRadius": "$radius-card",
-                  "stroke": "$color-border-default",
-                  "strokeWidth": 1,
-                  "gap": 10,
-                  "padding": 10,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "juUU0",
-                      "name": "color-surface-memo Light Swatch",
-                      "width": 34,
-                      "height": 34,
-                      "fill": "$color-surface-memo",
-                      "cornerRadius": "$radius-control",
-                      "stroke": "$color-border-default",
-                      "strokeWidth": 1
-                    },
-                    {
-                      "type": "frame",
-                      "id": "OfUvQ",
-                      "name": "color-surface-memo Light Copy",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 3,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "INlvZ",
-                          "name": "color-surface-memo Light Name",
-                          "fill": "$color-text-primary",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "color-surface-memo",
-                          "fontFamily": "$font-family-ui",
-                          "fontSize": 10,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "y4O3v0",
-                          "name": "color-surface-memo Light Value",
-                          "fill": "$color-text-secondary",
-                          "content": "#F8F6F2",
-                          "fontFamily": "$font-family-ui",
-                          "fontSize": 11,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "jOYNt",
-                  "name": "Light Token · color-surface-editor",
-                  "width": "fill_container",
-                  "height": "fill_container",
-                  "fill": "$color-surface-default",
-                  "cornerRadius": "$radius-card",
-                  "stroke": "$color-border-default",
-                  "strokeWidth": 1,
-                  "gap": 10,
-                  "padding": 10,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "iMejC",
-                      "name": "color-surface-editor Light Swatch",
-                      "width": 34,
-                      "height": 34,
-                      "fill": "$color-surface-editor",
-                      "cornerRadius": "$radius-control",
-                      "stroke": "$color-border-default",
-                      "strokeWidth": 1
-                    },
-                    {
-                      "type": "frame",
-                      "id": "Ff5JG",
-                      "name": "color-surface-editor Light Copy",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 3,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "TDRl1",
-                          "name": "color-surface-editor Light Name",
-                          "fill": "$color-text-primary",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "color-surface-editor",
-                          "fontFamily": "$font-family-ui",
-                          "fontSize": 10,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "IECx5",
-                          "name": "color-surface-editor Light Value",
-                          "fill": "$color-text-secondary",
-                          "content": "#FFFFFF",
-                          "fontFamily": "$font-family-ui",
-                          "fontSize": 11,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "DiVAi",
-                  "name": "Light Token · color-surface-avatar",
-                  "width": "fill_container",
-                  "height": "fill_container",
-                  "fill": "$color-surface-default",
-                  "cornerRadius": "$radius-card",
-                  "stroke": "$color-border-default",
-                  "strokeWidth": 1,
-                  "gap": 10,
-                  "padding": 10,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "t1Ltt",
-                      "name": "color-surface-avatar Light Swatch",
-                      "width": 34,
-                      "height": 34,
-                      "fill": "$color-surface-avatar",
-                      "cornerRadius": "$radius-control",
-                      "stroke": "$color-border-default",
-                      "strokeWidth": 1
-                    },
-                    {
-                      "type": "frame",
-                      "id": "i0tRM2",
-                      "name": "color-surface-avatar Light Copy",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 3,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "a16E88",
-                          "name": "color-surface-avatar Light Name",
-                          "fill": "$color-text-primary",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "color-surface-avatar",
-                          "fontFamily": "$font-family-ui",
-                          "fontSize": 10,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "HXFRD",
-                          "name": "color-surface-avatar Light Value",
-                          "fill": "$color-text-secondary",
-                          "content": "#93A4A9",
-                          "fontFamily": "$font-family-ui",
-                          "fontSize": 11,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "VAqBK",
-              "name": "Light Color Variable Row 3",
-              "width": "fill_container",
-              "height": 68,
-              "gap": 8,
-              "children": [
-                {
-                  "type": "frame",
                   "id": "zAxB6",
                   "name": "Light Token · color-border-default",
                   "width": "fill_container",
@@ -27166,65 +26920,6 @@
                           "name": "color-border-default Light Value",
                           "fill": "$color-text-secondary",
                           "content": "#C7D0D3",
-                          "fontFamily": "$font-family-ui",
-                          "fontSize": 11,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "jL2Ma",
-                  "name": "Light Token · color-border-frame",
-                  "width": "fill_container",
-                  "height": "fill_container",
-                  "fill": "$color-surface-default",
-                  "cornerRadius": "$radius-card",
-                  "stroke": "$color-border-default",
-                  "strokeWidth": 1,
-                  "gap": 10,
-                  "padding": 10,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "kToIx",
-                      "name": "color-border-frame Light Swatch",
-                      "width": 34,
-                      "height": 34,
-                      "fill": "$color-border-frame",
-                      "cornerRadius": "$radius-control",
-                      "stroke": "$color-border-default",
-                      "strokeWidth": 1
-                    },
-                    {
-                      "type": "frame",
-                      "id": "pZxxD",
-                      "name": "color-border-frame Light Copy",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 3,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "V7goe",
-                          "name": "color-border-frame Light Name",
-                          "fill": "$color-text-primary",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "color-border-frame",
-                          "fontFamily": "$font-family-ui",
-                          "fontSize": 10,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "f5JgJq",
-                          "name": "color-border-frame Light Value",
-                          "fill": "$color-text-secondary",
-                          "content": "#9EADB2",
                           "fontFamily": "$font-family-ui",
                           "fontSize": 11,
                           "fontWeight": "normal"
@@ -27414,8 +27109,8 @@
             },
             {
               "type": "frame",
-              "id": "eRHgv",
-              "name": "Light Color Variable Row 4",
+              "id": "VAqBK",
+              "name": "Light Color Variable Row 3",
               "width": "fill_container",
               "height": 68,
               "gap": 8,
@@ -27589,124 +27284,6 @@
                           "name": "color-icon-default Light Value",
                           "fill": "$color-text-secondary",
                           "content": "#526167",
-                          "fontFamily": "$font-family-ui",
-                          "fontSize": 11,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "XyJ6J",
-                  "name": "Light Token · color-text-manuscript-title",
-                  "width": "fill_container",
-                  "height": "fill_container",
-                  "fill": "$color-surface-default",
-                  "cornerRadius": "$radius-card",
-                  "stroke": "$color-border-default",
-                  "strokeWidth": 1,
-                  "gap": 10,
-                  "padding": 10,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "aeVnJ",
-                      "name": "color-text-manuscript-title Light Swatch",
-                      "width": 34,
-                      "height": 34,
-                      "fill": "$color-text-manuscript-title",
-                      "cornerRadius": "$radius-control",
-                      "stroke": "$color-border-default",
-                      "strokeWidth": 1
-                    },
-                    {
-                      "type": "frame",
-                      "id": "ZmSCh",
-                      "name": "color-text-manuscript-title Light Copy",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 3,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "mMWB8",
-                          "name": "color-text-manuscript-title Light Name",
-                          "fill": "$color-text-primary",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "color-text-manuscript-title",
-                          "fontFamily": "$font-family-ui",
-                          "fontSize": 10,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "Zi2kb",
-                          "name": "color-text-manuscript-title Light Value",
-                          "fill": "$color-text-secondary",
-                          "content": "#161B1D",
-                          "fontFamily": "$font-family-ui",
-                          "fontSize": 11,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "qHE8u",
-                  "name": "Light Token · color-text-manuscript-body",
-                  "width": "fill_container",
-                  "height": "fill_container",
-                  "fill": "$color-surface-default",
-                  "cornerRadius": "$radius-card",
-                  "stroke": "$color-border-default",
-                  "strokeWidth": 1,
-                  "gap": 10,
-                  "padding": 10,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "nGZsO",
-                      "name": "color-text-manuscript-body Light Swatch",
-                      "width": 34,
-                      "height": 34,
-                      "fill": "$color-text-manuscript-body",
-                      "cornerRadius": "$radius-control",
-                      "stroke": "$color-border-default",
-                      "strokeWidth": 1
-                    },
-                    {
-                      "type": "frame",
-                      "id": "v6nL1",
-                      "name": "color-text-manuscript-body Light Copy",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 3,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "m8VezH",
-                          "name": "color-text-manuscript-body Light Name",
-                          "fill": "$color-text-primary",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "color-text-manuscript-body",
-                          "fontFamily": "$font-family-ui",
-                          "fontSize": 10,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "o1YPDE",
-                          "name": "color-text-manuscript-body Light Value",
-                          "fill": "$color-text-secondary",
-                          "content": "#2A3134",
                           "fontFamily": "$font-family-ui",
                           "fontSize": 11,
                           "fontWeight": "normal"
@@ -28192,7 +27769,7 @@
               "id": "X4VNQ",
               "name": "Light Variables Scope Body",
               "fill": "$color-text-secondary",
-              "content": "라이트 색상 변수 20개만 생성 · 기존 다크 화면에는 미적용 · 구조·타이포그래피·간격은 공통 사용",
+              "content": "라이트 색상 변수 13개 · 다크와 동일한 의미 구조 · 구조·타이포그래피·간격은 공통 사용",
               "fontFamily": "$font-family-ui",
               "fontSize": "$font-size-body",
               "fontWeight": "normal"
@@ -28215,7 +27792,7 @@
       "width": 1440,
       "height": 900,
       "fill": "$color-bg-canvas",
-      "stroke": "$color-border-frame",
+      "stroke": "$color-border-default",
       "children": [
         {
           "type": "frame",
@@ -28223,7 +27800,7 @@
           "name": "C Sidebar",
           "width": 236,
           "height": "fill_container",
-          "fill": "$color-surface-sidebar",
+          "fill": "$color-surface-navigation",
           "stroke": "$color-border-default",
           "strokeWidth": {
             "right": 1
@@ -28247,7 +27824,7 @@
                   "type": "ellipse",
                   "id": "DRRfY",
                   "name": "C User Avatar",
-                  "fill": "$color-surface-avatar",
+                  "fill": "$color-surface-icon",
                   "width": 28,
                   "height": 28
                 },
@@ -30159,125 +29736,6 @@
     "font-size-heading-lg": {
       "type": "number",
       "value": 21
-    },
-    "color-surface-sidebar": {
-      "type": "color",
-      "value": [
-        {
-          "value": "#111416",
-          "theme": {
-            "mode": "dark"
-          }
-        },
-        {
-          "value": "#F7F9FA",
-          "theme": {
-            "mode": "light"
-          }
-        }
-      ]
-    },
-    "color-surface-memo": {
-      "type": "color",
-      "value": [
-        {
-          "value": "#181715",
-          "theme": {
-            "mode": "dark"
-          }
-        },
-        {
-          "value": "#F8F6F2",
-          "theme": {
-            "mode": "light"
-          }
-        }
-      ]
-    },
-    "color-surface-editor": {
-      "type": "color",
-      "value": [
-        {
-          "value": "#22211F",
-          "theme": {
-            "mode": "dark"
-          }
-        },
-        {
-          "value": "#FFFFFF",
-          "theme": {
-            "mode": "light"
-          }
-        }
-      ]
-    },
-    "color-surface-avatar": {
-      "type": "color",
-      "value": [
-        {
-          "value": "#536265",
-          "theme": {
-            "mode": "dark"
-          }
-        },
-        {
-          "value": "#93A4A9",
-          "theme": {
-            "mode": "light"
-          }
-        }
-      ]
-    },
-    "color-border-frame": {
-      "type": "color",
-      "value": [
-        {
-          "value": "#3A4246",
-          "theme": {
-            "mode": "dark"
-          }
-        },
-        {
-          "value": "#9EADB2",
-          "theme": {
-            "mode": "light"
-          }
-        }
-      ]
-    },
-    "color-text-manuscript-title": {
-      "type": "color",
-      "value": [
-        {
-          "value": "#F6F2EA",
-          "theme": {
-            "mode": "dark"
-          }
-        },
-        {
-          "value": "#161B1D",
-          "theme": {
-            "mode": "light"
-          }
-        }
-      ]
-    },
-    "color-text-manuscript-body": {
-      "type": "color",
-      "value": [
-        {
-          "value": "#F0EEE8",
-          "theme": {
-            "mode": "dark"
-          }
-        },
-        {
-          "value": "#2A3134",
-          "theme": {
-            "mode": "light"
-          }
-        }
-      ]
     },
     "font-size-manuscript-title": {
       "type": "number",
