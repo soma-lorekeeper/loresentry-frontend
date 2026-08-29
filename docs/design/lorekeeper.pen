@@ -14630,6 +14630,2084 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "rWDeP",
+      "x": 39629,
+      "y": -1921,
+      "name": "43 · Workspace · Memo · Project",
+      "context": "LOREKEEPER-344 project memo scope. Project notes are square, directly editable, never folded, and continue in vertical rows without pagination.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "u7wgA",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "43 · Workspace · Memo · Project Sidebar · Memo Selected",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:WMyTy": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:BeegO": {
+              "fill": "#00000000"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "gRbJG",
+          "name": "43 · Workspace · Memo · Project Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "SPDLi",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "43 · Workspace · Memo · Project Tab Bar · Memo",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG": {
+                  "width": 108
+                },
+                "b:l101xG/b:QXd7u": {
+                  "icon": "notebook-pen"
+                },
+                "b:l101xG/b:s9UJUl": {
+                  "content": "메모"
+                },
+                "b:l101xG/b:joUxb": {
+                  "enabled": true,
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "xIq0W",
+              "name": "43 · Workspace · Memo · Project Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                38,
+                64
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "o5rgxn",
+                  "name": "43 · Workspace · Memo · Project Header",
+                  "width": "fill_container",
+                  "height": 38,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "kDd1d",
+                      "name": "43 · Workspace · Memo · Project Header Left",
+                      "gap": "$b:space-3",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ZcKK4",
+                          "name": "43 · Workspace · Memo · Project Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "메모",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "650"
+                        },
+                        {
+                          "id": "OCB9D",
+                          "type": "ref",
+                          "ref": "b:hMpn5",
+                          "name": "43 · Workspace · Memo · Project Add Project Memo",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "$b:color-state-selected",
+                          "descendants": {
+                            "b:UCRf6": {
+                              "icon": "plus",
+                              "fill": "$b:color-accent-primary"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "id": "LAoRz",
+                      "type": "ref",
+                      "ref": "b:V5B4v4",
+                      "name": "43 · Workspace · Memo · Project Scope Toggle",
+                      "width": 280,
+                      "height": 38
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "pV8GY",
+                  "name": "Project Memo Grid Row 1",
+                  "width": "fill_container",
+                  "gap": "$b:space-6",
+                  "children": [
+                    {
+                      "id": "FWKJQ",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 1",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "균열은 문이 아니라 기억의 방향이다. 다음 장면에서 유리 조각의 의미를 다시 연결한다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "fvK3Y",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 2",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "서윤과 하린이 처음 마주치는 장소는 북쪽 온실. 빛이 유리 벽을 통과하는 시간을 확인한다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "zGoEY",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 3",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "세계관 용어는 ‘잔향’으로 통일한다. 인물마다 잔향을 감지하는 방식이 다르다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "njraN",
+                  "name": "Project Memo Grid Row 2",
+                  "width": "fill_container",
+                  "gap": "$b:space-6",
+                  "children": [
+                    {
+                      "id": "V6bY1",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 4",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "후반부 사건 순서를 다시 검토한다. 축제 다음 날에 정전이 발생하도록 조정."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "P2LXv",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 5",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "표지 후보 문구: 기억은 언제나 빛이 지난 자리에 남는다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "o14lL6",
+      "x": 41189,
+      "y": -1921,
+      "name": "44 · Workspace · Memo · File",
+      "context": "LOREKEEPER-344 file memo scope. File notes are created only inside each file, show filename above the memo, and expose open-file and delete in the more menu.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "N7xvoE",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "44 · Workspace · Memo · File Sidebar · Memo Selected",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:WMyTy": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:BeegO": {
+              "fill": "#00000000"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "Gck1H",
+          "name": "44 · Workspace · Memo · File Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "w59aG",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "44 · Workspace · Memo · File Tab Bar · Memo",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG": {
+                  "width": 108
+                },
+                "b:l101xG/b:QXd7u": {
+                  "icon": "notebook-pen"
+                },
+                "b:l101xG/b:s9UJUl": {
+                  "content": "메모"
+                },
+                "b:l101xG/b:joUxb": {
+                  "enabled": true,
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "YpK3B",
+              "name": "44 · Workspace · Memo · File Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                38,
+                64
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "rC07Z",
+                  "name": "44 · Workspace · Memo · File Header",
+                  "width": "fill_container",
+                  "height": 38,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Ko3qa",
+                      "name": "44 · Workspace · Memo · File Header Left",
+                      "gap": "$b:space-3",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "oMgUG",
+                          "name": "44 · Workspace · Memo · File Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "메모",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "650"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "yYZFT",
+                      "type": "ref",
+                      "ref": "b:h7y8AD",
+                      "name": "44 · Workspace · Memo · File Scope Toggle",
+                      "width": 280,
+                      "height": 38
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "a5uuAb",
+                  "name": "File Memo Grid Row 1",
+                  "width": "fill_container",
+                  "gap": "$b:space-6",
+                  "children": [
+                    {
+                      "id": "zGFpr",
+                      "type": "ref",
+                      "ref": "b:sc6PQ",
+                      "name": "File Memo Card 1",
+                      "width": 268,
+                      "height": 308,
+                      "descendants": {
+                        "b:icEgo": {
+                          "icon": "file-text"
+                        },
+                        "b:EpCbZ": {
+                          "content": "1장 · 유리 정원의 밤"
+                        },
+                        "b:N6vKR/b:F9e71l": {
+                          "content": "이 장면에서 유리 조각은 주인공의 기억을 상징한다."
+                        },
+                        "b:N6vKR/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "aia21",
+                      "type": "ref",
+                      "ref": "b:sc6PQ",
+                      "name": "File Memo Card 2",
+                      "width": 268,
+                      "height": 308,
+                      "descendants": {
+                        "b:icEgo": {
+                          "icon": "user-round"
+                        },
+                        "b:EpCbZ": {
+                          "content": "서윤"
+                        },
+                        "b:N6vKR/b:F9e71l": {
+                          "content": "첫 등장에서는 감정을 직접 설명하지 않고 손의 움직임으로 드러낸다."
+                        },
+                        "b:N6vKR/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "C1Mtt",
+                      "type": "ref",
+                      "ref": "b:sc6PQ",
+                      "name": "File Memo Card 3",
+                      "width": 268,
+                      "height": 308,
+                      "descendants": {
+                        "b:icEgo": {
+                          "icon": "map-pin"
+                        },
+                        "b:EpCbZ": {
+                          "content": "북쪽 온실"
+                        },
+                        "b:N6vKR/b:F9e71l": {
+                          "content": "낮에는 폐쇄되어 있고 해 질 무렵에만 유리문이 열린다."
+                        },
+                        "b:N6vKR/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "AqO0l",
+                  "name": "File Memo Grid Row 2",
+                  "width": "fill_container",
+                  "gap": "$b:space-6",
+                  "children": [
+                    {
+                      "id": "KHsYR",
+                      "type": "ref",
+                      "ref": "b:sc6PQ",
+                      "name": "File Memo Card 4",
+                      "width": 268,
+                      "height": 308,
+                      "descendants": {
+                        "b:icEgo": {
+                          "icon": "calendar-days"
+                        },
+                        "b:EpCbZ": {
+                          "content": "겨울 축제"
+                        },
+                        "b:N6vKR/b:F9e71l": {
+                          "content": "정전 직전 종탑 소리가 세 번 울린다."
+                        },
+                        "b:N6vKR/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "vzBnh",
+                      "type": "ref",
+                      "ref": "b:sc6PQ",
+                      "name": "File Memo Card 5",
+                      "width": 268,
+                      "height": 308,
+                      "descendants": {
+                        "b:icEgo": {
+                          "icon": "globe-2"
+                        },
+                        "b:EpCbZ": {
+                          "content": "잔향"
+                        },
+                        "b:N6vKR/b:F9e71l": {
+                          "content": "기억이 사물에 남긴 감각의 흔적. 사람마다 감지 방식이 다르다."
+                        },
+                        "b:N6vKR/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "x8Kpea",
+      "x": 42749,
+      "y": -1921,
+      "name": "45 · Workspace · Memo · Project Empty",
+      "context": "LOREKEEPER-344 empty project memo scope. Add remains available in the header.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "fIYJ4",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "45 · Workspace · Memo · Project Empty Sidebar · Memo Selected",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:WMyTy": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:BeegO": {
+              "fill": "#00000000"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "EbDFa",
+          "name": "45 · Workspace · Memo · Project Empty Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "k5JGZ",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "45 · Workspace · Memo · Project Empty Tab Bar · Memo",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG": {
+                  "width": 108
+                },
+                "b:l101xG/b:QXd7u": {
+                  "icon": "notebook-pen"
+                },
+                "b:l101xG/b:s9UJUl": {
+                  "content": "메모"
+                },
+                "b:l101xG/b:joUxb": {
+                  "enabled": true,
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "h3CcE",
+              "name": "45 · Workspace · Memo · Project Empty Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                38,
+                64
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "LS4tm",
+                  "name": "45 · Workspace · Memo · Project Empty Header",
+                  "width": "fill_container",
+                  "height": 38,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "FHA83",
+                      "name": "45 · Workspace · Memo · Project Empty Header Left",
+                      "gap": "$b:space-3",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "tOn49",
+                          "name": "45 · Workspace · Memo · Project Empty Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "메모",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "650"
+                        },
+                        {
+                          "id": "K3CSP",
+                          "type": "ref",
+                          "ref": "b:hMpn5",
+                          "name": "45 · Workspace · Memo · Project Empty Add Project Memo",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "$b:color-state-selected",
+                          "descendants": {
+                            "b:UCRf6": {
+                              "icon": "plus",
+                              "fill": "$b:color-accent-primary"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "id": "bPeR7",
+                      "type": "ref",
+                      "ref": "b:V5B4v4",
+                      "name": "45 · Workspace · Memo · Project Empty Scope Toggle",
+                      "width": 280,
+                      "height": 38
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "OD6NA",
+                  "name": "45 · Workspace · Memo · Project Empty Empty State",
+                  "width": "fill_container",
+                  "height": 560,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-card",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "V2Nlb",
+                      "name": "45 · Workspace · Memo · Project Empty Empty Icon Surface",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "$b:color-state-selected",
+                      "cornerRadius": "$b:radius-card",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "n0C9f",
+                          "name": "45 · Workspace · Memo · Project Empty Empty Icon",
+                          "width": 21,
+                          "height": 21,
+                          "icon": "sticky-note",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-accent-primary"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "QsKOZ",
+                      "name": "45 · Workspace · Memo · Project Empty Empty Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "아직 프로젝트 메모가 없습니다",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "650"
+                    },
+                    {
+                      "type": "text",
+                      "id": "YZVzh",
+                      "name": "45 · Workspace · Memo · Project Empty Empty Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "상단의 +를 눌러 프로젝트 전체에서 기억할 내용을 남겨 보세요.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "G84QG",
+      "x": 44309,
+      "y": -1921,
+      "name": "46 · Workspace · Memo · File Empty",
+      "context": "LOREKEEPER-344 empty file memo scope. File memo creation is intentionally unavailable here and must happen inside a file.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "weq5d",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "46 · Workspace · Memo · File Empty Sidebar · Memo Selected",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:WMyTy": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:BeegO": {
+              "fill": "#00000000"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "SMiYk",
+          "name": "46 · Workspace · Memo · File Empty Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "xkldG",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "46 · Workspace · Memo · File Empty Tab Bar · Memo",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG": {
+                  "width": 108
+                },
+                "b:l101xG/b:QXd7u": {
+                  "icon": "notebook-pen"
+                },
+                "b:l101xG/b:s9UJUl": {
+                  "content": "메모"
+                },
+                "b:l101xG/b:joUxb": {
+                  "enabled": true,
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "aIx86",
+              "name": "46 · Workspace · Memo · File Empty Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                38,
+                64
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "RidM6",
+                  "name": "46 · Workspace · Memo · File Empty Header",
+                  "width": "fill_container",
+                  "height": 38,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "RGDsV",
+                      "name": "46 · Workspace · Memo · File Empty Header Left",
+                      "gap": "$b:space-3",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "k7wYK",
+                          "name": "46 · Workspace · Memo · File Empty Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "메모",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "650"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p6IrU",
+                      "type": "ref",
+                      "ref": "b:h7y8AD",
+                      "name": "46 · Workspace · Memo · File Empty Scope Toggle",
+                      "width": 280,
+                      "height": 38
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "HvOhI",
+                  "name": "46 · Workspace · Memo · File Empty Empty State",
+                  "width": "fill_container",
+                  "height": 560,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-card",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "OijH6",
+                      "name": "46 · Workspace · Memo · File Empty Empty Icon Surface",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "$b:color-state-selected",
+                      "cornerRadius": "$b:radius-card",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "Hygyz",
+                          "name": "46 · Workspace · Memo · File Empty Empty Icon",
+                          "width": 21,
+                          "height": 21,
+                          "icon": "file-x",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-accent-primary"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "N0cFzC",
+                      "name": "46 · Workspace · Memo · File Empty Empty Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "아직 파일 메모가 없습니다",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "650"
+                    },
+                    {
+                      "type": "text",
+                      "id": "E6Q1u2",
+                      "name": "46 · Workspace · Memo · File Empty Empty Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "파일을 열어 메모를 작성하면 여기에 표시됩니다.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "RIcSo",
+      "x": 45869,
+      "y": -1921,
+      "name": "47 · Workspace · Memo · Project New",
+      "context": "LOREKEEPER-344 new project memo created from the header add action. The empty square is focused and directly editable.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "sCqoW",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "43 · Workspace · Memo · Project Sidebar · Memo Selected",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:WMyTy": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:BeegO": {
+              "fill": "#00000000"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "yoN3q",
+          "name": "43 · Workspace · Memo · Project Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "s5pnt",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "43 · Workspace · Memo · Project Tab Bar · Memo",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG": {
+                  "width": 108
+                },
+                "b:l101xG/b:QXd7u": {
+                  "icon": "notebook-pen"
+                },
+                "b:l101xG/b:s9UJUl": {
+                  "content": "메모"
+                },
+                "b:l101xG/b:joUxb": {
+                  "enabled": true,
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "F7HKK",
+              "name": "43 · Workspace · Memo · Project Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                38,
+                64
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "kYNaz",
+                  "name": "43 · Workspace · Memo · Project Header",
+                  "width": "fill_container",
+                  "height": 38,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "C9BrKh",
+                      "name": "43 · Workspace · Memo · Project Header Left",
+                      "gap": "$b:space-3",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "pcix3",
+                          "name": "43 · Workspace · Memo · Project Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "메모",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "650"
+                        },
+                        {
+                          "id": "vrNfw",
+                          "type": "ref",
+                          "ref": "b:hMpn5",
+                          "name": "43 · Workspace · Memo · Project Add Project Memo",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "$b:color-state-selected",
+                          "descendants": {
+                            "b:UCRf6": {
+                              "icon": "plus",
+                              "fill": "$b:color-accent-primary"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "id": "f2qHmQ",
+                      "type": "ref",
+                      "ref": "b:V5B4v4",
+                      "name": "43 · Workspace · Memo · Project Scope Toggle",
+                      "width": 280,
+                      "height": 38
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "a5CQE",
+                  "name": "Project Memo Grid Row 1",
+                  "width": "fill_container",
+                  "gap": "$b:space-6",
+                  "children": [
+                    {
+                      "id": "goJVu",
+                      "type": "ref",
+                      "ref": "b:p3Hi9V",
+                      "name": "New Project Memo Focused Card",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:XZFDY/b:F9e71l": {
+                          "content": "새 프로젝트 메모를 작성하세요.",
+                          "fill": "$b:color-text-secondary"
+                        },
+                        "b:XZFDY/b:YfHn5": {
+                          "content": "입력 대기"
+                        }
+                      }
+                    },
+                    {
+                      "id": "Z5f0U",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 2",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "서윤과 하린이 처음 마주치는 장소는 북쪽 온실. 빛이 유리 벽을 통과하는 시간을 확인한다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "R8ZA9r",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 3",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "세계관 용어는 ‘잔향’으로 통일한다. 인물마다 잔향을 감지하는 방식이 다르다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "shDCu",
+                  "name": "Project Memo Grid Row 2",
+                  "width": "fill_container",
+                  "gap": "$b:space-6",
+                  "children": [
+                    {
+                      "id": "tpJ7r",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 4",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "후반부 사건 순서를 다시 검토한다. 축제 다음 날에 정전이 발생하도록 조정."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "mAPrG",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 5",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "표지 후보 문구: 기억은 언제나 빛이 지난 자리에 남는다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "OdGCt",
+      "x": 47429,
+      "y": -1921,
+      "name": "48 · Workspace · Memo · Project Menu Open",
+      "context": "LOREKEEPER-344 project memo more menu. Delete is the only action.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "nW3Rn",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "43 · Workspace · Memo · Project Sidebar · Memo Selected",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:WMyTy": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:BeegO": {
+              "fill": "#00000000"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "HPnhq",
+          "name": "43 · Workspace · Memo · Project Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "FJ45I",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "43 · Workspace · Memo · Project Tab Bar · Memo",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG": {
+                  "width": 108
+                },
+                "b:l101xG/b:QXd7u": {
+                  "icon": "notebook-pen"
+                },
+                "b:l101xG/b:s9UJUl": {
+                  "content": "메모"
+                },
+                "b:l101xG/b:joUxb": {
+                  "enabled": true,
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "aXdR5",
+              "name": "43 · Workspace · Memo · Project Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                38,
+                64
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "eMIBi",
+                  "name": "43 · Workspace · Memo · Project Header",
+                  "width": "fill_container",
+                  "height": 38,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "yjY1B",
+                      "name": "43 · Workspace · Memo · Project Header Left",
+                      "gap": "$b:space-3",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "I8xXU5",
+                          "name": "43 · Workspace · Memo · Project Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "메모",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "650"
+                        },
+                        {
+                          "id": "in8Ty",
+                          "type": "ref",
+                          "ref": "b:hMpn5",
+                          "name": "43 · Workspace · Memo · Project Add Project Memo",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "$b:color-state-selected",
+                          "descendants": {
+                            "b:UCRf6": {
+                              "icon": "plus",
+                              "fill": "$b:color-accent-primary"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "id": "Pa2qw",
+                      "type": "ref",
+                      "ref": "b:V5B4v4",
+                      "name": "43 · Workspace · Memo · Project Scope Toggle",
+                      "width": 280,
+                      "height": 38
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "LGC3v",
+                  "name": "Project Memo Grid Row 1",
+                  "width": "fill_container",
+                  "gap": "$b:space-6",
+                  "children": [
+                    {
+                      "id": "hDZtw",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 1",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "균열은 문이 아니라 기억의 방향이다. 다음 장면에서 유리 조각의 의미를 다시 연결한다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "b6Gpm",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 2",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "서윤과 하린이 처음 마주치는 장소는 북쪽 온실. 빛이 유리 벽을 통과하는 시간을 확인한다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "yCG6c",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 3",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "세계관 용어는 ‘잔향’으로 통일한다. 인물마다 잔향을 감지하는 방식이 다르다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "m8yrUo",
+                  "name": "Project Memo Grid Row 2",
+                  "width": "fill_container",
+                  "gap": "$b:space-6",
+                  "children": [
+                    {
+                      "id": "VasQR",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 4",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "후반부 사건 순서를 다시 검토한다. 축제 다음 날에 정전이 발생하도록 조정."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "AQbdQ",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 5",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "표지 후보 문구: 기억은 언제나 빛이 지난 자리에 남는다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "Z78NL",
+          "type": "ref",
+          "ref": "b:C9zXG7",
+          "name": "Open Project Memo Menu",
+          "layoutPosition": "absolute",
+          "x": 940,
+          "y": 190,
+          "width": 188
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "JuOfu",
+      "x": 48989,
+      "y": -1921,
+      "name": "49 · Workspace · Memo · File Menu Open",
+      "context": "LOREKEEPER-344 file memo more menu. Open-file and delete are available; add remains unavailable.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "r4SbZr",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "44 · Workspace · Memo · File Sidebar · Memo Selected",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:WMyTy": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:BeegO": {
+              "fill": "#00000000"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "s7JRfl",
+          "name": "44 · Workspace · Memo · File Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "Fx4OK",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "44 · Workspace · Memo · File Tab Bar · Memo",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG": {
+                  "width": 108
+                },
+                "b:l101xG/b:QXd7u": {
+                  "icon": "notebook-pen"
+                },
+                "b:l101xG/b:s9UJUl": {
+                  "content": "메모"
+                },
+                "b:l101xG/b:joUxb": {
+                  "enabled": true,
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "m51ZY",
+              "name": "44 · Workspace · Memo · File Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                38,
+                64
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "mZm9d",
+                  "name": "44 · Workspace · Memo · File Header",
+                  "width": "fill_container",
+                  "height": 38,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "aFBDA",
+                      "name": "44 · Workspace · Memo · File Header Left",
+                      "gap": "$b:space-3",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "F74Zm",
+                          "name": "44 · Workspace · Memo · File Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "메모",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "650"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "K7wvIb",
+                      "type": "ref",
+                      "ref": "b:h7y8AD",
+                      "name": "44 · Workspace · Memo · File Scope Toggle",
+                      "width": 280,
+                      "height": 38
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "V8xXdw",
+                  "name": "File Memo Grid Row 1",
+                  "width": "fill_container",
+                  "gap": "$b:space-6",
+                  "children": [
+                    {
+                      "id": "PRvzC",
+                      "type": "ref",
+                      "ref": "b:sc6PQ",
+                      "name": "File Memo Card 1",
+                      "width": 268,
+                      "height": 308,
+                      "descendants": {
+                        "b:icEgo": {
+                          "icon": "file-text"
+                        },
+                        "b:EpCbZ": {
+                          "content": "1장 · 유리 정원의 밤"
+                        },
+                        "b:N6vKR/b:F9e71l": {
+                          "content": "이 장면에서 유리 조각은 주인공의 기억을 상징한다."
+                        },
+                        "b:N6vKR/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "LESPA",
+                      "type": "ref",
+                      "ref": "b:sc6PQ",
+                      "name": "File Memo Card 2",
+                      "width": 268,
+                      "height": 308,
+                      "descendants": {
+                        "b:icEgo": {
+                          "icon": "user-round"
+                        },
+                        "b:EpCbZ": {
+                          "content": "서윤"
+                        },
+                        "b:N6vKR/b:F9e71l": {
+                          "content": "첫 등장에서는 감정을 직접 설명하지 않고 손의 움직임으로 드러낸다."
+                        },
+                        "b:N6vKR/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "PMhTC",
+                      "type": "ref",
+                      "ref": "b:sc6PQ",
+                      "name": "File Memo Card 3",
+                      "width": 268,
+                      "height": 308,
+                      "descendants": {
+                        "b:icEgo": {
+                          "icon": "map-pin"
+                        },
+                        "b:EpCbZ": {
+                          "content": "북쪽 온실"
+                        },
+                        "b:N6vKR/b:F9e71l": {
+                          "content": "낮에는 폐쇄되어 있고 해 질 무렵에만 유리문이 열린다."
+                        },
+                        "b:N6vKR/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Fd7O5",
+                  "name": "File Memo Grid Row 2",
+                  "width": "fill_container",
+                  "gap": "$b:space-6",
+                  "children": [
+                    {
+                      "id": "J5pshz",
+                      "type": "ref",
+                      "ref": "b:sc6PQ",
+                      "name": "File Memo Card 4",
+                      "width": 268,
+                      "height": 308,
+                      "descendants": {
+                        "b:icEgo": {
+                          "icon": "calendar-days"
+                        },
+                        "b:EpCbZ": {
+                          "content": "겨울 축제"
+                        },
+                        "b:N6vKR/b:F9e71l": {
+                          "content": "정전 직전 종탑 소리가 세 번 울린다."
+                        },
+                        "b:N6vKR/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "Y38MK",
+                      "type": "ref",
+                      "ref": "b:sc6PQ",
+                      "name": "File Memo Card 5",
+                      "width": 268,
+                      "height": 308,
+                      "descendants": {
+                        "b:icEgo": {
+                          "icon": "globe-2"
+                        },
+                        "b:EpCbZ": {
+                          "content": "잔향"
+                        },
+                        "b:N6vKR/b:F9e71l": {
+                          "content": "기억이 사물에 남긴 감각의 흔적. 사람마다 감지 방식이 다르다."
+                        },
+                        "b:N6vKR/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "wPiUm",
+          "type": "ref",
+          "ref": "b:F4qyQ",
+          "name": "Open File Memo Menu",
+          "layoutPosition": "absolute",
+          "x": 940,
+          "y": 190,
+          "width": 188
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "d5neDp",
+      "x": 50549,
+      "y": -1921,
+      "name": "50 · Workspace · Memo · Delete Confirmation",
+      "context": "LOREKEEPER-344 destructive confirmation before deleting a project or file memo.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "JoaiP",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "43 · Workspace · Memo · Project Sidebar · Memo Selected",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:WMyTy": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:BeegO": {
+              "fill": "#00000000"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "q6W8PN",
+          "name": "43 · Workspace · Memo · Project Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "PjOPm",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "43 · Workspace · Memo · Project Tab Bar · Memo",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG": {
+                  "width": 108
+                },
+                "b:l101xG/b:QXd7u": {
+                  "icon": "notebook-pen"
+                },
+                "b:l101xG/b:s9UJUl": {
+                  "content": "메모"
+                },
+                "b:l101xG/b:joUxb": {
+                  "enabled": true,
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "qxejq",
+              "name": "43 · Workspace · Memo · Project Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                38,
+                64
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "v2gvs",
+                  "name": "43 · Workspace · Memo · Project Header",
+                  "width": "fill_container",
+                  "height": 38,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "z7t2cT",
+                      "name": "43 · Workspace · Memo · Project Header Left",
+                      "gap": "$b:space-3",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "xWW7W",
+                          "name": "43 · Workspace · Memo · Project Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "메모",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "650"
+                        },
+                        {
+                          "id": "Fd36D",
+                          "type": "ref",
+                          "ref": "b:hMpn5",
+                          "name": "43 · Workspace · Memo · Project Add Project Memo",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "$b:color-state-selected",
+                          "descendants": {
+                            "b:UCRf6": {
+                              "icon": "plus",
+                              "fill": "$b:color-accent-primary"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "id": "QgH2M",
+                      "type": "ref",
+                      "ref": "b:V5B4v4",
+                      "name": "43 · Workspace · Memo · Project Scope Toggle",
+                      "width": 280,
+                      "height": 38
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "lIDTx",
+                  "name": "Project Memo Grid Row 1",
+                  "width": "fill_container",
+                  "gap": "$b:space-6",
+                  "children": [
+                    {
+                      "id": "iq7rC",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 1",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "균열은 문이 아니라 기억의 방향이다. 다음 장면에서 유리 조각의 의미를 다시 연결한다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "fgqZP",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 2",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "서윤과 하린이 처음 마주치는 장소는 북쪽 온실. 빛이 유리 벽을 통과하는 시간을 확인한다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "NsmBc",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 3",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "세계관 용어는 ‘잔향’으로 통일한다. 인물마다 잔향을 감지하는 방식이 다르다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ZuCKW",
+                  "name": "Project Memo Grid Row 2",
+                  "width": "fill_container",
+                  "gap": "$b:space-6",
+                  "children": [
+                    {
+                      "id": "i51y9I",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 4",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "후반부 사건 순서를 다시 검토한다. 축제 다음 날에 정전이 발생하도록 조정."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "p6ej39",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 5",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "표지 후보 문구: 기억은 언제나 빛이 지난 자리에 남는다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "BWHrD",
+          "layoutPosition": "absolute",
+          "x": 236,
+          "y": 52,
+          "name": "Memo Delete Scrim",
+          "opacity": 0.86,
+          "width": 1204,
+          "height": 848,
+          "fill": "$b:color-bg-canvas"
+        },
+        {
+          "id": "P5QuJm",
+          "type": "ref",
+          "ref": "b:V31V8",
+          "name": "Memo Delete Dialog",
+          "layoutPosition": "absolute",
+          "x": 618,
+          "y": 272,
+          "width": 440
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "xUHSQ",
+      "x": 52109,
+      "y": -1921,
+      "name": "51 · Workspace · Memo · Save Error",
+      "context": "LOREKEEPER-344 card-scoped auto-save failure. Input is preserved and retry remains available without blocking other cards.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "KGUcb",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "43 · Workspace · Memo · Project Sidebar · Memo Selected",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:WMyTy": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:BeegO": {
+              "fill": "#00000000"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "ijMAU",
+          "name": "43 · Workspace · Memo · Project Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "eVQxM",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "43 · Workspace · Memo · Project Tab Bar · Memo",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG": {
+                  "width": 108
+                },
+                "b:l101xG/b:QXd7u": {
+                  "icon": "notebook-pen"
+                },
+                "b:l101xG/b:s9UJUl": {
+                  "content": "메모"
+                },
+                "b:l101xG/b:joUxb": {
+                  "enabled": true,
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "O1WpEp",
+              "name": "43 · Workspace · Memo · Project Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                38,
+                64
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "xUIeI",
+                  "name": "43 · Workspace · Memo · Project Header",
+                  "width": "fill_container",
+                  "height": 38,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "tXLmz",
+                      "name": "43 · Workspace · Memo · Project Header Left",
+                      "gap": "$b:space-3",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "DHLef",
+                          "name": "43 · Workspace · Memo · Project Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "메모",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "650"
+                        },
+                        {
+                          "id": "oc4Ap",
+                          "type": "ref",
+                          "ref": "b:hMpn5",
+                          "name": "43 · Workspace · Memo · Project Add Project Memo",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "$b:color-state-selected",
+                          "descendants": {
+                            "b:UCRf6": {
+                              "icon": "plus",
+                              "fill": "$b:color-accent-primary"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "id": "RrmEP",
+                      "type": "ref",
+                      "ref": "b:V5B4v4",
+                      "name": "43 · Workspace · Memo · Project Scope Toggle",
+                      "width": 280,
+                      "height": 38
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "d0Rirq",
+                  "name": "Project Memo Grid Row 1",
+                  "width": "fill_container",
+                  "gap": "$b:space-6",
+                  "children": [
+                    {
+                      "id": "O8D7O",
+                      "type": "ref",
+                      "ref": "b:fvI73",
+                      "name": "Project Memo Save Error Card",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:x0HQ5/b:F9e71l": {
+                          "content": "균열은 문이 아니라 기억의 방향이다. 다음 장면에서 유리 조각의 의미를 다시 연결한다."
+                        }
+                      }
+                    },
+                    {
+                      "id": "u55pX",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 2",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "서윤과 하린이 처음 마주치는 장소는 북쪽 온실. 빛이 유리 벽을 통과하는 시간을 확인한다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "vhc8K",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 3",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "세계관 용어는 ‘잔향’으로 통일한다. 인물마다 잔향을 감지하는 방식이 다르다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "CG70P",
+                  "name": "Project Memo Grid Row 2",
+                  "width": "fill_container",
+                  "gap": "$b:space-6",
+                  "children": [
+                    {
+                      "id": "eBCit",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 4",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "후반부 사건 순서를 다시 검토한다. 축제 다음 날에 정전이 발생하도록 조정."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    },
+                    {
+                      "id": "MCoK6",
+                      "type": "ref",
+                      "ref": "b:EqBGG",
+                      "name": "Project Memo Card 5",
+                      "width": 268,
+                      "height": 268,
+                      "descendants": {
+                        "b:AD2b0/b:F9e71l": {
+                          "content": "표지 후보 문구: 기억은 언제나 빛이 지난 자리에 남는다."
+                        },
+                        "b:AD2b0/b:YfHn5": {
+                          "content": "저장됨"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "imports": {

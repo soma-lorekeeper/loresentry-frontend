@@ -18,6 +18,7 @@ Lorekeeper의 전체 화면 구조는 다음과 같다.
 - [통합 작업공간](./workspace/README.md)
 - [작업공간 검색](./workspace/search.md)
 - [작업공간 그래프](./workspace/graph.md)
+- [메모 탭](./workspace/project-memos.md)
 - [기본 섹션](./workspace/files-and-favorites.md)
 - [파일·폴더 동작](./workspace/file-and-folder-actions.md)
 - [파일·폴더 휴지통](./workspace/trash.md)
@@ -43,3 +44,4 @@ Lorekeeper의 전체 화면 구조는 다음과 같다.
 - [작업공간 콘텐츠 열기](./workflow/workspace-navigation.md)
 - [작업공간 검색](./workflow/workspace-search.md)
 - [작업공간 그래프](./workflow/workspace-graph.md)
+- [메모 탭](./workflow/project-memos.md)
