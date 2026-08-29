@@ -71,3 +71,16 @@
 
 세부 탭 전환과 포커스 이동은
 [작업공간 검색 Workflow](../workflow/workspace-search.md)를 따른다.
+
+## Pencil 시각 기준
+
+검색 화면은 `lorekeeper.pen`의 다음 프레임을 시각 기준으로 사용한다.
+
+- 초기: `38 · Workspace · Search · Default`(`KVKU8`)
+- 입력: `39 · Workspace · Search · Input`(`GqRoM`)
+- 결과 있음: `40 · Workspace · Search · Results`(`sj1mq`)
+- 결과 없음: `41 · Workspace · Search · No Results`(`gEeY1`)
+- 오류: `42 · Workspace · Search · Error`(`fJm26`)
+
+화면은 `lorekeeper.lib.pen`의 `Search / Input`(`h8n7ia`)과
+`Search / Result Row`(`YVBp8`)를 각각 `b:h8n7ia`, `b:YVBp8`로 참조한다.

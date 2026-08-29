@@ -18,7 +18,7 @@
 
 ## 재사용 컴포넌트
 
-라이브러리에는 기본 컴포넌트 16개와 상태 컴포넌트 34개, 총 50개를 둔다.
+라이브러리에는 기본 컴포넌트 18개와 상태 컴포넌트 34개, 총 52개를 둔다.
 
 ### 기본 컴포넌트
 
@@ -38,6 +38,8 @@
 - `AI Chat Panel / Open`
 - `Workspace / Trash Item`
 - `Dialog / Permanent Delete`
+- `Search / Input`
+- `Search / Result Row`
 
 ### 상태 컴포넌트
 

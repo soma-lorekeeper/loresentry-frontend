@@ -13472,6 +13472,1164 @@
           "width": 440
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "KVKU8",
+      "x": 31989,
+      "y": -1921,
+      "name": "38 · Workspace · Search · Default",
+      "context": "LOREKEEPER-342 workspace search state. Search is scoped to non-trash files in the current project and preserves this tab when a result opens.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "s15ns",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Search Default Sidebar · Search Selected",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:JeUsL": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:BeegO": {
+              "fill": "#00000000"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "PULI2",
+          "name": "Search Default Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "T7lgZQ",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "Search Default Tab Bar · Search",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG": {
+                  "width": 108
+                },
+                "b:l101xG/b:QXd7u": {
+                  "icon": "search"
+                },
+                "b:l101xG/b:s9UJUl": {
+                  "content": "검색"
+                },
+                "b:l101xG/b:joUxb": {
+                  "enabled": true,
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "HuQWC",
+              "name": "Search Default Search Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                42,
+                80
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "C2Ffm0",
+                  "name": "Search Default Project Context",
+                  "fill": "$b:color-text-secondary",
+                  "content": "유리 정원의 기록",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "DrYXd",
+                  "name": "Search Default Search Header",
+                  "width": "fill_container",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Osf3L",
+                      "name": "Search Default Search Header Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$b:space-1",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "uZMZq",
+                          "name": "Search Default Search Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "검색",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "650"
+                        },
+                        {
+                          "type": "text",
+                          "id": "xc2P4",
+                          "name": "Search Default Search Description",
+                          "fill": "$b:color-text-secondary",
+                          "content": "현재 프로젝트의 파일 이름과 본문을 검색합니다.",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "VhdIx",
+                      "name": "Search Default Search Status",
+                      "fill": "$b:color-text-secondary",
+                      "content": "검색 준비",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "id": "DfLYB",
+                  "type": "ref",
+                  "ref": "b:h8n7ia",
+                  "name": "Search Default Input",
+                  "width": "fill_container",
+                  "height": 44
+                },
+                {
+                  "type": "frame",
+                  "id": "O95PM0",
+                  "name": "Search Default State Panel",
+                  "width": "fill_container",
+                  "height": 320,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-card",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "padding": 48,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "zxalc",
+                      "name": "Search Default State Icon Box",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "$b:color-surface-icon",
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "adwGY",
+                          "name": "Search Default State Icon",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "search",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "vecIQ",
+                      "name": "Search Default State Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "현재 프로젝트의 파일을 검색하세요",
+                      "textAlign": "center",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "650"
+                    },
+                    {
+                      "type": "text",
+                      "id": "G29C7E",
+                      "name": "Search Default State Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "파일 이름과 검색 가능한 본문에서 찾을 수 있습니다.",
+                      "lineHeight": "$b:line-height-body",
+                      "textAlign": "center",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "GqRoM",
+      "x": 33509,
+      "y": -1921,
+      "name": "39 · Workspace · Search · Input",
+      "context": "LOREKEEPER-342 workspace search state. Search is scoped to non-trash files in the current project and preserves this tab when a result opens.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "Ewn7Y",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Search Input Sidebar · Search Selected",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:JeUsL": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:BeegO": {
+              "fill": "#00000000"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "wcnFW",
+          "name": "Search Input Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "Mc4zR",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "Search Input Tab Bar · Search",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG": {
+                  "width": 108
+                },
+                "b:l101xG/b:QXd7u": {
+                  "icon": "search"
+                },
+                "b:l101xG/b:s9UJUl": {
+                  "content": "검색"
+                },
+                "b:l101xG/b:joUxb": {
+                  "enabled": true,
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "Q0r66s",
+              "name": "Search Input Search Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                42,
+                80
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "q4S9fd",
+                  "name": "Search Input Project Context",
+                  "fill": "$b:color-text-secondary",
+                  "content": "유리 정원의 기록",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "WAulr",
+                  "name": "Search Input Search Header",
+                  "width": "fill_container",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "gVTUa",
+                      "name": "Search Input Search Header Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$b:space-1",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ZOT6F",
+                          "name": "Search Input Search Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "검색",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "650"
+                        },
+                        {
+                          "type": "text",
+                          "id": "SK1lo",
+                          "name": "Search Input Search Description",
+                          "fill": "$b:color-text-secondary",
+                          "content": "현재 프로젝트의 파일 이름과 본문을 검색합니다.",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "U1aZTt",
+                      "name": "Search Input Search Status",
+                      "fill": "$b:color-text-secondary",
+                      "content": "검색 중",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "id": "Jiqbh",
+                  "type": "ref",
+                  "ref": "b:h8n7ia",
+                  "name": "Search Input · Query",
+                  "width": "fill_container",
+                  "height": 44,
+                  "descendants": {
+                    "b:QT4Lv": {
+                      "content": "유리",
+                      "fill": "$b:color-text-primary"
+                    },
+                    "b:pwG3c": {
+                      "opacity": 1
+                    },
+                    "b:pwG3c/b:UCRf6": {
+                      "icon": "loader-circle"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "aOhKU",
+                  "name": "Search Input State Panel",
+                  "width": "fill_container",
+                  "height": 320,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-card",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "padding": 48,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "eJZPe",
+                      "name": "Search Input State Icon Box",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "$b:color-surface-icon",
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "xLsgb",
+                          "name": "Search Input State Icon",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "loader-circle",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "HrISC",
+                      "name": "Search Input State Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "‘유리’를 검색하고 있습니다",
+                      "textAlign": "center",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "650"
+                    },
+                    {
+                      "type": "text",
+                      "id": "jqonv",
+                      "name": "Search Input State Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "새 검색 결과를 불러오는 동안 이전 결과는 표시하지 않습니다.",
+                      "lineHeight": "$b:line-height-body",
+                      "textAlign": "center",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "sj1mq",
+      "x": 35029,
+      "y": -1921,
+      "name": "40 · Workspace · Search · Results",
+      "context": "LOREKEEPER-342 workspace search state. Search is scoped to non-trash files in the current project and preserves this tab when a result opens.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "zbtcs",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Search Results Sidebar · Search Selected",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:JeUsL": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:BeegO": {
+              "fill": "#00000000"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "f9iv5p",
+          "name": "Search Results Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "I2GIRH",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "Search Results Tab Bar · Search",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG": {
+                  "width": 108
+                },
+                "b:l101xG/b:QXd7u": {
+                  "icon": "search"
+                },
+                "b:l101xG/b:s9UJUl": {
+                  "content": "검색"
+                },
+                "b:l101xG/b:joUxb": {
+                  "enabled": true,
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "GJ8ZA",
+              "name": "Search Results Search Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                42,
+                80
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "puWfR",
+                  "name": "Search Results Project Context",
+                  "fill": "$b:color-text-secondary",
+                  "content": "유리 정원의 기록",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "zfcLN",
+                  "name": "Search Results Search Header",
+                  "width": "fill_container",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "blfBQ",
+                      "name": "Search Results Search Header Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$b:space-1",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "pglZp",
+                          "name": "Search Results Search Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "검색",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "650"
+                        },
+                        {
+                          "type": "text",
+                          "id": "w3wlV",
+                          "name": "Search Results Search Description",
+                          "fill": "$b:color-text-secondary",
+                          "content": "현재 프로젝트의 파일 이름과 본문을 검색합니다.",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "NKhCt",
+                      "name": "Search Results Search Status",
+                      "fill": "$b:color-text-secondary",
+                      "content": "3개 결과",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "id": "D1fWx",
+                  "type": "ref",
+                  "ref": "b:h8n7ia",
+                  "name": "Search Results Input",
+                  "width": "fill_container",
+                  "height": 44,
+                  "descendants": {
+                    "b:QT4Lv": {
+                      "content": "유리",
+                      "fill": "$b:color-text-primary"
+                    },
+                    "b:pwG3c": {
+                      "opacity": 1
+                    },
+                    "b:pwG3c/b:UCRf6": {
+                      "icon": "x"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "r6oix",
+                  "name": "Search Results List",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-card",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "id": "UD3fQ",
+                      "type": "ref",
+                      "ref": "b:YVBp8",
+                      "name": "Search Result · 12화",
+                      "width": "fill_container",
+                      "height": 84,
+                      "descendants": {
+                        "b:X3ePst": {
+                          "icon": "file-text"
+                        },
+                        "b:PHEHI": {
+                          "content": "12화 · 균열의 밤"
+                        },
+                        "b:Q3raf8": {
+                          "content": "원고"
+                        },
+                        "b:v7rdlL": {
+                          "content": "...유리 정원의 균열 너머로 희미한 빛이 번졌다."
+                        },
+                        "b:vAueC": {
+                          "content": "파일 > 원고 > 1부"
+                        }
+                      }
+                    },
+                    {
+                      "id": "bXqji",
+                      "type": "ref",
+                      "ref": "b:YVBp8",
+                      "name": "Search Result · 유리 정원 설정",
+                      "width": "fill_container",
+                      "height": 84,
+                      "descendants": {
+                        "b:X3ePst": {
+                          "icon": "notebook-tabs"
+                        },
+                        "b:PHEHI": {
+                          "content": "유리 정원 설정"
+                        },
+                        "b:Q3raf8": {
+                          "content": "설정"
+                        },
+                        "b:v7rdlL": {
+                          "content": "왕도 북쪽의 유리 정원은 오래된 마법 장벽으로 둘러싸여 있다."
+                        },
+                        "b:vAueC": {
+                          "content": "파일 > 설정"
+                        }
+                      }
+                    },
+                    {
+                      "id": "FnEPQ",
+                      "type": "ref",
+                      "ref": "b:YVBp8",
+                      "name": "Search Result · 라벤더 항구",
+                      "width": "fill_container",
+                      "height": 84,
+                      "descendants": {
+                        "b:X3ePst": {
+                          "icon": "map-pin"
+                        },
+                        "b:PHEHI": {
+                          "content": "라벤더 항구"
+                        },
+                        "b:Q3raf8": {
+                          "content": "장소"
+                        },
+                        "b:v7rdlL": {
+                          "content": "항구의 유리 등대는 밤마다 북쪽 항로를 밝힌다."
+                        },
+                        "b:vAueC": {
+                          "content": "파일 > 세계관 설정 > 장소"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "gEeY1",
+      "x": 36549,
+      "y": -1921,
+      "name": "41 · Workspace · Search · No Results",
+      "context": "LOREKEEPER-342 workspace search state. Search is scoped to non-trash files in the current project and preserves this tab when a result opens.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "VClDx",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Search No Results Sidebar · Search Selected",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:JeUsL": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:BeegO": {
+              "fill": "#00000000"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "qIswi",
+          "name": "Search No Results Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "gxirp",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "Search No Results Tab Bar · Search",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG": {
+                  "width": 108
+                },
+                "b:l101xG/b:QXd7u": {
+                  "icon": "search"
+                },
+                "b:l101xG/b:s9UJUl": {
+                  "content": "검색"
+                },
+                "b:l101xG/b:joUxb": {
+                  "enabled": true,
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "Bf3f6",
+              "name": "Search No Results Search Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                42,
+                80
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "a5htZG",
+                  "name": "Search No Results Project Context",
+                  "fill": "$b:color-text-secondary",
+                  "content": "유리 정원의 기록",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "rA4H2",
+                  "name": "Search No Results Search Header",
+                  "width": "fill_container",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "poByR",
+                      "name": "Search No Results Search Header Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$b:space-1",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "G97g4",
+                          "name": "Search No Results Search Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "검색",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "650"
+                        },
+                        {
+                          "type": "text",
+                          "id": "bRrRA",
+                          "name": "Search No Results Search Description",
+                          "fill": "$b:color-text-secondary",
+                          "content": "현재 프로젝트의 파일 이름과 본문을 검색합니다.",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "lmdrS",
+                      "name": "Search No Results Search Status",
+                      "fill": "$b:color-text-secondary",
+                      "content": "0개 결과",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "id": "yn3jy",
+                  "type": "ref",
+                  "ref": "b:h8n7ia",
+                  "name": "Search No Results Input",
+                  "width": "fill_container",
+                  "height": 44,
+                  "descendants": {
+                    "b:QT4Lv": {
+                      "content": "흑요석 왕관",
+                      "fill": "$b:color-text-primary"
+                    },
+                    "b:pwG3c": {
+                      "opacity": 1
+                    },
+                    "b:pwG3c/b:UCRf6": {
+                      "icon": "x"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "Wy6iu",
+                  "name": "Search No Results State Panel",
+                  "width": "fill_container",
+                  "height": 320,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-card",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "padding": 48,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "DzA1k",
+                      "name": "Search No Results State Icon Box",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "$b:color-surface-icon",
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "tm483",
+                          "name": "Search No Results State Icon",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "file-x",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "i3yqJl",
+                      "name": "Search No Results State Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "검색 결과가 없습니다",
+                      "textAlign": "center",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "650"
+                    },
+                    {
+                      "type": "text",
+                      "id": "MHRHq",
+                      "name": "Search No Results State Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "‘흑요석 왕관’과 일치하는 파일이 없습니다. 다른 검색어를 입력해 보세요.",
+                      "lineHeight": "$b:line-height-body",
+                      "textAlign": "center",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "fJm26",
+      "x": 38069,
+      "y": -1921,
+      "name": "42 · Workspace · Search · Error",
+      "context": "LOREKEEPER-342 workspace search state. Search is scoped to non-trash files in the current project and preserves this tab when a result opens.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "lY3aD",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Search Error Sidebar · Search Selected",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:JeUsL": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:BeegO": {
+              "fill": "#00000000"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "CTjd9",
+          "name": "Search Error Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "ndjST",
+              "type": "ref",
+              "ref": "b:IDGnM",
+              "name": "Search Error Tab Bar · Search",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:l101xG": {
+                  "width": 108
+                },
+                "b:l101xG/b:QXd7u": {
+                  "icon": "search"
+                },
+                "b:l101xG/b:s9UJUl": {
+                  "content": "검색"
+                },
+                "b:l101xG/b:joUxb": {
+                  "enabled": true,
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "r4hrCK",
+              "name": "Search Error Search Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "padding": [
+                42,
+                80
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "hKTpg",
+                  "name": "Search Error Project Context",
+                  "fill": "$b:color-text-secondary",
+                  "content": "유리 정원의 기록",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "Ni0QB",
+                  "name": "Search Error Search Header",
+                  "width": "fill_container",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "t5XprI",
+                      "name": "Search Error Search Header Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$b:space-1",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "pqDP3",
+                          "name": "Search Error Search Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "검색",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "650"
+                        },
+                        {
+                          "type": "text",
+                          "id": "TTm09",
+                          "name": "Search Error Search Description",
+                          "fill": "$b:color-text-secondary",
+                          "content": "현재 프로젝트의 파일 이름과 본문을 검색합니다.",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "D1YJd",
+                      "name": "Search Error Search Status",
+                      "fill": "$b:color-text-secondary",
+                      "content": "불러오기 실패",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "id": "RxOhB",
+                  "type": "ref",
+                  "ref": "b:h8n7ia",
+                  "name": "Search Error Input",
+                  "width": "fill_container",
+                  "height": 44,
+                  "descendants": {
+                    "b:QT4Lv": {
+                      "content": "유리",
+                      "fill": "$b:color-text-primary"
+                    },
+                    "b:pwG3c": {
+                      "opacity": 1
+                    },
+                    "b:pwG3c/b:UCRf6": {
+                      "icon": "x"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "fEgDq",
+                  "name": "Search Error State Panel",
+                  "width": "fill_container",
+                  "height": 320,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-card",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "padding": 48,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "w0kEdM",
+                      "name": "Search Error State Icon Box",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "$b:color-surface-icon",
+                      "cornerRadius": "$b:radius-control",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "f6jRNr",
+                          "name": "Search Error State Icon",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "triangle-alert",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "iwb3c",
+                      "name": "Search Error State Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "검색 결과를 불러오지 못했습니다",
+                      "textAlign": "center",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "650"
+                    },
+                    {
+                      "type": "text",
+                      "id": "y26xFQ",
+                      "name": "Search Error State Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "검색어는 그대로 유지됩니다. 연결을 확인한 뒤 다시 시도하세요.",
+                      "lineHeight": "$b:line-height-body",
+                      "textAlign": "center",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "id": "T4qpA",
+                      "type": "ref",
+                      "ref": "b:celDl",
+                      "name": "Search Error Retry Button",
+                      "width": 108,
+                      "height": 36,
+                      "descendants": {
+                        "b:n0keHY": {
+                          "icon": "refresh-cw"
+                        },
+                        "b:zprJP": {
+                          "content": "다시 시도"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "imports": {

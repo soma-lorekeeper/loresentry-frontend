@@ -12241,6 +12241,183 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "h8n7ia",
+      "x": 0,
+      "y": 3363,
+      "name": "Search / Input",
+      "reusable": true,
+      "width": 944,
+      "height": 44,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "gap": "$space-3",
+      "padding": [
+        0,
+        "$space-4"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "WEgk9",
+          "name": "Search Input Icon",
+          "width": 17,
+          "height": 17,
+          "icon": "search",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-icon-default"
+        },
+        {
+          "type": "text",
+          "id": "QT4Lv",
+          "name": "Search Input Text",
+          "fill": "$color-text-secondary",
+          "content": "현재 프로젝트에서 검색",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-body",
+          "fontWeight": "normal"
+        },
+        {
+          "id": "pwG3c",
+          "type": "ref",
+          "ref": "hMpn5",
+          "name": "Search Input Action",
+          "width": 28,
+          "height": 28,
+          "opacity": 0,
+          "descendants": {
+            "UCRf6": {
+              "icon": "x",
+              "width": 15,
+              "height": 15
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "YVBp8",
+      "x": 0,
+      "y": 3487,
+      "name": "Search / Result Row",
+      "reusable": true,
+      "width": 944,
+      "height": 84,
+      "fill": "$color-surface-default",
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "bottom": 1
+      },
+      "gap": "$space-4",
+      "padding": [
+        12,
+        "$space-4"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "v21xwA",
+          "name": "Search Result Icon Box",
+          "width": 36,
+          "height": 36,
+          "fill": "$color-surface-icon",
+          "cornerRadius": "$radius-control",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "X3ePst",
+              "name": "Search Result File Type Icon",
+              "width": 17,
+              "height": 17,
+              "icon": "file-text",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "gzKcn",
+          "name": "Search Result Copy",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 2,
+          "children": [
+            {
+              "type": "frame",
+              "id": "m1rqWy",
+              "name": "Search Result Title Row",
+              "width": "fill_container",
+              "gap": "$space-2",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "PHEHI",
+                  "name": "Search Result Title",
+                  "fill": "$color-text-primary",
+                  "content": "12화 · 균열의 밤",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "Q3raf8",
+                  "name": "Search Result File Type",
+                  "fill": "$color-accent-primary",
+                  "content": "원고",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "v7rdlL",
+              "name": "Search Result Match Excerpt",
+              "fill": "$color-text-secondary",
+              "content": "...유리 정원의 균열 너머로 희미한 빛이 번졌다.",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "vAueC",
+              "name": "Search Result File Path",
+              "fill": "$color-text-secondary",
+              "content": "파일 > 원고 > 1부",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "icon",
+          "id": "fszYg",
+          "name": "Search Result Open Icon",
+          "width": 15,
+          "height": 15,
+          "icon": "arrow-up-right",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-icon-default"
+        }
+      ]
     }
   ],
   "themes": {
