@@ -1,8 +1,8 @@
 # Lorekeeper 핵심 화면 frontend 인계
 
-- 상태: 일곱 핵심 화면 구현 기준 확정, 상호작용 시각 참조 6개 추가
+- 상태: 구조·상태 계약 확정, Style B 전역 변수 적용 검토 중
 - 디자인 원본: [`lorekeeper.pen`](./lorekeeper.pen)
-- 승인 기준: `20 · Visual Direction · Recommended Blend · APPROVED` (`K4irXB`)
+- 검토 기준: `20 · Visual Direction · Style B Variables · REVIEW` (`K4irXB`)
 - 구현 대상: 새 탭 2개 상태, 원고 편집기 5개 상태와 상호작용 시각 참조 6개
 
 이 문서는 frontend 구현자가 승인된 핵심 화면을 재현할 때 사용할
@@ -43,9 +43,9 @@
   `color-text-manuscript-title`, `font-size-manuscript-title`,
   `line-height-manuscript-title`을, 본문은 대응하는 `manuscript-body` 변수를
   사용한다.
-- UI 글꼴은 `font-family-ui`, 직접 배치한 Lucide 아이콘은
-  `icon-weight-default`를 사용한다. 현재 승인 변수 40개의 실제 값은
-  [`design-direction.md`](./design-direction.md)의 승인 변수 기준과
+- UI 글꼴은 Style B의 `font-family-ui`, 직접 배치한 Lucide 아이콘은
+  `icon-weight-default`를 사용한다. 현재 검토 변수 40개의 실제 값은
+  [`design-direction.md`](./design-direction.md)의 전역 변수 검토 기준과
   `lorekeeper.pen`을 따른다.
 - 구현 코드에 현재 계산 색상이나 간격을 복사하지 않고 의미 변수에 대응하는
   프로젝트 토큰을 연결한다.
@@ -124,3 +124,7 @@
 상호작용 시각 참조 6개는 2026-08-29 문서와 Pencil 간 불일치를 해소하기 위해
 추가했다. 기존 일곱 핵심 화면의 사용자 확인 범위를 새로운 제품 요구사항으로
 확장하지 않으며, 이미 문서화된 동작의 구현 비교 기준으로 사용한다.
+
+2026-08-29 공유 디자인 변수 23개를 Style B 값으로 전환해 검토 중이다. 이전
+승인 변수 상태는 커밋 `e6568d0`에 보존돼 있으며, 이번 변수 전환은 별도 사용자
+확인 전까지 frontend 최종 시각 기준으로 확정하지 않는다.

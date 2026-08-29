@@ -73,7 +73,7 @@ AI 챗이 열린 상태는 이번 대표 화면에서 제외한다. 메모 패�
 | `17 · Visual Option · Softer Boundaries · Ulysses` (`FreFO`) | [Ulysses 공식 Dark Mode 화면](https://ulysses.app/assets/press/screenshots/mac/Mac-2.png) | 따뜻한 저명도 표면(`#1D1C1A`, `#171614`), 낮은 경계 대비(`#35332E`), 부드러운 본문 대비와 1.74 줄 간격, 가는 350 굵기 아이콘을 사용한다. 추가 카드나 장식 없이 패널 밀도를 기준본과 같게 유지한다. |
 | `18 · Visual Option · Editorial Contrast · iA Writer` (`v6YZP`) | [iA Writer 공식 집중 편집 화면](https://static.ia.net/2024/09/WriterStatsOn.webp) | 중앙 원고 면(`#252523`)과 원고 텍스트(`#F0EEE8`)를 주변 탐색·메모보다 분명하게 하고, 주변 UI의 2차 텍스트 대비를 낮춘다. 본문 줄 간격은 1.78, 아이콘은 400 굵기를 사용하며 도구 밀도는 늘리지 않는다. |
 | `19 · Visual Option · Clear Panel States · Scrivener` (`Tc6Ms`) | [Scrivener 공식 Binder·Editor·Inspector 화면](https://www.literatureandlatte.com/wp-content/uploads/2025/04/navigate1-1.png) | 패널 경계(`#4A463F`)와 선택 상태(`#3B372E`, `#D6C6A4`)를 더 분명하게 하고 2차 레이블도 읽기 쉽게 유지한다. 본문 줄 간격은 1.70, 아이콘은 500 굵기를 사용하되 도구나 Inspector 기능은 추가하지 않는다. |
-| `20 · Visual Direction · Recommended Blend · APPROVED` (`K4irXB`) | 위 세 공식 참고자료와 2026-08-28 사용자 승인 조합 | 17의 차분한 표면, 18의 원고 대비·1.78 줄 간격, 19보다 약한 패널 경계(`#403D37`)와 선택 상태(`#332F28`, `#D2C4A6`)를 결합한다. 아이콘은 중간 굵기 400을 사용한다. |
+| `20 · Visual Direction · Recommended Blend` (`K4irXB`, 당시 상태) | 위 세 공식 참고자료와 2026-08-28 사용자 승인 조합 | 17의 차분한 표면, 18의 원고 대비·1.78 줄 간격, 19보다 약한 패널 경계(`#403D37`)와 선택 상태(`#332F28`, `#D2C4A6`)를 결합한다. 이 당시 상태는 커밋 `e6568d0`에 보존돼 있다. |
 
 ### 같은 조건에서 볼 차이
 
@@ -90,7 +90,7 @@ AI 챗이 열린 상태는 이번 대표 화면에서 제외한다. 메모 패�
 말했고, 앞서 승인한 참고 조합을 실제 화면으로 만든 권장안을 최종 방향으로
 선택했다.
 
-- 선택: `20 · Visual Direction · Recommended Blend · APPROVED`
+- 당시 선택: `20 · Visual Direction · Recommended Blend`
 - 유지: 권장안의 전체 조합과 기존 C의 정보 구조
 - 변경: 별도 요청 없음
 - 제거: 별도 요청 없음
@@ -118,7 +118,7 @@ AI 챗이 열린 상태는 이번 대표 화면에서 제외한다. 메모 패�
 
 - 승인 일자: 2026-08-28
 - 승인 응답: `승인`
-- 승인 프레임: `20 · Visual Direction · Recommended Blend · APPROVED`
+- 당시 승인 프레임: `20 · Visual Direction · Recommended Blend`
 - Pencil 프레임 ID: `K4irXB`
 - 미해결 시각 피드백: 없음
 - 승인 범위: 대표 작업 화면과 이 화면에서 도출되는 시각 방향
@@ -126,6 +126,11 @@ AI 챗이 열린 상태는 이번 대표 화면에서 제외한다. 메모 패�
 
 파일 저장이나 자동 레이아웃 검사가 아니라 사용자의 위 명시적 응답을 최종 승인
 근거로 사용한다.
+
+2026-08-29부터 같은 프레임 ID `K4irXB`는
+`20 · Visual Direction · Style B Variables · REVIEW`로 전환해 공유 변수의
+Style B 적용을 검토한다. 이 변경은 위 2026-08-28 승인 이력을 소급해 바꾸지
+않는다.
 
 ## 후속 적용 기준
 

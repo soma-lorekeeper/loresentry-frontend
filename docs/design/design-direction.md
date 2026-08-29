@@ -1,14 +1,15 @@
 # Lorekeeper 디자인 방향
 
-- 상태: 대표 화면 시각 방향 승인
+- 상태: Style B 전역 변수 적용 검토 중
 - 기준일: 2026-08-28
 - 적용 범위: 승인된 대표 작업 화면과 후속 화면의 시각 기준
-- 기준 화면: `20 · Visual Direction · Recommended Blend · APPROVED` (`K4irXB`)
+- 기준 화면: `20 · Visual Direction · Style B Variables · REVIEW` (`K4irXB`)
 
-이 문서는 Lorekeeper 핵심 UI의 시각·상호작용 판단 기준이다. 이후 화면은
-`lorekeeper.pen`의 승인 프레임 `K4irXB`에서 도출한 시각 언어를 기준으로
-설계하며, 별도 근거 없이 새로운 시각 스타일을 만들지 않는다. 정보 구조는 사용자가
-선택한 C 와이어프레임을 보존한다.
+이 문서는 Lorekeeper 핵심 UI의 시각·상호작용 판단 기준이다. 현재 화면은
+`lorekeeper.pen`의 Style B 탐색 프레임에서 확인한 공유 변수를 전역 적용해
+검토한다. Style B에 없는 원고·메모 전용 변수는 이전 승인값을 유지하며, 정보
+구조는 사용자가 선택한 C 와이어프레임을 보존한다. 이전 승인 기준은 커밋
+`e6568d0`에 보존돼 있다.
 
 화면의 정보와 동작은 각 `docs/design` 문서가 사실의 기준이다. 이 문서는 그
 요구사항을 어떤 우선순위와 시각 원칙으로 표현할지 정한다. 구체적인 현재 변수값은
@@ -16,15 +17,18 @@
 
 ## 확정한 방향
 
-- 최종 기준안은 `20 · Visual Direction · Recommended Blend · APPROVED`다.
+- 현재 검토 기준은 `20 · Visual Direction · Style B Variables · REVIEW`다.
+- Style B는 공유 셸 변수의 근거로 사용하고, 원고·메모 전용 값은 근거가 생길
+  때까지 이전 승인값을 유지한다.
 - C의 정보 구조와 메모 패널 상호작용을 유지한다.
 - 좌측 프로젝트 탐색, 중앙 탭·작업 영역, 우측 AI 챗 패널의 3영역 구조를
   유지한다.
 - 다크 무채색 셸, 낮은 도구 대비와 넓은 중앙 작업 영역을 기본으로 한다.
 - 원고와 현재 작업이 장식, 내비게이션과 AI 기능보다 먼저 보여야 한다.
 - 상세 UI는 현재 C의 절제된 표현을 다듬는 방식으로 확장한다.
-- Pencil의 `Style A · Ink Library`, `Style B · Graphite Studio`,
-  `Style C · Midnight Archive`는 검토용 탐색안이며 채택한 방향이 아니다.
+- Pencil의 `Style A · Ink Library`와 `Style C · Midnight Archive`는 미채택
+  탐색안이다. `Style B · Graphite Studio`는 공유 변수의 원본으로 사용하되,
+  해당 탐색 프레임의 모든 직접값을 자동으로 제품 기준으로 간주하지 않는다.
 
 ## 사용자 목표
 
@@ -96,77 +100,77 @@
 
 ## 시각 기준
 
-승인 프레임에서 확인한 다음 기준을 유지한다.
+Style B 원본과 이전 승인 프레임에서 확인한 다음 기준을 검토한다.
 
 | 항목 | 기준 |
 | --- | --- |
-| 색상 | 캔버스 `#1D1C1A`, 기본 텍스트 `#E7E2D8`의 따뜻한 다크 무채색 체계 |
-| 표면 | 사이드바 `#161513`, 내비게이션 `#171614`, 메모 `#181715`, 편집 면 `#22211F` |
-| 경계 | 기본 `#403D37`, 승인 프레임 외곽 `#68635A`의 얇은 경계 |
-| 강조 | 선택 면 `#332F28`, 제한적 강조 `#D2C4A6` |
-| UI 글꼴 | `Inter`를 기본으로 사용 |
-| 원고 글꼴 | `Inter` 30px/1.25 제목, 16px/1.78 본문 |
+| 색상 | 캔버스 `#1A1D1F`, 기본 텍스트 `#EDF2F2`의 Graphite 다크 무채색 체계 |
+| 표면 | 사이드바·내비게이션 `#111416`, 탭 바 `#15181A`, 편집 면 `#22211F` |
+| 경계 | 기본·프레임 `#3A4246`의 얇은 경계 |
+| 강조 | 선택 면 `#293237`, 제한적 강조 `#A9C7D0` |
+| UI 글꼴 | `Geist`를 기본으로 사용 |
+| 원고 글꼴 | 공유 `Geist` 서체와 기존 30px/1.25 제목, 16px/1.78 본문 |
 | 아이콘 | `Lucide` 한 계열과 기본 굵기 400의 절제된 선형 아이콘 유지 |
-| 간격 | 4, 8, 12, 16, 24px의 기존 간격 체계를 우선 사용 |
-| 모서리 | 컨트롤 6px, 구조적 카드 8px를 상한에 가깝게 사용 |
+| 간격 | 4, 8, 10, 14, 20px의 Style B 간격 체계를 우선 사용 |
+| 모서리 | 컨트롤과 카드 모두 2px를 사용 |
 | 밀도 | 탐색은 압축하되 작업 영역에는 호흡을 주고 본문 폭을 제한 |
 | 효과 | 기본적으로 그라디언트, 광택, 발광과 강한 그림자를 사용하지 않음 |
 
 본문 폭과 반응형 최소 폭은 화면별 적용 과정에서 검증한다. 라이트 테마와 사용하지
 않는 성공·오류 상태 색상은 현재 범위에서 미리 만들지 않는다.
 
-## 승인 변수 기준
+## 전역 변수 검토 기준
 
-Pencil 변수 40개가 승인 프레임의 계산값과 일치한다. 색상값을 직접 복사하지 않고
-아래 의미 변수로 참조한다.
+Pencil 변수 40개 가운데 Style B에서 직접 근거를 확인한 공유 변수 23개를
+전환했다. 나머지 17개는 이전 승인값을 유지한다. 화면에서는 아래 의미 변수를
+참조하고 Style B 탐색 프레임의 직접값을 복사하지 않는다.
 
 ### 색상
 
 | 변수 | 값 | 용도 |
 | --- | --- | --- |
-| `color-bg-canvas` | `#1D1C1A` | 기본 작업 캔버스 |
-| `color-surface-sidebar` | `#161513` | 좌측 사이드바 |
-| `color-surface-navigation` | `#171614` | 탐색 항목 표면 |
+| `color-bg-canvas` | `#1A1D1F` | 기본 작업 캔버스 |
+| `color-surface-sidebar` | `#111416` | 좌측 사이드바 |
+| `color-surface-navigation` | `#111416` | 탐색 항목 표면 |
 | `color-surface-memo` | `#181715` | 메모 패널 |
-| `color-surface-topbar` | `#1A1917` | 탭 바 |
+| `color-surface-topbar` | `#15181A` | 탭 바 |
 | `color-surface-editor` | `#22211F` | 원고 편집 면 |
-| `color-surface-default` | `#25231F` | 기본 컨트롤·카드 |
-| `color-surface-raised` | `#282621` | 제한된 상위 표면 |
-| `color-surface-icon` | `#312F2A` | 아이콘 보조 표면 |
-| `color-surface-avatar` | `#5A554D` | 사용자 아바타 대체 표면 |
-| `color-border-default` | `#403D37` | 패널·컨트롤 경계 |
-| `color-border-frame` | `#68635A` | 승인 프레임 외곽 경계 |
-| `color-state-selected` | `#332F28` | 선택 상태 배경 |
-| `color-accent-primary` | `#D2C4A6` | 제한적 강조와 선택 경계 |
-| `color-text-primary` | `#E7E2D8` | UI 기본 텍스트 |
-| `color-text-secondary` | `#98948B` | 보조 텍스트 |
+| `color-surface-default` | `#222629` | 기본 컨트롤·카드 |
+| `color-surface-raised` | `#252A2D` | 제한된 상위 표면 |
+| `color-surface-icon` | `#30363A` | 아이콘 보조 표면 |
+| `color-surface-avatar` | `#536265` | 사용자 아바타 대체 표면 |
+| `color-border-default` | `#3A4246` | 패널·컨트롤 경계 |
+| `color-border-frame` | `#3A4246` | 검토 프레임 외곽 경계 |
+| `color-state-selected` | `#293237` | 선택 상태 배경 |
+| `color-accent-primary` | `#A9C7D0` | 제한적 강조와 선택 경계 |
+| `color-text-primary` | `#EDF2F2` | UI 기본 텍스트 |
+| `color-text-secondary` | `#9AA6A8` | 보조 텍스트 |
 | `color-text-manuscript-title` | `#F6F2EA` | 원고 제목 |
 | `color-text-manuscript-body` | `#F0EEE8` | 원고 본문 |
-| `color-icon-default` | `#B5AFA3` | 기본 아이콘 |
-| `color-text-on-accent` | `#1D1C1A` | 밝은 강조 위 텍스트 |
+| `color-icon-default` | `#B8C3C5` | 기본 아이콘 |
+| `color-text-on-accent` | `#111719` | 밝은 강조 위 텍스트 |
 
 ### 서체·간격·모서리·아이콘
 
 | 변수군 | 승인 값 |
 | --- | --- |
-| UI 서체 | `font-family-ui = Inter` |
-| UI 크기 | `font-size-label = 12`, `font-size-body = 13`, `font-size-context = 14` |
+| UI 서체 | `font-family-ui = Geist` |
+| UI 크기 | `font-size-label = 12`, `font-size-body = 13`, `font-size-context = 13` |
 | 보조 제목 크기 | `font-size-heading = 17`, `font-size-heading-lg = 21` |
 | 원고 크기 | `font-size-manuscript-title = 30`, `font-size-manuscript-body = 16` |
 | 줄 간격 | `line-height-manuscript-title = 1.25`, `line-height-manuscript-body = 1.78`, `line-height-context = 1.55`, `line-height-body = 1.5` |
-| 간격 | `space-1 = 4`, `space-2 = 8`, `space-3 = 12`, `space-4 = 16`, `space-6 = 24` |
-| 모서리 | `radius-control = 6`, `radius-card = 8` |
+| 간격 | `space-1 = 4`, `space-2 = 8`, `space-3 = 10`, `space-4 = 14`, `space-6 = 20` |
+| 모서리 | `radius-control = 2`, `radius-card = 2` |
 | 아이콘 | `icon-weight-default = 400` |
 
 ### 기존 변수 판정
 
-- 수정: 기존 색상 변수 13개를 승인 팔레트 값으로 동기화했다.
-- 유지: 기존 간격 5개, 모서리 2개, UI 서체·크기 6개를 유지했다.
-- 추가: 맥락별 표면·원고 색상·프레임 경계 7개, 원고 크기·줄 간격 6개,
-  아이콘 굵기 1개를 추가했다.
-- 폐기: 기존 변수 중 즉시 폐기한 항목은 없다. `font-size-heading`과
-  `font-size-heading-lg`는 승인 대표 화면의 핵심 토큰은 아니지만 기존 화면의
-  제목 체계를 위해 보류하고, 해당 화면 전파 때 다시 검증한다.
+- 전환: 공유 색상 16개, UI 서체 1개, 맥락 크기 1개, 간격 3개와 모서리 2개를
+  Style B 값으로 동기화했다.
+- 유지: 원고·메모 전용 색상, 원고 크기·행간, 기본·제목 크기, 작은 간격과 아이콘
+  굵기를 포함한 17개는 Style B에 직접 근거가 없어 이전 값을 유지했다.
+- 추가·폐기: 변수 이름을 추가하거나 폐기하지 않았다. 기존 의미 변수 연결을
+  유지해 기준 커밋과 현재 검토 상태를 같은 구조로 비교할 수 있다.
 
 ## 참고 레퍼런스
 
@@ -259,7 +263,7 @@ AI로 UI를 만들거나 수정할 때는 다음 순서를 따른다.
 
 1. 대상 화면 문서와 이 문서에서 사용자 목표, 유지할 구조와 평가 기준을
    추출한다.
-2. 승인 프레임 `K4irXB`와 승인 변수를 시작점으로 사용한다.
+2. 검토 프레임 `K4irXB`와 현재 전역 변수를 시작점으로 사용한다.
 3. 비교가 필요하면 타이포그래피, 간격, 경계, 밀도 또는 상태 표현 중 한 축만
    변경한다.
 4. 각 안에 해결하려는 문제, 유지한 요소, 변경한 요소와 예상 위험을 기록한다.
@@ -276,7 +280,7 @@ AI로 UI를 만들거나 수정할 때는 다음 순서를 따른다.
 
 1. 화면의 정보와 동작: 해당 `docs/design` 화면·Workflow 문서
 2. 시각·상호작용 판단: 이 문서
-3. 현재 구현할 변수값과 선택 구조: `lorekeeper.pen`의 변수와 승인 프레임
+3. 현재 구현할 변수값과 선택 구조: `lorekeeper.pen`의 변수와 검토 프레임
    `K4irXB`
 
 탐색용 Style Tile, 경쟁 서비스 화면과 AI가 생성한 제안은 사실의 기준이 아니다.

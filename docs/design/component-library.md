@@ -2,7 +2,7 @@
 
 `lorekeeper.pen`의 `15 · UI Library` 프레임은 두 개 이상의 핵심 화면에서 반복되는 UI 원본을 관리한다. 현재는 같은 `.pen` 파일 안에서 관리하며 별도 `.lib.pen` 파일로 분리하지 않는다.
 
-- 승인 기준: `20 · Visual Direction · Recommended Blend · APPROVED` (`K4irXB`)
+- 변수 검토 기준: `20 · Visual Direction · Style B Variables · REVIEW` (`K4irXB`)
 - 재사용 원본: 5개
 - 끊어진 인스턴스 참조: 0개
 
@@ -11,19 +11,19 @@
 | ID·원본 | 판정 | 승인 화면 용도 | 인스턴스에서 바꾸는 값 |
 | --- | --- | --- | --- |
 | `kJPYz` · `Tab / Document` | 유지·토큰 동기화 | 열린 원고 탭 1개 | 아이콘, 제목, 닫기 아이콘 |
-| `fR7lD` · `Sidebar Item / Default` | 유지·토큰 동기화 | 그래프·메모 항목 2개 | 아이콘, 라벨, 선택 배경 |
+| `fR7lD` · `Sidebar Item / Default` | 유지·토큰 동기화 | 핵심·보조 화면의 검색·그래프·메모 | 아이콘, 라벨, 선택 배경 |
 | `MkSEW` · `Icon Button / Default` | 유지·토큰 동기화 | 메모 닫기·추가 2개 | 아이콘, 크기, 활성 여부 |
 | `NEXTx` · `Button / Icon Label` | 유지·토큰 동기화 | AI 챗 버튼 1개 | 아이콘, 라벨, 선택 배경과 테두리 |
 | `UABoE` · `Memo Card / Work` | 유지·토큰 동기화 | 작품 메모 카드 2개 | 제목, 본문, 너비 |
 
-## 승인 화면 동기화 결과
+## 검토 화면 동기화 결과
 
-- 다섯 원본 모두 승인 화면에서 실제 인스턴스로 사용되므로 폐기하지 않는다.
-- 원본의 색상·경계·텍스트는 승인된 의미 변수에 연결된 기존 구조를 유지한다.
+- 다섯 원본 모두 검토 화면에서 실제 인스턴스로 사용되므로 폐기하지 않는다.
+- 원본의 색상·경계·텍스트는 Style B 값으로 전환한 의미 변수 연결을 유지한다.
 - 모든 원본 아이콘은 `icon-weight-default = 400`을 사용한다.
 - 작품 메모 본문은 `line-height-body = 1.5`를 사용한다.
-- 전체 `.pen`에서 원본별 인스턴스는 Sidebar 24개, Tab 12개, Icon Button 19개,
-  Icon Label Button 10개, Work Memo Card 16개이며 끊어진 `ref`는 없다.
+- 전체 `.pen`에서 원본별 인스턴스는 Sidebar 49개, Tab 24개, Icon Button 22개,
+  Icon Label Button 13개, Work Memo Card 16개이며 끊어진 `ref`는 없다.
 - 기존 원본 중 수정 없이 폐기하거나 새 원본으로 교체한 항목은 없다.
 
 ## 컴포넌트 경계
