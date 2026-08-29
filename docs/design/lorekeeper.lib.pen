@@ -10566,6 +10566,1681 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "Jbq1p",
+      "x": 5276,
+      "y": 1608,
+      "name": "Sidebar Item / Dragging",
+      "reusable": true,
+      "opacity": 0.92,
+      "width": 204,
+      "height": 35,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-accent-primary",
+      "strokeWidth": 1,
+      "gap": "$space-2",
+      "padding": [
+        0,
+        "$space-3"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "jDoga",
+          "name": "Dragging Item Icon",
+          "width": 15,
+          "height": 15,
+          "icon": "file-text",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-icon-default"
+        },
+        {
+          "type": "text",
+          "id": "m2fxcu",
+          "name": "Dragging Item Label",
+          "fill": "$color-text-primary",
+          "content": "12화 · 균열의 밤",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-body",
+          "fontWeight": "500"
+        },
+        {
+          "type": "frame",
+          "id": "JmhNq",
+          "name": "Dragging Item Spacer",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "icon",
+          "id": "EY75n",
+          "name": "Dragging Item Grip",
+          "width": 14,
+          "height": 14,
+          "icon": "grip-vertical",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-accent-primary"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "YW4Vf",
+      "x": 5560,
+      "y": 1608,
+      "name": "Sidebar Item / Drop Target",
+      "reusable": true,
+      "width": 204,
+      "height": 35,
+      "fill": "$color-state-selected",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-accent-primary",
+      "strokeWidth": 1,
+      "gap": "$space-2",
+      "padding": [
+        0,
+        "$space-3"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "iVngG",
+          "name": "Drop Target Item Icon",
+          "width": 15,
+          "height": 15,
+          "icon": "folder",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-accent-primary"
+        },
+        {
+          "type": "text",
+          "id": "g3tlTd",
+          "name": "Drop Target Item Label",
+          "fill": "$color-text-primary",
+          "content": "원고로 이동",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-body",
+          "fontWeight": "600"
+        },
+        {
+          "type": "frame",
+          "id": "pKWbI",
+          "name": "Drop Target Item Spacer",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "icon",
+          "id": "AfVkX",
+          "name": "Drop Target Indicator",
+          "width": 14,
+          "height": 14,
+          "icon": "corner-down-left",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-accent-primary"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "cVJSM",
+      "x": 5844,
+      "y": 1608,
+      "name": "Sidebar / Workspace / Item Dragging",
+      "reusable": true,
+      "width": 236,
+      "height": 900,
+      "fill": "$color-surface-navigation",
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "right": 1
+      },
+      "layout": "vertical",
+      "gap": "$space-4",
+      "padding": [
+        18,
+        "$space-4"
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "Zhwgs",
+          "name": "Sidebar User",
+          "width": "fill_container",
+          "height": 28,
+          "gap": "$space-2",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "OuXEy",
+              "name": "Sidebar User Avatar",
+              "fill": "$color-surface-icon",
+              "width": 28,
+              "height": 28
+            },
+            {
+              "type": "text",
+              "id": "JMJJv",
+              "name": "Sidebar User Name",
+              "fill": "$color-text-primary",
+              "content": "서윤주",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "VRlyI",
+          "name": "Sidebar Project Switcher",
+          "width": "fill_container",
+          "height": 39,
+          "fill": "$color-surface-default",
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": "$space-3",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "XfX18",
+              "name": "Sidebar Project Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "book-open",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "b9Jeiz",
+              "name": "Sidebar Project Name",
+              "fill": "$color-text-primary",
+              "content": "유리 정원의 기록",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "luRfw",
+              "name": "Sidebar Project Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "icon",
+              "id": "q59lY",
+              "name": "Sidebar Project Chevron",
+              "width": 14,
+              "height": 14,
+              "icon": "chevron-down",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "q0ulF9",
+          "name": "Sidebar Primary Navigation",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 3,
+          "children": [
+            {
+              "id": "n8YDK",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Instance · Search",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "search"
+                },
+                "bP6Qr": {
+                  "content": "검색"
+                }
+              }
+            },
+            {
+              "id": "ia0zP",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Instance · Graph",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "share-2"
+                },
+                "bP6Qr": {
+                  "content": "그래프"
+                }
+              }
+            },
+            {
+              "id": "l49mfV",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Instance · Memo",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "notebook-pen"
+                },
+                "bP6Qr": {
+                  "content": "메모"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "dA5R8",
+          "name": "Sidebar Favorites Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 2,
+          "children": [
+            {
+              "type": "frame",
+              "id": "pB4Kc",
+              "name": "Sidebar Favorites Header",
+              "width": "fill_container",
+              "height": 33,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Z7lJ0i",
+                  "name": "Sidebar Favorites Header Label",
+                  "fill": "$color-text-secondary",
+                  "content": "즐겨찾기",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "fdD4o",
+                  "name": "Sidebar Favorites Header Spacer",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "id": "add1R",
+                  "type": "ref",
+                  "ref": "hMpn5",
+                  "name": "Sidebar Favorites Header More Button",
+                  "width": 24,
+                  "height": 24,
+                  "descendants": {
+                    "UCRf6": {
+                      "icon": "ellipsis",
+                      "width": 15,
+                      "height": 15
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "aFKon",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Favorite Manuscript",
+              "width": "fill_container",
+              "fill": "$color-state-selected",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "file-text"
+                },
+                "bP6Qr": {
+                  "content": "12화 · 균열의 밤"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "IImZt",
+          "name": "Sidebar Files Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 2,
+          "children": [
+            {
+              "type": "frame",
+              "id": "MsK9v",
+              "name": "Sidebar Files Header",
+              "width": "fill_container",
+              "height": 33,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "GEnT7",
+                  "name": "Sidebar Files Header Label",
+                  "fill": "$color-text-secondary",
+                  "content": "파일",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "cWeLc",
+                  "name": "Sidebar Files Header Spacer",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "id": "bNGHs",
+                  "type": "ref",
+                  "ref": "hMpn5",
+                  "name": "Sidebar Files Header More Button",
+                  "width": 24,
+                  "height": 24,
+                  "descendants": {
+                    "UCRf6": {
+                      "icon": "ellipsis",
+                      "width": 15,
+                      "height": 15
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "hOR6T",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Manuscript Folder",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "원고"
+                }
+              }
+            },
+            {
+              "id": "vTuKO",
+              "type": "ref",
+              "ref": "Jbq1p",
+              "name": "Sidebar Current Item Dragging",
+              "width": "fill_container"
+            },
+            {
+              "id": "f6ca9",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Previous Manuscript",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                28
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "file-text"
+                },
+                "bP6Qr": {
+                  "content": "11화 · 유리 정원"
+                }
+              }
+            },
+            {
+              "id": "ujPFX",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Setting File",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "settings-2"
+                },
+                "bP6Qr": {
+                  "content": "설정"
+                }
+              }
+            },
+            {
+              "id": "GiF7X",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Character File",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "user-round"
+                },
+                "bP6Qr": {
+                  "content": "캐릭터"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "iT49u",
+          "name": "Sidebar Flexible Spacer",
+          "width": "fill_container",
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "m3mJLB",
+          "name": "Sidebar Utility Navigation",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 3,
+          "children": [
+            {
+              "id": "p5vGaG",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Trash",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "trash-2"
+                },
+                "bP6Qr": {
+                  "content": "휴지통"
+                }
+              }
+            },
+            {
+              "id": "iaDrK",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Settings",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "settings"
+                },
+                "bP6Qr": {
+                  "content": "설정"
+                }
+              }
+            },
+            {
+              "id": "i79TRZ",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Help",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "circle-help"
+                },
+                "bP6Qr": {
+                  "content": "도움말"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "UqLj6",
+      "x": 6160,
+      "y": 1608,
+      "name": "Sidebar / Workspace / Folder Drop Target",
+      "reusable": true,
+      "width": 236,
+      "height": 900,
+      "fill": "$color-surface-navigation",
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "right": 1
+      },
+      "layout": "vertical",
+      "gap": "$space-4",
+      "padding": [
+        18,
+        "$space-4"
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "VZIC9",
+          "name": "Sidebar User",
+          "width": "fill_container",
+          "height": 28,
+          "gap": "$space-2",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "Bo7az",
+              "name": "Sidebar User Avatar",
+              "fill": "$color-surface-icon",
+              "width": 28,
+              "height": 28
+            },
+            {
+              "type": "text",
+              "id": "dygwP",
+              "name": "Sidebar User Name",
+              "fill": "$color-text-primary",
+              "content": "서윤주",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "p9GRdx",
+          "name": "Sidebar Project Switcher",
+          "width": "fill_container",
+          "height": 39,
+          "fill": "$color-surface-default",
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": "$space-3",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "E2U5B4",
+              "name": "Sidebar Project Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "book-open",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "U8TbQ",
+              "name": "Sidebar Project Name",
+              "fill": "$color-text-primary",
+              "content": "유리 정원의 기록",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "VeRkJ",
+              "name": "Sidebar Project Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "icon",
+              "id": "CwbGK",
+              "name": "Sidebar Project Chevron",
+              "width": 14,
+              "height": 14,
+              "icon": "chevron-down",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "vTesy",
+          "name": "Sidebar Primary Navigation",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 3,
+          "children": [
+            {
+              "id": "cT7zI",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Instance · Search",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "search"
+                },
+                "bP6Qr": {
+                  "content": "검색"
+                }
+              }
+            },
+            {
+              "id": "f1W9P",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Instance · Graph",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "share-2"
+                },
+                "bP6Qr": {
+                  "content": "그래프"
+                }
+              }
+            },
+            {
+              "id": "ituZu",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Instance · Memo",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "notebook-pen"
+                },
+                "bP6Qr": {
+                  "content": "메모"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "VnbYf",
+          "name": "Sidebar Favorites Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 2,
+          "children": [
+            {
+              "type": "frame",
+              "id": "ETkem",
+              "name": "Sidebar Favorites Header",
+              "width": "fill_container",
+              "height": 33,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Cc3Ng",
+                  "name": "Sidebar Favorites Header Label",
+                  "fill": "$color-text-secondary",
+                  "content": "즐겨찾기",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "SaOLE",
+                  "name": "Sidebar Favorites Header Spacer",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "id": "fDO45",
+                  "type": "ref",
+                  "ref": "hMpn5",
+                  "name": "Sidebar Favorites Header More Button",
+                  "width": 24,
+                  "height": 24,
+                  "descendants": {
+                    "UCRf6": {
+                      "icon": "ellipsis",
+                      "width": 15,
+                      "height": 15
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "lGWsf",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Favorite Manuscript",
+              "width": "fill_container",
+              "fill": "$color-state-selected",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "file-text"
+                },
+                "bP6Qr": {
+                  "content": "12화 · 균열의 밤"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "MaCfO",
+          "name": "Sidebar Files Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 2,
+          "children": [
+            {
+              "type": "frame",
+              "id": "z3CeF",
+              "name": "Sidebar Files Header",
+              "width": "fill_container",
+              "height": 33,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "DOLnN",
+                  "name": "Sidebar Files Header Label",
+                  "fill": "$color-text-secondary",
+                  "content": "파일",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "bPjNE",
+                  "name": "Sidebar Files Header Spacer",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "id": "wyDt5",
+                  "type": "ref",
+                  "ref": "hMpn5",
+                  "name": "Sidebar Files Header More Button",
+                  "width": 24,
+                  "height": 24,
+                  "descendants": {
+                    "UCRf6": {
+                      "icon": "ellipsis",
+                      "width": 15,
+                      "height": 15
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "DUAdD",
+              "type": "ref",
+              "ref": "YW4Vf",
+              "name": "Sidebar Folder Drop Target",
+              "width": "fill_container",
+              "descendants": {
+                "iVngG": {
+                  "icon": "folder"
+                },
+                "g3tlTd": {
+                  "content": "원고로 이동"
+                }
+              }
+            },
+            {
+              "id": "TrV17",
+              "type": "ref",
+              "ref": "Jbq1p",
+              "name": "Sidebar Current Item Dragging",
+              "width": "fill_container"
+            },
+            {
+              "id": "LL6hj",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Previous Manuscript",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                28
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "file-text"
+                },
+                "bP6Qr": {
+                  "content": "11화 · 유리 정원"
+                }
+              }
+            },
+            {
+              "id": "F6JGMa",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Setting File",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "settings-2"
+                },
+                "bP6Qr": {
+                  "content": "설정"
+                }
+              }
+            },
+            {
+              "id": "YfL1t",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Character File",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "user-round"
+                },
+                "bP6Qr": {
+                  "content": "캐릭터"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nlz5f",
+          "name": "Sidebar Flexible Spacer",
+          "width": "fill_container",
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "jbVTn",
+          "name": "Sidebar Utility Navigation",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 3,
+          "children": [
+            {
+              "id": "lCU23",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Trash",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "trash-2"
+                },
+                "bP6Qr": {
+                  "content": "휴지통"
+                }
+              }
+            },
+            {
+              "id": "euSUs",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Settings",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "settings"
+                },
+                "bP6Qr": {
+                  "content": "설정"
+                }
+              }
+            },
+            {
+              "id": "m8GxV",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Help",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "circle-help"
+                },
+                "bP6Qr": {
+                  "content": "도움말"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "r8EM10",
+      "x": 6476,
+      "y": 1608,
+      "name": "Sidebar / Workspace / Favorites Drop Target",
+      "reusable": true,
+      "width": 236,
+      "height": 900,
+      "fill": "$color-surface-navigation",
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "right": 1
+      },
+      "layout": "vertical",
+      "gap": "$space-4",
+      "padding": [
+        18,
+        "$space-4"
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "IEuJA",
+          "name": "Sidebar User",
+          "width": "fill_container",
+          "height": 28,
+          "gap": "$space-2",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "A567nk",
+              "name": "Sidebar User Avatar",
+              "fill": "$color-surface-icon",
+              "width": 28,
+              "height": 28
+            },
+            {
+              "type": "text",
+              "id": "v0QVD",
+              "name": "Sidebar User Name",
+              "fill": "$color-text-primary",
+              "content": "서윤주",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "exvIY",
+          "name": "Sidebar Project Switcher",
+          "width": "fill_container",
+          "height": 39,
+          "fill": "$color-surface-default",
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": "$space-3",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "yaUhu",
+              "name": "Sidebar Project Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "book-open",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "Ex02a",
+              "name": "Sidebar Project Name",
+              "fill": "$color-text-primary",
+              "content": "유리 정원의 기록",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "v9hVv",
+              "name": "Sidebar Project Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "icon",
+              "id": "Q8Mzb",
+              "name": "Sidebar Project Chevron",
+              "width": 14,
+              "height": 14,
+              "icon": "chevron-down",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "pj4Ey",
+          "name": "Sidebar Primary Navigation",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 3,
+          "children": [
+            {
+              "id": "QrH02",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Instance · Search",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "search"
+                },
+                "bP6Qr": {
+                  "content": "검색"
+                }
+              }
+            },
+            {
+              "id": "c4u8t",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Instance · Graph",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "share-2"
+                },
+                "bP6Qr": {
+                  "content": "그래프"
+                }
+              }
+            },
+            {
+              "id": "ulrse",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Instance · Memo",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "notebook-pen"
+                },
+                "bP6Qr": {
+                  "content": "메모"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "GblZT",
+          "name": "Sidebar Favorites Section",
+          "width": "fill_container",
+          "fill": "$color-state-selected",
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-accent-primary",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "gap": 2,
+          "padding": "$space-1",
+          "children": [
+            {
+              "type": "frame",
+              "id": "XLhKF",
+              "name": "Sidebar Favorites Header",
+              "width": "fill_container",
+              "height": 33,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ckKM1",
+                  "name": "Sidebar Favorites Header Label",
+                  "fill": "$color-text-secondary",
+                  "content": "즐겨찾기",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "v8blm",
+                  "name": "Sidebar Favorites Header Spacer",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "id": "oJnU6",
+                  "type": "ref",
+                  "ref": "hMpn5",
+                  "name": "Sidebar Favorites Header More Button",
+                  "width": 24,
+                  "height": 24,
+                  "descendants": {
+                    "UCRf6": {
+                      "icon": "ellipsis",
+                      "width": 15,
+                      "height": 15
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "SV0Zj",
+              "type": "ref",
+              "ref": "YW4Vf",
+              "name": "Sidebar Favorites Drop Target Item",
+              "width": "fill_container",
+              "descendants": {
+                "iVngG": {
+                  "icon": "star"
+                },
+                "g3tlTd": {
+                  "content": "여기에 바로가기 추가"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "a9hXAF",
+          "name": "Sidebar Files Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 2,
+          "children": [
+            {
+              "type": "frame",
+              "id": "D2KT2T",
+              "name": "Sidebar Files Header",
+              "width": "fill_container",
+              "height": 33,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "XRPTV",
+                  "name": "Sidebar Files Header Label",
+                  "fill": "$color-text-secondary",
+                  "content": "파일",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "MpJnD",
+                  "name": "Sidebar Files Header Spacer",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "id": "nc5tA",
+                  "type": "ref",
+                  "ref": "hMpn5",
+                  "name": "Sidebar Files Header More Button",
+                  "width": 24,
+                  "height": 24,
+                  "descendants": {
+                    "UCRf6": {
+                      "icon": "ellipsis",
+                      "width": 15,
+                      "height": 15
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "Hoz3m",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Manuscript Folder",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "원고"
+                }
+              }
+            },
+            {
+              "id": "PNdAy",
+              "type": "ref",
+              "ref": "Jbq1p",
+              "name": "Sidebar Current Item Dragging",
+              "width": "fill_container"
+            },
+            {
+              "id": "p3P9ss",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Previous Manuscript",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                28
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "file-text"
+                },
+                "bP6Qr": {
+                  "content": "11화 · 유리 정원"
+                }
+              }
+            },
+            {
+              "id": "yjRJd",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Setting File",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "settings-2"
+                },
+                "bP6Qr": {
+                  "content": "설정"
+                }
+              }
+            },
+            {
+              "id": "m1dh5",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Character File",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "user-round"
+                },
+                "bP6Qr": {
+                  "content": "캐릭터"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "u0tGa4",
+          "name": "Sidebar Flexible Spacer",
+          "width": "fill_container",
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "o9t2g",
+          "name": "Sidebar Utility Navigation",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 3,
+          "children": [
+            {
+              "id": "wCnyH",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Trash",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "trash-2"
+                },
+                "bP6Qr": {
+                  "content": "휴지통"
+                }
+              }
+            },
+            {
+              "id": "zS2tO",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Settings",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "settings"
+                },
+                "bP6Qr": {
+                  "content": "설정"
+                }
+              }
+            },
+            {
+              "id": "oCjxJ",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Help",
+              "width": "fill_container",
+              "fill": "#00000000",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "circle-help"
+                },
+                "bP6Qr": {
+                  "content": "도움말"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ehyXz",
+      "x": 6792,
+      "y": 1608,
+      "name": "Dialog / Permanent Delete",
+      "reusable": true,
+      "width": 440,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": "$space-6",
+      "padding": "$space-6",
+      "children": [
+        {
+          "type": "frame",
+          "id": "QWOgJ",
+          "name": "Permanent Delete Dialog Header",
+          "width": "fill_container",
+          "gap": "$space-3",
+          "children": [
+            {
+              "type": "frame",
+              "id": "ZKiq6",
+              "name": "Permanent Delete Icon Surface",
+              "width": 38,
+              "height": 38,
+              "fill": "$color-state-selected",
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "QfVBL",
+                  "name": "Permanent Delete Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "trash-2",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-accent-primary"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ndqEm",
+              "name": "Permanent Delete Dialog Copy",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-1",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "FpY5a",
+                  "name": "Permanent Delete Dialog Title",
+                  "fill": "$color-text-primary",
+                  "content": "영구 삭제할까요?",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-heading",
+                  "fontWeight": "650"
+                },
+                {
+                  "type": "text",
+                  "id": "GhLKK",
+                  "name": "Permanent Delete Dialog Description",
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "이 항목은 프로젝트에서 완전히 삭제되며 복원할 수 없습니다.",
+                  "lineHeight": "$line-height-body",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "vVB4i",
+          "name": "Permanent Delete Target",
+          "width": "fill_container",
+          "height": 44,
+          "fill": "$color-surface-default",
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "RzYm9",
+              "name": "Permanent Delete Target Icon",
+              "width": 16,
+              "height": 16,
+              "icon": "file-text",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "qt1lV",
+              "name": "Permanent Delete Target Name",
+              "fill": "$color-text-primary",
+              "content": "12화 · 균열의 밤",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "D5iknr",
+          "name": "Permanent Delete Dialog Actions",
+          "width": "fill_container",
+          "gap": "$space-2",
+          "justifyContent": "end",
+          "children": [
+            {
+              "id": "isKnQ",
+              "type": "ref",
+              "ref": "celDl",
+              "name": "Cancel Permanent Delete Button",
+              "height": 36,
+              "descendants": {
+                "n0keHY": {
+                  "icon": "x"
+                },
+                "zprJP": {
+                  "content": "취소"
+                }
+              }
+            },
+            {
+              "id": "f0HZL",
+              "type": "ref",
+              "ref": "celDl",
+              "name": "Confirm Permanent Delete Button",
+              "height": 36,
+              "fill": "$color-accent-primary",
+              "stroke": "$color-accent-primary",
+              "descendants": {
+                "n0keHY": {
+                  "icon": "trash-2",
+                  "fill": "$color-text-on-accent"
+                },
+                "zprJP": {
+                  "content": "영구 삭제",
+                  "fill": "$color-text-on-accent"
+                }
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "themes": {

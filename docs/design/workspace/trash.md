@@ -18,3 +18,7 @@
 
 휴지통 탭의 기본 상태는 `lorekeeper.pen`의
 `30 · Workspace · Trash`(`NSDvO`)를 시각 기준으로 사용한다.
+
+영구 삭제 확인 상태는 `lorekeeper.pen`의
+`37 · Workspace · Trash · Permanent Delete Confirmation`(`so8pS`)을 시각 기준으로
+사용한다.
