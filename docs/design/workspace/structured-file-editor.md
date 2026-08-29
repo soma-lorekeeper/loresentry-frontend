@@ -167,3 +167,15 @@ Notion처럼 필요한 속성을 추가하고 속성의 값 유형을 선택한�
   `57 · Property Document · Setting · Saving`(`XWX3g`)
 - 설정 저장 오류:
   `58 · Property Document · Setting · Save Error`(`N05XrO`)
+- 캐릭터 기본:
+  `59 · Property Document · Character · Default`(`S0KR3j`)
+- 조직 기본:
+  `60 · Property Document · Organization · Default`(`HRRGt`)
+- 아이템 기본:
+  `61 · Property Document · Item · Default`(`aEeBT`)
+- 캐릭터 빈 문서:
+  `62 · Property Document · Character · Empty`(`ZooEr`)
+- 조직 속성 유형 메뉴 열린 상태:
+  `63 · Property Document · Organization · Property Type Open`(`R5JCCJ`)
+- 아이템 저장 오류:
+  `64 · Property Document · Item · Save Error`(`t3UXM`)
