@@ -40,3 +40,12 @@
 
 - 이름 변경에 별도 모달을 사용하지 않는다.
 - 이름 변경을 취소하면 기존 이름을 유지한다.
+
+## Pencil 시각 참조
+
+- 파일 생성 인라인 입력 상태는
+  `31 · Workspace · File Create Inline`(`jwhkD`)을 기준으로 한다.
+- 폴더 생성 인라인 입력 상태는
+  `32 · Workspace · Folder Create Inline`(`m7kHy`)을 기준으로 한다.
+- 기존 항목 이름 변경 인라인 입력 상태는
+  `33 · Workspace · Item Rename Inline`(`H9zx7`)을 기준으로 한다.
