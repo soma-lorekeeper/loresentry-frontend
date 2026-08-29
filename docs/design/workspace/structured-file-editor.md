@@ -140,5 +140,17 @@
 
 ## Pencil 시각 참조
 
-Atomic 구현에서 설정 기본, 세계관 빈 상태, 장소 속성 추가와 저장 오류 상태를
-추가한 뒤 화면 ID를 연결한다.
+- 설정 기본:
+  `52 · Property Document · Setting · Default`(`V3E9p`)
+- 세계관 기본:
+  `53 · Property Document · Worldbuilding · Default`(`Cr1QM`)
+- 장소 기본:
+  `54 · Property Document · Place · Default`(`A9aCt`)
+- 세계관 빈 문서:
+  `55 · Property Document · Worldbuilding · Empty`(`B194Dr`)
+- 장소 속성 유형 메뉴 열린 상태:
+  `56 · Property Document · Place · Property Type Open`(`Y7tLK`)
+- 설정 저장 중:
+  `57 · Property Document · Setting · Saving`(`XWX3g`)
+- 설정 저장 오류:
+  `58 · Property Document · Setting · Save Error`(`N05XrO`)
