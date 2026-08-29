@@ -17,3 +17,4 @@
 - [파일·폴더 생성과 이름 변경](./item-creation-and-renaming.md)
 - [파일·폴더 휴지통](./workspace-trash.md)
 - [작업공간 콘텐츠 열기](./workspace-navigation.md)
+- [작업공간 검색](./workspace-search.md)
