@@ -18,7 +18,7 @@
 
 ## 재사용 컴포넌트
 
-라이브러리에는 기본 컴포넌트 26개와 상태 컴포넌트 45개, 총 71개를 둔다.
+라이브러리에는 기본 컴포넌트 30개와 상태 컴포넌트 48개, 총 78개를 둔다.
 
 ### 기본 컴포넌트
 
@@ -48,6 +48,10 @@
 - `Property / Row / Text`
 - `Property / Row / File Reference`
 - `Property / Add`
+- `Timeline / Item / Date`
+- `Timeline / Item / Order`
+- `Timeline / Item / Unscheduled`
+- `Timeline / Add`
 
 ### 상태 컴포넌트
 
@@ -70,6 +74,8 @@
 - 메모 삭제: `Dialog / Memo Delete`
 - 속성: `Property / Type Menu`
 - 속성 문서 저장: `Saving`, `Saved`, `Error`
+- 시간 흐름: `Timeline / Item / Selected`, `Timeline / Item / Editing`
+- 시간 항목 삭제: `Dialog / Timeline Item Delete`
 
 ## 컴포넌트 경계
 
