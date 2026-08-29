@@ -18,7 +18,7 @@
 
 ## 재사용 컴포넌트
 
-라이브러리에는 기본 컴포넌트 18개와 상태 컴포넌트 34개, 총 52개를 둔다.
+라이브러리에는 기본 컴포넌트 22개와 상태 컴포넌트 41개, 총 63개를 둔다.
 
 ### 기본 컴포넌트
 
@@ -40,6 +40,10 @@
 - `Dialog / Permanent Delete`
 - `Search / Input`
 - `Search / Result Row`
+- `Memo / Editor Card`
+- `Memo / Project Card`
+- `Memo / File Card`
+- `Memo / Scope Toggle`
 
 ### 상태 컴포넌트
 
@@ -56,6 +60,10 @@
   `Below / Work Selected`
 - AI 챗 패널: `Session List Open`, `Session Menu Open`, `Session Rename`,
   `Delete Confirmation`, `New Session Empty`
+- 메모 편집 카드: `Focused`, `Saving`, `Save Error`
+- 메모 범위 전환: `File Selected`
+- 메모 메뉴: `Project Memo / Open`, `File Memo / Open`
+- 메모 삭제: `Dialog / Memo Delete`
 
 ## 컴포넌트 경계
 

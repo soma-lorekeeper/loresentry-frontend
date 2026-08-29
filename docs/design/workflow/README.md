@@ -19,4 +19,4 @@
 - [작업공간 콘텐츠 열기](./workspace-navigation.md)
 - [작업공간 검색](./workspace-search.md)
 - [작업공간 그래프](./workspace-graph.md)
-- [프로젝트 메모](./project-memos.md)
+- [메모 탭](./project-memos.md)

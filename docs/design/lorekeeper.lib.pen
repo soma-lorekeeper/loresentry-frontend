@@ -12418,6 +12418,600 @@
           "fill": "$color-icon-default"
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "evWIp",
+      "x": 7487,
+      "y": 0,
+      "name": "Memo / Editor Card",
+      "context": "Square always-editable memo surface shared by project and file memo cards.",
+      "reusable": true,
+      "width": 268,
+      "height": 268,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": "$space-2",
+      "padding": "$space-4",
+      "children": [
+        {
+          "type": "frame",
+          "id": "fGf6Z",
+          "name": "Memo Editor Header",
+          "width": "fill_container",
+          "height": 32,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "kb8tF",
+              "name": "Memo Editor Header Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "id": "uBF7j",
+              "type": "ref",
+              "ref": "hMpn5",
+              "name": "Memo Editor More Button",
+              "width": 32,
+              "height": 32,
+              "descendants": {
+                "UCRf6": {
+                  "icon": "ellipsis"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "F9e71l",
+          "name": "Memo Editor Body",
+          "fill": "$color-text-primary",
+          "textGrowth": "fixed-width-height",
+          "width": "fill_container",
+          "height": 166,
+          "content": "균열은 문이 아니라 기억의 방향이다. 다음 장면에서 유리 조각의 의미를 다시 연결한다.",
+          "lineHeight": "$line-height-body",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-body",
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "YfHn5",
+          "name": "Memo Editor Save Status",
+          "fill": "$color-text-secondary",
+          "content": "저장됨",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-label",
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "EqBGG",
+      "x": 7835,
+      "y": 0,
+      "name": "Memo / Project Card",
+      "context": "Project-level memo card. Body is directly editable and the more menu contains delete only.",
+      "reusable": true,
+      "width": 268,
+      "height": 268,
+      "children": [
+        {
+          "id": "AD2b0",
+          "type": "ref",
+          "ref": "evWIp",
+          "name": "Project Memo Editor",
+          "width": "fill_container",
+          "height": "fill_container"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "sc6PQ",
+      "x": 8183,
+      "y": 0,
+      "name": "Memo / File Card",
+      "context": "File memo card with source filename above the directly editable memo.",
+      "reusable": true,
+      "width": 268,
+      "height": 308,
+      "layout": "vertical",
+      "gap": "$space-2",
+      "children": [
+        {
+          "type": "frame",
+          "id": "iCiVz",
+          "name": "File Memo Header",
+          "width": "fill_container",
+          "height": 32,
+          "gap": "$space-2",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "icEgo",
+              "name": "File Memo Type Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "file-text",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "EpCbZ",
+              "name": "File Memo Filename",
+              "fill": "$color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "1장 · 유리 정원의 밤",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            },
+            {
+              "id": "c0a4hg",
+              "type": "ref",
+              "ref": "hMpn5",
+              "name": "File Memo More Button",
+              "width": 32,
+              "height": 32,
+              "descendants": {
+                "UCRf6": {
+                  "icon": "ellipsis"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "N6vKR",
+          "type": "ref",
+          "ref": "evWIp",
+          "name": "File Memo Editor",
+          "width": "fill_container",
+          "height": 268,
+          "descendants": {
+            "uBF7j": {
+              "enabled": false
+            },
+            "F9e71l": {
+              "content": "이 장면에서 유리 조각은 주인공의 기억을 상징한다."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "V5B4v4",
+      "x": 8531,
+      "y": 0,
+      "name": "Memo / Scope Toggle",
+      "context": "Top-right memo scope switch. Project memo is selected.",
+      "reusable": true,
+      "width": 280,
+      "height": 38,
+      "fill": "$color-surface-default",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "gap": "$space-1",
+      "padding": "$space-1",
+      "children": [
+        {
+          "type": "frame",
+          "id": "W36XF",
+          "name": "Project Memo Scope",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$color-state-selected",
+          "cornerRadius": "$radius-control",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "XCBqB",
+              "name": "Project Memo Scope Label",
+              "fill": "$color-text-primary",
+              "content": "프로젝트 메모",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Z8wf1",
+          "name": "File Memo Scope",
+          "width": "fill_container",
+          "height": "fill_container",
+          "cornerRadius": "$radius-control",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "IIQ5o",
+              "name": "File Memo Scope Label",
+              "fill": "$color-text-secondary",
+              "content": "파일 메모",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "h7y8AD",
+      "x": 8891,
+      "y": 0,
+      "name": "Memo / Scope Toggle / File Selected",
+      "context": "Top-right memo scope switch. File memo is selected and no add action is shown in the page header.",
+      "reusable": true,
+      "width": 280,
+      "height": 38,
+      "children": [
+        {
+          "id": "x5NFa",
+          "type": "ref",
+          "ref": "V5B4v4",
+          "name": "File Selected Scope Toggle",
+          "width": "fill_container",
+          "height": "fill_container",
+          "descendants": {
+            "W36XF": {
+              "fill": "#00000000"
+            },
+            "XCBqB": {
+              "fill": "$color-text-secondary",
+              "fontWeight": "normal"
+            },
+            "Z8wf1": {
+              "fill": "$color-state-selected"
+            },
+            "IIQ5o": {
+              "fill": "$color-text-primary",
+              "fontWeight": "600"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "p3Hi9V",
+      "x": 9251,
+      "y": 0,
+      "name": "Memo / Editor Card / Focused",
+      "reusable": true,
+      "width": 268,
+      "height": 268,
+      "children": [
+        {
+          "id": "XZFDY",
+          "type": "ref",
+          "ref": "evWIp",
+          "name": "Focused Memo Editor",
+          "width": "fill_container",
+          "height": "fill_container",
+          "stroke": "$color-accent-primary",
+          "strokeWidth": 2,
+          "descendants": {
+            "F9e71l": {
+              "content": "메모 안에서 바로 작성하고 수정합니다."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "nRpEk",
+      "x": 9599,
+      "y": 0,
+      "name": "Memo / Editor Card / Saving",
+      "reusable": true,
+      "width": 268,
+      "height": 268,
+      "children": [
+        {
+          "id": "oBrpj",
+          "type": "ref",
+          "ref": "evWIp",
+          "name": "Saving Memo Editor",
+          "width": "fill_container",
+          "height": "fill_container",
+          "descendants": {
+            "YfHn5": {
+              "content": "저장 중…",
+              "fill": "$color-accent-primary"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "fvI73",
+      "x": 9947,
+      "y": 0,
+      "name": "Memo / Editor Card / Save Error",
+      "reusable": true,
+      "width": 268,
+      "height": 268,
+      "children": [
+        {
+          "id": "x0HQ5",
+          "type": "ref",
+          "ref": "evWIp",
+          "name": "Save Error Memo Editor",
+          "width": "fill_container",
+          "height": "fill_container",
+          "stroke": "$color-accent-primary",
+          "descendants": {
+            "YfHn5": {
+              "type": "frame",
+              "id": "YRGnP",
+              "name": "Memo Save Error",
+              "width": "fill_container",
+              "gap": "$space-1",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "z7iZd",
+                  "name": "Memo Save Error Icon",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "circle-alert",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-accent-primary"
+                },
+                {
+                  "type": "text",
+                  "id": "YUuRc",
+                  "name": "Memo Save Error Label",
+                  "fill": "$color-text-primary",
+                  "content": "저장하지 못했습니다 · 다시 시도",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "C9zXG7",
+      "x": 10295,
+      "y": 0,
+      "name": "Menu / Project Memo / Open",
+      "reusable": true,
+      "width": 188,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000055",
+        "offset": {
+          "x": 0,
+          "y": 4
+        },
+        "blur": 16
+      },
+      "layout": "vertical",
+      "padding": "$space-2",
+      "children": [
+        {
+          "type": "frame",
+          "id": "bI49K",
+          "name": "Delete Project Memo Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "YcbJR",
+              "name": "Delete Project Memo Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "trash-2",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "Z5IUQ",
+              "name": "Delete Project Memo Label",
+              "fill": "$color-text-primary",
+              "content": "삭제",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "F4qyQ",
+      "x": 10563,
+      "y": 0,
+      "name": "Menu / File Memo / Open",
+      "reusable": true,
+      "width": 188,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000055",
+        "offset": {
+          "x": 0,
+          "y": 4
+        },
+        "blur": 16
+      },
+      "layout": "vertical",
+      "gap": "$space-1",
+      "padding": "$space-2",
+      "children": [
+        {
+          "type": "frame",
+          "id": "POqj2",
+          "name": "Open File Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "DRrpY",
+              "name": "Open File Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "external-link",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "tQ26o",
+              "name": "Open File Label",
+              "fill": "$color-text-primary",
+              "content": "파일로 이동",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "sdMkx",
+          "name": "File Memo Menu Separator",
+          "fill": "$color-border-default",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "frame",
+          "id": "ultLA",
+          "name": "Delete File Memo Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "gfwaJ",
+              "name": "Delete File Memo Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "trash-2",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "U8iMb",
+              "name": "Delete File Memo Label",
+              "fill": "$color-text-primary",
+              "content": "삭제",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "V31V8",
+      "x": 10831,
+      "y": 0,
+      "name": "Dialog / Memo Delete",
+      "context": "Confirmation shown before deleting a project or file memo. Deleting a file memo leaves the source file intact.",
+      "reusable": true,
+      "width": 440,
+      "children": [
+        {
+          "id": "Em890",
+          "type": "ref",
+          "ref": "ehyXz",
+          "name": "Memo Delete Confirmation",
+          "width": "fill_container",
+          "descendants": {
+            "FpY5a": {
+              "content": "메모를 삭제할까요?"
+            },
+            "GhLKK": {
+              "content": "이 메모는 바로 삭제되며 되돌릴 수 없습니다. 파일 메모를 삭제해도 원본 파일은 유지됩니다."
+            },
+            "RzYm9": {
+              "icon": "sticky-note"
+            },
+            "qt1lV": {
+              "content": "균열은 문이 아니라 기억의 방향이다."
+            },
+            "f0HZL/n0keHY": {
+              "icon": "trash-2"
+            },
+            "f0HZL/zprJP": {
+              "content": "메모 삭제"
+            }
+          }
+        }
+      ]
     }
   ],
   "themes": {
