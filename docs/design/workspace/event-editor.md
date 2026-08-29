@@ -139,5 +139,13 @@
 
 ## Pencil 시각 참조
 
-Atomic 구현에서 기본, 빈 상태, 선택, 편집과 삭제 확인 화면을 추가한 뒤 화면 ID를
-연결한다.
+- 기본:
+  `65 · Event Timeline · Default`(`dCMXt`)
+- 빈 상태:
+  `66 · Event Timeline · Empty`(`PeNqe`)
+- 시간 항목 선택:
+  `67 · Event Timeline · Selected`(`EYGdy`)
+- 시간 항목 편집:
+  `68 · Event Timeline · Editing`(`PmbP9`)
+- 시간 항목 삭제 확인:
+  `69 · Event Timeline · Delete Confirmation`(`NcFHe`)
