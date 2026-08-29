@@ -13012,6 +13012,915 @@
           }
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "hqWLU",
+      "x": 12171,
+      "y": 0,
+      "name": "Property / File Chip",
+      "context": "Selected Lorekeeper file reference shown inside a property value.",
+      "reusable": true,
+      "width": 180,
+      "height": 30,
+      "fill": "$color-surface-icon",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "gap": "$space-2",
+      "padding": [
+        0,
+        "$space-2"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "q0yS1",
+          "name": "File Chip Type Icon",
+          "width": 14,
+          "height": 14,
+          "icon": "file-text",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-icon-default"
+        },
+        {
+          "type": "text",
+          "id": "BuYqm",
+          "name": "File Chip Label",
+          "fill": "$color-text-primary",
+          "content": "1장 · 균열의 시작",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-label",
+          "fontWeight": "500"
+        },
+        {
+          "type": "frame",
+          "id": "cCvnX",
+          "name": "File Chip Spacer",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "icon",
+          "id": "muevN",
+          "name": "File Chip Remove Icon",
+          "width": 13,
+          "height": 13,
+          "icon": "x",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-icon-default"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "sL5cJ",
+      "x": 11351,
+      "y": 0,
+      "name": "Property / Row / Text",
+      "context": "Editable text property row shared by setting, worldbuilding and place documents.",
+      "reusable": true,
+      "width": 760,
+      "height": 68,
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "bottom": 1
+      },
+      "gap": "$space-4",
+      "padding": [
+        "$space-3",
+        0
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "j9CPx",
+          "name": "Text Property Identity",
+          "width": 220,
+          "height": 40,
+          "gap": "$space-2",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "c0Q3g0",
+              "type": "ref",
+              "ref": "hMpn5",
+              "name": "Text Property Type Button",
+              "width": 32,
+              "height": 32,
+              "descendants": {
+                "UCRf6": {
+                  "icon": "type"
+                }
+              }
+            },
+            {
+              "type": "text",
+              "id": "e7Vzqr",
+              "name": "Text Property Name",
+              "fill": "$color-text-primary",
+              "content": "분류",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "aHdaN",
+          "name": "Text Property Value",
+          "width": "fill_container",
+          "height": 40,
+          "fill": "$color-surface-default",
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "oqUQo",
+              "name": "Text Property Value Text",
+              "fill": "$color-text-primary",
+              "content": "마법 체계",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "id": "w4M8lC",
+          "type": "ref",
+          "ref": "hMpn5",
+          "name": "Text Property More Button",
+          "width": 32,
+          "height": 32,
+          "descendants": {
+            "UCRf6": {
+              "icon": "ellipsis"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "msXWI",
+      "x": 11351,
+      "y": 100,
+      "name": "Property / Row / File Reference",
+      "context": "Property row that links one or more Lorekeeper files of the selected type.",
+      "reusable": true,
+      "width": 760,
+      "height": 68,
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "bottom": 1
+      },
+      "gap": "$space-4",
+      "padding": [
+        "$space-3",
+        0
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "a8tRf",
+          "name": "File Property Identity",
+          "width": 220,
+          "height": 40,
+          "gap": "$space-2",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "F4znV",
+              "type": "ref",
+              "ref": "hMpn5",
+              "name": "File Property Type Button",
+              "width": 32,
+              "height": 32,
+              "descendants": {
+                "UCRf6": {
+                  "icon": "file-text"
+                }
+              }
+            },
+            {
+              "type": "text",
+              "id": "hi0Xk",
+              "name": "File Property Name",
+              "fill": "$color-text-primary",
+              "content": "관련 원고",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "H28zQ",
+          "name": "File Property Value",
+          "width": "fill_container",
+          "height": 40,
+          "fill": "$color-surface-default",
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-2"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "MB4CU",
+              "type": "ref",
+              "ref": "hqWLU",
+              "name": "Selected File Chip",
+              "height": 30
+            },
+            {
+              "id": "dJwAR",
+              "type": "ref",
+              "ref": "hMpn5",
+              "name": "Add Referenced File Button",
+              "width": 28,
+              "height": 28,
+              "descendants": {
+                "UCRf6": {
+                  "icon": "plus"
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "InBYW",
+              "name": "File Property Value Spacer",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "id": "Yg2k2",
+          "type": "ref",
+          "ref": "hMpn5",
+          "name": "File Property More Button",
+          "width": 32,
+          "height": 32,
+          "descendants": {
+            "UCRf6": {
+              "icon": "ellipsis"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "K4A0d",
+      "x": 11351,
+      "y": 200,
+      "name": "Property / Add",
+      "context": "Adds a property row to an attribute document.",
+      "reusable": true,
+      "width": 760,
+      "height": 40,
+      "cornerRadius": "$radius-control",
+      "gap": "$space-2",
+      "padding": [
+        0,
+        "$space-2"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "tS7KR",
+          "name": "Add Property Icon",
+          "width": 15,
+          "height": 15,
+          "icon": "plus",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-icon-default"
+        },
+        {
+          "type": "text",
+          "id": "S75sI",
+          "name": "Add Property Label",
+          "fill": "$color-text-secondary",
+          "content": "속성 추가",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-body",
+          "fontWeight": "500"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "c41pP",
+      "x": 11351,
+      "y": 280,
+      "name": "Property / Type Menu",
+      "context": "Menu for choosing text or a Lorekeeper file-reference property type.",
+      "reusable": true,
+      "width": 240,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000055",
+        "offset": {
+          "x": 0,
+          "y": 4
+        },
+        "blur": 16
+      },
+      "layout": "vertical",
+      "gap": "$space-1",
+      "padding": "$space-2",
+      "children": [
+        {
+          "type": "frame",
+          "id": "s8VHOK",
+          "name": "텍스트 Property Type",
+          "width": "fill_container",
+          "height": 34,
+          "fill": "$color-state-selected",
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "z4MyR",
+              "name": "텍스트 Type Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "type",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "cT1Q4",
+              "name": "텍스트 Type Label",
+              "fill": "$color-text-primary",
+              "content": "텍스트",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "qv6zz",
+              "name": "텍스트 Type Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "icon",
+              "id": "pOsKp",
+              "name": "텍스트 Selected Icon",
+              "width": 14,
+              "height": 14,
+              "icon": "check",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "UcIlc",
+          "name": "Property Type Menu Separator",
+          "fill": "$color-border-default",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "frame",
+          "id": "YupIC",
+          "name": "원고 Property Type",
+          "width": "fill_container",
+          "height": 34,
+          "fill": "#00000000",
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "cKboi",
+              "name": "원고 Type Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "file-text",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "m7v1CS",
+              "name": "원고 Type Label",
+              "fill": "$color-text-primary",
+              "content": "원고",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "z3YH2",
+              "name": "원고 Type Spacer",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "TfTvR",
+          "name": "설정 Property Type",
+          "width": "fill_container",
+          "height": 34,
+          "fill": "#00000000",
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "W42SPh",
+              "name": "설정 Type Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "notebook-tabs",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "hffK2",
+              "name": "설정 Type Label",
+              "fill": "$color-text-primary",
+              "content": "설정",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "q9sF4",
+              "name": "설정 Type Spacer",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "uyLUc",
+          "name": "캐릭터 Property Type",
+          "width": "fill_container",
+          "height": 34,
+          "fill": "#00000000",
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "McEdf",
+              "name": "캐릭터 Type Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "user-round",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "E0UOl",
+              "name": "캐릭터 Type Label",
+              "fill": "$color-text-primary",
+              "content": "캐릭터",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "HQatY",
+              "name": "캐릭터 Type Spacer",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "qWSJG",
+          "name": "이벤트 Property Type",
+          "width": "fill_container",
+          "height": 34,
+          "fill": "#00000000",
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "cr4mm",
+              "name": "이벤트 Type Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "calendar-days",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "mikwf",
+              "name": "이벤트 Type Label",
+              "fill": "$color-text-primary",
+              "content": "이벤트",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "xYDON",
+              "name": "이벤트 Type Spacer",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "XMdbe",
+          "name": "조직 Property Type",
+          "width": "fill_container",
+          "height": 34,
+          "fill": "#00000000",
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "BL7uS",
+              "name": "조직 Type Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "users-round",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "IchX1",
+              "name": "조직 Type Label",
+              "fill": "$color-text-primary",
+              "content": "조직",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "mdUII",
+              "name": "조직 Type Spacer",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "C7mHN",
+          "name": "아이템 Property Type",
+          "width": "fill_container",
+          "height": 34,
+          "fill": "#00000000",
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "c8nTV",
+              "name": "아이템 Type Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "gem",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "w1Au2S",
+              "name": "아이템 Type Label",
+              "fill": "$color-text-primary",
+              "content": "아이템",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "ClhSx",
+              "name": "아이템 Type Spacer",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "n45KHv",
+          "name": "장소 Property Type",
+          "width": "fill_container",
+          "height": 34,
+          "fill": "#00000000",
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "jVrOh",
+              "name": "장소 Type Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "map-pin",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "XxMiB",
+              "name": "장소 Type Label",
+              "fill": "$color-text-primary",
+              "content": "장소",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "fzNvY",
+              "name": "장소 Type Spacer",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "hIXwg",
+          "name": "세계관 Property Type",
+          "width": "fill_container",
+          "height": 34,
+          "fill": "#00000000",
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "fW5q5",
+              "name": "세계관 Type Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "globe",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "bOdA4",
+              "name": "세계관 Type Label",
+              "fill": "$color-text-primary",
+              "content": "세계관",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "vBNdV",
+              "name": "세계관 Type Spacer",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "R1bAh5",
+      "x": 12171,
+      "y": 80,
+      "name": "Property Document / Save Status / Saving",
+      "context": "Autosave feedback for title, properties and document content.",
+      "reusable": true,
+      "width": 180,
+      "height": 36,
+      "fill": "#00000000",
+      "cornerRadius": "$radius-control",
+      "stroke": "#00000000",
+      "gap": "$space-2",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "Bk2Ao",
+          "name": "Property Document / Save Status / Saving Icon",
+          "width": 15,
+          "height": 15,
+          "icon": "loader-circle",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-icon-default"
+        },
+        {
+          "type": "text",
+          "id": "Soepz",
+          "name": "Property Document / Save Status / Saving Label",
+          "fill": "$color-text-secondary",
+          "content": "저장 중…",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-label",
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "U1sa5",
+      "x": 12171,
+      "y": 136,
+      "name": "Property Document / Save Status / Saved",
+      "context": "Autosave feedback for title, properties and document content.",
+      "reusable": true,
+      "width": 180,
+      "height": 36,
+      "fill": "#00000000",
+      "cornerRadius": "$radius-control",
+      "stroke": "#00000000",
+      "gap": "$space-2",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "M3lt0J",
+          "name": "Property Document / Save Status / Saved Icon",
+          "width": 15,
+          "height": 15,
+          "icon": "check",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-icon-default"
+        },
+        {
+          "type": "text",
+          "id": "ECkhU",
+          "name": "Property Document / Save Status / Saved Label",
+          "fill": "$color-text-secondary",
+          "content": "저장됨",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-label",
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Mfj9B",
+      "x": 12171,
+      "y": 192,
+      "name": "Property Document / Save Status / Error",
+      "context": "Autosave feedback for title, properties and document content.",
+      "reusable": true,
+      "width": 300,
+      "height": 36,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "gap": "$space-2",
+      "padding": [
+        0,
+        "$space-3"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "R3XEgN",
+          "name": "Property Document / Save Status / Error Icon",
+          "width": 15,
+          "height": 15,
+          "icon": "cloud-off",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-icon-default"
+        },
+        {
+          "type": "text",
+          "id": "vV8a7",
+          "name": "Property Document / Save Status / Error Label",
+          "fill": "$color-text-primary",
+          "content": "저장하지 못했습니다",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-label",
+          "fontWeight": "500"
+        },
+        {
+          "type": "frame",
+          "id": "AZA3x",
+          "name": "Property Document / Save Status / Error Spacer",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "text",
+          "id": "oPzV0",
+          "name": "Property Document / Save Status / Error Retry",
+          "fill": "$color-accent-primary",
+          "content": "다시 시도",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-label",
+          "fontWeight": "600"
+        }
+      ]
     }
   ],
   "themes": {
