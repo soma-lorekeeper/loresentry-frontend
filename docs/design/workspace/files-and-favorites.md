@@ -99,11 +99,19 @@
 [취소] [섹션 삭제]
 ```
 
+삭제 확인 상태는 `lorekeeper.pen`의
+`86 · Workspace · User Section Delete Confirmation`(`eO5kL`)을 시각
+기준으로 사용한다.
+
 - `취소`는 대화상자를 닫고 섹션 더보기의 `섹션 삭제`로 포커스를 돌린다.
 - `섹션 삭제`가 성공하면 기본 파일 섹션을 펼치고 이동된 폴더로 포커스를 옮긴다.
 - 이동이나 섹션 삭제 중 하나라도 실패하면 어떤 변경도 적용하지 않는다. 대화상자에
   오류와 `다시 시도`를 표시하고 기존 섹션과 내부 항목을 유지한다.
 - 기본 즐겨찾기와 파일 섹션에는 삭제 행동과 삭제 확인 대화상자를 제공하지 않는다.
+
+전체 변경을 취소하고 다시 시도를 제공하는 실패 상태는 `lorekeeper.pen`의
+`87 · Workspace · User Section Delete Error`(`F9oF1`)을 시각 기준으로
+사용한다.
 
 사용자 생성 섹션 더보기 메뉴의 열린 상태는 `lorekeeper.pen`의
 `27 · Workspace · User Section Menu Open`(`PAM02`)을 시각 기준으로 사용한다.

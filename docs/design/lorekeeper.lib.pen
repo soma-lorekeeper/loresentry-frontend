@@ -16154,6 +16154,394 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "mKvxW",
+      "x": 17371,
+      "y": 0,
+      "name": "Memo Panel / Resize Handle / Vertical",
+      "context": "Drag to resize the right memo panel. Keyboard: Left/Right 8px, Shift 32px. Range 320px to 45%.",
+      "reusable": true,
+      "width": 12,
+      "height": 800,
+      "fill": "#00000000",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "rectangle",
+          "cornerRadius": 1,
+          "id": "GpjNP",
+          "name": "Vertical Resize Handle Indicator",
+          "fill": "$color-border-default",
+          "width": 2,
+          "height": 56
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "dcc8c",
+      "x": 17371,
+      "y": 860,
+      "name": "Memo Panel / Resize Handle / Horizontal",
+      "context": "Drag to resize the below memo panel. Keyboard: Up/Down 8px, Shift 32px. Range 240px to 50%.",
+      "reusable": true,
+      "width": 1204,
+      "height": 12,
+      "fill": "#00000000",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "rectangle",
+          "cornerRadius": 1,
+          "id": "SurQB",
+          "name": "Horizontal Resize Handle Indicator",
+          "fill": "$color-border-default",
+          "width": 64,
+          "height": 2
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "kW7rj",
+      "x": 17443,
+      "y": 0,
+      "name": "Dialog / User Section Delete",
+      "context": "Confirms deleting a user-created section while moving all contents into a same-named folder under Files.",
+      "reusable": true,
+      "width": 440,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": "$space-6",
+      "padding": "$space-6",
+      "children": [
+        {
+          "type": "frame",
+          "id": "X5sIXy",
+          "name": "User Section Delete Dialog Header",
+          "width": "fill_container",
+          "gap": "$space-3",
+          "children": [
+            {
+              "type": "frame",
+              "id": "l7TWZJ",
+              "name": "User Section Delete Icon Surface",
+              "width": 38,
+              "height": 38,
+              "fill": "$color-state-selected",
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "Qj52g",
+                  "name": "User Section Delete Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "folder-input",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-accent-primary"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "A0Do0",
+              "name": "User Section Delete Dialog Copy",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-1",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "OlxUP",
+                  "name": "User Section Delete Dialog Title",
+                  "fill": "$color-text-primary",
+                  "content": "자료 조사 섹션을 삭제할까요?",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-heading",
+                  "fontWeight": "650"
+                },
+                {
+                  "type": "text",
+                  "id": "FICrI",
+                  "name": "User Section Delete Dialog Description",
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "파일 6개와 폴더 2개는 파일 > 자료 조사로 이동합니다.",
+                  "lineHeight": "$line-height-body",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "K5zp6Q",
+          "name": "User Section Delete Destination",
+          "width": "fill_container",
+          "height": 44,
+          "fill": "$color-surface-default",
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "DDs0m",
+              "name": "User Section Delete Destination Icon",
+              "width": 16,
+              "height": 16,
+              "icon": "folder",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "tuTm3",
+              "name": "User Section Delete Destination Label",
+              "fill": "$color-text-primary",
+              "content": "파일 / 자료 조사 · 총 8개 항목",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "DBCiJ",
+          "name": "User Section Delete Dialog Actions",
+          "width": "fill_container",
+          "gap": "$space-2",
+          "justifyContent": "end",
+          "children": [
+            {
+              "id": "svYIC",
+              "type": "ref",
+              "ref": "celDl",
+              "name": "Cancel User Section Delete Button",
+              "height": 36,
+              "descendants": {
+                "n0keHY": {
+                  "icon": "x"
+                },
+                "zprJP": {
+                  "content": "취소"
+                }
+              }
+            },
+            {
+              "id": "Kqf9e",
+              "type": "ref",
+              "ref": "celDl",
+              "name": "Confirm User Section Delete Button",
+              "height": 36,
+              "fill": "$color-accent-primary",
+              "stroke": "$color-accent-primary",
+              "descendants": {
+                "n0keHY": {
+                  "icon": "trash-2",
+                  "fill": "$color-text-on-accent"
+                },
+                "zprJP": {
+                  "content": "섹션 삭제",
+                  "fill": "$color-text-on-accent"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Zhh7k",
+      "x": 17943,
+      "y": 0,
+      "name": "Dialog / User Section Delete Error",
+      "context": "Section deletion failed atomically. Existing section and contents remain unchanged; retry revalidates the same target.",
+      "reusable": true,
+      "width": 440,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": "$space-4",
+      "padding": "$space-6",
+      "children": [
+        {
+          "type": "frame",
+          "id": "KE4iC",
+          "name": "User Section Delete Error Header",
+          "width": "fill_container",
+          "gap": "$space-3",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Sk7WJ",
+              "name": "User Section Delete Error Icon Surface",
+              "width": 38,
+              "height": 38,
+              "fill": "$color-state-selected",
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "MAicF",
+                  "name": "User Section Delete Error Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "triangle-alert",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-accent-primary"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "yvjl0",
+              "name": "User Section Delete Error Copy",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-1",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "oKVyB",
+                  "name": "User Section Delete Error Title",
+                  "fill": "$color-text-primary",
+                  "content": "섹션을 삭제하지 못했습니다",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-heading",
+                  "fontWeight": "650"
+                },
+                {
+                  "type": "text",
+                  "id": "r30cM",
+                  "name": "User Section Delete Error Description",
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "자료 조사와 내부 항목은 변경되지 않았습니다. 잠시 후 다시 시도해 주세요.",
+                  "lineHeight": "$line-height-body",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Tc1M3",
+          "name": "User Section Delete Error Target",
+          "width": "fill_container",
+          "height": 44,
+          "fill": "$color-surface-default",
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "lFKfk",
+              "name": "User Section Delete Error Target Icon",
+              "width": 16,
+              "height": 16,
+              "icon": "folder",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "rUWdQ",
+              "name": "User Section Delete Error Target Label",
+              "fill": "$color-text-primary",
+              "content": "자료 조사 · 파일 6개 · 폴더 2개",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "DJ8le",
+          "name": "User Section Delete Error Actions",
+          "width": "fill_container",
+          "gap": "$space-2",
+          "justifyContent": "end",
+          "children": [
+            {
+              "id": "VVn6J",
+              "type": "ref",
+              "ref": "celDl",
+              "name": "Cancel User Section Delete Retry Button",
+              "height": 36,
+              "descendants": {
+                "n0keHY": {
+                  "icon": "x"
+                },
+                "zprJP": {
+                  "content": "취소"
+                }
+              }
+            },
+            {
+              "id": "C6c0w",
+              "type": "ref",
+              "ref": "celDl",
+              "name": "Retry User Section Delete Button",
+              "height": 36,
+              "fill": "$color-accent-primary",
+              "stroke": "$color-accent-primary",
+              "descendants": {
+                "n0keHY": {
+                  "icon": "refresh-cw",
+                  "fill": "$color-text-on-accent"
+                },
+                "zprJP": {
+                  "content": "다시 시도",
+                  "fill": "$color-text-on-accent"
+                }
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "themes": {
