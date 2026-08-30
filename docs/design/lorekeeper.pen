@@ -32856,6 +32856,3453 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "EHbKj",
+      "x": 80989,
+      "y": -3369,
+      "name": "70 · Workspace Settings · Default",
+      "context": "LOREKEEPER-363 project settings default state.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "id": "EVYIW",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Workspace Settings Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:BeegO": {
+              "fill": "#00000000"
+            },
+            "b:KnnEg": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "EaiH4",
+          "name": "Workspace Settings Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "V5hZne",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "Workspace Settings Tab Bar",
+              "width": "fill_container",
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "settings"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "프로젝트 설정"
+                },
+                "b:f2qqJ/b:joUxb": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "S84EV",
+              "name": "Workspace Settings Content",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "padding": [
+                32,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Km47v",
+                  "name": "Settings Form",
+                  "width": 760,
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "W8kztX",
+                      "name": "Settings Page Heading",
+                      "width": "fill_container",
+                      "height": 62,
+                      "layout": "vertical",
+                      "gap": "$b:space-1",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "xeV4G",
+                          "name": "Settings Page Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "프로젝트 설정",
+                          "lineHeight": 1.35,
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": 24,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "UqxfH",
+                          "name": "Settings Page Description",
+                          "fill": "$b:color-text-secondary",
+                          "content": "현재 프로젝트에만 적용되는 정보를 관리합니다.",
+                          "lineHeight": "$b:line-height-body",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "GsCPD",
+                      "type": "ref",
+                      "ref": "b:sgSNm",
+                      "name": "General Settings Section",
+                      "width": "fill_container"
+                    },
+                    {
+                      "id": "zJfXa",
+                      "type": "ref",
+                      "ref": "b:rl76J",
+                      "name": "Project Name Field",
+                      "width": "fill_container",
+                      "opacity": 1,
+                      "descendants": {
+                        "b:RTRR5": {
+                          "content": "유리 정원의 기록"
+                        }
+                      }
+                    },
+                    {
+                      "id": "O9Jfl5",
+                      "type": "ref",
+                      "ref": "b:rl76J",
+                      "name": "Project Description Field",
+                      "width": "fill_container",
+                      "height": 124,
+                      "opacity": 1,
+                      "descendants": {
+                        "b:P7q7rE": {
+                          "content": "프로젝트 설명"
+                        },
+                        "b:gPGrl": {
+                          "content": "선택"
+                        },
+                        "b:jUtF7": {
+                          "height": 72,
+                          "alignItems": "start",
+                          "padding": "$b:space-3"
+                        },
+                        "b:RTRR5": {
+                          "content": "기억과 균열을 따라가는 장편 판타지 프로젝트"
+                        },
+                        "b:FMcwD": {
+                          "content": "프로젝트의 목적이나 범위를 기록합니다."
+                        }
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "y3W4M",
+                      "name": "Settings Default Actions",
+                      "width": "fill_container",
+                      "height": 64,
+                      "gap": "$b:space-2",
+                      "justifyContent": "end",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "id": "zWtGi",
+                          "type": "ref",
+                          "ref": "b:celDl",
+                          "name": "Disabled Cancel Button",
+                          "height": 36,
+                          "opacity": 0.45,
+                          "descendants": {
+                            "b:n0keHY": {
+                              "enabled": false,
+                              "width": 0,
+                              "height": 0
+                            },
+                            "b:zprJP": {
+                              "content": "취소"
+                            }
+                          }
+                        },
+                        {
+                          "id": "WLAng",
+                          "type": "ref",
+                          "ref": "b:celDl",
+                          "name": "Disabled Save Button",
+                          "height": 36,
+                          "opacity": 0.45,
+                          "descendants": {
+                            "b:n0keHY": {
+                              "icon": "save"
+                            },
+                            "b:zprJP": {
+                              "content": "변경사항 저장"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "id": "H9b7k",
+                      "type": "ref",
+                      "ref": "b:sgSNm",
+                      "name": "Danger Settings Section",
+                      "width": "fill_container",
+                      "descendants": {
+                        "b:KBLgY": {
+                          "content": "위험 영역"
+                        },
+                        "b:LBYE2": {
+                          "content": "프로젝트 전체에 영향을 주는 작업입니다."
+                        }
+                      }
+                    },
+                    {
+                      "id": "qu1qV",
+                      "type": "ref",
+                      "ref": "b:wdSk6",
+                      "name": "Project Danger Zone",
+                      "width": "fill_container"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "WFeMQ",
+      "x": 82509,
+      "y": -3369,
+      "name": "71 · Workspace Settings · Changed",
+      "context": "LOREKEEPER-363 project settings changed state.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "id": "xQKkr",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Workspace Settings Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:BeegO": {
+              "fill": "#00000000"
+            },
+            "b:KnnEg": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "y9fut",
+          "name": "Workspace Settings Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "ckwYG",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "Workspace Settings Tab Bar",
+              "width": "fill_container",
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "settings"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "프로젝트 설정"
+                },
+                "b:f2qqJ/b:joUxb": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "NH8CV",
+              "name": "Workspace Settings Content",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "padding": [
+                32,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Zdlu3",
+                  "name": "Settings Form",
+                  "width": 760,
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ixo0l",
+                      "name": "Settings Page Heading",
+                      "width": "fill_container",
+                      "height": 62,
+                      "layout": "vertical",
+                      "gap": "$b:space-1",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "cNwDj",
+                          "name": "Settings Page Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "프로젝트 설정",
+                          "lineHeight": 1.35,
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": 24,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "P8jpx",
+                          "name": "Settings Page Description",
+                          "fill": "$b:color-text-secondary",
+                          "content": "현재 프로젝트에만 적용되는 정보를 관리합니다.",
+                          "lineHeight": "$b:line-height-body",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "fiNHg",
+                      "type": "ref",
+                      "ref": "b:sgSNm",
+                      "name": "General Settings Section",
+                      "width": "fill_container"
+                    },
+                    {
+                      "id": "XW2N1",
+                      "type": "ref",
+                      "ref": "b:rl76J",
+                      "name": "Project Name Field",
+                      "width": "fill_container",
+                      "opacity": 1,
+                      "descendants": {
+                        "b:RTRR5": {
+                          "content": "유리 정원의 연대기"
+                        }
+                      }
+                    },
+                    {
+                      "id": "NXAI7",
+                      "type": "ref",
+                      "ref": "b:rl76J",
+                      "name": "Project Description Field",
+                      "width": "fill_container",
+                      "height": 124,
+                      "opacity": 1,
+                      "descendants": {
+                        "b:P7q7rE": {
+                          "content": "프로젝트 설명"
+                        },
+                        "b:gPGrl": {
+                          "content": "선택"
+                        },
+                        "b:jUtF7": {
+                          "height": 72,
+                          "alignItems": "start",
+                          "padding": "$b:space-3"
+                        },
+                        "b:RTRR5": {
+                          "content": "기억과 균열을 따라가는 장편 판타지 프로젝트"
+                        },
+                        "b:FMcwD": {
+                          "content": "프로젝트의 목적이나 범위를 기록합니다."
+                        }
+                      }
+                    },
+                    {
+                      "id": "NNhUB",
+                      "type": "ref",
+                      "ref": "b:TLGT0",
+                      "name": "Settings Save State",
+                      "width": "fill_container"
+                    },
+                    {
+                      "id": "B9nhpR",
+                      "type": "ref",
+                      "ref": "b:sgSNm",
+                      "name": "Danger Settings Section",
+                      "width": "fill_container",
+                      "descendants": {
+                        "b:KBLgY": {
+                          "content": "위험 영역"
+                        },
+                        "b:LBYE2": {
+                          "content": "프로젝트 전체에 영향을 주는 작업입니다."
+                        }
+                      }
+                    },
+                    {
+                      "id": "LWn27",
+                      "type": "ref",
+                      "ref": "b:wdSk6",
+                      "name": "Project Danger Zone",
+                      "width": "fill_container"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Mk1yl",
+      "x": 84029,
+      "y": -3369,
+      "name": "72 · Workspace Settings · Saving",
+      "context": "LOREKEEPER-363 project settings saving state.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "id": "u0UPgd",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Workspace Settings Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:BeegO": {
+              "fill": "#00000000"
+            },
+            "b:KnnEg": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "TmnAx",
+          "name": "Workspace Settings Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "pqjlK",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "Workspace Settings Tab Bar",
+              "width": "fill_container",
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "settings"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "프로젝트 설정"
+                },
+                "b:f2qqJ/b:joUxb": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "fiJRj",
+              "name": "Workspace Settings Content",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "padding": [
+                32,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "S83vUn",
+                  "name": "Settings Form",
+                  "width": 760,
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "d1fzC9",
+                      "name": "Settings Page Heading",
+                      "width": "fill_container",
+                      "height": 62,
+                      "layout": "vertical",
+                      "gap": "$b:space-1",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ACfso",
+                          "name": "Settings Page Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "프로젝트 설정",
+                          "lineHeight": 1.35,
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": 24,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "SQrtu",
+                          "name": "Settings Page Description",
+                          "fill": "$b:color-text-secondary",
+                          "content": "현재 프로젝트에만 적용되는 정보를 관리합니다.",
+                          "lineHeight": "$b:line-height-body",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "CkJU0",
+                      "type": "ref",
+                      "ref": "b:sgSNm",
+                      "name": "General Settings Section",
+                      "width": "fill_container"
+                    },
+                    {
+                      "id": "cGpZ3",
+                      "type": "ref",
+                      "ref": "b:rl76J",
+                      "name": "Project Name Field",
+                      "width": "fill_container",
+                      "opacity": 0.62,
+                      "descendants": {
+                        "b:RTRR5": {
+                          "content": "유리 정원의 연대기"
+                        }
+                      }
+                    },
+                    {
+                      "id": "ZdGv2",
+                      "type": "ref",
+                      "ref": "b:rl76J",
+                      "name": "Project Description Field",
+                      "width": "fill_container",
+                      "height": 124,
+                      "opacity": 0.62,
+                      "descendants": {
+                        "b:P7q7rE": {
+                          "content": "프로젝트 설명"
+                        },
+                        "b:gPGrl": {
+                          "content": "선택"
+                        },
+                        "b:jUtF7": {
+                          "height": 72,
+                          "alignItems": "start",
+                          "padding": "$b:space-3"
+                        },
+                        "b:RTRR5": {
+                          "content": "기억과 균열을 따라가는 장편 판타지 프로젝트"
+                        },
+                        "b:FMcwD": {
+                          "content": "프로젝트의 목적이나 범위를 기록합니다."
+                        }
+                      }
+                    },
+                    {
+                      "id": "smUj4",
+                      "type": "ref",
+                      "ref": "b:Bap0K",
+                      "name": "Settings Save State",
+                      "width": "fill_container"
+                    },
+                    {
+                      "id": "DCaUF",
+                      "type": "ref",
+                      "ref": "b:sgSNm",
+                      "name": "Danger Settings Section",
+                      "width": "fill_container",
+                      "descendants": {
+                        "b:KBLgY": {
+                          "content": "위험 영역"
+                        },
+                        "b:LBYE2": {
+                          "content": "프로젝트 전체에 영향을 주는 작업입니다."
+                        }
+                      }
+                    },
+                    {
+                      "id": "GrLQf",
+                      "type": "ref",
+                      "ref": "b:wdSk6",
+                      "name": "Project Danger Zone",
+                      "width": "fill_container"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "iEh4S",
+      "x": 85549,
+      "y": -3369,
+      "name": "73 · Workspace Settings · Saved",
+      "context": "LOREKEEPER-363 project settings saved state.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "id": "bXczu",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Workspace Settings Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:BeegO": {
+              "fill": "#00000000"
+            },
+            "b:KnnEg": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "XN5N5",
+          "name": "Workspace Settings Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "z8HOU",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "Workspace Settings Tab Bar",
+              "width": "fill_container",
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "settings"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "프로젝트 설정"
+                },
+                "b:f2qqJ/b:joUxb": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "YA7tD",
+              "name": "Workspace Settings Content",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "padding": [
+                32,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "LMAgo",
+                  "name": "Settings Form",
+                  "width": 760,
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "XCML4",
+                      "name": "Settings Page Heading",
+                      "width": "fill_container",
+                      "height": 62,
+                      "layout": "vertical",
+                      "gap": "$b:space-1",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "fo5YH",
+                          "name": "Settings Page Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "프로젝트 설정",
+                          "lineHeight": 1.35,
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": 24,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "M5Fy6",
+                          "name": "Settings Page Description",
+                          "fill": "$b:color-text-secondary",
+                          "content": "현재 프로젝트에만 적용되는 정보를 관리합니다.",
+                          "lineHeight": "$b:line-height-body",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "U7Ic0B",
+                      "type": "ref",
+                      "ref": "b:sgSNm",
+                      "name": "General Settings Section",
+                      "width": "fill_container"
+                    },
+                    {
+                      "id": "cvFKG",
+                      "type": "ref",
+                      "ref": "b:rl76J",
+                      "name": "Project Name Field",
+                      "width": "fill_container",
+                      "opacity": 1,
+                      "descendants": {
+                        "b:RTRR5": {
+                          "content": "유리 정원의 연대기"
+                        }
+                      }
+                    },
+                    {
+                      "id": "V4pHSh",
+                      "type": "ref",
+                      "ref": "b:rl76J",
+                      "name": "Project Description Field",
+                      "width": "fill_container",
+                      "height": 124,
+                      "opacity": 1,
+                      "descendants": {
+                        "b:P7q7rE": {
+                          "content": "프로젝트 설명"
+                        },
+                        "b:gPGrl": {
+                          "content": "선택"
+                        },
+                        "b:jUtF7": {
+                          "height": 72,
+                          "alignItems": "start",
+                          "padding": "$b:space-3"
+                        },
+                        "b:RTRR5": {
+                          "content": "기억과 균열을 따라가는 장편 판타지 프로젝트"
+                        },
+                        "b:FMcwD": {
+                          "content": "프로젝트의 목적이나 범위를 기록합니다."
+                        }
+                      }
+                    },
+                    {
+                      "id": "Tennr",
+                      "type": "ref",
+                      "ref": "b:XlKEF",
+                      "name": "Settings Save State",
+                      "width": "fill_container"
+                    },
+                    {
+                      "id": "Kx0Ob",
+                      "type": "ref",
+                      "ref": "b:sgSNm",
+                      "name": "Danger Settings Section",
+                      "width": "fill_container",
+                      "descendants": {
+                        "b:KBLgY": {
+                          "content": "위험 영역"
+                        },
+                        "b:LBYE2": {
+                          "content": "프로젝트 전체에 영향을 주는 작업입니다."
+                        }
+                      }
+                    },
+                    {
+                      "id": "TH90p",
+                      "type": "ref",
+                      "ref": "b:wdSk6",
+                      "name": "Project Danger Zone",
+                      "width": "fill_container"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "JfCF1",
+      "x": 87069,
+      "y": -3369,
+      "name": "74 · Workspace Settings · Save Error",
+      "context": "LOREKEEPER-363 project settings save error state.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "id": "lKY0S",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Workspace Settings Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:BeegO": {
+              "fill": "#00000000"
+            },
+            "b:KnnEg": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "A7SUfS",
+          "name": "Workspace Settings Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "zTtsK",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "Workspace Settings Tab Bar",
+              "width": "fill_container",
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "settings"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "프로젝트 설정"
+                },
+                "b:f2qqJ/b:joUxb": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "T1aAzl",
+              "name": "Workspace Settings Content",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "padding": [
+                32,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "sLecb",
+                  "name": "Settings Form",
+                  "width": 760,
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "a78A3",
+                      "name": "Settings Page Heading",
+                      "width": "fill_container",
+                      "height": 62,
+                      "layout": "vertical",
+                      "gap": "$b:space-1",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ZjVu4",
+                          "name": "Settings Page Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "프로젝트 설정",
+                          "lineHeight": 1.35,
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": 24,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "b2HIl",
+                          "name": "Settings Page Description",
+                          "fill": "$b:color-text-secondary",
+                          "content": "현재 프로젝트에만 적용되는 정보를 관리합니다.",
+                          "lineHeight": "$b:line-height-body",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "mfpcq",
+                      "type": "ref",
+                      "ref": "b:sgSNm",
+                      "name": "General Settings Section",
+                      "width": "fill_container"
+                    },
+                    {
+                      "id": "XZJTX",
+                      "type": "ref",
+                      "ref": "b:rl76J",
+                      "name": "Project Name Field",
+                      "width": "fill_container",
+                      "opacity": 1,
+                      "descendants": {
+                        "b:RTRR5": {
+                          "content": "유리 정원의 연대기"
+                        }
+                      }
+                    },
+                    {
+                      "id": "M7yA0",
+                      "type": "ref",
+                      "ref": "b:rl76J",
+                      "name": "Project Description Field",
+                      "width": "fill_container",
+                      "height": 124,
+                      "opacity": 1,
+                      "descendants": {
+                        "b:P7q7rE": {
+                          "content": "프로젝트 설명"
+                        },
+                        "b:gPGrl": {
+                          "content": "선택"
+                        },
+                        "b:jUtF7": {
+                          "height": 72,
+                          "alignItems": "start",
+                          "padding": "$b:space-3"
+                        },
+                        "b:RTRR5": {
+                          "content": "기억과 균열을 따라가는 장편 판타지 프로젝트"
+                        },
+                        "b:FMcwD": {
+                          "content": "프로젝트의 목적이나 범위를 기록합니다."
+                        }
+                      }
+                    },
+                    {
+                      "id": "FPWX6",
+                      "type": "ref",
+                      "ref": "b:gaWk1",
+                      "name": "Settings Save State",
+                      "width": "fill_container"
+                    },
+                    {
+                      "id": "p8hRa",
+                      "type": "ref",
+                      "ref": "b:sgSNm",
+                      "name": "Danger Settings Section",
+                      "width": "fill_container",
+                      "descendants": {
+                        "b:KBLgY": {
+                          "content": "위험 영역"
+                        },
+                        "b:LBYE2": {
+                          "content": "프로젝트 전체에 영향을 주는 작업입니다."
+                        }
+                      }
+                    },
+                    {
+                      "id": "PeKUw",
+                      "type": "ref",
+                      "ref": "b:wdSk6",
+                      "name": "Project Danger Zone",
+                      "width": "fill_container"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "b5Rlml",
+      "x": 88589,
+      "y": -3369,
+      "name": "75 · Workspace Settings · Unsaved Confirmation",
+      "context": "LOREKEEPER-363 project settings unsaved confirmation state.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "id": "d1BkG",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Workspace Settings Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:BeegO": {
+              "fill": "#00000000"
+            },
+            "b:KnnEg": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "aWarf",
+          "name": "Workspace Settings Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "u8cO7",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "Workspace Settings Tab Bar",
+              "width": "fill_container",
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "settings"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "프로젝트 설정"
+                },
+                "b:f2qqJ/b:joUxb": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "IBXy6",
+              "name": "Workspace Settings Content",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "I9AMV",
+                  "x": 222,
+                  "y": 32,
+                  "name": "Settings Form",
+                  "width": 760,
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "usYBW",
+                      "name": "Settings Page Heading",
+                      "width": "fill_container",
+                      "height": 62,
+                      "layout": "vertical",
+                      "gap": "$b:space-1",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "MUrSh",
+                          "name": "Settings Page Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "프로젝트 설정",
+                          "lineHeight": 1.35,
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": 24,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "trlbp",
+                          "name": "Settings Page Description",
+                          "fill": "$b:color-text-secondary",
+                          "content": "현재 프로젝트에만 적용되는 정보를 관리합니다.",
+                          "lineHeight": "$b:line-height-body",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "qZZqu",
+                      "type": "ref",
+                      "ref": "b:sgSNm",
+                      "name": "General Settings Section",
+                      "width": "fill_container"
+                    },
+                    {
+                      "id": "wlyNN",
+                      "type": "ref",
+                      "ref": "b:rl76J",
+                      "name": "Project Name Field",
+                      "width": "fill_container",
+                      "opacity": 1,
+                      "descendants": {
+                        "b:RTRR5": {
+                          "content": "유리 정원의 연대기"
+                        }
+                      }
+                    },
+                    {
+                      "id": "rNzFE",
+                      "type": "ref",
+                      "ref": "b:rl76J",
+                      "name": "Project Description Field",
+                      "width": "fill_container",
+                      "height": 124,
+                      "opacity": 1,
+                      "descendants": {
+                        "b:P7q7rE": {
+                          "content": "프로젝트 설명"
+                        },
+                        "b:gPGrl": {
+                          "content": "선택"
+                        },
+                        "b:jUtF7": {
+                          "height": 72,
+                          "alignItems": "start",
+                          "padding": "$b:space-3"
+                        },
+                        "b:RTRR5": {
+                          "content": "기억과 균열을 따라가는 장편 판타지 프로젝트"
+                        },
+                        "b:FMcwD": {
+                          "content": "프로젝트의 목적이나 범위를 기록합니다."
+                        }
+                      }
+                    },
+                    {
+                      "id": "zZDxO",
+                      "type": "ref",
+                      "ref": "b:TLGT0",
+                      "name": "Settings Save State",
+                      "width": "fill_container"
+                    },
+                    {
+                      "id": "feHaa",
+                      "type": "ref",
+                      "ref": "b:sgSNm",
+                      "name": "Danger Settings Section",
+                      "width": "fill_container",
+                      "descendants": {
+                        "b:KBLgY": {
+                          "content": "위험 영역"
+                        },
+                        "b:LBYE2": {
+                          "content": "프로젝트 전체에 영향을 주는 작업입니다."
+                        }
+                      }
+                    },
+                    {
+                      "id": "rkEW2",
+                      "type": "ref",
+                      "ref": "b:wdSk6",
+                      "name": "Project Danger Zone",
+                      "width": "fill_container"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "NBMmN",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Unsaved Confirmation Scrim",
+                  "width": 1204,
+                  "height": 848,
+                  "fill": "#00000099",
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "bXHs7",
+                      "type": "ref",
+                      "ref": "b:lrFZc",
+                      "name": "Unsaved Confirmation Dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "X9umV",
+      "x": 90109,
+      "y": -3369,
+      "name": "76 · Workspace Settings · Move To Trash Confirmation",
+      "context": "LOREKEEPER-363 project settings move to trash confirmation state.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "id": "GWeR4",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Workspace Settings Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:BeegO": {
+              "fill": "#00000000"
+            },
+            "b:KnnEg": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "fouhj",
+          "name": "Workspace Settings Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "mLAxi",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "Workspace Settings Tab Bar",
+              "width": "fill_container",
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "settings"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "프로젝트 설정"
+                },
+                "b:f2qqJ/b:joUxb": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "wqQcz",
+              "name": "Workspace Settings Content",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "dV4ie",
+                  "x": 222,
+                  "y": 32,
+                  "name": "Settings Form",
+                  "width": 760,
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "F7l1t",
+                      "name": "Settings Page Heading",
+                      "width": "fill_container",
+                      "height": 62,
+                      "layout": "vertical",
+                      "gap": "$b:space-1",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "uQNxn",
+                          "name": "Settings Page Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "프로젝트 설정",
+                          "lineHeight": 1.35,
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": 24,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "JvpxN",
+                          "name": "Settings Page Description",
+                          "fill": "$b:color-text-secondary",
+                          "content": "현재 프로젝트에만 적용되는 정보를 관리합니다.",
+                          "lineHeight": "$b:line-height-body",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "L1ydlu",
+                      "type": "ref",
+                      "ref": "b:sgSNm",
+                      "name": "General Settings Section",
+                      "width": "fill_container"
+                    },
+                    {
+                      "id": "H8bP3",
+                      "type": "ref",
+                      "ref": "b:rl76J",
+                      "name": "Project Name Field",
+                      "width": "fill_container",
+                      "opacity": 1,
+                      "descendants": {
+                        "b:RTRR5": {
+                          "content": "유리 정원의 연대기"
+                        }
+                      }
+                    },
+                    {
+                      "id": "XRsIl",
+                      "type": "ref",
+                      "ref": "b:rl76J",
+                      "name": "Project Description Field",
+                      "width": "fill_container",
+                      "height": 124,
+                      "opacity": 1,
+                      "descendants": {
+                        "b:P7q7rE": {
+                          "content": "프로젝트 설명"
+                        },
+                        "b:gPGrl": {
+                          "content": "선택"
+                        },
+                        "b:jUtF7": {
+                          "height": 72,
+                          "alignItems": "start",
+                          "padding": "$b:space-3"
+                        },
+                        "b:RTRR5": {
+                          "content": "기억과 균열을 따라가는 장편 판타지 프로젝트"
+                        },
+                        "b:FMcwD": {
+                          "content": "프로젝트의 목적이나 범위를 기록합니다."
+                        }
+                      }
+                    },
+                    {
+                      "id": "HPxhK",
+                      "type": "ref",
+                      "ref": "b:TLGT0",
+                      "name": "Settings Save State",
+                      "width": "fill_container"
+                    },
+                    {
+                      "id": "z1GXw",
+                      "type": "ref",
+                      "ref": "b:sgSNm",
+                      "name": "Danger Settings Section",
+                      "width": "fill_container",
+                      "descendants": {
+                        "b:KBLgY": {
+                          "content": "위험 영역"
+                        },
+                        "b:LBYE2": {
+                          "content": "프로젝트 전체에 영향을 주는 작업입니다."
+                        }
+                      }
+                    },
+                    {
+                      "id": "Q5hrU",
+                      "type": "ref",
+                      "ref": "b:wdSk6",
+                      "name": "Project Danger Zone",
+                      "width": "fill_container"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "OUzY0",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Move To Trash Confirmation Scrim",
+                  "width": 1204,
+                  "height": 848,
+                  "fill": "#00000099",
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "R8n87R",
+                      "type": "ref",
+                      "ref": "b:kJtqL",
+                      "name": "Move To Trash Confirmation Dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Zp4Gq",
+      "x": 80989,
+      "y": -2389,
+      "name": "77 · Workspace Help · Default",
+      "context": "LOREKEEPER-365 workspace help default state.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "id": "sC91K",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Workspace Help Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:BeegO": {
+              "fill": "#00000000"
+            },
+            "b:nThzf": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "yEwYs",
+          "name": "Workspace Help Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "cctqa",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "Workspace Help Tab Bar",
+              "width": "fill_container",
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "circle-help"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "도움말"
+                },
+                "b:f2qqJ/b:joUxb": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "PJ5lX",
+              "name": "Workspace Help Content",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "padding": [
+                44,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "rSTnN",
+                  "name": "Help Page Content",
+                  "width": 820,
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "GlZvy",
+                      "name": "도움말 Heading Row",
+                      "width": "fill_container",
+                      "height": 70,
+                      "gap": "$b:space-4",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "P9xana",
+                          "name": "도움말 Heading Copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-1",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "i6hX6T",
+                              "name": "도움말 Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "도움말",
+                              "lineHeight": 1.35,
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": 26,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "c2qcPQ",
+                              "name": "도움말 Description",
+                              "fill": "$b:color-text-secondary",
+                              "content": "Lorekeeper 사용 방법을 확인하거나 의견을 보내세요.",
+                              "lineHeight": "$b:line-height-body",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "bELJB",
+                          "type": "ref",
+                          "ref": "b:celDl",
+                          "name": "작업공간으로 돌아가기 Button",
+                          "height": 36,
+                          "descendants": {
+                            "b:n0keHY": {
+                              "icon": "arrow-left"
+                            },
+                            "b:zprJP": {
+                              "content": "작업공간으로 돌아가기"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "y6X91q",
+                      "name": "Help Entry Cards",
+                      "width": "fill_container",
+                      "gap": "$b:space-4",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "OeNc5",
+                          "name": "Help Entry Card · 사용 가이드",
+                          "width": "fill_container",
+                          "height": 168,
+                          "fill": "$b:color-surface-raised",
+                          "cornerRadius": "$b:radius-card",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "gap": "$b:space-4",
+                          "padding": "$b:space-6",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "pSgTt",
+                              "name": "사용 가이드 Card Header",
+                              "width": "fill_container",
+                              "height": 36,
+                              "gap": "$b:space-3",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "mLOZm",
+                                  "name": "사용 가이드 Card Icon Box",
+                                  "width": 36,
+                                  "height": 36,
+                                  "fill": "$b:color-surface-icon",
+                                  "cornerRadius": "$b:radius-control",
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "N5tL0J",
+                                      "name": "사용 가이드 Card Icon",
+                                      "width": 18,
+                                      "height": 18,
+                                      "icon": "book-open",
+                                      "library": "lucide",
+                                      "weight": "$b:icon-weight-default",
+                                      "fill": "$b:color-icon-default"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "d4wNwJ",
+                                  "name": "사용 가이드 Card Title",
+                                  "fill": "$b:color-text-primary",
+                                  "content": "사용 가이드",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-heading",
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "bLxcE",
+                                  "name": "사용 가이드 Card Header Spacer",
+                                  "width": "fill_container",
+                                  "height": 1
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "gGPRy",
+                                  "name": "사용 가이드 Card Direction",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "arrow-right",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "t21ek6",
+                              "name": "사용 가이드 Card Description",
+                              "fill": "$b:color-text-secondary",
+                              "content": "작업공간과 파일 편집 방법을 단계별로 확인합니다.",
+                              "lineHeight": "$b:line-height-body",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "N2qf64",
+                          "name": "Help Entry Card · 피드백 보내기",
+                          "width": "fill_container",
+                          "height": 168,
+                          "fill": "$b:color-surface-raised",
+                          "cornerRadius": "$b:radius-card",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "gap": "$b:space-4",
+                          "padding": "$b:space-6",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "InFh6",
+                              "name": "피드백 보내기 Card Header",
+                              "width": "fill_container",
+                              "height": 36,
+                              "gap": "$b:space-3",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "LWtO9",
+                                  "name": "피드백 보내기 Card Icon Box",
+                                  "width": 36,
+                                  "height": 36,
+                                  "fill": "$b:color-surface-icon",
+                                  "cornerRadius": "$b:radius-control",
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "t3zK0",
+                                      "name": "피드백 보내기 Card Icon",
+                                      "width": 18,
+                                      "height": 18,
+                                      "icon": "message-square-plus",
+                                      "library": "lucide",
+                                      "weight": "$b:icon-weight-default",
+                                      "fill": "$b:color-icon-default"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "kC3tf",
+                                  "name": "피드백 보내기 Card Title",
+                                  "fill": "$b:color-text-primary",
+                                  "content": "피드백 보내기",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-heading",
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "WoK8W",
+                                  "name": "피드백 보내기 Card Header Spacer",
+                                  "width": "fill_container",
+                                  "height": 1
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "VHh8T",
+                                  "name": "피드백 보내기 Card Direction",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "external-link",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "PnDV5",
+                              "name": "피드백 보내기 Card Description",
+                              "fill": "$b:color-text-secondary",
+                              "content": "문제와 개선 의견을 외부 피드백 폼으로 전달합니다.",
+                              "lineHeight": "$b:line-height-body",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "P6qXwF",
+                              "name": "피드백 보내기 External Hint",
+                              "fill": "$b:color-text-secondary",
+                              "content": "새 탭에서 열림",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "p11tW",
+      "x": 82509,
+      "y": -2389,
+      "name": "78 · Workspace Help · Guide Topics",
+      "context": "LOREKEEPER-365 workspace help guide topics state.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "id": "xUYCY",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Workspace Help Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:BeegO": {
+              "fill": "#00000000"
+            },
+            "b:nThzf": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "G2HD2x",
+          "name": "Workspace Help Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "HEhco",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "Workspace Help Tab Bar",
+              "width": "fill_container",
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "book-open"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "사용 가이드"
+                },
+                "b:f2qqJ/b:joUxb": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "Y8g6y",
+              "name": "Workspace Help Content",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "padding": [
+                44,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "NjTdV",
+                  "name": "Help Page Content",
+                  "width": 820,
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "OEizO",
+                      "name": "Guide Topics Navigation",
+                      "width": "fill_container",
+                      "height": 44,
+                      "gap": "$b:space-3",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "id": "bKt1F",
+                          "type": "ref",
+                          "ref": "b:celDl",
+                          "name": "도움말로 돌아가기 Button",
+                          "height": 36,
+                          "descendants": {
+                            "b:n0keHY": {
+                              "icon": "arrow-left"
+                            },
+                            "b:zprJP": {
+                              "content": "도움말로 돌아가기"
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "e0eRKw",
+                          "name": "Guide Topics Page Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "사용 가이드",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": 24,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "m8BX6",
+                      "type": "ref",
+                      "ref": "b:h8n7ia",
+                      "name": "Guide Search Input",
+                      "width": "fill_container",
+                      "descendants": {
+                        "b:QT4Lv": {
+                          "content": "가이드 검색"
+                        },
+                        "b:pwG3c": {
+                          "opacity": 0
+                        }
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "JHEzh",
+                      "name": "Guide Topic List",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$b:space-2",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "vSXsh",
+                          "name": "Guide Topic · 작업공간 시작하기",
+                          "width": "fill_container",
+                          "height": 58,
+                          "fill": "$b:color-surface-raised",
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-3",
+                          "padding": [
+                            0,
+                            "$b:space-4"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "IclIG",
+                              "name": "작업공간 시작하기 Topic Icon",
+                              "width": 17,
+                              "height": 17,
+                              "icon": "rocket",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            },
+                            {
+                              "type": "text",
+                              "id": "k7Q2i",
+                              "name": "작업공간 시작하기 Topic Label",
+                              "fill": "$b:color-text-primary",
+                              "content": "작업공간 시작하기",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "N7mKC4",
+                              "name": "작업공간 시작하기 Topic Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "dZvVD",
+                              "name": "작업공간 시작하기 Topic Direction",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "chevron-right",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "X0IX1M",
+                          "name": "Guide Topic · 파일과 속성 문서",
+                          "width": "fill_container",
+                          "height": 58,
+                          "fill": "$b:color-surface-default",
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "#00000000",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-3",
+                          "padding": [
+                            0,
+                            "$b:space-4"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "ps1xg",
+                              "name": "파일과 속성 문서 Topic Icon",
+                              "width": 17,
+                              "height": 17,
+                              "icon": "file-stack",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            },
+                            {
+                              "type": "text",
+                              "id": "F86lob",
+                              "name": "파일과 속성 문서 Topic Label",
+                              "fill": "$b:color-text-primary",
+                              "content": "파일과 속성 문서",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "XMMl8",
+                              "name": "파일과 속성 문서 Topic Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "R64W09",
+                              "name": "파일과 속성 문서 Topic Direction",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "chevron-right",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "VCHOA",
+                          "name": "Guide Topic · 원고 작성",
+                          "width": "fill_container",
+                          "height": 58,
+                          "fill": "$b:color-surface-default",
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "#00000000",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-3",
+                          "padding": [
+                            0,
+                            "$b:space-4"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "lcxGY",
+                              "name": "원고 작성 Topic Icon",
+                              "width": 17,
+                              "height": 17,
+                              "icon": "pen-line",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            },
+                            {
+                              "type": "text",
+                              "id": "I0r96",
+                              "name": "원고 작성 Topic Label",
+                              "fill": "$b:color-text-primary",
+                              "content": "원고 작성",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "aGE4O",
+                              "name": "원고 작성 Topic Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "v27e29",
+                              "name": "원고 작성 Topic Direction",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "chevron-right",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "LiU9k",
+                          "name": "Guide Topic · 검색과 그래프",
+                          "width": "fill_container",
+                          "height": 58,
+                          "fill": "$b:color-surface-default",
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "#00000000",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-3",
+                          "padding": [
+                            0,
+                            "$b:space-4"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "NztUY",
+                              "name": "검색과 그래프 Topic Icon",
+                              "width": 17,
+                              "height": 17,
+                              "icon": "search",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            },
+                            {
+                              "type": "text",
+                              "id": "zyN9V",
+                              "name": "검색과 그래프 Topic Label",
+                              "fill": "$b:color-text-primary",
+                              "content": "검색과 그래프",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "gCaqr",
+                              "name": "검색과 그래프 Topic Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "mL5rc",
+                              "name": "검색과 그래프 Topic Direction",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "chevron-right",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "T94GP",
+                          "name": "Guide Topic · 메모와 시간 흐름",
+                          "width": "fill_container",
+                          "height": 58,
+                          "fill": "$b:color-surface-default",
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "#00000000",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-3",
+                          "padding": [
+                            0,
+                            "$b:space-4"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "l1ROU",
+                              "name": "메모와 시간 흐름 Topic Icon",
+                              "width": 17,
+                              "height": 17,
+                              "icon": "notebook-tabs",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            },
+                            {
+                              "type": "text",
+                              "id": "uRg76",
+                              "name": "메모와 시간 흐름 Topic Label",
+                              "fill": "$b:color-text-primary",
+                              "content": "메모와 시간 흐름",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "ykp08",
+                              "name": "메모와 시간 흐름 Topic Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "sYtzX",
+                              "name": "메모와 시간 흐름 Topic Direction",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "chevron-right",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "rGgSi",
+                          "name": "Guide Topic · 휴지통과 복원",
+                          "width": "fill_container",
+                          "height": 58,
+                          "fill": "$b:color-surface-default",
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "#00000000",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-3",
+                          "padding": [
+                            0,
+                            "$b:space-4"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "OKOt8",
+                              "name": "휴지통과 복원 Topic Icon",
+                              "width": 17,
+                              "height": 17,
+                              "icon": "archive-restore",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            },
+                            {
+                              "type": "text",
+                              "id": "t4KoqT",
+                              "name": "휴지통과 복원 Topic Label",
+                              "fill": "$b:color-text-primary",
+                              "content": "휴지통과 복원",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "RDRuu",
+                              "name": "휴지통과 복원 Topic Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "hpwar",
+                              "name": "휴지통과 복원 Topic Direction",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "chevron-right",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ZpiZx",
+      "x": 84029,
+      "y": -2389,
+      "name": "79 · Workspace Help · Guide Article",
+      "context": "LOREKEEPER-365 workspace help guide article state.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "id": "N3kAe",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Workspace Help Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:BeegO": {
+              "fill": "#00000000"
+            },
+            "b:nThzf": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "sxXxt",
+          "name": "Workspace Help Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "B6VXd",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "Workspace Help Tab Bar",
+              "width": "fill_container",
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "book-open"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "사용 가이드"
+                },
+                "b:f2qqJ/b:joUxb": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "UiGE6",
+              "name": "Workspace Help Content",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "padding": [
+                44,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "jw3yd",
+                  "name": "Help Page Content",
+                  "width": 820,
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nowZr",
+                      "name": "Guide Article Navigation",
+                      "width": "fill_container",
+                      "height": 44,
+                      "gap": "$b:space-3",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "id": "kq5oo",
+                          "type": "ref",
+                          "ref": "b:celDl",
+                          "name": "주제 목록 Button",
+                          "height": 36,
+                          "descendants": {
+                            "b:n0keHY": {
+                              "icon": "arrow-left"
+                            },
+                            "b:zprJP": {
+                              "content": "주제 목록"
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "KY4tt",
+                          "name": "Guide Article Breadcrumb",
+                          "fill": "$b:color-text-secondary",
+                          "content": "사용 가이드 / 파일과 속성 문서",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "qkn79",
+                      "name": "Guide Article Layout",
+                      "width": "fill_container",
+                      "height": 640,
+                      "gap": "$b:space-6",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "g4HoR5",
+                          "name": "Guide Article Table Of Contents",
+                          "width": 210,
+                          "height": "fill_container",
+                          "fill": "$b:color-surface-raised",
+                          "cornerRadius": "$b:radius-card",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "gap": "$b:space-3",
+                          "padding": "$b:space-4",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "vPV4u",
+                              "name": "Guide Table Of Contents Title",
+                              "fill": "$b:color-text-secondary",
+                              "content": "이 문서에서",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "bHihX",
+                              "name": "Guide TOC · 파일 만들기",
+                              "fill": "$b:color-text-primary",
+                              "content": "파일 만들기",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "rePQW",
+                              "name": "Guide TOC · 속성 추가하기",
+                              "fill": "$b:color-text-secondary",
+                              "content": "속성 추가하기",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body"
+                            },
+                            {
+                              "type": "text",
+                              "id": "MW1z0",
+                              "name": "Guide TOC · 파일 연결하기",
+                              "fill": "$b:color-text-secondary",
+                              "content": "파일 연결하기",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body"
+                            },
+                            {
+                              "type": "text",
+                              "id": "jPGjr",
+                              "name": "Guide TOC · 저장 상태 확인",
+                              "fill": "$b:color-text-secondary",
+                              "content": "저장 상태 확인",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "c7q7l",
+                          "name": "Guide Article Body",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-4",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "G8XlM",
+                              "name": "Guide Article Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "파일과 속성 문서",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": 28,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "HB6cQ",
+                              "name": "Guide Article Lead",
+                              "fill": "$b:color-text-secondary",
+                              "content": "설정·세계관·장소 같은 문서는 제목, 사용자 정의 속성, 내용으로 구성됩니다.",
+                              "lineHeight": 1.7,
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "XL4b1",
+                              "name": "Guide Section · 1. 파일 만들기",
+                              "fill": "$b:color-text-primary",
+                              "content": "1. 파일 만들기",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-heading",
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "VomgG",
+                              "name": "Guide Paragraph · 1. 파일 만들기",
+                              "fill": "$b:color-text-secondary",
+                              "content": "사이드바 파일 영역의 더보기에서 원하는 파일을 만듭니다.",
+                              "lineHeight": 1.7,
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "ykUBM",
+                              "name": "Guide Section · 2. 속성 추가하기",
+                              "fill": "$b:color-text-primary",
+                              "content": "2. 속성 추가하기",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-heading",
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "T0PWFs",
+                              "name": "Guide Paragraph · 2. 속성 추가하기",
+                              "fill": "$b:color-text-secondary",
+                              "content": "속성 추가를 선택하고 텍스트나 다른 파일 참조 형식을 고릅니다.",
+                              "lineHeight": 1.7,
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "lSbRT",
+                              "name": "Guide Section · 3. 파일 연결하기",
+                              "fill": "$b:color-text-primary",
+                              "content": "3. 파일 연결하기",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-heading",
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "ZFUsY",
+                              "name": "Guide Paragraph · 3. 파일 연결하기",
+                              "fill": "$b:color-text-secondary",
+                              "content": "원고·설정·세계관·장소 등 프로젝트 안의 파일을 서로 연결할 수 있습니다.",
+                              "lineHeight": 1.7,
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "WS3T0",
+                              "name": "Guide Section · 4. 저장 상태 확인",
+                              "fill": "$b:color-text-primary",
+                              "content": "4. 저장 상태 확인",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-heading",
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Sew0c",
+                              "name": "Guide Paragraph · 4. 저장 상태 확인",
+                              "fill": "$b:color-text-secondary",
+                              "content": "편집 내용은 상단 상태에서 저장 중, 저장됨, 오류로 확인합니다.",
+                              "lineHeight": 1.7,
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "HIJlb",
+      "x": 85549,
+      "y": -2389,
+      "name": "80 · Workspace Help · Feedback Opened",
+      "context": "LOREKEEPER-365 workspace help feedback opened state.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "id": "fnHAz",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Workspace Help Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:BeegO": {
+              "fill": "#00000000"
+            },
+            "b:nThzf": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "xfMDU",
+          "name": "Workspace Help Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "odStT",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "Workspace Help Tab Bar",
+              "width": "fill_container",
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "circle-help"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "도움말"
+                },
+                "b:f2qqJ/b:joUxb": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "AsQe5",
+              "name": "Workspace Help Content",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "padding": [
+                44,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "BoXHC",
+                  "name": "Help Page Content",
+                  "width": 820,
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Qrwq5",
+                      "name": "도움말 Heading Row",
+                      "width": "fill_container",
+                      "height": 70,
+                      "gap": "$b:space-4",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "eFX8a",
+                          "name": "도움말 Heading Copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-1",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "GFW5e",
+                              "name": "도움말 Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "도움말",
+                              "lineHeight": 1.35,
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": 26,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "zUnGV",
+                              "name": "도움말 Description",
+                              "fill": "$b:color-text-secondary",
+                              "content": "Lorekeeper 사용 방법을 확인하거나 의견을 보내세요.",
+                              "lineHeight": "$b:line-height-body",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "pHTOw",
+                          "type": "ref",
+                          "ref": "b:celDl",
+                          "name": "작업공간으로 돌아가기 Button",
+                          "height": 36,
+                          "descendants": {
+                            "b:n0keHY": {
+                              "icon": "arrow-left"
+                            },
+                            "b:zprJP": {
+                              "content": "작업공간으로 돌아가기"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xjdgQ",
+                      "name": "Help External Link Status · 피드백 페이지를 새 탭에서 열었습니다",
+                      "width": "fill_container",
+                      "height": 76,
+                      "fill": "$b:color-surface-raised",
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-accent-primary",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-3",
+                      "padding": "$b:space-4",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "W225PF",
+                          "name": "피드백 페이지를 새 탭에서 열었습니다 Status Icon",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "circle-check",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-accent-primary"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Vdbyh",
+                          "name": "피드백 페이지를 새 탭에서 열었습니다 Status Copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-1",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "P7mDB",
+                              "name": "피드백 페이지를 새 탭에서 열었습니다 Status Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "피드백 페이지를 새 탭에서 열었습니다",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Ad5o1",
+                              "name": "피드백 페이지를 새 탭에서 열었습니다 Status Description",
+                              "fill": "$b:color-text-secondary",
+                              "content": "돌아온 포커스는 피드백 보내기 카드에 있습니다.",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "induS",
+                      "name": "Help Entry Cards",
+                      "width": "fill_container",
+                      "gap": "$b:space-4",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "vYAcn",
+                          "name": "Help Entry Card · 사용 가이드",
+                          "width": "fill_container",
+                          "height": 168,
+                          "fill": "$b:color-surface-raised",
+                          "cornerRadius": "$b:radius-card",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "gap": "$b:space-4",
+                          "padding": "$b:space-6",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "xduKn",
+                              "name": "사용 가이드 Card Header",
+                              "width": "fill_container",
+                              "height": 36,
+                              "gap": "$b:space-3",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "K6qmC",
+                                  "name": "사용 가이드 Card Icon Box",
+                                  "width": 36,
+                                  "height": 36,
+                                  "fill": "$b:color-surface-icon",
+                                  "cornerRadius": "$b:radius-control",
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "ttcGC",
+                                      "name": "사용 가이드 Card Icon",
+                                      "width": 18,
+                                      "height": 18,
+                                      "icon": "book-open",
+                                      "library": "lucide",
+                                      "weight": "$b:icon-weight-default",
+                                      "fill": "$b:color-icon-default"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "Rl181",
+                                  "name": "사용 가이드 Card Title",
+                                  "fill": "$b:color-text-primary",
+                                  "content": "사용 가이드",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-heading",
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "xZR4A",
+                                  "name": "사용 가이드 Card Header Spacer",
+                                  "width": "fill_container",
+                                  "height": 1
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "Iv5DX",
+                                  "name": "사용 가이드 Card Direction",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "arrow-right",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "Eod40",
+                              "name": "사용 가이드 Card Description",
+                              "fill": "$b:color-text-secondary",
+                              "content": "작업공간과 파일 편집 방법을 단계별로 확인합니다.",
+                              "lineHeight": "$b:line-height-body",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "fsaVk",
+                          "name": "Help Entry Card · 피드백 보내기",
+                          "width": "fill_container",
+                          "height": 168,
+                          "fill": "$b:color-surface-raised",
+                          "cornerRadius": "$b:radius-card",
+                          "stroke": "$b:color-accent-primary",
+                          "strokeWidth": 2,
+                          "layout": "vertical",
+                          "gap": "$b:space-4",
+                          "padding": "$b:space-6",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "HcbXg",
+                              "name": "피드백 보내기 Card Header",
+                              "width": "fill_container",
+                              "height": 36,
+                              "gap": "$b:space-3",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "dULZP",
+                                  "name": "피드백 보내기 Card Icon Box",
+                                  "width": 36,
+                                  "height": 36,
+                                  "fill": "$b:color-surface-icon",
+                                  "cornerRadius": "$b:radius-control",
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "BBW5x",
+                                      "name": "피드백 보내기 Card Icon",
+                                      "width": 18,
+                                      "height": 18,
+                                      "icon": "message-square-plus",
+                                      "library": "lucide",
+                                      "weight": "$b:icon-weight-default",
+                                      "fill": "$b:color-icon-default"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "T02j2",
+                                  "name": "피드백 보내기 Card Title",
+                                  "fill": "$b:color-text-primary",
+                                  "content": "피드백 보내기",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-heading",
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "M1C5Vn",
+                                  "name": "피드백 보내기 Card Header Spacer",
+                                  "width": "fill_container",
+                                  "height": 1
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "rXl4L",
+                                  "name": "피드백 보내기 Card Direction",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "external-link",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "xDuQP",
+                              "name": "피드백 보내기 Card Description",
+                              "fill": "$b:color-text-secondary",
+                              "content": "문제와 개선 의견을 외부 피드백 폼으로 전달합니다.",
+                              "lineHeight": "$b:line-height-body",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "U1qn7R",
+                              "name": "피드백 보내기 External Hint",
+                              "fill": "$b:color-text-secondary",
+                              "content": "새 탭에서 열림",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "RxYQ5",
+      "x": 87069,
+      "y": -2389,
+      "name": "81 · Workspace Help · Feedback Open Error",
+      "context": "LOREKEEPER-365 workspace help feedback open error state.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "id": "Rj9Ag",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Workspace Help Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:BeegO": {
+              "fill": "#00000000"
+            },
+            "b:nThzf": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "XLOxn",
+          "name": "Workspace Help Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "b8Ci26",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "Workspace Help Tab Bar",
+              "width": "fill_container",
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "circle-help"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "도움말"
+                },
+                "b:f2qqJ/b:joUxb": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "QnI9E",
+              "name": "Workspace Help Content",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "padding": [
+                44,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Kd5TP",
+                  "name": "Help Page Content",
+                  "width": 820,
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "c6rk6",
+                      "name": "도움말 Heading Row",
+                      "width": "fill_container",
+                      "height": 70,
+                      "gap": "$b:space-4",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "D1YTaZ",
+                          "name": "도움말 Heading Copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-1",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "cHfPC",
+                              "name": "도움말 Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "도움말",
+                              "lineHeight": 1.35,
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": 26,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "jKfcn",
+                              "name": "도움말 Description",
+                              "fill": "$b:color-text-secondary",
+                              "content": "Lorekeeper 사용 방법을 확인하거나 의견을 보내세요.",
+                              "lineHeight": "$b:line-height-body",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "Wk7nn",
+                          "type": "ref",
+                          "ref": "b:celDl",
+                          "name": "작업공간으로 돌아가기 Button",
+                          "height": 36,
+                          "descendants": {
+                            "b:n0keHY": {
+                              "icon": "arrow-left"
+                            },
+                            "b:zprJP": {
+                              "content": "작업공간으로 돌아가기"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Menvh",
+                      "name": "Help External Link Status · 피드백 페이지를 열지 못했습니다",
+                      "width": "fill_container",
+                      "height": 76,
+                      "fill": "$b:color-surface-raised",
+                      "cornerRadius": "$b:radius-control",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "gap": "$b:space-3",
+                      "padding": "$b:space-4",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "AeFg1",
+                          "name": "피드백 페이지를 열지 못했습니다 Status Icon",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "external-link",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "R3zLvQ",
+                          "name": "피드백 페이지를 열지 못했습니다 Status Copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-1",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "IZRXN",
+                              "name": "피드백 페이지를 열지 못했습니다 Status Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "피드백 페이지를 열지 못했습니다",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "ZeYja",
+                              "name": "피드백 페이지를 열지 못했습니다 Status Description",
+                              "fill": "$b:color-text-secondary",
+                              "content": "팝업 차단을 확인하거나 링크를 복사해 직접 열어주세요.",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "R37cT",
+                          "type": "ref",
+                          "ref": "b:celDl",
+                          "name": "Retry Feedback Link Button",
+                          "height": 36,
+                          "descendants": {
+                            "b:n0keHY": {
+                              "icon": "refresh-cw"
+                            },
+                            "b:zprJP": {
+                              "content": "다시 열기"
+                            }
+                          }
+                        },
+                        {
+                          "id": "hmMcu",
+                          "type": "ref",
+                          "ref": "b:celDl",
+                          "name": "Copy Feedback Link Button",
+                          "height": 36,
+                          "descendants": {
+                            "b:n0keHY": {
+                              "icon": "copy"
+                            },
+                            "b:zprJP": {
+                              "content": "링크 복사"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "i2XzQ",
+                      "name": "Help Entry Cards",
+                      "width": "fill_container",
+                      "gap": "$b:space-4",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "IDPWS",
+                          "name": "Help Entry Card · 사용 가이드",
+                          "width": "fill_container",
+                          "height": 168,
+                          "fill": "$b:color-surface-raised",
+                          "cornerRadius": "$b:radius-card",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "gap": "$b:space-4",
+                          "padding": "$b:space-6",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "mZ7g7",
+                              "name": "사용 가이드 Card Header",
+                              "width": "fill_container",
+                              "height": 36,
+                              "gap": "$b:space-3",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "XPlHC",
+                                  "name": "사용 가이드 Card Icon Box",
+                                  "width": 36,
+                                  "height": 36,
+                                  "fill": "$b:color-surface-icon",
+                                  "cornerRadius": "$b:radius-control",
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "Qf0MD",
+                                      "name": "사용 가이드 Card Icon",
+                                      "width": 18,
+                                      "height": 18,
+                                      "icon": "book-open",
+                                      "library": "lucide",
+                                      "weight": "$b:icon-weight-default",
+                                      "fill": "$b:color-icon-default"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "HIZY4",
+                                  "name": "사용 가이드 Card Title",
+                                  "fill": "$b:color-text-primary",
+                                  "content": "사용 가이드",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-heading",
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "KIhg6",
+                                  "name": "사용 가이드 Card Header Spacer",
+                                  "width": "fill_container",
+                                  "height": 1
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "mYEh5",
+                                  "name": "사용 가이드 Card Direction",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "arrow-right",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "cvEfh",
+                              "name": "사용 가이드 Card Description",
+                              "fill": "$b:color-text-secondary",
+                              "content": "작업공간과 파일 편집 방법을 단계별로 확인합니다.",
+                              "lineHeight": "$b:line-height-body",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "xxwSP",
+                          "name": "Help Entry Card · 피드백 보내기",
+                          "width": "fill_container",
+                          "height": 168,
+                          "fill": "$b:color-surface-raised",
+                          "cornerRadius": "$b:radius-card",
+                          "stroke": "$b:color-accent-primary",
+                          "strokeWidth": 2,
+                          "layout": "vertical",
+                          "gap": "$b:space-4",
+                          "padding": "$b:space-6",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "XGRdg",
+                              "name": "피드백 보내기 Card Header",
+                              "width": "fill_container",
+                              "height": 36,
+                              "gap": "$b:space-3",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "I58LUu",
+                                  "name": "피드백 보내기 Card Icon Box",
+                                  "width": 36,
+                                  "height": 36,
+                                  "fill": "$b:color-surface-icon",
+                                  "cornerRadius": "$b:radius-control",
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "z6DN3R",
+                                      "name": "피드백 보내기 Card Icon",
+                                      "width": 18,
+                                      "height": 18,
+                                      "icon": "message-square-plus",
+                                      "library": "lucide",
+                                      "weight": "$b:icon-weight-default",
+                                      "fill": "$b:color-icon-default"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "I3jMme",
+                                  "name": "피드백 보내기 Card Title",
+                                  "fill": "$b:color-text-primary",
+                                  "content": "피드백 보내기",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-heading",
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "DuZJj",
+                                  "name": "피드백 보내기 Card Header Spacer",
+                                  "width": "fill_container",
+                                  "height": 1
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "i3lo8S",
+                                  "name": "피드백 보내기 Card Direction",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "external-link",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "Bi3U9",
+                              "name": "피드백 보내기 Card Description",
+                              "fill": "$b:color-text-secondary",
+                              "content": "문제와 개선 의견을 외부 피드백 폼으로 전달합니다.",
+                              "lineHeight": "$b:line-height-body",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-body",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "r9vtCk",
+                              "name": "피드백 보내기 External Hint",
+                              "fill": "$b:color-text-secondary",
+                              "content": "새 탭에서 열림",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "imports": {

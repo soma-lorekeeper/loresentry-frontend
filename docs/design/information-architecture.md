@@ -30,6 +30,8 @@ Lorekeeper의 전체 화면 구조는 다음과 같다.
 - [원고 편집 영역](./workspace/manuscript-editor.md)
 - [속성 문서 편집 영역](./workspace/structured-file-editor.md)
 - [이벤트 파일과 시간 흐름](./workspace/event-editor.md)
+- [작업공간 프로젝트 설정](./workspace/settings.md)
+- [작업공간 도움말](./workspace/help.md)
 
 ## Workflow
 
@@ -49,3 +51,4 @@ Lorekeeper의 전체 화면 구조는 다음과 같다.
 - [메모 탭](./workflow/project-memos.md)
 - [속성 문서 편집](./workflow/structured-file-editing.md)
 - [이벤트 시간 흐름 편집](./workflow/event-timeline-editing.md)
+- [작업공간 설정과 도움말](./workflow/workspace-settings-and-help.md)
