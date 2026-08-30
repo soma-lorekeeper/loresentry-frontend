@@ -3833,6 +3833,51 @@
               "fontWeight": "normal"
             }
           ]
+        },
+        {
+          "type": "rectangle",
+          "id": "MyPeL",
+          "name": "Favorites Menu Section Action Separator",
+          "fill": "$color-border-default",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "frame",
+          "id": "mQiHo",
+          "name": "섹션 추가 Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "L9SdyJ",
+              "name": "섹션 추가 Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "list-plus",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "lE2zX",
+              "name": "섹션 추가 Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "섹션 추가",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
         }
       ]
     },
@@ -4271,6 +4316,51 @@
               "name": "이름 변경 Menu Item Label",
               "fill": "$color-text-primary",
               "content": "이름 변경",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "kJtvh",
+          "name": "Files Menu Section Action Separator",
+          "fill": "$color-border-default",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "frame",
+          "id": "k0x1E6",
+          "name": "섹션 추가 Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "MHkZV",
+              "name": "섹션 추가 Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "list-plus",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "pI7Yf",
+              "name": "섹션 추가 Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "섹션 추가",
               "fontFamily": "$font-family-ui",
               "fontSize": "$font-size-body",
               "fontWeight": "normal"
@@ -8271,6 +8361,51 @@
               "name": "이름 변경 Menu Item Label",
               "fill": "$color-text-primary",
               "content": "이름 변경",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "mufUF",
+          "name": "User Section Menu Add Separator",
+          "fill": "$color-border-default",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "frame",
+          "id": "m3iom6",
+          "name": "섹션 추가 Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "cmzL2",
+              "name": "섹션 추가 Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "list-plus",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "ulSHg",
+              "name": "섹션 추가 Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "섹션 추가",
               "fontFamily": "$font-family-ui",
               "fontSize": "$font-size-body",
               "fontWeight": "normal"
