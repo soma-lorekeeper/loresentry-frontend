@@ -78,5 +78,8 @@ Lorekeeper 사용 방법을 확인하거나 의견을 보내세요
 
 ## Pencil 시각 참조
 
-Atomic 구현에서 기본, 가이드 목록·본문과 피드백 외부 이동 상태를 추가한 뒤 화면
-ID를 연결한다.
+- `77 · Workspace Help · Default`: 도움말 진입과 작업공간 복귀
+- `78 · Workspace Help · Guide Topics`: 가이드 검색과 주제 탐색
+- `79 · Workspace Help · Guide Article`: 목차와 가이드 본문
+- `80 · Workspace Help · Feedback Opened`: 외부 페이지 열기와 포커스 복원
+- `81 · Workspace Help · Feedback Open Error`: 다시 열기와 링크 복사
