@@ -15286,6 +15286,874 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "sgSNm",
+      "x": 15551,
+      "y": 0,
+      "name": "Settings / Section",
+      "context": "Shared heading and description for a project settings section.",
+      "reusable": true,
+      "width": 760,
+      "height": 64,
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "bottom": 1
+      },
+      "layout": "vertical",
+      "gap": "$space-1",
+      "padding": [
+        0,
+        0,
+        "$space-3",
+        0
+      ],
+      "children": [
+        {
+          "type": "text",
+          "id": "KBLgY",
+          "name": "Settings Section Title",
+          "fill": "$color-text-primary",
+          "content": "일반",
+          "lineHeight": "$line-height-body",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-heading",
+          "fontWeight": "600"
+        },
+        {
+          "type": "text",
+          "id": "LBYE2",
+          "name": "Settings Section Description",
+          "fill": "$color-text-secondary",
+          "content": "현재 프로젝트에만 적용되는 기본 정보를 관리합니다.",
+          "lineHeight": "$line-height-body",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-body",
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "rl76J",
+      "x": 15551,
+      "y": 100,
+      "name": "Settings / Field",
+      "context": "Labeled project setting input with description and validation message.",
+      "reusable": true,
+      "width": 760,
+      "height": 92,
+      "layout": "vertical",
+      "gap": "$space-1",
+      "children": [
+        {
+          "type": "frame",
+          "id": "e9gcdK",
+          "name": "Settings Field Label Row",
+          "width": "fill_container",
+          "height": 20,
+          "gap": "$space-2",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "P7q7rE",
+              "name": "Settings Field Label",
+              "fill": "$color-text-primary",
+              "content": "프로젝트 이름",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "gPGrl",
+              "name": "Settings Field Required",
+              "fill": "$color-text-secondary",
+              "content": "필수",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "jUtF7",
+          "name": "Settings Field Input",
+          "width": "fill_container",
+          "height": 40,
+          "fill": "$color-surface-default",
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "RTRR5",
+              "name": "Settings Field Value",
+              "fill": "$color-text-primary",
+              "content": "유리 정원의 기록",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "FMcwD",
+          "name": "Settings Field Description",
+          "fill": "$color-text-secondary",
+          "content": "사이드바와 프로젝트 목록에 표시되는 이름입니다.",
+          "lineHeight": "$line-height-body",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-label",
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "wdSk6",
+      "x": 15551,
+      "y": 230,
+      "name": "Settings / Danger Zone",
+      "context": "Visually separated project-level destructive action.",
+      "reusable": true,
+      "width": 760,
+      "height": 112,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "gap": "$space-4",
+      "padding": "$space-4",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "rJl2R",
+          "name": "Danger Zone Icon Box",
+          "width": 36,
+          "height": 36,
+          "fill": "$color-surface-icon",
+          "cornerRadius": "$radius-control",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "bSMIz",
+              "name": "Danger Zone Icon",
+              "width": 17,
+              "height": 17,
+              "icon": "triangle-alert",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Cna1B",
+          "name": "Danger Zone Copy",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-1",
+          "children": [
+            {
+              "type": "text",
+              "id": "qDMss",
+              "name": "Danger Zone Title",
+              "fill": "$color-text-primary",
+              "content": "프로젝트를 휴지통으로 이동",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "A3s0ql",
+              "name": "Danger Zone Description",
+              "fill": "$color-text-secondary",
+              "content": "프로젝트 목록의 휴지통에서 복원하거나 영구 삭제할 수 있습니다.",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "id": "XOZMd",
+          "type": "ref",
+          "ref": "celDl",
+          "name": "Move Project To Trash Button",
+          "height": 36,
+          "descendants": {
+            "n0keHY": {
+              "icon": "trash-2"
+            },
+            "zprJP": {
+              "content": "이동"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "TLGT0",
+      "x": 15551,
+      "y": 380,
+      "name": "Settings / Save Bar / Changed",
+      "context": "Project settings explicit-save feedback and actions.",
+      "reusable": true,
+      "width": 760,
+      "height": 64,
+      "fill": "$color-bg-canvas",
+      "cornerRadius": "$radius-control",
+      "stroke": "#00000000",
+      "gap": "$space-3",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "pFsvZ",
+          "name": "Settings / Save Bar / Changed Status Icon",
+          "width": 16,
+          "height": 16,
+          "icon": "circle-dot",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-icon-default"
+        },
+        {
+          "type": "frame",
+          "id": "HwNtT",
+          "name": "Settings / Save Bar / Changed Status Copy",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-1",
+          "children": [
+            {
+              "type": "text",
+              "id": "eChnE",
+              "name": "Settings / Save Bar / Changed Status Message",
+              "fill": "$color-text-primary",
+              "content": "저장되지 않은 변경사항",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "KemmV",
+              "name": "Settings / Save Bar / Changed Status Detail",
+              "fill": "$color-text-secondary",
+              "content": "저장하거나 마지막 값으로 되돌리세요.",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "id": "XocY6",
+          "type": "ref",
+          "ref": "celDl",
+          "name": "Settings / Save Bar / Changed Cancel Button",
+          "height": 36,
+          "descendants": {
+            "n0keHY": {
+              "enabled": false,
+              "width": 0,
+              "height": 0
+            },
+            "zprJP": {
+              "content": "취소"
+            }
+          }
+        },
+        {
+          "id": "Rf7ft",
+          "type": "ref",
+          "ref": "celDl",
+          "name": "Settings / Save Bar / Changed Save Button",
+          "height": 36,
+          "fill": "$color-accent-primary",
+          "strokeWidth": 0,
+          "descendants": {
+            "n0keHY": {
+              "icon": "save"
+            },
+            "zprJP": {
+              "content": "변경사항 저장",
+              "fill": "$color-text-on-accent"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Bap0K",
+      "x": 15551,
+      "y": 464,
+      "name": "Settings / Save Bar / Saving",
+      "context": "Project settings explicit-save feedback and actions.",
+      "reusable": true,
+      "width": 760,
+      "height": 64,
+      "fill": "$color-bg-canvas",
+      "cornerRadius": "$radius-control",
+      "stroke": "#00000000",
+      "gap": "$space-3",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "mn3rk",
+          "name": "Settings / Save Bar / Saving Status Icon",
+          "width": 16,
+          "height": 16,
+          "icon": "loader-circle",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-icon-default"
+        },
+        {
+          "type": "frame",
+          "id": "IOCH4",
+          "name": "Settings / Save Bar / Saving Status Copy",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-1",
+          "children": [
+            {
+              "type": "text",
+              "id": "pE7c9",
+              "name": "Settings / Save Bar / Saving Status Message",
+              "fill": "$color-text-primary",
+              "content": "설정을 저장하고 있습니다",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "yEicn",
+              "name": "Settings / Save Bar / Saving Status Detail",
+              "fill": "$color-text-secondary",
+              "content": "잠시만 기다려주세요.",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "id": "SCUAU",
+          "type": "ref",
+          "ref": "celDl",
+          "name": "Settings / Save Bar / Saving Saving Button",
+          "height": 36,
+          "descendants": {
+            "n0keHY": {
+              "icon": "loader-circle"
+            },
+            "zprJP": {
+              "content": "저장 중…"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "XlKEF",
+      "x": 15551,
+      "y": 548,
+      "name": "Settings / Save Bar / Saved",
+      "context": "Project settings explicit-save feedback and actions.",
+      "reusable": true,
+      "width": 760,
+      "height": 64,
+      "fill": "$color-bg-canvas",
+      "cornerRadius": "$radius-control",
+      "stroke": "#00000000",
+      "gap": "$space-3",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "Y4MjoY",
+          "name": "Settings / Save Bar / Saved Status Icon",
+          "width": 16,
+          "height": 16,
+          "icon": "circle-check",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-accent-primary"
+        },
+        {
+          "type": "frame",
+          "id": "epBr3",
+          "name": "Settings / Save Bar / Saved Status Copy",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-1",
+          "children": [
+            {
+              "type": "text",
+              "id": "I3fQkq",
+              "name": "Settings / Save Bar / Saved Status Message",
+              "fill": "$color-text-primary",
+              "content": "저장됨",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "P99jQ",
+              "name": "Settings / Save Bar / Saved Status Detail",
+              "fill": "$color-text-secondary",
+              "content": "프로젝트 설정이 최신 상태입니다.",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "gaWk1",
+      "x": 15551,
+      "y": 632,
+      "name": "Settings / Save Bar / Error",
+      "context": "Project settings explicit-save feedback and actions.",
+      "reusable": true,
+      "width": 760,
+      "height": 64,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "gap": "$space-3",
+      "padding": [
+        0,
+        "$space-3"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "VOmKn",
+          "name": "Settings / Save Bar / Error Status Icon",
+          "width": 16,
+          "height": 16,
+          "icon": "cloud-off",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-icon-default"
+        },
+        {
+          "type": "frame",
+          "id": "Ovnox",
+          "name": "Settings / Save Bar / Error Status Copy",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-1",
+          "children": [
+            {
+              "type": "text",
+              "id": "ovE2o",
+              "name": "Settings / Save Bar / Error Status Message",
+              "fill": "$color-text-primary",
+              "content": "설정을 저장하지 못했습니다",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "L2aT9",
+              "name": "Settings / Save Bar / Error Status Detail",
+              "fill": "$color-text-secondary",
+              "content": "입력값은 유지됩니다.",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "id": "UGCqW",
+          "type": "ref",
+          "ref": "celDl",
+          "name": "Settings / Save Bar / Error Retry Button",
+          "height": 36,
+          "descendants": {
+            "n0keHY": {
+              "icon": "refresh-cw"
+            },
+            "zprJP": {
+              "content": "다시 시도"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "lrFZc",
+      "x": 16371,
+      "y": 0,
+      "name": "Dialog / Unsaved Settings",
+      "context": "Project settings confirmation dialog.",
+      "reusable": true,
+      "width": 440,
+      "height": 250,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000066",
+        "offset": {
+          "x": 0,
+          "y": 8
+        },
+        "blur": 24
+      },
+      "layout": "vertical",
+      "gap": "$space-4",
+      "padding": "$space-6",
+      "children": [
+        {
+          "type": "frame",
+          "id": "lkcus",
+          "name": "Dialog / Unsaved Settings Header",
+          "width": "fill_container",
+          "gap": "$space-3",
+          "children": [
+            {
+              "type": "frame",
+              "id": "cDHFS",
+              "name": "Dialog / Unsaved Settings Icon Box",
+              "width": 36,
+              "height": 36,
+              "fill": "$color-surface-icon",
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "XRgCK",
+                  "name": "Dialog / Unsaved Settings Icon",
+                  "width": 17,
+                  "height": 17,
+                  "icon": "file-x",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "pi79l",
+              "name": "Dialog / Unsaved Settings Header Copy",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-1",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "QW1DO",
+                  "name": "Dialog / Unsaved Settings Title",
+                  "fill": "$color-text-primary",
+                  "content": "변경사항을 저장하지 않고 나갈까요?",
+                  "lineHeight": "$line-height-body",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-heading",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "Ub3Du",
+                  "name": "Dialog / Unsaved Settings Description",
+                  "fill": "$color-text-secondary",
+                  "content": "현재 프로젝트 설정의 변경사항이 사라집니다.",
+                  "lineHeight": "$line-height-body",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "neF3I",
+          "name": "Dialog / Unsaved Settings Target",
+          "width": "fill_container",
+          "height": 48,
+          "fill": "$color-surface-default",
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "padding": "$space-3",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "UopQ4",
+              "name": "Dialog / Unsaved Settings Target Label",
+              "fill": "$color-text-primary",
+              "content": "프로젝트 이름 · 유리 정원의 기록",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "UUckW",
+          "name": "Dialog / Unsaved Settings Actions",
+          "width": "fill_container",
+          "height": 36,
+          "gap": "$space-2",
+          "justifyContent": "end",
+          "children": [
+            {
+              "id": "XkK89",
+              "type": "ref",
+              "ref": "celDl",
+              "name": "Dialog / Unsaved Settings Cancel",
+              "height": 36,
+              "descendants": {
+                "n0keHY": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                },
+                "zprJP": {
+                  "content": "계속 편집"
+                }
+              }
+            },
+            {
+              "id": "rvwCU",
+              "type": "ref",
+              "ref": "celDl",
+              "name": "Dialog / Unsaved Settings Confirm",
+              "height": 36,
+              "descendants": {
+                "n0keHY": {
+                  "icon": "file-x"
+                },
+                "zprJP": {
+                  "content": "변경사항 버리기"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "kJtqL",
+      "x": 16871,
+      "y": 0,
+      "name": "Dialog / Move Project To Trash",
+      "context": "Project settings confirmation dialog.",
+      "reusable": true,
+      "width": 440,
+      "height": 250,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000066",
+        "offset": {
+          "x": 0,
+          "y": 8
+        },
+        "blur": 24
+      },
+      "layout": "vertical",
+      "gap": "$space-4",
+      "padding": "$space-6",
+      "children": [
+        {
+          "type": "frame",
+          "id": "wcLYZ",
+          "name": "Dialog / Move Project To Trash Header",
+          "width": "fill_container",
+          "gap": "$space-3",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Z507zf",
+              "name": "Dialog / Move Project To Trash Icon Box",
+              "width": 36,
+              "height": 36,
+              "fill": "$color-surface-icon",
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "Z1XeJZ",
+                  "name": "Dialog / Move Project To Trash Icon",
+                  "width": 17,
+                  "height": 17,
+                  "icon": "trash-2",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "hyzo2",
+              "name": "Dialog / Move Project To Trash Header Copy",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-1",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "v702h",
+                  "name": "Dialog / Move Project To Trash Title",
+                  "fill": "$color-text-primary",
+                  "content": "프로젝트를 휴지통으로 이동할까요?",
+                  "lineHeight": "$line-height-body",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-heading",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "b4GsKN",
+                  "name": "Dialog / Move Project To Trash Description",
+                  "fill": "$color-text-secondary",
+                  "content": "프로젝트 안의 파일도 함께 이동합니다.",
+                  "lineHeight": "$line-height-body",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "rgk9d",
+          "name": "Dialog / Move Project To Trash Target",
+          "width": "fill_container",
+          "height": 48,
+          "fill": "$color-surface-default",
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "padding": "$space-3",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "xhwP8",
+              "name": "Dialog / Move Project To Trash Target Label",
+              "fill": "$color-text-primary",
+              "content": "유리 정원의 기록",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Bx3XZ",
+          "name": "Dialog / Move Project To Trash Actions",
+          "width": "fill_container",
+          "height": 36,
+          "gap": "$space-2",
+          "justifyContent": "end",
+          "children": [
+            {
+              "id": "N50uR7",
+              "type": "ref",
+              "ref": "celDl",
+              "name": "Dialog / Move Project To Trash Cancel",
+              "height": 36,
+              "descendants": {
+                "n0keHY": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                },
+                "zprJP": {
+                  "content": "취소"
+                }
+              }
+            },
+            {
+              "id": "v6f6vK",
+              "type": "ref",
+              "ref": "celDl",
+              "name": "Dialog / Move Project To Trash Confirm",
+              "height": 36,
+              "descendants": {
+                "n0keHY": {
+                  "icon": "trash-2"
+                },
+                "zprJP": {
+                  "content": "휴지통으로 이동"
+                }
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "themes": {

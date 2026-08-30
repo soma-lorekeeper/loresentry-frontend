@@ -94,5 +94,10 @@
 
 ## Pencil 시각 참조
 
-Atomic 구현에서 기본, 변경됨, 저장, 오류와 확인 상태 화면을 추가한 뒤 화면 ID를
-연결한다.
+- `70 · Workspace Settings · Default`: 저장된 값과 비활성 저장 동작
+- `71 · Workspace Settings · Changed`: 변경값과 명시적 저장 동작
+- `72 · Workspace Settings · Saving`: 입력 잠금과 저장 중 피드백
+- `73 · Workspace Settings · Saved`: 저장 완료 피드백
+- `74 · Workspace Settings · Save Error`: 입력 유지와 다시 시도
+- `75 · Workspace Settings · Unsaved Confirmation`: 변경사항 버리기 확인
+- `76 · Workspace Settings · Move To Trash Confirmation`: 프로젝트 휴지통 이동 확인
