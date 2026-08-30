@@ -175,7 +175,6 @@
       "name": "Memo Card / Work",
       "reusable": true,
       "width": 360,
-      "height": 73,
       "fill": "$color-surface-raised",
       "cornerRadius": "$radius-card",
       "stroke": "$color-border-default",
@@ -237,6 +236,8 @@
           "id": "p51IZ",
           "name": "Memo Card Body",
           "fill": "$color-text-secondary",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
           "content": "균열은 문이 아니라 기억의 방향이다.",
           "fontFamily": "$font-family-ui",
           "fontSize": "$font-size-label",
@@ -4650,7 +4651,7 @@
               "name": "Memo Card Instance · North Door",
               "width": "fill_container",
               "enabled": true,
-              "height": 73,
+              "height": "fit_content",
               "descendants": {
                 "CQYPt": {
                   "content": "북쪽 문과 균열"
@@ -4667,7 +4668,7 @@
               "name": "Memo Card Instance · Lantern Rule",
               "width": "fill_container",
               "enabled": true,
-              "height": 73,
+              "height": "fit_content",
               "descendants": {
                 "CQYPt": {
                   "content": "등불 규칙"
@@ -5082,7 +5083,7 @@
               "name": "Memo Card Instance · North Door",
               "width": 288,
               "enabled": false,
-              "height": 73,
+              "height": "fit_content",
               "descendants": {
                 "CQYPt": {
                   "content": "북쪽 문과 균열"
@@ -5099,7 +5100,7 @@
               "name": "Memo Card Instance · Lantern Rule",
               "width": 288,
               "enabled": false,
-              "height": 73,
+              "height": "fit_content",
               "descendants": {
                 "CQYPt": {
                   "content": "등불 규칙"
@@ -5508,7 +5509,7 @@
               "name": "Memo Card Instance · North Door",
               "width": 360,
               "enabled": true,
-              "height": 73,
+              "height": "fit_content",
               "descendants": {
                 "CQYPt": {
                   "content": "북쪽 문과 균열"
@@ -5525,7 +5526,7 @@
               "name": "Memo Card Instance · Lantern Rule",
               "width": 360,
               "enabled": true,
-              "height": 73,
+              "height": "fit_content",
               "descendants": {
                 "CQYPt": {
                   "content": "등불 규칙"
@@ -16670,6 +16671,591 @@
                 },
                 "zprJP": {
                   "content": "다시 시도",
+                  "fill": "$color-text-on-accent"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "veu74",
+      "x": 18443,
+      "y": 0,
+      "name": "Timeline / Item / Save Error",
+      "context": "Timeline item editor after a failed save; keeps all input and exposes a non-color retry status.",
+      "reusable": true,
+      "width": 760,
+      "height": 475,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-accent-primary",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": "$space-4",
+      "padding": "$space-6",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Glnjg",
+          "name": "Timeline Editing Header",
+          "width": "fill_container",
+          "height": 32,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "Hhulz",
+              "name": "Timeline Editing Title",
+              "fill": "$color-text-primary",
+              "content": "시간 항목 편집",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-heading",
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "LnSpO",
+              "name": "Timeline Editing Header Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "text",
+              "id": "q7szWS",
+              "name": "Timeline Editing Required",
+              "fill": "$color-text-secondary",
+              "content": "제목 필수",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "sl8PU",
+          "name": "Timeline Item Title Field",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-1",
+          "children": [
+            {
+              "type": "text",
+              "id": "koM5G",
+              "name": "Timeline Item Title Field Label",
+              "fill": "$color-text-secondary",
+              "content": "항목 제목",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "I4VcR",
+              "name": "Timeline Item Title Field Input",
+              "width": "fill_container",
+              "height": 40,
+              "fill": "$color-surface-default",
+              "cornerRadius": "$radius-control",
+              "stroke": "$color-border-default",
+              "strokeWidth": 1,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "bTerx",
+                  "name": "Timeline Item Title Field Value",
+                  "fill": "$color-text-primary",
+                  "content": "유리 등대가 멈추다",
+                  "lineHeight": "$line-height-body",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "TggjC",
+          "name": "Timeline Time Type Field",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-1",
+          "children": [
+            {
+              "type": "text",
+              "id": "FBwfD",
+              "name": "Timeline Time Type Label",
+              "fill": "$color-text-secondary",
+              "content": "시간 유형",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "M0oDQQ",
+              "name": "Timeline Time Type Segments",
+              "width": "fill_container",
+              "height": 38,
+              "fill": "$color-surface-default",
+              "cornerRadius": "$radius-control",
+              "stroke": "$color-border-default",
+              "strokeWidth": 1,
+              "gap": "$space-1",
+              "padding": "$space-1",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "d4mwEN",
+                  "name": "날짜·시간 Time Type",
+                  "width": "fill_container",
+                  "height": 30,
+                  "fill": "$color-state-selected",
+                  "cornerRadius": "$radius-control",
+                  "gap": "$space-2",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "IElA0",
+                      "name": "날짜·시간 Time Type Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "calendar-days",
+                      "library": "lucide",
+                      "weight": "$icon-weight-default",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "uAj5i",
+                      "name": "날짜·시간 Time Type Label",
+                      "fill": "$color-text-primary",
+                      "content": "날짜·시간",
+                      "lineHeight": "$line-height-body",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "cDjr2",
+                  "name": "순서 Time Type",
+                  "width": "fill_container",
+                  "height": 30,
+                  "fill": "#00000000",
+                  "cornerRadius": "$radius-control",
+                  "gap": "$space-2",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "fskyr",
+                      "name": "순서 Time Type Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "list-ordered",
+                      "library": "lucide",
+                      "weight": "$icon-weight-default",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "BIkOU",
+                      "name": "순서 Time Type Label",
+                      "fill": "$color-text-secondary",
+                      "content": "순서",
+                      "lineHeight": "$line-height-body",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "yk5lo",
+                  "name": "미정 Time Type",
+                  "width": "fill_container",
+                  "height": 30,
+                  "fill": "#00000000",
+                  "cornerRadius": "$radius-control",
+                  "gap": "$space-2",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "Zf3aH",
+                      "name": "미정 Time Type Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "circle-question-mark",
+                      "library": "lucide",
+                      "weight": "$icon-weight-default",
+                      "fill": "$color-icon-default"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ltkhS",
+                      "name": "미정 Time Type Label",
+                      "fill": "$color-text-secondary",
+                      "content": "미정",
+                      "lineHeight": "$line-height-body",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "uZWY7",
+          "name": "Timeline Date And Time Fields",
+          "width": "fill_container",
+          "gap": "$space-4",
+          "children": [
+            {
+              "type": "frame",
+              "id": "vbJVC",
+              "name": "Timeline Date Field",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-1",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "vNcFe",
+                  "name": "Timeline Date Field Label",
+                  "fill": "$color-text-secondary",
+                  "content": "날짜",
+                  "lineHeight": "$line-height-body",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "s0ANG",
+                  "name": "Timeline Date Field Input",
+                  "width": "fill_container",
+                  "height": 40,
+                  "fill": "$color-surface-default",
+                  "cornerRadius": "$radius-control",
+                  "stroke": "$color-border-default",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "u9oHY",
+                      "name": "Timeline Date Field Value",
+                      "fill": "$color-text-primary",
+                      "content": "1024. 3. 18.",
+                      "lineHeight": "$line-height-body",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Fj4gm",
+              "name": "Timeline Time Field",
+              "width": 180,
+              "layout": "vertical",
+              "gap": "$space-1",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "n4yvS",
+                  "name": "Timeline Time Field Label",
+                  "fill": "$color-text-secondary",
+                  "content": "시간",
+                  "lineHeight": "$line-height-body",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "tD7td",
+                  "name": "Timeline Time Field Input",
+                  "width": "fill_container",
+                  "height": 40,
+                  "fill": "$color-surface-default",
+                  "cornerRadius": "$radius-control",
+                  "stroke": "$color-border-default",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "D5EeQ",
+                      "name": "Timeline Time Field Value",
+                      "fill": "$color-text-primary",
+                      "content": "21:30",
+                      "lineHeight": "$line-height-body",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "lGfy5",
+          "name": "Timeline Description Field",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-1",
+          "children": [
+            {
+              "type": "text",
+              "id": "g4MhzD",
+              "name": "Timeline Description Field Label",
+              "fill": "$color-text-secondary",
+              "content": "짧은 설명",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "FOZ9D",
+              "name": "Timeline Description Field Input",
+              "width": "fill_container",
+              "height": 40,
+              "fill": "$color-surface-default",
+              "cornerRadius": "$radius-control",
+              "stroke": "$color-border-default",
+              "strokeWidth": 1,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "jKA1t",
+                  "name": "Timeline Description Field Value",
+                  "fill": "$color-text-primary",
+                  "content": "항구의 모든 부유 등대가 동시에 빛을 잃는다.",
+                  "lineHeight": "$line-height-body",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "d865c",
+          "name": "Timeline Editing Related Files",
+          "width": "fill_container",
+          "height": 34,
+          "gap": "$space-2",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "iz7ry",
+              "name": "Timeline Editing Related Label",
+              "fill": "$color-text-secondary",
+              "content": "관련 파일",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "600"
+            },
+            {
+              "id": "GTidj",
+              "type": "ref",
+              "ref": "hqWLU",
+              "name": "Timeline Editing Related File Chip",
+              "width": 180,
+              "height": 30,
+              "descendants": {
+                "q0yS1": {
+                  "icon": "map-pin"
+                },
+                "BuYqm": {
+                  "content": "은빛 항구"
+                }
+              }
+            },
+            {
+              "id": "udTEy",
+              "type": "ref",
+              "ref": "hMpn5",
+              "name": "Timeline Editing Add Related File",
+              "width": 28,
+              "height": 28,
+              "descendants": {
+                "UCRf6": {
+                  "icon": "plus"
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "N0Y12",
+              "name": "Timeline Editing Related Spacer",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "EF1Y2",
+          "name": "Timeline Editing Actions",
+          "width": "fill_container",
+          "height": 36,
+          "gap": "$space-2",
+          "justifyContent": "end",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "StYSk",
+              "name": "Timeline Save Error Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "triangle-alert",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-accent-primary"
+            },
+            {
+              "type": "text",
+              "id": "jBrYW",
+              "name": "Timeline Save Error Message",
+              "fill": "$color-text-primary",
+              "content": "저장하지 못했습니다. 입력은 유지됩니다.",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "I1wK6l",
+              "name": "Timeline Save Error Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "C39TmU",
+              "name": "Retry Timeline Save",
+              "height": 30,
+              "cornerRadius": "$radius-control",
+              "stroke": "$color-border-default",
+              "strokeWidth": 1,
+              "gap": "$space-1",
+              "padding": [
+                0,
+                "$space-2"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "WVvoE",
+                  "name": "Retry Timeline Save Icon",
+                  "width": 13,
+                  "height": 13,
+                  "icon": "rotate-cw",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "WBZkR",
+                  "name": "Retry Timeline Save Label",
+                  "fill": "$color-text-primary",
+                  "content": "다시 시도",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "id": "E5j1ih",
+              "type": "ref",
+              "ref": "celDl",
+              "name": "Cancel Timeline Editing",
+              "height": 36,
+              "descendants": {
+                "n0keHY": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                },
+                "zprJP": {
+                  "content": "취소"
+                }
+              }
+            },
+            {
+              "id": "o0Sa65",
+              "type": "ref",
+              "ref": "celDl",
+              "name": "Complete Timeline Editing",
+              "height": 36,
+              "fill": "$color-accent-primary",
+              "strokeWidth": 0,
+              "descendants": {
+                "n0keHY": {
+                  "icon": "check"
+                },
+                "zprJP": {
+                  "content": "완료",
                   "fill": "$color-text-on-accent"
                 }
               }

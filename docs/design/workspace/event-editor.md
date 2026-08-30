@@ -133,6 +133,7 @@
 - `Timeline / Add`: 시간 항목 추가
 - `Timeline / Item / Selected`: 선택된 시간 항목
 - `Timeline / Item / Editing`: 시간 유형과 값을 편집하는 카드
+- `Timeline / Item / Save Error`: 입력을 유지하고 오류와 다시 시도를 표시하는 카드
 - `Dialog / Timeline Item Delete`: 삭제 대상과 확인 동작
 
 화면 전체 배치와 대표 이벤트 데이터는 `lorekeeper.pen`에 유지한다.
@@ -149,3 +150,5 @@
   `68 · Event Timeline · Editing`(`PmbP9`)
 - 시간 항목 삭제 확인:
   `69 · Event Timeline · Delete Confirmation`(`NcFHe`)
+- 시간 항목 저장 오류:
+  `88 · Event Timeline · Save Error`(`v90GPC`)

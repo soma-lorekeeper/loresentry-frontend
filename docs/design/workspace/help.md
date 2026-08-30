@@ -71,10 +71,10 @@ Lorekeeper 사용 방법을 확인하거나 의견을 보내세요
 
 ## 컴포넌트 경계
 
-- `Help / Entry Card`: 아이콘, 제목, 설명과 내부·외부 이동 표시
-- `Help / Guide Topic`: 가이드 주제와 선택 상태
-- `Help / Search Empty`: 검색 결과가 없는 상태
-- `Help / External Link Status`: 외부 열기 성공과 오류 상태
+버튼은 `Button / Icon Label`, 검색 입력은 `Search / Input`을 사용한다. 진입 카드,
+가이드 주제, 검색 빈 상태와 외부 링크 상태는 도움말 화면 안에서만 쓰므로 화면
+구조로 유지한다. 같은 구조가 다른 기능에도 필요해질 때 라이브러리 컴포넌트로
+추출한다.
 
 ## Pencil 시각 참조
 
@@ -83,3 +83,5 @@ Lorekeeper 사용 방법을 확인하거나 의견을 보내세요
 - `79 · Workspace Help · Guide Article`: 목차와 가이드 본문
 - `80 · Workspace Help · Feedback Opened`: 외부 페이지 열기와 포커스 복원
 - `81 · Workspace Help · Feedback Open Error`: 다시 열기와 링크 복사
+- `89 · Workspace Help · Guide Search Empty`(`oAP5s`): 검색어 유지와 빈 결과 안내
+- `90 · Workspace Help · Guide Load Error`(`i4zE54`): 선택 주제 유지와 다시 시도
