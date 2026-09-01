@@ -65182,6 +65182,1971 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "WYBJQ",
+      "x": 133469,
+      "y": -3369,
+      "name": "111 · Project Trash · Default",
+      "context": "LOREKEEPER-396 default. Recently trashed projects expose identity, moved date, preserved state, restore, and permanent delete actions.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "x14UXf",
+          "type": "ref",
+          "ref": "b:Q1iiU",
+          "name": "Project Trash Sidebar",
+          "height": "fill_container",
+          "descendants": {
+            "b:x8SHTG": {
+              "fill": "$b:color-surface-navigation"
+            },
+            "b:x8SHTG/b:zKgHG": {
+              "fontWeight": "normal"
+            },
+            "b:lUhoG": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:lUhoG/b:bP6Qr": {
+              "fontWeight": "600"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "V4G39Q",
+          "name": "Project Trash Main",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": 64,
+          "children": [
+            {
+              "type": "frame",
+              "id": "i8xwy",
+              "name": "Project Trash Header",
+              "width": "fill_container",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f6CG5Y",
+                  "name": "Project Trash Heading Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ZEPhp",
+                      "name": "Project Trash Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "프로젝트 휴지통",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Dho5A",
+                      "name": "Project Trash Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "보관된 프로젝트를 복원하거나 영구 삭제할 수 있습니다.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "dZQVu",
+                  "name": "Trash Count Badge",
+                  "height": 32,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "nXP88",
+                      "name": "Trash Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "3개 프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "JiFjc",
+              "name": "Trash Project List",
+              "width": "fill_container",
+              "fill": "$b:color-surface-default",
+              "cornerRadius": "$b:radius-card",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "smqo6",
+                  "type": "ref",
+                  "ref": "b:cvE3I",
+                  "name": "Trash Project / 별빛 아래 마지막 약속",
+                  "width": "fill_container",
+                  "height": 84,
+                  "descendants": {
+                    "b:t44Ns": {
+                      "icon": "book-open"
+                    },
+                    "b:y0FvL": {
+                      "content": "별빛 아래 마지막 약속"
+                    },
+                    "b:c9eMpk": {
+                      "content": "휴지통으로 이동: 2026. 8. 31. · 보관 중"
+                    },
+                    "b:PbwVO/b:n0keHY": {
+                      "icon": "rotate-ccw"
+                    },
+                    "b:PbwVO/b:zprJP": {
+                      "content": "복원"
+                    },
+                    "b:kvdqt/b:n0keHY": {
+                      "icon": "trash-2"
+                    },
+                    "b:kvdqt/b:zprJP": {
+                      "content": "영구 삭제"
+                    }
+                  }
+                },
+                {
+                  "id": "yOekn",
+                  "type": "ref",
+                  "ref": "b:cvE3I",
+                  "name": "Trash Project / 유리 바다의 지도",
+                  "width": "fill_container",
+                  "height": 84,
+                  "descendants": {
+                    "b:t44Ns": {
+                      "icon": "book-open"
+                    },
+                    "b:y0FvL": {
+                      "content": "유리 바다의 지도"
+                    },
+                    "b:c9eMpk": {
+                      "content": "휴지통으로 이동: 2026. 8. 27. · 보관 중"
+                    },
+                    "b:PbwVO/b:n0keHY": {
+                      "icon": "rotate-ccw"
+                    },
+                    "b:PbwVO/b:zprJP": {
+                      "content": "복원"
+                    },
+                    "b:kvdqt/b:n0keHY": {
+                      "icon": "trash-2"
+                    },
+                    "b:kvdqt/b:zprJP": {
+                      "content": "영구 삭제"
+                    }
+                  }
+                },
+                {
+                  "id": "c0dBB",
+                  "type": "ref",
+                  "ref": "b:cvE3I",
+                  "name": "Trash Project / 겨울 정거장의 편지",
+                  "width": "fill_container",
+                  "height": 84,
+                  "descendants": {
+                    "b:t44Ns": {
+                      "icon": "book-open"
+                    },
+                    "b:y0FvL": {
+                      "content": "겨울 정거장의 편지"
+                    },
+                    "b:c9eMpk": {
+                      "content": "휴지통으로 이동: 2026. 8. 19. · 보관 중"
+                    },
+                    "b:PbwVO/b:n0keHY": {
+                      "icon": "rotate-ccw"
+                    },
+                    "b:PbwVO/b:zprJP": {
+                      "content": "복원"
+                    },
+                    "b:kvdqt/b:n0keHY": {
+                      "icon": "trash-2"
+                    },
+                    "b:kvdqt/b:zprJP": {
+                      "content": "영구 삭제"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "yvfHX",
+      "x": 134989,
+      "y": -3369,
+      "name": "112 · Project Trash · Empty",
+      "context": "LOREKEEPER-396 empty. No retained projects; the primary action returns to the project list.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "DRJ41",
+          "type": "ref",
+          "ref": "b:Q1iiU",
+          "name": "Project Trash Sidebar",
+          "height": "fill_container",
+          "descendants": {
+            "b:x8SHTG": {
+              "fill": "$b:color-surface-navigation"
+            },
+            "b:x8SHTG/b:zKgHG": {
+              "fontWeight": "normal"
+            },
+            "b:lUhoG": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:lUhoG/b:bP6Qr": {
+              "fontWeight": "600"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "U5kWi",
+          "name": "Project Trash Main",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": 64,
+          "children": [
+            {
+              "type": "frame",
+              "id": "a32sz",
+              "name": "Project Trash Header",
+              "width": "fill_container",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "LPmNw",
+                  "name": "Project Trash Heading Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "pfe5C",
+                      "name": "Project Trash Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "프로젝트 휴지통",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "hAiOF",
+                      "name": "Project Trash Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "보관된 프로젝트를 복원하거나 영구 삭제할 수 있습니다.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "l7MrtP",
+                  "name": "Trash Count Badge",
+                  "height": 32,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "yXNuk",
+                      "name": "Trash Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "0개 프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "G73Tv",
+              "name": "Project Trash Empty State",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$b:space-4",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "x0fYMu",
+                  "name": "Empty Trash Icon Surface",
+                  "width": 52,
+                  "height": 52,
+                  "fill": "$b:color-surface-icon",
+                  "cornerRadius": "$b:radius-card",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "JL4kZ",
+                      "name": "Empty Trash Icon",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "archive-restore",
+                      "library": "lucide",
+                      "weight": "$b:icon-weight-default",
+                      "fill": "$b:color-icon-default"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "SsLRg",
+                  "name": "Empty Trash Title",
+                  "fill": "$b:color-text-primary",
+                  "content": "휴지통이 비어 있어요",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-heading",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "oYHoP",
+                  "name": "Empty Trash Description",
+                  "fill": "$b:color-text-secondary",
+                  "content": "휴지통으로 이동한 프로젝트가 여기에 보관됩니다.",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-body",
+                  "fontWeight": "normal"
+                },
+                {
+                  "id": "W4UxM",
+                  "type": "ref",
+                  "ref": "b:celDl",
+                  "name": "Return To Project List Button",
+                  "height": 40,
+                  "fill": "$b:color-accent-primary",
+                  "strokeWidth": 0,
+                  "descendants": {
+                    "b:n0keHY": {
+                      "icon": "arrow-left",
+                      "fill": "$b:color-text-on-accent"
+                    },
+                    "b:zprJP": {
+                      "content": "프로젝트 목록으로 돌아가기",
+                      "fill": "$b:color-text-on-accent"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "FogDw",
+      "x": 136509,
+      "y": -3369,
+      "name": "113 · Project Trash · Loading",
+      "context": "LOREKEEPER-396 loading. Skeleton rows preserve the final list geometry while project trash data is fetched.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "lPVVr",
+          "type": "ref",
+          "ref": "b:Q1iiU",
+          "name": "Project Trash Sidebar",
+          "height": "fill_container",
+          "descendants": {
+            "b:x8SHTG": {
+              "fill": "$b:color-surface-navigation"
+            },
+            "b:x8SHTG/b:zKgHG": {
+              "fontWeight": "normal"
+            },
+            "b:lUhoG": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:lUhoG/b:bP6Qr": {
+              "fontWeight": "600"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "KSONU",
+          "name": "Project Trash Main",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": 64,
+          "children": [
+            {
+              "type": "frame",
+              "id": "ISHG6",
+              "name": "Project Trash Header",
+              "width": "fill_container",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "KHrYP",
+                  "name": "Project Trash Heading Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "kCSfv",
+                      "name": "Project Trash Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "프로젝트 휴지통",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Njp9o",
+                      "name": "Project Trash Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "보관된 프로젝트를 복원하거나 영구 삭제할 수 있습니다.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "yhzm8",
+                  "name": "Trash Count Badge",
+                  "height": 32,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Ww485",
+                      "name": "Trash Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "불러오는 중",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "HAeHm",
+              "name": "Trash Project Loading List",
+              "width": "fill_container",
+              "fill": "$b:color-surface-default",
+              "cornerRadius": "$b:radius-card",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "IBnMS",
+                  "name": "Trash Project Skeleton 1",
+                  "width": "fill_container",
+                  "height": 84,
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "gap": "$b:space-3",
+                  "padding": [
+                    0,
+                    "$b:space-4"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": "$b:radius-control",
+                      "id": "U4lZ2u",
+                      "name": "Skeleton Icon 1",
+                      "fill": "$b:color-surface-icon",
+                      "width": 34,
+                      "height": 34
+                    },
+                    {
+                      "type": "frame",
+                      "id": "oINyK",
+                      "name": "Skeleton Copy 1",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$b:space-2",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": "$b:radius-control",
+                          "id": "LnRT7",
+                          "name": "Skeleton Title 1",
+                          "fill": "$b:color-surface-icon",
+                          "width": 210,
+                          "height": 14
+                        },
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": "$b:radius-control",
+                          "id": "p7phWj",
+                          "name": "Skeleton Meta 1",
+                          "fill": "$b:color-surface-icon",
+                          "width": 300,
+                          "height": 10
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": "$b:radius-control",
+                      "id": "qswv8",
+                      "name": "Skeleton Restore 1",
+                      "fill": "$b:color-surface-icon",
+                      "width": 78,
+                      "height": 34
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": "$b:radius-control",
+                      "id": "uRzFB",
+                      "name": "Skeleton Delete 1",
+                      "fill": "$b:color-surface-icon",
+                      "width": 96,
+                      "height": 34
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "TlZfQ",
+                  "name": "Trash Project Skeleton 2",
+                  "width": "fill_container",
+                  "height": 84,
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "gap": "$b:space-3",
+                  "padding": [
+                    0,
+                    "$b:space-4"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": "$b:radius-control",
+                      "id": "E2MV6R",
+                      "name": "Skeleton Icon 2",
+                      "fill": "$b:color-surface-icon",
+                      "width": 34,
+                      "height": 34
+                    },
+                    {
+                      "type": "frame",
+                      "id": "GH7eu",
+                      "name": "Skeleton Copy 2",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$b:space-2",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": "$b:radius-control",
+                          "id": "JqUdu",
+                          "name": "Skeleton Title 2",
+                          "fill": "$b:color-surface-icon",
+                          "width": 210,
+                          "height": 14
+                        },
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": "$b:radius-control",
+                          "id": "b1ZzB",
+                          "name": "Skeleton Meta 2",
+                          "fill": "$b:color-surface-icon",
+                          "width": 300,
+                          "height": 10
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": "$b:radius-control",
+                      "id": "hvtxa",
+                      "name": "Skeleton Restore 2",
+                      "fill": "$b:color-surface-icon",
+                      "width": 78,
+                      "height": 34
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": "$b:radius-control",
+                      "id": "PVtew",
+                      "name": "Skeleton Delete 2",
+                      "fill": "$b:color-surface-icon",
+                      "width": 96,
+                      "height": 34
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "CSM80",
+                  "name": "Trash Project Skeleton 3",
+                  "width": "fill_container",
+                  "height": 84,
+                  "stroke": "$b:color-border-default",
+                  "gap": "$b:space-3",
+                  "padding": [
+                    0,
+                    "$b:space-4"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": "$b:radius-control",
+                      "id": "a3Kdsl",
+                      "name": "Skeleton Icon 3",
+                      "fill": "$b:color-surface-icon",
+                      "width": 34,
+                      "height": 34
+                    },
+                    {
+                      "type": "frame",
+                      "id": "P9vdHR",
+                      "name": "Skeleton Copy 3",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$b:space-2",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": "$b:radius-control",
+                          "id": "lYhX7",
+                          "name": "Skeleton Title 3",
+                          "fill": "$b:color-surface-icon",
+                          "width": 210,
+                          "height": 14
+                        },
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": "$b:radius-control",
+                          "id": "ihqBF",
+                          "name": "Skeleton Meta 3",
+                          "fill": "$b:color-surface-icon",
+                          "width": 300,
+                          "height": 10
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": "$b:radius-control",
+                      "id": "q6aYz",
+                      "name": "Skeleton Restore 3",
+                      "fill": "$b:color-surface-icon",
+                      "width": 78,
+                      "height": 34
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": "$b:radius-control",
+                      "id": "gUmHL",
+                      "name": "Skeleton Delete 3",
+                      "fill": "$b:color-surface-icon",
+                      "width": 96,
+                      "height": 34
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "r5UPt",
+      "x": 138029,
+      "y": -3369,
+      "name": "114 · Project Trash · Load Error",
+      "context": "LOREKEEPER-396 list error. The cause is not guessed and retry is the only primary recovery action.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "WK99L",
+          "type": "ref",
+          "ref": "b:Q1iiU",
+          "name": "Project Trash Sidebar",
+          "height": "fill_container",
+          "descendants": {
+            "b:x8SHTG": {
+              "fill": "$b:color-surface-navigation"
+            },
+            "b:x8SHTG/b:zKgHG": {
+              "fontWeight": "normal"
+            },
+            "b:lUhoG": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:lUhoG/b:bP6Qr": {
+              "fontWeight": "600"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "pavay",
+          "name": "Project Trash Main",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": 64,
+          "children": [
+            {
+              "type": "frame",
+              "id": "o7BUp",
+              "name": "Project Trash Header",
+              "width": "fill_container",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f6u9S",
+                  "name": "Project Trash Heading Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "fOm0y",
+                      "name": "Project Trash Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "프로젝트 휴지통",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "aLRp6",
+                      "name": "Project Trash Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "보관된 프로젝트를 복원하거나 영구 삭제할 수 있습니다.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "hll91",
+                  "name": "Trash Count Badge",
+                  "height": 32,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "m2VjW",
+                      "name": "Trash Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "불러오지 못함",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "wbrwC",
+              "name": "Project Trash Load Error State",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$b:space-4",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "kj6nK",
+                  "name": "Load Error Icon Surface",
+                  "width": 52,
+                  "height": 52,
+                  "fill": "$b:color-surface-icon",
+                  "cornerRadius": "$b:radius-card",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "fLVwX",
+                      "name": "Load Error Icon",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "cloud-off",
+                      "library": "lucide",
+                      "weight": "$b:icon-weight-default",
+                      "fill": "$b:color-icon-default"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "wCivm",
+                  "name": "Load Error Title",
+                  "fill": "$b:color-text-primary",
+                  "content": "휴지통을 불러오지 못했어요",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-heading",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "d1467",
+                  "name": "Load Error Description",
+                  "fill": "$b:color-text-secondary",
+                  "content": "잠시 후 다시 시도해 주세요.",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-body",
+                  "fontWeight": "normal"
+                },
+                {
+                  "id": "rUJG6",
+                  "type": "ref",
+                  "ref": "b:celDl",
+                  "name": "Retry Trash Load Button",
+                  "height": 40,
+                  "fill": "$b:color-accent-primary",
+                  "strokeWidth": 0,
+                  "descendants": {
+                    "b:n0keHY": {
+                      "icon": "refresh-cw",
+                      "fill": "$b:color-text-on-accent"
+                    },
+                    "b:zprJP": {
+                      "content": "다시 시도",
+                      "fill": "$b:color-text-on-accent"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "tErn6",
+      "x": 139549,
+      "y": -3369,
+      "name": "115 · Project Trash · Restoring",
+      "context": "LOREKEEPER-396 restore processing. Only the target project actions are locked while the rest of the list remains stable.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "AwxFZ",
+          "type": "ref",
+          "ref": "b:Q1iiU",
+          "name": "Project Trash Sidebar",
+          "height": "fill_container",
+          "descendants": {
+            "b:x8SHTG": {
+              "fill": "$b:color-surface-navigation"
+            },
+            "b:x8SHTG/b:zKgHG": {
+              "fontWeight": "normal"
+            },
+            "b:lUhoG": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:lUhoG/b:bP6Qr": {
+              "fontWeight": "600"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "Cu5Y9",
+          "name": "Project Trash Main",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": 64,
+          "children": [
+            {
+              "type": "frame",
+              "id": "YRkcz",
+              "name": "Project Trash Header",
+              "width": "fill_container",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "vZyTM",
+                  "name": "Project Trash Heading Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Ml6vO",
+                      "name": "Project Trash Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "프로젝트 휴지통",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "z5omi",
+                      "name": "Project Trash Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "보관된 프로젝트를 복원하거나 영구 삭제할 수 있습니다.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "M0mL1",
+                  "name": "Trash Count Badge",
+                  "height": 32,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Vujfh",
+                      "name": "Trash Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "3개 프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "z2ST3q",
+              "name": "Trash Project List",
+              "width": "fill_container",
+              "fill": "$b:color-surface-default",
+              "cornerRadius": "$b:radius-card",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "KVuQ1",
+                  "type": "ref",
+                  "ref": "b:cvE3I",
+                  "name": "Trash Project / 별빛 아래 마지막 약속",
+                  "width": "fill_container",
+                  "height": 84,
+                  "descendants": {
+                    "b:t44Ns": {
+                      "icon": "book-open"
+                    },
+                    "b:y0FvL": {
+                      "content": "별빛 아래 마지막 약속"
+                    },
+                    "b:c9eMpk": {
+                      "content": "휴지통으로 이동: 2026. 8. 31. · 복원 요청 처리 중"
+                    },
+                    "b:PbwVO": {
+                      "opacity": 0.55
+                    },
+                    "b:PbwVO/b:n0keHY": {
+                      "icon": "loader-circle"
+                    },
+                    "b:PbwVO/b:zprJP": {
+                      "content": "복원 중…"
+                    },
+                    "b:kvdqt": {
+                      "opacity": 0.4
+                    },
+                    "b:kvdqt/b:n0keHY": {
+                      "icon": "trash-2"
+                    },
+                    "b:kvdqt/b:zprJP": {
+                      "content": "영구 삭제"
+                    }
+                  }
+                },
+                {
+                  "id": "VdAcl",
+                  "type": "ref",
+                  "ref": "b:cvE3I",
+                  "name": "Trash Project / 유리 바다의 지도",
+                  "width": "fill_container",
+                  "height": 84,
+                  "descendants": {
+                    "b:t44Ns": {
+                      "icon": "book-open"
+                    },
+                    "b:y0FvL": {
+                      "content": "유리 바다의 지도"
+                    },
+                    "b:c9eMpk": {
+                      "content": "휴지통으로 이동: 2026. 8. 27. · 보관 중"
+                    },
+                    "b:PbwVO/b:n0keHY": {
+                      "icon": "rotate-ccw"
+                    },
+                    "b:PbwVO/b:zprJP": {
+                      "content": "복원"
+                    },
+                    "b:kvdqt/b:n0keHY": {
+                      "icon": "trash-2"
+                    },
+                    "b:kvdqt/b:zprJP": {
+                      "content": "영구 삭제"
+                    }
+                  }
+                },
+                {
+                  "id": "RoYeV",
+                  "type": "ref",
+                  "ref": "b:cvE3I",
+                  "name": "Trash Project / 겨울 정거장의 편지",
+                  "width": "fill_container",
+                  "height": 84,
+                  "descendants": {
+                    "b:t44Ns": {
+                      "icon": "book-open"
+                    },
+                    "b:y0FvL": {
+                      "content": "겨울 정거장의 편지"
+                    },
+                    "b:c9eMpk": {
+                      "content": "휴지통으로 이동: 2026. 8. 19. · 보관 중"
+                    },
+                    "b:PbwVO/b:n0keHY": {
+                      "icon": "rotate-ccw"
+                    },
+                    "b:PbwVO/b:zprJP": {
+                      "content": "복원"
+                    },
+                    "b:kvdqt/b:n0keHY": {
+                      "icon": "trash-2"
+                    },
+                    "b:kvdqt/b:zprJP": {
+                      "content": "영구 삭제"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ISCdJ",
+      "x": 141069,
+      "y": -3369,
+      "name": "116 · Project Trash · Restore Error",
+      "context": "LOREKEEPER-396 restore failure. Target and order remain stable; inline feedback and focused retry recover the same action.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "w4llU3",
+          "type": "ref",
+          "ref": "b:Q1iiU",
+          "name": "Project Trash Sidebar",
+          "height": "fill_container",
+          "descendants": {
+            "b:x8SHTG": {
+              "fill": "$b:color-surface-navigation"
+            },
+            "b:x8SHTG/b:zKgHG": {
+              "fontWeight": "normal"
+            },
+            "b:lUhoG": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:lUhoG/b:bP6Qr": {
+              "fontWeight": "600"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "N0Bqoo",
+          "name": "Project Trash Main",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": 64,
+          "children": [
+            {
+              "type": "frame",
+              "id": "PyiVl",
+              "name": "Project Trash Header",
+              "width": "fill_container",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "GvSOg",
+                  "name": "Project Trash Heading Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "nkQKh",
+                      "name": "Project Trash Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "프로젝트 휴지통",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "uGagk",
+                      "name": "Project Trash Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "보관된 프로젝트를 복원하거나 영구 삭제할 수 있습니다.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "NLIFG",
+                  "name": "Trash Count Badge",
+                  "height": 32,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "dByCG",
+                      "name": "Trash Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "3개 프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "YfkfR",
+              "name": "Trash Project List",
+              "width": "fill_container",
+              "fill": "$b:color-surface-default",
+              "cornerRadius": "$b:radius-card",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "xLJEW",
+                  "type": "ref",
+                  "ref": "b:cvE3I",
+                  "name": "Trash Project / 별빛 아래 마지막 약속",
+                  "width": "fill_container",
+                  "height": 84,
+                  "descendants": {
+                    "b:t44Ns": {
+                      "icon": "book-open"
+                    },
+                    "b:y0FvL": {
+                      "content": "별빛 아래 마지막 약속"
+                    },
+                    "b:c9eMpk": {
+                      "content": "휴지통으로 이동: 2026. 8. 31. · 보관 중"
+                    },
+                    "b:PbwVO": {
+                      "stroke": "$b:color-accent-primary",
+                      "strokeWidth": 2
+                    },
+                    "b:PbwVO/b:n0keHY": {
+                      "icon": "rotate-ccw"
+                    },
+                    "b:PbwVO/b:zprJP": {
+                      "content": "다시 시도"
+                    },
+                    "b:kvdqt/b:n0keHY": {
+                      "icon": "trash-2"
+                    },
+                    "b:kvdqt/b:zprJP": {
+                      "content": "영구 삭제"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "M8H1u",
+                  "name": "Restore Error Feedback",
+                  "width": "fill_container",
+                  "height": 44,
+                  "fill": "$b:color-state-selected",
+                  "gap": "$b:space-2",
+                  "padding": [
+                    0,
+                    "$b:space-4"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "i17exV",
+                      "name": "Restore Error Icon",
+                      "width": 15,
+                      "height": 15,
+                      "icon": "circle-alert",
+                      "library": "lucide",
+                      "weight": "$b:icon-weight-default",
+                      "fill": "$b:color-accent-primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "DD8vy",
+                      "name": "Restore Error Message",
+                      "fill": "$b:color-text-primary",
+                      "content": "프로젝트를 복원하지 못했어요. 다시 시도해 주세요.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "id": "zEi58",
+                  "type": "ref",
+                  "ref": "b:cvE3I",
+                  "name": "Trash Project / 유리 바다의 지도",
+                  "width": "fill_container",
+                  "height": 84,
+                  "descendants": {
+                    "b:t44Ns": {
+                      "icon": "book-open"
+                    },
+                    "b:y0FvL": {
+                      "content": "유리 바다의 지도"
+                    },
+                    "b:c9eMpk": {
+                      "content": "휴지통으로 이동: 2026. 8. 27. · 보관 중"
+                    },
+                    "b:PbwVO/b:n0keHY": {
+                      "icon": "rotate-ccw"
+                    },
+                    "b:PbwVO/b:zprJP": {
+                      "content": "복원"
+                    },
+                    "b:kvdqt/b:n0keHY": {
+                      "icon": "trash-2"
+                    },
+                    "b:kvdqt/b:zprJP": {
+                      "content": "영구 삭제"
+                    }
+                  }
+                },
+                {
+                  "id": "wtSOU",
+                  "type": "ref",
+                  "ref": "b:cvE3I",
+                  "name": "Trash Project / 겨울 정거장의 편지",
+                  "width": "fill_container",
+                  "height": 84,
+                  "descendants": {
+                    "b:t44Ns": {
+                      "icon": "book-open"
+                    },
+                    "b:y0FvL": {
+                      "content": "겨울 정거장의 편지"
+                    },
+                    "b:c9eMpk": {
+                      "content": "휴지통으로 이동: 2026. 8. 19. · 보관 중"
+                    },
+                    "b:PbwVO/b:n0keHY": {
+                      "icon": "rotate-ccw"
+                    },
+                    "b:PbwVO/b:zprJP": {
+                      "content": "복원"
+                    },
+                    "b:kvdqt/b:n0keHY": {
+                      "icon": "trash-2"
+                    },
+                    "b:kvdqt/b:zprJP": {
+                      "content": "영구 삭제"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "tTF2Z",
+      "x": 142589,
+      "y": -3369,
+      "name": "117 · Project Trash · Restore Success",
+      "context": "LOREKEEPER-396 restore success. The restored target is removed, next restore receives focus, and the toast links to the restored card on Project List.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "I6TQdY",
+          "type": "ref",
+          "ref": "b:Q1iiU",
+          "name": "Project Trash Sidebar",
+          "height": "fill_container",
+          "descendants": {
+            "b:x8SHTG": {
+              "fill": "$b:color-surface-navigation"
+            },
+            "b:x8SHTG/b:zKgHG": {
+              "fontWeight": "normal"
+            },
+            "b:lUhoG": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:lUhoG/b:bP6Qr": {
+              "fontWeight": "600"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "n4ElOa",
+          "name": "Project Trash Main",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": 64,
+          "children": [
+            {
+              "type": "frame",
+              "id": "VlWd5",
+              "name": "Project Trash Header",
+              "width": "fill_container",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "L0YOcX",
+                  "name": "Project Trash Heading Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "SxpcA",
+                      "name": "Project Trash Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "프로젝트 휴지통",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "p0lPbZ",
+                      "name": "Project Trash Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "보관된 프로젝트를 복원하거나 영구 삭제할 수 있습니다.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "YSP2g",
+                  "name": "Trash Count Badge",
+                  "height": 32,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tOeC4",
+                      "name": "Trash Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "2개 프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "tvzjS",
+              "name": "Trash Project List",
+              "width": "fill_container",
+              "fill": "$b:color-surface-default",
+              "cornerRadius": "$b:radius-card",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "KbJ4N",
+                  "type": "ref",
+                  "ref": "b:cvE3I",
+                  "name": "Trash Project / 유리 바다의 지도",
+                  "width": "fill_container",
+                  "height": 84,
+                  "descendants": {
+                    "b:t44Ns": {
+                      "icon": "book-open"
+                    },
+                    "b:y0FvL": {
+                      "content": "유리 바다의 지도"
+                    },
+                    "b:c9eMpk": {
+                      "content": "휴지통으로 이동: 2026. 8. 27. · 보관 중"
+                    },
+                    "b:PbwVO": {
+                      "stroke": "$b:color-accent-primary",
+                      "strokeWidth": 2
+                    },
+                    "b:PbwVO/b:n0keHY": {
+                      "icon": "rotate-ccw"
+                    },
+                    "b:PbwVO/b:zprJP": {
+                      "content": "복원"
+                    },
+                    "b:kvdqt/b:n0keHY": {
+                      "icon": "trash-2"
+                    },
+                    "b:kvdqt/b:zprJP": {
+                      "content": "영구 삭제"
+                    }
+                  }
+                },
+                {
+                  "id": "m2wZI",
+                  "type": "ref",
+                  "ref": "b:cvE3I",
+                  "name": "Trash Project / 겨울 정거장의 편지",
+                  "width": "fill_container",
+                  "height": 84,
+                  "descendants": {
+                    "b:t44Ns": {
+                      "icon": "book-open"
+                    },
+                    "b:y0FvL": {
+                      "content": "겨울 정거장의 편지"
+                    },
+                    "b:c9eMpk": {
+                      "content": "휴지통으로 이동: 2026. 8. 19. · 보관 중"
+                    },
+                    "b:PbwVO/b:n0keHY": {
+                      "icon": "rotate-ccw"
+                    },
+                    "b:PbwVO/b:zprJP": {
+                      "content": "복원"
+                    },
+                    "b:kvdqt/b:n0keHY": {
+                      "icon": "trash-2"
+                    },
+                    "b:kvdqt/b:zprJP": {
+                      "content": "영구 삭제"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "i1lWc",
+          "layoutPosition": "absolute",
+          "x": 930,
+          "y": 28,
+          "name": "Restore Success Toast",
+          "width": 462,
+          "fill": "$b:color-surface-raised",
+          "cornerRadius": "$b:radius-card",
+          "stroke": "$b:color-border-default",
+          "strokeWidth": 1,
+          "gap": "$b:space-3",
+          "padding": "$b:space-4",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "K4968S",
+              "name": "Restore Success Icon Surface",
+              "width": 32,
+              "height": 32,
+              "fill": "$b:color-state-selected",
+              "cornerRadius": "$b:radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "LOb2K",
+                  "name": "Restore Success Icon",
+                  "width": 17,
+                  "height": 17,
+                  "icon": "circle-check",
+                  "library": "lucide",
+                  "weight": "$b:icon-weight-default",
+                  "fill": "$b:color-accent-primary"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "T55BD1",
+              "name": "Restore Success Copy",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$b:space-1",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "o3WHsv",
+                  "name": "Restore Success Title",
+                  "fill": "$b:color-text-primary",
+                  "content": "프로젝트를 복원했어요.",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-body",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "roaWl",
+                  "name": "Restore Success Description",
+                  "fill": "$b:color-text-secondary",
+                  "content": "프로젝트 목록에서 다시 작업을 이어갈 수 있습니다.",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "id": "sWGQp",
+              "type": "ref",
+              "ref": "b:celDl",
+              "name": "View Restored Project Button",
+              "height": 40,
+              "descendants": {
+                "b:n0keHY": {
+                  "icon": "arrow-right"
+                },
+                "b:zprJP": {
+                  "content": "목록에서 보기"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "xjwox",
+      "x": 144109,
+      "y": -3369,
+      "name": "118 · Project Trash · Default · Light",
+      "context": "LOREKEEPER-396 light theme verification. The same hierarchy, borders, actions, and selected navigation resolve through themed tokens.",
+      "theme": {
+        "b:mode": "light"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "HNdNh",
+          "type": "ref",
+          "ref": "b:Q1iiU",
+          "name": "Project Trash Sidebar",
+          "height": "fill_container",
+          "descendants": {
+            "b:x8SHTG": {
+              "fill": "$b:color-surface-navigation"
+            },
+            "b:x8SHTG/b:zKgHG": {
+              "fontWeight": "normal"
+            },
+            "b:lUhoG": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:lUhoG/b:bP6Qr": {
+              "fontWeight": "600"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "Ze0AW",
+          "name": "Project Trash Main",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": 64,
+          "children": [
+            {
+              "type": "frame",
+              "id": "a5bew",
+              "name": "Project Trash Header",
+              "width": "fill_container",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "WijQK",
+                  "name": "Project Trash Heading Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "KxxCk",
+                      "name": "Project Trash Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "프로젝트 휴지통",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "TCvnQ",
+                      "name": "Project Trash Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "보관된 프로젝트를 복원하거나 영구 삭제할 수 있습니다.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "mQU5e",
+                  "name": "Trash Count Badge",
+                  "height": 32,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "DN5mW",
+                      "name": "Trash Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "3개 프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nBCWO",
+              "name": "Trash Project List",
+              "width": "fill_container",
+              "fill": "$b:color-surface-default",
+              "cornerRadius": "$b:radius-card",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "EUYbv",
+                  "type": "ref",
+                  "ref": "b:cvE3I",
+                  "name": "Trash Project / 별빛 아래 마지막 약속",
+                  "width": "fill_container",
+                  "height": 84,
+                  "descendants": {
+                    "b:t44Ns": {
+                      "icon": "book-open"
+                    },
+                    "b:y0FvL": {
+                      "content": "별빛 아래 마지막 약속"
+                    },
+                    "b:c9eMpk": {
+                      "content": "휴지통으로 이동: 2026. 8. 31. · 보관 중"
+                    },
+                    "b:PbwVO/b:n0keHY": {
+                      "icon": "rotate-ccw"
+                    },
+                    "b:PbwVO/b:zprJP": {
+                      "content": "복원"
+                    },
+                    "b:kvdqt/b:n0keHY": {
+                      "icon": "trash-2"
+                    },
+                    "b:kvdqt/b:zprJP": {
+                      "content": "영구 삭제"
+                    }
+                  }
+                },
+                {
+                  "id": "KBwLj",
+                  "type": "ref",
+                  "ref": "b:cvE3I",
+                  "name": "Trash Project / 유리 바다의 지도",
+                  "width": "fill_container",
+                  "height": 84,
+                  "descendants": {
+                    "b:t44Ns": {
+                      "icon": "book-open"
+                    },
+                    "b:y0FvL": {
+                      "content": "유리 바다의 지도"
+                    },
+                    "b:c9eMpk": {
+                      "content": "휴지통으로 이동: 2026. 8. 27. · 보관 중"
+                    },
+                    "b:PbwVO/b:n0keHY": {
+                      "icon": "rotate-ccw"
+                    },
+                    "b:PbwVO/b:zprJP": {
+                      "content": "복원"
+                    },
+                    "b:kvdqt/b:n0keHY": {
+                      "icon": "trash-2"
+                    },
+                    "b:kvdqt/b:zprJP": {
+                      "content": "영구 삭제"
+                    }
+                  }
+                },
+                {
+                  "id": "n7evwg",
+                  "type": "ref",
+                  "ref": "b:cvE3I",
+                  "name": "Trash Project / 겨울 정거장의 편지",
+                  "width": "fill_container",
+                  "height": 84,
+                  "descendants": {
+                    "b:t44Ns": {
+                      "icon": "book-open"
+                    },
+                    "b:y0FvL": {
+                      "content": "겨울 정거장의 편지"
+                    },
+                    "b:c9eMpk": {
+                      "content": "휴지통으로 이동: 2026. 8. 19. · 보관 중"
+                    },
+                    "b:PbwVO/b:n0keHY": {
+                      "icon": "rotate-ccw"
+                    },
+                    "b:PbwVO/b:zprJP": {
+                      "content": "복원"
+                    },
+                    "b:kvdqt/b:n0keHY": {
+                      "icon": "trash-2"
+                    },
+                    "b:kvdqt/b:zprJP": {
+                      "content": "영구 삭제"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "imports": {
