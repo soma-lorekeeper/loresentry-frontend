@@ -121,3 +121,6 @@
 - 프로젝트 템플릿
 
 기존 프로젝트를 선택한 이후의 이동은 [프로젝트 진입 Workflow](../workflow/project-entry.md)를 따른다. 새 프로젝트를 만드는 방식은 [프로젝트 생성](./create-project.md)과 [프로젝트 생성 Workflow](../workflow/project-creation.md)를 따른다. 이름 변경은 이 문서의 카드 관리 계약을 따르며, 삭제와 복원 방식은 [프로젝트 휴지통](./trash.md)과 [프로젝트 휴지통 Workflow](../workflow/project-trash.md)를 따른다.
+
+디자인 변수, 재사용 컴포넌트와 참조 무결성의 최종 검사 결과는
+[프로젝트 목록 디자인 시스템 감사](./design-system-audit.md)를 따른다.
