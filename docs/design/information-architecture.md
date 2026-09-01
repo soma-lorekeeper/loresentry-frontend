@@ -13,6 +13,7 @@ Lorekeeper의 전체 화면 구조는 다음과 같다.
 - [랜딩 페이지](./landing/README.md)
 - [로그인 페이지](./login/README.md)
 - [프로젝트 목록](./project-list/README.md)
+- [계정 설정과 전역 진입](./project-list/account-and-global-entry.md)
 - [프로젝트 생성](./project-list/create-project.md)
 - [프로젝트 휴지통](./project-list/trash.md)
 - [통합 작업공간](./workspace/README.md)
