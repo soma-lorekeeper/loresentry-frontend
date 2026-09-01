@@ -87292,7 +87292,21 @@
                   "type": "ref",
                   "ref": "b:nr8tB",
                   "name": "Login Policy Notice",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "b:rQgs7": {
+                      "textGrowth": "fixed-width-height",
+                      "width": 45,
+                      "height": 32,
+                      "lineHeight": 32
+                    },
+                    "b:z8Zuh": {
+                      "textGrowth": "fixed-width-height",
+                      "width": 89,
+                      "height": 32,
+                      "lineHeight": 32
+                    }
+                  }
                 }
               ]
             }
@@ -87517,7 +87531,21 @@
                   "type": "ref",
                   "ref": "b:nr8tB",
                   "name": "Login Policy Notice",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "b:rQgs7": {
+                      "textGrowth": "fixed-width-height",
+                      "width": 45,
+                      "height": 32,
+                      "lineHeight": 32
+                    },
+                    "b:z8Zuh": {
+                      "textGrowth": "fixed-width-height",
+                      "width": 89,
+                      "height": 32,
+                      "lineHeight": 32
+                    }
+                  }
                 }
               ]
             }
@@ -87747,7 +87775,21 @@
                   "type": "ref",
                   "ref": "b:nr8tB",
                   "name": "Login Policy Notice",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "b:rQgs7": {
+                      "textGrowth": "fixed-width-height",
+                      "width": 45,
+                      "height": 32,
+                      "lineHeight": 32
+                    },
+                    "b:z8Zuh": {
+                      "textGrowth": "fixed-width-height",
+                      "width": 89,
+                      "height": 32,
+                      "lineHeight": 32
+                    }
+                  }
                 }
               ]
             }
@@ -87977,7 +88019,21 @@
                   "type": "ref",
                   "ref": "b:nr8tB",
                   "name": "Login Policy Notice",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "b:rQgs7": {
+                      "textGrowth": "fixed-width-height",
+                      "width": 45,
+                      "height": 32,
+                      "lineHeight": 32
+                    },
+                    "b:z8Zuh": {
+                      "textGrowth": "fixed-width-height",
+                      "width": 89,
+                      "height": 32,
+                      "lineHeight": 32
+                    }
+                  }
                 }
               ]
             }
@@ -88245,7 +88301,21 @@
                   "type": "ref",
                   "ref": "b:nr8tB",
                   "name": "Login Policy Notice",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "b:rQgs7": {
+                      "textGrowth": "fixed-width-height",
+                      "width": 45,
+                      "height": 32,
+                      "lineHeight": 32
+                    },
+                    "b:z8Zuh": {
+                      "textGrowth": "fixed-width-height",
+                      "width": 89,
+                      "height": 32,
+                      "lineHeight": 32
+                    }
+                  }
                 }
               ]
             }
@@ -88491,7 +88561,21 @@
                   "type": "ref",
                   "ref": "b:nr8tB",
                   "name": "Login Policy Notice",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "b:rQgs7": {
+                      "textGrowth": "fixed-width-height",
+                      "width": 45,
+                      "height": 32,
+                      "lineHeight": 32
+                    },
+                    "b:z8Zuh": {
+                      "textGrowth": "fixed-width-height",
+                      "width": 89,
+                      "height": 32,
+                      "lineHeight": 32
+                    }
+                  }
                 }
               ]
             }

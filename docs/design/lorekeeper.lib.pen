@@ -18451,7 +18451,7 @@
       "height": 44,
       "fill": "$color-surface-default",
       "cornerRadius": "$radius-control",
-      "stroke": "$color-border-default",
+      "stroke": "$color-accent-primary",
       "strokeWidth": 1,
       "gap": "$space-3",
       "padding": [
@@ -18630,7 +18630,7 @@
       "width": 360,
       "fill": "$color-surface-default",
       "cornerRadius": "$radius-card",
-      "stroke": "$color-border-default",
+      "stroke": "$color-text-secondary",
       "strokeWidth": 1,
       "gap": "$space-3",
       "padding": "$space-4",
@@ -18697,26 +18697,81 @@
           "alignItems": "center",
           "children": [
             {
-              "type": "text",
-              "id": "rQgs7",
-              "name": "Terms Link",
-              "fill": "$color-accent-primary",
-              "content": "이용약관",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "600"
+              "type": "frame",
+              "id": "nAKqQ",
+              "name": "Terms Link Target",
+              "height": 32,
+              "padding": [
+                0,
+                "$space-2"
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "w6Qs0R",
+                  "name": "Terms Link Label",
+                  "fill": "$color-accent-primary",
+                  "content": "이용약관",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "600"
+                }
+              ]
             },
             {
-              "type": "text",
-              "id": "z8Zuh",
-              "name": "Privacy Link",
-              "fill": "$color-accent-primary",
-              "content": "개인정보처리방침",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "600"
+              "type": "frame",
+              "id": "et9xU",
+              "name": "Privacy Link Target",
+              "height": 32,
+              "padding": [
+                0,
+                "$space-2"
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "X65KfI",
+                  "name": "Privacy Link Label",
+                  "fill": "$color-accent-primary",
+                  "content": "개인정보처리방침",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "600"
+                }
+              ]
             }
           ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "m3HLDe",
+      "x": 0,
+      "y": 4116,
+      "name": "Auth / Google Button / Focused",
+      "reusable": true,
+      "width": 360,
+      "height": 48,
+      "fill": "#00000000",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-accent-primary",
+      "strokeWidth": 2,
+      "padding": 2,
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "id": "fAFHQ",
+          "type": "ref",
+          "ref": "YuQi0",
+          "name": "Focused Google Button Surface",
+          "width": "fill_container",
+          "height": 44
         }
       ]
     }
