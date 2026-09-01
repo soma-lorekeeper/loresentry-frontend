@@ -42685,6 +42685,985 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "Rpqy3",
+      "x": 105429,
+      "y": -3369,
+      "name": "93 · Project List · Empty",
+      "context": "LOREKEEPER-390 empty state. The global navigation and current location remain visible. The primary action creates the first project.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "SDs4i",
+          "type": "ref",
+          "ref": "b:Q1iiU",
+          "name": "93 · Project List · Empty Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "dQsgK",
+          "name": "93 · Project List · Empty Main",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "gap": 36,
+          "padding": 64,
+          "children": [
+            {
+              "type": "frame",
+              "id": "yTONZ",
+              "name": "93 · Project List · Empty Header",
+              "width": "fill_container",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "HB7I5",
+                  "name": "93 · Project List · Empty Heading Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ZIJfI",
+                      "name": "93 · Project List · Empty Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "MHxbV",
+                      "name": "93 · Project List · Empty Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "작업을 이어갈 프로젝트를 선택하거나 새 이야기를 시작하세요.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "LAUXF",
+                  "name": "93 · Project List · Empty Count Badge",
+                  "height": 32,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "xPAMF",
+                      "name": "93 · Project List · Empty Count Label",
+                      "fill": "$b:color-text-secondary",
+                      "content": "0개 프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Ddw5X",
+              "name": "Empty State Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$b:space-4",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "c8RMga",
+                  "name": "Empty Project Illustration",
+                  "width": 64,
+                  "height": 64,
+                  "fill": "$b:color-state-selected",
+                  "cornerRadius": "$b:radius-card",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "AuVr8",
+                      "name": "Empty Project Illustration Icon",
+                      "width": 28,
+                      "height": 28,
+                      "icon": "folder-plus",
+                      "library": "lucide",
+                      "weight": "$b:icon-weight-default",
+                      "fill": "$b:color-accent-primary"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "t2kDCq",
+                  "name": "Empty State Title",
+                  "fill": "$b:color-text-primary",
+                  "content": "아직 프로젝트가 없어요",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-heading-lg",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "AGDKY",
+                  "name": "Empty State Description",
+                  "fill": "$b:color-text-secondary",
+                  "content": "첫 프로젝트를 만들고 세계와 이야기를 한곳에서 정리해 보세요.",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-body",
+                  "fontWeight": "normal"
+                },
+                {
+                  "id": "sDvPg",
+                  "type": "ref",
+                  "ref": "b:celDl",
+                  "name": "Create First Project Button",
+                  "width": "fit_content",
+                  "height": 40,
+                  "fill": "$b:color-accent-primary",
+                  "stroke": "$b:color-accent-primary",
+                  "descendants": {
+                    "b:n0keHY": {
+                      "icon": "plus",
+                      "fill": "$b:color-text-on-accent"
+                    },
+                    "b:zprJP": {
+                      "content": "첫 프로젝트 만들기",
+                      "fill": "$b:color-text-on-accent"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "z4wuM",
+      "x": 106989,
+      "y": -3369,
+      "name": "94 · Project List · Loading",
+      "context": "LOREKEEPER-390 loading state. Fixed card geometry prevents layout shift; skeletons replace only project data while navigation stays interactive.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "DyMBL",
+          "type": "ref",
+          "ref": "b:Q1iiU",
+          "name": "94 · Project List · Loading Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "w5hq4",
+          "name": "94 · Project List · Loading Main",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "gap": 36,
+          "padding": 64,
+          "children": [
+            {
+              "type": "frame",
+              "id": "LDgg4",
+              "name": "94 · Project List · Loading Header",
+              "width": "fill_container",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nZZK2",
+                  "name": "94 · Project List · Loading Heading Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "b66ljH",
+                      "name": "94 · Project List · Loading Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "WC9vW",
+                      "name": "94 · Project List · Loading Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "작업을 이어갈 프로젝트를 선택하거나 새 이야기를 시작하세요.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "N9FLl",
+                  "name": "94 · Project List · Loading Count Badge",
+                  "height": 32,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "AMrG6",
+                      "name": "94 · Project List · Loading Count Label",
+                      "fill": "$b:color-text-secondary",
+                      "content": "불러오는 중",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Gfcxn",
+              "name": "Loading Projects Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$b:space-4",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "t6Qzou",
+                  "name": "Loading Projects Header",
+                  "width": "fill_container",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Svp8T",
+                      "name": "Loading Projects Header Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "최근 프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fXlAy",
+                      "name": "Loading Projects Header Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "R6yGwB",
+                  "name": "Loading Grid Row 1",
+                  "width": "fill_container",
+                  "height": 196,
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "id": "NVKqr",
+                      "type": "ref",
+                      "ref": "b:H2JhT",
+                      "name": "New Project Card Disabled While Loading",
+                      "width": "fill_container",
+                      "height": 196
+                    },
+                    {
+                      "type": "frame",
+                      "id": "mbdbC",
+                      "name": "Loading Project Card 1",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-surface-default",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": "$b:space-6",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "XrQpl",
+                          "name": "Loading Project Card 1 Header",
+                          "width": "fill_container",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": "$b:radius-control",
+                              "id": "FKo9D",
+                              "name": "Loading Project Card 1 Icon Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 36,
+                              "height": 36
+                            },
+                            {
+                              "type": "frame",
+                              "id": "KjYiO",
+                              "name": "Loading Project Card 1 Header Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 6,
+                              "id": "z9MboP",
+                              "name": "Loading Project Card 1 More Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 32,
+                              "height": 12
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 6,
+                          "id": "ew6mD",
+                          "name": "Loading Project Card 1 Title Skeleton",
+                          "fill": "$b:color-surface-icon",
+                          "width": 210,
+                          "height": 18
+                        },
+                        {
+                          "type": "frame",
+                          "id": "I0Sr9M",
+                          "name": "Loading Project Card 1 Metadata Skeleton",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-3",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 6,
+                              "id": "jJa3Z",
+                              "name": "Loading Project Card 1 Edited Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 174,
+                              "height": 12
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 6,
+                              "id": "fSYwd",
+                              "name": "Loading Project Card 1 File Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 246,
+                              "height": 12
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "licTW",
+                      "name": "Loading Project Card 2",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-surface-default",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": "$b:space-6",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "bnVlZ",
+                          "name": "Loading Project Card 2 Header",
+                          "width": "fill_container",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": "$b:radius-control",
+                              "id": "jmoiv",
+                              "name": "Loading Project Card 2 Icon Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 36,
+                              "height": 36
+                            },
+                            {
+                              "type": "frame",
+                              "id": "RH7YS",
+                              "name": "Loading Project Card 2 Header Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 6,
+                              "id": "X0TxLD",
+                              "name": "Loading Project Card 2 More Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 32,
+                              "height": 12
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 6,
+                          "id": "XtMzb",
+                          "name": "Loading Project Card 2 Title Skeleton",
+                          "fill": "$b:color-surface-icon",
+                          "width": 210,
+                          "height": 18
+                        },
+                        {
+                          "type": "frame",
+                          "id": "S7MWRI",
+                          "name": "Loading Project Card 2 Metadata Skeleton",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-3",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 6,
+                              "id": "SiPOo",
+                              "name": "Loading Project Card 2 Edited Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 174,
+                              "height": 12
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 6,
+                              "id": "UdulT",
+                              "name": "Loading Project Card 2 File Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 246,
+                              "height": 12
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "D431c",
+                  "name": "Loading Grid Row 2",
+                  "width": "fill_container",
+                  "height": 196,
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "EkGOj",
+                      "name": "Loading Project Card 3",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-surface-default",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": "$b:space-6",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "SczXD",
+                          "name": "Loading Project Card 3 Header",
+                          "width": "fill_container",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": "$b:radius-control",
+                              "id": "k2sE3O",
+                              "name": "Loading Project Card 3 Icon Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 36,
+                              "height": 36
+                            },
+                            {
+                              "type": "frame",
+                              "id": "zlxW6",
+                              "name": "Loading Project Card 3 Header Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 6,
+                              "id": "shlGY",
+                              "name": "Loading Project Card 3 More Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 32,
+                              "height": 12
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 6,
+                          "id": "ItmlJ",
+                          "name": "Loading Project Card 3 Title Skeleton",
+                          "fill": "$b:color-surface-icon",
+                          "width": 210,
+                          "height": 18
+                        },
+                        {
+                          "type": "frame",
+                          "id": "LXqq7",
+                          "name": "Loading Project Card 3 Metadata Skeleton",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-3",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 6,
+                              "id": "bD10z",
+                              "name": "Loading Project Card 3 Edited Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 174,
+                              "height": 12
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 6,
+                              "id": "Y4NPR",
+                              "name": "Loading Project Card 3 File Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 246,
+                              "height": 12
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "kklGc",
+                      "name": "Loading Project Card 4",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-surface-default",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": "$b:space-6",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "atnDH",
+                          "name": "Loading Project Card 4 Header",
+                          "width": "fill_container",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": "$b:radius-control",
+                              "id": "sOOLi",
+                              "name": "Loading Project Card 4 Icon Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 36,
+                              "height": 36
+                            },
+                            {
+                              "type": "frame",
+                              "id": "ZcOS9",
+                              "name": "Loading Project Card 4 Header Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 6,
+                              "id": "e5aps",
+                              "name": "Loading Project Card 4 More Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 32,
+                              "height": 12
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 6,
+                          "id": "F3pO44",
+                          "name": "Loading Project Card 4 Title Skeleton",
+                          "fill": "$b:color-surface-icon",
+                          "width": 210,
+                          "height": 18
+                        },
+                        {
+                          "type": "frame",
+                          "id": "VlV76",
+                          "name": "Loading Project Card 4 Metadata Skeleton",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-3",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 6,
+                              "id": "ELU30",
+                              "name": "Loading Project Card 4 Edited Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 174,
+                              "height": 12
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 6,
+                              "id": "aWA3U",
+                              "name": "Loading Project Card 4 File Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 246,
+                              "height": 12
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ghjaZ",
+                      "name": "Loading Project Card 5",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-surface-default",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": "$b:space-6",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "uZnSS",
+                          "name": "Loading Project Card 5 Header",
+                          "width": "fill_container",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": "$b:radius-control",
+                              "id": "uamIa",
+                              "name": "Loading Project Card 5 Icon Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 36,
+                              "height": 36
+                            },
+                            {
+                              "type": "frame",
+                              "id": "pkdYD",
+                              "name": "Loading Project Card 5 Header Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 6,
+                              "id": "Z5WB9",
+                              "name": "Loading Project Card 5 More Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 32,
+                              "height": 12
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 6,
+                          "id": "oSYAO",
+                          "name": "Loading Project Card 5 Title Skeleton",
+                          "fill": "$b:color-surface-icon",
+                          "width": 210,
+                          "height": 18
+                        },
+                        {
+                          "type": "frame",
+                          "id": "d3XGa",
+                          "name": "Loading Project Card 5 Metadata Skeleton",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-3",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 6,
+                              "id": "DylRT",
+                              "name": "Loading Project Card 5 Edited Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 174,
+                              "height": 12
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 6,
+                              "id": "h1vdPX",
+                              "name": "Loading Project Card 5 File Skeleton",
+                              "fill": "$b:color-surface-icon",
+                              "width": 246,
+                              "height": 12
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "sYDj4",
+      "x": 108549,
+      "y": -3369,
+      "name": "95 · Project List · Error",
+      "context": "LOREKEEPER-390 error state. The failure is scoped to project retrieval, preserves navigation, reassures local data safety, and provides an explicit retry.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "qJDvd",
+          "type": "ref",
+          "ref": "b:Q1iiU",
+          "name": "95 · Project List · Error Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "l2zX3Y",
+          "name": "95 · Project List · Error Main",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "gap": 36,
+          "padding": 64,
+          "children": [
+            {
+              "type": "frame",
+              "id": "S4SgVa",
+              "name": "95 · Project List · Error Header",
+              "width": "fill_container",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "K5qhUN",
+                  "name": "95 · Project List · Error Heading Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ASTtf",
+                      "name": "95 · Project List · Error Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "kNmY3",
+                      "name": "95 · Project List · Error Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "작업을 이어갈 프로젝트를 선택하거나 새 이야기를 시작하세요.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "RD2af",
+                  "name": "95 · Project List · Error Count Badge",
+                  "height": 32,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "m4y4N",
+                      "name": "95 · Project List · Error Count Label",
+                      "fill": "$b:color-text-secondary",
+                      "content": "불러오기 실패",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "yuNsD",
+              "name": "Error State Content",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$b:space-4",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "IWdup",
+                  "name": "Project Load Error Illustration",
+                  "width": 64,
+                  "height": 64,
+                  "fill": "$b:color-surface-icon",
+                  "cornerRadius": "$b:radius-card",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "T8zvZZ",
+                      "name": "Project Load Error Illustration Icon",
+                      "width": 28,
+                      "height": 28,
+                      "icon": "cloud-off",
+                      "library": "lucide",
+                      "weight": "$b:icon-weight-default",
+                      "fill": "$b:color-icon-default"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "V9GPw",
+                  "name": "Error State Title",
+                  "fill": "$b:color-text-primary",
+                  "content": "프로젝트를 불러오지 못했어요",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-heading-lg",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "uySwt",
+                  "name": "Error State Description Group",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Hr2hk",
+                      "name": "Error State Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "네트워크 연결을 확인한 뒤 다시 시도해 주세요.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "WpPYW",
+                      "name": "Error State Reassurance",
+                      "fill": "$b:color-text-secondary",
+                      "content": "작성 중인 로컬 데이터에는 영향이 없습니다.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "id": "V9oHa",
+                  "type": "ref",
+                  "ref": "b:celDl",
+                  "name": "Retry Project Load Button",
+                  "width": "fit_content",
+                  "height": 40,
+                  "fill": "$b:color-surface-default",
+                  "stroke": "$b:color-border-default",
+                  "descendants": {
+                    "b:n0keHY": {
+                      "icon": "rotate-cw",
+                      "fill": "$b:color-icon-default"
+                    },
+                    "b:zprJP": {
+                      "content": "다시 시도",
+                      "fill": "$b:color-text-primary"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "imports": {
