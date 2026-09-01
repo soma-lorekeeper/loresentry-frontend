@@ -40269,6 +40269,2422 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "BvuoV",
+      "x": 102309,
+      "y": -3369,
+      "name": "91 · Project List · Default",
+      "context": "LOREKEEPER-389. Cards are ordered by last activity. The whole card opens its workspace; the more button only opens management actions.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "type": "frame",
+          "id": "VCiAW",
+          "name": "Project List Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "fill": "$b:color-surface-navigation",
+          "stroke": "$b:color-border-default",
+          "strokeWidth": {
+            "right": 1
+          },
+          "layout": "vertical",
+          "gap": "$b:space-2",
+          "padding": "$b:space-4",
+          "children": [
+            {
+              "type": "frame",
+              "id": "zZgLa",
+              "name": "User Summary",
+              "width": "fill_container",
+              "height": 52,
+              "gap": "$b:space-3",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "yZkIm",
+                  "name": "User Avatar",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "$b:color-accent-primary",
+                  "cornerRadius": 999,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "QEfsP",
+                      "name": "User Initials",
+                      "fill": "$b:color-text-on-accent",
+                      "content": "승주",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "l9uqph",
+                  "name": "User Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-1",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "oj1zs",
+                      "name": "User Name",
+                      "fill": "$b:color-text-primary",
+                      "content": "이승주",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "DbZTF",
+                      "name": "User Email",
+                      "fill": "$b:color-text-secondary",
+                      "content": "seungju@lore.kr",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "icon",
+                  "id": "k94v3o",
+                  "name": "User Menu Chevron",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "chevron-down",
+                  "library": "lucide",
+                  "weight": "$b:icon-weight-default",
+                  "fill": "$b:color-icon-default"
+                }
+              ]
+            },
+            {
+              "id": "hGZB1",
+              "type": "ref",
+              "ref": "b:ueaqt",
+              "name": "Projects Navigation Selected",
+              "width": "fill_container",
+              "descendants": {
+                "b:rWGDQ": {
+                  "icon": "layout-grid"
+                },
+                "b:zKgHG": {
+                  "content": "프로젝트 목록",
+                  "fontWeight": "600"
+                }
+              }
+            },
+            {
+              "id": "S3Ugi5",
+              "type": "ref",
+              "ref": "b:ocZ7t",
+              "name": "Project Trash Navigation",
+              "width": "fill_container",
+              "descendants": {
+                "b:nCqu3": {
+                  "icon": "trash-2"
+                },
+                "b:bP6Qr": {
+                  "content": "프로젝트 휴지통"
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "Lfim7",
+              "name": "Sidebar Spacer",
+              "width": "fill_container",
+              "height": "fill_container"
+            },
+            {
+              "id": "RLs8O",
+              "type": "ref",
+              "ref": "b:ocZ7t",
+              "name": "Guide Navigation",
+              "width": "fill_container",
+              "descendants": {
+                "b:nCqu3": {
+                  "icon": "book-open"
+                },
+                "b:bP6Qr": {
+                  "content": "사용 가이드"
+                }
+              }
+            },
+            {
+              "id": "umAhm",
+              "type": "ref",
+              "ref": "b:ocZ7t",
+              "name": "Feedback Navigation",
+              "width": "fill_container",
+              "descendants": {
+                "b:nCqu3": {
+                  "icon": "message-square"
+                },
+                "b:bP6Qr": {
+                  "content": "피드백 보내기"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Gx9PU",
+          "name": "Project List Main",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "gap": 36,
+          "padding": 64,
+          "children": [
+            {
+              "type": "frame",
+              "id": "f4xBk",
+              "name": "Project List Header",
+              "width": "fill_container",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "cwU1g",
+                  "name": "Project List Heading Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qfSqk",
+                      "name": "Project List Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "j2VaNL",
+                      "name": "Project List Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "작업을 이어갈 프로젝트를 선택하거나 새 이야기를 시작하세요.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "o5uft",
+                  "name": "Project Count Badge",
+                  "height": 32,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Rm7Fj",
+                      "name": "Project Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "5개 프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "LVD52",
+              "name": "Recent Projects Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$b:space-4",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "HwBLe",
+                  "name": "Recent Projects Header",
+                  "width": "fill_container",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "yYxhz",
+                      "name": "Recent Projects Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "최근 프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fa336",
+                      "name": "Recent Projects Header Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "kNn5C",
+                      "name": "Recent Sort Indicator",
+                      "gap": "$b:space-2",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "yrva2",
+                          "name": "Recent Sort Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "arrow-down-wide-narrow",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "FWOZD",
+                          "name": "Recent Sort Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "마지막 작업순",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "fIneW",
+                  "name": "Project Grid Row 1",
+                  "width": "fill_container",
+                  "height": 196,
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "x1gimx",
+                      "name": "New Project Card",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-surface-default",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-accent-primary",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": "$b:space-3",
+                      "padding": "$b:space-6",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "RqFY1",
+                          "name": "New Project Icon Surface",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "$b:color-surface-icon",
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "hGpb8",
+                              "name": "New Project Icon",
+                              "width": 20,
+                              "height": 20,
+                              "icon": "plus",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "Y3OroK",
+                          "name": "New Project Label",
+                          "fill": "$b:color-text-primary",
+                          "content": "새 프로젝트",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "lByus",
+                          "name": "New Project Hint",
+                          "fill": "$b:color-text-secondary",
+                          "content": "새 이야기를 시작하세요",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "uoM2z",
+                      "name": "Project Card / Starlight Promise",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-surface-default",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": "$b:space-6",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "oP4U0",
+                          "name": "Project Card / Starlight Promise Header",
+                          "width": "fill_container",
+                          "gap": "$b:space-3",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "X0dh7",
+                              "name": "Project Card / Starlight Promise Icon Surface",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$b:color-surface-icon",
+                              "cornerRadius": "$b:radius-control",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "f8CtO",
+                                  "name": "Project Card / Starlight Promise Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "sparkles",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "UCUro",
+                              "name": "Project Card / Starlight Promise Header Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "id": "pmxms",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Project Card / Starlight Promise More Button",
+                              "width": 32,
+                              "height": 32,
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "ellipsis"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "N18LMg",
+                          "name": "Project Card / Starlight Promise Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "별빛 아래 마지막 약속 — 장편…",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vtKh1",
+                          "name": "Project Card / Starlight Promise Metadata",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-2",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "MmZt5",
+                              "name": "Project Card / Starlight Promise Last Edited",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "fcXu6",
+                                  "name": "Project Card / Starlight Promise Clock",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "clock-3",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "pWtoW",
+                                  "name": "Project Card / Starlight Promise Last Edited Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "12분 전 마지막 작업",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "XxP7w",
+                              "name": "Project Card / Starlight Promise Last File",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "etdsk",
+                                  "name": "Project Card / Starlight Promise File Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "file-text",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "iDETd",
+                                  "name": "Project Card / Starlight Promise Last File Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "제17장_돌아오지_않는_밤…",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "n5k8C",
+                      "name": "Project Card / Moonlit Library",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-surface-default",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": "$b:space-6",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "b8gQB",
+                          "name": "Project Card / Moonlit Library Header",
+                          "width": "fill_container",
+                          "gap": "$b:space-3",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "uha7s",
+                              "name": "Project Card / Moonlit Library Icon Surface",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$b:color-surface-icon",
+                              "cornerRadius": "$b:radius-control",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "EWzuO",
+                                  "name": "Project Card / Moonlit Library Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "library",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "s9QIig",
+                              "name": "Project Card / Moonlit Library Header Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "id": "Gxtcs",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Project Card / Moonlit Library More Button",
+                              "width": 32,
+                              "height": 32,
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "ellipsis"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "At3Ii",
+                          "name": "Project Card / Moonlit Library Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "달빛 도서관 연대기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "TUxck",
+                          "name": "Project Card / Moonlit Library Metadata",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-2",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "y1hhjE",
+                              "name": "Project Card / Moonlit Library Last Edited",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "U6cMYa",
+                                  "name": "Project Card / Moonlit Library Clock",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "clock-3",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "l5rDn",
+                                  "name": "Project Card / Moonlit Library Last Edited Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "어제 마지막 작업",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "TWFS9",
+                              "name": "Project Card / Moonlit Library Last File",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "YOXO4",
+                                  "name": "Project Card / Moonlit Library File Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "file-text",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "X4Hl9G",
+                                  "name": "Project Card / Moonlit Library Last File Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "2부_금지된_서가",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "bMbqQ",
+                  "name": "Project Grid Row 2",
+                  "width": "fill_container",
+                  "height": 196,
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "JL3vN",
+                      "name": "Project Card / Peripheral Orbit",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-surface-default",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": "$b:space-6",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "V6bUd",
+                          "name": "Project Card / Peripheral Orbit Header",
+                          "width": "fill_container",
+                          "gap": "$b:space-3",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "NZ3fh",
+                              "name": "Project Card / Peripheral Orbit Icon Surface",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$b:color-surface-icon",
+                              "cornerRadius": "$b:radius-control",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "c0ixS",
+                                  "name": "Project Card / Peripheral Orbit Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "orbit",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "y67Xx",
+                              "name": "Project Card / Peripheral Orbit Header Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "id": "hp3mT",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Project Card / Peripheral Orbit More Button",
+                              "width": 32,
+                              "height": 32,
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "ellipsis"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "HPPwD",
+                          "name": "Project Card / Peripheral Orbit Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "주변 궤도의 사람들",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "GyaT5",
+                          "name": "Project Card / Peripheral Orbit Metadata",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-2",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Yccfd",
+                              "name": "Project Card / Peripheral Orbit Last Edited",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "Xxc95",
+                                  "name": "Project Card / Peripheral Orbit Clock",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "clock-3",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "ye0bu",
+                                  "name": "Project Card / Peripheral Orbit Last Edited Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "8월 28일 마지막 작업",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "QjIiL",
+                              "name": "Project Card / Peripheral Orbit Last File",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "t99YSz",
+                                  "name": "Project Card / Peripheral Orbit File Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "file-text",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "Q9wny",
+                                  "name": "Project Card / Peripheral Orbit Last File Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "에필로그_보통의_중력",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FbP15",
+                      "name": "Project Card / City Beneath Rain",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-surface-default",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": "$b:space-6",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "i5IVEn",
+                          "name": "Project Card / City Beneath Rain Header",
+                          "width": "fill_container",
+                          "gap": "$b:space-3",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "aarkk",
+                              "name": "Project Card / City Beneath Rain Icon Surface",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$b:color-surface-icon",
+                              "cornerRadius": "$b:radius-control",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "IzLZR",
+                                  "name": "Project Card / City Beneath Rain Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "cloud-rain",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "A5H7V",
+                              "name": "Project Card / City Beneath Rain Header Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "id": "VwPRR",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Project Card / City Beneath Rain More Button",
+                              "width": 32,
+                              "height": 32,
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "ellipsis"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "dwQdL",
+                          "name": "Project Card / City Beneath Rain Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "비 아래 잠든 도시의 아주 긴…",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "gV13C",
+                          "name": "Project Card / City Beneath Rain Metadata",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-2",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "e2iYYJ",
+                              "name": "Project Card / City Beneath Rain Last Edited",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "I0oUR",
+                                  "name": "Project Card / City Beneath Rain Clock",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "clock-3",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "kXUXH",
+                                  "name": "Project Card / City Beneath Rain Last Edited Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "8월 21일 마지막 작업",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "nAUk2",
+                              "name": "Project Card / City Beneath Rain Last File",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "FLc6a",
+                                  "name": "Project Card / City Beneath Rain File Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "file-text",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "swRSe",
+                                  "name": "Project Card / City Beneath Rain Last File Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "초고_제3막_도시가_눈을_뜨…",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XHoO0",
+                      "name": "Project Card / Unnamed Notes",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-surface-default",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": "$b:space-6",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "jFFDl",
+                          "name": "Project Card / Unnamed Notes Header",
+                          "width": "fill_container",
+                          "gap": "$b:space-3",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "BXSw8",
+                              "name": "Project Card / Unnamed Notes Icon Surface",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$b:color-surface-icon",
+                              "cornerRadius": "$b:radius-control",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "ZjGGv",
+                                  "name": "Project Card / Unnamed Notes Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "notebook-tabs",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "lZoOC",
+                              "name": "Project Card / Unnamed Notes Header Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "id": "rVWjy",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Project Card / Unnamed Notes More Button",
+                              "width": 32,
+                              "height": 32,
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "ellipsis"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "WvziO",
+                          "name": "Project Card / Unnamed Notes Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "이름 없는 세계관 노트",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "kyE4T",
+                          "name": "Project Card / Unnamed Notes Metadata",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-2",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "nQ0vM",
+                              "name": "Project Card / Unnamed Notes Last Edited",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "KQCg6",
+                                  "name": "Project Card / Unnamed Notes Clock",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "clock-3",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "eBs8d",
+                                  "name": "Project Card / Unnamed Notes Last Edited Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "8월 3일 마지막 작업",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "xpeCO",
+                              "name": "Project Card / Unnamed Notes Last File",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "Kuze7",
+                                  "name": "Project Card / Unnamed Notes File Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "file-text",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "TZFvf",
+                                  "name": "Project Card / Unnamed Notes Last File Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "인물_관계_정리",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "G3Cvn",
+      "x": 103869,
+      "y": -3369,
+      "name": "92 · Project List · Card Menu Open",
+      "context": "LOREKEEPER-389. The card remains selected while the independent more menu exposes rename and trash actions.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "type": "frame",
+          "id": "DaOlf",
+          "name": "Project List Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "fill": "$b:color-surface-navigation",
+          "stroke": "$b:color-border-default",
+          "strokeWidth": {
+            "right": 1
+          },
+          "layout": "vertical",
+          "gap": "$b:space-2",
+          "padding": "$b:space-4",
+          "children": [
+            {
+              "type": "frame",
+              "id": "UgJrn",
+              "name": "User Summary",
+              "width": "fill_container",
+              "height": 52,
+              "gap": "$b:space-3",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "yIEeY",
+                  "name": "User Avatar",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "$b:color-accent-primary",
+                  "cornerRadius": 999,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "U3lnLq",
+                      "name": "User Initials",
+                      "fill": "$b:color-text-on-accent",
+                      "content": "승주",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "AGOiR",
+                  "name": "User Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-1",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "aLgCm",
+                      "name": "User Name",
+                      "fill": "$b:color-text-primary",
+                      "content": "이승주",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "qZoeK",
+                      "name": "User Email",
+                      "fill": "$b:color-text-secondary",
+                      "content": "seungju@lore.kr",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "icon",
+                  "id": "fyFRu",
+                  "name": "User Menu Chevron",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "chevron-down",
+                  "library": "lucide",
+                  "weight": "$b:icon-weight-default",
+                  "fill": "$b:color-icon-default"
+                }
+              ]
+            },
+            {
+              "id": "f8bk9q",
+              "type": "ref",
+              "ref": "b:ueaqt",
+              "name": "Projects Navigation Selected",
+              "width": "fill_container",
+              "descendants": {
+                "b:rWGDQ": {
+                  "icon": "layout-grid"
+                },
+                "b:zKgHG": {
+                  "content": "프로젝트 목록",
+                  "fontWeight": "600"
+                }
+              }
+            },
+            {
+              "id": "ysr6o",
+              "type": "ref",
+              "ref": "b:ocZ7t",
+              "name": "Project Trash Navigation",
+              "width": "fill_container",
+              "descendants": {
+                "b:nCqu3": {
+                  "icon": "trash-2"
+                },
+                "b:bP6Qr": {
+                  "content": "프로젝트 휴지통"
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "sSb3M",
+              "name": "Sidebar Spacer",
+              "width": "fill_container",
+              "height": "fill_container"
+            },
+            {
+              "id": "p3uROm",
+              "type": "ref",
+              "ref": "b:ocZ7t",
+              "name": "Guide Navigation",
+              "width": "fill_container",
+              "descendants": {
+                "b:nCqu3": {
+                  "icon": "book-open"
+                },
+                "b:bP6Qr": {
+                  "content": "사용 가이드"
+                }
+              }
+            },
+            {
+              "id": "Qov5L",
+              "type": "ref",
+              "ref": "b:ocZ7t",
+              "name": "Feedback Navigation",
+              "width": "fill_container",
+              "descendants": {
+                "b:nCqu3": {
+                  "icon": "message-square"
+                },
+                "b:bP6Qr": {
+                  "content": "피드백 보내기"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "tpbAZ",
+          "name": "Project List Main",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "gap": 36,
+          "padding": 64,
+          "children": [
+            {
+              "type": "frame",
+              "id": "J6IX1l",
+              "name": "Project List Header",
+              "width": "fill_container",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "jvtxc",
+                  "name": "Project List Heading Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-2",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "o85LRL",
+                      "name": "Project List Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "TZaiI",
+                      "name": "Project List Description",
+                      "fill": "$b:color-text-secondary",
+                      "content": "작업을 이어갈 프로젝트를 선택하거나 새 이야기를 시작하세요.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "tWfMN",
+                  "name": "Project Count Badge",
+                  "height": 32,
+                  "fill": "$b:color-surface-default",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "QiPq2",
+                      "name": "Project Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "5개 프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "fTGVU",
+              "name": "Recent Projects Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": "$b:space-4",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "P4JlaU",
+                  "name": "Recent Projects Header",
+                  "width": "fill_container",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "rw1y8",
+                      "name": "Recent Projects Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "최근 프로젝트",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "L3EKp",
+                      "name": "Recent Projects Header Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "dFzlz",
+                      "name": "Recent Sort Indicator",
+                      "gap": "$b:space-2",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "QE7om",
+                          "name": "Recent Sort Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "arrow-down-wide-narrow",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "F3mZUM",
+                          "name": "Recent Sort Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "마지막 작업순",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "oObD5",
+                  "name": "Project Grid Row 1",
+                  "width": "fill_container",
+                  "height": 196,
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "jImb3",
+                      "name": "New Project Card",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-surface-default",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-accent-primary",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": "$b:space-3",
+                      "padding": "$b:space-6",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "f5M1v",
+                          "name": "New Project Icon Surface",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "$b:color-surface-icon",
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "TYg4e",
+                              "name": "New Project Icon",
+                              "width": 20,
+                              "height": 20,
+                              "icon": "plus",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "JT7Ll",
+                          "name": "New Project Label",
+                          "fill": "$b:color-text-primary",
+                          "content": "새 프로젝트",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "G5n77S",
+                          "name": "New Project Hint",
+                          "fill": "$b:color-text-secondary",
+                          "content": "새 이야기를 시작하세요",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "MTx8R",
+                      "name": "Project Card / Starlight Promise",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-state-selected",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-accent-primary",
+                      "strokeWidth": 2,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": "$b:space-6",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "mUK79",
+                          "name": "Project Card / Starlight Promise Header",
+                          "width": "fill_container",
+                          "gap": "$b:space-3",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "ti6EV",
+                              "name": "Project Card / Starlight Promise Icon Surface",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$b:color-surface-icon",
+                              "cornerRadius": "$b:radius-control",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "VoaHT",
+                                  "name": "Project Card / Starlight Promise Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "sparkles",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "j7Akoe",
+                              "name": "Project Card / Starlight Promise Header Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "id": "PTdTB",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Project Card / Starlight Promise More Button",
+                              "width": 32,
+                              "height": 32,
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "ellipsis"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "aMZmg",
+                          "name": "Project Card / Starlight Promise Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "별빛 아래 마지막 약속 — 장편…",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "UnjSm",
+                          "name": "Project Card / Starlight Promise Metadata",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-2",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "C0UgG",
+                              "name": "Project Card / Starlight Promise Last Edited",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "uZwNC",
+                                  "name": "Project Card / Starlight Promise Clock",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "clock-3",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "DbpPb",
+                                  "name": "Project Card / Starlight Promise Last Edited Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "12분 전 마지막 작업",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "DCUbO",
+                              "name": "Project Card / Starlight Promise Last File",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "MchkQ",
+                                  "name": "Project Card / Starlight Promise File Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "file-text",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "KGZuy",
+                                  "name": "Project Card / Starlight Promise Last File Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "제17장_돌아오지_않는_밤…",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "k2XKP",
+                      "name": "Project Card / Moonlit Library",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-surface-default",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": "$b:space-6",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "t5VkoD",
+                          "name": "Project Card / Moonlit Library Header",
+                          "width": "fill_container",
+                          "gap": "$b:space-3",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "ScGiY",
+                              "name": "Project Card / Moonlit Library Icon Surface",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$b:color-surface-icon",
+                              "cornerRadius": "$b:radius-control",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "H2i41V",
+                                  "name": "Project Card / Moonlit Library Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "library",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "oESh3",
+                              "name": "Project Card / Moonlit Library Header Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "id": "JWJmn",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Project Card / Moonlit Library More Button",
+                              "width": 32,
+                              "height": 32,
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "ellipsis"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "SJRJG",
+                          "name": "Project Card / Moonlit Library Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "달빛 도서관 연대기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "G9gofN",
+                          "name": "Project Card / Moonlit Library Metadata",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-2",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "lY02k",
+                              "name": "Project Card / Moonlit Library Last Edited",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "lHlfE",
+                                  "name": "Project Card / Moonlit Library Clock",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "clock-3",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "m4Eij",
+                                  "name": "Project Card / Moonlit Library Last Edited Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "어제 마지막 작업",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "k948m4",
+                              "name": "Project Card / Moonlit Library Last File",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "jFANl",
+                                  "name": "Project Card / Moonlit Library File Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "file-text",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "aVIjE",
+                                  "name": "Project Card / Moonlit Library Last File Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "2부_금지된_서가",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "xaARZ",
+                  "name": "Project Grid Row 2",
+                  "width": "fill_container",
+                  "height": 196,
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "B1K9E",
+                      "name": "Project Card / Peripheral Orbit",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-surface-default",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": "$b:space-6",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "XQPih",
+                          "name": "Project Card / Peripheral Orbit Header",
+                          "width": "fill_container",
+                          "gap": "$b:space-3",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "lpz9e",
+                              "name": "Project Card / Peripheral Orbit Icon Surface",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$b:color-surface-icon",
+                              "cornerRadius": "$b:radius-control",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "XXw0c",
+                                  "name": "Project Card / Peripheral Orbit Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "orbit",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "ulWZj",
+                              "name": "Project Card / Peripheral Orbit Header Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "id": "sdPXP",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Project Card / Peripheral Orbit More Button",
+                              "width": 32,
+                              "height": 32,
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "ellipsis"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "TqrkI",
+                          "name": "Project Card / Peripheral Orbit Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "주변 궤도의 사람들",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Q1tMD",
+                          "name": "Project Card / Peripheral Orbit Metadata",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-2",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Z0Fvct",
+                              "name": "Project Card / Peripheral Orbit Last Edited",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "Aq0z6",
+                                  "name": "Project Card / Peripheral Orbit Clock",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "clock-3",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "Zr9Lm",
+                                  "name": "Project Card / Peripheral Orbit Last Edited Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "8월 28일 마지막 작업",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "ECzBo",
+                              "name": "Project Card / Peripheral Orbit Last File",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "KfWag",
+                                  "name": "Project Card / Peripheral Orbit File Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "file-text",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "a3ugvk",
+                                  "name": "Project Card / Peripheral Orbit Last File Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "에필로그_보통의_중력",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "mB93g",
+                      "name": "Project Card / City Beneath Rain",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-surface-default",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": "$b:space-6",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "e6FKeb",
+                          "name": "Project Card / City Beneath Rain Header",
+                          "width": "fill_container",
+                          "gap": "$b:space-3",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Bxbm2",
+                              "name": "Project Card / City Beneath Rain Icon Surface",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$b:color-surface-icon",
+                              "cornerRadius": "$b:radius-control",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "IkLSU",
+                                  "name": "Project Card / City Beneath Rain Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "cloud-rain",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "l7t76",
+                              "name": "Project Card / City Beneath Rain Header Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "id": "bpdQw",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Project Card / City Beneath Rain More Button",
+                              "width": 32,
+                              "height": 32,
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "ellipsis"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "YE036",
+                          "name": "Project Card / City Beneath Rain Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "비 아래 잠든 도시의 아주 긴…",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "MwtJE",
+                          "name": "Project Card / City Beneath Rain Metadata",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-2",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "hqSKC",
+                              "name": "Project Card / City Beneath Rain Last Edited",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "dGy8d",
+                                  "name": "Project Card / City Beneath Rain Clock",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "clock-3",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "Ep99m",
+                                  "name": "Project Card / City Beneath Rain Last Edited Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "8월 21일 마지막 작업",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "uMCh6",
+                              "name": "Project Card / City Beneath Rain Last File",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "hWwAY",
+                                  "name": "Project Card / City Beneath Rain File Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "file-text",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "O3PRj7",
+                                  "name": "Project Card / City Beneath Rain Last File Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "초고_제3막_도시가_눈을_뜨…",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "jsU6G",
+                      "name": "Project Card / Unnamed Notes",
+                      "width": "fill_container",
+                      "height": 196,
+                      "fill": "$b:color-surface-default",
+                      "cornerRadius": "$b:radius-card",
+                      "stroke": "$b:color-border-default",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": "$b:space-6",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "owq94",
+                          "name": "Project Card / Unnamed Notes Header",
+                          "width": "fill_container",
+                          "gap": "$b:space-3",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "mCJhH",
+                              "name": "Project Card / Unnamed Notes Icon Surface",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$b:color-surface-icon",
+                              "cornerRadius": "$b:radius-control",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "WHZXb",
+                                  "name": "Project Card / Unnamed Notes Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "notebook-tabs",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "KttMJ",
+                              "name": "Project Card / Unnamed Notes Header Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "id": "e2bHsk",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Project Card / Unnamed Notes More Button",
+                              "width": 32,
+                              "height": 32,
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "ellipsis"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "B3xt8",
+                          "name": "Project Card / Unnamed Notes Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "이름 없는 세계관 노트",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "oQx0h",
+                          "name": "Project Card / Unnamed Notes Metadata",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": "$b:space-2",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "gRwXq",
+                              "name": "Project Card / Unnamed Notes Last Edited",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "gPsWy",
+                                  "name": "Project Card / Unnamed Notes Clock",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "clock-3",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "MWFN2",
+                                  "name": "Project Card / Unnamed Notes Last Edited Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "8월 3일 마지막 작업",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "qtNoP",
+                              "name": "Project Card / Unnamed Notes Last File",
+                              "width": "fill_container",
+                              "gap": "$b:space-2",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "w8TqI",
+                                  "name": "Project Card / Unnamed Notes File Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "file-text",
+                                  "library": "lucide",
+                                  "weight": "$b:icon-weight-default",
+                                  "fill": "$b:color-icon-default"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "bkIU8",
+                                  "name": "Project Card / Unnamed Notes Last File Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "인물_관계_정리",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "pwHKB",
+          "layoutPosition": "absolute",
+          "x": 780,
+          "y": 254,
+          "name": "Project Card Action Menu",
+          "width": 220,
+          "fill": "$b:color-surface-raised",
+          "cornerRadius": "$b:radius-card",
+          "stroke": "$b:color-border-default",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "gap": "$b:space-1",
+          "padding": "$b:space-2",
+          "children": [
+            {
+              "type": "frame",
+              "id": "KrrSn",
+              "name": "이름 변경 Menu Item",
+              "width": "fill_container",
+              "height": 36,
+              "cornerRadius": "$b:radius-control",
+              "gap": "$b:space-2",
+              "padding": [
+                0,
+                "$b:space-3"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "a2qqn",
+                  "name": "이름 변경 Menu Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "pencil",
+                  "library": "lucide",
+                  "weight": "$b:icon-weight-default",
+                  "fill": "$b:color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "f8yJ7g",
+                  "name": "이름 변경 Menu Label",
+                  "fill": "$b:color-text-primary",
+                  "content": "이름 변경",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "fViRz",
+              "name": "휴지통으로 이동 Menu Item",
+              "width": "fill_container",
+              "height": 36,
+              "cornerRadius": "$b:radius-control",
+              "gap": "$b:space-2",
+              "padding": [
+                0,
+                "$b:space-3"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "WeDZ5",
+                  "name": "휴지통으로 이동 Menu Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "trash-2",
+                  "library": "lucide",
+                  "weight": "$b:icon-weight-default",
+                  "fill": "$b:color-accent-primary"
+                },
+                {
+                  "type": "text",
+                  "id": "BqHP0",
+                  "name": "휴지통으로 이동 Menu Label",
+                  "fill": "$b:color-accent-primary",
+                  "content": "휴지통으로 이동",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-body",
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "imports": {
