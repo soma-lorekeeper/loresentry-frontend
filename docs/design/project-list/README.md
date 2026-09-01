@@ -127,3 +127,6 @@
 
 상태 완결성, 키보드·포커스, 대비와 레이아웃의 최종 검사 결과는
 [프로젝트 목록 최종 검증](./final-validation.md)을 따른다.
+
+고정 화면 ID, frontend 구현 기준과 확정 범위는
+[프로젝트 목록 frontend 구현 인계](./frontend-handoff.md)를 따른다.
