@@ -87524,6 +87524,980 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "rENHC",
+      "x": 180429,
+      "y": -3369,
+      "name": "141 · Login · OAuth Canceled",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "type": "frame",
+          "id": "fRJt7",
+          "name": "Login Brand Field",
+          "width": 720,
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "padding": [
+            64,
+            72
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "frame",
+              "id": "m3lCTH",
+              "name": "Lorekeeper Wordmark",
+              "gap": "$b:space-3",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ekwAh",
+                  "name": "Lorekeeper Letter Mark",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "$b:color-accent-primary",
+                  "cornerRadius": "$b:radius-control",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "K568SQ",
+                      "name": "Lorekeeper Letter",
+                      "fill": "$b:color-text-on-accent",
+                      "content": "L",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "GBP3e",
+                  "name": "Lorekeeper Wordmark Text",
+                  "fill": "$b:color-text-primary",
+                  "content": "LOREKEEPER",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-heading",
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "mIOh4",
+              "name": "Login Brand Message",
+              "width": 500,
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "RLDKI",
+                  "name": "Brand Eyebrow",
+                  "fill": "$b:color-accent-primary",
+                  "content": "WRITING WORKSPACE",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-label",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "xbSLk",
+                  "name": "Brand Headline",
+                  "fill": "$b:color-text-primary",
+                  "content": "이야기를 쓰는 데\n집중하세요.",
+                  "lineHeight": "$b:line-height-manuscript-title",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-manuscript-title",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "eDhUM",
+                  "name": "Brand Supporting Copy",
+                  "fill": "$b:color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 420,
+                  "content": "Lorekeeper는 집필, 설정, 메모를 하나의 흐름으로 연결합니다.",
+                  "lineHeight": "$b:line-height-context",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "JZdvZ",
+              "name": "Brand Footer",
+              "fill": "$b:color-text-secondary",
+              "content": "Your story, uninterrupted.",
+              "fontFamily": "$b:font-family-ui",
+              "fontSize": "$b:font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "JOtp1",
+          "name": "Login Authentication Field",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-surface-navigation",
+          "layout": "vertical",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "XriAs",
+              "name": "Login Authentication Card",
+              "width": 440,
+              "fill": "$b:color-surface-default",
+              "cornerRadius": "$b:radius-card",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 24,
+              "padding": 40,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "N3HGmp",
+                  "name": "Login Card Header",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "N9TsU",
+                      "name": "Login Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "Lorekeeper에 로그인",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "PA30l",
+                      "name": "Login Description",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Google 인증을 다시 시작할 수 있습니다.",
+                      "lineHeight": "$b:line-height-context",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-context",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "T52ZS",
+                  "name": "Login Recovery Action",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "id": "hPOtZ",
+                      "type": "ref",
+                      "ref": "b:YuQi0",
+                      "name": "Google Login Retry Action",
+                      "width": "fill_container",
+                      "descendants": {
+                        "b:c8OxVe": {
+                          "content": "다시 Google로 계속하기"
+                        }
+                      }
+                    },
+                    {
+                      "id": "aukB4",
+                      "type": "ref",
+                      "ref": "b:nBJr6",
+                      "name": "OAuth Cancellation Status",
+                      "width": "fill_container",
+                      "descendants": {
+                        "b:gu9tR": {
+                          "content": "Google 로그인이 취소됐어요."
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "q8sun",
+                  "type": "ref",
+                  "ref": "b:nr8tB",
+                  "name": "Login Policy Notice",
+                  "width": "fill_container"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "vJY2I",
+      "x": 182029,
+      "y": -3369,
+      "name": "142 · Login · OAuth Failed",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "type": "frame",
+          "id": "rqyG4",
+          "name": "Login Brand Field",
+          "width": 720,
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "padding": [
+            64,
+            72
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "frame",
+              "id": "J9EHZT",
+              "name": "Lorekeeper Wordmark",
+              "gap": "$b:space-3",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "uO5NS",
+                  "name": "Lorekeeper Letter Mark",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "$b:color-accent-primary",
+                  "cornerRadius": "$b:radius-control",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "D6UxQ",
+                      "name": "Lorekeeper Letter",
+                      "fill": "$b:color-text-on-accent",
+                      "content": "L",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "C9jZgS",
+                  "name": "Lorekeeper Wordmark Text",
+                  "fill": "$b:color-text-primary",
+                  "content": "LOREKEEPER",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-heading",
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "V9cE4",
+              "name": "Login Brand Message",
+              "width": 500,
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "JADYn",
+                  "name": "Brand Eyebrow",
+                  "fill": "$b:color-accent-primary",
+                  "content": "WRITING WORKSPACE",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-label",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "e1eV7S",
+                  "name": "Brand Headline",
+                  "fill": "$b:color-text-primary",
+                  "content": "이야기를 쓰는 데\n집중하세요.",
+                  "lineHeight": "$b:line-height-manuscript-title",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-manuscript-title",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "rk4Nu",
+                  "name": "Brand Supporting Copy",
+                  "fill": "$b:color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 420,
+                  "content": "Lorekeeper는 집필, 설정, 메모를 하나의 흐름으로 연결합니다.",
+                  "lineHeight": "$b:line-height-context",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "sZpYb",
+              "name": "Brand Footer",
+              "fill": "$b:color-text-secondary",
+              "content": "Your story, uninterrupted.",
+              "fontFamily": "$b:font-family-ui",
+              "fontSize": "$b:font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "sXE6L",
+          "name": "Login Authentication Field",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-surface-navigation",
+          "layout": "vertical",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "z98tit",
+              "name": "Login Authentication Card",
+              "width": 440,
+              "fill": "$b:color-surface-default",
+              "cornerRadius": "$b:radius-card",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 24,
+              "padding": 40,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "rUYR0",
+                  "name": "Login Card Header",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "HI0mC",
+                      "name": "Login Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "Lorekeeper에 로그인",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "uyaMu",
+                      "name": "Login Description",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Google 인증을 다시 시작할 수 있습니다.",
+                      "lineHeight": "$b:line-height-context",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-context",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "pNVDS",
+                  "name": "Login Recovery Action",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "id": "m3ug5",
+                      "type": "ref",
+                      "ref": "b:YuQi0",
+                      "name": "Google Login Retry Action",
+                      "width": "fill_container",
+                      "descendants": {
+                        "b:c8OxVe": {
+                          "content": "다시 Google로 계속하기"
+                        }
+                      }
+                    },
+                    {
+                      "id": "hvJro",
+                      "type": "ref",
+                      "ref": "b:q921r",
+                      "name": "OAuth Failure Status",
+                      "width": "fill_container",
+                      "descendants": {
+                        "b:YlvsL": {
+                          "content": "로그인을 완료하지 못했어요. 다시 시도해 주세요."
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "nK00H",
+                  "type": "ref",
+                  "ref": "b:nr8tB",
+                  "name": "Login Policy Notice",
+                  "width": "fill_container"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "y578o",
+      "x": 183629,
+      "y": -3369,
+      "name": "143 · Login · Session Expired",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Qm3b1",
+          "name": "Login Brand Field",
+          "width": 720,
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "padding": [
+            64,
+            72
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Wccmv",
+              "name": "Lorekeeper Wordmark",
+              "gap": "$b:space-3",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "C2ZxDQ",
+                  "name": "Lorekeeper Letter Mark",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "$b:color-accent-primary",
+                  "cornerRadius": "$b:radius-control",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "haOEc",
+                      "name": "Lorekeeper Letter",
+                      "fill": "$b:color-text-on-accent",
+                      "content": "L",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "P2Krtx",
+                  "name": "Lorekeeper Wordmark Text",
+                  "fill": "$b:color-text-primary",
+                  "content": "LOREKEEPER",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-heading",
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Ajsnv",
+              "name": "Login Brand Message",
+              "width": 500,
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "iGFuY",
+                  "name": "Brand Eyebrow",
+                  "fill": "$b:color-accent-primary",
+                  "content": "WRITING WORKSPACE",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-label",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "N105gQ",
+                  "name": "Brand Headline",
+                  "fill": "$b:color-text-primary",
+                  "content": "이야기를 쓰는 데\n집중하세요.",
+                  "lineHeight": "$b:line-height-manuscript-title",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-manuscript-title",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "kUfeX",
+                  "name": "Brand Supporting Copy",
+                  "fill": "$b:color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 420,
+                  "content": "Lorekeeper는 집필, 설정, 메모를 하나의 흐름으로 연결합니다.",
+                  "lineHeight": "$b:line-height-context",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "BfPoF",
+              "name": "Brand Footer",
+              "fill": "$b:color-text-secondary",
+              "content": "Your story, uninterrupted.",
+              "fontFamily": "$b:font-family-ui",
+              "fontSize": "$b:font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "be61T",
+          "name": "Login Authentication Field",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-surface-navigation",
+          "layout": "vertical",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "z9nq5",
+              "name": "Login Authentication Card",
+              "width": 440,
+              "fill": "$b:color-surface-default",
+              "cornerRadius": "$b:radius-card",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 24,
+              "padding": 40,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "PQkJq",
+                  "name": "Login Card Header",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t2Dgde",
+                      "name": "Login Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "다시 로그인해 주세요",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "QeDdx",
+                      "name": "Login Description",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "작업을 안전하게 이어가려면 인증이 필요합니다.",
+                      "lineHeight": "$b:line-height-context",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-context",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "rq6Us",
+                  "name": "Login Recovery Action",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "id": "t43Bez",
+                      "type": "ref",
+                      "ref": "b:YuQi0",
+                      "name": "Google Login Retry Action",
+                      "width": "fill_container",
+                      "descendants": {
+                        "b:c8OxVe": {
+                          "content": "Google로 다시 로그인"
+                        }
+                      }
+                    },
+                    {
+                      "id": "TuHkz",
+                      "type": "ref",
+                      "ref": "b:nBJr6",
+                      "name": "Session Expired Status",
+                      "width": "fill_container",
+                      "descendants": {
+                        "b:gu9tR": {
+                          "content": "세션이 만료됐어요. 계속하려면 다시 로그인해 주세요."
+                        }
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xzbDc",
+                      "name": "Workspace Recovery Note",
+                      "width": "fill_container",
+                      "gap": "$b:space-2",
+                      "padding": [
+                        0,
+                        "$b:space-1"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "fVxsf",
+                          "name": "Workspace Recovery Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "history",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "O4QRRc",
+                          "name": "Workspace Recovery Message",
+                          "fill": "$b:color-text-secondary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "인증 후 확인된 이전 작업공간으로 돌아갑니다.",
+                          "lineHeight": "$b:line-height-body",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "Kjl2t",
+                  "type": "ref",
+                  "ref": "b:nr8tB",
+                  "name": "Login Policy Notice",
+                  "width": "fill_container"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "sSVhG",
+      "x": 185229,
+      "y": -3369,
+      "name": "144 · Login · Default · Light",
+      "theme": {
+        "b:mode": "light"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "type": "frame",
+          "id": "yonPQ",
+          "name": "Login Brand Field",
+          "width": 720,
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "padding": [
+            64,
+            72
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "frame",
+              "id": "NdZLY",
+              "name": "Lorekeeper Wordmark",
+              "gap": "$b:space-3",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nM8g4",
+                  "name": "Lorekeeper Letter Mark",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "$b:color-accent-primary",
+                  "cornerRadius": "$b:radius-control",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "gxBmk",
+                      "name": "Lorekeeper Letter",
+                      "fill": "$b:color-text-on-accent",
+                      "content": "L",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "XbfoT",
+                  "name": "Lorekeeper Wordmark Text",
+                  "fill": "$b:color-text-primary",
+                  "content": "LOREKEEPER",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-heading",
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "sOv30",
+              "name": "Login Brand Message",
+              "width": 500,
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "JLPtX",
+                  "name": "Brand Eyebrow",
+                  "fill": "$b:color-accent-primary",
+                  "content": "WRITING WORKSPACE",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-label",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "mv8H1",
+                  "name": "Brand Headline",
+                  "fill": "$b:color-text-primary",
+                  "content": "이야기를 쓰는 데\n집중하세요.",
+                  "lineHeight": "$b:line-height-manuscript-title",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-manuscript-title",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "ps2l2",
+                  "name": "Brand Supporting Copy",
+                  "fill": "$b:color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 420,
+                  "content": "Lorekeeper는 집필, 설정, 메모를 하나의 흐름으로 연결합니다.",
+                  "lineHeight": "$b:line-height-context",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "sJN96",
+              "name": "Brand Footer",
+              "fill": "$b:color-text-secondary",
+              "content": "Your story, uninterrupted.",
+              "fontFamily": "$b:font-family-ui",
+              "fontSize": "$b:font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "XocYB",
+          "name": "Login Authentication Field",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-surface-navigation",
+          "layout": "vertical",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "zoo9i",
+              "name": "Login Authentication Card",
+              "width": 440,
+              "fill": "$b:color-surface-default",
+              "cornerRadius": "$b:radius-card",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 28,
+              "padding": 40,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "c0OiD",
+                  "name": "Login Card Header",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "J3VcU",
+                      "name": "Login Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "Lorekeeper에 로그인",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "UB2xh",
+                      "name": "Login Description",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Google 계정으로 안전하게 계속하세요.",
+                      "lineHeight": "$b:line-height-context",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-context",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "N4tvoP",
+                  "name": "Login Primary Action",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "id": "sXOB5",
+                      "type": "ref",
+                      "ref": "b:YuQi0",
+                      "name": "Google Login Default Action",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "uyiWl",
+                      "name": "Authentication Destination Note",
+                      "width": "fill_container",
+                      "height": 54,
+                      "gap": "$b:space-2",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "loD7F",
+                          "name": "Destination Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "arrow-right",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "H4Mcy",
+                          "name": "Destination Message",
+                          "fill": "$b:color-text-secondary",
+                          "content": "로그인 후 프로젝트 목록으로 이동합니다.",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "Qtglv",
+                  "type": "ref",
+                  "ref": "b:nr8tB",
+                  "name": "Login Policy Notice",
+                  "width": "fill_container"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "imports": {
