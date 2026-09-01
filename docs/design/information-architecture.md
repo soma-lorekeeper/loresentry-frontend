@@ -2,7 +2,9 @@
 
 Lorekeeper의 전체 화면 구조는 다음과 같다.
 
-시각·상호작용 판단은 [Lorekeeper 디자인 방향](./design-direction.md)을 따른다.
+화면의 정보와 동작은 각 화면·Workflow 문서를 따른다. 시각 체계와 현재
+구현 기준은 [UI 컴포넌트 라이브러리](./component-library.md),
+`lorekeeper.pen`과 `lorekeeper.lib.pen`을 사실의 기준으로 사용한다.
 
 ```text
 랜딩 페이지(선택) → 로그인 → 프로젝트 목록 → 통합 작업공간
