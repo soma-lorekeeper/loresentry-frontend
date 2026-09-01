@@ -17263,6 +17263,1182 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "rgK6h",
+      "x": 19323,
+      "y": 0,
+      "name": "Project List / User Summary",
+      "reusable": true,
+      "width": 208,
+      "height": 52,
+      "cornerRadius": "$radius-control",
+      "gap": "$space-3",
+      "padding": [
+        0,
+        "$space-2"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "L6c4V",
+          "name": "User Avatar",
+          "width": 32,
+          "height": 32,
+          "fill": "$color-state-selected",
+          "cornerRadius": 16,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "se4sw",
+              "name": "User Initials",
+              "fill": "$color-text-primary",
+              "content": "승주",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "hhXfE",
+          "name": "User Copy",
+          "width": "fill_container",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "text",
+              "id": "BpruB",
+              "name": "User Name",
+              "fill": "$color-text-primary",
+              "content": "이승주",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "t8kbXn",
+              "name": "User Email",
+              "fill": "$color-text-secondary",
+              "content": "seungju@lore.kr",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "icon",
+          "id": "yHVbw",
+          "name": "User Menu Chevron",
+          "width": 15,
+          "height": 15,
+          "icon": "chevron-down",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-icon-default"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Q1iiU",
+      "x": 19583,
+      "y": 0,
+      "name": "Sidebar / Project List",
+      "reusable": true,
+      "width": 236,
+      "height": 900,
+      "fill": "$color-surface-navigation",
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "right": 1
+      },
+      "layout": "vertical",
+      "gap": "$space-2",
+      "padding": "$space-4",
+      "children": [
+        {
+          "id": "U69Zr",
+          "type": "ref",
+          "ref": "rgK6h",
+          "name": "Project List User Summary",
+          "width": "fill_container"
+        },
+        {
+          "id": "x8SHTG",
+          "type": "ref",
+          "ref": "ueaqt",
+          "name": "Projects Navigation Selected",
+          "width": "fill_container",
+          "descendants": {
+            "rWGDQ": {
+              "icon": "layout-grid"
+            },
+            "zKgHG": {
+              "content": "프로젝트 목록",
+              "fontWeight": "600"
+            }
+          }
+        },
+        {
+          "id": "lUhoG",
+          "type": "ref",
+          "ref": "ocZ7t",
+          "name": "Project Trash Navigation",
+          "width": "fill_container",
+          "descendants": {
+            "nCqu3": {
+              "icon": "trash-2"
+            },
+            "bP6Qr": {
+              "content": "프로젝트 휴지통"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "HxPJ0",
+          "name": "Project List Sidebar Spacer",
+          "width": "fill_container",
+          "height": "fill_container"
+        },
+        {
+          "id": "DnTpl",
+          "type": "ref",
+          "ref": "ocZ7t",
+          "name": "Guide Navigation",
+          "width": "fill_container",
+          "descendants": {
+            "nCqu3": {
+              "icon": "book-open"
+            },
+            "bP6Qr": {
+              "content": "사용 가이드"
+            }
+          }
+        },
+        {
+          "id": "aYSpG",
+          "type": "ref",
+          "ref": "ocZ7t",
+          "name": "Feedback Navigation",
+          "width": "fill_container",
+          "descendants": {
+            "nCqu3": {
+              "icon": "message-square"
+            },
+            "bP6Qr": {
+              "content": "피드백 보내기"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "RnRVv",
+      "x": 19863,
+      "y": 0,
+      "name": "Project List / New Project Card / Default",
+      "reusable": true,
+      "width": 300,
+      "height": 180,
+      "fill": "$color-surface-default",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": "$space-3",
+      "padding": "$space-6",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "BRC8u",
+          "name": "New Project Icon Surface",
+          "width": 44,
+          "height": 44,
+          "fill": "$color-surface-icon",
+          "cornerRadius": "$radius-control",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "EcngE",
+              "name": "New Project Icon",
+              "width": 20,
+              "height": 20,
+              "icon": "plus",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "Xb4wn",
+          "name": "New Project Label",
+          "fill": "$color-text-primary",
+          "content": "새 프로젝트",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-heading",
+          "fontWeight": "600"
+        },
+        {
+          "type": "text",
+          "id": "fgBMN",
+          "name": "New Project Hint",
+          "fill": "$color-text-secondary",
+          "content": "새 이야기를 시작하세요",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-label",
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "k3sx1i",
+      "x": 20183,
+      "y": 0,
+      "name": "Project List / New Project Card / Hover",
+      "reusable": true,
+      "width": 300,
+      "height": 180,
+      "fill": "$color-state-selected",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": "$space-3",
+      "padding": "$space-6",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "g8UyrS",
+          "name": "New Project Icon Surface",
+          "width": 44,
+          "height": 44,
+          "fill": "$color-surface-icon",
+          "cornerRadius": "$radius-control",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "JpqOS",
+              "name": "New Project Icon",
+              "width": 20,
+              "height": 20,
+              "icon": "plus",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "hKjp5",
+          "name": "New Project Label",
+          "fill": "$color-text-primary",
+          "content": "새 프로젝트",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-heading",
+          "fontWeight": "600"
+        },
+        {
+          "type": "text",
+          "id": "R9rXcp",
+          "name": "New Project Hint",
+          "fill": "$color-text-secondary",
+          "content": "새 이야기를 시작하세요",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-label",
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "fL97l",
+      "x": 19863,
+      "y": 220,
+      "name": "Project List / New Project Card / Focused",
+      "reusable": true,
+      "width": 300,
+      "height": 180,
+      "fill": "$color-surface-default",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-accent-primary",
+      "strokeWidth": 2,
+      "layout": "vertical",
+      "gap": "$space-3",
+      "padding": "$space-6",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "O8f351",
+          "name": "New Project Icon Surface",
+          "width": 44,
+          "height": 44,
+          "fill": "$color-surface-icon",
+          "cornerRadius": "$radius-control",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "WCFjg",
+              "name": "New Project Icon",
+              "width": 20,
+              "height": 20,
+              "icon": "plus",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "z0BqIV",
+          "name": "New Project Label",
+          "fill": "$color-text-primary",
+          "content": "새 프로젝트",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-heading",
+          "fontWeight": "600"
+        },
+        {
+          "type": "text",
+          "id": "eip4x",
+          "name": "New Project Hint",
+          "fill": "$color-text-secondary",
+          "content": "새 이야기를 시작하세요",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-label",
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "H2JhT",
+      "x": 20183,
+      "y": 220,
+      "name": "Project List / New Project Card / Disabled",
+      "reusable": true,
+      "opacity": 0.45,
+      "width": 300,
+      "height": 180,
+      "fill": "$color-surface-default",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": "$space-3",
+      "padding": "$space-6",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "K3BBL",
+          "name": "New Project Icon Surface",
+          "width": 44,
+          "height": 44,
+          "fill": "$color-surface-icon",
+          "cornerRadius": "$radius-control",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "wYOiQ",
+              "name": "New Project Icon",
+              "width": 20,
+              "height": 20,
+              "icon": "plus",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "oS3Qx",
+          "name": "New Project Label",
+          "fill": "$color-text-primary",
+          "content": "새 프로젝트",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-heading",
+          "fontWeight": "600"
+        },
+        {
+          "type": "text",
+          "id": "JKGR8",
+          "name": "New Project Hint",
+          "fill": "$color-text-secondary",
+          "content": "현재 새 프로젝트를 만들 수 없습니다",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-label",
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "d1pKrO",
+      "x": 20123,
+      "y": 460,
+      "name": "Project List / Project Card / Default",
+      "reusable": true,
+      "width": 300,
+      "height": 180,
+      "fill": "$color-surface-default",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": "$space-4",
+      "padding": "$space-6",
+      "children": [
+        {
+          "type": "frame",
+          "id": "rsyH1",
+          "name": "Project Card Header",
+          "width": "fill_container",
+          "gap": "$space-3",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "bXEnu",
+              "name": "Project Icon Surface",
+              "width": 36,
+              "height": 36,
+              "fill": "$color-surface-icon",
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "b9zWxa",
+                  "name": "Project Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "book-open",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "kHTvu",
+              "name": "Project Card Header Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "id": "R0f7Oo",
+              "type": "ref",
+              "ref": "hMpn5",
+              "name": "Project Card More Button",
+              "width": 32,
+              "height": 32,
+              "descendants": {
+                "UCRf6": {
+                  "icon": "ellipsis"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "BZffw",
+          "name": "Project Card Title",
+          "fill": "$color-text-primary",
+          "content": "별빛 아래 마지막 약속 — 장편…",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-heading",
+          "fontWeight": "600"
+        },
+        {
+          "type": "frame",
+          "id": "t3QDy",
+          "name": "Project Card Metadata",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-2",
+          "children": [
+            {
+              "type": "frame",
+              "id": "J8z9yN",
+              "name": "Last Edited Row",
+              "width": "fill_container",
+              "gap": "$space-2",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "wW0jU",
+                  "name": "Last Edited Icon",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "clock-3",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "juXkD",
+                  "name": "Last Edited Label",
+                  "fill": "$color-text-secondary",
+                  "content": "12분 전 마지막 작업",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Hp5tf",
+              "name": "Last File Row",
+              "width": "fill_container",
+              "gap": "$space-2",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "l3uGA",
+                  "name": "Last File Icon",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "file-text",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "YlUkf",
+                  "name": "Last File Label",
+                  "fill": "$color-text-secondary",
+                  "content": "제17장_돌아오지_않는_밤…",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "DpiLK",
+      "x": 20443,
+      "y": 460,
+      "name": "Project List / Project Card / Hover",
+      "reusable": true,
+      "width": 300,
+      "height": 180,
+      "fill": "$color-state-selected",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": "$space-4",
+      "padding": "$space-6",
+      "children": [
+        {
+          "type": "frame",
+          "id": "GRrzp",
+          "name": "Project Card Header",
+          "width": "fill_container",
+          "gap": "$space-3",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "ZXAFH",
+              "name": "Project Icon Surface",
+              "width": 36,
+              "height": 36,
+              "fill": "$color-surface-icon",
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "t9iKzv",
+                  "name": "Project Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "book-open",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "aGUdH",
+              "name": "Project Card Header Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "id": "XI4bw",
+              "type": "ref",
+              "ref": "hMpn5",
+              "name": "Project Card More Button",
+              "width": 32,
+              "height": 32,
+              "descendants": {
+                "UCRf6": {
+                  "icon": "ellipsis"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "z3UeSE",
+          "name": "Project Card Title",
+          "fill": "$color-text-primary",
+          "content": "별빛 아래 마지막 약속 — 장편…",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-heading",
+          "fontWeight": "600"
+        },
+        {
+          "type": "frame",
+          "id": "t6Uhm",
+          "name": "Project Card Metadata",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-2",
+          "children": [
+            {
+              "type": "frame",
+              "id": "ZlZIS",
+              "name": "Last Edited Row",
+              "width": "fill_container",
+              "gap": "$space-2",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "Mwtm9",
+                  "name": "Last Edited Icon",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "clock-3",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "GgcG6",
+                  "name": "Last Edited Label",
+                  "fill": "$color-text-secondary",
+                  "content": "12분 전 마지막 작업",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "CJrXv",
+              "name": "Last File Row",
+              "width": "fill_container",
+              "gap": "$space-2",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "X99zyX",
+                  "name": "Last File Icon",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "file-text",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "MRBr3",
+                  "name": "Last File Label",
+                  "fill": "$color-text-secondary",
+                  "content": "제17장_돌아오지_않는_밤…",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ZYpWK",
+      "x": 20123,
+      "y": 680,
+      "name": "Project List / Project Card / Focused",
+      "reusable": true,
+      "width": 300,
+      "height": 180,
+      "fill": "$color-surface-default",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-accent-primary",
+      "strokeWidth": 2,
+      "layout": "vertical",
+      "gap": "$space-4",
+      "padding": "$space-6",
+      "children": [
+        {
+          "type": "frame",
+          "id": "TK0W0",
+          "name": "Project Card Header",
+          "width": "fill_container",
+          "gap": "$space-3",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Cc67u",
+              "name": "Project Icon Surface",
+              "width": 36,
+              "height": 36,
+              "fill": "$color-surface-icon",
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "ILVWd",
+                  "name": "Project Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "book-open",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "gsnWh",
+              "name": "Project Card Header Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "id": "S5Yp1",
+              "type": "ref",
+              "ref": "hMpn5",
+              "name": "Project Card More Button",
+              "width": 32,
+              "height": 32,
+              "descendants": {
+                "UCRf6": {
+                  "icon": "ellipsis"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "AEhCh",
+          "name": "Project Card Title",
+          "fill": "$color-text-primary",
+          "content": "별빛 아래 마지막 약속 — 장편…",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-heading",
+          "fontWeight": "600"
+        },
+        {
+          "type": "frame",
+          "id": "b3iTF",
+          "name": "Project Card Metadata",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-2",
+          "children": [
+            {
+              "type": "frame",
+              "id": "EF0nw",
+              "name": "Last Edited Row",
+              "width": "fill_container",
+              "gap": "$space-2",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "j0Q5X9",
+                  "name": "Last Edited Icon",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "clock-3",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "nY8mp",
+                  "name": "Last Edited Label",
+                  "fill": "$color-text-secondary",
+                  "content": "12분 전 마지막 작업",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "dDqYF",
+              "name": "Last File Row",
+              "width": "fill_container",
+              "gap": "$space-2",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "kWdXa",
+                  "name": "Last File Icon",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "file-text",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "omd1V",
+                  "name": "Last File Label",
+                  "fill": "$color-text-secondary",
+                  "content": "제17장_돌아오지_않는_밤…",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "R021GS",
+      "x": 20443,
+      "y": 680,
+      "name": "Project List / Project Card / Selected",
+      "reusable": true,
+      "width": 300,
+      "height": 180,
+      "fill": "$color-surface-default",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-accent-primary",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": "$space-4",
+      "padding": "$space-6",
+      "children": [
+        {
+          "type": "frame",
+          "id": "gvTIJ",
+          "name": "Project Card Header",
+          "width": "fill_container",
+          "gap": "$space-3",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "q9Dr3T",
+              "name": "Project Icon Surface",
+              "width": 36,
+              "height": 36,
+              "fill": "$color-surface-icon",
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "j4b0e",
+                  "name": "Project Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "book-open",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "GRLuU",
+              "name": "Project Card Header Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "QDvii",
+              "name": "Selected Badge",
+              "height": 24,
+              "fill": "$color-state-selected",
+              "cornerRadius": "$radius-control",
+              "stroke": "$color-accent-primary",
+              "strokeWidth": 1,
+              "gap": "$space-1",
+              "padding": [
+                0,
+                "$space-2"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "vsF6Y",
+                  "name": "Selected Badge Icon",
+                  "width": 13,
+                  "height": 13,
+                  "icon": "check",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-accent-primary"
+                },
+                {
+                  "type": "text",
+                  "id": "ztPru",
+                  "name": "Selected Badge Label",
+                  "fill": "$color-text-primary",
+                  "content": "선택됨",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "pg6XF",
+          "name": "Project Card Title",
+          "fill": "$color-text-primary",
+          "content": "별빛 아래 마지막 약속 — 장편…",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-heading",
+          "fontWeight": "600"
+        },
+        {
+          "type": "frame",
+          "id": "Q5K1YE",
+          "name": "Project Card Metadata",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-2",
+          "children": [
+            {
+              "type": "frame",
+              "id": "HfKVk",
+              "name": "Last Edited Row",
+              "width": "fill_container",
+              "gap": "$space-2",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "y1797",
+                  "name": "Last Edited Icon",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "clock-3",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "t4bkkk",
+                  "name": "Last Edited Label",
+                  "fill": "$color-text-secondary",
+                  "content": "12분 전 마지막 작업",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "J9uC93",
+              "name": "Last File Row",
+              "width": "fill_container",
+              "gap": "$space-2",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "vNwir",
+                  "name": "Last File Icon",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "file-text",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "VF5xr",
+                  "name": "Last File Label",
+                  "fill": "$color-text-secondary",
+                  "content": "제17장_돌아오지_않는_밤…",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "T3m08Z",
+      "x": 20763,
+      "y": 460,
+      "name": "Menu / Project Card / Open",
+      "reusable": true,
+      "width": 220,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": "$space-1",
+      "padding": "$space-2",
+      "children": [
+        {
+          "type": "frame",
+          "id": "g4osv",
+          "name": "이름 변경 Menu Item",
+          "width": "fill_container",
+          "height": 36,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "QRnia",
+              "name": "이름 변경 Menu Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "pencil",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "j3ZfIQ",
+              "name": "이름 변경 Menu Label",
+              "fill": "$color-text-primary",
+              "content": "이름 변경",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "QGuji",
+          "name": "휴지통으로 이동 Menu Item",
+          "width": "fill_container",
+          "height": 36,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "CZC1Q",
+              "name": "휴지통으로 이동 Menu Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "trash-2",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-accent-primary"
+            },
+            {
+              "type": "text",
+              "id": "dlAQF",
+              "name": "휴지통으로 이동 Menu Label",
+              "fill": "$color-accent-primary",
+              "content": "휴지통으로 이동",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            }
+          ]
+        }
+      ]
     }
   ],
   "themes": {

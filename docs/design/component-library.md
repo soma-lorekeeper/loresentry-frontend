@@ -18,7 +18,7 @@
 
 ## 재사용 컴포넌트
 
-라이브러리에는 기본 컴포넌트 35개와 상태 컴포넌트 57개, 총 92개를 둔다.
+라이브러리에는 기본 컴포넌트 39개와 상태 컴포넌트 64개, 총 103개를 둔다.
 
 ### 기본 컴포넌트
 
@@ -57,6 +57,10 @@
 - `Settings / Danger Zone`
 - `Memo Panel / Resize Handle / Vertical`
 - `Memo Panel / Resize Handle / Horizontal`
+- `Project List / User Summary`
+- `Sidebar / Project List`
+- `Project List / New Project Card / Default`
+- `Project List / Project Card / Default`
 
 ### 상태 컴포넌트
 
@@ -86,6 +90,9 @@
 - 설정 확인: `Dialog / Unsaved Settings`, `Dialog / Move Project To Trash`
 - 사용자 생성 섹션 삭제: `Dialog / User Section Delete`,
   `Dialog / User Section Delete Error`
+- 새 프로젝트 카드: `Hover`, `Focused`, `Disabled`
+- 프로젝트 카드: `Hover`, `Focused`, `Selected`
+- 프로젝트 카드 메뉴: `Menu / Project Card / Open`
 
 ## 컴포넌트 경계
 
