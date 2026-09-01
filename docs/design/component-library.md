@@ -18,7 +18,7 @@
 
 ## 재사용 컴포넌트
 
-라이브러리에는 기본 컴포넌트 39개와 상태 컴포넌트 64개, 총 103개를 둔다.
+라이브러리에는 기본 컴포넌트 42개와 상태 컴포넌트 66개, 총 108개를 둔다.
 
 ### 기본 컴포넌트
 
@@ -61,6 +61,9 @@
 - `Sidebar / Project List`
 - `Project List / New Project Card / Default`
 - `Project List / Project Card / Default`
+- `Auth / Google Button / Default`
+- `Auth / Status Notice / Info`
+- `Auth / Policy Notice`
 
 ### 상태 컴포넌트
 
@@ -93,6 +96,8 @@
 - 새 프로젝트 카드: `Hover`, `Focused`, `Disabled`
 - 프로젝트 카드: `Hover`, `Focused`, `Selected`
 - 프로젝트 카드 메뉴: `Menu / Project Card / Open`
+- 로그인 인증: `Auth / Google Button / Processing`,
+  `Auth / Status Notice / Error`
 
 ## 컴포넌트 경계
 
