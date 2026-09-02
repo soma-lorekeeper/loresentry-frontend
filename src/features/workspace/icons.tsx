@@ -1,6 +1,7 @@
 import type { ReactNode, SVGProps } from "react";
 
 export type WorkspaceIconName =
+  | "arrow-up"
   | "book"
   | "character"
   | "chevron"
@@ -26,6 +27,7 @@ export type WorkspaceIconName =
   | "trash";
 
 const paths: Record<WorkspaceIconName, ReactNode> = {
+  "arrow-up": <path d="m5 12 7-7 7 7M12 5v14" />,
   book: (
     <>
       <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H11v15H6.5A2.5 2.5 0 0 0 4 19.5Z" />

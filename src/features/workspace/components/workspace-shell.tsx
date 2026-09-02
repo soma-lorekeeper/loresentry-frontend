@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 
+import { AiChatPanel } from "@/features/ai-chat/components/ai-chat-panel";
 import { projects, type WorkspaceNavItem } from "../workspace-data";
 import { WorkspaceSidebar } from "./workspace-sidebar";
 import type { ManuscriptDocument } from "./workspace-manuscript-editor";
@@ -181,6 +182,7 @@ export function WorkspaceShell({
   return (
     <div
       className={styles.shell}
+      data-ai-chat-open={aiChatOpen}
       data-project-id={currentProject.id}
       data-sidebar-open={sidebarOpen}
     >
@@ -223,6 +225,7 @@ export function WorkspaceShell({
           searchQuery={searchQuery}
         />
       </main>
+      <AiChatPanel documentName={activeTab.label} hidden={!aiChatOpen} />
     </div>
   );
 }
