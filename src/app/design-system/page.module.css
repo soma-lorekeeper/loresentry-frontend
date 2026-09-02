@@ -1,0 +1,119 @@
+.page {
+  min-height: 100vh;
+  padding: calc(var(--lk-space-6) * 2);
+  background: var(--lk-color-bg-canvas);
+  color: var(--lk-color-text-primary);
+}
+
+.header,
+.section,
+.switcher {
+  display: flex;
+  flex-direction: column;
+}
+
+.header,
+.section {
+  gap: var(--lk-space-3);
+}
+
+.page > * + * {
+  margin-top: var(--lk-space-6);
+}
+
+.title {
+  font-size: var(--lk-font-size-heading-lg);
+  line-height: var(--lk-line-height-body);
+}
+
+.description,
+.secondary {
+  color: var(--lk-color-text-secondary);
+}
+
+.switcher {
+  gap: var(--lk-space-2);
+  border: 0;
+}
+
+.switcher > div {
+  display: flex;
+  gap: var(--lk-space-2);
+}
+
+.switcher button,
+.sample {
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-default);
+  color: var(--lk-color-text-primary);
+}
+
+.switcher button {
+  padding: var(--lk-space-2) var(--lk-space-4);
+}
+
+.switcher button[aria-pressed="true"] {
+  border-color: var(--lk-color-accent-primary);
+  background: var(--lk-color-state-selected);
+}
+
+.switcher button:focus-visible {
+  outline: 2px solid var(--lk-color-accent-primary);
+  outline-offset: 2px;
+}
+
+.samples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--lk-space-4);
+}
+
+.sample {
+  min-height: 112px;
+  padding: var(--lk-space-4);
+}
+
+.sample[data-surface="navigation"] {
+  background: var(--lk-color-surface-navigation);
+}
+
+.sample[data-surface="topbar"] {
+  background: var(--lk-color-surface-topbar);
+}
+
+.sample[data-surface="raised"] {
+  background: var(--lk-color-surface-raised);
+}
+
+.accent {
+  display: inline-flex;
+  margin-top: var(--lk-space-2);
+  padding: var(--lk-space-2) var(--lk-space-3);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-accent-primary);
+  color: var(--lk-color-text-on-accent);
+}
+
+.fixtureRow {
+  margin-top: var(--lk-space-3);
+}
+
+.fixtureSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-2);
+}
+
+.fixtureLegend {
+  margin: 0;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-context);
+  line-height: var(--lk-line-height-context);
+}
+
+.fixtureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--lk-space-4);
+}
