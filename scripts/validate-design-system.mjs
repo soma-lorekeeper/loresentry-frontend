@@ -6,6 +6,10 @@ const registryUrl = new URL(
   import.meta.url,
 );
 const registry = JSON.parse(await readFile(registryUrl, "utf8"));
+const tokenCss = await readFile(
+  new URL("../src/design-system/tokens.css", import.meta.url),
+  "utf8",
+);
 
 const unique = (values) => new Set(values).size === values.length;
 const countBy = (items, key) =>
@@ -50,8 +54,34 @@ for (const token of registry.tokens) {
     assert.deepEqual(Object.keys(token.value).sort(), ["dark", "light"]);
     assert.match(token.value.dark, /^#[0-9A-F]{6}$/);
     assert.match(token.value.light, /^#[0-9A-F]{6}$/);
+    assert.match(
+      tokenCss,
+      new RegExp(`${token.cssVariable}: ${token.value.dark}`, "i"),
+    );
+    assert.match(
+      tokenCss,
+      new RegExp(`${token.cssVariable}: ${token.value.light}`, "i"),
+    );
+  } else {
+    const expectedValue =
+      token.type === "string"
+        ? JSON.stringify(token.value)
+        : `${token.value}${token.unit ?? ""}`;
+    assert.match(
+      tokenCss,
+      new RegExp(`${token.cssVariable}: ${expectedValue}`, "i"),
+    );
   }
 }
+
+const declaredTokenNames = [
+  ...new Set(tokenCss.match(/--lk-[a-z0-9-]+(?=\s*:)/g) ?? []),
+].sort();
+assert.deepEqual(
+  declaredTokenNames,
+  registry.tokens.map((token) => token.cssVariable).sort(),
+  "CSS token declarations must match the Pencil registry",
+);
 
 assert.equal(
   registry.components.length,
