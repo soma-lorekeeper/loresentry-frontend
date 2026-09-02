@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { fileItems, projects, type WorkspaceNavItem } from "../workspace-data";
+import { projects, type WorkspaceNavItem } from "../workspace-data";
 import { WorkspaceSidebar } from "./workspace-sidebar";
 import {
   WorkspaceContent,
@@ -27,12 +27,11 @@ const initialTabs: WorkspaceTab[] = [
 ];
 
 function toTab(item: WorkspaceNavItem): WorkspaceTab | null {
-  if (item.icon === "folder") return null;
-  const isFile = fileItems.some((candidate) => candidate.id === item.id);
+  if (item.kind === "folder") return null;
   return {
     id: item.contentId ?? item.id,
     icon: item.icon,
-    isFile,
+    isFile: item.kind === "file",
     label: item.label,
   };
 }
@@ -118,6 +117,32 @@ export function WorkspaceShell({ initialProjectId }: WorkspaceShellProps) {
     });
   };
 
+  const removeTrashedTabs = (contentIds: string[]) => {
+    setTabs((current) => {
+      const remaining = current.filter((tab) => !contentIds.includes(tab.id));
+      if (remaining.length === 0) {
+        setActiveTabId("new-tab");
+        return [
+          {
+            id: "new-tab",
+            icon: "home",
+            isFile: false,
+            label: "새 탭",
+            closable: false,
+          },
+        ];
+      }
+      if (contentIds.includes(activeTabId)) setActiveTabId(remaining[0].id);
+      return remaining;
+    });
+  };
+
+  const renameOpenTab = (contentId: string, label: string) => {
+    setTabs((current) =>
+      current.map((tab) => (tab.id === contentId ? { ...tab, label } : tab)),
+    );
+  };
+
   const activeTab = tabs.find((tab) => tab.id === activeTabId) ?? tabs[0];
 
   return (
@@ -127,7 +152,9 @@ export function WorkspaceShell({ initialProjectId }: WorkspaceShellProps) {
           <WorkspaceSidebar
             currentProject={currentProject}
             onProjectSelect={setCurrentProject}
+            onRename={renameOpenTab}
             onSelect={selectTarget}
+            onTrash={removeTrashedTabs}
             projects={projects}
             selectedId={selectedId}
             userName="서윤주"

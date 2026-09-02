@@ -9,8 +9,10 @@ export interface WorkspaceNavItem {
   contentId?: string;
   icon: WorkspaceIconName;
   id: string;
+  kind?: "file" | "folder" | "navigation";
   label: string;
   level?: number;
+  parentId?: string;
 }
 
 export const projects: ProjectSummary[] = [
@@ -19,9 +21,9 @@ export const projects: ProjectSummary[] = [
 ];
 
 export const primaryNavigation: WorkspaceNavItem[] = [
-  { id: "search", label: "검색", icon: "search" },
-  { id: "graph", label: "그래프", icon: "graph" },
-  { id: "memo", label: "메모", icon: "memo" },
+  { id: "search", label: "검색", icon: "search", kind: "navigation" },
+  { id: "graph", label: "그래프", icon: "graph", kind: "navigation" },
+  { id: "memo", label: "메모", icon: "memo", kind: "navigation" },
 ];
 
 export const favoriteItems: WorkspaceNavItem[] = [
@@ -30,31 +32,41 @@ export const favoriteItems: WorkspaceNavItem[] = [
     contentId: "manuscript-12",
     label: "12화 · 균열의 밤",
     icon: "file",
+    kind: "file",
   },
 ];
 
 export const fileItems: WorkspaceNavItem[] = [
-  { id: "folder-manuscript", label: "원고", icon: "folder" },
+  {
+    id: "folder-manuscript",
+    label: "원고",
+    icon: "folder",
+    kind: "folder",
+  },
   {
     id: "file-manuscript-12",
     contentId: "manuscript-12",
     label: "12화 · 균열의 밤",
     icon: "file",
+    kind: "file",
     level: 1,
+    parentId: "folder-manuscript",
   },
   {
     id: "file-manuscript-11",
     contentId: "manuscript-11",
     label: "11화 · 유리 정원",
     icon: "file",
+    kind: "file",
     level: 1,
+    parentId: "folder-manuscript",
   },
-  { id: "setting", label: "설정", icon: "settings" },
-  { id: "character", label: "캐릭터", icon: "character" },
+  { id: "setting", label: "설정", icon: "settings", kind: "file" },
+  { id: "character", label: "캐릭터", icon: "character", kind: "file" },
 ];
 
 export const utilityNavigation: WorkspaceNavItem[] = [
-  { id: "trash", label: "휴지통", icon: "trash" },
-  { id: "settings", label: "설정", icon: "settings" },
-  { id: "help", label: "도움말", icon: "help" },
+  { id: "trash", label: "휴지통", icon: "trash", kind: "navigation" },
+  { id: "settings", label: "설정", icon: "settings", kind: "navigation" },
+  { id: "help", label: "도움말", icon: "help", kind: "navigation" },
 ];

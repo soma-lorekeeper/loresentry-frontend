@@ -99,6 +99,18 @@
   gap: 2px;
 }
 
+.sidebarSection {
+  position: relative;
+  border: 1px solid transparent;
+  border-radius: var(--lk-radius-control);
+}
+
+.sidebarSection[data-drop-target="true"] {
+  border-color: var(--lk-color-accent-primary);
+  border-style: dashed;
+  background: var(--lk-color-state-selected);
+}
+
 .sectionHeader {
   display: flex;
   min-height: 33px;
@@ -121,6 +133,27 @@
   min-height: 24px;
   padding: 0;
   border-color: transparent;
+}
+
+.itemMenu {
+  flex: 0 0 auto;
+}
+
+.itemMoreButton {
+  width: 24px;
+  min-height: 24px;
+  padding: 0;
+  border-color: transparent;
+}
+
+.itemMoreButton svg {
+  width: 14px;
+  height: 14px;
+}
+
+.dangerMenuItem {
+  color: var(--lk-color-text-primary);
+  font-weight: 600;
 }
 
 .sidebarItem {
@@ -172,6 +205,150 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.treeBranch {
+  min-width: 0;
+}
+
+.treeItemRow,
+.favoriteRow {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 35px;
+  align-items: center;
+}
+
+.treeItemRow {
+  padding-left: calc(var(--tree-level, 0) * 16px);
+  border: 1px solid transparent;
+  border-radius: var(--lk-radius-control);
+}
+
+.treeItemRow[data-dragging="true"] {
+  opacity: 0.58;
+  outline: 1px dashed var(--lk-color-accent-primary);
+}
+
+.treeItemRow[data-drop-target="true"] {
+  border-color: var(--lk-color-accent-primary);
+  border-style: dashed;
+  background: var(--lk-color-state-selected);
+}
+
+.treeItemButton {
+  display: flex;
+  min-width: 0;
+  min-height: 33px;
+  flex: 1;
+  align-items: center;
+  gap: var(--lk-space-2);
+  padding: 0 var(--lk-space-1);
+  border: 0;
+  border-radius: var(--lk-radius-control);
+  background: transparent;
+  color: var(--lk-color-text-primary);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--lk-font-size-body);
+  text-align: left;
+}
+
+.treeItemButton:hover,
+.treeItemButton[data-selected="true"] {
+  background: var(--lk-color-state-selected);
+}
+
+.treeItemButton:focus-visible,
+.folderToggle:focus-visible,
+.itemMoreButton:focus-visible,
+.inlineEdit input:focus-visible {
+  outline: 2px solid var(--lk-color-accent-primary);
+  outline-offset: 1px;
+}
+
+.folderToggle,
+.folderToggleSpacer {
+  width: 22px;
+  height: 32px;
+  flex: 0 0 22px;
+}
+
+.folderToggle {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--lk-radius-control);
+  background: transparent;
+  color: var(--lk-color-icon-default);
+  cursor: pointer;
+}
+
+.folderToggle svg {
+  width: 13px;
+  height: 13px;
+  transition: transform 140ms ease;
+}
+
+.folderToggle[aria-expanded="false"] svg {
+  transform: rotate(-90deg);
+}
+
+.inlineEdit {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  gap: var(--lk-space-2);
+}
+
+.inlineEdit input {
+  width: 100%;
+  min-width: 0;
+  height: 29px;
+  padding: 0 var(--lk-space-2);
+  border: 1px solid var(--lk-color-accent-primary);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-default);
+  color: var(--lk-color-text-primary);
+  font: inherit;
+  font-size: var(--lk-font-size-body);
+}
+
+.inlineEdit input[aria-invalid="true"] {
+  border-style: dashed;
+}
+
+.dropHint,
+.sectionDropHint {
+  color: var(--lk-color-text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.dropHint {
+  position: absolute;
+  top: calc(100% - 2px);
+  right: var(--lk-space-2);
+  z-index: 4;
+  padding: 2px var(--lk-space-2);
+  border: 1px solid var(--lk-color-accent-primary);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-raised);
+}
+
+.sectionDropHint {
+  padding: var(--lk-space-2);
+  border: 1px dashed var(--lk-color-accent-primary);
+  border-radius: var(--lk-radius-control);
+  text-align: center;
+}
+
+.favoriteRow > .sidebarItem {
+  min-width: 0;
+  flex: 1;
 }
 
 .utilityNavigation {
