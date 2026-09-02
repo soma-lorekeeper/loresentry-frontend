@@ -94,3 +94,14 @@
   background: var(--lk-color-accent-primary);
   color: var(--lk-color-text-on-accent);
 }
+
+.fixtureRow {
+  margin-top: var(--lk-space-3);
+}
+
+.fixtureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--lk-space-4);
+  margin-top: var(--lk-space-3);
+}

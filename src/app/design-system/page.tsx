@@ -1,4 +1,5 @@
 import { ThemeSwitcher } from "@/design-system/theme-switcher";
+import { ComponentFixture } from "./component-fixture";
 import styles from "./page.module.css";
 
 const surfaces = [
@@ -36,6 +37,8 @@ export default function DesignSystemPage() {
           ))}
         </div>
       </section>
+
+      <ComponentFixture />
     </main>
   );
 }
