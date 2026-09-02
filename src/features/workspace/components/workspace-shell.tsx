@@ -220,6 +220,7 @@ export function WorkspaceShell({
           onCreateFile={createFileFromNewTab}
           onOpenSearchResult={openSearchResult}
           onSearchQueryChange={setSearchQuery}
+          projectId={currentProject.id}
           projectName={currentProject.name}
           recentFiles={recentFiles}
           saveManuscript={saveManuscript}

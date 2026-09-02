@@ -4,12 +4,16 @@ import {
   type CSSProperties,
   type KeyboardEvent,
   type ReactNode,
+  useEffect,
+  useRef,
   useState,
 } from "react";
 
 import { IconButton } from "@/components/ui";
+import type { FileMemo, ProjectMemo } from "@/features/memo/memo-model";
 import { WorkspaceIcon } from "@/features/workspace/icons";
 
+import { MemoCard } from "./memo-card";
 import styles from "./file-memo-workspace.module.css";
 
 export type MemoPlacement = "below" | "right";
@@ -18,48 +22,58 @@ export type MemoScope = "manuscript" | "work";
 interface FileMemoWorkspaceProps {
   aiChatOpen: boolean;
   children: ReactNode;
+  documentId: string;
   documentName: string;
+  fileMemo?: FileMemo;
+  onAddProjectMemo: () => void;
   onClose: () => void;
+  onFileMemoChange: (body: string) => void;
+  onProjectMemoBlur: (memo: ProjectMemo) => void;
+  onProjectMemoChange: (memo: ProjectMemo, body: string) => void;
   open: boolean;
+  pendingMemoId?: string;
+  projectMemos: ProjectMemo[];
 }
-
-const workMemos = [
-  {
-    body: "북쪽 문은 서윤의 기억에 반응한다. 문 너머의 목소리는 3화에서 떠난 인물과 연결한다.",
-    title: "북쪽 문과 균열",
-  },
-  {
-    body: "등불이 꺼지는 순간을 장면 전환점으로 사용한다. 다른 원고에서도 같은 규칙을 유지한다.",
-    title: "등불 규칙",
-  },
-];
-
-const manuscriptMemo =
-  "손잡이 진동 묘사는 한 번만 사용한다. ‘균열’이라는 단어는 마지막 문장까지 아껴 두기.";
 
 export function FileMemoWorkspace({
   aiChatOpen,
   children,
+  documentId,
   documentName,
+  fileMemo,
+  onAddProjectMemo,
   onClose,
+  onFileMemoChange,
+  onProjectMemoBlur,
+  onProjectMemoChange,
   open,
+  pendingMemoId,
+  projectMemos,
 }: FileMemoWorkspaceProps) {
   const [placement, setPlacement] = useState<MemoPlacement>("right");
   const [scope, setScope] = useState<MemoScope>("work");
   const [rightWidth, setRightWidth] = useState(360);
   const [belowHeight, setBelowHeight] = useState(300);
   const [announcement, setAnnouncement] = useState("");
+  const workTabRef = useRef<HTMLButtonElement>(null);
+  const manuscriptTabRef = useRef<HTMLButtonElement>(null);
+  const pendingInputRef = useRef<HTMLTextAreaElement>(null);
   const temporarilyBelow = aiChatOpen && placement === "right";
   const effectivePlacement = temporarilyBelow ? "below" : placement;
   const currentSize = effectivePlacement === "right" ? rightWidth : belowHeight;
   const minimumSize = effectivePlacement === "right" ? 320 : 240;
   const maximumSize = effectivePlacement === "right" ? 560 : 480;
   const sizeLabel = effectivePlacement === "right" ? "너비" : "높이";
-  const panelId = `file-memo-panel-${documentName.replaceAll(" ", "-")}`;
+  const panelId = `file-memo-panel-${documentId}`;
   const style = {
     "--memo-below-height": `${belowHeight}px`,
     "--memo-right-width": `${rightWidth}px`,
   } as CSSProperties;
+
+  useEffect(() => {
+    if (!pendingMemoId || !open || scope !== "work") return;
+    requestAnimationFrame(() => pendingInputRef.current?.focus());
+  }, [open, pendingMemoId, scope]);
 
   const changeSize = (next: number) => {
     const clamped = Math.min(maximumSize, Math.max(minimumSize, next));
@@ -84,6 +98,24 @@ export function FileMemoWorkspace({
     if (!delta) return;
     event.preventDefault();
     changeSize(currentSize + delta);
+  };
+
+  const changeScopeFromKeyboard = (
+    event: KeyboardEvent<HTMLButtonElement>,
+    current: MemoScope,
+  ) => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) {
+      return;
+    }
+    event.preventDefault();
+    let next: MemoScope;
+    if (event.key === "Home") next = "work";
+    else if (event.key === "End") next = "manuscript";
+    else next = current === "work" ? "manuscript" : "work";
+    setScope(next);
+    requestAnimationFrame(() =>
+      (next === "work" ? workTabRef : manuscriptTabRef).current?.focus(),
+    );
   };
 
   return (
@@ -151,7 +183,10 @@ export function FileMemoWorkspace({
             aria-selected={scope === "work"}
             id={`${panelId}-work-tab`}
             onClick={() => setScope("work")}
+            onKeyDown={(event) => changeScopeFromKeyboard(event, "work")}
+            ref={workTabRef}
             role="tab"
+            tabIndex={scope === "work" ? 0 : -1}
             type="button"
           >
             작품 메모
@@ -161,14 +196,17 @@ export function FileMemoWorkspace({
             aria-selected={scope === "manuscript"}
             id={`${panelId}-manuscript-tab`}
             onClick={() => setScope("manuscript")}
+            onKeyDown={(event) => changeScopeFromKeyboard(event, "manuscript")}
+            ref={manuscriptTabRef}
             role="tab"
+            tabIndex={scope === "manuscript" ? 0 : -1}
             type="button"
           >
             원고 메모
           </button>
           <span className={styles.spacer} />
           {scope === "work" && (
-            <IconButton aria-label="작품 메모 추가" disabled>
+            <IconButton aria-label="작품 메모 추가" onClick={onAddProjectMemo}>
               <WorkspaceIcon name="plus" />
             </IconButton>
           )}
@@ -181,15 +219,16 @@ export function FileMemoWorkspace({
             id={`${panelId}-work`}
             role="tabpanel"
           >
-            {workMemos.map((memo) => (
-              <article className={styles.previewCard} key={memo.title}>
-                <header>
-                  <WorkspaceIcon name="notebook-pen" />
-                  <strong>{memo.title}</strong>
-                  <span>작품 메모</span>
-                </header>
-                <p>{memo.body}</p>
-              </article>
+            {projectMemos.map((memo, index) => (
+              <MemoCard
+                body={memo.body}
+                key={memo.id}
+                label={`프로젝트 메모 ${index + 1}`}
+                onBlur={() => onProjectMemoBlur(memo)}
+                onChange={(body) => onProjectMemoChange(memo, body)}
+                ref={memo.id === pendingMemoId ? pendingInputRef : undefined}
+                variant="project"
+              />
             ))}
           </section>
         ) : (
@@ -203,7 +242,15 @@ export function FileMemoWorkspace({
               <strong>원고 메모</strong>
               <span>{documentName}</span>
             </header>
-            <p>{manuscriptMemo}</p>
+            <MemoCard
+              body={fileMemo?.body ?? ""}
+              label={`${documentName} 원고 메모`}
+              onChange={onFileMemoChange}
+              variant="editor"
+            />
+            <span className={styles.srOnly}>
+              이 메모는 현재 파일 {documentName}에 연결되어 있습니다.
+            </span>
           </section>
         )}
 

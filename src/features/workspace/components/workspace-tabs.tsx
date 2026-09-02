@@ -11,6 +11,17 @@ import {
 
 import { Button, IconButton, StatusNotice } from "@/components/ui";
 import { FileMemoWorkspace } from "@/features/memo/components/file-memo-workspace";
+import {
+  ProjectMemos,
+  type ProjectMemoScope,
+} from "@/features/memo/components/project-memos";
+import {
+  emptyMemoCollection,
+  initialMemoCollections,
+  type FileMemo,
+  type MemoCollection,
+  type ProjectMemo,
+} from "@/features/memo/memo-model";
 
 import { WorkspaceIcon, type WorkspaceIconName } from "../icons";
 import type { WorkspaceNavItem } from "../workspace-data";
@@ -303,6 +314,7 @@ interface WorkspaceContentProps {
   onCreateFile: (fileType: string, icon: WorkspaceIconName) => void;
   onOpenSearchResult: (item: WorkspaceNavItem) => void;
   onSearchQueryChange: (query: string) => void;
+  projectId: string;
   projectName: string;
   recentFiles?: RecentWorkspaceFile[];
   saveManuscript?: (
@@ -318,6 +330,7 @@ export function WorkspaceContent({
   onCreateFile,
   onOpenSearchResult,
   onSearchQueryChange,
+  projectId,
   projectName,
   recentFiles,
   saveManuscript,
@@ -334,7 +347,15 @@ export function WorkspaceContent({
   const [manuscriptDocuments, setManuscriptDocuments] = useState<
     Record<string, ManuscriptDocument>
   >({});
+  const [memoCollections, setMemoCollections] = useState<
+    Record<string, MemoCollection>
+  >(initialMemoCollections);
+  const [memoScopes, setMemoScopes] = useState<
+    Record<string, ProjectMemoScope>
+  >({});
+  const [pendingMemoId, setPendingMemoId] = useState<string>();
   const memoButtonRef = useRef<HTMLButtonElement>(null);
+  const memoCounterRef = useRef(0);
   const lastEditorFocusRef = useRef<Record<string, ManuscriptFocusTarget>>({});
   const saveTimersRef = useRef<Record<string, ReturnType<typeof setTimeout>>>(
     {},
@@ -360,6 +381,87 @@ export function WorkspaceContent({
   const currentManuscript =
     manuscriptDocuments[activeTab.id] ??
     createInitialManuscriptDocument(activeTab.id, activeTab.label);
+  const currentMemoCollection =
+    memoCollections[projectId] ?? emptyMemoCollection();
+  const currentMemoScope = memoScopes[projectId] ?? "project";
+  const currentFileMemo = currentMemoCollection.file.find(
+    (memo) => memo.fileId === activeTab.id,
+  );
+
+  const updateCurrentMemoCollection = (
+    update: (collection: MemoCollection) => MemoCollection,
+  ) => {
+    setMemoCollections((current) => ({
+      ...current,
+      [projectId]: update(current[projectId] ?? emptyMemoCollection()),
+    }));
+  };
+
+  const addProjectMemo = () => {
+    memoCounterRef.current += 1;
+    const id = `project-${projectId}-draft-${memoCounterRef.current}`;
+    updateCurrentMemoCollection((collection) => ({
+      ...collection,
+      project: [{ id, body: "" }, ...collection.project],
+    }));
+    setMemoScopes((current) => ({ ...current, [projectId]: "project" }));
+    setPendingMemoId(id);
+  };
+
+  const updateProjectMemo = (memo: ProjectMemo, body: string) => {
+    updateCurrentMemoCollection((collection) => ({
+      ...collection,
+      project: collection.project.map((item) =>
+        item.id === memo.id ? { ...item, body } : item,
+      ),
+    }));
+  };
+
+  const discardEmptyProjectMemo = (memo: ProjectMemo) => {
+    if (memo.id !== pendingMemoId || memo.body.trim()) return;
+    updateCurrentMemoCollection((collection) => ({
+      ...collection,
+      project: collection.project.filter((item) => item.id !== memo.id),
+    }));
+    setPendingMemoId(undefined);
+  };
+
+  const updateFileMemo = (memo: FileMemo, body: string) => {
+    updateCurrentMemoCollection((collection) => ({
+      ...collection,
+      file: collection.file.map((item) =>
+        item.id === memo.id ? { ...item, body } : item,
+      ),
+    }));
+  };
+
+  const updateActiveFileMemo = (body: string) => {
+    updateCurrentMemoCollection((collection) => {
+      const existing = collection.file.find(
+        (memo) => memo.fileId === activeTab.id,
+      );
+      if (existing) {
+        return {
+          ...collection,
+          file: collection.file.map((memo) =>
+            memo.id === existing.id ? { ...memo, body } : memo,
+          ),
+        };
+      }
+      return {
+        ...collection,
+        file: [
+          {
+            id: `file-${activeTab.id}-memo`,
+            fileId: activeTab.id,
+            fileName: activeTab.label,
+            body,
+          },
+          ...collection.file,
+        ],
+      };
+    });
+  };
 
   const persistManuscript = (
     documentId: string,
@@ -431,12 +533,34 @@ export function WorkspaceContent({
           onQueryChange={onSearchQueryChange}
           query={searchQuery}
         />
+      ) : activeTab.id === "memo" ? (
+        <ProjectMemos
+          collection={currentMemoCollection}
+          onAddProjectMemo={addProjectMemo}
+          onFileMemoChange={updateFileMemo}
+          onProjectMemoBlur={discardEmptyProjectMemo}
+          onProjectMemoChange={updateProjectMemo}
+          onScopeChange={(scope) =>
+            setMemoScopes((current) => ({ ...current, [projectId]: scope }))
+          }
+          pendingMemoId={pendingMemoId}
+          projectName={projectName}
+          scope={currentMemoScope}
+        />
       ) : activeTab.isFile && activeTab.icon === "file" ? (
         <FileMemoWorkspace
           aiChatOpen={aiChatOpen}
+          documentId={activeTab.id}
           documentName={activeTab.label}
+          fileMemo={currentFileMemo}
+          onAddProjectMemo={addProjectMemo}
           onClose={closeMemo}
+          onFileMemoChange={updateActiveFileMemo}
+          onProjectMemoBlur={discardEmptyProjectMemo}
+          onProjectMemoChange={updateProjectMemo}
           open={memoOpen}
+          pendingMemoId={pendingMemoId}
+          projectMemos={currentMemoCollection.project}
         >
           <WorkspaceManuscriptEditor
             document={currentManuscript}
@@ -460,9 +584,17 @@ export function WorkspaceContent({
       ) : (
         <FileMemoWorkspace
           aiChatOpen={aiChatOpen}
+          documentId={activeTab.id}
           documentName={activeTab.label}
+          fileMemo={currentFileMemo}
+          onAddProjectMemo={addProjectMemo}
           onClose={closeMemo}
+          onFileMemoChange={updateActiveFileMemo}
+          onProjectMemoBlur={discardEmptyProjectMemo}
+          onProjectMemoChange={updateProjectMemo}
           open={memoOpen && activeTab.isFile}
+          pendingMemoId={pendingMemoId}
+          projectMemos={currentMemoCollection.project}
         >
           <section
             aria-labelledby={`tab-${activeTab.id}`}

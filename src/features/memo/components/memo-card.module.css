@@ -1,0 +1,74 @@
+.wrapper {
+  display: flex;
+  width: 268px;
+  min-width: 0;
+  flex: 0 0 268px;
+  flex-direction: column;
+  gap: var(--lk-space-2);
+}
+
+.wrapper[data-variant="editor"] {
+  width: 100%;
+  flex-basis: auto;
+}
+
+.fileHeader {
+  display: flex;
+  height: 32px;
+  min-width: 0;
+  align-items: center;
+  gap: var(--lk-space-2);
+}
+
+.fileHeader svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+  color: var(--lk-color-icon-default);
+}
+
+.fileHeader strong {
+  min-width: 0;
+  overflow: hidden;
+  flex: 1;
+  font-size: var(--lk-font-size-body);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.editor {
+  display: flex;
+  width: 100%;
+  height: 268px;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--lk-space-2);
+  padding: 14px;
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-raised);
+}
+
+.editor textarea {
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+  resize: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--lk-color-text-primary);
+  font: inherit;
+  font-size: var(--lk-font-size-body);
+  line-height: var(--lk-line-height-context);
+}
+
+.editor:focus-within {
+  border-color: var(--lk-color-accent-primary);
+  box-shadow: 0 0 0 1px var(--lk-color-accent-primary);
+}
+
+.status {
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}
