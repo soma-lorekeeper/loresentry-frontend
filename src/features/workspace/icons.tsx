@@ -5,6 +5,7 @@ export type WorkspaceIconName =
   | "book"
   | "character"
   | "check"
+  | "circle-alert"
   | "chevron"
   | "chevron-left"
   | "chevron-right"
@@ -47,6 +48,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     </>
   ),
   check: <path d="m5 12 4 4L19 6" />,
+  "circle-alert": (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v6M12 17h.01" />
+    </>
+  ),
   chevron: <path d="m8 10 4 4 4-4" />,
   "chevron-left": <path d="m15 18-6-6 6-6" />,
   "chevron-right": <path d="m9 18 6-6-6-6" />,

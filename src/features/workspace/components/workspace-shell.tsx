@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 
 import { AiChatPanel } from "@/features/ai-chat/components/ai-chat-panel";
+import type { MemoSaveInput } from "@/features/memo/memo-model";
 import { projects, type WorkspaceNavItem } from "../workspace-data";
 import { WorkspaceSidebar } from "./workspace-sidebar";
 import type { ManuscriptDocument } from "./workspace-manuscript-editor";
@@ -46,12 +47,14 @@ export interface WorkspaceShellProps {
     documentId: string,
     document: Pick<ManuscriptDocument, "body" | "title">,
   ) => Promise<void>;
+  saveMemo?: (memo: MemoSaveInput) => Promise<void>;
 }
 
 export function WorkspaceShell({
   initialProjectId,
   recentFiles,
   saveManuscript,
+  saveMemo,
 }: WorkspaceShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [selectedId, setSelectedId] = useState("favorite-manuscript-12");
@@ -224,6 +227,7 @@ export function WorkspaceShell({
           projectName={currentProject.name}
           recentFiles={recentFiles}
           saveManuscript={saveManuscript}
+          saveMemo={saveMemo}
           searchQuery={searchQuery}
         />
       </main>

@@ -20,6 +20,8 @@ import {
   initialMemoCollections,
   type FileMemo,
   type MemoCollection,
+  type MemoSaveInput,
+  type MemoSaveStatus,
   type ProjectMemo,
 } from "@/features/memo/memo-model";
 
@@ -321,6 +323,7 @@ interface WorkspaceContentProps {
     documentId: string,
     document: Pick<ManuscriptDocument, "body" | "title">,
   ) => Promise<void>;
+  saveMemo?: (memo: MemoSaveInput) => Promise<void>;
   searchQuery: string;
 }
 
@@ -334,6 +337,7 @@ export function WorkspaceContent({
   projectName,
   recentFiles,
   saveManuscript,
+  saveMemo,
   searchQuery,
 }: WorkspaceContentProps) {
   const [memoOpen, setMemoOpen] = useState(false);
@@ -356,6 +360,13 @@ export function WorkspaceContent({
   const [pendingMemoId, setPendingMemoId] = useState<string>();
   const memoButtonRef = useRef<HTMLButtonElement>(null);
   const memoCounterRef = useRef(0);
+  const memoLatestBodyRef = useRef<Record<string, string>>({});
+  const memoRequestsRef = useRef<
+    Record<string, { inFlight: boolean; queued?: MemoSaveInput }>
+  >({});
+  const memoSaveTimersRef = useRef<
+    Record<string, ReturnType<typeof setTimeout>>
+  >({});
   const lastEditorFocusRef = useRef<Record<string, ManuscriptFocusTarget>>({});
   const saveTimersRef = useRef<Record<string, ReturnType<typeof setTimeout>>>(
     {},
@@ -364,6 +375,7 @@ export function WorkspaceContent({
   useEffect(
     () => () => {
       Object.values(saveTimersRef.current).forEach(clearTimeout);
+      Object.values(memoSaveTimersRef.current).forEach(clearTimeout);
     },
     [],
   );
@@ -397,6 +409,85 @@ export function WorkspaceContent({
     }));
   };
 
+  const setMemoStatus = (
+    targetProjectId: string,
+    memoId: string,
+    saveStatus: MemoSaveStatus,
+  ) => {
+    setMemoCollections((current) => {
+      const collection = current[targetProjectId] ?? emptyMemoCollection();
+      return {
+        ...current,
+        [targetProjectId]: {
+          file: collection.file.map((memo) =>
+            memo.id === memoId ? { ...memo, saveStatus } : memo,
+          ),
+          project: collection.project.map((memo) =>
+            memo.id === memoId ? { ...memo, saveStatus } : memo,
+          ),
+        },
+      };
+    });
+  };
+
+  async function executeMemoSave(input: MemoSaveInput) {
+    if (!saveMemo) return;
+    const requestKey = `${input.projectId}:${input.id}`;
+    const request = (memoRequestsRef.current[requestKey] ??= {
+      inFlight: false,
+    });
+    if (request.inFlight) {
+      request.queued = input;
+      return;
+    }
+    request.inFlight = true;
+    let failed = false;
+    try {
+      await saveMemo(input);
+    } catch {
+      failed = true;
+    }
+
+    const queued = request.queued;
+    request.queued = undefined;
+    request.inFlight = false;
+    if (queued && queued.body !== input.body) {
+      setMemoStatus(input.projectId, input.id, "saving");
+      void executeMemoSave(queued);
+      return;
+    }
+    if (memoLatestBodyRef.current[requestKey] !== input.body) {
+      setMemoStatus(input.projectId, input.id, "saving");
+      return;
+    }
+    setMemoStatus(input.projectId, input.id, failed ? "error" : "saved");
+  }
+
+  const scheduleMemoSave = (input: MemoSaveInput) => {
+    const requestKey = `${input.projectId}:${input.id}`;
+    memoLatestBodyRef.current[requestKey] = input.body;
+    clearTimeout(memoSaveTimersRef.current[requestKey]);
+    if (!saveMemo) {
+      setMemoStatus(input.projectId, input.id, "disconnected");
+      return;
+    }
+    setMemoStatus(input.projectId, input.id, "saving");
+    memoSaveTimersRef.current[requestKey] = setTimeout(() => {
+      delete memoSaveTimersRef.current[requestKey];
+      void executeMemoSave(input);
+    }, 350);
+  };
+
+  const retryMemoSave = (input: MemoSaveInput) => {
+    if (!saveMemo) return;
+    const requestKey = `${input.projectId}:${input.id}`;
+    clearTimeout(memoSaveTimersRef.current[requestKey]);
+    delete memoSaveTimersRef.current[requestKey];
+    memoLatestBodyRef.current[requestKey] = input.body;
+    setMemoStatus(input.projectId, input.id, "saving");
+    void executeMemoSave(input);
+  };
+
   const addProjectMemo = () => {
     memoCounterRef.current += 1;
     const id = `project-${projectId}-draft-${memoCounterRef.current}`;
@@ -415,6 +506,12 @@ export function WorkspaceContent({
         item.id === memo.id ? { ...item, body } : item,
       ),
     }));
+    scheduleMemoSave({
+      body,
+      id: memo.id,
+      projectId,
+      scope: "project",
+    });
   };
 
   const discardEmptyProjectMemo = (memo: ProjectMemo) => {
@@ -433,9 +530,17 @@ export function WorkspaceContent({
         item.id === memo.id ? { ...item, body } : item,
       ),
     }));
+    scheduleMemoSave({
+      body,
+      fileId: memo.fileId,
+      id: memo.id,
+      projectId,
+      scope: "file",
+    });
   };
 
   const updateActiveFileMemo = (body: string) => {
+    const memoId = currentFileMemo?.id ?? `file-${activeTab.id}-memo`;
     updateCurrentMemoCollection((collection) => {
       const existing = collection.file.find(
         (memo) => memo.fileId === activeTab.id,
@@ -461,7 +566,31 @@ export function WorkspaceContent({
         ],
       };
     });
+    scheduleMemoSave({
+      body,
+      fileId: activeTab.id,
+      id: memoId,
+      projectId,
+      scope: "file",
+    });
   };
+
+  const retryProjectMemo = (memo: ProjectMemo) =>
+    retryMemoSave({
+      body: memo.body,
+      id: memo.id,
+      projectId,
+      scope: "project",
+    });
+
+  const retryFileMemo = (memo: FileMemo) =>
+    retryMemoSave({
+      body: memo.body,
+      fileId: memo.fileId,
+      id: memo.id,
+      projectId,
+      scope: "file",
+    });
 
   const persistManuscript = (
     documentId: string,
@@ -538,13 +667,16 @@ export function WorkspaceContent({
           collection={currentMemoCollection}
           onAddProjectMemo={addProjectMemo}
           onFileMemoChange={updateFileMemo}
+          onFileMemoRetry={retryFileMemo}
           onProjectMemoBlur={discardEmptyProjectMemo}
           onProjectMemoChange={updateProjectMemo}
+          onProjectMemoRetry={retryProjectMemo}
           onScopeChange={(scope) =>
             setMemoScopes((current) => ({ ...current, [projectId]: scope }))
           }
           pendingMemoId={pendingMemoId}
           projectName={projectName}
+          saveAvailable={Boolean(saveMemo)}
           scope={currentMemoScope}
         />
       ) : activeTab.isFile && activeTab.icon === "file" ? (
@@ -556,11 +688,16 @@ export function WorkspaceContent({
           onAddProjectMemo={addProjectMemo}
           onClose={closeMemo}
           onFileMemoChange={updateActiveFileMemo}
+          onFileMemoRetry={() => {
+            if (currentFileMemo) retryFileMemo(currentFileMemo);
+          }}
           onProjectMemoBlur={discardEmptyProjectMemo}
           onProjectMemoChange={updateProjectMemo}
+          onProjectMemoRetry={retryProjectMemo}
           open={memoOpen}
           pendingMemoId={pendingMemoId}
           projectMemos={currentMemoCollection.project}
+          saveAvailable={Boolean(saveMemo)}
         >
           <WorkspaceManuscriptEditor
             document={currentManuscript}
@@ -590,11 +727,16 @@ export function WorkspaceContent({
           onAddProjectMemo={addProjectMemo}
           onClose={closeMemo}
           onFileMemoChange={updateActiveFileMemo}
+          onFileMemoRetry={() => {
+            if (currentFileMemo) retryFileMemo(currentFileMemo);
+          }}
           onProjectMemoBlur={discardEmptyProjectMemo}
           onProjectMemoChange={updateProjectMemo}
+          onProjectMemoRetry={retryProjectMemo}
           open={memoOpen && activeTab.isFile}
           pendingMemoId={pendingMemoId}
           projectMemos={currentMemoCollection.project}
+          saveAvailable={Boolean(saveMemo)}
         >
           <section
             aria-labelledby={`tab-${activeTab.id}`}

@@ -1,6 +1,9 @@
+export type MemoSaveStatus = "disconnected" | "error" | "saved" | "saving";
+
 export interface ProjectMemo {
   body: string;
   id: string;
+  saveStatus?: MemoSaveStatus;
 }
 
 export interface FileMemo {
@@ -8,11 +11,20 @@ export interface FileMemo {
   fileId: string;
   fileName: string;
   id: string;
+  saveStatus?: MemoSaveStatus;
 }
 
 export interface MemoCollection {
   file: FileMemo[];
   project: ProjectMemo[];
+}
+
+export interface MemoSaveInput {
+  body: string;
+  fileId?: string;
+  id: string;
+  projectId: string;
+  scope: "file" | "project";
 }
 
 export const initialMemoCollections: Record<string, MemoCollection> = {

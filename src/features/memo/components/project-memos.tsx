@@ -19,11 +19,14 @@ interface ProjectMemosProps {
   collection: MemoCollection;
   onAddProjectMemo: () => void;
   onFileMemoChange: (memo: FileMemo, body: string) => void;
+  onFileMemoRetry: (memo: FileMemo) => void;
   onProjectMemoBlur: (memo: ProjectMemo) => void;
   onProjectMemoChange: (memo: ProjectMemo, body: string) => void;
+  onProjectMemoRetry: (memo: ProjectMemo) => void;
   onScopeChange: (scope: ProjectMemoScope) => void;
   pendingMemoId?: string;
   projectName: string;
+  saveAvailable: boolean;
   scope: ProjectMemoScope;
 }
 
@@ -33,11 +36,14 @@ export function ProjectMemos({
   collection,
   onAddProjectMemo,
   onFileMemoChange,
+  onFileMemoRetry,
   onProjectMemoBlur,
   onProjectMemoChange,
+  onProjectMemoRetry,
   onScopeChange,
   pendingMemoId,
   projectName,
+  saveAvailable,
   scope,
 }: ProjectMemosProps) {
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -143,7 +149,11 @@ export function ProjectMemos({
               label={`프로젝트 메모 ${index + 1}`}
               onBlur={() => onProjectMemoBlur(memo)}
               onChange={(body) => onProjectMemoChange(memo, body)}
+              onRetry={() => onProjectMemoRetry(memo)}
               ref={memo.id === pendingMemoId ? pendingInputRef : undefined}
+              saveStatus={
+                memo.saveStatus ?? (saveAvailable ? "saved" : "disconnected")
+              }
               variant="project"
             />
           ))
@@ -170,6 +180,10 @@ export function ProjectMemos({
               key={memo.id}
               label={`${memo.fileName} 파일 메모`}
               onChange={(body) => onFileMemoChange(memo, body)}
+              onRetry={() => onFileMemoRetry(memo)}
+              saveStatus={
+                memo.saveStatus ?? (saveAvailable ? "saved" : "disconnected")
+              }
               variant="file"
             />
           ))

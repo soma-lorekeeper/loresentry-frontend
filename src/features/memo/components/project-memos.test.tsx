@@ -1,7 +1,8 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
+import type { MemoSaveInput } from "@/features/memo/memo-model";
 import { WorkspaceShell } from "@/features/workspace/components/workspace-shell";
 
 function openMemoScreen() {
@@ -98,5 +99,72 @@ describe("Project and file memo cards", () => {
     await waitFor(() =>
       expect(screen.getAllByRole("textbox")).toHaveLength(before),
     );
+  });
+
+  it("queues the latest edit while one save request is in flight", async () => {
+    const user = userEvent.setup();
+    const resolvers: Array<() => void> = [];
+    const saveMemo = vi.fn<(memo: MemoSaveInput) => Promise<void>>(
+      () =>
+        new Promise<void>((resolve) => {
+          resolvers.push(resolve);
+        }),
+    );
+    render(
+      <WorkspaceShell initialProjectId="glass-garden" saveMemo={saveMemo} />,
+    );
+
+    await user.click(openMemoScreen());
+    const card = screen.getByRole("article", { name: "프로젝트 메모 1" });
+    const input = within(card).getByRole("textbox");
+    await user.type(input, " 첫 저장");
+    expect(within(card).getByRole("status")).toHaveTextContent("저장 중…");
+    await waitFor(() => expect(saveMemo).toHaveBeenCalledTimes(1), {
+      timeout: 1_000,
+    });
+
+    await user.type(input, " 최신 내용");
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    expect(saveMemo).toHaveBeenCalledTimes(1);
+    expect(input).not.toBeDisabled();
+
+    resolvers[0]?.();
+    await waitFor(() => expect(saveMemo).toHaveBeenCalledTimes(2));
+    expect(saveMemo.mock.calls[1]?.[0].body).toContain("최신 내용");
+    resolvers[1]?.();
+    await waitFor(() =>
+      expect(within(card).getByRole("status")).toHaveTextContent("저장됨"),
+    );
+  });
+
+  it("keeps failed input and retries the same latest memo", async () => {
+    const user = userEvent.setup();
+    const saveMemo = vi
+      .fn()
+      .mockRejectedValueOnce(new Error("offline"))
+      .mockResolvedValue(undefined);
+    render(
+      <WorkspaceShell initialProjectId="glass-garden" saveMemo={saveMemo} />,
+    );
+
+    await user.click(openMemoScreen());
+    const card = screen.getByRole("article", { name: "프로젝트 메모 1" });
+    const input = within(card).getByRole("textbox");
+    await user.type(input, " 실패해도 유지");
+    await waitFor(
+      () =>
+        expect(within(card).getByRole("status")).toHaveTextContent(
+          "저장하지 못했습니다",
+        ),
+      { timeout: 1_500 },
+    );
+    expect((input as HTMLTextAreaElement).value).toContain("실패해도 유지");
+
+    await user.click(within(card).getByRole("button", { name: "다시 시도" }));
+    await waitFor(() =>
+      expect(within(card).getByRole("status")).toHaveTextContent("저장됨"),
+    );
+    expect(saveMemo).toHaveBeenCalledTimes(2);
+    expect(saveMemo.mock.calls[1]?.[0].body).toContain("실패해도 유지");
   });
 });

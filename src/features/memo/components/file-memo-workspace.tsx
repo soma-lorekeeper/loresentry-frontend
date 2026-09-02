@@ -28,11 +28,14 @@ interface FileMemoWorkspaceProps {
   onAddProjectMemo: () => void;
   onClose: () => void;
   onFileMemoChange: (body: string) => void;
+  onFileMemoRetry: () => void;
   onProjectMemoBlur: (memo: ProjectMemo) => void;
   onProjectMemoChange: (memo: ProjectMemo, body: string) => void;
+  onProjectMemoRetry: (memo: ProjectMemo) => void;
   open: boolean;
   pendingMemoId?: string;
   projectMemos: ProjectMemo[];
+  saveAvailable: boolean;
 }
 
 export function FileMemoWorkspace({
@@ -44,11 +47,14 @@ export function FileMemoWorkspace({
   onAddProjectMemo,
   onClose,
   onFileMemoChange,
+  onFileMemoRetry,
   onProjectMemoBlur,
   onProjectMemoChange,
+  onProjectMemoRetry,
   open,
   pendingMemoId,
   projectMemos,
+  saveAvailable,
 }: FileMemoWorkspaceProps) {
   const [placement, setPlacement] = useState<MemoPlacement>("right");
   const [scope, setScope] = useState<MemoScope>("work");
@@ -226,7 +232,11 @@ export function FileMemoWorkspace({
                 label={`프로젝트 메모 ${index + 1}`}
                 onBlur={() => onProjectMemoBlur(memo)}
                 onChange={(body) => onProjectMemoChange(memo, body)}
+                onRetry={() => onProjectMemoRetry(memo)}
                 ref={memo.id === pendingMemoId ? pendingInputRef : undefined}
+                saveStatus={
+                  memo.saveStatus ?? (saveAvailable ? "saved" : "disconnected")
+                }
                 variant="project"
               />
             ))}
@@ -246,6 +256,11 @@ export function FileMemoWorkspace({
               body={fileMemo?.body ?? ""}
               label={`${documentName} 원고 메모`}
               onChange={onFileMemoChange}
+              onRetry={onFileMemoRetry}
+              saveStatus={
+                fileMemo?.saveStatus ??
+                (saveAvailable ? "saved" : "disconnected")
+              }
               variant="editor"
             />
             <span className={styles.srOnly}>
