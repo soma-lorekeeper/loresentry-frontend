@@ -18,11 +18,17 @@ export type ProjectMemoScope = "file" | "project";
 interface ProjectMemosProps {
   collection: MemoCollection;
   onAddProjectMemo: () => void;
+  onDeleteRequest: (
+    memo: FileMemo | ProjectMemo,
+    scope: ProjectMemoScope,
+    returnFocus: HTMLElement,
+  ) => void;
   onFileMemoChange: (memo: FileMemo, body: string) => void;
   onFileMemoRetry: (memo: FileMemo) => void;
   onProjectMemoBlur: (memo: ProjectMemo) => void;
   onProjectMemoChange: (memo: ProjectMemo, body: string) => void;
   onProjectMemoRetry: (memo: ProjectMemo) => void;
+  onOpenFile: (memo: FileMemo) => void;
   onScopeChange: (scope: ProjectMemoScope) => void;
   pendingMemoId?: string;
   projectName: string;
@@ -35,11 +41,13 @@ const scopes: ProjectMemoScope[] = ["project", "file"];
 export function ProjectMemos({
   collection,
   onAddProjectMemo,
+  onDeleteRequest,
   onFileMemoChange,
   onFileMemoRetry,
   onProjectMemoBlur,
   onProjectMemoChange,
   onProjectMemoRetry,
+  onOpenFile,
   onScopeChange,
   pendingMemoId,
   projectName,
@@ -94,6 +102,7 @@ export function ProjectMemos({
           {scope === "project" && (
             <IconButton
               aria-label="프로젝트 메모 추가"
+              data-add-project-memo
               onClick={onAddProjectMemo}
             >
               <WorkspaceIcon name="plus" />
@@ -147,8 +156,12 @@ export function ProjectMemos({
               body={memo.body}
               key={memo.id}
               label={`프로젝트 메모 ${index + 1}`}
+              memoId={memo.id}
               onBlur={() => onProjectMemoBlur(memo)}
               onChange={(body) => onProjectMemoChange(memo, body)}
+              onDeleteRequest={(returnFocus) =>
+                onDeleteRequest(memo, "project", returnFocus)
+              }
               onRetry={() => onProjectMemoRetry(memo)}
               ref={memo.id === pendingMemoId ? pendingInputRef : undefined}
               saveStatus={
@@ -179,7 +192,12 @@ export function ProjectMemos({
               fileName={memo.fileName}
               key={memo.id}
               label={`${memo.fileName} 파일 메모`}
+              memoId={memo.id}
               onChange={(body) => onFileMemoChange(memo, body)}
+              onDeleteRequest={(returnFocus) =>
+                onDeleteRequest(memo, "file", returnFocus)
+              }
+              onOpenFile={() => onOpenFile(memo)}
               onRetry={() => onFileMemoRetry(memo)}
               saveStatus={
                 memo.saveStatus ?? (saveAvailable ? "saved" : "disconnected")

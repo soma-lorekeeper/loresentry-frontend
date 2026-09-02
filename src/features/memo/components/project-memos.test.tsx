@@ -167,4 +167,118 @@ describe("Project and file memo cards", () => {
     expect(saveMemo).toHaveBeenCalledTimes(2);
     expect(saveMemo.mock.calls[1]?.[0].body).toContain("실패해도 유지");
   });
+
+  it("keeps a memo when deletion is disconnected and restores menu focus", async () => {
+    const user = userEvent.setup();
+    render(<WorkspaceShell initialProjectId="glass-garden" />);
+
+    await user.click(openMemoScreen());
+    const more = screen.getByRole("button", {
+      name: "프로젝트 메모 1 더보기",
+    });
+    await user.click(more);
+    await user.click(screen.getByRole("menuitem", { name: "삭제" }));
+    const dialog = screen.getByRole("dialog", { name: "메모를 삭제할까요?" });
+    await waitFor(() =>
+      expect(
+        within(dialog).getByRole("button", { name: "취소" }),
+      ).toHaveFocus(),
+    );
+
+    await user.click(within(dialog).getByRole("button", { name: "메모 삭제" }));
+    expect(within(dialog).getByRole("alert")).toHaveTextContent(
+      "백엔드 삭제 기능이 연결되지 않았습니다",
+    );
+    expect(
+      screen.getByRole("article", { name: "프로젝트 메모 1" }),
+    ).toBeInTheDocument();
+
+    await user.click(within(dialog).getByRole("button", { name: "취소" }));
+    await waitFor(() => expect(more).toHaveFocus());
+  });
+
+  it("removes a confirmed memo and focuses the next card", async () => {
+    const user = userEvent.setup();
+    const deleteMemo = vi.fn().mockResolvedValue(undefined);
+    render(
+      <WorkspaceShell
+        deleteMemo={deleteMemo}
+        initialProjectId="glass-garden"
+      />,
+    );
+
+    await user.click(openMemoScreen());
+    expect(screen.getAllByRole("article")).toHaveLength(3);
+    await user.click(
+      screen.getByRole("button", { name: "프로젝트 메모 1 더보기" }),
+    );
+    await user.click(screen.getByRole("menuitem", { name: "삭제" }));
+    await user.click(screen.getByRole("button", { name: "메모 삭제" }));
+
+    await waitFor(() => expect(deleteMemo).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(screen.getAllByRole("article")).toHaveLength(2));
+    expect(deleteMemo).toHaveBeenCalledWith({
+      fileId: undefined,
+      id: "project-memory-direction",
+      projectId: "glass-garden",
+      scope: "project",
+    });
+    await waitFor(() =>
+      expect(
+        screen.getByRole("textbox", { name: "프로젝트 메모 1 본문" }),
+      ).toHaveFocus(),
+    );
+  });
+
+  it("retries a failed memo deletion without removing the card early", async () => {
+    const user = userEvent.setup();
+    const deleteMemo = vi
+      .fn()
+      .mockRejectedValueOnce(new Error("offline"))
+      .mockResolvedValue(undefined);
+    render(
+      <WorkspaceShell
+        deleteMemo={deleteMemo}
+        initialProjectId="glass-garden"
+      />,
+    );
+
+    await user.click(openMemoScreen());
+    await user.click(
+      screen.getByRole("button", { name: "프로젝트 메모 1 더보기" }),
+    );
+    await user.click(screen.getByRole("menuitem", { name: "삭제" }));
+    await user.click(screen.getByRole("button", { name: "메모 삭제" }));
+    const dialog = screen.getByRole("dialog", { name: "메모를 삭제할까요?" });
+    await waitFor(() =>
+      expect(within(dialog).getByRole("alert")).toHaveTextContent(
+        "메모를 삭제하지 못했습니다",
+      ),
+    );
+    expect(screen.getAllByRole("article")).toHaveLength(3);
+
+    await user.click(within(dialog).getByRole("button", { name: "다시 시도" }));
+    await waitFor(() => expect(screen.getAllByRole("article")).toHaveLength(2));
+    expect(deleteMemo).toHaveBeenCalledTimes(2);
+  });
+
+  it("opens the source file from a file memo keyboard menu", async () => {
+    const user = userEvent.setup();
+    render(<WorkspaceShell initialProjectId="glass-garden" />);
+
+    await user.click(openMemoScreen());
+    await user.click(screen.getByRole("tab", { name: "파일 메모" }));
+    const more = screen.getByRole("button", {
+      name: "12화 · 균열의 밤 파일 메모 더보기",
+    });
+    more.focus();
+    await user.keyboard("{ArrowDown}");
+    const openFile = screen.getByRole("menuitem", { name: "파일로 이동" });
+    await waitFor(() => expect(openFile).toHaveFocus());
+    await user.keyboard("{Enter}");
+
+    expect(
+      screen.getByRole("tab", { name: "12화 · 균열의 밤" }),
+    ).toHaveAttribute("aria-selected", "true");
+  });
 });

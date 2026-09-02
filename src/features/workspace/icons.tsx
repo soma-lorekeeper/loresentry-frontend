@@ -12,6 +12,7 @@ export type WorkspaceIconName =
   | "close"
   | "download"
   | "ellipsis"
+  | "external-link"
   | "file"
   | "folder"
   | "graph"
@@ -68,6 +69,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
       <circle cx="5" cy="12" r="1" fill="currentColor" stroke="none" />
       <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
       <circle cx="19" cy="12" r="1" fill="currentColor" stroke="none" />
+    </>
+  ),
+  "external-link": (
+    <>
+      <path d="M14 4h6v6M13 11l7-7" />
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
     </>
   ),
   file: (

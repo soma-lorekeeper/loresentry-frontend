@@ -37,6 +37,7 @@
 }
 
 .editor {
+  position: relative;
   display: flex;
   width: 100%;
   height: 268px;
@@ -53,6 +54,7 @@
   width: 100%;
   min-height: 0;
   flex: 1;
+  padding: 32px 0 0;
   resize: none;
   border: 0;
   outline: 0;
@@ -61,6 +63,47 @@
   font: inherit;
   font-size: var(--lk-font-size-body);
   line-height: var(--lk-line-height-context);
+}
+
+.menuControl {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.wrapper[data-variant="file"] .menuControl {
+  top: -42px;
+  right: 0;
+}
+
+.menuControl > button {
+  width: 32px;
+  min-height: 32px;
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+}
+
+.menuControl > button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.menuItemContent {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+}
+
+.menuItemContent svg {
+  width: 15px;
+  height: 15px;
+}
+
+.menuSeparator {
+  width: 100%;
+  height: 1px;
+  background: var(--lk-color-border-default);
 }
 
 .editor:focus-within {

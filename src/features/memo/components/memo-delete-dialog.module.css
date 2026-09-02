@@ -1,0 +1,26 @@
+.dialog {
+  gap: var(--lk-space-5);
+}
+
+.preview {
+  display: -webkit-box;
+  min-height: 44px;
+  padding: var(--lk-space-3);
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-default);
+  color: var(--lk-color-text-primary);
+  font-size: var(--lk-font-size-body);
+  font-weight: 600;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.error {
+  margin: 0;
+  color: var(--lk-color-text-primary);
+  font-size: var(--lk-font-size-label);
+  line-height: var(--lk-line-height-body);
+}

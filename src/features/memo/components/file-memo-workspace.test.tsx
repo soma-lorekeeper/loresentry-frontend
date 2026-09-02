@@ -1,4 +1,10 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
@@ -87,5 +93,45 @@ describe("File memo panel placement", () => {
         "true",
       ),
     );
+  });
+
+  it("resizes with pointer input and keeps the editor content", async () => {
+    const user = userEvent.setup();
+    render(<WorkspaceShell initialProjectId="glass-garden" />);
+
+    const body = screen.getByRole("textbox", { name: "원고 본문" });
+    await user.type(body, " 포인터 중에도 유지");
+    await user.click(
+      within(screen.getByRole("banner", { name: "파일 도구" })).getByRole(
+        "button",
+        { name: "메모" },
+      ),
+    );
+    const handle = screen.getByRole("separator", {
+      name: "메모 패널 너비 조절, 현재 360픽셀",
+    });
+    fireEvent.pointerDown(handle, { clientX: 600, pointerId: 1 });
+    fireEvent.pointerMove(handle, { clientX: 560, pointerId: 1 });
+    fireEvent.pointerUp(handle, { clientX: 560, pointerId: 1 });
+
+    expect(
+      screen.getByRole("separator", {
+        name: "메모 패널 너비 조절, 현재 400픽셀",
+      }),
+    ).toBeInTheDocument();
+    expect((body as HTMLTextAreaElement).value).toContain("포인터 중에도 유지");
+
+    await user.click(screen.getByRole("button", { name: "아래" }));
+    const horizontalHandle = screen.getByRole("separator", {
+      name: "메모 패널 높이 조절, 현재 300픽셀",
+    });
+    fireEvent.pointerDown(horizontalHandle, { clientY: 600, pointerId: 2 });
+    fireEvent.pointerMove(horizontalHandle, { clientY: 560, pointerId: 2 });
+    fireEvent.pointerUp(horizontalHandle, { clientY: 560, pointerId: 2 });
+    expect(
+      screen.getByRole("separator", {
+        name: "메모 패널 높이 조절, 현재 340픽셀",
+      }),
+    ).toBeInTheDocument();
   });
 });

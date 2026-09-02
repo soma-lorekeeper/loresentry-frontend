@@ -11,6 +11,7 @@ import {
 
 import { Button, IconButton, StatusNotice } from "@/components/ui";
 import { FileMemoWorkspace } from "@/features/memo/components/file-memo-workspace";
+import { MemoDeleteDialog } from "@/features/memo/components/memo-delete-dialog";
 import {
   ProjectMemos,
   type ProjectMemoScope,
@@ -19,6 +20,8 @@ import {
   emptyMemoCollection,
   initialMemoCollections,
   type FileMemo,
+  type MemoDeleteInput,
+  type MemoDeleteTarget,
   type MemoCollection,
   type MemoSaveInput,
   type MemoSaveStatus,
@@ -313,6 +316,7 @@ export function FileHeader({
 interface WorkspaceContentProps {
   activeTab: WorkspaceTab;
   aiChatOpen: boolean;
+  deleteMemo?: (memo: MemoDeleteInput) => Promise<void>;
   onCreateFile: (fileType: string, icon: WorkspaceIconName) => void;
   onOpenSearchResult: (item: WorkspaceNavItem) => void;
   onSearchQueryChange: (query: string) => void;
@@ -330,6 +334,7 @@ interface WorkspaceContentProps {
 export function WorkspaceContent({
   activeTab,
   aiChatOpen,
+  deleteMemo,
   onCreateFile,
   onOpenSearchResult,
   onSearchQueryChange,
@@ -358,6 +363,7 @@ export function WorkspaceContent({
     Record<string, ProjectMemoScope>
   >({});
   const [pendingMemoId, setPendingMemoId] = useState<string>();
+  const [deleteTarget, setDeleteTarget] = useState<MemoDeleteTarget>();
   const memoButtonRef = useRef<HTMLButtonElement>(null);
   const memoCounterRef = useRef(0);
   const memoLatestBodyRef = useRef<Record<string, string>>({});
@@ -592,6 +598,79 @@ export function WorkspaceContent({
       scope: "file",
     });
 
+  const requestMemoDelete = (
+    memo: FileMemo | ProjectMemo,
+    scope: "file" | "project",
+    returnFocus: HTMLElement,
+  ) => {
+    setDeleteTarget({
+      body: memo.body,
+      input: {
+        fileId: "fileId" in memo ? memo.fileId : undefined,
+        id: memo.id,
+        projectId,
+        scope,
+      },
+      label: "fileName" in memo ? memo.fileName : "프로젝트 메모",
+      returnFocus,
+    });
+  };
+
+  const finishMemoDelete = (target: MemoDeleteTarget) => {
+    const collection =
+      memoCollections[target.input.projectId] ?? emptyMemoCollection();
+    const list =
+      target.input.scope === "project" ? collection.project : collection.file;
+    const deletedIndex = list.findIndex((memo) => memo.id === target.input.id);
+    const nextMemo = list[deletedIndex + 1] ?? list[deletedIndex - 1];
+    setMemoCollections((current) => {
+      const currentCollection =
+        current[target.input.projectId] ?? emptyMemoCollection();
+      return {
+        ...current,
+        [target.input.projectId]: {
+          file: currentCollection.file.filter(
+            (memo) => memo.id !== target.input.id,
+          ),
+          project: currentCollection.project.filter(
+            (memo) => memo.id !== target.input.id,
+          ),
+        },
+      };
+    });
+    const requestKey = `${target.input.projectId}:${target.input.id}`;
+    clearTimeout(memoSaveTimersRef.current[requestKey]);
+    delete memoSaveTimersRef.current[requestKey];
+    delete memoLatestBodyRef.current[requestKey];
+    delete memoRequestsRef.current[requestKey];
+    setDeleteTarget(undefined);
+    requestAnimationFrame(() => {
+      const nextInput = nextMemo
+        ? document.querySelector<HTMLTextAreaElement>(
+            `[data-memo-id="${nextMemo.id}"] textarea`,
+          )
+        : undefined;
+      nextInput?.focus();
+      if (nextInput) return;
+      const fallback =
+        document.querySelector<HTMLElement>("[data-add-project-memo]") ??
+        document.querySelector<HTMLElement>(
+          '[role="tab"][aria-selected="true"]',
+        );
+      fallback?.focus();
+    });
+  };
+
+  const openMemoFile = (memo: FileMemo) => {
+    onOpenSearchResult({
+      contentId: memo.fileId,
+      icon: "file",
+      id: memo.fileId,
+      kind: "file",
+      label: memo.fileName,
+    });
+  };
+
   const persistManuscript = (
     documentId: string,
     document: ManuscriptDocument,
@@ -666,11 +745,13 @@ export function WorkspaceContent({
         <ProjectMemos
           collection={currentMemoCollection}
           onAddProjectMemo={addProjectMemo}
+          onDeleteRequest={requestMemoDelete}
           onFileMemoChange={updateFileMemo}
           onFileMemoRetry={retryFileMemo}
           onProjectMemoBlur={discardEmptyProjectMemo}
           onProjectMemoChange={updateProjectMemo}
           onProjectMemoRetry={retryProjectMemo}
+          onOpenFile={openMemoFile}
           onScopeChange={(scope) =>
             setMemoScopes((current) => ({ ...current, [projectId]: scope }))
           }
@@ -687,6 +768,7 @@ export function WorkspaceContent({
           fileMemo={currentFileMemo}
           onAddProjectMemo={addProjectMemo}
           onClose={closeMemo}
+          onDeleteRequest={requestMemoDelete}
           onFileMemoChange={updateActiveFileMemo}
           onFileMemoRetry={() => {
             if (currentFileMemo) retryFileMemo(currentFileMemo);
@@ -726,6 +808,7 @@ export function WorkspaceContent({
           fileMemo={currentFileMemo}
           onAddProjectMemo={addProjectMemo}
           onClose={closeMemo}
+          onDeleteRequest={requestMemoDelete}
           onFileMemoChange={updateActiveFileMemo}
           onFileMemoRetry={() => {
             if (currentFileMemo) retryFileMemo(currentFileMemo);
@@ -759,6 +842,13 @@ export function WorkspaceContent({
           </section>
         </FileMemoWorkspace>
       )}
+      <MemoDeleteDialog
+        deleteMemo={deleteMemo}
+        key={deleteTarget?.input.id ?? "closed"}
+        onClose={() => setDeleteTarget(undefined)}
+        onDeleted={finishMemoDelete}
+        target={deleteTarget}
+      />
     </div>
   );
 }

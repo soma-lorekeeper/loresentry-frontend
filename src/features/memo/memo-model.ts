@@ -27,6 +27,20 @@ export interface MemoSaveInput {
   scope: "file" | "project";
 }
 
+export interface MemoDeleteInput {
+  fileId?: string;
+  id: string;
+  projectId: string;
+  scope: "file" | "project";
+}
+
+export interface MemoDeleteTarget {
+  body: string;
+  input: MemoDeleteInput;
+  label: string;
+  returnFocus: HTMLElement;
+}
+
 export const initialMemoCollections: Record<string, MemoCollection> = {
   "glass-garden": {
     project: [
