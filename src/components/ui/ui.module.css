@@ -260,6 +260,11 @@
   box-shadow: 0 4px 16px #00000055;
 }
 
+.menuRoot[data-placement="start"] .menu {
+  right: auto;
+  left: 0;
+}
+
 .menuItem {
   display: flex;
   width: 100%;

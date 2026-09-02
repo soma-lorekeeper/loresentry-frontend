@@ -31,6 +31,8 @@ export interface MenuProps {
   buttonLabel: string;
   children: ReactNode;
   className?: string;
+  placement?: "start" | "end";
+  triggerClassName?: string;
 }
 
 export function Menu({
@@ -38,6 +40,8 @@ export function Menu({
   buttonLabel,
   children,
   className,
+  placement = "end",
+  triggerClassName,
 }: MenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const initialFocus = useRef<NavigationIntent>("first");
@@ -100,13 +104,17 @@ export function Menu({
   };
 
   return (
-    <div className={classNames(styles.menuRoot, className)} ref={rootRef}>
+    <div
+      className={classNames(styles.menuRoot, className)}
+      data-placement={placement}
+      ref={rootRef}
+    >
       <button
         aria-controls={isOpen ? menuId : undefined}
         aria-expanded={isOpen}
         aria-haspopup="menu"
         aria-label={buttonLabel}
-        className={styles.button}
+        className={classNames(styles.button, triggerClassName)}
         onClick={() => (isOpen ? close() : open())}
         onKeyDown={handleTriggerKeyDown}
         ref={triggerRef}
