@@ -11,6 +11,8 @@ import {
 import { Button, IconButton, StatusNotice } from "@/components/ui";
 
 import { WorkspaceIcon, type WorkspaceIconName } from "../icons";
+import type { WorkspaceNavItem } from "../workspace-data";
+import { WorkspaceSearch } from "./workspace-search";
 import styles from "./workspace.module.css";
 
 export interface WorkspaceTab {
@@ -50,6 +52,20 @@ export function WorkspaceTabBar({
   const viewportRef = useRef<HTMLDivElement>(null);
   const showOverflowControls = tabs.length > 3;
 
+  const closeAndFocus = (tabId: string) => {
+    const closingIndex = tabs.findIndex((tab) => tab.id === tabId);
+    const remaining = tabs.filter((tab) => tab.id !== tabId);
+    const focusId =
+      tabId === activeTabId
+        ? (remaining[Math.min(closingIndex, remaining.length - 1)]?.id ??
+          "new-tab")
+        : activeTabId;
+    onClose(tabId);
+    requestAnimationFrame(() =>
+      document.getElementById(`tab-${focusId}`)?.focus(),
+    );
+  };
+
   const focusTab = (index: number) => {
     const tab = tabs[(index + tabs.length) % tabs.length];
     if (!tab) return;
@@ -88,7 +104,7 @@ export function WorkspaceTabBar({
       focusTab(tabs.length - 1);
     } else if (event.key === "Delete" && tabs[index]?.closable !== false) {
       event.preventDefault();
-      onClose(tabId);
+      closeAndFocus(tabId);
     }
   };
 
@@ -117,13 +133,17 @@ export function WorkspaceTabBar({
             const active = tab.id === activeTabId;
             const dragging = tab.id === draggingId;
             return (
-              <div
+              <button
+                aria-controls={`panel-${tab.id}`}
+                aria-selected={active}
                 className={styles.documentTab}
                 data-active={active || undefined}
                 data-dragging={dragging || undefined}
                 data-new-tab={tab.id === "new-tab" || undefined}
                 draggable
+                id={`tab-${tab.id}`}
                 key={tab.id}
+                onClick={() => onActiveChange(tab.id)}
                 onDragEnd={() => setDraggingId(null)}
                 onDragOver={(event) => event.preventDefault()}
                 onDragStart={(event) => {
@@ -131,34 +151,36 @@ export function WorkspaceTabBar({
                   setDraggingId(tab.id);
                 }}
                 onDrop={(event) => handleDrop(event, tab.id)}
+                onKeyDown={(event) => handleKeyDown(event, index, tab.id)}
+                role="tab"
+                tabIndex={active ? 0 : -1}
+                type="button"
               >
-                <button
-                  aria-controls={`panel-${tab.id}`}
-                  aria-selected={active}
-                  className={styles.tabSelect}
-                  id={`tab-${tab.id}`}
-                  onClick={() => onActiveChange(tab.id)}
-                  onKeyDown={(event) => handleKeyDown(event, index, tab.id)}
-                  role="tab"
-                  tabIndex={active ? 0 : -1}
-                  type="button"
-                >
-                  <WorkspaceIcon name={dragging ? "grip" : tab.icon} />
-                  <span>{tab.label}</span>
-                </button>
-                {tab.closable !== false && (
-                  <button
-                    aria-label={`${tab.label} 탭 닫기`}
-                    className={styles.tabClose}
-                    onClick={() => onClose(tab.id)}
-                    type="button"
-                  >
-                    <WorkspaceIcon name="close" />
-                  </button>
-                )}
-              </div>
+                <WorkspaceIcon name={dragging ? "grip" : tab.icon} />
+                <span>{tab.label}</span>
+              </button>
             );
           })}
+        </div>
+        <div className={styles.tabCloseTrack}>
+          {tabs.map((tab) => (
+            <span
+              className={styles.tabCloseSlot}
+              data-new-tab={tab.id === "new-tab" || undefined}
+              key={tab.id}
+            >
+              {tab.closable !== false && (
+                <button
+                  aria-label={`${tab.label} 탭 닫기`}
+                  className={styles.tabClose}
+                  onClick={() => closeAndFocus(tab.id)}
+                  type="button"
+                >
+                  <WorkspaceIcon name="close" />
+                </button>
+              )}
+            </span>
+          ))}
         </div>
       </div>
 
@@ -261,9 +283,17 @@ export function FileHeader({
 
 interface WorkspaceContentProps {
   activeTab: WorkspaceTab;
+  onOpenSearchResult: (item: WorkspaceNavItem) => void;
+  onSearchQueryChange: (query: string) => void;
+  searchQuery: string;
 }
 
-export function WorkspaceContent({ activeTab }: WorkspaceContentProps) {
+export function WorkspaceContent({
+  activeTab,
+  onOpenSearchResult,
+  onSearchQueryChange,
+  searchQuery,
+}: WorkspaceContentProps) {
   const [memoOpen, setMemoOpen] = useState(false);
   const [locked, setLocked] = useState(false);
   const [announcement, setAnnouncement] = useState("");
@@ -291,40 +321,49 @@ export function WorkspaceContent({ activeTab }: WorkspaceContentProps) {
           onMemoToggle={() => setMemoOpen((value) => !value)}
         />
       )}
-      <div className={styles.documentLayout}>
-        <section
-          aria-labelledby={`tab-${activeTab.id}`}
-          className={styles.workspaceCanvas}
-          id={`panel-${activeTab.id}`}
-          role="tabpanel"
-        >
-          <div className={styles.canvasCopy}>
-            <span className={styles.eyebrow}>
-              {activeTab.isFile ? "문서" : "Workspace"}
-            </span>
-            <h1>{activeTab.label}</h1>
-            <p>
-              선택한 탭의 작업 문맥입니다. 탭은 키보드로 이동·닫기·재정렬할 수
-              있으며 파일 도구의 상태는 현재 문서에 유지됩니다.
-            </p>
-            {announcement && <StatusNotice>{announcement}</StatusNotice>}
-          </div>
-        </section>
-        {memoOpen && activeTab.isFile && (
-          <aside
-            aria-label={`${activeTab.label} 메모`}
-            className={styles.memoPanel}
+      {activeTab.id === "search" ? (
+        <WorkspaceSearch
+          onOpenResult={onOpenSearchResult}
+          onQueryChange={onSearchQueryChange}
+          query={searchQuery}
+        />
+      ) : (
+        <div className={styles.documentLayout}>
+          <section
+            aria-labelledby={`tab-${activeTab.id}`}
+            className={styles.workspaceCanvas}
+            id={`panel-${activeTab.id}`}
+            role="tabpanel"
+            tabIndex={-1}
           >
-            <div className={styles.memoPanelHeader}>
-              <strong>파일 메모</strong>
-              <IconButton aria-label="파일 메모 닫기" onClick={closeMemo}>
-                <WorkspaceIcon name="close" />
-              </IconButton>
+            <div className={styles.canvasCopy}>
+              <span className={styles.eyebrow}>
+                {activeTab.isFile ? "문서" : "Workspace"}
+              </span>
+              <h1>{activeTab.label}</h1>
+              <p>
+                선택한 탭의 작업 문맥입니다. 탭은 키보드로 이동·닫기·재정렬할 수
+                있으며 파일 도구의 상태는 현재 문서에 유지됩니다.
+              </p>
+              {announcement && <StatusNotice>{announcement}</StatusNotice>}
             </div>
-            <p>이 문서에서 이어서 기록할 메모를 표시합니다.</p>
-          </aside>
-        )}
-      </div>
+          </section>
+          {memoOpen && activeTab.isFile && (
+            <aside
+              aria-label={`${activeTab.label} 메모`}
+              className={styles.memoPanel}
+            >
+              <div className={styles.memoPanelHeader}>
+                <strong>파일 메모</strong>
+                <IconButton aria-label="파일 메모 닫기" onClick={closeMemo}>
+                  <WorkspaceIcon name="close" />
+                </IconButton>
+              </div>
+              <p>이 문서에서 이어서 기록할 메모를 표시합니다.</p>
+            </aside>
+          )}
+        </div>
+      )}
     </div>
   );
 }

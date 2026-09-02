@@ -36,6 +36,9 @@ describe("Workspace tabs and file header", () => {
       "aria-selected",
       "true",
     );
+    await waitFor(() =>
+      expect(screen.getByRole("tab", { name: "새 탭" })).toHaveFocus(),
+    );
     expect(
       screen.queryByRole("button", { name: "새 탭 탭 닫기" }),
     ).not.toBeInTheDocument();

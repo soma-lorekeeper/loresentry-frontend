@@ -46,6 +46,7 @@ export function WorkspaceShell({ initialProjectId }: WorkspaceShellProps) {
   const [tabs, setTabs] = useState(initialTabs);
   const [activeTabId, setActiveTabId] = useState(initialTabs[0].id);
   const [aiChatOpen, setAiChatOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentProject, setCurrentProject] = useState(
     projects.find((project) => project.id === initialProjectId) ?? projects[0],
   );
@@ -143,6 +144,13 @@ export function WorkspaceShell({ initialProjectId }: WorkspaceShellProps) {
     );
   };
 
+  const openSearchResult = (item: WorkspaceNavItem) => {
+    selectTarget(item);
+    requestAnimationFrame(() =>
+      document.getElementById(`panel-${item.contentId ?? item.id}`)?.focus(),
+    );
+  };
+
   const activeTab = tabs.find((tab) => tab.id === activeTabId) ?? tabs[0];
 
   return (
@@ -175,7 +183,12 @@ export function WorkspaceShell({ initialProjectId }: WorkspaceShellProps) {
           sidebarOpen={sidebarOpen}
           tabs={tabs}
         />
-        <WorkspaceContent activeTab={activeTab} />
+        <WorkspaceContent
+          activeTab={activeTab}
+          onOpenSearchResult={openSearchResult}
+          onSearchQueryChange={setSearchQuery}
+          searchQuery={searchQuery}
+        />
       </main>
     </div>
   );
