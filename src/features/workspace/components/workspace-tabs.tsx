@@ -317,7 +317,7 @@ export function WorkspaceContent({
   onSearchQueryChange,
   projectName,
   recentFiles,
-  saveManuscript = async () => undefined,
+  saveManuscript,
   searchQuery,
 }: WorkspaceContentProps) {
   const [memoOpen, setMemoOpen] = useState(false);
@@ -363,6 +363,14 @@ export function WorkspaceContent({
     document: ManuscriptDocument,
   ) => {
     clearTimeout(saveTimersRef.current[documentId]);
+    if (!saveManuscript) {
+      setManuscriptDocuments((current) => ({
+        ...current,
+        [documentId]: { ...document, saveStatus: "disconnected" },
+      }));
+      return;
+    }
+
     const savingDocument = { ...document, saveStatus: "saving" as const };
     setManuscriptDocuments((current) => ({
       ...current,

@@ -1,5 +1,5 @@
 import axe from "axe-core";
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
@@ -40,9 +40,8 @@ describe.each(themes)("Workspace core flow (%s)", (theme) => {
 
     expect(title).toHaveValue("새 장면");
     expect(body).toHaveValue("문이 열리고 새로운 이야기가 시작됐다.");
-    await waitFor(
-      () => expect(screen.getByRole("status")).toHaveTextContent("저장됨"),
-      { timeout: 1_500 },
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "백엔드 연결 전 · 입력은 이 화면에만 유지됩니다.",
     );
 
     const results = await axe.run(container, {

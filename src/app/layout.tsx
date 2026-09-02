@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { RuntimeConfigProvider } from "@/config/runtime-config-provider";
 import { ThemeProvider } from "@/design-system/theme-provider";
 import "./globals.css";
 
@@ -26,7 +27,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col">
-        <ThemeProvider>{children}</ThemeProvider>
+        <RuntimeConfigProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        </RuntimeConfigProvider>
       </body>
     </html>
   );
