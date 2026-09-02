@@ -5,8 +5,12 @@
 ## Route
 
 ```text
-/workspace/[projectId]
+/workspace?projectId=[projectId]
 ```
+
+CDN에서 정적 파일만으로 직접 진입하고 새로고침할 수 있도록 프로젝트 식별자는
+쿼리 문자열로 전달한다. 식별자가 없거나 알려지지 않은 값이면 첫 프로젝트를 안전한
+기본값으로 사용한다.
 
 ## 화면 구조
 
