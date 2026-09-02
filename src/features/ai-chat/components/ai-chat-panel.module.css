@@ -44,6 +44,36 @@
   font-weight: 600;
 }
 
+.sessionPicker {
+  min-width: 0;
+}
+
+.sessionPicker [role="menu"] {
+  right: auto;
+  left: -2px;
+  width: 304px;
+}
+
+.sessionPicker [role="menuitemradio"] > span:first-child {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--lk-space-2);
+}
+
+.sessionPicker [role="menuitemradio"] svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  color: var(--lk-color-icon-default);
+}
+
+.sessionPicker [role="menuitemradio"] span span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .sessionTrigger span {
   overflow: hidden;
   text-overflow: ellipsis;

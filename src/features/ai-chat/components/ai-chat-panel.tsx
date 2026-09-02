@@ -2,7 +2,7 @@
 
 import { type FormEvent, useId, useRef, useState } from "react";
 
-import { IconButton } from "@/components/ui";
+import { IconButton, Menu, MenuItem } from "@/components/ui";
 import { WorkspaceIcon } from "@/features/workspace/icons";
 
 import styles from "./ai-chat-panel.module.css";
@@ -11,6 +11,13 @@ interface ChatMessage {
   id: string;
   role: "assistant" | "user";
   text: string;
+}
+
+interface ChatSession {
+  id: string;
+  isDraft?: boolean;
+  messages: ChatMessage[];
+  name: string;
 }
 
 const initialMessages: ChatMessage[] = [
@@ -26,6 +33,24 @@ const initialMessages: ChatMessage[] = [
   },
 ];
 
+const initialSessions: ChatSession[] = [
+  {
+    id: "session-scene-tension",
+    messages: initialMessages,
+    name: "균열 장면 다듬기",
+  },
+  {
+    id: "session-north-door",
+    messages: [],
+    name: "북쪽 문 복선 정리",
+  },
+  {
+    id: "session-tone-review",
+    messages: [],
+    name: "12화 문장 톤 검토",
+  },
+];
+
 export interface AiChatPanelProps {
   documentName: string;
   hidden?: boolean;
@@ -34,14 +59,24 @@ export interface AiChatPanelProps {
 export function AiChatPanel({ documentName, hidden }: AiChatPanelProps) {
   const headingId = useId();
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const sessionCounterRef = useRef(0);
   const [draft, setDraft] = useState("");
-  const [messages, setMessages] = useState(initialMessages);
-  const [sessionName, setSessionName] = useState("균열 장면 다듬기");
+  const [sessions, setSessions] = useState(initialSessions);
+  const [activeSessionId, setActiveSessionId] = useState(initialSessions[0].id);
+  const activeSession =
+    sessions.find((session) => session.id === activeSessionId) ?? sessions[0];
 
   const startNewSession = () => {
+    sessionCounterRef.current += 1;
+    const session: ChatSession = {
+      id: `session-new-${sessionCounterRef.current}`,
+      isDraft: true,
+      messages: [],
+      name: "새 채팅",
+    };
     setDraft("");
-    setMessages([]);
-    setSessionName("새 채팅");
+    setSessions((current) => [session, ...current]);
+    setActiveSessionId(session.id);
     requestAnimationFrame(() => inputRef.current?.focus());
   };
 
@@ -50,27 +85,61 @@ export function AiChatPanel({ documentName, hidden }: AiChatPanelProps) {
     const text = draft.trim();
     if (!text) return;
 
-    setMessages((current) => [
-      ...current,
-      { id: `message-user-${current.length + 1}`, role: "user", text },
-    ]);
-    if (sessionName === "새 채팅") {
-      setSessionName(text.length > 18 ? `${text.slice(0, 18)}…` : text);
-    }
+    setSessions((current) =>
+      current.map((session) =>
+        session.id === activeSession.id
+          ? {
+              ...session,
+              isDraft: false,
+              messages: [
+                ...session.messages,
+                {
+                  id: `message-user-${session.messages.length + 1}`,
+                  role: "user" as const,
+                  text,
+                },
+              ],
+              name: session.isDraft
+                ? text.length > 18
+                  ? `${text.slice(0, 18)}…`
+                  : text
+                : session.name,
+            }
+          : session,
+      ),
+    );
     setDraft("");
   };
 
   return (
     <aside aria-labelledby={headingId} className={styles.panel} hidden={hidden}>
       <header className={styles.header}>
-        <button
-          aria-label={`채팅 세션 선택: ${sessionName}`}
-          className={styles.sessionTrigger}
-          type="button"
+        <Menu
+          buttonContent={
+            <>
+              <span id={headingId}>{activeSession.name}</span>
+              <WorkspaceIcon name="chevron" />
+            </>
+          }
+          buttonLabel={`채팅 세션 선택: ${activeSession.name}`}
+          className={styles.sessionPicker}
+          placement="start"
+          triggerClassName={styles.sessionTrigger}
         >
-          <span id={headingId}>{sessionName}</span>
-          <WorkspaceIcon name="chevron" />
-        </button>
+          {sessions.map((session) => (
+            <MenuItem
+              key={session.id}
+              onClick={() => {
+                setActiveSessionId(session.id);
+                setDraft("");
+              }}
+              selected={session.id === activeSession.id}
+            >
+              <WorkspaceIcon name="message-square" />
+              <span>{session.name}</span>
+            </MenuItem>
+          ))}
+        </Menu>
         <span className={styles.headerSpacer} />
         <IconButton
           aria-label="새 채팅 시작"
@@ -88,7 +157,7 @@ export function AiChatPanel({ documentName, hidden }: AiChatPanelProps) {
       </header>
 
       <div aria-label="대화 내역" className={styles.history} role="log">
-        {messages.length === 0 ? (
+        {activeSession.isDraft ? (
           <div className={styles.emptyState}>
             <WorkspaceIcon name="sparkles" />
             <h2>새 대화를 시작하세요</h2>
@@ -97,7 +166,7 @@ export function AiChatPanel({ documentName, hidden }: AiChatPanelProps) {
         ) : (
           <>
             <p className={styles.fileContext}>현재 원고 · {documentName}</p>
-            {messages.map((message) =>
+            {activeSession.messages.map((message) =>
               message.role === "user" ? (
                 <div className={styles.userMessageRow} key={message.id}>
                   <p className={styles.userMessage}>{message.text}</p>
@@ -129,7 +198,7 @@ export function AiChatPanel({ documentName, hidden }: AiChatPanelProps) {
             id="ai-chat-message"
             onChange={(event) => setDraft(event.target.value)}
             placeholder={
-              messages.length === 0 ? "메시지를 입력하세요" : "메시지 입력"
+              activeSession.isDraft ? "메시지를 입력하세요" : "메시지 입력"
             }
             ref={inputRef}
             rows={2}

@@ -39,4 +39,32 @@ describe("AI Chat panel", () => {
     expect(screen.getByRole("button", { name: "메시지 전송" })).toBeDisabled();
     expect(screen.queryByText("Lorekeeper AI")).not.toBeInTheDocument();
   });
+
+  it("switches sessions with keyboard navigation and keeps editor input", async () => {
+    const user = userEvent.setup();
+    render(<WorkspaceShell initialProjectId="glass-garden" />);
+
+    const body = screen.getByRole("textbox", { name: "원고 본문" });
+    await user.type(body, " 유지할 문장");
+    await user.click(screen.getByRole("button", { name: "AI 챗" }));
+
+    const picker = screen.getByRole("button", {
+      name: "채팅 세션 선택: 균열 장면 다듬기",
+    });
+    picker.focus();
+    await user.keyboard("{ArrowDown}");
+    const current = screen.getByRole("menuitemradio", {
+      name: /균열 장면 다듬기/,
+    });
+    await waitFor(() => expect(current).toHaveFocus());
+    expect(current).toHaveAttribute("aria-checked", "true");
+
+    await user.keyboard("{ArrowDown}{Enter}");
+    expect(
+      screen.getByRole("button", {
+        name: "채팅 세션 선택: 북쪽 문 복선 정리",
+      }),
+    ).toBeInTheDocument();
+    expect((body as HTMLTextAreaElement).value).toContain("유지할 문장");
+  });
 });
