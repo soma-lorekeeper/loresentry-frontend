@@ -10,6 +10,7 @@ import {
 } from "react";
 
 import { Button, IconButton, StatusNotice } from "@/components/ui";
+import { FileMemoWorkspace } from "@/features/memo/components/file-memo-workspace";
 
 import { WorkspaceIcon, type WorkspaceIconName } from "../icons";
 import type { WorkspaceNavItem } from "../workspace-data";
@@ -298,6 +299,7 @@ export function FileHeader({
 
 interface WorkspaceContentProps {
   activeTab: WorkspaceTab;
+  aiChatOpen: boolean;
   onCreateFile: (fileType: string, icon: WorkspaceIconName) => void;
   onOpenSearchResult: (item: WorkspaceNavItem) => void;
   onSearchQueryChange: (query: string) => void;
@@ -312,6 +314,7 @@ interface WorkspaceContentProps {
 
 export function WorkspaceContent({
   activeTab,
+  aiChatOpen,
   onCreateFile,
   onOpenSearchResult,
   onSearchQueryChange,
@@ -394,16 +397,7 @@ export function WorkspaceContent({
 
   const closeMemo = () => {
     setMemoOpen(false);
-    const target = lastEditorFocusRef.current[activeTab.id];
-    if (target) {
-      setEditorFocusRestore((current) => ({
-        documentId: activeTab.id,
-        request: (current?.request ?? 0) + 1,
-        target,
-      }));
-    } else {
-      requestAnimationFrame(() => memoButtonRef.current?.focus());
-    }
+    requestAnimationFrame(() => memoButtonRef.current?.focus());
   };
 
   return (
@@ -438,7 +432,12 @@ export function WorkspaceContent({
           query={searchQuery}
         />
       ) : activeTab.isFile && activeTab.icon === "file" ? (
-        <div className={styles.documentLayout}>
+        <FileMemoWorkspace
+          aiChatOpen={aiChatOpen}
+          documentName={activeTab.label}
+          onClose={closeMemo}
+          open={memoOpen}
+        >
           <WorkspaceManuscriptEditor
             document={currentManuscript}
             documentId={activeTab.id}
@@ -457,23 +456,14 @@ export function WorkspaceContent({
                 : undefined
             }
           />
-          {memoOpen && (
-            <aside
-              aria-label={`${activeTab.label} 메모`}
-              className={styles.memoPanel}
-            >
-              <div className={styles.memoPanelHeader}>
-                <strong>파일 메모</strong>
-                <IconButton aria-label="파일 메모 닫기" onClick={closeMemo}>
-                  <WorkspaceIcon name="close" />
-                </IconButton>
-              </div>
-              <p>이 문서에서 이어서 기록할 메모를 표시합니다.</p>
-            </aside>
-          )}
-        </div>
+        </FileMemoWorkspace>
       ) : (
-        <div className={styles.documentLayout}>
+        <FileMemoWorkspace
+          aiChatOpen={aiChatOpen}
+          documentName={activeTab.label}
+          onClose={closeMemo}
+          open={memoOpen && activeTab.isFile}
+        >
           <section
             aria-labelledby={`tab-${activeTab.id}`}
             className={styles.workspaceCanvas}
@@ -493,21 +483,7 @@ export function WorkspaceContent({
               {announcement && <StatusNotice>{announcement}</StatusNotice>}
             </div>
           </section>
-          {memoOpen && activeTab.isFile && (
-            <aside
-              aria-label={`${activeTab.label} 메모`}
-              className={styles.memoPanel}
-            >
-              <div className={styles.memoPanelHeader}>
-                <strong>파일 메모</strong>
-                <IconButton aria-label="파일 메모 닫기" onClick={closeMemo}>
-                  <WorkspaceIcon name="close" />
-                </IconButton>
-              </div>
-              <p>이 문서에서 이어서 기록할 메모를 표시합니다.</p>
-            </aside>
-          )}
-        </div>
+        </FileMemoWorkspace>
       )}
     </div>
   );

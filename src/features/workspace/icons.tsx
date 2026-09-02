@@ -21,6 +21,9 @@ export type WorkspaceIconName =
   | "lock"
   | "message-square"
   | "memo"
+  | "notebook-pen"
+  | "panel-bottom"
+  | "panel-right"
   | "plus"
   | "pencil"
   | "search"
@@ -107,6 +110,24 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     <>
       <path d="M5 3h14v18H5Z" />
       <path d="M8 7h8M8 11h8M8 15h5" />
+    </>
+  ),
+  "notebook-pen": (
+    <>
+      <path d="M5 3h14v18H5Z" />
+      <path d="M9 3v18M12 8h4M12 12h4M12 16h2" />
+    </>
+  ),
+  "panel-bottom": (
+    <>
+      <rect x="3" y="4" width="18" height="16" rx="1" />
+      <path d="M3 14h18" />
+    </>
+  ),
+  "panel-right": (
+    <>
+      <rect x="3" y="4" width="18" height="16" rx="1" />
+      <path d="M14 4v16" />
     </>
   ),
   plus: <path d="M12 5v14M5 12h14" />,

@@ -115,7 +115,14 @@ describe("Workspace tabs and file header", () => {
       ),
     );
     await user.click(screen.getByRole("button", { name: "파일 메모 닫기" }));
-    await waitFor(() => expect(restoredBody).toHaveFocus());
+    await waitFor(() =>
+      expect(
+        within(screen.getByRole("banner", { name: "파일 도구" })).getByRole(
+          "button",
+          { name: "메모" },
+        ),
+      ).toHaveFocus(),
+    );
     expect(restoredBody.selectionStart).toBe(12);
   });
 

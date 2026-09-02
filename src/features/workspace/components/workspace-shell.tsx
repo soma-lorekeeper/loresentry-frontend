@@ -216,6 +216,7 @@ export function WorkspaceShell({
         />
         <WorkspaceContent
           activeTab={activeTab}
+          aiChatOpen={aiChatOpen}
           onCreateFile={createFileFromNewTab}
           onOpenSearchResult={openSearchResult}
           onSearchQueryChange={setSearchQuery}
