@@ -1,8 +1,10 @@
 import type { ReactNode, SVGProps } from "react";
 
 export type WorkspaceIconName =
+  | "arrow-up"
   | "book"
   | "character"
+  | "check"
   | "chevron"
   | "chevron-left"
   | "chevron-right"
@@ -17,8 +19,10 @@ export type WorkspaceIconName =
   | "history"
   | "home"
   | "lock"
+  | "message-square"
   | "memo"
   | "plus"
+  | "pencil"
   | "search"
   | "settings"
   | "sidebar"
@@ -26,6 +30,7 @@ export type WorkspaceIconName =
   | "trash";
 
 const paths: Record<WorkspaceIconName, ReactNode> = {
+  "arrow-up": <path d="m5 12 7-7 7 7M12 5v14" />,
   book: (
     <>
       <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H11v15H6.5A2.5 2.5 0 0 0 4 19.5Z" />
@@ -38,6 +43,7 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
       <path d="M6.5 20a5.5 5.5 0 0 1 11 0" />
     </>
   ),
+  check: <path d="m5 12 4 4L19 6" />,
   chevron: <path d="m8 10 4 4 4-4" />,
   "chevron-left": <path d="m15 18-6-6 6-6" />,
   "chevron-right": <path d="m9 18 6-6-6-6" />,
@@ -94,6 +100,9 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
       <path d="M8 10V7a4 4 0 0 1 8 0v3" />
     </>
   ),
+  "message-square": (
+    <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z" />
+  ),
   memo: (
     <>
       <path d="M5 3h14v18H5Z" />
@@ -101,6 +110,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     </>
   ),
   plus: <path d="M12 5v14M5 12h14" />,
+  pencil: (
+    <>
+      <path d="m4 20 4.5-1 10-10a2.1 2.1 0 0 0-3-3l-10 10Z" />
+      <path d="m14 7 3 3" />
+    </>
+  ),
   search: (
     <>
       <circle cx="11" cy="11" r="7" />

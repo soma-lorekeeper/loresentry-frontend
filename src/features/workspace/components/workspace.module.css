@@ -12,6 +12,14 @@
   grid-template-columns: 0 minmax(0, 1fr);
 }
 
+.shell[data-ai-chat-open="true"] {
+  grid-template-columns: 236px minmax(0, 1fr) 320px;
+}
+
+.shell[data-ai-chat-open="true"][data-sidebar-open="false"] {
+  grid-template-columns: 0 minmax(0, 1fr) 320px;
+}
+
 .sidebarSlot {
   min-width: 0;
 }
