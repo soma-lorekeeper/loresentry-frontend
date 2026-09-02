@@ -179,7 +179,11 @@ export function WorkspaceShell({
   const activeTab = tabs.find((tab) => tab.id === activeTabId) ?? tabs[0];
 
   return (
-    <div className={styles.shell} data-sidebar-open={sidebarOpen}>
+    <div
+      className={styles.shell}
+      data-project-id={currentProject.id}
+      data-sidebar-open={sidebarOpen}
+    >
       <div aria-hidden={!sidebarOpen} className={styles.sidebarSlot}>
         {sidebarOpen && (
           <WorkspaceSidebar
