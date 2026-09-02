@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { projects, type WorkspaceNavItem } from "../workspace-data";
 import { WorkspaceSidebar } from "./workspace-sidebar";
+import type { ManuscriptDocument } from "./workspace-manuscript-editor";
+import type { RecentWorkspaceFile } from "./workspace-new-tab";
 import {
   WorkspaceContent,
   WorkspaceTabBar,
@@ -38,9 +40,18 @@ function toTab(item: WorkspaceNavItem): WorkspaceTab | null {
 
 export interface WorkspaceShellProps {
   initialProjectId: string;
+  recentFiles?: RecentWorkspaceFile[];
+  saveManuscript?: (
+    documentId: string,
+    document: Pick<ManuscriptDocument, "body" | "title">,
+  ) => Promise<void>;
 }
 
-export function WorkspaceShell({ initialProjectId }: WorkspaceShellProps) {
+export function WorkspaceShell({
+  initialProjectId,
+  recentFiles,
+  saveManuscript,
+}: WorkspaceShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [selectedId, setSelectedId] = useState("favorite-manuscript-12");
   const [tabs, setTabs] = useState(initialTabs);
@@ -50,6 +61,7 @@ export function WorkspaceShell({ initialProjectId }: WorkspaceShellProps) {
   const [currentProject, setCurrentProject] = useState(
     projects.find((project) => project.id === initialProjectId) ?? projects[0],
   );
+  const draftCounterRef = useRef(0);
 
   const selectTarget = (item: WorkspaceNavItem) => {
     setSelectedId(item.id);
@@ -151,10 +163,27 @@ export function WorkspaceShell({ initialProjectId }: WorkspaceShellProps) {
     );
   };
 
+  const createFileFromNewTab = (
+    fileType: string,
+    icon: WorkspaceTab["icon"],
+  ) => {
+    draftCounterRef.current += 1;
+    selectTarget({
+      icon,
+      id: `draft-${fileType}-${draftCounterRef.current}`,
+      kind: "file",
+      label: `제목 없는 ${fileType}`,
+    });
+  };
+
   const activeTab = tabs.find((tab) => tab.id === activeTabId) ?? tabs[0];
 
   return (
-    <div className={styles.shell} data-sidebar-open={sidebarOpen}>
+    <div
+      className={styles.shell}
+      data-project-id={currentProject.id}
+      data-sidebar-open={sidebarOpen}
+    >
       <div aria-hidden={!sidebarOpen} className={styles.sidebarSlot}>
         {sidebarOpen && (
           <WorkspaceSidebar
@@ -185,8 +214,12 @@ export function WorkspaceShell({ initialProjectId }: WorkspaceShellProps) {
         />
         <WorkspaceContent
           activeTab={activeTab}
+          onCreateFile={createFileFromNewTab}
           onOpenSearchResult={openSearchResult}
           onSearchQueryChange={setSearchQuery}
+          projectName={currentProject.name}
+          recentFiles={recentFiles}
+          saveManuscript={saveManuscript}
           searchQuery={searchQuery}
         />
       </main>

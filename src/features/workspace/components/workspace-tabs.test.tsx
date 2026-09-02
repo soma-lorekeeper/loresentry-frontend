@@ -1,6 +1,12 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { WorkspaceShell } from "./workspace-shell";
 
@@ -80,6 +86,89 @@ describe("Workspace tabs and file header", () => {
     expect(
       within(fileHeader).getByRole("button", { name: "잠금 해제" }),
     ).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("restores the manuscript caret after tab and memo round trips", async () => {
+    const user = userEvent.setup();
+    render(<WorkspaceShell initialProjectId="glass-garden" />);
+
+    const firstBody = screen.getByRole("textbox", {
+      name: "원고 본문",
+    }) as HTMLTextAreaElement;
+    firstBody.focus();
+    firstBody.setSelectionRange(12, 12);
+    fireEvent.select(firstBody);
+
+    await user.click(screen.getByRole("tab", { name: "11화 · 유리 정원" }));
+    await user.click(screen.getByRole("tab", { name: "12화 · 균열의 밤" }));
+
+    const restoredBody = screen.getByRole("textbox", {
+      name: "원고 본문",
+    }) as HTMLTextAreaElement;
+    await waitFor(() => expect(restoredBody).toHaveFocus());
+    expect(restoredBody.selectionStart).toBe(12);
+
+    await user.click(
+      within(screen.getByRole("banner", { name: "파일 도구" })).getByRole(
+        "button",
+        { name: "메모" },
+      ),
+    );
+    await user.click(screen.getByRole("button", { name: "파일 메모 닫기" }));
+    await waitFor(() => expect(restoredBody).toHaveFocus());
+    expect(restoredBody.selectionStart).toBe(12);
+  });
+
+  it("reports non-blocking manuscript save success and error states", async () => {
+    const user = userEvent.setup();
+    const saveManuscript = vi
+      .fn()
+      .mockRejectedValueOnce(new Error("offline"))
+      .mockResolvedValue(undefined);
+    render(
+      <WorkspaceShell
+        initialProjectId="glass-garden"
+        saveManuscript={saveManuscript}
+      />,
+    );
+
+    const body = screen.getByRole("textbox", { name: "원고 본문" });
+    await user.type(body, " 추가 문장");
+    expect(screen.getByRole("status")).toHaveTextContent("저장 중…");
+    expect(body).not.toBeDisabled();
+
+    await waitFor(
+      () =>
+        expect(screen.getByRole("status")).toHaveTextContent(
+          "저장하지 못했습니다. 입력은 유지됩니다.",
+        ),
+      { timeout: 1_500 },
+    );
+    expect((body as HTMLTextAreaElement).value).toContain("추가 문장");
+
+    await user.click(screen.getByRole("button", { name: "다시 저장" }));
+    expect(screen.getByRole("status")).toHaveTextContent("저장 중…");
+    await waitFor(
+      () => expect(screen.getByRole("status")).toHaveTextContent("저장됨"),
+      { timeout: 1_500 },
+    );
+    expect(saveManuscript).toHaveBeenCalledTimes(2);
+  });
+
+  it("shares the active document identity across tab, header, and editor", () => {
+    render(<WorkspaceShell initialProjectId="glass-garden" />);
+
+    expect(
+      screen.getByRole("tab", { name: "12화 · 균열의 밤" }),
+    ).toHaveAttribute("data-document-id", "manuscript-12");
+    expect(screen.getByRole("banner", { name: "파일 도구" })).toHaveAttribute(
+      "data-document-id",
+      "manuscript-12",
+    );
+    expect(screen.getByRole("tabpanel")).toHaveAttribute(
+      "data-document-id",
+      "manuscript-12",
+    );
   });
 
   it("provides overflow controls when more than three tabs are open", async () => {
