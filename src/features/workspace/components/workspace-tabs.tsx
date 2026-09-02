@@ -13,6 +13,7 @@ import { Button, IconButton, StatusNotice } from "@/components/ui";
 import { WorkspaceIcon, type WorkspaceIconName } from "../icons";
 import type { WorkspaceNavItem } from "../workspace-data";
 import { type RecentWorkspaceFile, WorkspaceNewTab } from "./workspace-new-tab";
+import { WorkspaceManuscriptEditor } from "./workspace-manuscript-editor";
 import { WorkspaceSearch } from "./workspace-search";
 import styles from "./workspace.module.css";
 
@@ -341,6 +342,28 @@ export function WorkspaceContent({
           onQueryChange={onSearchQueryChange}
           query={searchQuery}
         />
+      ) : activeTab.isFile && activeTab.icon === "file" ? (
+        <div className={styles.documentLayout}>
+          <WorkspaceManuscriptEditor
+            documentId={activeTab.id}
+            initialTitle={activeTab.label}
+            key={activeTab.id}
+          />
+          {memoOpen && (
+            <aside
+              aria-label={`${activeTab.label} 메모`}
+              className={styles.memoPanel}
+            >
+              <div className={styles.memoPanelHeader}>
+                <strong>파일 메모</strong>
+                <IconButton aria-label="파일 메모 닫기" onClick={closeMemo}>
+                  <WorkspaceIcon name="close" />
+                </IconButton>
+              </div>
+              <p>이 문서에서 이어서 기록할 메모를 표시합니다.</p>
+            </aside>
+          )}
+        </div>
       ) : (
         <div className={styles.documentLayout}>
           <section

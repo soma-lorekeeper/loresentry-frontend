@@ -959,6 +959,80 @@
   min-width: 0;
   min-height: 0;
   flex: 1;
+  overflow: hidden;
+}
+
+.manuscriptCanvas {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
+  justify-content: center;
+  padding: 52px var(--lk-space-6) 40px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--lk-color-surface-default);
+}
+
+.manuscriptReadingColumn {
+  display: flex;
+  width: min(720px, 100%);
+  min-width: 0;
+  min-height: 100%;
+  flex-direction: column;
+  gap: var(--lk-space-6);
+}
+
+.manuscriptTitle,
+.manuscriptBody {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--lk-color-text-primary);
+  font-family: var(--lk-font-family-ui);
+}
+
+.manuscriptTitle {
+  flex: 0 0 auto;
+  font-size: var(--lk-font-size-manuscript-title);
+  font-weight: 700;
+  line-height: var(--lk-line-height-manuscript-title);
+}
+
+.manuscriptBody {
+  min-height: 360px;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-size: var(--lk-font-size-manuscript-body);
+  line-height: var(--lk-line-height-manuscript-body);
+  resize: none;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.manuscriptTitle::placeholder,
+.manuscriptBody::placeholder {
+  color: var(--lk-color-text-secondary);
+}
+
+.manuscriptTitle:focus-visible,
+.manuscriptBody:focus-visible {
+  outline: 2px solid var(--lk-color-accent-primary);
+  outline-offset: 4px;
+}
+
+.manuscriptStatus {
+  display: flex;
+  min-height: 20px;
+  flex: 0 0 auto;
+  justify-content: flex-end;
+  gap: var(--lk-space-3);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
 }
 
 .workspaceCanvas {
@@ -1036,6 +1110,10 @@
 
   .workspaceCanvas {
     padding: var(--lk-space-6);
+  }
+
+  .manuscriptCanvas {
+    padding: 36px var(--lk-space-6) 28px;
   }
 
   .searchView {
