@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+import { WorkspaceShell } from "@/features/workspace/components/workspace-shell";
 
 import {
   createInitialPropertyDocument,
@@ -57,7 +59,12 @@ describe("PropertyDocumentEditor", () => {
     const user = userEvent.setup();
     render(
       <TestEditor
-        initialDocument={{ body: "", properties: [], title: "장소" }}
+        initialDocument={{
+          body: "",
+          properties: [],
+          saveStatus: "saved",
+          title: "장소",
+        }}
       />,
     );
 
@@ -107,5 +114,101 @@ describe("PropertyDocumentEditor", () => {
     expect(screen.getByRole("menuitemradio", { name: "원고" })).toHaveFocus();
     await user.keyboard("{Escape}");
     await waitFor(() => expect(trigger).toHaveFocus());
+  });
+
+  it("announces changed, saving, saved, and recoverable error states", () => {
+    const { rerender } = render(
+      <PropertyDocumentEditor
+        document={{
+          body: "보존할 입력",
+          properties: [],
+          saveStatus: "changed",
+          title: "변경된 문서",
+        }}
+        documentId="status-test"
+        onChange={() => undefined}
+      />,
+    );
+
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "변경됨 · 백엔드 연결 대기",
+    );
+    for (const [status, copy] of [
+      ["saving", "저장 중…"],
+      ["saved", "저장됨"],
+      ["error", "저장하지 못했습니다"],
+    ] as const) {
+      rerender(
+        <PropertyDocumentEditor
+          document={{
+            body: "보존할 입력",
+            properties: [],
+            saveStatus: status,
+            title: "변경된 문서",
+          }}
+          documentId="status-test"
+          onChange={() => undefined}
+          onRetrySave={() => undefined}
+        />,
+      );
+      expect(screen.getByRole("status")).toHaveTextContent(copy);
+      expect(screen.getByRole("textbox", { name: "문서 내용" })).toHaveValue(
+        "보존할 입력",
+      );
+    }
+    expect(
+      screen.getByRole("button", { name: "다시 시도" }),
+    ).toBeInTheDocument();
+  });
+
+  it("does not report a successful save without a backend adapter", async () => {
+    const user = userEvent.setup();
+    render(<WorkspaceShell initialProjectId="glass-garden" />);
+
+    await user.click(
+      within(screen.getByRole("region", { name: "파일" })).getByRole("button", {
+        name: "설정",
+      }),
+    );
+    await user.type(
+      screen.getByRole("textbox", { name: "문서 내용" }),
+      " 추가",
+    );
+
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "변경됨 · 백엔드 연결 대기",
+    );
+    expect(screen.getByRole("status")).not.toHaveTextContent("저장됨");
+  });
+
+  it("preserves edits through a failed save and retries the backend adapter", async () => {
+    const user = userEvent.setup();
+    const savePropertyDocument = vi
+      .fn<() => Promise<void>>()
+      .mockRejectedValueOnce(new Error("network"))
+      .mockResolvedValueOnce();
+    render(
+      <WorkspaceShell
+        initialProjectId="glass-garden"
+        savePropertyDocument={savePropertyDocument}
+      />,
+    );
+
+    await user.click(
+      within(screen.getByRole("region", { name: "파일" })).getByRole("button", {
+        name: "설정",
+      }),
+    );
+    const body = screen.getByRole("textbox", { name: "문서 내용" });
+    await user.type(body, " 유지할 문장");
+
+    expect(screen.getByRole("status")).toHaveTextContent("변경됨");
+    await screen.findByText("저장하지 못했습니다");
+    expect((body as HTMLTextAreaElement).value).toContain("유지할 문장");
+
+    await user.click(screen.getByRole("button", { name: "다시 시도" }));
+    await screen.findByText("저장됨");
+    expect(savePropertyDocument).toHaveBeenCalledTimes(2);
+    expect((body as HTMLTextAreaElement).value).toContain("유지할 문장");
   });
 });

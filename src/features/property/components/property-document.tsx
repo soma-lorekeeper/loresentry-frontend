@@ -27,6 +27,8 @@ export type PropertyFileType =
   | "setting"
   | "worldbuilding";
 export type PropertyValueType = "text" | PropertyFileType;
+export type PropertyDocumentSaveStatus =
+  "changed" | "error" | "saved" | "saving";
 
 export interface PropertyReference {
   id: string;
@@ -53,6 +55,7 @@ export type DocumentProperty = TextDocumentProperty | FileDocumentProperty;
 export interface PropertyDocument {
   body: string;
   properties: DocumentProperty[];
+  saveStatus: PropertyDocumentSaveStatus;
   title: string;
 }
 
@@ -62,6 +65,8 @@ export interface PropertyDocumentEditorProps {
   documentId: string;
   onChange: (document: PropertyDocument) => void;
   onOpenReference?: (reference: PropertyReference) => void;
+  onRetrySave?: () => void;
+  saveAvailable?: boolean;
 }
 
 const propertyTypeOptions: Array<{
@@ -218,6 +223,46 @@ function FileChip({
         <WorkspaceIcon name="close" />
       </button>
     </span>
+  );
+}
+
+export function PropertyDocumentSaveStatus({
+  onRetry,
+  saveAvailable = false,
+  status,
+}: {
+  onRetry?: () => void;
+  saveAvailable?: boolean;
+  status: PropertyDocumentSaveStatus;
+}) {
+  const copy: Record<PropertyDocumentSaveStatus, string> = {
+    changed: saveAvailable ? "변경됨" : "변경됨 · 백엔드 연결 대기",
+    error: "저장하지 못했습니다",
+    saved: "저장됨",
+    saving: "저장 중…",
+  };
+  const icons: Record<PropertyDocumentSaveStatus, WorkspaceIconName> = {
+    changed: "pencil",
+    error: "cloud-off",
+    saved: "check",
+    saving: "loader-circle",
+  };
+
+  return (
+    <div
+      aria-live="polite"
+      className={styles.saveStatus}
+      data-save-status={status}
+      role="status"
+    >
+      <WorkspaceIcon name={icons[status]} />
+      <span>{copy[status]}</span>
+      {status === "error" && (
+        <button onClick={onRetry} type="button">
+          다시 시도
+        </button>
+      )}
+    </div>
   );
 }
 
@@ -473,6 +518,8 @@ export function PropertyDocumentEditor({
   documentId,
   onChange,
   onOpenReference,
+  onRetrySave,
+  saveAvailable,
 }: PropertyDocumentEditorProps) {
   const counterRef = useRef(document.properties.length);
   const [newPropertyId, setNewPropertyId] = useState<string>();
@@ -508,6 +555,13 @@ export function PropertyDocumentEditor({
       tabIndex={-1}
     >
       <div className={styles.readingColumn}>
+        <div className={styles.saveStatusBar}>
+          <PropertyDocumentSaveStatus
+            onRetry={onRetrySave}
+            saveAvailable={saveAvailable}
+            status={document.saveStatus}
+          />
+        </div>
         <label
           className={styles.srOnly}
           htmlFor={`property-title-${documentId}`}
@@ -600,6 +654,7 @@ export const propertyDocumentSamples: Record<string, PropertyDocument> = {
         value: "북쪽 온실을 담당하는 기록자",
       },
     ],
+    saveStatus: "saved",
     title: "서윤",
   },
   item: {
@@ -612,6 +667,7 @@ export const propertyDocumentSamples: Record<string, PropertyDocument> = {
         type: "character",
       },
     ],
+    saveStatus: "saved",
     title: "은빛 등불",
   },
   organization: {
@@ -624,6 +680,7 @@ export const propertyDocumentSamples: Record<string, PropertyDocument> = {
         value: "균열 관찰",
       },
     ],
+    saveStatus: "saved",
     title: "정원 기록단",
   },
   place: {
@@ -636,6 +693,7 @@ export const propertyDocumentSamples: Record<string, PropertyDocument> = {
         type: "place",
       },
     ],
+    saveStatus: "saved",
     title: "북쪽 온실",
   },
   setting: {
@@ -660,9 +718,15 @@ export const propertyDocumentSamples: Record<string, PropertyDocument> = {
         type: "manuscript",
       },
     ],
+    saveStatus: "saved",
     title: "균열의 법칙",
   },
-  worldbuilding: { body: "", properties: [], title: "" },
+  worldbuilding: {
+    body: "",
+    properties: [],
+    saveStatus: "saved",
+    title: "",
+  },
 };
 
 export function createInitialPropertyDocument(
@@ -670,5 +734,7 @@ export function createInitialPropertyDocument(
   title: string,
 ): PropertyDocument {
   const sample = propertyDocumentSamples[documentId];
-  return sample ? structuredClone(sample) : { body: "", properties: [], title };
+  return sample
+    ? structuredClone(sample)
+    : { body: "", properties: [], saveStatus: "saved", title };
 }

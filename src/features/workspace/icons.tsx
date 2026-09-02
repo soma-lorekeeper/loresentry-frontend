@@ -6,6 +6,7 @@ export type WorkspaceIconName =
   | "character"
   | "check"
   | "circle-alert"
+  | "cloud-off"
   | "chevron"
   | "chevron-left"
   | "chevron-right"
@@ -23,6 +24,7 @@ export type WorkspaceIconName =
   | "home"
   | "item"
   | "lock"
+  | "loader-circle"
   | "message-square"
   | "memo"
   | "notebook-pen"
@@ -60,6 +62,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     <>
       <circle cx="12" cy="12" r="9" />
       <path d="M12 7v6M12 17h.01" />
+    </>
+  ),
+  "cloud-off": (
+    <>
+      <path d="m3 3 18 18" />
+      <path d="M7.6 7.6A5.5 5.5 0 0 1 18 10a4 4 0 0 1 1.6 7.7M6 18a4 4 0 0 1-1.9-7.5" />
     </>
   ),
   chevron: <path d="m8 10 4 4 4-4" />,
@@ -134,6 +142,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     <>
       <rect x="5" y="10" width="14" height="11" rx="1" />
       <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+    </>
+  ),
+  "loader-circle": (
+    <>
+      <path d="M21 12a9 9 0 1 1-5.3-8.2" />
+      <path d="M16 3h5v5" />
     </>
   ),
   "message-square": (
