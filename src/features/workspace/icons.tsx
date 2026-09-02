@@ -12,6 +12,7 @@ export type WorkspaceIconName =
   | "close"
   | "download"
   | "ellipsis"
+  | "event"
   | "external-link"
   | "file"
   | "folder"
@@ -20,19 +21,25 @@ export type WorkspaceIconName =
   | "help"
   | "history"
   | "home"
+  | "item"
   | "lock"
   | "message-square"
   | "memo"
   | "notebook-pen"
+  | "organization"
   | "panel-bottom"
   | "panel-right"
   | "plus"
   | "pencil"
+  | "place"
   | "search"
   | "settings"
+  | "setting-file"
   | "sidebar"
   | "sparkles"
-  | "trash";
+  | "trash"
+  | "type"
+  | "worldbuilding";
 
 const paths: Record<WorkspaceIconName, ReactNode> = {
   "arrow-up": <path d="m5 12 7-7 7 7M12 5v14" />,
@@ -69,6 +76,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
       <circle cx="5" cy="12" r="1" fill="currentColor" stroke="none" />
       <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
       <circle cx="19" cy="12" r="1" fill="currentColor" stroke="none" />
+    </>
+  ),
+  event: (
+    <>
+      <rect x="3" y="5" width="18" height="16" rx="1" />
+      <path d="M8 3v4M16 3v4M3 10h18" />
     </>
   ),
   "external-link": (
@@ -111,6 +124,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
       <path d="M5 10v11h14V10M10 21v-6h4v6" />
     </>
   ),
+  item: (
+    <>
+      <path d="m12 3 7 5-7 13L5 8Z" />
+      <path d="M5 8h14M9 8l3 13 3-13" />
+    </>
+  ),
   lock: (
     <>
       <rect x="5" y="10" width="14" height="11" rx="1" />
@@ -132,6 +151,13 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
       <path d="M9 3v18M12 8h4M12 12h4M12 16h2" />
     </>
   ),
+  organization: (
+    <>
+      <circle cx="9" cy="8" r="3" />
+      <circle cx="17" cy="9" r="2" />
+      <path d="M3.5 20a5.5 5.5 0 0 1 11 0M14 15.5a4 4 0 0 1 6.5 3.1" />
+    </>
+  ),
   "panel-bottom": (
     <>
       <rect x="3" y="4" width="18" height="16" rx="1" />
@@ -151,6 +177,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
       <path d="m14 7 3 3" />
     </>
   ),
+  place: (
+    <>
+      <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </>
+  ),
   search: (
     <>
       <circle cx="11" cy="11" r="7" />
@@ -161,6 +193,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     <>
       <circle cx="12" cy="12" r="3" />
       <path d="M12 2v3M12 19v3M4.9 4.9 7 7M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1" />
+    </>
+  ),
+  "setting-file": (
+    <>
+      <path d="M5 3h14v18H5Z" />
+      <path d="M9 3v18M12 8h4M12 12h4M12 16h2" />
     </>
   ),
   sidebar: (
@@ -179,6 +217,13 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     <>
       <path d="M4 7h16M9 7V4h6v3M7 7l1 14h8l1-14" />
       <path d="M10 11v6M14 11v6" />
+    </>
+  ),
+  type: <path d="M5 6V4h14v2M12 4v16M8 20h8" />,
+  worldbuilding: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
     </>
   ),
 };

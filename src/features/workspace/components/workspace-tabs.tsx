@@ -27,6 +27,13 @@ import {
   type MemoSaveStatus,
   type ProjectMemo,
 } from "@/features/memo/memo-model";
+import {
+  createInitialPropertyDocument,
+  type PropertyDocument,
+  PropertyDocumentEditor,
+  type PropertyReference,
+  propertyFileIcons,
+} from "@/features/property/components/property-document";
 
 import { WorkspaceIcon, type WorkspaceIconName } from "../icons";
 import type { WorkspaceNavItem } from "../workspace-data";
@@ -331,6 +338,21 @@ interface WorkspaceContentProps {
   searchQuery: string;
 }
 
+const availablePropertyFiles: PropertyReference[] = [
+  { id: "manuscript-12", title: "12화 · 균열의 밤", type: "manuscript" },
+  { id: "manuscript-11", title: "11화 · 유리 정원", type: "manuscript" },
+  { id: "character", title: "서윤", type: "character" },
+  { id: "organization", title: "정원 기록단", type: "organization" },
+  { id: "item", title: "은빛 등불", type: "item" },
+  { id: "place", title: "북쪽 온실", type: "place" },
+  { id: "place-garden", title: "유리 정원", type: "place" },
+  { id: "setting", title: "균열의 법칙", type: "setting" },
+];
+
+const propertyDocumentIcons = new Set<WorkspaceIconName>(
+  Object.values(propertyFileIcons).filter((icon) => icon !== "file"),
+);
+
 export function WorkspaceContent({
   activeTab,
   aiChatOpen,
@@ -355,6 +377,9 @@ export function WorkspaceContent({
   }>();
   const [manuscriptDocuments, setManuscriptDocuments] = useState<
     Record<string, ManuscriptDocument>
+  >({});
+  const [propertyDocuments, setPropertyDocuments] = useState<
+    Record<string, PropertyDocument>
   >({});
   const [memoCollections, setMemoCollections] = useState<
     Record<string, MemoCollection>
@@ -399,6 +424,9 @@ export function WorkspaceContent({
   const currentManuscript =
     manuscriptDocuments[activeTab.id] ??
     createInitialManuscriptDocument(activeTab.id, activeTab.label);
+  const currentPropertyDocument =
+    propertyDocuments[activeTab.id] ??
+    createInitialPropertyDocument(activeTab.id, activeTab.label);
   const currentMemoCollection =
     memoCollections[projectId] ?? emptyMemoCollection();
   const currentMemoScope = memoScopes[projectId] ?? "project";
@@ -760,6 +788,49 @@ export function WorkspaceContent({
           saveAvailable={Boolean(saveMemo)}
           scope={currentMemoScope}
         />
+      ) : activeTab.isFile && propertyDocumentIcons.has(activeTab.icon) ? (
+        <FileMemoWorkspace
+          aiChatOpen={aiChatOpen}
+          documentId={activeTab.id}
+          documentName={activeTab.label}
+          fileMemo={currentFileMemo}
+          onAddProjectMemo={addProjectMemo}
+          onClose={closeMemo}
+          onDeleteRequest={requestMemoDelete}
+          onFileMemoChange={updateActiveFileMemo}
+          onFileMemoRetry={() => {
+            if (currentFileMemo) retryFileMemo(currentFileMemo);
+          }}
+          onProjectMemoBlur={discardEmptyProjectMemo}
+          onProjectMemoChange={updateProjectMemo}
+          onProjectMemoRetry={retryProjectMemo}
+          open={memoOpen}
+          pendingMemoId={pendingMemoId}
+          projectMemos={currentMemoCollection.project}
+          saveAvailable={Boolean(saveMemo)}
+        >
+          <PropertyDocumentEditor
+            availableFiles={availablePropertyFiles}
+            document={currentPropertyDocument}
+            documentId={activeTab.id}
+            key={activeTab.id}
+            onChange={(nextDocument) =>
+              setPropertyDocuments((current) => ({
+                ...current,
+                [activeTab.id]: nextDocument,
+              }))
+            }
+            onOpenReference={(reference) =>
+              onOpenSearchResult({
+                contentId: reference.id,
+                icon: propertyFileIcons[reference.type],
+                id: reference.id,
+                kind: "file",
+                label: reference.title,
+              })
+            }
+          />
+        </FileMemoWorkspace>
       ) : activeTab.isFile && activeTab.icon === "file" ? (
         <FileMemoWorkspace
           aiChatOpen={aiChatOpen}
