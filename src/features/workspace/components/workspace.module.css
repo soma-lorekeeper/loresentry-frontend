@@ -536,6 +536,218 @@
   flex-direction: column;
 }
 
+.newTabView {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: 46px calc(var(--lk-space-6) * 2) 64px;
+}
+
+.newTabContent {
+  display: flex;
+  width: min(964px, 100%);
+  margin: 0 auto;
+  flex-direction: column;
+  gap: 38px;
+}
+
+.newTabHeading h1 {
+  margin: var(--lk-space-2) 0;
+  font-size: var(--lk-font-size-heading-lg);
+}
+
+.newTabHeading p,
+.newTabSectionHeading p {
+  margin: 0;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-body);
+  line-height: var(--lk-line-height-body);
+}
+
+.resumeBanner {
+  display: flex;
+  width: 100%;
+  min-height: 112px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lk-space-6);
+  padding: 20px;
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-default);
+}
+
+.resumeCopy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--lk-space-2);
+}
+
+.resumeCopy strong {
+  overflow: hidden;
+  font-size: var(--lk-font-size-heading);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resumeCopy > span:last-child {
+  overflow: hidden;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.newTabSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-4);
+}
+
+.newTabSectionHeading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--lk-space-4);
+}
+
+.newTabSectionHeading h2 {
+  margin: 0 0 var(--lk-space-1);
+  font-size: var(--lk-font-size-heading);
+}
+
+.createActionGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--lk-space-3);
+}
+
+.createAction {
+  display: flex;
+  min-width: 0;
+  height: 62px;
+  align-items: center;
+  gap: var(--lk-space-3);
+  padding: 0 14px;
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-default);
+  color: var(--lk-color-text-primary);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--lk-font-size-body);
+  font-weight: 600;
+}
+
+.createAction:hover {
+  background: var(--lk-color-state-selected);
+}
+
+.createAction:focus-visible,
+.recentFileRow:focus-visible {
+  outline: 2px solid var(--lk-color-accent-primary);
+  outline-offset: 2px;
+}
+
+.createActionIcon {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  place-items: center;
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-icon);
+  color: var(--lk-color-icon-default);
+}
+
+.createActionIcon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.recentFileList {
+  display: flex;
+  margin: 0;
+  padding: var(--lk-space-2) 10px;
+  flex-direction: column;
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-default);
+  list-style: none;
+}
+
+.recentFileRow {
+  display: flex;
+  width: 100%;
+  height: 38px;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--lk-radius-control);
+  background: transparent;
+  color: var(--lk-color-text-primary);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.recentFileRow:hover {
+  background: var(--lk-color-state-selected);
+}
+
+.recentFileRow > svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  color: var(--lk-color-icon-default);
+}
+
+.recentFileRow > strong {
+  min-width: 0;
+  overflow: hidden;
+  flex: 1;
+  font-size: var(--lk-font-size-body);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recentFileRow > span {
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}
+
+.recentEmpty {
+  display: flex;
+  min-height: 88px;
+  align-items: center;
+  gap: var(--lk-space-4);
+  padding: var(--lk-space-6);
+  border: 1px dashed var(--lk-color-border-default);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-default);
+}
+
+.recentEmpty > svg {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  color: var(--lk-color-accent-primary);
+}
+
+.recentEmpty > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-1);
+}
+
+.recentEmpty span {
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}
+
 .searchView {
   min-width: 0;
   min-height: 0;
@@ -828,6 +1040,19 @@
 
   .searchView {
     padding: var(--lk-space-6);
+  }
+
+  .newTabView {
+    padding: var(--lk-space-6);
+  }
+
+  .createActionGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .resumeBanner {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .tabsViewport {

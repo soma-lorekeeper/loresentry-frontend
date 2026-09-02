@@ -12,6 +12,7 @@ import { Button, IconButton, StatusNotice } from "@/components/ui";
 
 import { WorkspaceIcon, type WorkspaceIconName } from "../icons";
 import type { WorkspaceNavItem } from "../workspace-data";
+import { type RecentWorkspaceFile, WorkspaceNewTab } from "./workspace-new-tab";
 import { WorkspaceSearch } from "./workspace-search";
 import styles from "./workspace.module.css";
 
@@ -283,15 +284,21 @@ export function FileHeader({
 
 interface WorkspaceContentProps {
   activeTab: WorkspaceTab;
+  onCreateFile: (fileType: string, icon: WorkspaceIconName) => void;
   onOpenSearchResult: (item: WorkspaceNavItem) => void;
   onSearchQueryChange: (query: string) => void;
+  projectName: string;
+  recentFiles?: RecentWorkspaceFile[];
   searchQuery: string;
 }
 
 export function WorkspaceContent({
   activeTab,
+  onCreateFile,
   onOpenSearchResult,
   onSearchQueryChange,
+  projectName,
+  recentFiles,
   searchQuery,
 }: WorkspaceContentProps) {
   const [memoOpen, setMemoOpen] = useState(false);
@@ -321,7 +328,14 @@ export function WorkspaceContent({
           onMemoToggle={() => setMemoOpen((value) => !value)}
         />
       )}
-      {activeTab.id === "search" ? (
+      {activeTab.id === "new-tab" ? (
+        <WorkspaceNewTab
+          onCreateFile={onCreateFile}
+          onOpenFile={onOpenSearchResult}
+          projectName={projectName}
+          recentFiles={recentFiles}
+        />
+      ) : activeTab.id === "search" ? (
         <WorkspaceSearch
           onOpenResult={onOpenSearchResult}
           onQueryChange={onSearchQueryChange}
