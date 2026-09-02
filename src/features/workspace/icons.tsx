@@ -4,15 +4,25 @@ export type WorkspaceIconName =
   | "book"
   | "character"
   | "chevron"
+  | "chevron-left"
+  | "chevron-right"
+  | "close"
+  | "download"
   | "ellipsis"
   | "file"
   | "folder"
   | "graph"
+  | "grip"
   | "help"
+  | "history"
+  | "home"
+  | "lock"
   | "memo"
+  | "plus"
   | "search"
   | "settings"
   | "sidebar"
+  | "sparkles"
   | "trash";
 
 const paths: Record<WorkspaceIconName, ReactNode> = {
@@ -29,6 +39,14 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     </>
   ),
   chevron: <path d="m8 10 4 4 4-4" />,
+  "chevron-left": <path d="m15 18-6-6 6-6" />,
+  "chevron-right": <path d="m9 18 6-6-6-6" />,
+  close: <path d="m6 6 12 12M18 6 6 18" />,
+  download: (
+    <>
+      <path d="M12 3v12M7 10l5 5 5-5M5 21h14" />
+    </>
+  ),
   ellipsis: (
     <>
       <circle cx="5" cy="12" r="1" fill="currentColor" stroke="none" />
@@ -51,10 +69,29 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
       <path d="m8 7 8-2M7.5 8.5l7 8" />
     </>
   ),
+  grip: <path d="M9 5h.01M15 5h.01M9 12h.01M15 12h.01M9 19h.01M15 19h.01" />,
   help: (
     <>
       <circle cx="12" cy="12" r="9" />
       <path d="M9.8 9a2.4 2.4 0 1 1 3.4 2.2c-.9.4-1.2 1-1.2 1.8M12 17h.01" />
+    </>
+  ),
+  history: (
+    <>
+      <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+      <path d="M3 3v5h5M12 7v5l3 2" />
+    </>
+  ),
+  home: (
+    <>
+      <path d="m3 11 9-8 9 8" />
+      <path d="M5 10v11h14V10M10 21v-6h4v6" />
+    </>
+  ),
+  lock: (
+    <>
+      <rect x="5" y="10" width="14" height="11" rx="1" />
+      <path d="M8 10V7a4 4 0 0 1 8 0v3" />
     </>
   ),
   memo: (
@@ -63,6 +100,7 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
       <path d="M8 7h8M8 11h8M8 15h5" />
     </>
   ),
+  plus: <path d="M12 5v14M5 12h14" />,
   search: (
     <>
       <circle cx="11" cy="11" r="7" />
@@ -79,6 +117,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     <>
       <rect x="3" y="4" width="18" height="16" rx="1" />
       <path d="M9 4v16" />
+    </>
+  ),
+  sparkles: (
+    <>
+      <path d="m12 3 1.2 3.8L17 8l-3.8 1.2L12 13l-1.2-3.8L7 8l3.8-1.2Z" />
+      <path d="m18 14 .7 2.3L21 17l-2.3.7L18 20l-.7-2.3L15 17l2.3-.7Z" />
     </>
   ),
   trash: (

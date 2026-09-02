@@ -1,27 +1,41 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
-import { IconButton, StatusNotice } from "@/components/ui";
-
-import { WorkspaceIcon } from "../icons";
-import {
-  favoriteItems,
-  fileItems,
-  primaryNavigation,
-  projects,
-  utilityNavigation,
-  type WorkspaceNavItem,
-} from "../workspace-data";
+import { fileItems, projects, type WorkspaceNavItem } from "../workspace-data";
 import { WorkspaceSidebar } from "./workspace-sidebar";
+import {
+  WorkspaceContent,
+  WorkspaceTabBar,
+  type WorkspaceTab,
+} from "./workspace-tabs";
 import styles from "./workspace.module.css";
 
-const allTargets = [
-  ...primaryNavigation,
-  ...favoriteItems,
-  ...fileItems,
-  ...utilityNavigation,
+const initialTabs: WorkspaceTab[] = [
+  {
+    id: "manuscript-12",
+    icon: "file",
+    isFile: true,
+    label: "12화 · 균열의 밤",
+  },
+  {
+    id: "manuscript-11",
+    icon: "file",
+    isFile: true,
+    label: "11화 · 유리 정원",
+  },
 ];
+
+function toTab(item: WorkspaceNavItem): WorkspaceTab | null {
+  if (item.icon === "folder") return null;
+  const isFile = fileItems.some((candidate) => candidate.id === item.id);
+  return {
+    id: item.contentId ?? item.id,
+    icon: item.icon,
+    isFile,
+    label: item.label,
+  };
+}
 
 export interface WorkspaceShellProps {
   initialProjectId: string;
@@ -30,15 +44,81 @@ export interface WorkspaceShellProps {
 export function WorkspaceShell({ initialProjectId }: WorkspaceShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [selectedId, setSelectedId] = useState("favorite-manuscript-12");
+  const [tabs, setTabs] = useState(initialTabs);
+  const [activeTabId, setActiveTabId] = useState(initialTabs[0].id);
+  const [aiChatOpen, setAiChatOpen] = useState(false);
   const [currentProject, setCurrentProject] = useState(
     projects.find((project) => project.id === initialProjectId) ?? projects[0],
   );
-  const selectedTarget = useMemo(
-    () => allTargets.find((item) => item.id === selectedId) ?? allTargets[0],
-    [selectedId],
-  );
 
-  const selectTarget = (item: WorkspaceNavItem) => setSelectedId(item.id);
+  const selectTarget = (item: WorkspaceNavItem) => {
+    setSelectedId(item.id);
+    const nextTab = toTab(item);
+    if (!nextTab) return;
+    setTabs((current) => {
+      if (current.some((tab) => tab.id === nextTab.id)) return current;
+      if (current.some((tab) => tab.id === "new-tab")) {
+        return current.map((tab) => (tab.id === "new-tab" ? nextTab : tab));
+      }
+      return [...current, nextTab];
+    });
+    setActiveTabId(nextTab.id);
+  };
+
+  const closeTab = (tabId: string) => {
+    setTabs((current) => {
+      const closingIndex = current.findIndex((tab) => tab.id === tabId);
+      const remaining = current.filter((tab) => tab.id !== tabId);
+      if (remaining.length === 0) {
+        setActiveTabId("new-tab");
+        return [
+          {
+            id: "new-tab",
+            icon: "home",
+            isFile: false,
+            label: "새 탭",
+            closable: false,
+          },
+        ];
+      }
+      if (tabId === activeTabId) {
+        setActiveTabId(
+          remaining[Math.min(closingIndex, remaining.length - 1)].id,
+        );
+      }
+      return remaining;
+    });
+  };
+
+  const openNewTab = () => {
+    if (!tabs.some((tab) => tab.id === "new-tab")) {
+      setTabs((current) => [
+        ...current,
+        {
+          id: "new-tab",
+          icon: "home",
+          isFile: false,
+          label: "새 탭",
+          closable: false,
+        },
+      ]);
+    }
+    setActiveTabId("new-tab");
+  };
+
+  const reorderTabs = (sourceId: string, targetId: string) => {
+    setTabs((current) => {
+      const sourceIndex = current.findIndex((tab) => tab.id === sourceId);
+      const targetIndex = current.findIndex((tab) => tab.id === targetId);
+      if (sourceIndex < 0 || targetIndex < 0) return current;
+      const next = [...current];
+      const [source] = next.splice(sourceIndex, 1);
+      next.splice(targetIndex, 0, source);
+      return next;
+    });
+  };
+
+  const activeTab = tabs.find((tab) => tab.id === activeTabId) ?? tabs[0];
 
   return (
     <div className={styles.shell} data-sidebar-open={sidebarOpen}>
@@ -56,33 +136,19 @@ export function WorkspaceShell({ initialProjectId }: WorkspaceShellProps) {
       </div>
 
       <main className={styles.workspaceMain}>
-        <header className={styles.shellToolbar}>
-          <IconButton
-            aria-label={sidebarOpen ? "사이드바 닫기" : "사이드바 열기"}
-            aria-pressed={sidebarOpen}
-            onClick={() => setSidebarOpen((open) => !open)}
-          >
-            <WorkspaceIcon name="sidebar" />
-          </IconButton>
-          <span className={styles.toolbarContext}>{currentProject.name}</span>
-        </header>
-        <section
-          aria-labelledby="workspace-content-title"
-          className={styles.workspaceCanvas}
-        >
-          <div className={styles.canvasCopy}>
-            <span className={styles.eyebrow}>현재 선택</span>
-            <h1 id="workspace-content-title">{selectedTarget.label}</h1>
-            <p>
-              Workspace 셸과 탐색 상태를 검증하는 구현 화면입니다. 이후
-              Atomic에서 탭, 파일 조작과 검색 결과를 이 영역에 연결합니다.
-            </p>
-            <StatusNotice>
-              선택한 항목은 사이드바의 배경과 접근성 현재 위치로 함께
-              표시됩니다.
-            </StatusNotice>
-          </div>
-        </section>
+        <WorkspaceTabBar
+          activeTabId={activeTabId}
+          aiChatOpen={aiChatOpen}
+          onActiveChange={setActiveTabId}
+          onAiChatToggle={() => setAiChatOpen((open) => !open)}
+          onClose={closeTab}
+          onNewTab={openNewTab}
+          onReorder={reorderTabs}
+          onSidebarToggle={() => setSidebarOpen((open) => !open)}
+          sidebarOpen={sidebarOpen}
+          tabs={tabs}
+        />
+        <WorkspaceContent activeTab={activeTab} />
       </main>
     </div>
   );

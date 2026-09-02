@@ -188,32 +188,223 @@
   display: grid;
   min-width: 0;
   height: 100svh;
-  grid-template-rows: 48px minmax(0, 1fr);
+  grid-template-rows: 52px minmax(0, 1fr);
 }
 
-.shellToolbar {
+.tabBar {
   display: flex;
+  min-width: 0;
+  height: 52px;
   align-items: center;
-  gap: var(--lk-space-3);
-  padding: 0 var(--lk-space-4);
+  gap: var(--lk-space-2);
+  padding: var(--lk-space-2) 10px;
   border-bottom: 1px solid var(--lk-color-border-default);
   background: var(--lk-color-surface-topbar);
 }
 
-.toolbarContext {
-  overflow: hidden;
+.tabBarIconButton {
+  width: 36px;
+  min-height: 36px;
+  flex: 0 0 36px;
+}
+
+.tabsViewport {
+  min-width: 0;
+  max-width: min(54vw, 650px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tabsViewport::-webkit-scrollbar {
+  display: none;
+}
+
+.tabsTrack {
+  display: flex;
+  width: max-content;
+  gap: var(--lk-space-2);
+}
+
+.documentTab {
+  display: flex;
+  width: 157px;
+  height: 36px;
+  flex: 0 0 157px;
+  align-items: center;
+  padding: 0 4px 0 10px;
+  border: 1px solid transparent;
+  border-radius: var(--lk-radius-control);
+  background: transparent;
   color: var(--lk-color-text-secondary);
+}
+
+.documentTab[data-new-tab="true"] {
+  width: 86px;
+  flex-basis: 86px;
+}
+
+.documentTab[data-active="true"] {
+  border-color: var(--lk-color-border-default);
+  background: var(--lk-color-state-selected);
+  color: var(--lk-color-text-primary);
+  font-weight: 600;
+}
+
+.documentTab[data-dragging="true"] {
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 22%);
+}
+
+.documentTab:focus-within {
+  outline: 2px solid var(--lk-color-accent-primary);
+  outline-offset: 1px;
+}
+
+.tabSelect {
+  display: flex;
+  min-width: 0;
+  height: 100%;
+  flex: 1;
+  align-items: center;
+  gap: var(--lk-space-2);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
   font-size: var(--lk-font-size-label);
+  text-align: left;
+}
+
+.tabSelect:focus,
+.tabClose:focus {
+  outline: 0;
+}
+
+.tabSelect svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+}
+
+.tabSelect span {
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.tabClose {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--lk-radius-control);
+  background: transparent;
+  color: var(--lk-color-text-secondary);
+  cursor: pointer;
+}
+
+.tabClose:hover {
+  background: var(--lk-color-state-selected);
+  color: var(--lk-color-text-primary);
+}
+
+.tabClose svg {
+  width: 14px;
+  height: 14px;
+}
+
+.overflowControls {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 3px;
+}
+
+.scrollButton {
+  width: 28px;
+  min-height: 32px;
+}
+
+.tabBarSpacer {
+  min-width: 0;
+  flex: 1;
+}
+
+.aiChatButton {
+  height: 36px;
+  flex: 0 0 auto;
+}
+
+.contentColumn {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.fileHeader {
+  display: flex;
+  height: 48px;
+  flex: 0 0 48px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--lk-space-2);
+  padding: 0 14px;
+  border-bottom: 1px solid var(--lk-color-border-default);
+  background: var(--lk-color-bg-canvas);
+}
+
+.headerButton {
+  height: 32px;
+  min-height: 32px;
+}
+
+.headerButton[aria-pressed="true"] {
+  border-color: var(--lk-color-accent-primary);
+  background: var(--lk-color-state-selected);
+}
+
+.documentLayout {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
 }
 
 .workspaceCanvas {
   display: grid;
   min-width: 0;
+  min-height: 0;
+  flex: 1;
   place-items: center;
   padding: calc(var(--lk-space-6) * 2);
   overflow: auto;
+}
+
+.memoPanel {
+  width: 280px;
+  flex: 0 0 280px;
+  padding: var(--lk-space-4);
+  border-left: 1px solid var(--lk-color-border-default);
+  background: var(--lk-color-surface-default);
+}
+
+.memoPanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lk-space-3);
+}
+
+.memoPanel p {
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-body);
+  line-height: var(--lk-line-height-body);
 }
 
 .canvasCopy {
@@ -260,6 +451,19 @@
 
   .workspaceCanvas {
     padding: var(--lk-space-6);
+  }
+
+  .tabsViewport {
+    max-width: 46vw;
+  }
+
+  .aiChatButton {
+    display: none;
+  }
+
+  .memoPanel {
+    width: min(72vw, 280px);
+    flex-basis: min(72vw, 280px);
   }
 }
 

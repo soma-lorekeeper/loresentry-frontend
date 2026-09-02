@@ -6,6 +6,7 @@ export interface ProjectSummary {
 }
 
 export interface WorkspaceNavItem {
+  contentId?: string;
   icon: WorkspaceIconName;
   id: string;
   label: string;
@@ -24,19 +25,26 @@ export const primaryNavigation: WorkspaceNavItem[] = [
 ];
 
 export const favoriteItems: WorkspaceNavItem[] = [
-  { id: "favorite-manuscript-12", label: "12화 · 균열의 밤", icon: "file" },
+  {
+    id: "favorite-manuscript-12",
+    contentId: "manuscript-12",
+    label: "12화 · 균열의 밤",
+    icon: "file",
+  },
 ];
 
 export const fileItems: WorkspaceNavItem[] = [
   { id: "folder-manuscript", label: "원고", icon: "folder" },
   {
     id: "file-manuscript-12",
+    contentId: "manuscript-12",
     label: "12화 · 균열의 밤",
     icon: "file",
     level: 1,
   },
   {
     id: "file-manuscript-11",
+    contentId: "manuscript-11",
     label: "11화 · 유리 정원",
     icon: "file",
     level: 1,
