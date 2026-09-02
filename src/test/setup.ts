@@ -3,7 +3,10 @@ import "@testing-library/jest-dom/vitest";
 import { afterEach } from "vitest";
 import { cleanup } from "@testing-library/react";
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  delete document.documentElement.dataset.theme;
+});
 
 if (!window.requestAnimationFrame) {
   window.requestAnimationFrame = (callback) => window.setTimeout(callback, 0);
