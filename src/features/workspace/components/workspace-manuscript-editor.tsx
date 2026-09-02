@@ -11,7 +11,8 @@ const manuscriptBodies: Record<string, string> = {
     "유리 정원에 아침이 들면 밤새 맺힌 이슬이 작은 렌즈처럼 빛을 모았다. 서윤은 가장 먼저 깨어난 빛을 따라 중앙 온실로 걸었다.",
 };
 
-export type ManuscriptSaveStatus = "error" | "saved" | "saving";
+export type ManuscriptSaveStatus =
+  "disconnected" | "error" | "saved" | "saving";
 
 export interface ManuscriptDocument {
   body: string;
@@ -69,6 +70,7 @@ export function WorkspaceManuscriptEditor({
   };
 
   const saveStatusCopy: Record<ManuscriptSaveStatus, string> = {
+    disconnected: "백엔드 연결 전 · 입력은 이 화면에만 유지됩니다.",
     error: "저장하지 못했습니다. 입력은 유지됩니다.",
     saved: "저장됨",
     saving: "저장 중…",
@@ -162,7 +164,7 @@ export function createInitialManuscriptDocument(
 ): ManuscriptDocument {
   return {
     body: manuscriptBodies[documentId] ?? "",
-    saveStatus: "saved",
+    saveStatus: "disconnected",
     title,
   };
 }

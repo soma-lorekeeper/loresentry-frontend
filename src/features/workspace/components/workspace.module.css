@@ -1059,6 +1059,11 @@
   opacity: 0.55;
 }
 
+.manuscriptSaveStatus[data-save-status="disconnected"] .saveStatusDot {
+  background: currentColor;
+  opacity: 0.55;
+}
+
 .manuscriptSaveStatus[data-save-status="error"] {
   color: var(--lk-color-text-primary);
 }
