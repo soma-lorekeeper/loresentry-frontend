@@ -34,6 +34,7 @@ import {
   type PropertyReference,
   propertyFileIcons,
 } from "@/features/property/components/property-document";
+import type { PropertyDocumentScenario } from "@/features/property/property-document-states";
 
 import { WorkspaceIcon, type WorkspaceIconName } from "../icons";
 import type { WorkspaceNavItem } from "../workspace-data";
@@ -324,6 +325,7 @@ interface WorkspaceContentProps {
   activeTab: WorkspaceTab;
   aiChatOpen: boolean;
   deleteMemo?: (memo: MemoDeleteInput) => Promise<void>;
+  initialPropertyScenario?: PropertyDocumentScenario;
   onCreateFile: (fileType: string, icon: WorkspaceIconName) => void;
   onOpenSearchResult: (item: WorkspaceNavItem) => void;
   onSearchQueryChange: (query: string) => void;
@@ -361,6 +363,7 @@ export function WorkspaceContent({
   activeTab,
   aiChatOpen,
   deleteMemo,
+  initialPropertyScenario,
   onCreateFile,
   onOpenSearchResult,
   onSearchQueryChange,
@@ -385,7 +388,14 @@ export function WorkspaceContent({
   >({});
   const [propertyDocuments, setPropertyDocuments] = useState<
     Record<string, PropertyDocument>
-  >({});
+  >(() =>
+    initialPropertyScenario
+      ? {
+          [initialPropertyScenario.documentId]:
+            initialPropertyScenario.document,
+        }
+      : {},
+  );
   const [memoCollections, setMemoCollections] = useState<
     Record<string, MemoCollection>
   >(initialMemoCollections);
@@ -906,6 +916,11 @@ export function WorkspaceContent({
             availableFiles={availablePropertyFiles}
             document={currentPropertyDocument}
             documentId={activeTab.id}
+            initialOpenTypeMenuFor={
+              initialPropertyScenario?.documentId === activeTab.id
+                ? initialPropertyScenario.initialOpenTypeMenuFor
+                : undefined
+            }
             key={activeTab.id}
             onChange={(nextDocument) =>
               persistPropertyDocument(activeTab.id, nextDocument)

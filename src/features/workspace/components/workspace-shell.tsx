@@ -6,6 +6,10 @@ import { AiChatPanel } from "@/features/ai-chat/components/ai-chat-panel";
 import type { MemoSaveInput } from "@/features/memo/memo-model";
 import type { MemoDeleteInput } from "@/features/memo/memo-model";
 import type { PropertyDocument } from "@/features/property/components/property-document";
+import {
+  createPropertyDocumentScenario,
+  type PropertyDocumentStateId,
+} from "@/features/property/property-document-states";
 import { projects, type WorkspaceNavItem } from "../workspace-data";
 import { WorkspaceSidebar } from "./workspace-sidebar";
 import type { ManuscriptDocument } from "./workspace-manuscript-editor";
@@ -17,7 +21,7 @@ import {
 } from "./workspace-tabs";
 import styles from "./workspace.module.css";
 
-const initialTabs: WorkspaceTab[] = [
+const defaultInitialTabs: WorkspaceTab[] = [
   {
     id: "manuscript-12",
     icon: "file",
@@ -44,6 +48,7 @@ function toTab(item: WorkspaceNavItem): WorkspaceTab | null {
 
 export interface WorkspaceShellProps {
   deleteMemo?: (memo: MemoDeleteInput) => Promise<void>;
+  initialPropertyState?: PropertyDocumentStateId;
   initialProjectId: string;
   recentFiles?: RecentWorkspaceFile[];
   saveManuscript?: (
@@ -59,14 +64,30 @@ export interface WorkspaceShellProps {
 
 export function WorkspaceShell({
   deleteMemo,
+  initialPropertyState,
   initialProjectId,
   recentFiles,
   saveManuscript,
   saveMemo,
   savePropertyDocument,
 }: WorkspaceShellProps) {
+  const initialPropertyScenario = initialPropertyState
+    ? createPropertyDocumentScenario(initialPropertyState)
+    : undefined;
+  const initialTabs: WorkspaceTab[] = initialPropertyScenario
+    ? [
+        {
+          id: initialPropertyScenario.documentId,
+          icon: initialPropertyScenario.icon,
+          isFile: true,
+          label: initialPropertyScenario.label,
+        },
+      ]
+    : defaultInitialTabs;
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [selectedId, setSelectedId] = useState("favorite-manuscript-12");
+  const [selectedId, setSelectedId] = useState(
+    initialPropertyScenario?.documentId ?? "favorite-manuscript-12",
+  );
   const [tabs, setTabs] = useState(initialTabs);
   const [activeTabId, setActiveTabId] = useState(initialTabs[0].id);
   const [aiChatOpen, setAiChatOpen] = useState(false);
@@ -233,6 +254,7 @@ export function WorkspaceShell({
           onCreateFile={createFileFromNewTab}
           onOpenSearchResult={openSearchResult}
           onSearchQueryChange={setSearchQuery}
+          initialPropertyScenario={initialPropertyScenario}
           projectId={currentProject.id}
           projectName={currentProject.name}
           recentFiles={recentFiles}

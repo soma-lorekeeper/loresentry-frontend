@@ -63,6 +63,7 @@ export interface PropertyDocumentEditorProps {
   availableFiles?: PropertyReference[];
   document: PropertyDocument;
   documentId: string;
+  initialOpenTypeMenuFor?: string;
   onChange: (document: PropertyDocument) => void;
   onOpenReference?: (reference: PropertyReference) => void;
   onRetrySave?: () => void;
@@ -268,6 +269,7 @@ export function PropertyDocumentSaveStatus({
 
 function PropertyRow({
   availableFiles,
+  focusNameOnMount,
   initialTypeMenuOpen,
   onChange,
   onDelete,
@@ -275,6 +277,7 @@ function PropertyRow({
   property,
 }: {
   availableFiles: PropertyReference[];
+  focusNameOnMount?: boolean;
   initialTypeMenuOpen?: boolean;
   onChange: (property: DocumentProperty) => void;
   onDelete: () => void;
@@ -294,9 +297,9 @@ function PropertyRow({
   const menuId = useId();
 
   useEffect(() => {
-    if (!initialTypeMenuOpen) return;
+    if (!focusNameOnMount) return;
     requestAnimationFrame(() => nameInputRef.current?.focus());
-  }, [initialTypeMenuOpen]);
+  }, [focusNameOnMount]);
 
   const closeMenu = (restoreFocus: boolean) => {
     const activeMenu = openMenu;
@@ -516,6 +519,7 @@ export function PropertyDocumentEditor({
   availableFiles = [],
   document,
   documentId,
+  initialOpenTypeMenuFor,
   onChange,
   onOpenReference,
   onRetrySave,
@@ -590,7 +594,11 @@ export function PropertyDocumentEditor({
             {document.properties.map((property) => (
               <PropertyRow
                 availableFiles={availableFiles}
-                initialTypeMenuOpen={property.id === newPropertyId}
+                focusNameOnMount={property.id === newPropertyId}
+                initialTypeMenuOpen={
+                  property.id === newPropertyId ||
+                  property.id === initialOpenTypeMenuFor
+                }
                 key={property.id}
                 onChange={updateProperty}
                 onDelete={() =>
@@ -722,10 +730,17 @@ export const propertyDocumentSamples: Record<string, PropertyDocument> = {
     title: "균열의 법칙",
   },
   worldbuilding: {
-    body: "",
-    properties: [],
+    body: "유리 정원은 기억의 균열이 모이는 경계 세계다.",
+    properties: [
+      {
+        id: "worldbuilding-theme",
+        name: "핵심 주제",
+        type: "text",
+        value: "기억과 균열",
+      },
+    ],
     saveStatus: "saved",
-    title: "",
+    title: "유리 정원의 세계",
   },
 };
 
