@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
@@ -66,5 +66,71 @@ describe("AI Chat panel", () => {
       }),
     ).toBeInTheDocument();
     expect((body as HTMLTextAreaElement).value).toContain("유지할 문장");
+  });
+
+  it("renames only the current session inline", async () => {
+    const user = userEvent.setup();
+    render(<WorkspaceShell initialProjectId="glass-garden" />);
+    await user.click(screen.getByRole("button", { name: "AI 챗" }));
+
+    await user.click(
+      screen.getByRole("button", { name: "현재 채팅 세션 메뉴" }),
+    );
+    await user.click(screen.getByRole("menuitem", { name: "이름 변경" }));
+
+    const name = screen.getByRole("textbox", { name: "채팅 세션 이름" });
+    await waitFor(() => expect(name).toHaveFocus());
+    await user.clear(name);
+    await user.type(name, "문장 리듬 검토{Enter}");
+
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", {
+          name: "채팅 세션 선택: 문장 리듬 검토",
+        }),
+      ).toHaveFocus(),
+    );
+    expect(
+      screen.getByText("채팅 세션 이름을 문장 리듬 검토(으)로 변경했습니다."),
+    ).toBeInTheDocument();
+  });
+
+  it("confirms deletion with cancel focused and restores a defined session", async () => {
+    const user = userEvent.setup();
+    render(<WorkspaceShell initialProjectId="glass-garden" />);
+    await user.click(screen.getByRole("button", { name: "AI 챗" }));
+
+    const more = screen.getByRole("button", {
+      name: "현재 채팅 세션 메뉴",
+    });
+    await user.click(more);
+    await user.click(screen.getByRole("menuitem", { name: "삭제" }));
+
+    const dialog = screen.getByRole("dialog", {
+      name: "채팅 세션을 삭제할까요?",
+    });
+    const cancel = within(dialog).getByRole("button", { name: "취소" });
+    await waitFor(() => expect(cancel).toHaveFocus());
+    await user.click(cancel);
+    await waitFor(() => expect(more).toHaveFocus());
+
+    await user.click(more);
+    await user.click(screen.getByRole("menuitem", { name: "삭제" }));
+    await user.click(
+      within(
+        screen.getByRole("dialog", { name: "채팅 세션을 삭제할까요?" }),
+      ).getByRole("button", { name: "삭제" }),
+    );
+
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", {
+          name: "채팅 세션 선택: 북쪽 문 복선 정리",
+        }),
+      ).toHaveFocus(),
+    );
+    expect(
+      screen.getByText("균열 장면 다듬기 채팅 세션을 삭제했습니다."),
+    ).toBeInTheDocument();
   });
 });

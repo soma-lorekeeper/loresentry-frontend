@@ -1,8 +1,22 @@
 "use client";
 
-import { type FormEvent, useId, useRef, useState } from "react";
+import {
+  type FormEvent,
+  type KeyboardEvent,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from "react";
 
-import { IconButton, Menu, MenuItem } from "@/components/ui";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  IconButton,
+  Menu,
+  MenuItem,
+} from "@/components/ui";
 import { WorkspaceIcon } from "@/features/workspace/icons";
 
 import styles from "./ai-chat-panel.module.css";
@@ -58,13 +72,107 @@ export interface AiChatPanelProps {
 
 export function AiChatPanel({ documentName, hidden }: AiChatPanelProps) {
   const headingId = useId();
+  const cancelDeleteRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const renameInputRef = useRef<HTMLInputElement>(null);
   const sessionCounterRef = useRef(0);
+  const [announcement, setAnnouncement] = useState("");
+  const [deletingSession, setDeletingSession] = useState<ChatSession | null>(
+    null,
+  );
   const [draft, setDraft] = useState("");
+  const [renameDraft, setRenameDraft] = useState("");
+  const [renaming, setRenaming] = useState(false);
   const [sessions, setSessions] = useState(initialSessions);
   const [activeSessionId, setActiveSessionId] = useState(initialSessions[0].id);
   const activeSession =
     sessions.find((session) => session.id === activeSessionId) ?? sessions[0];
+
+  useEffect(() => {
+    if (!renaming) return;
+    requestAnimationFrame(() => {
+      renameInputRef.current?.focus();
+      renameInputRef.current?.select();
+    });
+  }, [renaming]);
+
+  const focusSessionMenu = () => {
+    requestAnimationFrame(() =>
+      document
+        .querySelector<HTMLButtonElement>(
+          'button[aria-label="현재 채팅 세션 메뉴"]',
+        )
+        ?.focus(),
+    );
+  };
+
+  const focusSessionPicker = () => {
+    requestAnimationFrame(() =>
+      document
+        .querySelector<HTMLButtonElement>(
+          'button[aria-label^="채팅 세션 선택:"]',
+        )
+        ?.focus(),
+    );
+  };
+
+  const beginRename = () => {
+    setRenameDraft(activeSession.name);
+    setRenaming(true);
+  };
+
+  const cancelRename = () => {
+    setRenaming(false);
+    focusSessionMenu();
+  };
+
+  const renameSession = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const name = renameDraft.trim();
+    if (!name) return;
+    setSessions((current) =>
+      current.map((session) =>
+        session.id === activeSession.id ? { ...session, name } : session,
+      ),
+    );
+    setRenaming(false);
+    setAnnouncement(`채팅 세션 이름을 ${name}(으)로 변경했습니다.`);
+    focusSessionPicker();
+  };
+
+  const handleRenameKeyDown = (event: KeyboardEvent<HTMLFormElement>) => {
+    if (event.key !== "Escape") return;
+    event.preventDefault();
+    cancelRename();
+  };
+
+  const cancelDelete = () => {
+    setDeletingSession(null);
+    focusSessionMenu();
+  };
+
+  const deleteSession = () => {
+    if (!deletingSession) return;
+    let remaining = sessions.filter(
+      (session) => session.id !== deletingSession.id,
+    );
+    if (remaining.length === 0) {
+      sessionCounterRef.current += 1;
+      remaining = [
+        {
+          id: `session-new-${sessionCounterRef.current}`,
+          isDraft: true,
+          messages: [],
+          name: "새 채팅",
+        },
+      ];
+    }
+    setSessions(remaining);
+    setActiveSessionId(remaining[0].id);
+    setDeletingSession(null);
+    setAnnouncement(`${deletingSession.name} 채팅 세션을 삭제했습니다.`);
+    focusSessionPicker();
+  };
 
   const startNewSession = () => {
     sessionCounterRef.current += 1;
@@ -114,32 +222,61 @@ export function AiChatPanel({ documentName, hidden }: AiChatPanelProps) {
   return (
     <aside aria-labelledby={headingId} className={styles.panel} hidden={hidden}>
       <header className={styles.header}>
-        <Menu
-          buttonContent={
-            <>
-              <span id={headingId}>{activeSession.name}</span>
-              <WorkspaceIcon name="chevron" />
-            </>
-          }
-          buttonLabel={`채팅 세션 선택: ${activeSession.name}`}
-          className={styles.sessionPicker}
-          placement="start"
-          triggerClassName={styles.sessionTrigger}
-        >
-          {sessions.map((session) => (
-            <MenuItem
-              key={session.id}
-              onClick={() => {
-                setActiveSessionId(session.id);
-                setDraft("");
-              }}
-              selected={session.id === activeSession.id}
+        {renaming ? (
+          <form
+            className={styles.renameForm}
+            onKeyDown={handleRenameKeyDown}
+            onSubmit={renameSession}
+          >
+            <span className={styles.srOnly} id={headingId}>
+              {activeSession.name}
+            </span>
+            <label className={styles.srOnly} htmlFor="ai-chat-session-name">
+              채팅 세션 이름
+            </label>
+            <input
+              id="ai-chat-session-name"
+              maxLength={60}
+              onChange={(event) => setRenameDraft(event.target.value)}
+              ref={renameInputRef}
+              value={renameDraft}
+            />
+            <button
+              aria-label="채팅 세션 이름 변경 완료"
+              disabled={!renameDraft.trim()}
+              type="submit"
             >
-              <WorkspaceIcon name="message-square" />
-              <span>{session.name}</span>
-            </MenuItem>
-          ))}
-        </Menu>
+              <WorkspaceIcon name="check" />
+            </button>
+          </form>
+        ) : (
+          <Menu
+            buttonContent={
+              <>
+                <span id={headingId}>{activeSession.name}</span>
+                <WorkspaceIcon name="chevron" />
+              </>
+            }
+            buttonLabel={`채팅 세션 선택: ${activeSession.name}`}
+            className={styles.sessionPicker}
+            placement="start"
+            triggerClassName={styles.sessionTrigger}
+          >
+            {sessions.map((session) => (
+              <MenuItem
+                key={session.id}
+                onClick={() => {
+                  setActiveSessionId(session.id);
+                  setDraft("");
+                }}
+                selected={session.id === activeSession.id}
+              >
+                <WorkspaceIcon name="message-square" />
+                <span>{session.name}</span>
+              </MenuItem>
+            ))}
+          </Menu>
+        )}
         <span className={styles.headerSpacer} />
         <IconButton
           aria-label="새 채팅 시작"
@@ -148,12 +285,21 @@ export function AiChatPanel({ documentName, hidden }: AiChatPanelProps) {
         >
           <WorkspaceIcon name="plus" />
         </IconButton>
-        <IconButton
-          aria-label="현재 채팅 세션 메뉴"
-          className={styles.headerAction}
+        <Menu
+          buttonContent={<WorkspaceIcon name="ellipsis" />}
+          buttonLabel="현재 채팅 세션 메뉴"
+          className={styles.sessionActions}
+          triggerClassName={styles.headerAction}
         >
-          <WorkspaceIcon name="ellipsis" />
-        </IconButton>
+          <MenuItem onClick={beginRename}>
+            <WorkspaceIcon name="pencil" />
+            <span>이름 변경</span>
+          </MenuItem>
+          <MenuItem onClick={() => setDeletingSession(activeSession)}>
+            <WorkspaceIcon name="trash" />
+            <span>삭제</span>
+          </MenuItem>
+        </Menu>
       </header>
 
       <div aria-label="대화 내역" className={styles.history} role="log">
@@ -214,6 +360,32 @@ export function AiChatPanel({ documentName, hidden }: AiChatPanelProps) {
           </button>
         </div>
       </form>
+
+      <p aria-live="polite" className={styles.srOnly} role="status">
+        {announcement}
+      </p>
+
+      <Dialog
+        className={styles.deleteDialog}
+        description={
+          deletingSession
+            ? `‘${deletingSession.name}’의 대화 내역이 삭제되며 되돌릴 수 없습니다.`
+            : undefined
+        }
+        initialFocusRef={cancelDeleteRef}
+        onOpenChange={(open) => {
+          if (!open) cancelDelete();
+        }}
+        open={Boolean(deletingSession)}
+        title="채팅 세션을 삭제할까요?"
+      >
+        <DialogActions>
+          <Button onClick={cancelDelete} ref={cancelDeleteRef}>
+            취소
+          </Button>
+          <Button onClick={deleteSession}>삭제</Button>
+        </DialogActions>
+      </Dialog>
     </aside>
   );
 }
