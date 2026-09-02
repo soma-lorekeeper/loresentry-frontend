@@ -5,12 +5,14 @@ export type WorkspaceIconName =
   | "book"
   | "character"
   | "check"
+  | "circle-alert"
   | "chevron"
   | "chevron-left"
   | "chevron-right"
   | "close"
   | "download"
   | "ellipsis"
+  | "external-link"
   | "file"
   | "folder"
   | "graph"
@@ -21,6 +23,9 @@ export type WorkspaceIconName =
   | "lock"
   | "message-square"
   | "memo"
+  | "notebook-pen"
+  | "panel-bottom"
+  | "panel-right"
   | "plus"
   | "pencil"
   | "search"
@@ -44,6 +49,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     </>
   ),
   check: <path d="m5 12 4 4L19 6" />,
+  "circle-alert": (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v6M12 17h.01" />
+    </>
+  ),
   chevron: <path d="m8 10 4 4 4-4" />,
   "chevron-left": <path d="m15 18-6-6 6-6" />,
   "chevron-right": <path d="m9 18 6-6-6-6" />,
@@ -58,6 +69,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
       <circle cx="5" cy="12" r="1" fill="currentColor" stroke="none" />
       <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
       <circle cx="19" cy="12" r="1" fill="currentColor" stroke="none" />
+    </>
+  ),
+  "external-link": (
+    <>
+      <path d="M14 4h6v6M13 11l7-7" />
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
     </>
   ),
   file: (
@@ -107,6 +124,24 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     <>
       <path d="M5 3h14v18H5Z" />
       <path d="M8 7h8M8 11h8M8 15h5" />
+    </>
+  ),
+  "notebook-pen": (
+    <>
+      <path d="M5 3h14v18H5Z" />
+      <path d="M9 3v18M12 8h4M12 12h4M12 16h2" />
+    </>
+  ),
+  "panel-bottom": (
+    <>
+      <rect x="3" y="4" width="18" height="16" rx="1" />
+      <path d="M3 14h18" />
+    </>
+  ),
+  "panel-right": (
+    <>
+      <rect x="3" y="4" width="18" height="16" rx="1" />
+      <path d="M14 4v16" />
     </>
   ),
   plus: <path d="M12 5v14M5 12h14" />,

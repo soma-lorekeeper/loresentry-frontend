@@ -3,6 +3,8 @@
 import { useRef, useState } from "react";
 
 import { AiChatPanel } from "@/features/ai-chat/components/ai-chat-panel";
+import type { MemoSaveInput } from "@/features/memo/memo-model";
+import type { MemoDeleteInput } from "@/features/memo/memo-model";
 import { projects, type WorkspaceNavItem } from "../workspace-data";
 import { WorkspaceSidebar } from "./workspace-sidebar";
 import type { ManuscriptDocument } from "./workspace-manuscript-editor";
@@ -40,18 +42,22 @@ function toTab(item: WorkspaceNavItem): WorkspaceTab | null {
 }
 
 export interface WorkspaceShellProps {
+  deleteMemo?: (memo: MemoDeleteInput) => Promise<void>;
   initialProjectId: string;
   recentFiles?: RecentWorkspaceFile[];
   saveManuscript?: (
     documentId: string,
     document: Pick<ManuscriptDocument, "body" | "title">,
   ) => Promise<void>;
+  saveMemo?: (memo: MemoSaveInput) => Promise<void>;
 }
 
 export function WorkspaceShell({
+  deleteMemo,
   initialProjectId,
   recentFiles,
   saveManuscript,
+  saveMemo,
 }: WorkspaceShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [selectedId, setSelectedId] = useState("favorite-manuscript-12");
@@ -216,12 +222,16 @@ export function WorkspaceShell({
         />
         <WorkspaceContent
           activeTab={activeTab}
+          aiChatOpen={aiChatOpen}
+          deleteMemo={deleteMemo}
           onCreateFile={createFileFromNewTab}
           onOpenSearchResult={openSearchResult}
           onSearchQueryChange={setSearchQuery}
+          projectId={currentProject.id}
           projectName={currentProject.name}
           recentFiles={recentFiles}
           saveManuscript={saveManuscript}
+          saveMemo={saveMemo}
           searchQuery={searchQuery}
         />
       </main>

@@ -1,0 +1,125 @@
+.screen {
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
+  padding: calc(var(--lk-space-6) * 2);
+  overflow: auto;
+}
+
+.pageHeader {
+  display: flex;
+  width: 100%;
+  max-width: 1184px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lk-space-6);
+  margin: 0 auto calc(var(--lk-space-6) * 2);
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+}
+
+.titleGroup h1 {
+  margin: 0;
+  font-size: var(--lk-font-size-heading-lg);
+}
+
+.titleGroup svg {
+  width: 18px;
+  height: 18px;
+}
+
+.scopeToggle {
+  display: flex;
+  width: 280px;
+  height: 38px;
+  flex: 0 0 280px;
+  gap: var(--lk-space-1);
+  padding: var(--lk-space-1);
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-default);
+}
+
+.scopeToggle button {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  border-radius: var(--lk-radius-control);
+  background: transparent;
+  color: var(--lk-color-text-secondary);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--lk-font-size-body);
+}
+
+.scopeToggle button[aria-selected="true"] {
+  background: var(--lk-color-state-selected);
+  color: var(--lk-color-text-primary);
+  font-weight: 600;
+}
+
+.scopeToggle button:focus-visible,
+.titleGroup h1:focus-visible {
+  outline: 2px solid var(--lk-color-accent-primary);
+  outline-offset: 2px;
+}
+
+.cardGrid {
+  display: grid;
+  width: 100%;
+  max-width: 1184px;
+  grid-template-columns: repeat(auto-fill, 268px);
+  justify-content: start;
+  gap: var(--lk-space-6);
+  margin: 0 auto;
+}
+
+.cardGrid[hidden] {
+  display: none;
+}
+
+.emptyState {
+  display: flex;
+  grid-column: 1 / -1;
+  min-height: 268px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--lk-space-2);
+  border: 1px dashed var(--lk-color-border-default);
+  color: var(--lk-color-text-secondary);
+  text-align: center;
+}
+
+.emptyState strong {
+  color: var(--lk-color-text-primary);
+}
+
+.emptyState p {
+  margin: 0;
+  font-size: var(--lk-font-size-body);
+}
+
+@media (max-width: 720px) {
+  .screen {
+    padding: var(--lk-space-6);
+  }
+
+  .pageHeader {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .scopeToggle {
+    width: 100%;
+    flex-basis: 38px;
+  }
+
+  .cardGrid {
+    grid-template-columns: minmax(0, 268px);
+  }
+}

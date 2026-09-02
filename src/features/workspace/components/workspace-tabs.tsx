@@ -10,6 +10,23 @@ import {
 } from "react";
 
 import { Button, IconButton, StatusNotice } from "@/components/ui";
+import { FileMemoWorkspace } from "@/features/memo/components/file-memo-workspace";
+import { MemoDeleteDialog } from "@/features/memo/components/memo-delete-dialog";
+import {
+  ProjectMemos,
+  type ProjectMemoScope,
+} from "@/features/memo/components/project-memos";
+import {
+  emptyMemoCollection,
+  initialMemoCollections,
+  type FileMemo,
+  type MemoDeleteInput,
+  type MemoDeleteTarget,
+  type MemoCollection,
+  type MemoSaveInput,
+  type MemoSaveStatus,
+  type ProjectMemo,
+} from "@/features/memo/memo-model";
 
 import { WorkspaceIcon, type WorkspaceIconName } from "../icons";
 import type { WorkspaceNavItem } from "../workspace-data";
@@ -298,26 +315,34 @@ export function FileHeader({
 
 interface WorkspaceContentProps {
   activeTab: WorkspaceTab;
+  aiChatOpen: boolean;
+  deleteMemo?: (memo: MemoDeleteInput) => Promise<void>;
   onCreateFile: (fileType: string, icon: WorkspaceIconName) => void;
   onOpenSearchResult: (item: WorkspaceNavItem) => void;
   onSearchQueryChange: (query: string) => void;
+  projectId: string;
   projectName: string;
   recentFiles?: RecentWorkspaceFile[];
   saveManuscript?: (
     documentId: string,
     document: Pick<ManuscriptDocument, "body" | "title">,
   ) => Promise<void>;
+  saveMemo?: (memo: MemoSaveInput) => Promise<void>;
   searchQuery: string;
 }
 
 export function WorkspaceContent({
   activeTab,
+  aiChatOpen,
+  deleteMemo,
   onCreateFile,
   onOpenSearchResult,
   onSearchQueryChange,
+  projectId,
   projectName,
   recentFiles,
   saveManuscript,
+  saveMemo,
   searchQuery,
 }: WorkspaceContentProps) {
   const [memoOpen, setMemoOpen] = useState(false);
@@ -331,7 +356,23 @@ export function WorkspaceContent({
   const [manuscriptDocuments, setManuscriptDocuments] = useState<
     Record<string, ManuscriptDocument>
   >({});
+  const [memoCollections, setMemoCollections] = useState<
+    Record<string, MemoCollection>
+  >(initialMemoCollections);
+  const [memoScopes, setMemoScopes] = useState<
+    Record<string, ProjectMemoScope>
+  >({});
+  const [pendingMemoId, setPendingMemoId] = useState<string>();
+  const [deleteTarget, setDeleteTarget] = useState<MemoDeleteTarget>();
   const memoButtonRef = useRef<HTMLButtonElement>(null);
+  const memoCounterRef = useRef(0);
+  const memoLatestBodyRef = useRef<Record<string, string>>({});
+  const memoRequestsRef = useRef<
+    Record<string, { inFlight: boolean; queued?: MemoSaveInput }>
+  >({});
+  const memoSaveTimersRef = useRef<
+    Record<string, ReturnType<typeof setTimeout>>
+  >({});
   const lastEditorFocusRef = useRef<Record<string, ManuscriptFocusTarget>>({});
   const saveTimersRef = useRef<Record<string, ReturnType<typeof setTimeout>>>(
     {},
@@ -340,6 +381,7 @@ export function WorkspaceContent({
   useEffect(
     () => () => {
       Object.values(saveTimersRef.current).forEach(clearTimeout);
+      Object.values(memoSaveTimersRef.current).forEach(clearTimeout);
     },
     [],
   );
@@ -357,6 +399,277 @@ export function WorkspaceContent({
   const currentManuscript =
     manuscriptDocuments[activeTab.id] ??
     createInitialManuscriptDocument(activeTab.id, activeTab.label);
+  const currentMemoCollection =
+    memoCollections[projectId] ?? emptyMemoCollection();
+  const currentMemoScope = memoScopes[projectId] ?? "project";
+  const currentFileMemo = currentMemoCollection.file.find(
+    (memo) => memo.fileId === activeTab.id,
+  );
+
+  const updateCurrentMemoCollection = (
+    update: (collection: MemoCollection) => MemoCollection,
+  ) => {
+    setMemoCollections((current) => ({
+      ...current,
+      [projectId]: update(current[projectId] ?? emptyMemoCollection()),
+    }));
+  };
+
+  const setMemoStatus = (
+    targetProjectId: string,
+    memoId: string,
+    saveStatus: MemoSaveStatus,
+  ) => {
+    setMemoCollections((current) => {
+      const collection = current[targetProjectId] ?? emptyMemoCollection();
+      return {
+        ...current,
+        [targetProjectId]: {
+          file: collection.file.map((memo) =>
+            memo.id === memoId ? { ...memo, saveStatus } : memo,
+          ),
+          project: collection.project.map((memo) =>
+            memo.id === memoId ? { ...memo, saveStatus } : memo,
+          ),
+        },
+      };
+    });
+  };
+
+  async function executeMemoSave(input: MemoSaveInput) {
+    if (!saveMemo) return;
+    const requestKey = `${input.projectId}:${input.id}`;
+    const request = (memoRequestsRef.current[requestKey] ??= {
+      inFlight: false,
+    });
+    if (request.inFlight) {
+      request.queued = input;
+      return;
+    }
+    request.inFlight = true;
+    let failed = false;
+    try {
+      await saveMemo(input);
+    } catch {
+      failed = true;
+    }
+
+    const queued = request.queued;
+    request.queued = undefined;
+    request.inFlight = false;
+    if (queued && queued.body !== input.body) {
+      setMemoStatus(input.projectId, input.id, "saving");
+      void executeMemoSave(queued);
+      return;
+    }
+    if (memoLatestBodyRef.current[requestKey] !== input.body) {
+      setMemoStatus(input.projectId, input.id, "saving");
+      return;
+    }
+    setMemoStatus(input.projectId, input.id, failed ? "error" : "saved");
+  }
+
+  const scheduleMemoSave = (input: MemoSaveInput) => {
+    const requestKey = `${input.projectId}:${input.id}`;
+    memoLatestBodyRef.current[requestKey] = input.body;
+    clearTimeout(memoSaveTimersRef.current[requestKey]);
+    if (!saveMemo) {
+      setMemoStatus(input.projectId, input.id, "disconnected");
+      return;
+    }
+    setMemoStatus(input.projectId, input.id, "saving");
+    memoSaveTimersRef.current[requestKey] = setTimeout(() => {
+      delete memoSaveTimersRef.current[requestKey];
+      void executeMemoSave(input);
+    }, 350);
+  };
+
+  const retryMemoSave = (input: MemoSaveInput) => {
+    if (!saveMemo) return;
+    const requestKey = `${input.projectId}:${input.id}`;
+    clearTimeout(memoSaveTimersRef.current[requestKey]);
+    delete memoSaveTimersRef.current[requestKey];
+    memoLatestBodyRef.current[requestKey] = input.body;
+    setMemoStatus(input.projectId, input.id, "saving");
+    void executeMemoSave(input);
+  };
+
+  const addProjectMemo = () => {
+    memoCounterRef.current += 1;
+    const id = `project-${projectId}-draft-${memoCounterRef.current}`;
+    updateCurrentMemoCollection((collection) => ({
+      ...collection,
+      project: [{ id, body: "" }, ...collection.project],
+    }));
+    setMemoScopes((current) => ({ ...current, [projectId]: "project" }));
+    setPendingMemoId(id);
+  };
+
+  const updateProjectMemo = (memo: ProjectMemo, body: string) => {
+    updateCurrentMemoCollection((collection) => ({
+      ...collection,
+      project: collection.project.map((item) =>
+        item.id === memo.id ? { ...item, body } : item,
+      ),
+    }));
+    scheduleMemoSave({
+      body,
+      id: memo.id,
+      projectId,
+      scope: "project",
+    });
+  };
+
+  const discardEmptyProjectMemo = (memo: ProjectMemo) => {
+    if (memo.id !== pendingMemoId || memo.body.trim()) return;
+    updateCurrentMemoCollection((collection) => ({
+      ...collection,
+      project: collection.project.filter((item) => item.id !== memo.id),
+    }));
+    setPendingMemoId(undefined);
+  };
+
+  const updateFileMemo = (memo: FileMemo, body: string) => {
+    updateCurrentMemoCollection((collection) => ({
+      ...collection,
+      file: collection.file.map((item) =>
+        item.id === memo.id ? { ...item, body } : item,
+      ),
+    }));
+    scheduleMemoSave({
+      body,
+      fileId: memo.fileId,
+      id: memo.id,
+      projectId,
+      scope: "file",
+    });
+  };
+
+  const updateActiveFileMemo = (body: string) => {
+    const memoId = currentFileMemo?.id ?? `file-${activeTab.id}-memo`;
+    updateCurrentMemoCollection((collection) => {
+      const existing = collection.file.find(
+        (memo) => memo.fileId === activeTab.id,
+      );
+      if (existing) {
+        return {
+          ...collection,
+          file: collection.file.map((memo) =>
+            memo.id === existing.id ? { ...memo, body } : memo,
+          ),
+        };
+      }
+      return {
+        ...collection,
+        file: [
+          {
+            id: `file-${activeTab.id}-memo`,
+            fileId: activeTab.id,
+            fileName: activeTab.label,
+            body,
+          },
+          ...collection.file,
+        ],
+      };
+    });
+    scheduleMemoSave({
+      body,
+      fileId: activeTab.id,
+      id: memoId,
+      projectId,
+      scope: "file",
+    });
+  };
+
+  const retryProjectMemo = (memo: ProjectMemo) =>
+    retryMemoSave({
+      body: memo.body,
+      id: memo.id,
+      projectId,
+      scope: "project",
+    });
+
+  const retryFileMemo = (memo: FileMemo) =>
+    retryMemoSave({
+      body: memo.body,
+      fileId: memo.fileId,
+      id: memo.id,
+      projectId,
+      scope: "file",
+    });
+
+  const requestMemoDelete = (
+    memo: FileMemo | ProjectMemo,
+    scope: "file" | "project",
+    returnFocus: HTMLElement,
+  ) => {
+    setDeleteTarget({
+      body: memo.body,
+      input: {
+        fileId: "fileId" in memo ? memo.fileId : undefined,
+        id: memo.id,
+        projectId,
+        scope,
+      },
+      label: "fileName" in memo ? memo.fileName : "프로젝트 메모",
+      returnFocus,
+    });
+  };
+
+  const finishMemoDelete = (target: MemoDeleteTarget) => {
+    const collection =
+      memoCollections[target.input.projectId] ?? emptyMemoCollection();
+    const list =
+      target.input.scope === "project" ? collection.project : collection.file;
+    const deletedIndex = list.findIndex((memo) => memo.id === target.input.id);
+    const nextMemo = list[deletedIndex + 1] ?? list[deletedIndex - 1];
+    setMemoCollections((current) => {
+      const currentCollection =
+        current[target.input.projectId] ?? emptyMemoCollection();
+      return {
+        ...current,
+        [target.input.projectId]: {
+          file: currentCollection.file.filter(
+            (memo) => memo.id !== target.input.id,
+          ),
+          project: currentCollection.project.filter(
+            (memo) => memo.id !== target.input.id,
+          ),
+        },
+      };
+    });
+    const requestKey = `${target.input.projectId}:${target.input.id}`;
+    clearTimeout(memoSaveTimersRef.current[requestKey]);
+    delete memoSaveTimersRef.current[requestKey];
+    delete memoLatestBodyRef.current[requestKey];
+    delete memoRequestsRef.current[requestKey];
+    setDeleteTarget(undefined);
+    requestAnimationFrame(() => {
+      const nextInput = nextMemo
+        ? document.querySelector<HTMLTextAreaElement>(
+            `[data-memo-id="${nextMemo.id}"] textarea`,
+          )
+        : undefined;
+      nextInput?.focus();
+      if (nextInput) return;
+      const fallback =
+        document.querySelector<HTMLElement>("[data-add-project-memo]") ??
+        document.querySelector<HTMLElement>(
+          '[role="tab"][aria-selected="true"]',
+        );
+      fallback?.focus();
+    });
+  };
+
+  const openMemoFile = (memo: FileMemo) => {
+    onOpenSearchResult({
+      contentId: memo.fileId,
+      icon: "file",
+      id: memo.fileId,
+      kind: "file",
+      label: memo.fileName,
+    });
+  };
 
   const persistManuscript = (
     documentId: string,
@@ -394,16 +707,7 @@ export function WorkspaceContent({
 
   const closeMemo = () => {
     setMemoOpen(false);
-    const target = lastEditorFocusRef.current[activeTab.id];
-    if (target) {
-      setEditorFocusRestore((current) => ({
-        documentId: activeTab.id,
-        request: (current?.request ?? 0) + 1,
-        target,
-      }));
-    } else {
-      requestAnimationFrame(() => memoButtonRef.current?.focus());
-    }
+    requestAnimationFrame(() => memoButtonRef.current?.focus());
   };
 
   return (
@@ -437,8 +741,46 @@ export function WorkspaceContent({
           onQueryChange={onSearchQueryChange}
           query={searchQuery}
         />
+      ) : activeTab.id === "memo" ? (
+        <ProjectMemos
+          collection={currentMemoCollection}
+          onAddProjectMemo={addProjectMemo}
+          onDeleteRequest={requestMemoDelete}
+          onFileMemoChange={updateFileMemo}
+          onFileMemoRetry={retryFileMemo}
+          onProjectMemoBlur={discardEmptyProjectMemo}
+          onProjectMemoChange={updateProjectMemo}
+          onProjectMemoRetry={retryProjectMemo}
+          onOpenFile={openMemoFile}
+          onScopeChange={(scope) =>
+            setMemoScopes((current) => ({ ...current, [projectId]: scope }))
+          }
+          pendingMemoId={pendingMemoId}
+          projectName={projectName}
+          saveAvailable={Boolean(saveMemo)}
+          scope={currentMemoScope}
+        />
       ) : activeTab.isFile && activeTab.icon === "file" ? (
-        <div className={styles.documentLayout}>
+        <FileMemoWorkspace
+          aiChatOpen={aiChatOpen}
+          documentId={activeTab.id}
+          documentName={activeTab.label}
+          fileMemo={currentFileMemo}
+          onAddProjectMemo={addProjectMemo}
+          onClose={closeMemo}
+          onDeleteRequest={requestMemoDelete}
+          onFileMemoChange={updateActiveFileMemo}
+          onFileMemoRetry={() => {
+            if (currentFileMemo) retryFileMemo(currentFileMemo);
+          }}
+          onProjectMemoBlur={discardEmptyProjectMemo}
+          onProjectMemoChange={updateProjectMemo}
+          onProjectMemoRetry={retryProjectMemo}
+          open={memoOpen}
+          pendingMemoId={pendingMemoId}
+          projectMemos={currentMemoCollection.project}
+          saveAvailable={Boolean(saveMemo)}
+        >
           <WorkspaceManuscriptEditor
             document={currentManuscript}
             documentId={activeTab.id}
@@ -457,23 +799,28 @@ export function WorkspaceContent({
                 : undefined
             }
           />
-          {memoOpen && (
-            <aside
-              aria-label={`${activeTab.label} 메모`}
-              className={styles.memoPanel}
-            >
-              <div className={styles.memoPanelHeader}>
-                <strong>파일 메모</strong>
-                <IconButton aria-label="파일 메모 닫기" onClick={closeMemo}>
-                  <WorkspaceIcon name="close" />
-                </IconButton>
-              </div>
-              <p>이 문서에서 이어서 기록할 메모를 표시합니다.</p>
-            </aside>
-          )}
-        </div>
+        </FileMemoWorkspace>
       ) : (
-        <div className={styles.documentLayout}>
+        <FileMemoWorkspace
+          aiChatOpen={aiChatOpen}
+          documentId={activeTab.id}
+          documentName={activeTab.label}
+          fileMemo={currentFileMemo}
+          onAddProjectMemo={addProjectMemo}
+          onClose={closeMemo}
+          onDeleteRequest={requestMemoDelete}
+          onFileMemoChange={updateActiveFileMemo}
+          onFileMemoRetry={() => {
+            if (currentFileMemo) retryFileMemo(currentFileMemo);
+          }}
+          onProjectMemoBlur={discardEmptyProjectMemo}
+          onProjectMemoChange={updateProjectMemo}
+          onProjectMemoRetry={retryProjectMemo}
+          open={memoOpen && activeTab.isFile}
+          pendingMemoId={pendingMemoId}
+          projectMemos={currentMemoCollection.project}
+          saveAvailable={Boolean(saveMemo)}
+        >
           <section
             aria-labelledby={`tab-${activeTab.id}`}
             className={styles.workspaceCanvas}
@@ -493,22 +840,15 @@ export function WorkspaceContent({
               {announcement && <StatusNotice>{announcement}</StatusNotice>}
             </div>
           </section>
-          {memoOpen && activeTab.isFile && (
-            <aside
-              aria-label={`${activeTab.label} 메모`}
-              className={styles.memoPanel}
-            >
-              <div className={styles.memoPanelHeader}>
-                <strong>파일 메모</strong>
-                <IconButton aria-label="파일 메모 닫기" onClick={closeMemo}>
-                  <WorkspaceIcon name="close" />
-                </IconButton>
-              </div>
-              <p>이 문서에서 이어서 기록할 메모를 표시합니다.</p>
-            </aside>
-          )}
-        </div>
+        </FileMemoWorkspace>
       )}
+      <MemoDeleteDialog
+        deleteMemo={deleteMemo}
+        key={deleteTarget?.input.id ?? "closed"}
+        onClose={() => setDeleteTarget(undefined)}
+        onDeleted={finishMemoDelete}
+        target={deleteTarget}
+      />
     </div>
   );
 }
