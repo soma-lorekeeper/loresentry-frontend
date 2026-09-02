@@ -2,6 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 
+import { resolvePropertyDocumentStateId } from "@/features/property/property-document-states";
+
 import { projects } from "../workspace-data";
 import { WorkspaceShell } from "./workspace-shell";
 
@@ -14,6 +16,14 @@ export function resolveWorkspaceProjectId(projectId: string | null): string {
 export function WorkspaceRoute() {
   const searchParams = useSearchParams();
   const projectId = resolveWorkspaceProjectId(searchParams.get("projectId"));
+  const initialPropertyState = resolvePropertyDocumentStateId(
+    searchParams.get("propertyState"),
+  );
 
-  return <WorkspaceShell initialProjectId={projectId} />;
+  return (
+    <WorkspaceShell
+      initialProjectId={projectId}
+      initialPropertyState={initialPropertyState}
+    />
+  );
 }

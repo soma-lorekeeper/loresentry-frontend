@@ -27,6 +27,14 @@ import {
   type MemoSaveStatus,
   type ProjectMemo,
 } from "@/features/memo/memo-model";
+import {
+  createInitialPropertyDocument,
+  type PropertyDocument,
+  PropertyDocumentEditor,
+  type PropertyReference,
+  propertyFileIcons,
+} from "@/features/property/components/property-document";
+import type { PropertyDocumentScenario } from "@/features/property/property-document-states";
 
 import { WorkspaceIcon, type WorkspaceIconName } from "../icons";
 import type { WorkspaceNavItem } from "../workspace-data";
@@ -317,6 +325,7 @@ interface WorkspaceContentProps {
   activeTab: WorkspaceTab;
   aiChatOpen: boolean;
   deleteMemo?: (memo: MemoDeleteInput) => Promise<void>;
+  initialPropertyScenario?: PropertyDocumentScenario;
   onCreateFile: (fileType: string, icon: WorkspaceIconName) => void;
   onOpenSearchResult: (item: WorkspaceNavItem) => void;
   onSearchQueryChange: (query: string) => void;
@@ -328,13 +337,33 @@ interface WorkspaceContentProps {
     document: Pick<ManuscriptDocument, "body" | "title">,
   ) => Promise<void>;
   saveMemo?: (memo: MemoSaveInput) => Promise<void>;
+  savePropertyDocument?: (
+    documentId: string,
+    document: Pick<PropertyDocument, "body" | "properties" | "title">,
+  ) => Promise<void>;
   searchQuery: string;
 }
+
+const availablePropertyFiles: PropertyReference[] = [
+  { id: "manuscript-12", title: "12화 · 균열의 밤", type: "manuscript" },
+  { id: "manuscript-11", title: "11화 · 유리 정원", type: "manuscript" },
+  { id: "character", title: "서윤", type: "character" },
+  { id: "organization", title: "정원 기록단", type: "organization" },
+  { id: "item", title: "은빛 등불", type: "item" },
+  { id: "place", title: "북쪽 온실", type: "place" },
+  { id: "place-garden", title: "유리 정원", type: "place" },
+  { id: "setting", title: "균열의 법칙", type: "setting" },
+];
+
+const propertyDocumentIcons = new Set<WorkspaceIconName>(
+  Object.values(propertyFileIcons).filter((icon) => icon !== "file"),
+);
 
 export function WorkspaceContent({
   activeTab,
   aiChatOpen,
   deleteMemo,
+  initialPropertyScenario,
   onCreateFile,
   onOpenSearchResult,
   onSearchQueryChange,
@@ -343,6 +372,7 @@ export function WorkspaceContent({
   recentFiles,
   saveManuscript,
   saveMemo,
+  savePropertyDocument,
   searchQuery,
 }: WorkspaceContentProps) {
   const [memoOpen, setMemoOpen] = useState(false);
@@ -356,6 +386,16 @@ export function WorkspaceContent({
   const [manuscriptDocuments, setManuscriptDocuments] = useState<
     Record<string, ManuscriptDocument>
   >({});
+  const [propertyDocuments, setPropertyDocuments] = useState<
+    Record<string, PropertyDocument>
+  >(() =>
+    initialPropertyScenario
+      ? {
+          [initialPropertyScenario.documentId]:
+            initialPropertyScenario.document,
+        }
+      : {},
+  );
   const [memoCollections, setMemoCollections] = useState<
     Record<string, MemoCollection>
   >(initialMemoCollections);
@@ -377,11 +417,19 @@ export function WorkspaceContent({
   const saveTimersRef = useRef<Record<string, ReturnType<typeof setTimeout>>>(
     {},
   );
+  const propertySaveTimersRef = useRef<
+    Record<string, ReturnType<typeof setTimeout>>
+  >({});
+  const propertyLatestRef = useRef<Record<string, PropertyDocument>>({});
+  const propertyRequestsRef = useRef<
+    Record<string, { inFlight: boolean; queued?: PropertyDocument }>
+  >({});
 
   useEffect(
     () => () => {
       Object.values(saveTimersRef.current).forEach(clearTimeout);
       Object.values(memoSaveTimersRef.current).forEach(clearTimeout);
+      Object.values(propertySaveTimersRef.current).forEach(clearTimeout);
     },
     [],
   );
@@ -399,6 +447,9 @@ export function WorkspaceContent({
   const currentManuscript =
     manuscriptDocuments[activeTab.id] ??
     createInitialManuscriptDocument(activeTab.id, activeTab.label);
+  const currentPropertyDocument =
+    propertyDocuments[activeTab.id] ??
+    createInitialPropertyDocument(activeTab.id, activeTab.label);
   const currentMemoCollection =
     memoCollections[projectId] ?? emptyMemoCollection();
   const currentMemoScope = memoScopes[projectId] ?? "project";
@@ -705,6 +756,86 @@ export function WorkspaceContent({
     }, 350);
   };
 
+  const setPropertySaveStatus = (
+    documentId: string,
+    saveStatus: PropertyDocument["saveStatus"],
+  ) => {
+    setPropertyDocuments((current) => ({
+      ...current,
+      [documentId]: {
+        ...(current[documentId] ??
+          createInitialPropertyDocument(documentId, documentId)),
+        saveStatus,
+      },
+    }));
+  };
+
+  async function executePropertySave(
+    documentId: string,
+    nextDocument: PropertyDocument,
+  ) {
+    if (!savePropertyDocument) return;
+    const request = (propertyRequestsRef.current[documentId] ??= {
+      inFlight: false,
+    });
+    if (request.inFlight) {
+      request.queued = nextDocument;
+      return;
+    }
+    request.inFlight = true;
+    setPropertySaveStatus(documentId, "saving");
+    let failed = false;
+    try {
+      await savePropertyDocument(documentId, {
+        body: nextDocument.body,
+        properties: nextDocument.properties,
+        title: nextDocument.title,
+      });
+    } catch {
+      failed = true;
+    }
+    const queued = request.queued;
+    request.queued = undefined;
+    request.inFlight = false;
+    if (queued) {
+      void executePropertySave(documentId, queued);
+      return;
+    }
+    if (propertyLatestRef.current[documentId] !== nextDocument) {
+      setPropertySaveStatus(documentId, "changed");
+      return;
+    }
+    setPropertySaveStatus(documentId, failed ? "error" : "saved");
+  }
+
+  const persistPropertyDocument = (
+    documentId: string,
+    nextDocument: PropertyDocument,
+  ) => {
+    const changedDocument = { ...nextDocument, saveStatus: "changed" as const };
+    propertyLatestRef.current[documentId] = changedDocument;
+    clearTimeout(propertySaveTimersRef.current[documentId]);
+    setPropertyDocuments((current) => ({
+      ...current,
+      [documentId]: changedDocument,
+    }));
+    if (!savePropertyDocument) return;
+    propertySaveTimersRef.current[documentId] = setTimeout(() => {
+      delete propertySaveTimersRef.current[documentId];
+      void executePropertySave(documentId, changedDocument);
+    }, 350);
+  };
+
+  const retryPropertySave = (documentId: string) => {
+    if (!savePropertyDocument) return;
+    clearTimeout(propertySaveTimersRef.current[documentId]);
+    delete propertySaveTimersRef.current[documentId];
+    const nextDocument =
+      propertyLatestRef.current[documentId] ?? currentPropertyDocument;
+    propertyLatestRef.current[documentId] = nextDocument;
+    void executePropertySave(documentId, nextDocument);
+  };
+
   const closeMemo = () => {
     setMemoOpen(false);
     requestAnimationFrame(() => memoButtonRef.current?.focus());
@@ -760,6 +891,53 @@ export function WorkspaceContent({
           saveAvailable={Boolean(saveMemo)}
           scope={currentMemoScope}
         />
+      ) : activeTab.isFile && propertyDocumentIcons.has(activeTab.icon) ? (
+        <FileMemoWorkspace
+          aiChatOpen={aiChatOpen}
+          documentId={activeTab.id}
+          documentName={activeTab.label}
+          fileMemo={currentFileMemo}
+          onAddProjectMemo={addProjectMemo}
+          onClose={closeMemo}
+          onDeleteRequest={requestMemoDelete}
+          onFileMemoChange={updateActiveFileMemo}
+          onFileMemoRetry={() => {
+            if (currentFileMemo) retryFileMemo(currentFileMemo);
+          }}
+          onProjectMemoBlur={discardEmptyProjectMemo}
+          onProjectMemoChange={updateProjectMemo}
+          onProjectMemoRetry={retryProjectMemo}
+          open={memoOpen}
+          pendingMemoId={pendingMemoId}
+          projectMemos={currentMemoCollection.project}
+          saveAvailable={Boolean(saveMemo)}
+        >
+          <PropertyDocumentEditor
+            availableFiles={availablePropertyFiles}
+            document={currentPropertyDocument}
+            documentId={activeTab.id}
+            initialOpenTypeMenuFor={
+              initialPropertyScenario?.documentId === activeTab.id
+                ? initialPropertyScenario.initialOpenTypeMenuFor
+                : undefined
+            }
+            key={activeTab.id}
+            onChange={(nextDocument) =>
+              persistPropertyDocument(activeTab.id, nextDocument)
+            }
+            onOpenReference={(reference) =>
+              onOpenSearchResult({
+                contentId: reference.id,
+                icon: propertyFileIcons[reference.type],
+                id: reference.id,
+                kind: "file",
+                label: reference.title,
+              })
+            }
+            onRetrySave={() => retryPropertySave(activeTab.id)}
+            saveAvailable={Boolean(savePropertyDocument)}
+          />
+        </FileMemoWorkspace>
       ) : activeTab.isFile && activeTab.icon === "file" ? (
         <FileMemoWorkspace
           aiChatOpen={aiChatOpen}

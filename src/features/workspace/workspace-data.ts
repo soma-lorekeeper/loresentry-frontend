@@ -61,8 +61,17 @@ export const fileItems: WorkspaceNavItem[] = [
     level: 1,
     parentId: "folder-manuscript",
   },
-  { id: "setting", label: "설정", icon: "settings", kind: "file" },
+  { id: "setting", label: "설정", icon: "setting-file", kind: "file" },
   { id: "character", label: "캐릭터", icon: "character", kind: "file" },
+  {
+    id: "organization",
+    label: "정원 기록단",
+    icon: "organization",
+    kind: "file",
+  },
+  { id: "item", label: "은빛 등불", icon: "item", kind: "file" },
+  { id: "place", label: "북쪽 온실", icon: "place", kind: "file" },
+  { id: "worldbuilding", label: "세계관", icon: "worldbuilding", kind: "file" },
 ];
 
 export const utilityNavigation: WorkspaceNavItem[] = [
