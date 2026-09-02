@@ -12,8 +12,10 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
+    "check:cdn": "pnpm check:ui && pnpm validate:static",
     "check:ui": "pnpm format:check && pnpm validate:design-system && pnpm test && pnpm lint && pnpm typecheck && pnpm build:webpack",
-    "validate:design-system": "node scripts/validate-design-system.mjs"
+    "validate:design-system": "node scripts/validate-design-system.mjs",
+    "validate:static": "node scripts/validate-static-export.mjs"
   },
   "dependencies": {
     "next": "16.3.2",
