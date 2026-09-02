@@ -4,6 +4,7 @@ import {
   type DragEvent,
   type KeyboardEvent,
   type RefObject,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -13,7 +14,12 @@ import { Button, IconButton, StatusNotice } from "@/components/ui";
 import { WorkspaceIcon, type WorkspaceIconName } from "../icons";
 import type { WorkspaceNavItem } from "../workspace-data";
 import { type RecentWorkspaceFile, WorkspaceNewTab } from "./workspace-new-tab";
-import { WorkspaceManuscriptEditor } from "./workspace-manuscript-editor";
+import {
+  createInitialManuscriptDocument,
+  type ManuscriptDocument,
+  type ManuscriptFocusTarget,
+  WorkspaceManuscriptEditor,
+} from "./workspace-manuscript-editor";
 import { WorkspaceSearch } from "./workspace-search";
 import styles from "./workspace.module.css";
 
@@ -141,6 +147,7 @@ export function WorkspaceTabBar({
                 className={styles.documentTab}
                 data-active={active || undefined}
                 data-dragging={dragging || undefined}
+                data-document-id={tab.isFile ? tab.id : undefined}
                 data-new-tab={tab.id === "new-tab" || undefined}
                 draggable
                 id={`tab-${tab.id}`}
@@ -230,6 +237,7 @@ export function WorkspaceTabBar({
 }
 
 interface FileHeaderProps {
+  documentId: string;
   locked: boolean;
   memoActive: boolean;
   memoButtonRef: RefObject<HTMLButtonElement | null>;
@@ -239,6 +247,7 @@ interface FileHeaderProps {
 }
 
 export function FileHeader({
+  documentId,
   locked,
   memoActive,
   memoButtonRef,
@@ -247,7 +256,11 @@ export function FileHeader({
   onMemoToggle,
 }: FileHeaderProps) {
   return (
-    <header aria-label="파일 도구" className={styles.fileHeader}>
+    <header
+      aria-label="파일 도구"
+      className={styles.fileHeader}
+      data-document-id={documentId}
+    >
       <Button
         aria-pressed={memoActive}
         className={styles.headerButton}
@@ -290,6 +303,10 @@ interface WorkspaceContentProps {
   onSearchQueryChange: (query: string) => void;
   projectName: string;
   recentFiles?: RecentWorkspaceFile[];
+  saveManuscript?: (
+    documentId: string,
+    document: Pick<ManuscriptDocument, "body" | "title">,
+  ) => Promise<void>;
   searchQuery: string;
 }
 
@@ -300,22 +317,92 @@ export function WorkspaceContent({
   onSearchQueryChange,
   projectName,
   recentFiles,
+  saveManuscript = async () => undefined,
   searchQuery,
 }: WorkspaceContentProps) {
   const [memoOpen, setMemoOpen] = useState(false);
   const [locked, setLocked] = useState(false);
   const [announcement, setAnnouncement] = useState("");
+  const [editorFocusRestore, setEditorFocusRestore] = useState<{
+    documentId: string;
+    request: number;
+    target: ManuscriptFocusTarget;
+  }>();
+  const [manuscriptDocuments, setManuscriptDocuments] = useState<
+    Record<string, ManuscriptDocument>
+  >({});
   const memoButtonRef = useRef<HTMLButtonElement>(null);
+  const lastEditorFocusRef = useRef<Record<string, ManuscriptFocusTarget>>({});
+  const saveTimersRef = useRef<Record<string, ReturnType<typeof setTimeout>>>(
+    {},
+  );
+
+  useEffect(
+    () => () => {
+      Object.values(saveTimersRef.current).forEach(clearTimeout);
+    },
+    [],
+  );
+
+  useEffect(() => {
+    const target = lastEditorFocusRef.current[activeTab.id];
+    if (!target) return;
+    setEditorFocusRestore((current) => ({
+      documentId: activeTab.id,
+      request: (current?.request ?? 0) + 1,
+      target,
+    }));
+  }, [activeTab.id]);
+
+  const currentManuscript =
+    manuscriptDocuments[activeTab.id] ??
+    createInitialManuscriptDocument(activeTab.id, activeTab.label);
+
+  const persistManuscript = (
+    documentId: string,
+    document: ManuscriptDocument,
+  ) => {
+    clearTimeout(saveTimersRef.current[documentId]);
+    const savingDocument = { ...document, saveStatus: "saving" as const };
+    setManuscriptDocuments((current) => ({
+      ...current,
+      [documentId]: savingDocument,
+    }));
+    saveTimersRef.current[documentId] = setTimeout(async () => {
+      try {
+        await saveManuscript(documentId, savingDocument);
+        setManuscriptDocuments((current) => ({
+          ...current,
+          [documentId]: { ...current[documentId], saveStatus: "saved" },
+        }));
+      } catch {
+        setManuscriptDocuments((current) => ({
+          ...current,
+          [documentId]: { ...current[documentId], saveStatus: "error" },
+        }));
+      }
+    }, 350);
+  };
 
   const closeMemo = () => {
     setMemoOpen(false);
-    requestAnimationFrame(() => memoButtonRef.current?.focus());
+    const target = lastEditorFocusRef.current[activeTab.id];
+    if (target) {
+      setEditorFocusRestore((current) => ({
+        documentId: activeTab.id,
+        request: (current?.request ?? 0) + 1,
+        target,
+      }));
+    } else {
+      requestAnimationFrame(() => memoButtonRef.current?.focus());
+    }
   };
 
   return (
     <div className={styles.contentColumn}>
       {activeTab.isFile && (
         <FileHeader
+          documentId={activeTab.id}
           locked={locked}
           memoActive={memoOpen}
           memoButtonRef={memoButtonRef}
@@ -345,9 +432,22 @@ export function WorkspaceContent({
       ) : activeTab.isFile && activeTab.icon === "file" ? (
         <div className={styles.documentLayout}>
           <WorkspaceManuscriptEditor
+            document={currentManuscript}
             documentId={activeTab.id}
-            initialTitle={activeTab.label}
+            focusRequest={editorFocusRestore?.request ?? 0}
             key={activeTab.id}
+            onChange={(document) => persistManuscript(activeTab.id, document)}
+            onFocusTargetChange={(target) => {
+              lastEditorFocusRef.current[activeTab.id] = target;
+            }}
+            onRetrySave={() =>
+              persistManuscript(activeTab.id, currentManuscript)
+            }
+            restoreFocus={
+              editorFocusRestore?.documentId === activeTab.id
+                ? editorFocusRestore.target
+                : undefined
+            }
           />
           {memoOpen && (
             <aside

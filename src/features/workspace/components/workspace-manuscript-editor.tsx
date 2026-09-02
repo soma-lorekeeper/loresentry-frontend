@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useLayoutEffect, useRef } from "react";
 
 import styles from "./workspace.module.css";
 
@@ -11,18 +11,68 @@ const manuscriptBodies: Record<string, string> = {
     "유리 정원에 아침이 들면 밤새 맺힌 이슬이 작은 렌즈처럼 빛을 모았다. 서윤은 가장 먼저 깨어난 빛을 따라 중앙 온실로 걸었다.",
 };
 
+export type ManuscriptSaveStatus = "error" | "saved" | "saving";
+
+export interface ManuscriptDocument {
+  body: string;
+  saveStatus: ManuscriptSaveStatus;
+  title: string;
+}
+
+export interface ManuscriptFocusTarget {
+  end: number;
+  field: "body" | "title";
+  start: number;
+}
+
 interface WorkspaceManuscriptEditorProps {
+  document: ManuscriptDocument;
   documentId: string;
-  initialTitle: string;
+  focusRequest: number;
+  onChange: (document: ManuscriptDocument) => void;
+  onFocusTargetChange: (target: ManuscriptFocusTarget) => void;
+  onRetrySave: () => void;
+  restoreFocus?: ManuscriptFocusTarget;
 }
 
 export function WorkspaceManuscriptEditor({
+  document,
   documentId,
-  initialTitle,
+  focusRequest,
+  onChange,
+  onFocusTargetChange,
+  onRetrySave,
+  restoreFocus,
 }: WorkspaceManuscriptEditorProps) {
-  const [title, setTitle] = useState(initialTitle);
-  const [body, setBody] = useState(manuscriptBodies[documentId] ?? "");
-  const charactersWithoutSpaces = body.replace(/\s/g, "").length;
+  const titleRef = useRef<HTMLInputElement>(null);
+  const bodyRef = useRef<HTMLTextAreaElement>(null);
+  const charactersWithoutSpaces = document.body.replace(/\s/g, "").length;
+
+  useLayoutEffect(() => {
+    if (!restoreFocus) return;
+    const target =
+      restoreFocus.field === "title" ? titleRef.current : bodyRef.current;
+    if (!target) return;
+    target.focus();
+    target.setSelectionRange(restoreFocus.start, restoreFocus.end);
+  }, [documentId, focusRequest, restoreFocus]);
+
+  const recordSelection = (
+    field: ManuscriptFocusTarget["field"],
+    target: HTMLInputElement | HTMLTextAreaElement,
+  ) => {
+    onFocusTargetChange({
+      end: target.selectionEnd ?? target.value.length,
+      field,
+      start: target.selectionStart ?? target.value.length,
+    });
+  };
+
+  const saveStatusCopy: Record<ManuscriptSaveStatus, string> = {
+    error: "저장하지 못했습니다. 입력은 유지됩니다.",
+    saved: "저장됨",
+    saving: "저장 중…",
+  };
 
   return (
     <section
@@ -35,7 +85,7 @@ export function WorkspaceManuscriptEditor({
     >
       <div className={styles.manuscriptReadingColumn}>
         <h1 className={styles.srOnly} id={`manuscript-heading-${documentId}`}>
-          {title || "제목 없는 원고"}
+          {document.title || "제목 없는 원고"}
         </h1>
         <label
           className={styles.srOnly}
@@ -47,10 +97,15 @@ export function WorkspaceManuscriptEditor({
           className={styles.manuscriptTitle}
           id={`manuscript-title-${documentId}`}
           maxLength={120}
-          onChange={(event) => setTitle(event.target.value)}
+          onChange={(event) =>
+            onChange({ ...document, title: event.target.value })
+          }
+          onFocus={(event) => recordSelection("title", event.currentTarget)}
+          onSelect={(event) => recordSelection("title", event.currentTarget)}
           placeholder="제목 없는 원고"
+          ref={titleRef}
           type="text"
-          value={title}
+          value={document.title}
         />
         <label
           className={styles.srOnly}
@@ -61,19 +116,53 @@ export function WorkspaceManuscriptEditor({
         <textarea
           className={styles.manuscriptBody}
           id={`manuscript-body-${documentId}`}
-          onChange={(event) => setBody(event.target.value)}
+          onChange={(event) =>
+            onChange({ ...document, body: event.target.value })
+          }
+          onFocus={(event) => recordSelection("body", event.currentTarget)}
+          onSelect={(event) => recordSelection("body", event.currentTarget)}
           placeholder="이야기를 시작하세요."
+          ref={bodyRef}
           spellCheck
-          value={body}
+          value={document.body}
           wrap="soft"
         />
-        <footer aria-live="polite" className={styles.manuscriptStatus}>
-          <span>공백 포함 {body.length.toLocaleString("ko-KR")}자</span>
-          <span>
-            공백 제외 {charactersWithoutSpaces.toLocaleString("ko-KR")}자
-          </span>
+        <footer className={styles.manuscriptStatus}>
+          <div
+            aria-live="polite"
+            className={styles.manuscriptSaveStatus}
+            data-save-status={document.saveStatus}
+            role="status"
+          >
+            <span aria-hidden="true" className={styles.saveStatusDot} />
+            <span>{saveStatusCopy[document.saveStatus]}</span>
+            {document.saveStatus === "error" && (
+              <button onClick={onRetrySave} type="button">
+                다시 저장
+              </button>
+            )}
+          </div>
+          <div className={styles.manuscriptCounts}>
+            <span>
+              공백 포함 {document.body.length.toLocaleString("ko-KR")}자
+            </span>
+            <span>
+              공백 제외 {charactersWithoutSpaces.toLocaleString("ko-KR")}자
+            </span>
+          </div>
         </footer>
       </div>
     </section>
   );
+}
+
+export function createInitialManuscriptDocument(
+  documentId: string,
+  title: string,
+): ManuscriptDocument {
+  return {
+    body: manuscriptBodies[documentId] ?? "",
+    saveStatus: "saved",
+    title,
+  };
 }

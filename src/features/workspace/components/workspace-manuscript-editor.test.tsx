@@ -1,17 +1,42 @@
+import { useState } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
-import { WorkspaceManuscriptEditor } from "./workspace-manuscript-editor";
+import {
+  createInitialManuscriptDocument,
+  type ManuscriptDocument,
+  WorkspaceManuscriptEditor,
+} from "./workspace-manuscript-editor";
+
+function TestEditor({
+  documentId,
+  initialTitle,
+}: {
+  documentId: string;
+  initialTitle: string;
+}) {
+  const [document, setDocument] = useState<ManuscriptDocument>(() =>
+    createInitialManuscriptDocument(documentId, initialTitle),
+  );
+
+  return (
+    <WorkspaceManuscriptEditor
+      document={document}
+      documentId={documentId}
+      focusRequest={0}
+      onChange={setDocument}
+      onFocusTargetChange={() => undefined}
+      onRetrySave={() => undefined}
+    />
+  );
+}
 
 describe("Workspace manuscript editor", () => {
   it("provides an editable title and body in keyboard order", async () => {
     const user = userEvent.setup();
     render(
-      <WorkspaceManuscriptEditor
-        documentId="manuscript-test"
-        initialTitle="테스트 원고"
-      />,
+      <TestEditor documentId="manuscript-test" initialTitle="테스트 원고" />,
     );
 
     const title = screen.getByRole("textbox", { name: "원고 제목" });
@@ -29,12 +54,7 @@ describe("Workspace manuscript editor", () => {
 
   it("supports empty and long manuscripts without a horizontal text wrap mode", async () => {
     const user = userEvent.setup();
-    render(
-      <WorkspaceManuscriptEditor
-        documentId="empty-manuscript"
-        initialTitle=""
-      />,
-    );
+    render(<TestEditor documentId="empty-manuscript" initialTitle="" />);
 
     const body = screen.getByRole("textbox", { name: "원고 본문" });
     expect(body).toHaveAttribute("wrap", "soft");

@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 
 import { projects, type WorkspaceNavItem } from "../workspace-data";
 import { WorkspaceSidebar } from "./workspace-sidebar";
+import type { ManuscriptDocument } from "./workspace-manuscript-editor";
 import type { RecentWorkspaceFile } from "./workspace-new-tab";
 import {
   WorkspaceContent,
@@ -40,11 +41,16 @@ function toTab(item: WorkspaceNavItem): WorkspaceTab | null {
 export interface WorkspaceShellProps {
   initialProjectId: string;
   recentFiles?: RecentWorkspaceFile[];
+  saveManuscript?: (
+    documentId: string,
+    document: Pick<ManuscriptDocument, "body" | "title">,
+  ) => Promise<void>;
 }
 
 export function WorkspaceShell({
   initialProjectId,
   recentFiles,
+  saveManuscript,
 }: WorkspaceShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [selectedId, setSelectedId] = useState("favorite-manuscript-12");
@@ -209,6 +215,7 @@ export function WorkspaceShell({
           onSearchQueryChange={setSearchQuery}
           projectName={currentProject.name}
           recentFiles={recentFiles}
+          saveManuscript={saveManuscript}
           searchQuery={searchQuery}
         />
       </main>
