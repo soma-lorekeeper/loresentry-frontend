@@ -1,0 +1,23 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+
+import {
+  getProjectTrashScenario,
+  resolveProjectTrashStateId,
+} from "../project-trash-states";
+import { ProjectTrash } from "./project-trash";
+
+export function ProjectTrashRoute() {
+  const searchParams = useSearchParams();
+  const stateId = resolveProjectTrashStateId(searchParams.get("trashState"));
+  const scenario = stateId ? getProjectTrashScenario(stateId) : undefined;
+
+  return (
+    <ProjectTrash
+      initialItems={scenario?.listStatus === "empty" ? [] : undefined}
+      initialListStatus={scenario?.listStatus}
+      theme={scenario?.theme}
+    />
+  );
+}

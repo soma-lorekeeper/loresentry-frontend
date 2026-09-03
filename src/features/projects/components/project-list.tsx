@@ -53,7 +53,11 @@ export interface ProjectListProps {
 
 export type ProjectListStatus = "empty" | "error" | "loading" | "ready";
 
-function ProjectSidebar() {
+export function ProjectSidebar({
+  current = "list",
+}: {
+  current?: "list" | "trash";
+}) {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.userSummary}>
@@ -67,11 +71,19 @@ function ProjectSidebar() {
       </div>
       <nav aria-label="프로젝트">
         <div className={styles.navigation}>
-          <Link aria-current="page" className={styles.navItem} href="/projects">
+          <Link
+            aria-current={current === "list" ? "page" : undefined}
+            className={styles.navItem}
+            href="/projects"
+          >
             <WorkspaceIcon name="organization" />
             프로젝트 목록
           </Link>
-          <Link className={styles.navItem} href="/projects?view=trash">
+          <Link
+            aria-current={current === "trash" ? "page" : undefined}
+            className={styles.navItem}
+            href="/projects/trash"
+          >
             <WorkspaceIcon name="trash" />
             프로젝트 휴지통
           </Link>
