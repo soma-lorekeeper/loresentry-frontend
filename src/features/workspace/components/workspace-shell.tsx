@@ -3,6 +3,10 @@
 import { useRef, useState } from "react";
 
 import { AiChatPanel } from "@/features/ai-chat/components/ai-chat-panel";
+import {
+  createHelpScenario,
+  type HelpStateId,
+} from "@/features/help/help-states";
 import type { MemoSaveInput } from "@/features/memo/memo-model";
 import type { MemoDeleteInput } from "@/features/memo/memo-model";
 import type { PropertyDocument } from "@/features/property/components/property-document";
@@ -60,14 +64,19 @@ function toTab(item: WorkspaceNavItem): WorkspaceTab | null {
 }
 
 export interface WorkspaceShellProps {
+  copyFeedbackLink?: (url: string) => Promise<void>;
   deleteTimelineItem?: (documentId: string, itemId: string) => Promise<void>;
   deleteMemo?: (memo: MemoDeleteInput) => Promise<void>;
   initialPropertyState?: PropertyDocumentStateId;
+  initialHelpState?: HelpStateId;
   initialProjectId: string;
   initialSettingsState?: SettingsStateId;
   initialTimelineState?: TimelineStateId;
   moveProjectToTrash?: (projectId: string) => Promise<void>;
   onProjectMovedToTrash?: (projectId: string) => void;
+  feedbackUrl?: string;
+  loadGuideArticle?: (topicId: string) => Promise<void>;
+  openExternalFeedback?: (url: string) => Window | null;
   recentFiles?: RecentWorkspaceFile[];
   saveManuscript?: (
     documentId: string,
@@ -83,14 +92,19 @@ export interface WorkspaceShellProps {
 }
 
 export function WorkspaceShell({
+  copyFeedbackLink,
   deleteMemo,
   deleteTimelineItem,
   initialPropertyState,
+  initialHelpState,
   initialProjectId,
   initialSettingsState,
   initialTimelineState,
   moveProjectToTrash,
   onProjectMovedToTrash,
+  feedbackUrl,
+  loadGuideArticle,
+  openExternalFeedback,
   recentFiles,
   saveManuscript,
   saveMemo,
@@ -107,6 +121,9 @@ export function WorkspaceShell({
   const initialSettingsScenario = initialSettingsState
     ? createSettingsScenario(initialSettingsState)
     : undefined;
+  const initialHelpScenario = initialHelpState
+    ? createHelpScenario(initialHelpState)
+    : undefined;
   const initialTabs: WorkspaceTab[] = initialSettingsScenario
     ? [
         {
@@ -116,32 +133,43 @@ export function WorkspaceShell({
           label: "설정",
         },
       ]
-    : initialTimelineScenario
+    : initialHelpScenario
       ? [
           {
-            id: "event",
-            icon: "event",
-            isFile: true,
-            label: "균열의 밤",
+            id: "help",
+            icon: "help",
+            isFile: false,
+            label: "도움말",
           },
         ]
-      : initialPropertyScenario
+      : initialTimelineScenario
         ? [
             {
-              id: initialPropertyScenario.documentId,
-              icon: initialPropertyScenario.icon,
+              id: "event",
+              icon: "event",
               isFile: true,
-              label: initialPropertyScenario.label,
+              label: "균열의 밤",
             },
           ]
-        : defaultInitialTabs;
+        : initialPropertyScenario
+          ? [
+              {
+                id: initialPropertyScenario.documentId,
+                icon: initialPropertyScenario.icon,
+                isFile: true,
+                label: initialPropertyScenario.label,
+              },
+            ]
+          : defaultInitialTabs;
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [selectedId, setSelectedId] = useState(
     initialSettingsScenario
       ? "settings"
-      : initialTimelineScenario
-        ? "event"
-        : (initialPropertyScenario?.documentId ?? "favorite-manuscript-12"),
+      : initialHelpScenario
+        ? "help"
+        : initialTimelineScenario
+          ? "event"
+          : (initialPropertyScenario?.documentId ?? "favorite-manuscript-12"),
   );
   const [tabs, setTabs] = useState(initialTabs);
   const [activeTabId, setActiveTabId] = useState(initialTabs[0].id);
@@ -325,15 +353,21 @@ export function WorkspaceShell({
         <WorkspaceContent
           activeTab={activeTab}
           aiChatOpen={aiChatOpen}
+          copyFeedbackLink={copyFeedbackLink}
           deleteMemo={deleteMemo}
           deleteTimelineItem={deleteTimelineItem}
           onCreateFile={createFileFromNewTab}
           onOpenSearchResult={openSearchResult}
           onSearchQueryChange={setSearchQuery}
           initialPropertyScenario={initialPropertyScenario}
+          initialHelpScenario={initialHelpScenario}
           initialSettingsScenario={initialSettingsScenario}
           initialTimelineScenario={initialTimelineScenario}
           moveProjectToTrash={moveProjectToTrash}
+          feedbackUrl={feedbackUrl}
+          helpOpen={tabs.some((tab) => tab.id === "help")}
+          loadGuideArticle={loadGuideArticle}
+          openExternalFeedback={openExternalFeedback}
           projectId={currentProject.id}
           projectName={currentProject.name}
           recentFiles={recentFiles}

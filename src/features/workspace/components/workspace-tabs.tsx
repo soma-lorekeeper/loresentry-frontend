@@ -10,6 +10,8 @@ import {
 } from "react";
 
 import { Button, IconButton, StatusNotice } from "@/components/ui";
+import { WorkspaceHelp } from "@/features/help/components/workspace-help";
+import type { HelpScenario } from "@/features/help/help-states";
 import { FileMemoWorkspace } from "@/features/memo/components/file-memo-workspace";
 import { MemoDeleteDialog } from "@/features/memo/components/memo-delete-dialog";
 import {
@@ -336,16 +338,22 @@ export function FileHeader({
 interface WorkspaceContentProps {
   activeTab: WorkspaceTab;
   aiChatOpen: boolean;
+  copyFeedbackLink?: (url: string) => Promise<void>;
   deleteMemo?: (memo: MemoDeleteInput) => Promise<void>;
   deleteTimelineItem?: (documentId: string, itemId: string) => Promise<void>;
   initialPropertyScenario?: PropertyDocumentScenario;
+  initialHelpScenario?: HelpScenario;
   initialSettingsScenario?: SettingsScenario;
   initialTimelineScenario?: TimelineScenario;
+  feedbackUrl?: string;
+  helpOpen: boolean;
+  loadGuideArticle?: (topicId: string) => Promise<void>;
   moveProjectToTrash?: (projectId: string) => Promise<void>;
   onCreateFile: (fileType: string, icon: WorkspaceIconName) => void;
   onOpenSearchResult: (item: WorkspaceNavItem) => void;
   onProjectNameSaved: (name: string) => void;
   onProjectMovedToTrash?: (projectId: string) => void;
+  openExternalFeedback?: (url: string) => Window | null;
   onSearchQueryChange: (query: string) => void;
   projectId: string;
   projectName: string;
@@ -385,16 +393,22 @@ const propertyDocumentIcons = new Set<WorkspaceIconName>(
 export function WorkspaceContent({
   activeTab,
   aiChatOpen,
+  copyFeedbackLink,
   deleteMemo,
   deleteTimelineItem,
   initialPropertyScenario,
+  initialHelpScenario,
   initialSettingsScenario,
   initialTimelineScenario,
+  feedbackUrl,
+  helpOpen,
+  loadGuideArticle,
   moveProjectToTrash,
   onCreateFile,
   onOpenSearchResult,
   onProjectNameSaved,
   onProjectMovedToTrash,
+  openExternalFeedback,
   onSearchQueryChange,
   projectId,
   projectName,
@@ -913,7 +927,18 @@ export function WorkspaceContent({
           saveSettings={saveWorkspaceSettings}
         />
       )}
-      {activeTab.id === "settings" ? null : activeTab.id === "new-tab" ? (
+      {helpOpen && (
+        <WorkspaceHelp
+          copyFeedbackLink={copyFeedbackLink}
+          feedbackUrl={feedbackUrl}
+          hidden={activeTab.id !== "help"}
+          initialScenario={initialHelpScenario}
+          loadGuideArticle={loadGuideArticle}
+          openExternal={openExternalFeedback}
+        />
+      )}
+      {activeTab.id === "settings" ||
+      activeTab.id === "help" ? null : activeTab.id === "new-tab" ? (
         <WorkspaceNewTab
           onCreateFile={onCreateFile}
           onOpenFile={onOpenSearchResult}

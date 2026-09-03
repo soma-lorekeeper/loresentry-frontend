@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 
 import { resolvePropertyDocumentStateId } from "@/features/property/property-document-states";
+import { resolveHelpStateId } from "@/features/help/help-states";
 import { resolveTimelineStateId } from "@/features/timeline/timeline-states";
 import { resolveSettingsStateId } from "@/features/settings/settings-states";
 
@@ -27,10 +28,12 @@ export function WorkspaceRoute() {
   const initialSettingsState = resolveSettingsStateId(
     searchParams.get("settingsState"),
   );
+  const initialHelpState = resolveHelpStateId(searchParams.get("helpState"));
 
   return (
     <WorkspaceShell
       initialProjectId={projectId}
+      initialHelpState={initialHelpState}
       initialPropertyState={initialPropertyState}
       initialSettingsState={initialSettingsState}
       initialTimelineState={initialTimelineState}

@@ -151,4 +151,28 @@ describe("WorkspaceShell", () => {
       screen.getByRole("button", { name: "프로젝트 전환: 다른 프로젝트" }),
     ).toBeInTheDocument();
   });
+
+  it("opens one help tab and preserves its article navigation", async () => {
+    const user = userEvent.setup();
+    render(<WorkspaceShell initialProjectId="glass-garden" />);
+
+    const projectManagement = screen.getByRole("navigation", {
+      name: "프로젝트 관리",
+    });
+    const help = within(projectManagement).getByRole("button", {
+      name: "도움말",
+    });
+    await user.click(help);
+    await user.click(help);
+    expect(screen.getAllByRole("tab", { name: "도움말" })).toHaveLength(1);
+
+    await user.click(screen.getByRole("button", { name: /사용 가이드/ }));
+    await user.click(screen.getByRole("button", { name: /작업공간 시작하기/ }));
+    await user.click(screen.getByRole("tab", { name: "12화 · 균열의 밤" }));
+    await user.click(screen.getByRole("tab", { name: "도움말" }));
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: "작업공간 시작하기" }),
+    ).toBeInTheDocument();
+  });
 });
