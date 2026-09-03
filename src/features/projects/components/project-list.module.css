@@ -145,13 +145,19 @@
 }
 
 .newProjectCard,
-.projectCard {
+.projectCard,
+.skeletonCard {
   position: relative;
   min-height: 180px;
   border: 1px solid var(--lk-color-border-default);
   border-radius: var(--lk-radius-card);
   background: var(--lk-color-surface-default);
   color: var(--lk-color-text-primary);
+}
+
+.newProjectCard:disabled {
+  cursor: wait;
+  opacity: 0.55;
 }
 
 .newProjectCard {
@@ -357,6 +363,112 @@
 .cardMenu svg {
   width: 16px;
   height: 16px;
+}
+
+.listMessage,
+.listNotice {
+  min-height: 180px;
+  grid-column: span 2;
+}
+
+.listMessage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 7px;
+  padding: 24px;
+  border: 1px dashed var(--lk-color-border-default);
+  border-radius: var(--lk-radius-card);
+  color: var(--lk-color-text-secondary);
+  text-align: center;
+}
+
+.listMessage svg {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+}
+
+.listMessage strong {
+  color: var(--lk-color-text-primary);
+  font-size: var(--lk-font-size-heading);
+}
+
+.noticeContent {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.noticeContent > span:first-child,
+.noticeContent strong {
+  display: block;
+}
+
+.noticeContent > span:first-child > span {
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}
+
+.skeletonCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+}
+
+.skeletonIcon,
+.skeletonTitle,
+.skeletonLine {
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-icon);
+  animation: skeletonPulse 1.2s ease-in-out infinite alternate;
+}
+
+.skeletonIcon {
+  width: 38px;
+  height: 38px;
+  margin-bottom: 8px;
+}
+
+.skeletonTitle {
+  width: 78%;
+  height: 22px;
+}
+
+.skeletonLine {
+  width: 58%;
+  height: 14px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+@keyframes skeletonPulse {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 0.85;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeletonIcon,
+  .skeletonTitle,
+  .skeletonLine {
+    animation: none;
+  }
 }
 
 @media (max-width: 760px) {

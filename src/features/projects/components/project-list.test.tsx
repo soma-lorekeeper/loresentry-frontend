@@ -25,6 +25,48 @@ describe("ProjectList", () => {
     expect(cards[1]).toHaveTextContent("별빛 아래 마지막 약속");
   });
 
+  it("keeps empty, loading, and error list states mutually exclusive", () => {
+    const emptyView = render(
+      <ProjectList initialListStatus="empty" initialProjects={[]} />,
+    );
+    expect(screen.getByText("아직 프로젝트가 없어요")).toBeVisible();
+    expect(
+      screen.queryByText("프로젝트를 불러오는 중입니다."),
+    ).not.toBeInTheDocument();
+
+    emptyView.unmount();
+    const loadingView = render(<ProjectList initialListStatus="loading" />);
+    expect(
+      screen.getByText("프로젝트를 불러오는 중입니다."),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText("아직 프로젝트가 없어요"),
+    ).not.toBeInTheDocument();
+
+    loadingView.unmount();
+    render(<ProjectList initialListStatus="error" />);
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "프로젝트를 불러오지 못했어요.",
+    );
+    expect(
+      screen.queryByText("프로젝트를 불러오는 중입니다."),
+    ).not.toBeInTheDocument();
+  });
+
+  it("retries the backend query without inventing a successful result", async () => {
+    const user = userEvent.setup();
+    const loadProjects = vi
+      .fn<() => Promise<never[]>>()
+      .mockRejectedValueOnce(new Error("offline"))
+      .mockResolvedValueOnce([]);
+    render(<ProjectList loadProjects={loadProjects} />);
+
+    expect(await screen.findByRole("alert")).toBeVisible();
+    await user.click(screen.getByRole("button", { name: "다시 시도" }));
+    expect(await screen.findByText("아직 프로젝트가 없어요")).toBeVisible();
+    expect(loadProjects).toHaveBeenCalledTimes(2);
+  });
+
   it("keeps the card action and more menu independent", async () => {
     const user = userEvent.setup();
     const onOpenProject = vi.fn();

@@ -1,8 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { type KeyboardEvent, useEffect, useRef, useState } from "react";
+import {
+  type KeyboardEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
+import { Button, StatusNotice } from "@/components/ui";
 import { WorkspaceIcon } from "@/features/workspace/icons";
 
 import {
@@ -13,14 +20,18 @@ import {
 import styles from "./project-list.module.css";
 
 export interface ProjectListProps {
+  initialListStatus?: ProjectListStatus;
   initialMenuProjectId?: string;
   initialProjects?: ProjectSummary[];
   initialSelectedProjectId?: string;
+  loadProjects?: () => Promise<ProjectSummary[]>;
   onCreateRequest?: () => void;
   onMoveToTrashRequest?: (project: ProjectSummary) => void;
   onOpenProject?: (projectId: string) => void;
   onRenameRequest?: (project: ProjectSummary) => void;
 }
+
+export type ProjectListStatus = "empty" | "error" | "loading" | "ready";
 
 function ProjectSidebar() {
   return (
@@ -225,16 +236,46 @@ function ProjectCard({
 }
 
 export function ProjectList({
+  initialListStatus,
   initialMenuProjectId,
   initialProjects = projectFixtures,
   initialSelectedProjectId,
+  loadProjects,
   onCreateRequest,
   onMoveToTrashRequest,
   onOpenProject,
   onRenameRequest,
 }: ProjectListProps) {
   const [selectedId, setSelectedId] = useState(initialSelectedProjectId);
-  const projects = sortProjects(initialProjects);
+  const [projects, setProjects] = useState(() => sortProjects(initialProjects));
+  const [listStatus, setListStatus] = useState<ProjectListStatus>(
+    initialListStatus ?? (initialProjects.length === 0 ? "empty" : "ready"),
+  );
+  const loadRequestRef = useRef(0);
+
+  const load = useCallback(async () => {
+    if (!loadProjects) {
+      setListStatus("error");
+      return;
+    }
+    const request = loadRequestRef.current + 1;
+    loadRequestRef.current = request;
+    setListStatus("loading");
+    try {
+      const result = sortProjects(await loadProjects());
+      if (loadRequestRef.current !== request) return;
+      setProjects(result);
+      setListStatus(result.length === 0 ? "empty" : "ready");
+    } catch {
+      if (loadRequestRef.current === request) setListStatus("error");
+    }
+  }, [loadProjects]);
+
+  useEffect(() => {
+    if (!loadProjects) return;
+    const frame = requestAnimationFrame(() => void load());
+    return () => cancelAnimationFrame(frame);
+  }, [load, loadProjects]);
 
   const openProject = (projectId: string) => {
     setSelectedId(projectId);
@@ -250,9 +291,14 @@ export function ProjectList({
           <h1>프로젝트</h1>
           <p>이야기를 선택하거나 새 프로젝트를 시작하세요.</p>
         </header>
-        <section aria-label="프로젝트 목록" className={styles.grid}>
+        <section
+          aria-busy={listStatus === "loading" || undefined}
+          aria-label="프로젝트 목록"
+          className={styles.grid}
+        >
           <button
             className={styles.newProjectCard}
+            disabled={listStatus === "loading"}
             onClick={onCreateRequest}
             type="button"
           >
@@ -262,19 +308,62 @@ export function ProjectList({
             <strong>새 프로젝트</strong>
             <span>새 이야기를 시작하세요</span>
           </button>
-          {projects.map((project) => (
-            <ProjectCard
-              initialMenuOpen={initialMenuProjectId === project.id}
-              key={project.id}
-              onMoveToTrashRequest={() => onMoveToTrashRequest?.(project)}
-              onOpen={() => openProject(project.id)}
-              onRenameRequest={() => onRenameRequest?.(project)}
-              project={project}
-              selected={selectedId === project.id}
-            />
-          ))}
+          {listStatus === "loading" && <ProjectListSkeleton />}
+          {listStatus === "empty" && (
+            <div className={styles.listMessage} role="status">
+              <WorkspaceIcon name="book" />
+              <strong>아직 프로젝트가 없어요</strong>
+              <span>새 프로젝트를 만들어 첫 이야기를 시작하세요.</span>
+            </div>
+          )}
+          {listStatus === "error" && (
+            <StatusNotice className={styles.listNotice} variant="error">
+              <span className={styles.noticeContent}>
+                <span>
+                  <strong>프로젝트를 불러오지 못했어요.</strong>
+                  <span>연결을 확인한 뒤 다시 시도해 주세요.</span>
+                </span>
+                <Button
+                  icon={<WorkspaceIcon name="rotate-cw" />}
+                  onClick={() => void load()}
+                >
+                  다시 시도
+                </Button>
+              </span>
+            </StatusNotice>
+          )}
+          {listStatus === "ready" &&
+            projects.map((project) => (
+              <ProjectCard
+                initialMenuOpen={initialMenuProjectId === project.id}
+                key={project.id}
+                onMoveToTrashRequest={() => onMoveToTrashRequest?.(project)}
+                onOpen={() => openProject(project.id)}
+                onRenameRequest={() => onRenameRequest?.(project)}
+                project={project}
+                selected={selectedId === project.id}
+              />
+            ))}
         </section>
       </main>
     </div>
+  );
+}
+
+function ProjectListSkeleton() {
+  return (
+    <>
+      {[0, 1, 2].map((index) => (
+        <div aria-hidden="true" className={styles.skeletonCard} key={index}>
+          <span className={styles.skeletonIcon} />
+          <span className={styles.skeletonTitle} />
+          <span className={styles.skeletonLine} />
+          <span className={styles.skeletonLine} />
+        </div>
+      ))}
+      <p className={styles.srOnly} role="status">
+        프로젝트를 불러오는 중입니다.
+      </p>
+    </>
   );
 }
