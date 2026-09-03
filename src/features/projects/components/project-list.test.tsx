@@ -253,7 +253,9 @@ describe("ProjectList", () => {
     expect(screen.getByRole("dialog")).toHaveTextContent(
       "별빛 아래 마지막 약속 — 장편 프로젝트",
     );
-    expect(screen.getByRole("button", { name: "취소" })).toHaveFocus();
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "취소" })).toHaveFocus(),
+    );
 
     await user.click(screen.getByRole("button", { name: "휴지통으로 이동" }));
     expect(moveProjectToTrash).toHaveBeenCalledOnce();

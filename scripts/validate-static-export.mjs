@@ -10,6 +10,7 @@ const requiredFiles = [
   "index.html",
   "design-system/index.html",
   "projects/index.html",
+  "projects/trash/index.html",
   "workspace/index.html",
   "config.json",
 ];
@@ -89,6 +90,7 @@ const routes = [
   "/",
   "/design-system/",
   "/projects?projectState=project-list-default",
+  "/projects/trash?trashState=project-trash-default",
   "/workspace?projectId=glass-garden",
 ];
 
