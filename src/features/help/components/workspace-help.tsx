@@ -290,7 +290,7 @@ export function WorkspaceHelp({
             <a href="#guide-tabs">탭으로 이동하기</a>
             <a href="#guide-next">다음 단계</a>
           </nav>
-          <main className={styles.articleMain}>
+          <div className={styles.articleMain}>
             <button
               className={styles.back}
               onClick={() => setView("topics")}
@@ -349,7 +349,7 @@ export function WorkspaceHelp({
                 </ol>
               </article>
             )}
-          </main>
+          </div>
         </div>
       )}
     </section>
