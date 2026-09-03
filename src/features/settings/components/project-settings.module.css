@@ -1,0 +1,225 @@
+.panel {
+  height: 100%;
+  overflow: auto;
+  background: var(--lk-color-bg-canvas);
+  color: var(--lk-color-text-primary);
+}
+
+.content {
+  width: min(760px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 48px 0 72px;
+}
+
+.header {
+  margin-bottom: 36px;
+}
+
+.eyebrow,
+.sectionDescription,
+.fieldDescription,
+.statusCopy,
+.dangerCopy {
+  color: var(--lk-color-text-secondary);
+}
+
+.dialogProject {
+  display: flex;
+  gap: var(--lk-space-2);
+  margin: var(--lk-space-6) 0;
+  padding: var(--lk-space-4);
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-default);
+  color: var(--lk-color-text-primary);
+  font-size: var(--lk-font-size-body);
+}
+
+.dialogProject strong {
+  font-weight: 600;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: var(--lk-space-2);
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+.header p,
+.sectionDescription,
+.fieldDescription,
+.statusCopy,
+.dangerCopy {
+  margin: 0;
+  font-size: var(--lk-font-size-context);
+  line-height: var(--lk-line-height-context);
+}
+
+.header p {
+  margin-top: var(--lk-space-2);
+  color: var(--lk-color-text-secondary);
+}
+
+.section {
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--lk-color-border-default);
+}
+
+.section h2,
+.dangerTitle {
+  margin: 0;
+  font-size: var(--lk-font-size-heading);
+  line-height: 1.4;
+}
+
+.sectionDescription {
+  margin-top: var(--lk-space-1);
+}
+
+.fields {
+  display: grid;
+  gap: var(--lk-space-6);
+  margin-top: 24px;
+}
+
+.field {
+  display: grid;
+  gap: var(--lk-space-1);
+}
+
+.field label {
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-default);
+  color: var(--lk-color-text-primary);
+  font: inherit;
+}
+
+.field input {
+  min-height: 40px;
+  padding: 0 var(--lk-space-3);
+}
+
+.field textarea {
+  min-height: 104px;
+  resize: vertical;
+  padding: var(--lk-space-3);
+  line-height: var(--lk-line-height-body);
+}
+
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid var(--lk-color-accent-primary);
+  outline-offset: 2px;
+}
+
+.field input[aria-invalid="true"] {
+  border-color: var(--lk-color-text-secondary);
+  box-shadow: inset 3px 0 0 var(--lk-color-accent-primary);
+}
+
+.fieldError {
+  margin: 0;
+  color: var(--lk-color-text-primary);
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+}
+
+.saveBar {
+  display: flex;
+  min-height: 64px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lk-space-4);
+  padding: var(--lk-space-4) 0;
+}
+
+.saveStatus {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+}
+
+.saveStatus svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
+
+.saveStatus strong {
+  display: block;
+  font-size: var(--lk-font-size-body);
+}
+
+.actions {
+  display: flex;
+  gap: var(--lk-space-2);
+}
+
+.danger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lk-space-6);
+  margin-top: 34px;
+  padding: var(--lk-space-4);
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-default);
+}
+
+.dangerHeading {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-3);
+}
+
+.dangerIcon {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-icon);
+}
+
+.dangerIcon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.dangerCopy {
+  margin-top: var(--lk-space-1);
+}
+
+@media (max-width: 720px) {
+  .content {
+    width: min(100% - 28px, 760px);
+    padding-top: 32px;
+  }
+
+  .saveBar,
+  .danger {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .actions {
+    justify-content: flex-end;
+  }
+}
