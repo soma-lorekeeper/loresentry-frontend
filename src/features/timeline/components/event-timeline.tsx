@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { type KeyboardEvent, useRef, useState } from "react";
 
 import { Menu, MenuItem } from "@/components/ui";
 import {
@@ -21,6 +21,7 @@ import {
   type TimelineItemDraft,
   type TimelineItemType,
 } from "../timeline-model";
+import type { TimelineScenario } from "../timeline-states";
 import styles from "./event-timeline.module.css";
 import { TimelineDeleteDialog } from "./timeline-delete-dialog";
 import {
@@ -39,6 +40,7 @@ interface TimelineItemCardProps {
   onDelete: (item: TimelineItem) => void;
   onEdit: (item: TimelineItem) => void;
   onOpenReference?: (reference: PropertyReference) => void;
+  onSelectKeyDown?: (event: KeyboardEvent<HTMLButtonElement>) => void;
   onSelect: (item: TimelineItem) => void;
   selected: boolean;
 }
@@ -49,6 +51,7 @@ export function TimelineItemCard({
   onEdit,
   onOpenReference,
   onSelect,
+  onSelectKeyDown,
   selected,
 }: TimelineItemCardProps) {
   const typeIcon = selected ? "circle-check" : timelineTypeIcons[item.type];
@@ -80,9 +83,11 @@ export function TimelineItemCard({
         </div>
         <button
           aria-label={`${item.title} 선택`}
+          aria-pressed={selected}
           className={styles.itemSelect}
           id={`timeline-item-${item.id}`}
           onClick={() => onSelect(item)}
+          onKeyDown={onSelectKeyDown}
           type="button"
         >
           <strong>{item.title}</strong>
@@ -112,6 +117,7 @@ export interface EventTimelineProps {
   deleteItem?: (itemId: string) => Promise<void>;
   eventTitle?: string;
   items: TimelineItem[];
+  initialScenario?: TimelineScenario;
   onItemsChange?: (items: TimelineItem[]) => void;
   onOpenReference?: TimelineItemCardProps["onOpenReference"];
   saveItem?: (item: TimelineItem) => Promise<void>;
@@ -122,20 +128,31 @@ export function EventTimeline({
   deleteItem,
   eventTitle = "사건",
   items,
+  initialScenario,
   onItemsChange,
   onOpenReference,
   saveItem,
 }: EventTimelineProps) {
-  const [selectedId, setSelectedId] = useState<string>();
-  const [draft, setDraft] = useState<TimelineItemDraft>();
+  const [selectedId, setSelectedId] = useState<string | undefined>(
+    initialScenario?.initialSelectedId,
+  );
+  const [draft, setDraft] = useState<TimelineItemDraft | undefined>(
+    initialScenario?.initialDraft,
+  );
   const [isNew, setIsNew] = useState(false);
-  const [editorStatus, setEditorStatus] =
-    useState<TimelineEditorStatus>("editing");
-  const [deleteTarget, setDeleteTarget] = useState<TimelineItem>();
+  const [editorStatus, setEditorStatus] = useState<TimelineEditorStatus>(
+    initialScenario?.initialEditorStatus ?? "editing",
+  );
+  const [deleteTarget, setDeleteTarget] = useState<TimelineItem | undefined>(
+    items.find((item) => item.id === initialScenario?.initialDeleteTargetId),
+  );
   const [deleteError, setDeleteError] = useState("");
   const [deleting, setDeleting] = useState(false);
   const newItemCounterRef = useRef(0);
   const groups = groupTimelineItems(items);
+  const orderedItems = groups.flatMap<TimelineItem>((group) => [
+    ...group.items,
+  ]);
 
   const focusControl = (itemId?: string) => {
     requestAnimationFrame(() =>
@@ -143,6 +160,25 @@ export function EventTimeline({
         .getElementById(itemId ? `timeline-item-${itemId}` : "timeline-add")
         ?.focus(),
     );
+  };
+
+  const moveItemFocus = (
+    event: KeyboardEvent<HTMLButtonElement>,
+    itemId: string,
+  ) => {
+    const currentIndex = orderedItems.findIndex((item) => item.id === itemId);
+    let nextIndex: number | undefined;
+    if (event.key === "ArrowDown") nextIndex = currentIndex + 1;
+    if (event.key === "ArrowUp") nextIndex = currentIndex - 1;
+    if (event.key === "Home") nextIndex = 0;
+    if (event.key === "End") nextIndex = orderedItems.length - 1;
+    if (nextIndex === undefined) return;
+    event.preventDefault();
+    const nextItem =
+      orderedItems[(nextIndex + orderedItems.length) % orderedItems.length];
+    if (!nextItem) return;
+    setSelectedId(nextItem.id);
+    focusControl(nextItem.id);
   };
 
   const openEditor = (item: TimelineItem) => {
@@ -226,9 +262,6 @@ export function EventTimeline({
     setDeleteError("");
     try {
       await deleteItem(deleteTarget.id);
-      const orderedItems = groups.flatMap<TimelineItem>((group) => [
-        ...group.items,
-      ]);
       const deletedIndex = orderedItems.findIndex(
         (item) => item.id === deleteTarget.id,
       );
@@ -278,13 +311,14 @@ export function EventTimeline({
               <h3 id={`timeline-group-${group.type}`}>{group.label}</h3>
               <div className={styles.itemList}>
                 {group.items.map((item) => (
-                  <div key={item.id}>
+                  <div className={styles.itemContainer} key={item.id}>
                     <TimelineItemCard
                       item={item}
                       onDelete={requestDelete}
                       onEdit={openEditor}
                       onOpenReference={onOpenReference}
                       onSelect={(selected) => setSelectedId(selected.id)}
+                      onSelectKeyDown={(event) => moveItemFocus(event, item.id)}
                       selected={selectedId === item.id}
                     />
                     {draft?.id === item.id && !isNew && (

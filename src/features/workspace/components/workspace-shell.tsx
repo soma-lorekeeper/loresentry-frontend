@@ -11,6 +11,10 @@ import {
   type PropertyDocumentStateId,
 } from "@/features/property/property-document-states";
 import type { TimelineItem } from "@/features/timeline/timeline-model";
+import {
+  createTimelineScenario,
+  type TimelineStateId,
+} from "@/features/timeline/timeline-states";
 import { projects, type WorkspaceNavItem } from "../workspace-data";
 import { WorkspaceSidebar } from "./workspace-sidebar";
 import type { ManuscriptDocument } from "./workspace-manuscript-editor";
@@ -52,6 +56,7 @@ export interface WorkspaceShellProps {
   deleteMemo?: (memo: MemoDeleteInput) => Promise<void>;
   initialPropertyState?: PropertyDocumentStateId;
   initialProjectId: string;
+  initialTimelineState?: TimelineStateId;
   recentFiles?: RecentWorkspaceFile[];
   saveManuscript?: (
     documentId: string,
@@ -70,6 +75,7 @@ export function WorkspaceShell({
   deleteTimelineItem,
   initialPropertyState,
   initialProjectId,
+  initialTimelineState,
   recentFiles,
   saveManuscript,
   saveMemo,
@@ -79,19 +85,33 @@ export function WorkspaceShell({
   const initialPropertyScenario = initialPropertyState
     ? createPropertyDocumentScenario(initialPropertyState)
     : undefined;
-  const initialTabs: WorkspaceTab[] = initialPropertyScenario
+  const initialTimelineScenario = initialTimelineState
+    ? createTimelineScenario(initialTimelineState)
+    : undefined;
+  const initialTabs: WorkspaceTab[] = initialTimelineScenario
     ? [
         {
-          id: initialPropertyScenario.documentId,
-          icon: initialPropertyScenario.icon,
+          id: "event",
+          icon: "event",
           isFile: true,
-          label: initialPropertyScenario.label,
+          label: "균열의 밤",
         },
       ]
-    : defaultInitialTabs;
+    : initialPropertyScenario
+      ? [
+          {
+            id: initialPropertyScenario.documentId,
+            icon: initialPropertyScenario.icon,
+            isFile: true,
+            label: initialPropertyScenario.label,
+          },
+        ]
+      : defaultInitialTabs;
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [selectedId, setSelectedId] = useState(
-    initialPropertyScenario?.documentId ?? "favorite-manuscript-12",
+    initialTimelineScenario
+      ? "event"
+      : (initialPropertyScenario?.documentId ?? "favorite-manuscript-12"),
   );
   const [tabs, setTabs] = useState(initialTabs);
   const [activeTabId, setActiveTabId] = useState(initialTabs[0].id);
@@ -261,6 +281,7 @@ export function WorkspaceShell({
           onOpenSearchResult={openSearchResult}
           onSearchQueryChange={setSearchQuery}
           initialPropertyScenario={initialPropertyScenario}
+          initialTimelineScenario={initialTimelineScenario}
           projectId={currentProject.id}
           projectName={currentProject.name}
           recentFiles={recentFiles}

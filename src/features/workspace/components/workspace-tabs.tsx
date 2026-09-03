@@ -40,6 +40,7 @@ import {
   createInitialTimelineItems,
   type TimelineItem,
 } from "@/features/timeline/timeline-model";
+import type { TimelineScenario } from "@/features/timeline/timeline-states";
 
 import { WorkspaceIcon, type WorkspaceIconName } from "../icons";
 import type { WorkspaceNavItem } from "../workspace-data";
@@ -332,6 +333,7 @@ interface WorkspaceContentProps {
   deleteMemo?: (memo: MemoDeleteInput) => Promise<void>;
   deleteTimelineItem?: (documentId: string, itemId: string) => Promise<void>;
   initialPropertyScenario?: PropertyDocumentScenario;
+  initialTimelineScenario?: TimelineScenario;
   onCreateFile: (fileType: string, icon: WorkspaceIconName) => void;
   onOpenSearchResult: (item: WorkspaceNavItem) => void;
   onSearchQueryChange: (query: string) => void;
@@ -373,6 +375,7 @@ export function WorkspaceContent({
   deleteMemo,
   deleteTimelineItem,
   initialPropertyScenario,
+  initialTimelineScenario,
   onCreateFile,
   onOpenSearchResult,
   onSearchQueryChange,
@@ -408,7 +411,10 @@ export function WorkspaceContent({
   );
   const [timelineItems, setTimelineItems] = useState<
     Record<string, TimelineItem[]>
-  >(() => ({ event: createInitialTimelineItems("event") }));
+  >(() => ({
+    event:
+      initialTimelineScenario?.items ?? createInitialTimelineItems("event"),
+  }));
   const [memoCollections, setMemoCollections] = useState<
     Record<string, MemoCollection>
   >(initialMemoCollections);
@@ -961,6 +967,11 @@ export function WorkspaceContent({
                     : undefined
                 }
                 eventTitle={currentPropertyDocument.title}
+                initialScenario={
+                  initialTimelineScenario?.stateId && activeTab.id === "event"
+                    ? initialTimelineScenario
+                    : undefined
+                }
                 items={currentTimelineItems}
                 onItemsChange={(nextItems) =>
                   setTimelineItems((current) => ({
