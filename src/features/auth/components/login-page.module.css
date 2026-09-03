@@ -89,6 +89,13 @@
   background: var(--lk-color-state-selected);
 }
 
+.googleButton[data-processing="true"] {
+  border-color: var(--lk-color-border-default);
+  background: var(--lk-color-state-selected);
+  color: var(--lk-color-text-secondary);
+  cursor: wait;
+}
+
 .googleButton:focus-visible {
   outline: 2px solid var(--lk-color-accent-primary);
   outline-offset: 2px;
@@ -98,6 +105,28 @@
   width: 18px;
   height: 18px;
   flex: 0 0 auto;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  border: 2px solid var(--lk-color-icon-default);
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 1400ms;
+  }
 }
 
 .statusSlot {

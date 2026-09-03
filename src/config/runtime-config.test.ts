@@ -5,13 +5,19 @@ import { loadRuntimeConfig, parseRuntimeConfig } from "./runtime-config";
 describe("runtime config", () => {
   it("loads and normalizes the backend URL without a frontend rebuild", async () => {
     const fetcher = vi.fn().mockResolvedValue({
-      json: async () => ({ apiBaseUrl: "https://api.example.com/v1/" }),
+      json: async () => ({
+        apiBaseUrl: "https://api.example.com/v1/",
+        privacyPolicyUrl: "https://example.com/privacy",
+        termsOfServiceUrl: "https://example.com/terms",
+      }),
       ok: true,
       status: 200,
     });
 
     await expect(loadRuntimeConfig(fetcher)).resolves.toEqual({
       apiBaseUrl: "https://api.example.com/v1",
+      privacyPolicyUrl: "https://example.com/privacy",
+      termsOfServiceUrl: "https://example.com/terms",
     });
     expect(fetcher).toHaveBeenCalledWith("/config.json", {
       cache: "no-store",
@@ -21,7 +27,18 @@ describe("runtime config", () => {
   it("treats an empty backend URL as intentionally disconnected", () => {
     expect(parseRuntimeConfig({ apiBaseUrl: "" })).toEqual({
       apiBaseUrl: null,
+      privacyPolicyUrl: null,
+      termsOfServiceUrl: null,
     });
+  });
+
+  it("rejects untrusted policy link schemes", () => {
+    expect(() =>
+      parseRuntimeConfig({
+        apiBaseUrl: "",
+        privacyPolicyUrl: "javascript:alert(1)",
+      }),
+    ).toThrow("privacyPolicyUrl은 HTTP(S)");
   });
 
   it.each([

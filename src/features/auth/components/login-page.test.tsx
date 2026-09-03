@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { LoginPage } from "./login-page";
 
@@ -36,5 +36,40 @@ describe.each(["dark", "light"] as const)("LoginPage (%s)", (theme) => {
     expect(
       screen.queryByText(/회원가입|비밀번호 찾기/),
     ).not.toBeInTheDocument();
+  });
+});
+
+describe("Google authentication action", () => {
+  it("keeps focus context and blocks duplicate execution while processing", async () => {
+    const user = userEvent.setup();
+    const startGoogleOAuth = vi.fn(() => new Promise<void>(() => undefined));
+    render(
+      <LoginPage
+        privacyUrl="https://policy.example/privacy"
+        startGoogleOAuth={startGoogleOAuth}
+        termsUrl="https://policy.example/terms"
+      />,
+    );
+
+    const action = screen.getByRole("button", {
+      name: "Google로 계속하기",
+    });
+    await user.click(action);
+
+    expect(startGoogleOAuth).toHaveBeenCalledOnce();
+    expect(action).toHaveFocus();
+    expect(action).toHaveAttribute("aria-disabled", "true");
+    expect(action).toHaveAttribute("aria-busy", "true");
+    expect(action).toHaveTextContent("Google 로그인으로 이동 중…");
+
+    await user.click(action);
+    expect(startGoogleOAuth).toHaveBeenCalledOnce();
+    expect(screen.getByRole("link", { name: "이용약관" })).toHaveAttribute(
+      "href",
+      "https://policy.example/terms",
+    );
+    expect(
+      screen.getByRole("link", { name: "개인정보처리방침" }),
+    ).toHaveAttribute("href", "https://policy.example/privacy");
   });
 });

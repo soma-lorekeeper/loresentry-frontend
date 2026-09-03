@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { WorkspaceIcon } from "@/features/workspace/icons";
 
 import styles from "./login-page.module.css";
 
 export interface LoginPageProps {
-  onGoogleContinue?: () => void;
+  startGoogleOAuth?: () => Promise<void> | void;
   privacyUrl?: string;
   termsUrl?: string;
   theme?: "dark" | "light";
@@ -66,11 +66,13 @@ function PolicyLink({ children, href }: { children: string; href?: string }) {
 }
 
 export function LoginPage({
-  onGoogleContinue,
   privacyUrl,
+  startGoogleOAuth,
   termsUrl,
   theme,
 }: LoginPageProps) {
+  const [processing, setProcessing] = useState(false);
+  const requestRef = useRef<Promise<void> | null>(null);
   useEffect(() => {
     if (!theme) return;
     const previousTheme = document.documentElement.dataset.theme;
@@ -80,6 +82,20 @@ export function LoginPage({
       else delete document.documentElement.dataset.theme;
     };
   }, [theme]);
+
+  const startAuthentication = () => {
+    if (processing || requestRef.current) return;
+    setProcessing(true);
+
+    if (!startGoogleOAuth) return;
+    const request = Promise.resolve().then(startGoogleOAuth);
+    requestRef.current = request;
+    void request
+      .catch(() => setProcessing(false))
+      .finally(() => {
+        requestRef.current = null;
+      });
+  };
 
   return (
     <main className={styles.page}>
@@ -99,12 +115,21 @@ export function LoginPage({
         </header>
 
         <button
+          aria-busy={processing || undefined}
+          aria-disabled={processing || undefined}
           className={styles.googleButton}
-          onClick={onGoogleContinue}
+          data-processing={processing || undefined}
+          onClick={startAuthentication}
           type="button"
         >
-          <GoogleBrandMark />
-          <span>Google로 계속하기</span>
+          {processing ? (
+            <span aria-hidden="true" className={styles.spinner} />
+          ) : (
+            <GoogleBrandMark />
+          )}
+          <span>
+            {processing ? "Google 로그인으로 이동 중…" : "Google로 계속하기"}
+          </span>
         </button>
 
         <div aria-hidden="true" className={styles.statusSlot} />

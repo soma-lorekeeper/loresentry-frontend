@@ -1,5 +1,5 @@
-import { LoginPage } from "@/features/auth/components/login-page";
+import { LoginRoute } from "@/features/auth/components/login-route";
 
 export default function LoginRoutePage() {
-  return <LoginPage />;
+  return <LoginRoute />;
 }

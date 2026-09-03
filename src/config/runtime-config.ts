@@ -1,5 +1,7 @@
 export interface RuntimeConfig {
   apiBaseUrl: string | null;
+  privacyPolicyUrl: string | null;
+  termsOfServiceUrl: string | null;
 }
 
 interface RuntimeConfigResponse {
@@ -13,6 +15,27 @@ export type RuntimeConfigFetcher = (
   init?: RequestInit,
 ) => Promise<RuntimeConfigResponse>;
 
+function parseOptionalHttpUrl(value: unknown, fieldName: string) {
+  if (value === undefined || value === "") return null;
+  if (typeof value !== "string") {
+    throw new Error(`config.json의 ${fieldName}은 문자열이어야 합니다.`);
+  }
+
+  const normalized = value.trim();
+  if (!normalized) return null;
+
+  let url: URL;
+  try {
+    url = new URL(normalized);
+  } catch {
+    throw new Error(`config.json의 ${fieldName}은 절대 URL이어야 합니다.`);
+  }
+  if (!["http:", "https:"].includes(url.protocol)) {
+    throw new Error(`config.json의 ${fieldName}은 HTTP(S) URL이어야 합니다.`);
+  }
+  return url.toString();
+}
+
 export function parseRuntimeConfig(value: unknown): RuntimeConfig {
   if (
     typeof value !== "object" ||
@@ -24,7 +47,17 @@ export function parseRuntimeConfig(value: unknown): RuntimeConfig {
   }
 
   const apiBaseUrl = value.apiBaseUrl.trim();
-  if (!apiBaseUrl) return { apiBaseUrl: null };
+  const privacyPolicyUrl = parseOptionalHttpUrl(
+    "privacyPolicyUrl" in value ? value.privacyPolicyUrl : undefined,
+    "privacyPolicyUrl",
+  );
+  const termsOfServiceUrl = parseOptionalHttpUrl(
+    "termsOfServiceUrl" in value ? value.termsOfServiceUrl : undefined,
+    "termsOfServiceUrl",
+  );
+  if (!apiBaseUrl) {
+    return { apiBaseUrl: null, privacyPolicyUrl, termsOfServiceUrl };
+  }
 
   let url: URL;
   try {
@@ -37,7 +70,11 @@ export function parseRuntimeConfig(value: unknown): RuntimeConfig {
     throw new Error("config.json의 apiBaseUrl은 HTTP(S) URL이어야 합니다.");
   }
 
-  return { apiBaseUrl: apiBaseUrl.replace(/\/+$/, "") };
+  return {
+    apiBaseUrl: apiBaseUrl.replace(/\/+$/, ""),
+    privacyPolicyUrl,
+    termsOfServiceUrl,
+  };
 }
 
 export async function loadRuntimeConfig(
