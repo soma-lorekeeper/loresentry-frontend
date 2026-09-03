@@ -164,6 +164,7 @@ function isInvalidFolderTarget(
 
 export interface WorkspaceSidebarProps {
   currentProject: ProjectSummary;
+  onProjectListSelect?: () => void;
   onProjectSelect: (project: ProjectSummary) => void;
   onRename: (contentId: string, label: string) => void;
   onSelect: (item: WorkspaceNavItem) => void;
@@ -175,6 +176,7 @@ export interface WorkspaceSidebarProps {
 
 export function WorkspaceSidebar({
   currentProject,
+  onProjectListSelect,
   onProjectSelect,
   onRename,
   onSelect,
@@ -478,7 +480,7 @@ export function WorkspaceSidebar({
         placement="start"
         triggerClassName={styles.projectButton}
       >
-        <MenuItem>프로젝트 목록</MenuItem>
+        <MenuItem onClick={onProjectListSelect}>프로젝트 목록</MenuItem>
         {projects.map((project) => (
           <MenuItem
             key={project.id}

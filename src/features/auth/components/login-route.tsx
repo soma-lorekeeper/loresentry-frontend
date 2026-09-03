@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { useRuntimeConfig } from "@/config/runtime-config-provider";
 
@@ -18,13 +18,14 @@ export function LoginRoute({
   startGoogleOAuth,
 }: LoginRouteProps = {}) {
   const runtime = useRuntimeConfig();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const scenario = resolveLoginScreenState(searchParams.get("loginState"));
 
   return (
     <LoginPage
       initialState={scenario?.loginState}
-      onNavigate={onNavigate}
+      onNavigate={onNavigate ?? router.push}
       privacyUrl={runtime.config?.privacyPolicyUrl ?? undefined}
       startGoogleOAuth={startGoogleOAuth}
       termsUrl={runtime.config?.termsOfServiceUrl ?? undefined}

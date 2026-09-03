@@ -75,7 +75,7 @@ function getWorkspaceCoreImplementation(
     return {
       featureComponent: "new-tab/WorkspaceNewTab",
       owner: "new-tab",
-      route: "/workspace",
+      route: "/workspace?projectId=glass-garden",
       stateId: normalizedState,
     };
   }
@@ -83,7 +83,7 @@ function getWorkspaceCoreImplementation(
     return {
       featureComponent: "memo/ProjectMemos",
       owner: "memo",
-      route: "/workspace",
+      route: "/workspace?projectId=glass-garden",
       stateId: normalizedState,
     };
   }
@@ -91,7 +91,7 @@ function getWorkspaceCoreImplementation(
     return {
       featureComponent: "ai-chat/AiChatPanel",
       owner: "ai-chat",
-      route: "/workspace",
+      route: "/workspace?projectId=glass-garden",
       stateId: normalizedState,
     };
   }
@@ -99,7 +99,7 @@ function getWorkspaceCoreImplementation(
     return {
       featureComponent: "memo/FileMemoWorkspace",
       owner: "memo",
-      route: "/workspace",
+      route: "/workspace?projectId=glass-garden",
       stateId: normalizedState,
     };
   }
@@ -109,7 +109,7 @@ function getWorkspaceCoreImplementation(
         ? "workspace/WorkspaceManuscriptEditor"
         : "workspace/WorkspaceShell",
     owner: "workspace",
-    route: "/workspace",
+    route: "/workspace?projectId=glass-garden",
     stateId: normalizedState,
   };
 }
@@ -125,7 +125,7 @@ function getRuntimeImplementation(
     return {
       featureComponent: "property/PropertyDocument",
       owner: "property",
-      route: `/workspace?propertyState=${state.id}`,
+      route: `/workspace?projectId=glass-garden&propertyState=${state.id}`,
       stateId: state.id,
     };
   }
@@ -133,7 +133,7 @@ function getRuntimeImplementation(
     return {
       featureComponent: "timeline/EventTimeline",
       owner: "timeline",
-      route: `/workspace?timelineState=${state.id}`,
+      route: `/workspace?projectId=glass-garden&timelineState=${state.id}`,
       stateId: state.id,
     };
   }
@@ -141,7 +141,7 @@ function getRuntimeImplementation(
     return {
       featureComponent: "settings/ProjectSettings",
       owner: "settings",
-      route: `/workspace?settingsState=${state.id}`,
+      route: `/workspace?projectId=glass-garden&settingsState=${state.id}`,
       stateId: state.id,
     };
   }
@@ -153,7 +153,7 @@ function getRuntimeImplementation(
     return {
       featureComponent: "help/WorkspaceHelp",
       owner: "help",
-      route: `/workspace?helpState=${state.id}`,
+      route: `/workspace?projectId=glass-garden&helpState=${state.id}`,
       stateId: state.id,
     };
   }

@@ -58,7 +58,7 @@ export interface ProjectListProps {
   onProjectCreated?: (project: ProjectSummary) => void;
   onMoveToTrashRequest?: (project: ProjectSummary) => void;
   onNavigateToLogin?: () => void;
-  onOpenProject?: (projectId: string) => void;
+  onOpenProject?: (projectId: string) => void | Promise<void>;
   onRenameRequest?: (project: ProjectSummary) => void;
   openFeedbackExternal?: (url: string) => Window | null;
   renameProject?: (projectId: string, title: string) => Promise<void>;
@@ -70,6 +70,7 @@ export type ProjectListStatus = "empty" | "error" | "loading" | "ready";
 
 function ProjectCard({
   initialMenuOpen,
+  opening,
   onMoveToTrashRequest,
   onOpen,
   onRenameRequest,
@@ -77,6 +78,7 @@ function ProjectCard({
   selected,
 }: {
   initialMenuOpen?: boolean;
+  opening?: boolean;
   onMoveToTrashRequest?: (returnFocus: HTMLButtonElement) => void;
   onOpen: () => void;
   onRenameRequest?: (returnFocus: HTMLButtonElement) => void;
@@ -153,6 +155,7 @@ function ProjectCard({
 
   return (
     <article
+      aria-busy={opening || undefined}
       aria-label={`프로젝트 ${project.title}`}
       className={styles.projectCard}
       data-selected={selected}
@@ -187,7 +190,12 @@ function ProjectCard({
           </button>
         )}
       </div>
-      <button className={styles.projectOpen} onClick={onOpen} type="button">
+      <button
+        className={styles.projectOpen}
+        disabled={opening}
+        onClick={onOpen}
+        type="button"
+      >
         <strong className={styles.projectTitle} title={project.title}>
           {project.title}
         </strong>
@@ -307,6 +315,8 @@ export function ProjectList({
   const [listStatus, setListStatus] = useState<ProjectListStatus>(
     initialListStatus ?? (initialProjects.length === 0 ? "empty" : "ready"),
   );
+  const [openingProjectId, setOpeningProjectId] = useState<string>();
+  const [openProjectError, setOpenProjectError] = useState(false);
   const loadRequestRef = useRef(0);
 
   useEffect(() => {
@@ -343,9 +353,19 @@ export function ProjectList({
     return () => cancelAnimationFrame(frame);
   }, [load, loadProjects]);
 
-  const openProject = (projectId: string) => {
+  const openProject = async (projectId: string) => {
+    if (openingProjectId) return;
     setSelectedId(projectId);
-    onOpenProject?.(projectId);
+    setOpeningProjectId(projectId);
+    setOpenProjectError(false);
+    try {
+      if (!onOpenProject) throw new Error("project access adapter is required");
+      await onOpenProject(projectId);
+    } catch {
+      setOpenProjectError(true);
+    } finally {
+      setOpeningProjectId(undefined);
+    }
   };
 
   const openCreate = () => {
@@ -419,13 +439,14 @@ export function ProjectList({
               <ProjectCard
                 initialMenuOpen={initialMenuProjectId === project.id}
                 key={project.id}
+                opening={openingProjectId === project.id}
                 onMoveToTrashRequest={(returnFocus) => {
                   setTrashReturnFocus(returnFocus);
                   setTrashingProject(project);
                   setTrashSuccess(false);
                   onMoveToTrashRequest?.(project);
                 }}
-                onOpen={() => openProject(project.id)}
+                onOpen={() => void openProject(project.id)}
                 onRenameRequest={(returnFocus) => {
                   setRenameReturnFocus(returnFocus);
                   setRenamingProject(project);
@@ -437,6 +458,12 @@ export function ProjectList({
               />
             ))}
         </section>
+        {openProjectError && (
+          <StatusNotice className={styles.successNotice} variant="error">
+            프로젝트를 열 수 없어요. 접근 권한과 연결을 확인한 뒤 다시 시도해
+            주세요.
+          </StatusNotice>
+        )}
         {renameSuccess && (
           <StatusNotice className={styles.successNotice} variant="success">
             프로젝트 이름을 변경했어요.
