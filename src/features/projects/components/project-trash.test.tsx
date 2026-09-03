@@ -243,4 +243,67 @@ describe("ProjectTrash", () => {
       expect(screen.getAllByRole("button", { name: "복원" })[0]).toHaveFocus(),
     );
   });
+
+  it("cycles keyboard focus within the permanent-delete dialog", async () => {
+    const user = userEvent.setup();
+    render(<ProjectTrash />);
+    await user.click(screen.getAllByRole("button", { name: "영구 삭제" })[0]);
+    const dialog = screen.getByRole("dialog");
+    const cancel = within(dialog).getByRole("button", { name: "취소" });
+    const confirm = within(dialog).getByRole("button", { name: "영구 삭제" });
+
+    await waitFor(() => expect(cancel).toHaveFocus());
+    await user.keyboard("{Shift>}{Tab}{/Shift}");
+    expect(confirm).toHaveFocus();
+    await user.keyboard("{Tab}");
+    expect(cancel).toHaveFocus();
+  });
+
+  it("focuses the empty-state action after restoring the last project", async () => {
+    const user = userEvent.setup();
+    const onlyProject = {
+      id: "only",
+      title: "마지막 프로젝트",
+      trashedAt: "2026-09-03T00:00:00.000Z",
+      trashedAtLabel: "2026년 9월 3일",
+    };
+    render(
+      <ProjectTrash
+        initialItems={[onlyProject]}
+        restoreProject={vi.fn().mockResolvedValue(undefined)}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "복원" }));
+    const emptyAction = await screen.findByRole("link", {
+      name: "프로젝트 목록으로 돌아가기",
+    });
+    await waitFor(() => expect(emptyAction).toHaveFocus());
+    expect(screen.getByText("프로젝트를 복원했어요.")).toBeVisible();
+  });
+
+  it("focuses the empty-state action after deleting the last project", async () => {
+    const user = userEvent.setup();
+    const onlyProject = {
+      id: "only",
+      title: "마지막 프로젝트",
+      trashedAt: "2026-09-03T00:00:00.000Z",
+      trashedAtLabel: "2026년 9월 3일",
+    };
+    render(
+      <ProjectTrash
+        initialItems={[onlyProject]}
+        permanentlyDeleteProject={vi.fn().mockResolvedValue(undefined)}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "영구 삭제" }));
+    const dialog = screen.getByRole("dialog");
+    await user.click(within(dialog).getByRole("button", { name: "영구 삭제" }));
+    const emptyAction = await screen.findByRole("link", {
+      name: "프로젝트 목록으로 돌아가기",
+    });
+    await waitFor(() => expect(emptyAction).toHaveFocus());
+    expect(screen.getByText("프로젝트를 영구 삭제했어요.")).toBeVisible();
+  });
 });

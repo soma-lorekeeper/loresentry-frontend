@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
@@ -53,7 +53,6 @@ describe("Workspace manuscript editor", () => {
   });
 
   it("supports empty and long manuscripts without a horizontal text wrap mode", async () => {
-    const user = userEvent.setup();
     render(<TestEditor documentId="empty-manuscript" initialTitle="" />);
 
     const body = screen.getByRole("textbox", { name: "원고 본문" });
@@ -61,7 +60,7 @@ describe("Workspace manuscript editor", () => {
     expect(body).toHaveAttribute("placeholder", "이야기를 시작하세요.");
 
     const longText = "가".repeat(2_000);
-    await user.type(body, longText);
+    fireEvent.change(body, { target: { value: longText } });
     expect(body).toHaveValue(longText);
     expect(screen.getByText("공백 포함 2,000자")).toBeInTheDocument();
   });
