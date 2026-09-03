@@ -454,6 +454,20 @@
   clip-path: inset(50%);
 }
 
+.projectDialog {
+  width: min(440px, calc(100vw - 32px));
+}
+
+.projectDialog form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.dialogNotice {
+  margin-top: -4px;
+}
+
 @keyframes skeletonPulse {
   from {
     opacity: 0.45;

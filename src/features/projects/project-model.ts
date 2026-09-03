@@ -6,6 +6,19 @@ export interface ProjectSummary {
   title: string;
 }
 
+export const PROJECT_TITLE_MAX_LENGTH = 255;
+
+export type ProjectTitleError = "required" | "too-long";
+
+export function validateProjectTitle(
+  title: string,
+): ProjectTitleError | undefined {
+  const normalized = title.trim();
+  if (!normalized) return "required";
+  if (normalized.length > PROJECT_TITLE_MAX_LENGTH) return "too-long";
+  return undefined;
+}
+
 export const projectFixtures: ProjectSummary[] = [
   {
     id: "glass-garden",

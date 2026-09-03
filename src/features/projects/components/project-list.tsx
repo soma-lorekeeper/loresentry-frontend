@@ -17,15 +17,23 @@ import {
   sortProjects,
   type ProjectSummary,
 } from "../project-model";
+import {
+  CreateProjectDialog,
+  type CreateProjectResult,
+  type CreateProjectState,
+} from "./create-project-dialog";
 import styles from "./project-list.module.css";
 
 export interface ProjectListProps {
+  createProject?: (input: { title: string }) => Promise<CreateProjectResult>;
+  initialCreateState?: CreateProjectState;
   initialListStatus?: ProjectListStatus;
   initialMenuProjectId?: string;
   initialProjects?: ProjectSummary[];
   initialSelectedProjectId?: string;
   loadProjects?: () => Promise<ProjectSummary[]>;
   onCreateRequest?: () => void;
+  onProjectCreated?: (project: ProjectSummary) => void;
   onMoveToTrashRequest?: (project: ProjectSummary) => void;
   onOpenProject?: (projectId: string) => void;
   onRenameRequest?: (project: ProjectSummary) => void;
@@ -159,6 +167,7 @@ function ProjectCard({
 
   return (
     <article
+      aria-label={`프로젝트 ${project.title}`}
       className={styles.projectCard}
       data-selected={selected}
       ref={cardRef}
@@ -236,17 +245,21 @@ function ProjectCard({
 }
 
 export function ProjectList({
+  createProject,
+  initialCreateState,
   initialListStatus,
   initialMenuProjectId,
   initialProjects = projectFixtures,
   initialSelectedProjectId,
   loadProjects,
   onCreateRequest,
+  onProjectCreated,
   onMoveToTrashRequest,
   onOpenProject,
   onRenameRequest,
 }: ProjectListProps) {
   const [selectedId, setSelectedId] = useState(initialSelectedProjectId);
+  const [createOpen, setCreateOpen] = useState(Boolean(initialCreateState));
   const [projects, setProjects] = useState(() => sortProjects(initialProjects));
   const [listStatus, setListStatus] = useState<ProjectListStatus>(
     initialListStatus ?? (initialProjects.length === 0 ? "empty" : "ready"),
@@ -282,6 +295,11 @@ export function ProjectList({
     onOpenProject?.(projectId);
   };
 
+  const openCreate = () => {
+    onCreateRequest?.();
+    setCreateOpen(true);
+  };
+
   return (
     <div className={styles.shell}>
       <ProjectSidebar />
@@ -299,7 +317,7 @@ export function ProjectList({
           <button
             className={styles.newProjectCard}
             disabled={listStatus === "loading"}
-            onClick={onCreateRequest}
+            onClick={openCreate}
             type="button"
           >
             <span aria-hidden="true" className={styles.newProjectIcon}>
@@ -346,6 +364,18 @@ export function ProjectList({
             ))}
         </section>
       </main>
+      <CreateProjectDialog
+        createProject={createProject}
+        initialState={initialCreateState}
+        onCreated={(project) => {
+          setProjects((current) => sortProjects([project, ...current]));
+          setListStatus("ready");
+          setSelectedId(project.id);
+          onProjectCreated?.(project);
+        }}
+        onOpenChange={setCreateOpen}
+        open={createOpen}
+      />
     </div>
   );
 }

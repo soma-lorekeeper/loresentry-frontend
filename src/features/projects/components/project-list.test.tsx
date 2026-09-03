@@ -122,4 +122,71 @@ describe("ProjectList", () => {
     await new Promise((resolve) => requestAnimationFrame(resolve));
     expect(trigger).toHaveFocus();
   });
+
+  it("validates and trims a project title before backend creation", async () => {
+    const user = userEvent.setup();
+    const createProject = vi.fn().mockResolvedValue({ id: "new-project" });
+    const onProjectCreated = vi.fn();
+    render(
+      <ProjectList
+        createProject={createProject}
+        onProjectCreated={onProjectCreated}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: /새 프로젝트/ }));
+    const input = screen.getByRole("textbox", { name: /프로젝트 제목/ });
+    await user.click(screen.getByRole("button", { name: "프로젝트 만들기" }));
+    expect(screen.getByText("프로젝트 제목을 입력해 주세요.")).toBeVisible();
+
+    await user.type(input, "  새로운   이야기  ");
+    await user.click(screen.getByRole("button", { name: "프로젝트 만들기" }));
+    expect(createProject).toHaveBeenCalledWith({ title: "새로운   이야기" });
+    await waitFor(() => expect(onProjectCreated).toHaveBeenCalledOnce());
+    expect(onProjectCreated.mock.calls[0][0]).toMatchObject({
+      id: "new-project",
+      title: "새로운   이야기",
+    });
+    await waitFor(() =>
+      expect(
+        screen.getByRole("article", { name: "프로젝트 새로운 이야기" }),
+      ).toBeVisible(),
+    );
+    expect(screen.getByText("선택됨")).toBeVisible();
+  });
+
+  it("keeps the create dialog and input on backend or invalid-id failure", async () => {
+    const user = userEvent.setup();
+    const createProject = vi.fn().mockResolvedValue({ id: "" });
+    render(
+      <ProjectList createProject={createProject} initialCreateState="ready" />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "프로젝트 만들기" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "프로젝트를 만들지 못했어요.",
+    );
+    expect(screen.getByRole("dialog")).toBeVisible();
+    expect(screen.getByRole("textbox", { name: /프로젝트 제목/ })).toHaveValue(
+      "유리 정원의 기록",
+    );
+  });
+
+  it("shows duplicate-title feedback returned by the backend", async () => {
+    const user = userEvent.setup();
+    const duplicate = Object.assign(new Error("duplicate"), {
+      code: "DUPLICATE_PROJECT_TITLE",
+    });
+    render(
+      <ProjectList
+        createProject={vi.fn().mockRejectedValue(duplicate)}
+        initialCreateState="ready"
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "프로젝트 만들기" }));
+    expect(
+      await screen.findByText("같은 제목의 프로젝트가 이미 있어요."),
+    ).toBeVisible();
+  });
 });
