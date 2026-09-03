@@ -15,6 +15,7 @@ export function ProjectTrashRoute() {
 
   return (
     <ProjectTrash
+      initialPermanentDeleteState={scenario?.deleteState}
       initialItems={scenario?.listStatus === "empty" ? [] : undefined}
       initialListStatus={scenario?.listStatus}
       initialRestoreState={scenario?.restoreState}

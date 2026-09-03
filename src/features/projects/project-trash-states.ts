@@ -1,4 +1,5 @@
 import type {
+  ProjectPermanentDeleteState,
   ProjectRestoreState,
   ProjectTrashListStatus,
 } from "./components/project-trash";
@@ -63,7 +64,40 @@ export const PROJECT_TRASH_SCREEN_STATES = [
     screenNumber: 118,
     theme: "light",
   },
+  {
+    deleteState: "confirmation",
+    id: "project-trash-delete-confirmation",
+    listStatus: "ready",
+    pencilNodeId: "BJyvs",
+    screenNumber: 119,
+    theme: "dark",
+  },
+  {
+    deleteState: "deleting",
+    id: "project-trash-deleting",
+    listStatus: "ready",
+    pencilNodeId: "l8tEHq",
+    screenNumber: 120,
+    theme: "dark",
+  },
+  {
+    deleteState: "error",
+    id: "project-trash-delete-error",
+    listStatus: "ready",
+    pencilNodeId: "tsGQR",
+    screenNumber: 121,
+    theme: "dark",
+  },
+  {
+    deleteState: "success",
+    id: "project-trash-delete-success",
+    listStatus: "ready",
+    pencilNodeId: "xI1cj",
+    screenNumber: 122,
+    theme: "dark",
+  },
 ] as const satisfies ReadonlyArray<{
+  deleteState?: ProjectPermanentDeleteState;
   id: string;
   listStatus: ProjectTrashListStatus;
   pencilNodeId: string;
@@ -76,6 +110,7 @@ export type ProjectTrashStateId =
   (typeof PROJECT_TRASH_SCREEN_STATES)[number]["id"];
 
 export interface ProjectTrashScenario {
+  deleteState?: ProjectPermanentDeleteState;
   id: ProjectTrashStateId;
   listStatus: ProjectTrashListStatus;
   pencilNodeId: string;

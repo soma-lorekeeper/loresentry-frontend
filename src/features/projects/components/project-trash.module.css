@@ -152,6 +152,52 @@
   text-underline-offset: 3px;
 }
 
+.deleteDialog {
+  width: min(440px, calc(100vw - 32px));
+}
+
+.deleteTarget {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0;
+  padding: 0 12px;
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-default);
+}
+
+.deleteTarget > span {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-icon);
+  color: var(--lk-color-accent-primary);
+}
+
+.deleteTarget svg {
+  width: 15px;
+  height: 15px;
+}
+
+.deleteTarget strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deleteNotice {
+  margin-bottom: 18px;
+}
+
+.dangerButton {
+  background: var(--lk-color-accent-primary);
+}
+
 .noticeContent {
   display: flex;
   width: 100%;

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { Button, StatusNotice } from "@/components/ui";
+import { Button, Dialog, DialogActions, StatusNotice } from "@/components/ui";
 import { WorkspaceIcon } from "@/features/workspace/icons";
 
 import {
@@ -17,13 +17,18 @@ import styles from "./project-trash.module.css";
 
 export type ProjectTrashListStatus = "empty" | "error" | "loading" | "ready";
 export type ProjectRestoreState = "error" | "restoring" | "success";
+export type ProjectPermanentDeleteState =
+  "confirmation" | "deleting" | "error" | "success";
 
 export interface ProjectTrashProps {
   initialItems?: TrashedProjectSummary[];
   initialListStatus?: ProjectTrashListStatus;
+  initialPermanentDeleteState?: ProjectPermanentDeleteState;
   initialRestoreState?: ProjectRestoreState;
   loadTrashedProjects?: () => Promise<TrashedProjectSummary[]>;
+  onPermanentlyDeleted?: (project: TrashedProjectSummary) => void;
   onRestored?: (project: TrashedProjectSummary) => void;
+  permanentlyDeleteProject?: (projectId: string) => Promise<void>;
   restoreProject?: (projectId: string) => Promise<void>;
   theme?: "dark" | "light";
 }
@@ -31,15 +36,21 @@ export interface ProjectTrashProps {
 export function ProjectTrash({
   initialItems = trashedProjectFixtures,
   initialListStatus,
+  initialPermanentDeleteState,
   initialRestoreState,
   loadTrashedProjects,
+  onPermanentlyDeleted,
   onRestored,
+  permanentlyDeleteProject,
   restoreProject,
   theme,
 }: ProjectTrashProps) {
   const [items, setItems] = useState(() =>
     sortTrashedProjects(
-      initialRestoreState === "success" ? initialItems.slice(1) : initialItems,
+      initialRestoreState === "success" ||
+        initialPermanentDeleteState === "success"
+        ? initialItems.slice(1)
+        : initialItems,
     ),
   );
   const [listStatus, setListStatus] = useState<ProjectTrashListStatus>(
@@ -57,8 +68,26 @@ export function ProjectTrash({
   const [restoreSuccess, setRestoreSuccess] = useState(
     initialRestoreState === "success",
   );
+  const [deleteTarget, setDeleteTarget] = useState<
+    TrashedProjectSummary | undefined
+  >(
+    initialPermanentDeleteState && initialPermanentDeleteState !== "success"
+      ? initialItems[0]
+      : undefined,
+  );
+  const [deleteStatus, setDeleteStatus] = useState<
+    Exclude<ProjectPermanentDeleteState, "success">
+  >(
+    initialPermanentDeleteState && initialPermanentDeleteState !== "success"
+      ? initialPermanentDeleteState
+      : "confirmation",
+  );
+  const [deleteSuccess, setDeleteSuccess] = useState(
+    initialPermanentDeleteState === "success",
+  );
   const loadRequestRef = useRef(0);
   const restoreButtonRefs = useRef(new Map<string, HTMLButtonElement>());
+  const cancelDeleteRef = useRef<HTMLButtonElement>(null);
   const emptyActionRef = useRef<HTMLAnchorElement>(null);
 
   const load = useCallback(async () => {
@@ -138,6 +167,46 @@ export function ProjectTrash({
       requestAnimationFrame(() =>
         restoreButtonRefs.current.get(project.id)?.focus(),
       );
+    }
+  };
+
+  const openPermanentDelete = (project: TrashedProjectSummary) => {
+    setRestoreSuccess(false);
+    setDeleteSuccess(false);
+    setDeleteStatus("confirmation");
+    setDeleteTarget(project);
+  };
+
+  const closePermanentDelete = () => {
+    if (deleteStatus === "deleting") return;
+    setDeleteTarget(undefined);
+    setDeleteStatus("confirmation");
+  };
+
+  const runPermanentDelete = async () => {
+    if (!deleteTarget || deleteStatus === "deleting") return;
+    const project = deleteTarget;
+    setDeleteStatus("deleting");
+    try {
+      if (!permanentlyDeleteProject) {
+        throw new Error("permanent delete adapter is required");
+      }
+      await permanentlyDeleteProject(project.id);
+      setItems((current) => {
+        const remaining = current.filter((item) => item.id !== project.id);
+        if (remaining.length === 0) setListStatus("empty");
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => focusAfterRemoval(project.id, current)),
+        );
+        return remaining;
+      });
+      setDeleteTarget(undefined);
+      setDeleteStatus("confirmation");
+      setDeleteSuccess(true);
+      onPermanentlyDeleted?.(project);
+    } catch {
+      setDeleteStatus("error");
+      requestAnimationFrame(() => cancelDeleteRef.current?.focus());
     }
   };
 
@@ -230,7 +299,11 @@ export function ProjectTrash({
                           ? "다시 시도"
                           : "복원"}
                     </Button>
-                    <Button disabled={isRestoring} variant="ghost">
+                    <Button
+                      disabled={isRestoring}
+                      onClick={() => openPermanentDelete(project)}
+                      variant="ghost"
+                    >
                       영구 삭제
                     </Button>
                   </div>
@@ -249,7 +322,57 @@ export function ProjectTrash({
             <Link href="/projects">프로젝트 목록에서 보기</Link>
           </StatusNotice>
         )}
+        {deleteSuccess && (
+          <StatusNotice className={styles.successNotice} variant="success">
+            프로젝트를 영구 삭제했어요.
+          </StatusNotice>
+        )}
       </main>
+      <Dialog
+        className={styles.deleteDialog}
+        description="프로젝트의 파일과 설정도 함께 삭제되며 복원할 수 없습니다."
+        initialFocusRef={cancelDeleteRef}
+        onOpenChange={(open) => {
+          if (!open) closePermanentDelete();
+        }}
+        open={Boolean(deleteTarget)}
+        title="영구 삭제할까요?"
+      >
+        {deleteTarget && (
+          <div className={styles.deleteTarget}>
+            <span aria-hidden="true">
+              <WorkspaceIcon name="trash" />
+            </span>
+            <strong>{deleteTarget.title}</strong>
+          </div>
+        )}
+        {deleteStatus === "error" && (
+          <StatusNotice className={styles.deleteNotice} variant="error">
+            프로젝트를 영구 삭제하지 못했어요. 다시 시도해 주세요.
+          </StatusNotice>
+        )}
+        <DialogActions>
+          <Button
+            disabled={deleteStatus === "deleting"}
+            onClick={closePermanentDelete}
+            ref={cancelDeleteRef}
+          >
+            취소
+          </Button>
+          <Button
+            className={styles.dangerButton}
+            isProcessing={deleteStatus === "deleting"}
+            onClick={() => void runPermanentDelete()}
+            variant="primary"
+          >
+            {deleteStatus === "deleting"
+              ? "삭제 중…"
+              : deleteStatus === "error"
+                ? "다시 시도"
+                : "영구 삭제"}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

@@ -1,4 +1,10 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
@@ -144,5 +150,97 @@ describe("ProjectTrash", () => {
     expect(
       screen.getByRole("link", { name: "프로젝트 목록에서 보기" }),
     ).toHaveAttribute("href", "/projects");
+  });
+
+  it("explains permanent deletion, starts on cancel, and restores trigger focus", async () => {
+    const user = userEvent.setup();
+    render(<ProjectTrash />);
+    const trigger = screen.getAllByRole("button", { name: "영구 삭제" })[0];
+
+    await user.click(trigger);
+    expect(screen.getByRole("dialog")).toHaveTextContent(
+      "프로젝트의 파일과 설정도 함께 삭제되며 복원할 수 없습니다.",
+    );
+    const cancel = screen.getByRole("button", { name: "취소" });
+    await waitFor(() => expect(cancel).toHaveFocus());
+    await user.click(cancel);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    await waitFor(() => expect(trigger).toHaveFocus());
+  });
+
+  it("blocks closing and duplicate execution while permanently deleting", async () => {
+    const user = userEvent.setup();
+    let resolveDelete: (() => void) | undefined;
+    const permanentlyDeleteProject = vi.fn(
+      () => new Promise<void>((resolve) => (resolveDelete = resolve)),
+    );
+    render(
+      <ProjectTrash permanentlyDeleteProject={permanentlyDeleteProject} />,
+    );
+
+    await user.click(screen.getAllByRole("button", { name: "영구 삭제" })[0]);
+    const dialog = screen.getByRole("dialog");
+    await user.click(within(dialog).getByRole("button", { name: "영구 삭제" }));
+    expect(within(dialog).getByRole("button", { name: "취소" })).toBeDisabled();
+    expect(
+      within(dialog).getByRole("button", { name: "삭제 중…" }),
+    ).toBeDisabled();
+    fireEvent(dialog, new Event("cancel", { cancelable: true }));
+    expect(dialog).toBeVisible();
+    await user.click(within(dialog).getByRole("button", { name: "삭제 중…" }));
+    expect(permanentlyDeleteProject).toHaveBeenCalledOnce();
+
+    resolveDelete?.();
+    expect(
+      await screen.findByText("프로젝트를 영구 삭제했어요."),
+    ).toBeVisible();
+  });
+
+  it("keeps permanent-delete context for retry after failure", async () => {
+    const user = userEvent.setup();
+    const permanentlyDeleteProject = vi
+      .fn<() => Promise<void>>()
+      .mockRejectedValueOnce(new Error("offline"))
+      .mockResolvedValueOnce(undefined);
+    render(
+      <ProjectTrash permanentlyDeleteProject={permanentlyDeleteProject} />,
+    );
+
+    await user.click(screen.getAllByRole("button", { name: "영구 삭제" })[0]);
+    const dialog = screen.getByRole("dialog");
+    await user.click(within(dialog).getByRole("button", { name: "영구 삭제" }));
+    expect(await within(dialog).findByRole("alert")).toHaveTextContent(
+      "프로젝트를 영구 삭제하지 못했어요. 다시 시도해 주세요.",
+    );
+    expect(screen.getByRole("dialog")).toHaveTextContent("종이 달 아래의 약속");
+    await user.click(within(dialog).getByRole("button", { name: "다시 시도" }));
+    expect(
+      await screen.findByText("프로젝트를 영구 삭제했어요."),
+    ).toBeVisible();
+    expect(permanentlyDeleteProject).toHaveBeenCalledTimes(2);
+  });
+
+  it("removes a permanently deleted project and focuses the next row", async () => {
+    const user = userEvent.setup();
+    const onPermanentlyDeleted = vi.fn();
+    render(
+      <ProjectTrash
+        onPermanentlyDeleted={onPermanentlyDeleted}
+        permanentlyDeleteProject={vi.fn().mockResolvedValue(undefined)}
+      />,
+    );
+
+    await user.click(screen.getAllByRole("button", { name: "영구 삭제" })[0]);
+    const dialog = screen.getByRole("dialog");
+    await user.click(within(dialog).getByRole("button", { name: "영구 삭제" }));
+    expect(
+      screen.queryByRole("article", { name: /종이 달 아래의 약속/ }),
+    ).not.toBeInTheDocument();
+    expect(onPermanentlyDeleted).toHaveBeenCalledWith(
+      expect.objectContaining({ id: "paper-moon" }),
+    );
+    await waitFor(() =>
+      expect(screen.getAllByRole("button", { name: "복원" })[0]).toHaveFocus(),
+    );
   });
 });
