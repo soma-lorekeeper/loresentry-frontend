@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
@@ -60,5 +60,24 @@ describe("WorkspaceShell", () => {
       screen.getByRole("button", { name: "사이드바 열기" }),
     ).toHaveAttribute("aria-pressed", "false");
     expect(screen.queryByRole("complementary")).not.toBeInTheDocument();
+  });
+
+  it("opens one project settings tab from the sidebar", async () => {
+    const user = userEvent.setup();
+    render(<WorkspaceShell initialProjectId="glass-garden" />);
+
+    const projectManagement = screen.getByRole("navigation", {
+      name: "프로젝트 관리",
+    });
+    const settings = within(projectManagement).getByRole("button", {
+      name: "설정",
+    });
+    await user.click(settings);
+    await user.click(settings);
+
+    expect(screen.getAllByRole("tab", { name: "설정" })).toHaveLength(1);
+    expect(
+      screen.getByRole("heading", { level: 1, name: "프로젝트 설정" }),
+    ).toBeInTheDocument();
   });
 });

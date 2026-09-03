@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 
 import { resolvePropertyDocumentStateId } from "@/features/property/property-document-states";
 import { resolveTimelineStateId } from "@/features/timeline/timeline-states";
+import { resolveSettingsStateId } from "@/features/settings/settings-states";
 
 import { projects } from "../workspace-data";
 import { WorkspaceShell } from "./workspace-shell";
@@ -23,11 +24,15 @@ export function WorkspaceRoute() {
   const initialTimelineState = resolveTimelineStateId(
     searchParams.get("timelineState"),
   );
+  const initialSettingsState = resolveSettingsStateId(
+    searchParams.get("settingsState"),
+  );
 
   return (
     <WorkspaceShell
       initialProjectId={projectId}
       initialPropertyState={initialPropertyState}
+      initialSettingsState={initialSettingsState}
       initialTimelineState={initialTimelineState}
     />
   );

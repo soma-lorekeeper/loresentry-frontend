@@ -12,6 +12,11 @@ import {
 } from "@/features/property/property-document-states";
 import type { TimelineItem } from "@/features/timeline/timeline-model";
 import {
+  createSettingsScenario,
+  type SettingsStateId,
+} from "@/features/settings/settings-states";
+import type { WorkspaceSettingsInput } from "@/features/settings/components/project-settings";
+import {
   createTimelineScenario,
   type TimelineStateId,
 } from "@/features/timeline/timeline-states";
@@ -56,6 +61,7 @@ export interface WorkspaceShellProps {
   deleteMemo?: (memo: MemoDeleteInput) => Promise<void>;
   initialPropertyState?: PropertyDocumentStateId;
   initialProjectId: string;
+  initialSettingsState?: SettingsStateId;
   initialTimelineState?: TimelineStateId;
   recentFiles?: RecentWorkspaceFile[];
   saveManuscript?: (
@@ -67,6 +73,7 @@ export interface WorkspaceShellProps {
     documentId: string,
     document: Pick<PropertyDocument, "body" | "properties" | "title">,
   ) => Promise<void>;
+  saveWorkspaceSettings?: (settings: WorkspaceSettingsInput) => Promise<void>;
   saveTimelineItem?: (documentId: string, item: TimelineItem) => Promise<void>;
 }
 
@@ -75,11 +82,13 @@ export function WorkspaceShell({
   deleteTimelineItem,
   initialPropertyState,
   initialProjectId,
+  initialSettingsState,
   initialTimelineState,
   recentFiles,
   saveManuscript,
   saveMemo,
   savePropertyDocument,
+  saveWorkspaceSettings,
   saveTimelineItem,
 }: WorkspaceShellProps) {
   const initialPropertyScenario = initialPropertyState
@@ -88,30 +97,44 @@ export function WorkspaceShell({
   const initialTimelineScenario = initialTimelineState
     ? createTimelineScenario(initialTimelineState)
     : undefined;
-  const initialTabs: WorkspaceTab[] = initialTimelineScenario
+  const initialSettingsScenario = initialSettingsState
+    ? createSettingsScenario(initialSettingsState)
+    : undefined;
+  const initialTabs: WorkspaceTab[] = initialSettingsScenario
     ? [
         {
-          id: "event",
-          icon: "event",
-          isFile: true,
-          label: "균열의 밤",
+          id: "settings",
+          icon: "settings",
+          isFile: false,
+          label: "설정",
         },
       ]
-    : initialPropertyScenario
+    : initialTimelineScenario
       ? [
           {
-            id: initialPropertyScenario.documentId,
-            icon: initialPropertyScenario.icon,
+            id: "event",
+            icon: "event",
             isFile: true,
-            label: initialPropertyScenario.label,
+            label: "균열의 밤",
           },
         ]
-      : defaultInitialTabs;
+      : initialPropertyScenario
+        ? [
+            {
+              id: initialPropertyScenario.documentId,
+              icon: initialPropertyScenario.icon,
+              isFile: true,
+              label: initialPropertyScenario.label,
+            },
+          ]
+        : defaultInitialTabs;
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [selectedId, setSelectedId] = useState(
-    initialTimelineScenario
-      ? "event"
-      : (initialPropertyScenario?.documentId ?? "favorite-manuscript-12"),
+    initialSettingsScenario
+      ? "settings"
+      : initialTimelineScenario
+        ? "event"
+        : (initialPropertyScenario?.documentId ?? "favorite-manuscript-12"),
   );
   const [tabs, setTabs] = useState(initialTabs);
   const [activeTabId, setActiveTabId] = useState(initialTabs[0].id);
@@ -281,6 +304,7 @@ export function WorkspaceShell({
           onOpenSearchResult={openSearchResult}
           onSearchQueryChange={setSearchQuery}
           initialPropertyScenario={initialPropertyScenario}
+          initialSettingsScenario={initialSettingsScenario}
           initialTimelineScenario={initialTimelineScenario}
           projectId={currentProject.id}
           projectName={currentProject.name}
@@ -288,8 +312,12 @@ export function WorkspaceShell({
           saveManuscript={saveManuscript}
           saveMemo={saveMemo}
           savePropertyDocument={savePropertyDocument}
+          saveWorkspaceSettings={saveWorkspaceSettings}
           saveTimelineItem={saveTimelineItem}
           searchQuery={searchQuery}
+          onProjectNameSaved={(name) =>
+            setCurrentProject((project) => ({ ...project, name }))
+          }
         />
       </main>
       <AiChatPanel documentName={activeTab.label} hidden={!aiChatOpen} />

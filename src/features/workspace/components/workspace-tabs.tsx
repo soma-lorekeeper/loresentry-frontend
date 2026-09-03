@@ -41,6 +41,11 @@ import {
   type TimelineItem,
 } from "@/features/timeline/timeline-model";
 import type { TimelineScenario } from "@/features/timeline/timeline-states";
+import {
+  ProjectSettings,
+  type WorkspaceSettingsInput,
+} from "@/features/settings/components/project-settings";
+import type { SettingsScenario } from "@/features/settings/settings-states";
 
 import { WorkspaceIcon, type WorkspaceIconName } from "../icons";
 import type { WorkspaceNavItem } from "../workspace-data";
@@ -333,9 +338,11 @@ interface WorkspaceContentProps {
   deleteMemo?: (memo: MemoDeleteInput) => Promise<void>;
   deleteTimelineItem?: (documentId: string, itemId: string) => Promise<void>;
   initialPropertyScenario?: PropertyDocumentScenario;
+  initialSettingsScenario?: SettingsScenario;
   initialTimelineScenario?: TimelineScenario;
   onCreateFile: (fileType: string, icon: WorkspaceIconName) => void;
   onOpenSearchResult: (item: WorkspaceNavItem) => void;
+  onProjectNameSaved: (name: string) => void;
   onSearchQueryChange: (query: string) => void;
   projectId: string;
   projectName: string;
@@ -349,6 +356,7 @@ interface WorkspaceContentProps {
     documentId: string,
     document: Pick<PropertyDocument, "body" | "properties" | "title">,
   ) => Promise<void>;
+  saveWorkspaceSettings?: (settings: WorkspaceSettingsInput) => Promise<void>;
   saveTimelineItem?: (documentId: string, item: TimelineItem) => Promise<void>;
   searchQuery: string;
 }
@@ -375,9 +383,11 @@ export function WorkspaceContent({
   deleteMemo,
   deleteTimelineItem,
   initialPropertyScenario,
+  initialSettingsScenario,
   initialTimelineScenario,
   onCreateFile,
   onOpenSearchResult,
+  onProjectNameSaved,
   onSearchQueryChange,
   projectId,
   projectName,
@@ -385,6 +395,7 @@ export function WorkspaceContent({
   saveManuscript,
   saveMemo,
   savePropertyDocument,
+  saveWorkspaceSettings,
   saveTimelineItem,
   searchQuery,
 }: WorkspaceContentProps) {
@@ -911,6 +922,14 @@ export function WorkspaceContent({
           projectName={projectName}
           saveAvailable={Boolean(saveMemo)}
           scope={currentMemoScope}
+        />
+      ) : activeTab.id === "settings" ? (
+        <ProjectSettings
+          initialScenario={initialSettingsScenario}
+          onSaved={(settings) => onProjectNameSaved(settings.name)}
+          projectId={projectId}
+          projectName={projectName}
+          saveSettings={saveWorkspaceSettings}
         />
       ) : activeTab.isFile && propertyDocumentIcons.has(activeTab.icon) ? (
         <FileMemoWorkspace
