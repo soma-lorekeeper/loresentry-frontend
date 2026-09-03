@@ -444,7 +444,7 @@
 .documentTab[data-dragging="true"] {
   position: relative;
   z-index: 2;
-  box-shadow: 0 6px 18px rgb(0 0 0 / 22%);
+  box-shadow: 0 6px 18px #00000055;
 }
 
 .documentTab:focus-within {

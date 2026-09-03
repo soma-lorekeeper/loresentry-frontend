@@ -73,6 +73,8 @@ export interface WorkspaceShellProps {
   initialSettingsState?: SettingsStateId;
   initialTimelineState?: TimelineStateId;
   moveProjectToTrash?: (projectId: string) => Promise<void>;
+  onProjectChange?: (projectId: string) => void;
+  onProjectListSelect?: () => void;
   onProjectMovedToTrash?: (projectId: string) => void;
   feedbackUrl?: string;
   loadGuideArticle?: (topicId: string) => Promise<void>;
@@ -101,6 +103,8 @@ export function WorkspaceShell({
   initialSettingsState,
   initialTimelineState,
   moveProjectToTrash,
+  onProjectChange,
+  onProjectListSelect,
   onProjectMovedToTrash,
   feedbackUrl,
   loadGuideArticle,
@@ -228,15 +232,20 @@ export function WorkspaceShell({
     performCloseTab(tabId);
   };
 
+  const commitProjectSelection = (project: (typeof projects)[number]) => {
+    setCurrentProject(project);
+    onProjectChange?.(project.id);
+  };
+
   const selectProject = (project: (typeof projects)[number]) => {
     if (
       project.id !== currentProject.id &&
       settingsRef.current?.hasUnsavedChanges()
     ) {
-      settingsRef.current.requestDiscard(() => setCurrentProject(project));
+      settingsRef.current.requestDiscard(() => commitProjectSelection(project));
       return;
     }
-    setCurrentProject(project);
+    commitProjectSelection(project);
   };
 
   const openNewTab = () => {
@@ -326,6 +335,7 @@ export function WorkspaceShell({
         {sidebarOpen && (
           <WorkspaceSidebar
             currentProject={currentProject}
+            onProjectListSelect={onProjectListSelect}
             onProjectSelect={selectProject}
             onRename={renameOpenTab}
             onSelect={selectTarget}

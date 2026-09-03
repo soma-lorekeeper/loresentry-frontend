@@ -97,6 +97,42 @@ describe("ProjectList", () => {
     expect(screen.getByText("선택됨")).toBeVisible();
   });
 
+  it("keeps the list context when project access cannot be verified", async () => {
+    const user = userEvent.setup();
+    render(<ProjectList />);
+
+    await user.click(
+      screen.getByRole("button", {
+        name: /별빛 아래 마지막 약속 — 장편 프로젝트12분 전/,
+      }),
+    );
+
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "프로젝트를 열 수 없어요.",
+    );
+    expect(screen.getByText("선택됨")).toBeVisible();
+  });
+
+  it("blocks duplicate project entry while the access adapter is pending", async () => {
+    const user = userEvent.setup();
+    let finishAccess!: () => void;
+    const onOpenProject = vi.fn(
+      () => new Promise<void>((resolve) => (finishAccess = resolve)),
+    );
+    render(<ProjectList onOpenProject={onOpenProject} />);
+    const open = screen.getByRole("button", {
+      name: /별빛 아래 마지막 약속 — 장편 프로젝트12분 전/,
+    });
+
+    await user.click(open);
+    expect(open).toBeDisabled();
+    await user.click(open);
+    expect(onOpenProject).toHaveBeenCalledOnce();
+
+    finishAccess();
+    await waitFor(() => expect(open).toBeEnabled());
+  });
+
   it("supports keyboard menu traversal and restores focus on Escape", async () => {
     const user = userEvent.setup();
     render(<ProjectList />);

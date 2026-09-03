@@ -1,6 +1,6 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { WorkspaceShell } from "./workspace-shell";
 
@@ -25,7 +25,13 @@ describe("WorkspaceShell", () => {
 
   it("switches projects and exposes section menus to keyboard navigation", async () => {
     const user = userEvent.setup();
-    render(<WorkspaceShell initialProjectId="glass-garden" />);
+    const onProjectChange = vi.fn();
+    render(
+      <WorkspaceShell
+        initialProjectId="glass-garden"
+        onProjectChange={onProjectChange}
+      />,
+    );
 
     const projectTrigger = screen.getByRole("button", {
       name: "프로젝트 전환: 유리 정원의 기록",
@@ -43,6 +49,7 @@ describe("WorkspaceShell", () => {
         screen.getByRole("button", { name: "프로젝트 전환: 다른 프로젝트" }),
       ).toBeInTheDocument(),
     );
+    expect(onProjectChange).toHaveBeenCalledWith("other-project");
 
     await user.click(screen.getByRole("button", { name: "즐겨찾기 메뉴" }));
     await waitFor(() =>
