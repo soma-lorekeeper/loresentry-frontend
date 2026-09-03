@@ -7,15 +7,19 @@ import {
 } from "./account-global-states";
 
 describe("account global state registry", () => {
-  it("maps account and logout Pencil screens 123–134 exactly once", () => {
-    expect(ACCOUNT_GLOBAL_SCREEN_STATES).toHaveLength(12);
+  it("maps account, logout, and feedback Pencil screens exactly once", () => {
+    expect(ACCOUNT_GLOBAL_SCREEN_STATES).toHaveLength(14);
     expect(
       ACCOUNT_GLOBAL_SCREEN_STATES.map((state) => state.screenNumber),
-    ).toEqual(Array.from({ length: 12 }, (_, index) => 123 + index));
+    ).toEqual([
+      ...Array.from({ length: 12 }, (_, index) => 123 + index),
+      137,
+      138,
+    ]);
     expect(
       new Set(ACCOUNT_GLOBAL_SCREEN_STATES.map((state) => state.pencilNodeId))
         .size,
-    ).toBe(12);
+    ).toBe(14);
   });
 
   it("resolves explicit account scenarios including long light values", () => {
@@ -34,6 +38,9 @@ describe("account global state registry", () => {
     });
     expect(getAccountGlobalScenario("logout-processing")).toMatchObject({
       logoutState: "processing",
+    });
+    expect(getAccountGlobalScenario("feedback-open-error")).toMatchObject({
+      feedbackState: "error",
     });
   });
 });

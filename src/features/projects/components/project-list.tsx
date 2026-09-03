@@ -12,6 +12,7 @@ import { Button, StatusNotice } from "@/components/ui";
 import type { AccountSettingsState } from "@/features/account/components/account-settings-dialog";
 import type { LogoutState } from "@/features/account/components/logout-dialog";
 import type { AccountProfile } from "@/features/account/account-model";
+import type { GlobalFeedbackState } from "@/features/help/components/global-feedback";
 import { WorkspaceIcon } from "@/features/workspace/icons";
 
 import {
@@ -36,9 +37,12 @@ import styles from "./project-list.module.css";
 import { ProjectSidebar } from "./project-sidebar";
 
 export interface ProjectListProps {
+  copyFeedbackLink?: (url: string) => Promise<void>;
+  feedbackUrl?: string;
   initialAccountState?: AccountSettingsState | "user-menu-open";
   initialAccountProfile?: AccountProfile;
   initialLogoutState?: LogoutState;
+  initialFeedbackState?: GlobalFeedbackState;
   createProject?: (input: { title: string }) => Promise<CreateProjectResult>;
   initialCreateState?: CreateProjectState;
   initialListStatus?: ProjectListStatus;
@@ -56,6 +60,7 @@ export interface ProjectListProps {
   onNavigateToLogin?: () => void;
   onOpenProject?: (projectId: string) => void;
   onRenameRequest?: (project: ProjectSummary) => void;
+  openFeedbackExternal?: (url: string) => Window | null;
   renameProject?: (projectId: string, title: string) => Promise<void>;
   theme?: "dark" | "light";
   updateAccount?: (input: { name: string }) => Promise<void>;
@@ -234,10 +239,13 @@ function ProjectCard({
 }
 
 export function ProjectList({
+  copyFeedbackLink,
   createProject,
+  feedbackUrl,
   initialAccountProfile,
   initialAccountState,
   initialLogoutState,
+  initialFeedbackState,
   initialCreateState,
   initialListStatus,
   initialMenuProjectId,
@@ -254,6 +262,7 @@ export function ProjectList({
   onNavigateToLogin,
   onOpenProject,
   onRenameRequest,
+  openFeedbackExternal,
   renameProject,
   theme,
   updateAccount,
@@ -347,11 +356,15 @@ export function ProjectList({
   return (
     <div className={styles.shell}>
       <ProjectSidebar
+        copyFeedbackLink={copyFeedbackLink}
+        feedbackUrl={feedbackUrl}
         initialAccountState={initialAccountState}
         initialLogoutState={initialLogoutState}
+        initialFeedbackState={initialFeedbackState}
         initialProfile={initialAccountProfile}
         logout={logout}
         onNavigateToLogin={onNavigateToLogin}
+        openFeedbackExternal={openFeedbackExternal}
         updateAccount={updateAccount}
       />
       <main className={styles.main}>

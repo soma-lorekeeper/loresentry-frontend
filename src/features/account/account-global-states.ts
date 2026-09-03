@@ -1,5 +1,6 @@
 import type { AccountSettingsState } from "./components/account-settings-dialog";
 import type { LogoutState } from "./components/logout-dialog";
+import type { GlobalFeedbackState } from "@/features/help/components/global-feedback";
 import { type AccountProfile, longAccountProfile } from "./account-model";
 
 export const ACCOUNT_GLOBAL_SCREEN_STATES = [
@@ -75,6 +76,18 @@ export const ACCOUNT_GLOBAL_SCREEN_STATES = [
     pencilNodeId: "N5M5TM",
     screenNumber: 134,
   },
+  {
+    feedbackState: "opened",
+    id: "feedback-opened",
+    pencilNodeId: "iZobk",
+    screenNumber: 137,
+  },
+  {
+    feedbackState: "error",
+    id: "feedback-open-error",
+    pencilNodeId: "c061WC",
+    screenNumber: 138,
+  },
 ] as const;
 
 export type AccountGlobalStateId =
@@ -82,6 +95,7 @@ export type AccountGlobalStateId =
 
 export interface AccountGlobalScenario {
   accountState?: AccountSettingsState | "user-menu-open";
+  feedbackState?: GlobalFeedbackState;
   logoutState?: LogoutState;
   profile?: AccountProfile;
   theme?: "dark" | "light";
@@ -106,6 +120,10 @@ export function getAccountGlobalScenario(
         : "accountState" in state
           ? (state.accountState as AccountSettingsState)
           : undefined,
+    feedbackState:
+      "feedbackState" in state
+        ? (state.feedbackState as GlobalFeedbackState)
+        : undefined,
     logoutState:
       "logoutState" in state ? (state.logoutState as LogoutState) : undefined,
     profile:

@@ -30,6 +30,7 @@ export function ProjectListRoute() {
       initialAccountProfile={globalScenario?.profile}
       initialAccountState={globalScenario?.accountState}
       initialCreateState={scenario?.createState}
+      initialFeedbackState={globalScenario?.feedbackState}
       initialListStatus={scenario?.listStatus}
       initialLogoutState={globalScenario?.logoutState}
       initialMenuProjectId={

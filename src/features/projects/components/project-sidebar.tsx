@@ -16,30 +16,42 @@ import {
   defaultAccountProfile,
 } from "@/features/account/account-model";
 import { WorkspaceIcon } from "@/features/workspace/icons";
+import {
+  GlobalFeedback,
+  type GlobalFeedbackState,
+} from "@/features/help/components/global-feedback";
 
 import styles from "./project-list.module.css";
 
 export interface ProjectSidebarProps {
+  copyFeedbackLink?: (url: string) => Promise<void>;
   current?: "guide" | "list" | "trash";
+  feedbackUrl?: string;
   initialAccountState?: AccountSettingsState | "user-menu-open";
   initialLogoutState?: LogoutState;
+  initialFeedbackState?: GlobalFeedbackState;
   initialProfile?: AccountProfile;
   logout?: () => Promise<void>;
   onNavigateToLogin?: () => void;
   onLogoutRequest?: (returnFocus: HTMLButtonElement) => void;
   onProfileUpdated?: (profile: AccountProfile) => void;
+  openFeedbackExternal?: (url: string) => Window | null;
   updateAccount?: (input: { name: string }) => Promise<void>;
 }
 
 export function ProjectSidebar({
+  copyFeedbackLink,
   current = "list",
+  feedbackUrl,
   initialAccountState,
   initialLogoutState,
+  initialFeedbackState,
   initialProfile = defaultAccountProfile,
   logout,
   onNavigateToLogin,
   onLogoutRequest,
   onProfileUpdated,
+  openFeedbackExternal,
   updateAccount,
 }: ProjectSidebarProps) {
   const [profile, setProfile] = useState(initialProfile);
@@ -209,11 +221,13 @@ export function ProjectSidebar({
           <WorkspaceIcon name="book" />
           사용 가이드
         </Link>
-        <button className={styles.navItem} type="button">
-          <WorkspaceIcon name="message-square" />
-          피드백 보내기
-          <span className={styles.srOnly}>새 탭에서 열림</span>
-        </button>
+        <GlobalFeedback
+          buttonClassName={styles.navItem}
+          copyFeedbackLink={copyFeedbackLink}
+          feedbackUrl={feedbackUrl}
+          initialState={initialFeedbackState}
+          openExternal={openFeedbackExternal}
+        />
       </nav>
       <AccountSettingsDialog
         initialState={
