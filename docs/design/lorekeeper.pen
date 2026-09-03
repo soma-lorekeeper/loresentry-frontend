@@ -4,8 +4,8 @@
     {
       "type": "frame",
       "id": "dtvaQ",
-      "x": 5949,
-      "y": -3369,
+      "x": 0,
+      "y": 5600,
       "name": "08 · New Tab · Default",
       "context": "LOREKEEPER-306 default state. Resume opens the last cursor. Create and import replace the current New Tab. Recent files are newest first and each full row is selectable.",
       "clip": true,
@@ -402,8 +402,8 @@
     {
       "type": "frame",
       "id": "TMBRe",
-      "x": 7469,
-      "y": -3369,
+      "x": 1560,
+      "y": 5600,
       "name": "09 · New Tab · No Recent Files",
       "context": "LOREKEEPER-306 empty state for a new project with no last work and no recent files. Primary action creates the first manuscript; create and import entry points remain available.",
       "clip": true,
@@ -777,8 +777,8 @@
     {
       "type": "frame",
       "id": "A9Wrm",
-      "x": 8989,
-      "y": -3369,
+      "x": 0,
+      "y": 7040,
       "name": "10 · Manuscript Editor · Default",
       "context": "LOREKEEPER-308 default manuscript editing state. File header owns memo/version/export/lock. Toolbar contains only initial manuscript formatting features. Autosave and character count are quiet status indicators.",
       "clip": true,
@@ -1456,8 +1456,8 @@
     {
       "type": "frame",
       "id": "iHWvC",
-      "x": 10509,
-      "y": -3369,
+      "x": 1560,
+      "y": 7040,
       "name": "11 · Manuscript Editor · AI Chat Open",
       "context": "LOREKEEPER-309 AI chat open. The active tab-bar toggle closes the panel and receives keyboard focus. New session moves focus to the message input. Lower-priority toolbar actions collapse into More.",
       "clip": true,
@@ -1846,8 +1846,8 @@
     {
       "type": "frame",
       "id": "BGPNV",
-      "x": 12029,
-      "y": -3369,
+      "x": 3120,
+      "y": 7040,
       "name": "12 · Manuscript Editor · Memo · Work Selected",
       "context": "LOREKEEPER-309 file memo open, revised from user-defined UX. Header: close, add work memo, below/right placement toggle. Work memos are project-wide cards with delete controls; manuscript memo is direct input for the current file.",
       "clip": true,
@@ -2255,8 +2255,8 @@
     {
       "type": "frame",
       "id": "dm2JC",
-      "x": 13589,
-      "y": -3369,
+      "x": 4680,
+      "y": 7040,
       "name": "13 · Manuscript Editor · Memo · Manuscript Selected",
       "context": "LOREKEEPER-309 file memo open, revised from user-defined UX. Header: close, add work memo, below/right placement toggle. Work memos are project-wide cards with delete controls; manuscript memo is direct input for the current file.",
       "clip": true,
@@ -2664,8 +2664,8 @@
     {
       "type": "frame",
       "id": "GY3eJ",
-      "x": 15149,
-      "y": -3369,
+      "x": 6240,
+      "y": 7040,
       "name": "14 · Manuscript Editor · Memo · Below Docked",
       "context": "LOREKEEPER-309 file memo open, revised from user-defined UX. Header: close, add work memo, below/right placement toggle. Work memos are project-wide cards with delete controls; manuscript memo is direct input for the current file.",
       "clip": true,
@@ -3074,8 +3074,8 @@
     {
       "type": "frame",
       "id": "YXcOP",
-      "x": 5949,
-      "y": -1921,
+      "x": 0,
+      "y": 10520,
       "name": "21 · Workspace · Project Switcher Open",
       "context": "Visual reference for the project switcher open state documented in workspace/README.md.",
       "clip": true,
@@ -3482,8 +3482,8 @@
     {
       "type": "frame",
       "id": "tZZM3",
-      "x": 7509,
-      "y": -1921,
+      "x": 1560,
+      "y": 10520,
       "name": "22 · Workspace · Favorites Menu Open",
       "context": "Visual reference for the Favorites section more menu documented in files-and-favorites.md.",
       "clip": true,
@@ -3890,8 +3890,8 @@
     {
       "type": "frame",
       "id": "oPs13",
-      "x": 9069,
-      "y": -1921,
+      "x": 3120,
+      "y": 10520,
       "name": "23 · Workspace · Files Menu Open",
       "context": "Visual reference for the Files section more menu documented in files-and-favorites.md.",
       "clip": true,
@@ -4298,8 +4298,8 @@
     {
       "type": "frame",
       "id": "Q6a0ol",
-      "x": 10629,
-      "y": -1921,
+      "x": 4680,
+      "y": 10520,
       "name": "24 · Workspace · Tabs Overflow",
       "context": "Visual reference for horizontal tab overflow and scrolling documented in tabs.md.",
       "clip": true,
@@ -4977,8 +4977,8 @@
     {
       "type": "frame",
       "id": "TeBAK",
-      "x": 12189,
-      "y": -1921,
+      "x": 6240,
+      "y": 10520,
       "name": "25 · Workspace · Tab Reorder",
       "context": "Visual reference for dragging a tab and its insertion target documented in tabs.md.",
       "clip": true,
@@ -5656,8 +5656,8 @@
     {
       "type": "frame",
       "id": "sVEg1",
-      "x": 13749,
-      "y": -1921,
+      "x": 6240,
+      "y": 8060,
       "name": "26 · Manuscript Editor · Memo Closed · Focus Returned",
       "context": "Visual reference for closing the memo panel and returning keyboard focus to the file-header Memo button.",
       "clip": true,
@@ -6335,8 +6335,8 @@
     {
       "type": "frame",
       "id": "azx8U",
-      "x": 16709,
-      "y": -3369,
+      "x": 7800,
+      "y": 7040,
       "name": "15 · Manuscript Editor · AI Chat · Session List Open",
       "context": "LOREKEEPER-309 AI chat open. The active tab-bar toggle closes the panel and receives keyboard focus. New session moves focus to the message input. Lower-priority toolbar actions collapse into More.",
       "clip": true,
@@ -6725,8 +6725,8 @@
     {
       "type": "frame",
       "id": "qJBRZ",
-      "x": 18269,
-      "y": -3369,
+      "x": 0,
+      "y": 8060,
       "name": "16 · Manuscript Editor · AI Chat · Session Menu Open",
       "context": "LOREKEEPER-309 AI chat open. The active tab-bar toggle closes the panel and receives keyboard focus. New session moves focus to the message input. Lower-priority toolbar actions collapse into More.",
       "clip": true,
@@ -7115,8 +7115,8 @@
     {
       "type": "frame",
       "id": "W0bpE",
-      "x": 19829,
-      "y": -3369,
+      "x": 1560,
+      "y": 8060,
       "name": "17 · Manuscript Editor · AI Chat · Session Rename",
       "context": "LOREKEEPER-309 AI chat open. The active tab-bar toggle closes the panel and receives keyboard focus. New session moves focus to the message input. Lower-priority toolbar actions collapse into More.",
       "clip": true,
@@ -7505,8 +7505,8 @@
     {
       "type": "frame",
       "id": "V3QwF1",
-      "x": 21389,
-      "y": -3369,
+      "x": 3120,
+      "y": 8060,
       "name": "18 · Manuscript Editor · AI Chat · Delete Confirmation",
       "context": "LOREKEEPER-309 AI chat open. The active tab-bar toggle closes the panel and receives keyboard focus. New session moves focus to the message input. Lower-priority toolbar actions collapse into More.",
       "clip": true,
@@ -7895,8 +7895,8 @@
     {
       "type": "frame",
       "id": "RFf3u",
-      "x": 22949,
-      "y": -3369,
+      "x": 4680,
+      "y": 8060,
       "name": "19 · Manuscript Editor · AI Chat · New Session Empty",
       "context": "LOREKEEPER-309 AI chat open. The active tab-bar toggle closes the panel and receives keyboard focus. New session moves focus to the message input. Lower-priority toolbar actions collapse into More.",
       "clip": true,
@@ -8285,8 +8285,8 @@
     {
       "type": "frame",
       "id": "PAM02",
-      "x": 15269,
-      "y": -1921,
+      "x": 7800,
+      "y": 10520,
       "name": "27 · Workspace · User Section Menu Open",
       "context": "Visual reference for the Files section more menu documented in files-and-favorites.md.",
       "clip": true,
@@ -8698,8 +8698,8 @@
     {
       "type": "frame",
       "id": "bleTW",
-      "x": 16789,
-      "y": -1921,
+      "x": 0,
+      "y": 11540,
       "name": "28 · Workspace · File Menu Open",
       "context": "Visual reference for the Files section more menu documented in files-and-favorites.md.",
       "clip": true,
@@ -9111,8 +9111,8 @@
     {
       "type": "frame",
       "id": "CVOQc",
-      "x": 18309,
-      "y": -1921,
+      "x": 1560,
+      "y": 11540,
       "name": "29 · Workspace · Folder Menu Open",
       "context": "Visual reference for the Files section more menu documented in files-and-favorites.md.",
       "clip": true,
@@ -9524,8 +9524,8 @@
     {
       "type": "frame",
       "id": "NSDvO",
-      "x": 19829,
-      "y": -1921,
+      "x": 3120,
+      "y": 11540,
       "name": "30 · Workspace · Trash",
       "context": "LOREKEEPER-306 default state. Resume opens the last cursor. Create and import replace the current New Tab. Recent files are newest first and each full row is selectable.",
       "clip": true,
@@ -9733,8 +9733,8 @@
     {
       "type": "frame",
       "id": "jwhkD",
-      "x": 21349,
-      "y": -1921,
+      "x": 4680,
+      "y": 11540,
       "name": "31 · Workspace · File Create Inline",
       "context": "LOREKEEPER-306 default state. Resume opens the last cursor. Create and import replace the current New Tab. Recent files are newest first and each full row is selectable.",
       "clip": true,
@@ -10131,8 +10131,8 @@
     {
       "type": "frame",
       "id": "m7kHy",
-      "x": 22869,
-      "y": -1921,
+      "x": 6240,
+      "y": 11540,
       "name": "32 · Workspace · Folder Create Inline",
       "context": "LOREKEEPER-306 default state. Resume opens the last cursor. Create and import replace the current New Tab. Recent files are newest first and each full row is selectable.",
       "clip": true,
@@ -10529,8 +10529,8 @@
     {
       "type": "frame",
       "id": "H9zx7",
-      "x": 24389,
-      "y": -1921,
+      "x": 7800,
+      "y": 11540,
       "name": "33 · Workspace · Item Rename Inline",
       "context": "LOREKEEPER-308 default manuscript editing state. File header owns memo/version/export/lock. Toolbar contains only initial manuscript formatting features. Autosave and character count are quiet status indicators.",
       "clip": true,
@@ -11208,8 +11208,8 @@
     {
       "type": "frame",
       "id": "LmEmI",
-      "x": 25909,
-      "y": -1921,
+      "x": 0,
+      "y": 12560,
       "name": "34 · Workspace · Item Dragging",
       "context": "LOREKEEPER-308 default manuscript editing state. File header owns memo/version/export/lock. Toolbar contains only initial manuscript formatting features. Autosave and character count are quiet status indicators.",
       "clip": true,
@@ -11887,8 +11887,8 @@
     {
       "type": "frame",
       "id": "CMK2T",
-      "x": 27429,
-      "y": -1921,
+      "x": 1560,
+      "y": 12560,
       "name": "35 · Workspace · Folder Drop Target",
       "context": "LOREKEEPER-308 default manuscript editing state. File header owns memo/version/export/lock. Toolbar contains only initial manuscript formatting features. Autosave and character count are quiet status indicators.",
       "clip": true,
@@ -12566,8 +12566,8 @@
     {
       "type": "frame",
       "id": "GkSbZ",
-      "x": 28949,
-      "y": -1921,
+      "x": 3120,
+      "y": 12560,
       "name": "36 · Workspace · Favorites Drop Target",
       "context": "LOREKEEPER-308 default manuscript editing state. File header owns memo/version/export/lock. Toolbar contains only initial manuscript formatting features. Autosave and character count are quiet status indicators.",
       "clip": true,
@@ -13245,8 +13245,8 @@
     {
       "type": "frame",
       "id": "so8pS",
-      "x": 30469,
-      "y": -1921,
+      "x": 4680,
+      "y": 12560,
       "name": "37 · Workspace · Trash · Permanent Delete Confirmation",
       "context": "휴지통 항목의 영구 삭제를 실행하기 전 대상 이름과 복구 불가 안내를 명시하고 사용자 확인을 받는 상태.",
       "clip": true,
@@ -13476,8 +13476,8 @@
     {
       "type": "frame",
       "id": "KVKU8",
-      "x": 31989,
-      "y": -1921,
+      "x": 6240,
+      "y": 12560,
       "name": "38 · Workspace · Search · Default",
       "context": "LOREKEEPER-342 workspace search state. Search is scoped to non-trash files in the current project and preserves this tab when a result opens.",
       "clip": true,
@@ -13690,8 +13690,8 @@
     {
       "type": "frame",
       "id": "GqRoM",
-      "x": 33509,
-      "y": -1921,
+      "x": 7800,
+      "y": 12560,
       "name": "39 · Workspace · Search · Input",
       "context": "LOREKEEPER-342 workspace search state. Search is scoped to non-trash files in the current project and preserves this tab when a result opens.",
       "clip": true,
@@ -13916,8 +13916,8 @@
     {
       "type": "frame",
       "id": "sj1mq",
-      "x": 35029,
-      "y": -1921,
+      "x": 0,
+      "y": 13580,
       "name": "40 · Workspace · Search · Results",
       "context": "LOREKEEPER-342 workspace search state. Search is scoped to non-trash files in the current project and preserves this tab when a result opens.",
       "clip": true,
@@ -14166,8 +14166,8 @@
     {
       "type": "frame",
       "id": "gEeY1",
-      "x": 36549,
-      "y": -1921,
+      "x": 1560,
+      "y": 13580,
       "name": "41 · Workspace · Search · No Results",
       "context": "LOREKEEPER-342 workspace search state. Search is scoped to non-trash files in the current project and preserves this tab when a result opens.",
       "clip": true,
@@ -14392,8 +14392,8 @@
     {
       "type": "frame",
       "id": "fJm26",
-      "x": 38069,
-      "y": -1921,
+      "x": 3120,
+      "y": 13580,
       "name": "42 · Workspace · Search · Error",
       "context": "LOREKEEPER-342 workspace search state. Search is scoped to non-trash files in the current project and preserves this tab when a result opens.",
       "clip": true,
@@ -14634,8 +14634,8 @@
     {
       "type": "frame",
       "id": "rWDeP",
-      "x": 39629,
-      "y": -1921,
+      "x": 4680,
+      "y": 13580,
       "name": "43 · Workspace · Memo · Project",
       "context": "LOREKEEPER-344 project memo scope. Project notes are square, directly editable, never folded, and continue in vertical rows without pagination.",
       "clip": true,
@@ -14867,8 +14867,8 @@
     {
       "type": "frame",
       "id": "o14lL6",
-      "x": 41189,
-      "y": -1921,
+      "x": 6240,
+      "y": 13580,
       "name": "44 · Workspace · Memo · File",
       "context": "LOREKEEPER-344 file memo scope. File notes are created only inside each file, show filename above the memo, and expose open-file and delete in the more menu.",
       "clip": true,
@@ -15115,8 +15115,8 @@
     {
       "type": "frame",
       "id": "x8Kpea",
-      "x": 42749,
-      "y": -1921,
+      "x": 7800,
+      "y": 13580,
       "name": "45 · Workspace · Memo · Project Empty",
       "context": "LOREKEEPER-344 empty project memo scope. Add remains available in the header.",
       "clip": true,
@@ -15311,8 +15311,8 @@
     {
       "type": "frame",
       "id": "G84QG",
-      "x": 44309,
-      "y": -1921,
+      "x": 0,
+      "y": 14600,
       "name": "46 · Workspace · Memo · File Empty",
       "context": "LOREKEEPER-344 empty file memo scope. File memo creation is intentionally unavailable here and must happen inside a file.",
       "clip": true,
@@ -15492,8 +15492,8 @@
     {
       "type": "frame",
       "id": "RIcSo",
-      "x": 45869,
-      "y": -1921,
+      "x": 1560,
+      "y": 14600,
       "name": "47 · Workspace · Memo · Project New",
       "context": "LOREKEEPER-344 new project memo created from the header add action. The empty square is focused and directly editable.",
       "clip": true,
@@ -15726,8 +15726,8 @@
     {
       "type": "frame",
       "id": "OdGCt",
-      "x": 47429,
-      "y": -1921,
+      "x": 3120,
+      "y": 14600,
       "name": "48 · Workspace · Memo · Project Menu Open",
       "context": "LOREKEEPER-344 project memo more menu. Delete is the only action.",
       "clip": true,
@@ -15969,8 +15969,8 @@
     {
       "type": "frame",
       "id": "JuOfu",
-      "x": 48989,
-      "y": -1921,
+      "x": 4680,
+      "y": 14600,
       "name": "49 · Workspace · Memo · File Menu Open",
       "context": "LOREKEEPER-344 file memo more menu. Open-file and delete are available; add remains unavailable.",
       "clip": true,
@@ -16227,8 +16227,8 @@
     {
       "type": "frame",
       "id": "d5neDp",
-      "x": 50549,
-      "y": -1921,
+      "x": 6240,
+      "y": 14600,
       "name": "50 · Workspace · Memo · Delete Confirmation",
       "context": "LOREKEEPER-344 destructive confirmation before deleting a project or file memo.",
       "clip": true,
@@ -16482,8 +16482,8 @@
     {
       "type": "frame",
       "id": "xUHSQ",
-      "x": 52109,
-      "y": -1921,
+      "x": 7800,
+      "y": 14600,
       "name": "51 · Workspace · Memo · Save Error",
       "context": "LOREKEEPER-344 card-scoped auto-save failure. Input is preserved and retry remains available without blocking other cards.",
       "clip": true,
@@ -16712,8 +16712,8 @@
     {
       "type": "frame",
       "id": "V3E9p",
-      "x": 53629,
-      "y": -3369,
+      "x": 0,
+      "y": 17060,
       "name": "52 · Property Document · Setting · Default",
       "context": "LOREKEEPER-358 설정 property document setting · default state. Shared title, properties and rich-text content use library components.",
       "clip": true,
@@ -17586,8 +17586,8 @@
     {
       "type": "frame",
       "id": "Cr1QM",
-      "x": 55149,
-      "y": -3369,
+      "x": 1560,
+      "y": 17060,
       "name": "53 · Property Document · Worldbuilding · Default",
       "context": "LOREKEEPER-358 세계관 property document worldbuilding · default state. Shared title, properties and rich-text content use library components.",
       "clip": true,
@@ -18460,8 +18460,8 @@
     {
       "type": "frame",
       "id": "A9aCt",
-      "x": 56669,
-      "y": -3369,
+      "x": 3120,
+      "y": 17060,
       "name": "54 · Property Document · Place · Default",
       "context": "LOREKEEPER-358 장소 property document place · default state. Shared title, properties and rich-text content use library components.",
       "clip": true,
@@ -19334,8 +19334,8 @@
     {
       "type": "frame",
       "id": "B194Dr",
-      "x": 58189,
-      "y": -3369,
+      "x": 4680,
+      "y": 17060,
       "name": "55 · Property Document · Worldbuilding · Empty",
       "context": "LOREKEEPER-358 세계관 property document worldbuilding · empty state. Shared title, properties and rich-text content use library components.",
       "clip": true,
@@ -20169,8 +20169,8 @@
     {
       "type": "frame",
       "id": "Y7tLK",
-      "x": 59709,
-      "y": -3369,
+      "x": 6240,
+      "y": 17060,
       "name": "56 · Property Document · Place · Property Type Open",
       "context": "LOREKEEPER-358 장소 property document place · property type open state. Shared title, properties and rich-text content use library components.",
       "clip": true,
@@ -21070,8 +21070,8 @@
     {
       "type": "frame",
       "id": "XWX3g",
-      "x": 61229,
-      "y": -3369,
+      "x": 7800,
+      "y": 17060,
       "name": "57 · Property Document · Setting · Saving",
       "context": "LOREKEEPER-358 설정 property document setting · saving state. Shared title, properties and rich-text content use library components.",
       "clip": true,
@@ -21951,8 +21951,8 @@
     {
       "type": "frame",
       "id": "N05XrO",
-      "x": 62749,
-      "y": -3369,
+      "x": 0,
+      "y": 18080,
       "name": "58 · Property Document · Setting · Save Error",
       "context": "LOREKEEPER-358 설정 property document setting · save error state. Shared title, properties and rich-text content use library components.",
       "clip": true,
@@ -22832,8 +22832,8 @@
     {
       "type": "frame",
       "id": "S0KR3j",
-      "x": 64269,
-      "y": -3369,
+      "x": 1560,
+      "y": 18080,
       "name": "59 · Property Document · Character · Default",
       "context": "LOREKEEPER-359 character property document default state using shared imported property components.",
       "clip": true,
@@ -23715,8 +23715,8 @@
     {
       "type": "frame",
       "id": "HRRGt",
-      "x": 65789,
-      "y": -3369,
+      "x": 3120,
+      "y": 18080,
       "name": "60 · Property Document · Organization · Default",
       "context": "LOREKEEPER-359 organization property document default state using shared imported property components.",
       "clip": true,
@@ -24589,8 +24589,8 @@
     {
       "type": "frame",
       "id": "aEeBT",
-      "x": 67309,
-      "y": -3369,
+      "x": 4680,
+      "y": 18080,
       "name": "61 · Property Document · Item · Default",
       "context": "LOREKEEPER-359 item property document default state using shared imported property components.",
       "clip": true,
@@ -25463,8 +25463,8 @@
     {
       "type": "frame",
       "id": "ZooEr",
-      "x": 68829,
-      "y": -3369,
+      "x": 6240,
+      "y": 18080,
       "name": "62 · Property Document · Character · Empty",
       "context": "LOREKEEPER-359 character property document empty state with no forced properties.",
       "clip": true,
@@ -26307,8 +26307,8 @@
     {
       "type": "frame",
       "id": "R5JCCJ",
-      "x": 70349,
-      "y": -3369,
+      "x": 7800,
+      "y": 18080,
       "name": "63 · Property Document · Organization · Property Type Open",
       "context": "LOREKEEPER-359 organization property type selection state.",
       "clip": true,
@@ -27208,8 +27208,8 @@
     {
       "type": "frame",
       "id": "t3UXM",
-      "x": 71869,
-      "y": -3369,
+      "x": 0,
+      "y": 19100,
       "name": "64 · Property Document · Item · Save Error",
       "context": "LOREKEEPER-359 item property document autosave error state.",
       "clip": true,
@@ -28089,8 +28089,8 @@
     {
       "type": "frame",
       "id": "dCMXt",
-      "x": 73389,
-      "y": -3369,
+      "x": 0,
+      "y": 20540,
       "name": "65 · Event Timeline · Default",
       "context": "LOREKEEPER-360 event property document timeline default state.",
       "clip": true,
@@ -29119,8 +29119,8 @@
     {
       "type": "frame",
       "id": "PeNqe",
-      "x": 74909,
-      "y": -3369,
+      "x": 1560,
+      "y": 20540,
       "name": "66 · Event Timeline · Empty",
       "context": "LOREKEEPER-360 event property document timeline empty state.",
       "clip": true,
@@ -30060,8 +30060,8 @@
     {
       "type": "frame",
       "id": "EYGdy",
-      "x": 76429,
-      "y": -3369,
+      "x": 3120,
+      "y": 20540,
       "name": "67 · Event Timeline · Selected",
       "context": "LOREKEEPER-360 event property document timeline selected state.",
       "clip": true,
@@ -31044,8 +31044,8 @@
     {
       "type": "frame",
       "id": "PmbP9",
-      "x": 77949,
-      "y": -3369,
+      "x": 4680,
+      "y": 20540,
       "name": "68 · Event Timeline · Editing",
       "context": "LOREKEEPER-360 event property document timeline editing state.",
       "clip": true,
@@ -31925,8 +31925,8 @@
     {
       "type": "frame",
       "id": "NcFHe",
-      "x": 79469,
-      "y": -3369,
+      "x": 6240,
+      "y": 20540,
       "name": "69 · Event Timeline · Delete Confirmation",
       "context": "LOREKEEPER-360 event property document timeline delete confirmation state.",
       "clip": true,
@@ -32860,8 +32860,8 @@
     {
       "type": "frame",
       "id": "EHbKj",
-      "x": 80989,
-      "y": -3369,
+      "x": 0,
+      "y": 21980,
       "name": "70 · Workspace Settings · Default",
       "context": "LOREKEEPER-363 project settings default state.",
       "clip": true,
@@ -33097,8 +33097,8 @@
     {
       "type": "frame",
       "id": "WFeMQ",
-      "x": 82509,
-      "y": -3369,
+      "x": 1560,
+      "y": 21980,
       "name": "71 · Workspace Settings · Changed",
       "context": "LOREKEEPER-363 project settings changed state.",
       "clip": true,
@@ -33295,8 +33295,8 @@
     {
       "type": "frame",
       "id": "Mk1yl",
-      "x": 84029,
-      "y": -3369,
+      "x": 3120,
+      "y": 21980,
       "name": "72 · Workspace Settings · Saving",
       "context": "LOREKEEPER-363 project settings saving state.",
       "clip": true,
@@ -33493,8 +33493,8 @@
     {
       "type": "frame",
       "id": "iEh4S",
-      "x": 85549,
-      "y": -3369,
+      "x": 4680,
+      "y": 21980,
       "name": "73 · Workspace Settings · Saved",
       "context": "LOREKEEPER-363 project settings saved state.",
       "clip": true,
@@ -33691,8 +33691,8 @@
     {
       "type": "frame",
       "id": "JfCF1",
-      "x": 87069,
-      "y": -3369,
+      "x": 6240,
+      "y": 21980,
       "name": "74 · Workspace Settings · Save Error",
       "context": "LOREKEEPER-363 project settings save error state.",
       "clip": true,
@@ -33889,8 +33889,8 @@
     {
       "type": "frame",
       "id": "b5Rlml",
-      "x": 88589,
-      "y": -3369,
+      "x": 7800,
+      "y": 21980,
       "name": "75 · Workspace Settings · Unsaved Confirmation",
       "context": "LOREKEEPER-363 project settings unsaved confirmation state.",
       "clip": true,
@@ -34105,8 +34105,8 @@
     {
       "type": "frame",
       "id": "X9umV",
-      "x": 90109,
-      "y": -3369,
+      "x": 0,
+      "y": 23000,
       "name": "76 · Workspace Settings · Move To Trash Confirmation",
       "context": "LOREKEEPER-363 project settings move to trash confirmation state.",
       "clip": true,
@@ -34321,8 +34321,8 @@
     {
       "type": "frame",
       "id": "Zp4Gq",
-      "x": 80989,
-      "y": -2389,
+      "x": 0,
+      "y": 24440,
       "name": "77 · Workspace Help · Default",
       "context": "LOREKEEPER-365 workspace help default state.",
       "clip": true,
@@ -34665,8 +34665,8 @@
     {
       "type": "frame",
       "id": "p11tW",
-      "x": 82509,
-      "y": -2389,
+      "x": 1560,
+      "y": 24440,
       "name": "78 · Workspace Help · Guide Topics",
       "context": "LOREKEEPER-365 workspace help guide topics state.",
       "clip": true,
@@ -35162,8 +35162,8 @@
     {
       "type": "frame",
       "id": "ZpiZx",
-      "x": 84029,
-      "y": -2389,
+      "x": 3120,
+      "y": 24440,
       "name": "79 · Workspace Help · Guide Article",
       "context": "LOREKEEPER-365 workspace help guide article state.",
       "clip": true,
@@ -35478,8 +35478,8 @@
     {
       "type": "frame",
       "id": "HIJlb",
-      "x": 85549,
-      "y": -2389,
+      "x": 4680,
+      "y": 24440,
       "name": "80 · Workspace Help · Feedback Opened",
       "context": "LOREKEEPER-365 workspace help feedback opened state.",
       "clip": true,
@@ -35879,8 +35879,8 @@
     {
       "type": "frame",
       "id": "RxYQ5",
-      "x": 87069,
-      "y": -2389,
+      "x": 6240,
+      "y": 24440,
       "name": "81 · Workspace Help · Feedback Open Error",
       "context": "LOREKEEPER-365 workspace help feedback open error state.",
       "clip": true,
@@ -36310,8 +36310,8 @@
     {
       "type": "frame",
       "id": "o0mGAk",
-      "x": 88589,
-      "y": -2389,
+      "x": 7800,
+      "y": 8060,
       "name": "82 · Manuscript Editor · Memo · Right Resized",
       "context": "LOREKEEPER-369 right memo resize state. Current width 420px within 320px to 45%; drag handle supports 8px arrows and 32px Shift+arrows.",
       "clip": true,
@@ -36775,8 +36775,8 @@
     {
       "type": "frame",
       "id": "qCzrF",
-      "x": 90109,
-      "y": -2389,
+      "x": 0,
+      "y": 9080,
       "name": "83 · Manuscript Editor · Memo · Below Resized",
       "context": "LOREKEEPER-369 below memo resize state. Current height 360px within 240px to 50%; drag handle supports 8px arrows and 32px Shift+arrows.",
       "clip": true,
@@ -37241,8 +37241,8 @@
     {
       "type": "frame",
       "id": "peKgW",
-      "x": 91629,
-      "y": -2389,
+      "x": 1560,
+      "y": 9080,
       "name": "84 · Manuscript Editor · AI Chat + Memo Below",
       "context": "LOREKEEPER-369 simultaneous panels. AI chat owns the right edge; a previously right-docked memo is temporarily placed below at its remembered 300px height.",
       "clip": true,
@@ -37711,8 +37711,8 @@
     {
       "type": "frame",
       "id": "B6O42H",
-      "x": 93149,
-      "y": -2389,
+      "x": 3120,
+      "y": 9080,
       "name": "85 · Manuscript Editor · Narrow · Memo Collapsed",
       "context": "LOREKEEPER-369 narrow workspace. Opening AI chat left less than 560x320 for file content, so the existing memo is collapsed without losing tab, input, or remembered size.",
       "clip": true,
@@ -38166,8 +38166,8 @@
     {
       "type": "frame",
       "id": "eO5kL",
-      "x": 94669,
-      "y": -2389,
+      "x": 0,
+      "y": 15620,
       "name": "86 · Workspace · User Section Delete Confirmation",
       "context": "LOREKEEPER-369 user-created section deletion confirmation. Contents are preserved under Files / section name; cancel returns focus to the delete menu item.",
       "clip": true,
@@ -38590,8 +38590,8 @@
     {
       "type": "frame",
       "id": "F9oF1",
-      "x": 96189,
-      "y": -2389,
+      "x": 1560,
+      "y": 15620,
       "name": "87 · Workspace · User Section Delete Error",
       "context": "LOREKEEPER-369 atomic section deletion failure. No section, file, folder, relation, or favorite shortcut changed; retry revalidates the same destination.",
       "clip": true,
@@ -39014,8 +39014,8 @@
     {
       "type": "frame",
       "id": "oAP5s",
-      "x": 97709,
-      "y": -2389,
+      "x": 7800,
+      "y": 24440,
       "name": "89 · Workspace Help · Guide Search Empty",
       "context": "Guide search with a retained query and a non-color empty result message.",
       "clip": true,
@@ -39203,8 +39203,8 @@
     {
       "type": "frame",
       "id": "i4zE54",
-      "x": 99229,
-      "y": -2389,
+      "x": 0,
+      "y": 25460,
       "name": "90 · Workspace Help · Guide Load Error",
       "context": "Selected guide failed to load; preserves the guide context and exposes retry.",
       "clip": true,
@@ -39392,8 +39392,8 @@
     {
       "type": "frame",
       "id": "v90GPC",
-      "x": 100749,
-      "y": -2389,
+      "x": 7800,
+      "y": 20540,
       "name": "88 · Event Timeline · Save Error",
       "context": "Timeline item save failure; keeps every field value and exposes icon, text and retry without color-only meaning.",
       "clip": true,
@@ -40273,8 +40273,8 @@
     {
       "type": "frame",
       "id": "BvuoV",
-      "x": 102309,
-      "y": -3369,
+      "x": 0,
+      "y": 26900,
       "name": "91 · Project List · Default",
       "context": "LOREKEEPER-389. Cards are ordered by last activity. The whole card opens its workspace; the more button only opens management actions.",
       "clip": true,
@@ -41435,8 +41435,8 @@
     {
       "type": "frame",
       "id": "G3Cvn",
-      "x": 103869,
-      "y": -3369,
+      "x": 1560,
+      "y": 26900,
       "name": "92 · Project List · Card Menu Open",
       "context": "LOREKEEPER-389. The card remains selected while the independent more menu exposes rename and trash actions.",
       "clip": true,
@@ -42689,8 +42689,8 @@
     {
       "type": "frame",
       "id": "Rpqy3",
-      "x": 105429,
-      "y": -3369,
+      "x": 3120,
+      "y": 26900,
       "name": "93 · Project List · Empty",
       "context": "LOREKEEPER-390 empty state. The global navigation and current location remain visible. The primary action creates the first project.",
       "clip": true,
@@ -42868,8 +42868,8 @@
     {
       "type": "frame",
       "id": "z4wuM",
-      "x": 106989,
-      "y": -3369,
+      "x": 4680,
+      "y": 26900,
       "name": "94 · Project List · Loading",
       "context": "LOREKEEPER-390 loading state. Fixed card geometry prevents layout shift; skeletons replace only project data while navigation stays interactive.",
       "clip": true,
@@ -43469,8 +43469,8 @@
     {
       "type": "frame",
       "id": "sYDj4",
-      "x": 108549,
-      "y": -3369,
+      "x": 6240,
+      "y": 26900,
       "name": "95 · Project List · Error",
       "context": "LOREKEEPER-390 error state. The failure is scoped to project retrieval, preserves navigation, reassures local data safety, and provides an explicit retry.",
       "clip": true,
@@ -43668,8 +43668,8 @@
     {
       "type": "frame",
       "id": "PzeBB",
-      "x": 110109,
-      "y": -3369,
+      "x": 0,
+      "y": 29360,
       "name": "96 · Project Create · Initial",
       "context": "LOREKEEPER-392 initial. Focus order: title input, cancel, create, close. Esc returns focus to the New Project card.",
       "clip": true,
@@ -45120,8 +45120,8 @@
     {
       "type": "frame",
       "id": "b7Hoq",
-      "x": 111669,
-      "y": -3369,
+      "x": 1560,
+      "y": 29360,
       "name": "97 · Project Create · Required Error",
       "context": "LOREKEEPER-392 required validation. aria-describedby links the title input to its error; create remains disabled.",
       "clip": true,
@@ -46586,8 +46586,8 @@
     {
       "type": "frame",
       "id": "xiX3C",
-      "x": 113229,
-      "y": -3369,
+      "x": 3120,
+      "y": 29360,
       "name": "98 · Project Create · Ready",
       "context": "LOREKEEPER-392 valid input. Cancel returns to project list; create submits the trimmed title once.",
       "clip": true,
@@ -48038,8 +48038,8 @@
     {
       "type": "frame",
       "id": "U83vsD",
-      "x": 114789,
-      "y": -3369,
+      "x": 4680,
+      "y": 29360,
       "name": "99 · Project Create · Submitting",
       "context": "LOREKEEPER-392 submitting. Input and all dialog actions are locked while one request is in flight.",
       "clip": true,
@@ -49490,8 +49490,8 @@
     {
       "type": "frame",
       "id": "mD2Vy",
-      "x": 116349,
-      "y": -3369,
+      "x": 6240,
+      "y": 29360,
       "name": "100 · Project Create · Server Error",
       "context": "LOREKEEPER-392 server error. The entered title is preserved; retry resubmits it and cancel returns to the list.",
       "clip": true,
@@ -50978,8 +50978,8 @@
     {
       "type": "frame",
       "id": "e2zKG",
-      "x": 117909,
-      "y": -3369,
+      "x": 0,
+      "y": 30800,
       "name": "101 · Project Rename · Current",
       "context": "LOREKEEPER-393 current value selected on open. Save is disabled until the trimmed value differs; Esc returns to the card more button.",
       "clip": true,
@@ -52467,8 +52467,8 @@
     {
       "type": "frame",
       "id": "z8wIZo",
-      "x": 119469,
-      "y": -3369,
+      "x": 1560,
+      "y": 30800,
       "name": "102 · Project Rename · Invalid",
       "context": "LOREKEEPER-393 invalid. The empty field is linked to its error; save remains disabled and input focus is retained.",
       "clip": true,
@@ -53970,8 +53970,8 @@
     {
       "type": "frame",
       "id": "NaYPr",
-      "x": 121029,
-      "y": -3369,
+      "x": 3120,
+      "y": 30800,
       "name": "103 · Project Rename · Ready",
       "context": "LOREKEEPER-393 changed value. Focus order is name input, cancel, save, close; save sends the trimmed value once.",
       "clip": true,
@@ -55459,8 +55459,8 @@
     {
       "type": "frame",
       "id": "syeZk",
-      "x": 122589,
-      "y": -3369,
+      "x": 4680,
+      "y": 30800,
       "name": "104 · Project Rename · Saving",
       "context": "LOREKEEPER-393 saving. Input, close, cancel and save are locked while one request is active.",
       "clip": true,
@@ -56948,8 +56948,8 @@
     {
       "type": "frame",
       "id": "WXPWx",
-      "x": 124149,
-      "y": -3369,
+      "x": 6240,
+      "y": 30800,
       "name": "105 · Project Rename · Save Error",
       "context": "LOREKEEPER-393 save error. The changed value is preserved; retry resubmits it and cancel restores the saved name.",
       "clip": true,
@@ -58473,8 +58473,8 @@
     {
       "type": "frame",
       "id": "wB2c6",
-      "x": 125709,
-      "y": -3369,
+      "x": 7800,
+      "y": 30800,
       "name": "106 · Project Rename · Success",
       "context": "LOREKEEPER-393 success. The dialog closes, the project card shows the new one-line ellipsized title, and focus returns to its more button.",
       "clip": true,
@@ -59709,8 +59709,8 @@
     {
       "type": "frame",
       "id": "DJf8k",
-      "x": 127269,
-      "y": -3369,
+      "x": 0,
+      "y": 32240,
       "name": "107 · Project Trash Move · Confirmation",
       "context": "LOREKEEPER-394 confirmation. The target and reversible impact are explicit; focus is trapped with Cancel as the default. Esc returns to the menu action.",
       "clip": true,
@@ -61154,8 +61154,8 @@
     {
       "type": "frame",
       "id": "xyKPr",
-      "x": 128829,
-      "y": -3369,
+      "x": 1560,
+      "y": 32240,
       "name": "108 · Project Trash Move · Moving",
       "context": "LOREKEEPER-394 moving. Dialog, target and list context remain; all actions are locked while one request is active.",
       "clip": true,
@@ -62599,8 +62599,8 @@
     {
       "type": "frame",
       "id": "KCK49",
-      "x": 130389,
-      "y": -3369,
+      "x": 3120,
+      "y": 32240,
       "name": "109 · Project Trash Move · Error",
       "context": "LOREKEEPER-394 error. The dialog, selected project and list ordering are preserved; retry resubmits and cancel returns to the menu.",
       "clip": true,
@@ -64080,8 +64080,8 @@
     {
       "type": "frame",
       "id": "Hhm0r",
-      "x": 131949,
-      "y": -3369,
+      "x": 4680,
+      "y": 32240,
       "name": "110 · Project Trash Move · Success",
       "context": "LOREKEEPER-394 success. The removed project is absent, the next card occupies its grid position, focus moves there, and the toast links the reversible result to Trash.",
       "clip": true,
@@ -65186,8 +65186,8 @@
     {
       "type": "frame",
       "id": "WYBJQ",
-      "x": 133469,
-      "y": -3369,
+      "x": 6240,
+      "y": 32240,
       "name": "111 · Project Trash · Default",
       "context": "LOREKEEPER-396 default. Recently trashed projects expose identity, moved date, preserved state, restore, and permanent delete actions.",
       "theme": {
@@ -65410,8 +65410,8 @@
     {
       "type": "frame",
       "id": "yvfHX",
-      "x": 134989,
-      "y": -3369,
+      "x": 7800,
+      "y": 32240,
       "name": "112 · Project Trash · Empty",
       "context": "LOREKEEPER-396 empty. No retained projects; the primary action returns to the project list.",
       "theme": {
@@ -65604,8 +65604,8 @@
     {
       "type": "frame",
       "id": "FogDw",
-      "x": 136509,
-      "y": -3369,
+      "x": 0,
+      "y": 33260,
       "name": "113 · Project Trash · Loading",
       "context": "LOREKEEPER-396 loading. Skeleton rows preserve the final list geometry while project trash data is fetched.",
       "theme": {
@@ -65954,8 +65954,8 @@
     {
       "type": "frame",
       "id": "r5UPt",
-      "x": 138029,
-      "y": -3369,
+      "x": 1560,
+      "y": 33260,
       "name": "114 · Project Trash · Load Error",
       "context": "LOREKEEPER-396 list error. The cause is not guessed and retry is the only primary recovery action.",
       "theme": {
@@ -66148,8 +66148,8 @@
     {
       "type": "frame",
       "id": "tErn6",
-      "x": 139549,
-      "y": -3369,
+      "x": 3120,
+      "y": 33260,
       "name": "115 · Project Trash · Restoring",
       "context": "LOREKEEPER-396 restore processing. Only the target project actions are locked while the rest of the list remains stable.",
       "theme": {
@@ -66378,8 +66378,8 @@
     {
       "type": "frame",
       "id": "ISCdJ",
-      "x": 141069,
-      "y": -3369,
+      "x": 4680,
+      "y": 33260,
       "name": "116 · Project Trash · Restore Error",
       "context": "LOREKEEPER-396 restore failure. Target and order remain stable; inline feedback and focused retry recover the same action.",
       "theme": {
@@ -66643,8 +66643,8 @@
     {
       "type": "frame",
       "id": "tTF2Z",
-      "x": 142589,
-      "y": -3369,
+      "x": 6240,
+      "y": 33260,
       "name": "117 · Project Trash · Restore Success",
       "context": "LOREKEEPER-396 restore success. The restored target is removed, next restore receives focus, and the toast links to the restored card on Project List.",
       "theme": {
@@ -66927,8 +66927,8 @@
     {
       "type": "frame",
       "id": "xjwox",
-      "x": 144109,
-      "y": -3369,
+      "x": 7800,
+      "y": 33260,
       "name": "118 · Project Trash · Default · Light",
       "context": "LOREKEEPER-396 light theme verification. The same hierarchy, borders, actions, and selected navigation resolve through themed tokens.",
       "theme": {
@@ -67151,8 +67151,8 @@
     {
       "type": "frame",
       "id": "BJyvs",
-      "x": 145629,
-      "y": -3369,
+      "x": 0,
+      "y": 34280,
       "name": "119 · Project Trash · Permanent Delete Confirmation",
       "context": "LOREKEEPER-397 confirmation. Target identity and irreversible impact are explicit; focus is trapped with Cancel as the default and Esc returns to the target action.",
       "theme": {
@@ -67426,8 +67426,8 @@
     {
       "type": "frame",
       "id": "l8tEHq",
-      "x": 147149,
-      "y": -3369,
+      "x": 1560,
+      "y": 34280,
       "name": "120 · Project Trash · Permanent Deleting",
       "context": "LOREKEEPER-397 processing. The dialog remains open, all actions are disabled, and the target stays visible to prevent duplicate requests.",
       "theme": {
@@ -67703,8 +67703,8 @@
     {
       "type": "frame",
       "id": "tsGQR",
-      "x": 148669,
-      "y": -3369,
+      "x": 3120,
+      "y": 34280,
       "name": "121 · Project Trash · Permanent Delete Error",
       "context": "LOREKEEPER-397 error. The dialog, target, and list order remain; inline feedback offers retry while Cancel and Esc preserve the item.",
       "theme": {
@@ -68031,8 +68031,8 @@
     {
       "type": "frame",
       "id": "xI1cj",
-      "x": 150189,
-      "y": -3369,
+      "x": 4680,
+      "y": 34280,
       "name": "122 · Project Trash · Permanent Delete Success",
       "context": "LOREKEEPER-397 success. The deleted target is removed permanently, next restore receives focus, and a non-reversible completion toast confirms the result.",
       "theme": {
@@ -68388,8 +68388,8 @@
     {
       "type": "frame",
       "id": "Pr4Vc",
-      "x": 151629,
-      "y": -3369,
+      "x": 7800,
+      "y": 26900,
       "name": "123 · Project List · User Menu Open",
       "context": "LOREKEEPER-399. The user menu exposes Account Settings and Logout as distinct actions. Escape or outside click closes it and returns focus to the user summary.",
       "clip": true,
@@ -69664,8 +69664,8 @@
     {
       "type": "frame",
       "id": "l6YSG6",
-      "x": 153229,
-      "y": -3369,
+      "x": 0,
+      "y": 35720,
       "name": "124 · Account Settings · Default",
       "context": "LOREKEEPER-399. Account Settings opens as a modal over the current project-list context. Name is editable; Google account email is read-only. Closing returns focus to the user summary.",
       "theme": {
@@ -71057,8 +71057,8 @@
     {
       "type": "frame",
       "id": "YlFtW",
-      "x": 154829,
-      "y": -3369,
+      "x": 1560,
+      "y": 35720,
       "name": "125 · Account Settings · Edited",
       "context": "LOREKEEPER-399. A trimmed, nonblank name enables explicit saving. Cancel restores the last saved value.",
       "theme": {
@@ -72393,8 +72393,8 @@
     {
       "type": "frame",
       "id": "daOWS",
-      "x": 156429,
-      "y": -3369,
+      "x": 3120,
+      "y": 35720,
       "name": "126 · Account Settings · Validation Error",
       "context": "LOREKEEPER-399. Blank or whitespace-only names are rejected inline; the save action remains unavailable and focus stays in the name field.",
       "theme": {
@@ -73792,8 +73792,8 @@
     {
       "type": "frame",
       "id": "VemT4",
-      "x": 158029,
-      "y": -3369,
+      "x": 4680,
+      "y": 35720,
       "name": "127 · Account Settings · Saving",
       "context": "LOREKEEPER-399. While saving, fields and close/cancel/save actions are locked to prevent duplicate submission.",
       "theme": {
@@ -75128,8 +75128,8 @@
     {
       "type": "frame",
       "id": "Z0yHo",
-      "x": 159629,
-      "y": -3369,
+      "x": 6240,
+      "y": 35720,
       "name": "128 · Account Settings · Saved",
       "context": "LOREKEEPER-399. Success confirms the new name. Closing the dialog returns keyboard focus to the user summary that opened it.",
       "theme": {
@@ -76460,8 +76460,8 @@
     {
       "type": "frame",
       "id": "CbnlA",
-      "x": 161229,
-      "y": -3369,
+      "x": 7800,
+      "y": 35720,
       "name": "129 · Account Settings · Save Error",
       "context": "LOREKEEPER-399. Save failure preserves the edited name and offers an explicit retry without losing the current project-list context.",
       "theme": {
@@ -77796,8 +77796,8 @@
     {
       "type": "frame",
       "id": "Mq1AS",
-      "x": 162829,
-      "y": -3369,
+      "x": 0,
+      "y": 36740,
       "name": "130 · Account Settings · Long Values · Light",
       "context": "LOREKEEPER-399. Light-theme stress case for long names and email values; the email remains readable and read-only, while the edited name remains savable.",
       "theme": {
@@ -79132,8 +79132,8 @@
     {
       "type": "frame",
       "id": "HcLfZ",
-      "x": 164429,
-      "y": -3369,
+      "x": 0,
+      "y": 27920,
       "name": "131 · Project List · Logout Confirmation",
       "context": "LOREKEEPER-400. The dialog names the current account and destination. Cancel receives default focus; Escape closes and returns focus to Logout in the user menu.",
       "clip": true,
@@ -80518,8 +80518,8 @@
     {
       "type": "frame",
       "id": "y7wxgE",
-      "x": 166029,
-      "y": -3369,
+      "x": 1560,
+      "y": 27920,
       "name": "132 · Project List · Logout Processing",
       "context": "LOREKEEPER-400. Logout processing locks all dialog actions and transitions only once to /login on success.",
       "clip": true,
@@ -81886,8 +81886,8 @@
     {
       "type": "frame",
       "id": "EQJbK",
-      "x": 167629,
-      "y": -3369,
+      "x": 3120,
+      "y": 27920,
       "name": "133 · Project List · Logout Error",
       "context": "LOREKEEPER-400. Logout failure keeps the project list and account context, offers retry, and lets Cancel return focus to Logout.",
       "clip": true,
@@ -83272,8 +83272,8 @@
     {
       "type": "frame",
       "id": "N5M5TM",
-      "x": 169229,
-      "y": -3369,
+      "x": 4680,
+      "y": 27920,
       "name": "134 · Project List · Logout Complete",
       "context": "LOREKEEPER-400/402. Successful logout ends the session, announces completion once, and routes to /login. This transition state does not define the excluded authentication UI.",
       "clip": true,
@@ -83476,8 +83476,8 @@
     {
       "type": "frame",
       "id": "K5MEsG",
-      "x": 170829,
-      "y": -3369,
+      "x": 0,
+      "y": 38180,
       "name": "135 · Project Guide · Topics",
       "context": "LOREKEEPER-400. The internal guide keeps the project-list shell, marks Guide as the current location, and offers a direct return to /projects.",
       "clip": true,
@@ -84142,8 +84142,8 @@
     {
       "type": "frame",
       "id": "j3qmH",
-      "x": 172429,
-      "y": -3369,
+      "x": 1560,
+      "y": 38180,
       "name": "136 · Project Guide · Article",
       "context": "LOREKEEPER-400. Guide article breadcrumbs identify the current topic. Project List remains one action away and closing the article returns focus to its topic card.",
       "clip": true,
@@ -84508,8 +84508,8 @@
     {
       "type": "frame",
       "id": "iZobk",
-      "x": 174029,
-      "y": -3369,
+      "x": 6240,
+      "y": 27920,
       "name": "137 · Project List · Feedback Opened",
       "context": "LOREKEEPER-400. Feedback opens in a new browser tab without account or project identifiers. The project list remains current; focus returns to Feedback after opening.",
       "clip": true,
@@ -85741,8 +85741,8 @@
     {
       "type": "frame",
       "id": "c061WC",
-      "x": 175629,
-      "y": -3369,
+      "x": 7800,
+      "y": 27920,
       "name": "138 · Project List · Feedback Open Error",
       "context": "LOREKEEPER-400. If the external feedback page cannot open, the project list and current account context are preserved. Retry receives focus; copying the link is an alternative.",
       "clip": true,
@@ -87057,8 +87057,8 @@
     {
       "type": "frame",
       "id": "EwUtO",
-      "x": 177229,
-      "y": -3369,
+      "x": 0,
+      "y": 39620,
       "name": "139 · Login · Default",
       "theme": {
         "b:mode": "dark"
@@ -87292,21 +87292,7 @@
                   "type": "ref",
                   "ref": "b:nr8tB",
                   "name": "Login Policy Notice",
-                  "width": "fill_container",
-                  "descendants": {
-                    "b:rQgs7": {
-                      "textGrowth": "fixed-width-height",
-                      "width": 45,
-                      "height": 32,
-                      "lineHeight": 32
-                    },
-                    "b:z8Zuh": {
-                      "textGrowth": "fixed-width-height",
-                      "width": 89,
-                      "height": 32,
-                      "lineHeight": 32
-                    }
-                  }
+                  "width": "fill_container"
                 }
               ]
             }
@@ -87317,8 +87303,8 @@
     {
       "type": "frame",
       "id": "F4Qlk",
-      "x": 178829,
-      "y": -3369,
+      "x": 1560,
+      "y": 39620,
       "name": "140 · Login · Processing",
       "theme": {
         "b:mode": "dark"
@@ -87531,21 +87517,7 @@
                   "type": "ref",
                   "ref": "b:nr8tB",
                   "name": "Login Policy Notice",
-                  "width": "fill_container",
-                  "descendants": {
-                    "b:rQgs7": {
-                      "textGrowth": "fixed-width-height",
-                      "width": 45,
-                      "height": 32,
-                      "lineHeight": 32
-                    },
-                    "b:z8Zuh": {
-                      "textGrowth": "fixed-width-height",
-                      "width": 89,
-                      "height": 32,
-                      "lineHeight": 32
-                    }
-                  }
+                  "width": "fill_container"
                 }
               ]
             }
@@ -87556,8 +87528,8 @@
     {
       "type": "frame",
       "id": "rENHC",
-      "x": 180429,
-      "y": -3369,
+      "x": 3120,
+      "y": 39620,
       "name": "141 · Login · OAuth Canceled",
       "theme": {
         "b:mode": "dark"
@@ -87775,21 +87747,7 @@
                   "type": "ref",
                   "ref": "b:nr8tB",
                   "name": "Login Policy Notice",
-                  "width": "fill_container",
-                  "descendants": {
-                    "b:rQgs7": {
-                      "textGrowth": "fixed-width-height",
-                      "width": 45,
-                      "height": 32,
-                      "lineHeight": 32
-                    },
-                    "b:z8Zuh": {
-                      "textGrowth": "fixed-width-height",
-                      "width": 89,
-                      "height": 32,
-                      "lineHeight": 32
-                    }
-                  }
+                  "width": "fill_container"
                 }
               ]
             }
@@ -87800,8 +87758,8 @@
     {
       "type": "frame",
       "id": "vJY2I",
-      "x": 182029,
-      "y": -3369,
+      "x": 4680,
+      "y": 39620,
       "name": "142 · Login · OAuth Failed",
       "theme": {
         "b:mode": "dark"
@@ -88019,21 +87977,7 @@
                   "type": "ref",
                   "ref": "b:nr8tB",
                   "name": "Login Policy Notice",
-                  "width": "fill_container",
-                  "descendants": {
-                    "b:rQgs7": {
-                      "textGrowth": "fixed-width-height",
-                      "width": 45,
-                      "height": 32,
-                      "lineHeight": 32
-                    },
-                    "b:z8Zuh": {
-                      "textGrowth": "fixed-width-height",
-                      "width": 89,
-                      "height": 32,
-                      "lineHeight": 32
-                    }
-                  }
+                  "width": "fill_container"
                 }
               ]
             }
@@ -88044,8 +87988,8 @@
     {
       "type": "frame",
       "id": "y578o",
-      "x": 183629,
-      "y": -3369,
+      "x": 6240,
+      "y": 39620,
       "name": "143 · Login · Session Expired",
       "theme": {
         "b:mode": "dark"
@@ -88301,21 +88245,7 @@
                   "type": "ref",
                   "ref": "b:nr8tB",
                   "name": "Login Policy Notice",
-                  "width": "fill_container",
-                  "descendants": {
-                    "b:rQgs7": {
-                      "textGrowth": "fixed-width-height",
-                      "width": 45,
-                      "height": 32,
-                      "lineHeight": 32
-                    },
-                    "b:z8Zuh": {
-                      "textGrowth": "fixed-width-height",
-                      "width": 89,
-                      "height": 32,
-                      "lineHeight": 32
-                    }
-                  }
+                  "width": "fill_container"
                 }
               ]
             }
@@ -88326,8 +88256,8 @@
     {
       "type": "frame",
       "id": "sSVhG",
-      "x": 185229,
-      "y": -3369,
+      "x": 7800,
+      "y": 39620,
       "name": "144 · Login · Default · Light",
       "theme": {
         "b:mode": "light"
@@ -88561,21 +88491,7 @@
                   "type": "ref",
                   "ref": "b:nr8tB",
                   "name": "Login Policy Notice",
-                  "width": "fill_container",
-                  "descendants": {
-                    "b:rQgs7": {
-                      "textGrowth": "fixed-width-height",
-                      "width": 45,
-                      "height": 32,
-                      "lineHeight": 32
-                    },
-                    "b:z8Zuh": {
-                      "textGrowth": "fixed-width-height",
-                      "width": 89,
-                      "height": 32,
-                      "lineHeight": 32
-                    }
-                  }
+                  "width": "fill_container"
                 }
               ]
             }
