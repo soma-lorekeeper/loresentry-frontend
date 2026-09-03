@@ -54,6 +54,16 @@ export function ProjectSidebar({
   const triggerRef = useRef<HTMLButtonElement>(null);
   const settingsRef = useRef<HTMLButtonElement>(null);
   const logoutRef = useRef<HTMLButtonElement>(null);
+  const projectListRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    if (
+      current === "list" &&
+      window.location.hash === "#project-navigation-list"
+    ) {
+      requestAnimationFrame(() => projectListRef.current?.focus());
+    }
+  }, [current]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -174,6 +184,8 @@ export function ProjectSidebar({
             aria-current={current === "list" ? "page" : undefined}
             className={styles.navItem}
             href="/projects"
+            id="project-navigation-list"
+            ref={projectListRef}
           >
             <WorkspaceIcon name="organization" />
             프로젝트 목록

@@ -6,53 +6,8 @@ import { Button, StatusNotice } from "@/components/ui";
 import { WorkspaceIcon } from "@/features/workspace/icons";
 
 import type { HelpScenario } from "../help-states";
+import { projectGuideTopics } from "../project-guide-content";
 import styles from "./workspace-help.module.css";
-
-interface GuideTopic {
-  description: string;
-  id: string;
-  keywords: string;
-  title: string;
-}
-
-const guideTopics: GuideTopic[] = [
-  {
-    id: "workspace-start",
-    title: "작업공간 시작하기",
-    description: "프로젝트, 사이드바와 탭의 기본 사용법",
-    keywords: "프로젝트 사이드바 탭 시작",
-  },
-  {
-    id: "files-properties",
-    title: "파일과 속성 문서",
-    description: "파일을 만들고 정보를 구조화하는 방법",
-    keywords: "파일 폴더 속성",
-  },
-  {
-    id: "manuscript",
-    title: "원고 작성",
-    description: "원고 편집, 저장 상태와 버전 관리",
-    keywords: "원고 편집 저장 버전",
-  },
-  {
-    id: "search-graph",
-    title: "검색과 그래프",
-    description: "필요한 기록과 연결 관계를 찾는 방법",
-    keywords: "검색 그래프 연결",
-  },
-  {
-    id: "memo-timeline",
-    title: "메모와 시간 흐름",
-    description: "아이디어와 사건 순서를 함께 관리하기",
-    keywords: "메모 시간 흐름 사건",
-  },
-  {
-    id: "trash-restore",
-    title: "휴지통과 복원",
-    description: "삭제한 파일과 프로젝트를 안전하게 관리하기",
-    keywords: "삭제 휴지통 복원",
-  },
-];
 
 export interface WorkspaceHelpProps {
   copyFeedbackLink?: (url: string) => Promise<void>;
@@ -98,15 +53,16 @@ export function WorkspaceHelp({
   const topicRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const feedbackRef = useRef<HTMLButtonElement>(null);
   const selectedTopic =
-    guideTopics.find((topic) => topic.id === selectedTopicId) ?? guideTopics[0];
+    projectGuideTopics.find((topic) => topic.id === selectedTopicId) ??
+    projectGuideTopics[0];
   const normalizedQuery = query.trim().toLocaleLowerCase("ko");
-  const filteredTopics = guideTopics.filter((topic) =>
+  const filteredTopics = projectGuideTopics.filter((topic) =>
     `${topic.title} ${topic.description} ${topic.keywords}`
       .toLocaleLowerCase("ko")
       .includes(normalizedQuery),
   );
 
-  const openTopic = (topic: GuideTopic) => {
+  const openTopic = (topic: (typeof projectGuideTopics)[number]) => {
     setSelectedTopicId(topic.id);
     setGuideError(false);
     setView("article");
