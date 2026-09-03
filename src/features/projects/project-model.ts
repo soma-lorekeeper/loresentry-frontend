@@ -6,6 +6,14 @@ export interface ProjectSummary {
   title: string;
 }
 
+export const projectFixtureIds = [
+  "glass-garden",
+  "winter-letter",
+  "orbit-record",
+] as const;
+
+export type ProjectFixtureId = (typeof projectFixtureIds)[number];
+
 export const PROJECT_TITLE_MAX_LENGTH = 255;
 
 export type ProjectTitleError = "required" | "too-long";
@@ -19,7 +27,7 @@ export function validateProjectTitle(
   return undefined;
 }
 
-export const projectFixtures: ProjectSummary[] = [
+export const projectFixtures = [
   {
     id: "glass-garden",
     lastActiveAt: "2026-09-03T02:48:00.000Z",
@@ -40,7 +48,7 @@ export const projectFixtures: ProjectSummary[] = [
     lastActiveLabel: "5일 전 마지막 작업",
     title: "궤도 도시 기록",
   },
-];
+] satisfies Array<ProjectSummary & { id: ProjectFixtureId }>;
 
 export function sortProjects(projects: ProjectSummary[]): ProjectSummary[] {
   return [...projects].sort(
