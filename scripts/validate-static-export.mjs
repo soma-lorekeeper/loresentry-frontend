@@ -9,6 +9,7 @@ const outputDirectory = fileURLToPath(new URL("../out", import.meta.url));
 const requiredFiles = [
   "index.html",
   "design-system/index.html",
+  "projects/index.html",
   "workspace/index.html",
   "config.json",
 ];
@@ -84,15 +85,18 @@ const server = createServer(async (request, response) => {
 server.listen(0, "127.0.0.1");
 await once(server, "listening");
 
+const routes = [
+  "/",
+  "/design-system/",
+  "/projects?projectState=project-list-default",
+  "/workspace?projectId=glass-garden",
+];
+
 try {
   const address = server.address();
   assert.ok(address && typeof address === "object");
 
-  for (const path of [
-    "/",
-    "/design-system/",
-    "/workspace?projectId=glass-garden",
-  ]) {
+  for (const path of routes) {
     const response = await fetch(`http://127.0.0.1:${address.port}${path}`);
     assert.equal(response.status, 200, `${path} must return HTTP 200`);
     assert.match(
@@ -108,5 +112,5 @@ try {
 }
 
 console.log(
-  `Validated ${outputFiles.length} static files and 3 CDN-style HTTP routes.`,
+  `Validated ${outputFiles.length} static files and ${routes.length} CDN-style HTTP routes.`,
 );
