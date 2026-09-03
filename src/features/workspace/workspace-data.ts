@@ -17,6 +17,8 @@ export interface WorkspaceNavItem {
 
 export const projects: ProjectSummary[] = [
   { id: "glass-garden", name: "유리 정원의 기록" },
+  { id: "winter-letter", name: "겨울 숲에서 온 편지" },
+  { id: "orbit-record", name: "궤도 도시 기록" },
   { id: "other-project", name: "다른 프로젝트" },
 ];
 

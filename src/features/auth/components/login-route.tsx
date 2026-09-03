@@ -13,6 +13,10 @@ export interface LoginRouteProps {
   startGoogleOAuth?: () => GoogleAuthOutcome | Promise<GoogleAuthOutcome>;
 }
 
+function assumeGoogleAuthenticationSuccess(): GoogleAuthOutcome {
+  return { status: "success" };
+}
+
 export function LoginRoute({
   onNavigate,
   startGoogleOAuth,
@@ -27,7 +31,7 @@ export function LoginRoute({
       initialState={scenario?.loginState}
       onNavigate={onNavigate ?? router.push}
       privacyUrl={runtime.config?.privacyPolicyUrl ?? undefined}
-      startGoogleOAuth={startGoogleOAuth}
+      startGoogleOAuth={startGoogleOAuth ?? assumeGoogleAuthenticationSuccess}
       termsUrl={runtime.config?.termsOfServiceUrl ?? undefined}
       theme={scenario?.theme === "light" ? "light" : undefined}
     />

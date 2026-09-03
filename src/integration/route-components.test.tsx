@@ -2,7 +2,9 @@ import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import { LoginRoute } from "@/features/auth/components/login-route";
 import { ProjectListRoute } from "@/features/projects/components/project-list-route";
+import { projectFixtures } from "@/features/projects/project-model";
 import { WorkspaceRoute } from "@/features/workspace/components/workspace-route";
 
 const navigation = vi.hoisted(() => ({
@@ -15,6 +17,18 @@ vi.mock("next/navigation", () => ({
   useSearchParams: () => navigation.params,
 }));
 
+vi.mock("@/config/runtime-config-provider", () => ({
+  useRuntimeConfig: () => ({
+    config: {
+      apiBaseUrl: "",
+      privacyPolicyUrl: "",
+      termsOfServiceUrl: "",
+    },
+    error: null,
+    status: "ready",
+  }),
+}));
+
 afterEach(() => {
   cleanup();
   navigation.params = new URLSearchParams();
@@ -22,6 +36,49 @@ afterEach(() => {
 });
 
 describe("route component handoffs", () => {
+  it("assumes temporary login success and opens the project list", async () => {
+    const user = userEvent.setup();
+    render(<LoginRoute />);
+
+    await user.click(screen.getByRole("button", { name: "Google로 계속하기" }));
+
+    await waitFor(() =>
+      expect(navigation.push).toHaveBeenCalledWith("/projects"),
+    );
+  });
+
+  it.each(projectFixtures)(
+    "opens the $title mock project with its own identity",
+    async (project) => {
+      const user = userEvent.setup();
+      const navigate = vi.fn();
+      render(<ProjectListRoute navigate={navigate} />);
+      const projectButton = screen.getByTitle(project.title).closest("button");
+
+      expect(projectButton).not.toBeNull();
+      await user.click(projectButton!);
+
+      await waitFor(() =>
+        expect(navigate).toHaveBeenCalledWith(
+          `/workspace?projectId=${project.id}`,
+        ),
+      );
+    },
+  );
+
+  it.each(projectFixtures)(
+    "loads the $title workspace mock selected by the route",
+    (project) => {
+      navigation.params = new URLSearchParams({ projectId: project.id });
+      const { container } = render(<WorkspaceRoute />);
+
+      expect(container.querySelector("[data-project-id]")).toHaveAttribute(
+        "data-project-id",
+        project.id,
+      );
+    },
+  );
+
   it("opens only the project identity verified by the backend adapter", async () => {
     const user = userEvent.setup();
     const navigate = vi.fn();

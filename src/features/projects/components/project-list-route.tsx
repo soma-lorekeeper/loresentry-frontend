@@ -21,6 +21,14 @@ export interface ProjectListRouteProps {
   openProject?: (projectId: string) => Promise<{ verifiedProjectId: string }>;
 }
 
+async function openMockProject(projectId: string) {
+  const project = projectFixtures.find(
+    (candidate) => candidate.id === projectId,
+  );
+  if (!project) throw new Error("mock project is not registered");
+  return { verifiedProjectId: project.id };
+}
+
 export function ProjectListRoute({
   logout,
   navigate,
@@ -55,8 +63,7 @@ export function ProjectListRoute({
       logout={logout}
       onNavigateToLogin={() => navigateToRoute(APP_ROUTES.login)}
       onOpenProject={async (projectId) => {
-        if (!openProject) throw new Error("project access adapter is required");
-        const result = await openProject(projectId);
+        const result = await (openProject ?? openMockProject)(projectId);
         navigateToRoute(createWorkspaceRoute(result.verifiedProjectId));
       }}
       theme={globalScenario?.theme}
