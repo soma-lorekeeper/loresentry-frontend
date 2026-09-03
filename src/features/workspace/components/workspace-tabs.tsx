@@ -35,6 +35,11 @@ import {
   propertyFileIcons,
 } from "@/features/property/components/property-document";
 import type { PropertyDocumentScenario } from "@/features/property/property-document-states";
+import { EventTimeline } from "@/features/timeline/components/event-timeline";
+import {
+  createInitialTimelineItems,
+  type TimelineItem,
+} from "@/features/timeline/timeline-model";
 
 import { WorkspaceIcon, type WorkspaceIconName } from "../icons";
 import type { WorkspaceNavItem } from "../workspace-data";
@@ -396,6 +401,9 @@ export function WorkspaceContent({
         }
       : {},
   );
+  const [timelineItems, setTimelineItems] = useState<
+    Record<string, TimelineItem[]>
+  >(() => ({ event: createInitialTimelineItems("event") }));
   const [memoCollections, setMemoCollections] = useState<
     Record<string, MemoCollection>
   >(initialMemoCollections);
@@ -450,6 +458,8 @@ export function WorkspaceContent({
   const currentPropertyDocument =
     propertyDocuments[activeTab.id] ??
     createInitialPropertyDocument(activeTab.id, activeTab.label);
+  const currentTimelineItems =
+    timelineItems[activeTab.id] ?? createInitialTimelineItems(activeTab.id);
   const currentMemoCollection =
     memoCollections[projectId] ?? emptyMemoCollection();
   const currentMemoScope = memoScopes[projectId] ?? "project";
@@ -936,7 +946,38 @@ export function WorkspaceContent({
             }
             onRetrySave={() => retryPropertySave(activeTab.id)}
             saveAvailable={Boolean(savePropertyDocument)}
-          />
+          >
+            {activeTab.icon === "event" && (
+              <EventTimeline
+                items={currentTimelineItems}
+                onOpenReference={(reference) =>
+                  onOpenSearchResult({
+                    contentId: reference.id,
+                    icon: propertyFileIcons[reference.type],
+                    id: reference.id,
+                    kind: "file",
+                    label: reference.title,
+                  })
+                }
+                onRemoveReference={(item, reference) =>
+                  setTimelineItems((current) => ({
+                    ...current,
+                    [activeTab.id]: currentTimelineItems.map((candidate) =>
+                      candidate.id === item.id
+                        ? {
+                            ...candidate,
+                            references: candidate.references?.filter(
+                              (currentReference) =>
+                                currentReference.id !== reference.id,
+                            ),
+                          }
+                        : candidate,
+                    ),
+                  }))
+                }
+              />
+            )}
+          </PropertyDocumentEditor>
         </FileMemoWorkspace>
       ) : activeTab.isFile && activeTab.icon === "file" ? (
         <FileMemoWorkspace

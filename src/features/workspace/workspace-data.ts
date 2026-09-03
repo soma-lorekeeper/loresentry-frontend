@@ -63,6 +63,7 @@ export const fileItems: WorkspaceNavItem[] = [
   },
   { id: "setting", label: "설정", icon: "setting-file", kind: "file" },
   { id: "character", label: "캐릭터", icon: "character", kind: "file" },
+  { id: "event", label: "균열의 밤", icon: "event", kind: "file" },
   {
     id: "organization",
     label: "정원 기록단",
