@@ -23,6 +23,22 @@
   color: var(--lk-color-text-secondary);
 }
 
+.dialogProject {
+  display: flex;
+  gap: var(--lk-space-2);
+  margin: var(--lk-space-6) 0;
+  padding: var(--lk-space-4);
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-default);
+  color: var(--lk-color-text-primary);
+  font-size: var(--lk-font-size-body);
+}
+
+.dialogProject strong {
+  font-weight: 600;
+}
+
 .eyebrow {
   display: block;
   margin-bottom: var(--lk-space-2);

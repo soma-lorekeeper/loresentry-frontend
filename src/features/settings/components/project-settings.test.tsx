@@ -1,4 +1,4 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
@@ -114,5 +114,96 @@ describe("ProjectSettings", () => {
       "설정을 저장하지 못했습니다",
     );
     expect(screen.queryByText("저장됨")).not.toBeInTheDocument();
+  });
+
+  it("keeps edits on cancel and discards them only after confirmation", async () => {
+    const user = userEvent.setup();
+    renderSettings();
+
+    const description = screen.getByLabelText("프로젝트 설명");
+    await user.clear(description);
+    await user.type(description, "버리지 않은 설명");
+    await user.click(screen.getByRole("button", { name: "취소" }));
+
+    const dialog = screen.getByRole("dialog", {
+      name: "변경사항을 저장하지 않고 나갈까요?",
+    });
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "계속 편집" })).toHaveFocus(),
+    );
+    await user.click(screen.getByRole("button", { name: "계속 편집" }));
+    expect(dialog).not.toBeVisible();
+    expect(description).toHaveValue("버리지 않은 설명");
+
+    await user.click(screen.getByRole("button", { name: "취소" }));
+    await user.click(screen.getByRole("button", { name: "변경사항 버리기" }));
+    expect(description).toHaveValue(
+      "유리 정원을 둘러싼 인물과 사건을 기록합니다.",
+    );
+  });
+
+  it("blocks duplicate trash moves and closes only after backend success", async () => {
+    const user = userEvent.setup();
+    const request = deferred<void>();
+    const moveProjectToTrash = vi.fn(() => request.promise);
+    const onProjectMovedToTrash = vi.fn();
+    render(
+      <ProjectSettings
+        moveProjectToTrash={moveProjectToTrash}
+        onProjectMovedToTrash={onProjectMovedToTrash}
+        projectId="glass-garden"
+        projectName="유리 정원의 기록"
+      />,
+    );
+
+    const moveTrigger = screen.getByRole("button", { name: "이동" });
+    await user.click(moveTrigger);
+    const dialog = screen.getByRole("dialog", {
+      name: "프로젝트를 휴지통으로 이동할까요?",
+    });
+    await waitFor(() =>
+      expect(
+        within(dialog).getByRole("button", { name: "취소" }),
+      ).toHaveFocus(),
+    );
+    await user.click(
+      within(dialog).getByRole("button", { name: "휴지통으로 이동" }),
+    );
+    await user.keyboard("{Escape}");
+
+    expect(moveProjectToTrash).toHaveBeenCalledTimes(1);
+    expect(
+      screen.getByRole("dialog", {
+        name: "프로젝트를 휴지통으로 이동할까요?",
+      }),
+    ).toBeVisible();
+    expect(screen.getByRole("button", { name: "이동 중…" })).toBeDisabled();
+
+    await act(async () => request.resolve());
+    await waitFor(() =>
+      expect(
+        screen.queryByRole("dialog", {
+          name: "프로젝트를 휴지통으로 이동할까요?",
+        }),
+      ).not.toBeInTheDocument(),
+    );
+    expect(onProjectMovedToTrash).toHaveBeenCalledWith("glass-garden");
+  });
+
+  it("keeps the project when the trash backend adapter is unavailable", async () => {
+    const user = userEvent.setup();
+    renderSettings();
+
+    await user.click(screen.getByRole("button", { name: "이동" }));
+    await user.click(screen.getByRole("button", { name: "휴지통으로 이동" }));
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "프로젝트를 이동하지 못했습니다",
+    );
+    expect(
+      screen.getByRole("dialog", {
+        name: "프로젝트를 휴지통으로 이동할까요?",
+      }),
+    ).toBeVisible();
   });
 });

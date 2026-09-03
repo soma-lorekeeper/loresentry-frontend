@@ -80,4 +80,75 @@ describe("WorkspaceShell", () => {
       screen.getByRole("heading", { level: 1, name: "프로젝트 설정" }),
     ).toBeInTheDocument();
   });
+
+  it("retains settings across tabs and confirms before closing them", async () => {
+    const user = userEvent.setup();
+    render(<WorkspaceShell initialProjectId="glass-garden" />);
+
+    const projectManagement = screen.getByRole("navigation", {
+      name: "프로젝트 관리",
+    });
+    await user.click(
+      within(projectManagement).getByRole("button", { name: "설정" }),
+    );
+    const description = screen.getByLabelText("프로젝트 설명");
+    await user.clear(description);
+    await user.type(description, "탭을 이동해도 유지되는 설명");
+
+    await user.click(screen.getByRole("tab", { name: "12화 · 균열의 밤" }));
+    await user.click(screen.getByRole("tab", { name: "설정" }));
+    expect(screen.getByLabelText("프로젝트 설명")).toHaveValue(
+      "탭을 이동해도 유지되는 설명",
+    );
+
+    await user.click(screen.getByRole("button", { name: "설정 탭 닫기" }));
+    expect(
+      screen.getByRole("dialog", {
+        name: "변경사항을 저장하지 않고 나갈까요?",
+      }),
+    ).toBeVisible();
+    await user.click(screen.getByRole("button", { name: "계속 편집" }));
+    expect(screen.getByRole("tab", { name: "설정" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "설정 탭 닫기" }));
+    await user.click(screen.getByRole("button", { name: "변경사항 버리기" }));
+    expect(screen.queryByRole("tab", { name: "설정" })).not.toBeInTheDocument();
+  });
+
+  it("confirms before switching projects with unsaved settings", async () => {
+    const user = userEvent.setup();
+    render(<WorkspaceShell initialProjectId="glass-garden" />);
+
+    const projectManagement = screen.getByRole("navigation", {
+      name: "프로젝트 관리",
+    });
+    await user.click(
+      within(projectManagement).getByRole("button", { name: "설정" }),
+    );
+    await user.type(screen.getByLabelText("프로젝트 설명"), " 변경");
+    await user.click(
+      screen.getByRole("button", {
+        name: "프로젝트 전환: 유리 정원의 기록",
+      }),
+    );
+    await user.click(
+      screen.getByRole("menuitemradio", { name: "다른 프로젝트" }),
+    );
+
+    expect(
+      screen.getByRole("dialog", {
+        name: "변경사항을 저장하지 않고 나갈까요?",
+      }),
+    ).toBeVisible();
+    expect(
+      screen.getByRole("button", {
+        name: "프로젝트 전환: 유리 정원의 기록",
+      }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "변경사항 버리기" }));
+    expect(
+      screen.getByRole("button", { name: "프로젝트 전환: 다른 프로젝트" }),
+    ).toBeInTheDocument();
+  });
 });

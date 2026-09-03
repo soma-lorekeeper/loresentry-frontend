@@ -1,8 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 
-import { Button } from "@/components/ui";
+import { Button, Dialog, DialogActions, StatusNotice } from "@/components/ui";
 import { WorkspaceIcon } from "@/features/workspace/icons";
 
 import type { SettingsScenario } from "../settings-states";
@@ -15,28 +21,45 @@ export interface WorkspaceSettingsInput {
 }
 
 export interface ProjectSettingsProps {
+  hidden?: boolean;
   initialScenario?: SettingsScenario;
+  moveProjectToTrash?: (projectId: string) => Promise<void>;
   onDirtyChange?: (dirty: boolean) => void;
   onMoveToTrashRequest?: (returnFocus: HTMLButtonElement) => void;
+  onProjectMovedToTrash?: (projectId: string) => void;
   onSaved?: (settings: WorkspaceSettingsInput) => void;
   projectId: string;
   projectName: string;
   saveSettings?: (settings: WorkspaceSettingsInput) => Promise<void>;
 }
 
+export interface ProjectSettingsHandle {
+  hasUnsavedChanges: () => boolean;
+  requestDiscard: (onDiscard: () => void) => void;
+}
+
 type SaveStatus = "changed" | "default" | "error" | "saved" | "saving";
 
 const defaultDescription = "유리 정원을 둘러싼 인물과 사건을 기록합니다.";
 
-export function ProjectSettings({
-  initialScenario,
-  onDirtyChange,
-  onMoveToTrashRequest,
-  onSaved,
-  projectId,
-  projectName,
-  saveSettings,
-}: ProjectSettingsProps) {
+export const ProjectSettings = forwardRef<
+  ProjectSettingsHandle,
+  ProjectSettingsProps
+>(function ProjectSettings(
+  {
+    hidden,
+    initialScenario,
+    moveProjectToTrash,
+    onDirtyChange,
+    onMoveToTrashRequest,
+    onProjectMovedToTrash,
+    onSaved,
+    projectId,
+    projectName,
+    saveSettings,
+  },
+  ref,
+) {
   const scenario = initialScenario;
   const initialName = scenario?.name ?? projectName;
   const initialDescription = scenario?.description ?? defaultDescription;
@@ -53,7 +76,19 @@ export function ProjectSettings({
   });
   const [status, setStatus] = useState<SaveStatus>(initialStatus);
   const [nameError, setNameError] = useState("");
+  const [unsavedOpen, setUnsavedOpen] = useState(
+    scenario?.initialDialog === "unsaved",
+  );
+  const [trashOpen, setTrashOpen] = useState(
+    scenario?.initialDialog === "trash",
+  );
+  const [trashStatus, setTrashStatus] = useState<"error" | "idle" | "moving">(
+    "idle",
+  );
   const requestRef = useRef(0);
+  const pendingDiscardRef = useRef<() => void>(() => undefined);
+  const continueEditingRef = useRef<HTMLButtonElement>(null);
+  const cancelTrashRef = useRef<HTMLButtonElement>(null);
   const moveButtonRef = useRef<HTMLButtonElement>(null);
   const dirty =
     draft.name !== saved.name || draft.description !== saved.description;
@@ -61,6 +96,20 @@ export function ProjectSettings({
   useEffect(() => {
     onDirtyChange?.(dirty);
   }, [dirty, onDirtyChange]);
+
+  const requestDiscard = (onDiscard: () => void) => {
+    pendingDiscardRef.current = onDiscard;
+    setUnsavedOpen(true);
+  };
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      hasUnsavedChanges: () => dirty,
+      requestDiscard,
+    }),
+    [dirty],
+  );
 
   const updateDraft = (next: typeof draft) => {
     setDraft(next);
@@ -76,6 +125,27 @@ export function ProjectSettings({
     setDraft(saved);
     setNameError("");
     setStatus("default");
+  };
+
+  const confirmDiscard = () => {
+    reset();
+    setUnsavedOpen(false);
+    pendingDiscardRef.current();
+    pendingDiscardRef.current = () => undefined;
+  };
+
+  const moveToTrash = async () => {
+    if (trashStatus === "moving") return;
+    setTrashStatus("moving");
+    try {
+      if (!moveProjectToTrash) throw new Error("missing backend adapter");
+      await moveProjectToTrash(projectId);
+      setTrashOpen(false);
+      setTrashStatus("idle");
+      onProjectMovedToTrash?.(projectId);
+    } catch {
+      setTrashStatus("error");
+    }
   };
 
   const save = async () => {
@@ -135,6 +205,7 @@ export function ProjectSettings({
       aria-label="프로젝트 설정"
       className={styles.panel}
       data-settings-status={status}
+      hidden={hidden}
       id="panel-settings"
       role="tabpanel"
       tabIndex={-1}
@@ -224,7 +295,10 @@ export function ProjectSettings({
             </div>
           </div>
           <div className={styles.actions}>
-            <Button disabled={!dirty || status === "saving"} onClick={reset}>
+            <Button
+              disabled={!dirty || status === "saving"}
+              onClick={() => requestDiscard(reset)}
+            >
               취소
             </Button>
             <Button
@@ -263,16 +337,79 @@ export function ProjectSettings({
           </div>
           <Button
             icon={<WorkspaceIcon name="trash" />}
-            onClick={() =>
-              moveButtonRef.current &&
-              onMoveToTrashRequest?.(moveButtonRef.current)
-            }
+            onClick={() => {
+              setTrashStatus("idle");
+              setTrashOpen(true);
+              if (moveButtonRef.current)
+                onMoveToTrashRequest?.(moveButtonRef.current);
+            }}
             ref={moveButtonRef}
           >
             이동
           </Button>
         </section>
       </div>
+      <Dialog
+        description="현재 프로젝트 설정의 변경사항이 사라집니다."
+        initialFocusRef={continueEditingRef}
+        onOpenChange={(open) => {
+          setUnsavedOpen(open);
+          if (!open) pendingDiscardRef.current = () => undefined;
+        }}
+        open={unsavedOpen}
+        title="변경사항을 저장하지 않고 나갈까요?"
+      >
+        <div className={styles.dialogProject}>
+          <strong>프로젝트 이름</strong>
+          <span>{projectName}</span>
+        </div>
+        <DialogActions>
+          <Button
+            ref={continueEditingRef}
+            onClick={() => setUnsavedOpen(false)}
+          >
+            계속 편집
+          </Button>
+          <Button
+            icon={<WorkspaceIcon name="circle-alert" />}
+            onClick={confirmDiscard}
+          >
+            변경사항 버리기
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        description="프로젝트 안의 파일도 함께 이동합니다."
+        initialFocusRef={cancelTrashRef}
+        onOpenChange={(open) => {
+          if (trashStatus !== "moving") setTrashOpen(open);
+        }}
+        open={trashOpen}
+        title="프로젝트를 휴지통으로 이동할까요?"
+      >
+        <div className={styles.dialogProject}>{projectName}</div>
+        {trashStatus === "error" && (
+          <StatusNotice variant="error">
+            프로젝트를 이동하지 못했습니다. 입력과 프로젝트는 그대로 유지됩니다.
+          </StatusNotice>
+        )}
+        <DialogActions>
+          <Button
+            disabled={trashStatus === "moving"}
+            onClick={() => setTrashOpen(false)}
+            ref={cancelTrashRef}
+          >
+            취소
+          </Button>
+          <Button
+            icon={<WorkspaceIcon name="trash" />}
+            isProcessing={trashStatus === "moving"}
+            onClick={() => void moveToTrash()}
+          >
+            {trashStatus === "moving" ? "이동 중…" : "휴지통으로 이동"}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </section>
   );
-}
+});

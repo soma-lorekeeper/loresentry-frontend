@@ -15,7 +15,10 @@ import {
   createSettingsScenario,
   type SettingsStateId,
 } from "@/features/settings/settings-states";
-import type { WorkspaceSettingsInput } from "@/features/settings/components/project-settings";
+import type {
+  ProjectSettingsHandle,
+  WorkspaceSettingsInput,
+} from "@/features/settings/components/project-settings";
 import {
   createTimelineScenario,
   type TimelineStateId,
@@ -63,6 +66,8 @@ export interface WorkspaceShellProps {
   initialProjectId: string;
   initialSettingsState?: SettingsStateId;
   initialTimelineState?: TimelineStateId;
+  moveProjectToTrash?: (projectId: string) => Promise<void>;
+  onProjectMovedToTrash?: (projectId: string) => void;
   recentFiles?: RecentWorkspaceFile[];
   saveManuscript?: (
     documentId: string,
@@ -84,6 +89,8 @@ export function WorkspaceShell({
   initialProjectId,
   initialSettingsState,
   initialTimelineState,
+  moveProjectToTrash,
+  onProjectMovedToTrash,
   recentFiles,
   saveManuscript,
   saveMemo,
@@ -144,6 +151,7 @@ export function WorkspaceShell({
     projects.find((project) => project.id === initialProjectId) ?? projects[0],
   );
   const draftCounterRef = useRef(0);
+  const settingsRef = useRef<ProjectSettingsHandle>(null);
 
   const selectTarget = (item: WorkspaceNavItem) => {
     setSelectedId(item.id);
@@ -159,7 +167,7 @@ export function WorkspaceShell({
     setActiveTabId(nextTab.id);
   };
 
-  const closeTab = (tabId: string) => {
+  const performCloseTab = (tabId: string) => {
     setTabs((current) => {
       const closingIndex = current.findIndex((tab) => tab.id === tabId);
       const remaining = current.filter((tab) => tab.id !== tabId);
@@ -182,6 +190,25 @@ export function WorkspaceShell({
       }
       return remaining;
     });
+  };
+
+  const closeTab = (tabId: string) => {
+    if (tabId === "settings" && settingsRef.current?.hasUnsavedChanges()) {
+      settingsRef.current.requestDiscard(() => performCloseTab(tabId));
+      return;
+    }
+    performCloseTab(tabId);
+  };
+
+  const selectProject = (project: (typeof projects)[number]) => {
+    if (
+      project.id !== currentProject.id &&
+      settingsRef.current?.hasUnsavedChanges()
+    ) {
+      settingsRef.current.requestDiscard(() => setCurrentProject(project));
+      return;
+    }
+    setCurrentProject(project);
   };
 
   const openNewTab = () => {
@@ -271,7 +298,7 @@ export function WorkspaceShell({
         {sidebarOpen && (
           <WorkspaceSidebar
             currentProject={currentProject}
-            onProjectSelect={setCurrentProject}
+            onProjectSelect={selectProject}
             onRename={renameOpenTab}
             onSelect={selectTarget}
             onTrash={removeTrashedTabs}
@@ -306,6 +333,7 @@ export function WorkspaceShell({
           initialPropertyScenario={initialPropertyScenario}
           initialSettingsScenario={initialSettingsScenario}
           initialTimelineScenario={initialTimelineScenario}
+          moveProjectToTrash={moveProjectToTrash}
           projectId={currentProject.id}
           projectName={currentProject.name}
           recentFiles={recentFiles}
@@ -318,6 +346,9 @@ export function WorkspaceShell({
           onProjectNameSaved={(name) =>
             setCurrentProject((project) => ({ ...project, name }))
           }
+          onProjectMovedToTrash={onProjectMovedToTrash}
+          settingsOpen={tabs.some((tab) => tab.id === "settings")}
+          settingsRef={settingsRef}
         />
       </main>
       <AiChatPanel documentName={activeTab.label} hidden={!aiChatOpen} />

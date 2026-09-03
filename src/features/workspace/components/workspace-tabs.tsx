@@ -43,6 +43,7 @@ import {
 import type { TimelineScenario } from "@/features/timeline/timeline-states";
 import {
   ProjectSettings,
+  type ProjectSettingsHandle,
   type WorkspaceSettingsInput,
 } from "@/features/settings/components/project-settings";
 import type { SettingsScenario } from "@/features/settings/settings-states";
@@ -340,9 +341,11 @@ interface WorkspaceContentProps {
   initialPropertyScenario?: PropertyDocumentScenario;
   initialSettingsScenario?: SettingsScenario;
   initialTimelineScenario?: TimelineScenario;
+  moveProjectToTrash?: (projectId: string) => Promise<void>;
   onCreateFile: (fileType: string, icon: WorkspaceIconName) => void;
   onOpenSearchResult: (item: WorkspaceNavItem) => void;
   onProjectNameSaved: (name: string) => void;
+  onProjectMovedToTrash?: (projectId: string) => void;
   onSearchQueryChange: (query: string) => void;
   projectId: string;
   projectName: string;
@@ -359,6 +362,8 @@ interface WorkspaceContentProps {
   saveWorkspaceSettings?: (settings: WorkspaceSettingsInput) => Promise<void>;
   saveTimelineItem?: (documentId: string, item: TimelineItem) => Promise<void>;
   searchQuery: string;
+  settingsOpen: boolean;
+  settingsRef: RefObject<ProjectSettingsHandle | null>;
 }
 
 const availablePropertyFiles: PropertyReference[] = [
@@ -385,9 +390,11 @@ export function WorkspaceContent({
   initialPropertyScenario,
   initialSettingsScenario,
   initialTimelineScenario,
+  moveProjectToTrash,
   onCreateFile,
   onOpenSearchResult,
   onProjectNameSaved,
+  onProjectMovedToTrash,
   onSearchQueryChange,
   projectId,
   projectName,
@@ -398,6 +405,8 @@ export function WorkspaceContent({
   saveWorkspaceSettings,
   saveTimelineItem,
   searchQuery,
+  settingsOpen,
+  settingsRef,
 }: WorkspaceContentProps) {
   const [memoOpen, setMemoOpen] = useState(false);
   const [locked, setLocked] = useState(false);
@@ -891,7 +900,20 @@ export function WorkspaceContent({
           onMemoToggle={() => setMemoOpen((value) => !value)}
         />
       )}
-      {activeTab.id === "new-tab" ? (
+      {settingsOpen && (
+        <ProjectSettings
+          hidden={activeTab.id !== "settings"}
+          initialScenario={initialSettingsScenario}
+          moveProjectToTrash={moveProjectToTrash}
+          onProjectMovedToTrash={onProjectMovedToTrash}
+          onSaved={(settings) => onProjectNameSaved(settings.name)}
+          projectId={projectId}
+          projectName={projectName}
+          ref={settingsRef}
+          saveSettings={saveWorkspaceSettings}
+        />
+      )}
+      {activeTab.id === "settings" ? null : activeTab.id === "new-tab" ? (
         <WorkspaceNewTab
           onCreateFile={onCreateFile}
           onOpenFile={onOpenSearchResult}
@@ -922,14 +944,6 @@ export function WorkspaceContent({
           projectName={projectName}
           saveAvailable={Boolean(saveMemo)}
           scope={currentMemoScope}
-        />
-      ) : activeTab.id === "settings" ? (
-        <ProjectSettings
-          initialScenario={initialSettingsScenario}
-          onSaved={(settings) => onProjectNameSaved(settings.name)}
-          projectId={projectId}
-          projectName={projectName}
-          saveSettings={saveWorkspaceSettings}
         />
       ) : activeTab.isFile && propertyDocumentIcons.has(activeTab.icon) ? (
         <FileMemoWorkspace
