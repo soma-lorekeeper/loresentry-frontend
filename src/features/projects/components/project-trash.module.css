@@ -95,6 +95,10 @@
   color: var(--lk-color-accent-primary);
 }
 
+.rowNotice {
+  grid-column: 2 / -1;
+}
+
 .emptyState,
 .listNotice {
   min-height: 250px;
@@ -135,6 +139,17 @@
   border-radius: 2px;
   outline: 2px solid var(--lk-color-accent-primary);
   outline-offset: 3px;
+}
+
+.successNotice {
+  max-width: 1220px;
+  margin: 22px auto 0;
+}
+
+.successNotice a {
+  color: inherit;
+  font-weight: 700;
+  text-underline-offset: 3px;
 }
 
 .noticeContent {

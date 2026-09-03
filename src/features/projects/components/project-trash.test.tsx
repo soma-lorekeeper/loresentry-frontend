@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
@@ -72,5 +72,77 @@ describe("ProjectTrash", () => {
     expect(
       screen.getAllByRole("article").map((row) => row.textContent),
     ).toEqual(darkRoles);
+  });
+
+  it("locks only the target row while restoring and prevents duplicate requests", async () => {
+    const user = userEvent.setup();
+    let resolveRestore: (() => void) | undefined;
+    const restoreProject = vi.fn(
+      () => new Promise<void>((resolve) => (resolveRestore = resolve)),
+    );
+    render(<ProjectTrash restoreProject={restoreProject} />);
+
+    const rows = screen.getAllByRole("article");
+    await user.click(within(rows[0]).getByRole("button", { name: "복원" }));
+    expect(
+      within(rows[0]).getByRole("button", { name: "복원 중…" }),
+    ).toBeDisabled();
+    expect(
+      within(rows[0]).getByRole("button", { name: "영구 삭제" }),
+    ).toBeDisabled();
+    expect(within(rows[1]).getByRole("button", { name: "복원" })).toBeEnabled();
+    await user.click(within(rows[0]).getByRole("button", { name: "복원 중…" }));
+    expect(restoreProject).toHaveBeenCalledOnce();
+
+    await user.click(within(rows[1]).getByRole("button", { name: "복원" }));
+    expect(restoreProject).toHaveBeenCalledTimes(2);
+
+    resolveRestore?.();
+    expect(await screen.findByText("프로젝트를 복원했어요.")).toBeVisible();
+  });
+
+  it("retries restore on the same row after a backend failure", async () => {
+    const user = userEvent.setup();
+    const restoreProject = vi
+      .fn<() => Promise<void>>()
+      .mockRejectedValueOnce(new Error("offline"))
+      .mockResolvedValueOnce(undefined);
+    render(<ProjectTrash restoreProject={restoreProject} />);
+
+    const target = screen.getAllByRole("article")[0];
+    await user.click(within(target).getByRole("button", { name: "복원" }));
+    expect(await within(target).findByRole("alert")).toHaveTextContent(
+      "프로젝트를 복원하지 못했어요. 다시 시도해 주세요.",
+    );
+    const retry = within(target).getByRole("button", { name: "다시 시도" });
+    expect(retry).toHaveFocus();
+    await user.click(retry);
+    expect(await screen.findByText("프로젝트를 복원했어요.")).toBeVisible();
+    expect(restoreProject).toHaveBeenCalledTimes(2);
+  });
+
+  it("removes a restored project, reports it, and focuses the next row", async () => {
+    const user = userEvent.setup();
+    const onRestored = vi.fn();
+    render(
+      <ProjectTrash
+        onRestored={onRestored}
+        restoreProject={vi.fn().mockResolvedValue(undefined)}
+      />,
+    );
+
+    await user.click(screen.getAllByRole("button", { name: "복원" })[0]);
+    expect(
+      screen.queryByRole("article", { name: /종이 달 아래의 약속/ }),
+    ).not.toBeInTheDocument();
+    expect(onRestored).toHaveBeenCalledWith(
+      expect.objectContaining({ id: "paper-moon" }),
+    );
+    await waitFor(() =>
+      expect(screen.getAllByRole("button", { name: "복원" })[0]).toHaveFocus(),
+    );
+    expect(
+      screen.getByRole("link", { name: "프로젝트 목록에서 보기" }),
+    ).toHaveAttribute("href", "/projects");
   });
 });

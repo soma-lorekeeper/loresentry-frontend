@@ -1,4 +1,7 @@
-import type { ProjectTrashListStatus } from "./components/project-trash";
+import type {
+  ProjectRestoreState,
+  ProjectTrashListStatus,
+} from "./components/project-trash";
 
 export const PROJECT_TRASH_SCREEN_STATES = [
   {
@@ -30,6 +33,30 @@ export const PROJECT_TRASH_SCREEN_STATES = [
     theme: "dark",
   },
   {
+    id: "project-trash-restoring",
+    listStatus: "ready",
+    pencilNodeId: "tErn6",
+    restoreState: "restoring",
+    screenNumber: 115,
+    theme: "dark",
+  },
+  {
+    id: "project-trash-restore-error",
+    listStatus: "ready",
+    pencilNodeId: "ISCdJ",
+    restoreState: "error",
+    screenNumber: 116,
+    theme: "dark",
+  },
+  {
+    id: "project-trash-restore-success",
+    listStatus: "ready",
+    pencilNodeId: "tTF2Z",
+    restoreState: "success",
+    screenNumber: 117,
+    theme: "dark",
+  },
+  {
     id: "project-trash-default-light",
     listStatus: "ready",
     pencilNodeId: "xjwox",
@@ -40,12 +67,22 @@ export const PROJECT_TRASH_SCREEN_STATES = [
   id: string;
   listStatus: ProjectTrashListStatus;
   pencilNodeId: string;
+  restoreState?: ProjectRestoreState;
   screenNumber: number;
   theme: "dark" | "light";
 }>;
 
 export type ProjectTrashStateId =
   (typeof PROJECT_TRASH_SCREEN_STATES)[number]["id"];
+
+export interface ProjectTrashScenario {
+  id: ProjectTrashStateId;
+  listStatus: ProjectTrashListStatus;
+  pencilNodeId: string;
+  restoreState?: ProjectRestoreState;
+  screenNumber: number;
+  theme: "dark" | "light";
+}
 
 export function resolveProjectTrashStateId(
   value: string | null,
@@ -55,6 +92,10 @@ export function resolveProjectTrashStateId(
     : undefined;
 }
 
-export function getProjectTrashScenario(stateId: ProjectTrashStateId) {
-  return PROJECT_TRASH_SCREEN_STATES.find((state) => state.id === stateId)!;
+export function getProjectTrashScenario(
+  stateId: ProjectTrashStateId,
+): ProjectTrashScenario {
+  return PROJECT_TRASH_SCREEN_STATES.find(
+    (state) => state.id === stateId,
+  ) as ProjectTrashScenario;
 }

@@ -17,6 +17,7 @@ export function ProjectTrashRoute() {
     <ProjectTrash
       initialItems={scenario?.listStatus === "empty" ? [] : undefined}
       initialListStatus={scenario?.listStatus}
+      initialRestoreState={scenario?.restoreState}
       theme={scenario?.theme}
     />
   );
