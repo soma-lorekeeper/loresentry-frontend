@@ -9,6 +9,7 @@ const outputDirectory = fileURLToPath(new URL("../out", import.meta.url));
 const requiredFiles = [
   "index.html",
   "design-system/index.html",
+  "login/index.html",
   "projects/index.html",
   "projects/guide/index.html",
   "projects/trash/index.html",
@@ -90,6 +91,8 @@ await once(server, "listening");
 const routes = [
   "/",
   "/design-system/",
+  "/login?loginState=login-default-light",
+  "/login?loginState=login-oauth-failed",
   "/projects?projectState=project-list-default",
   "/projects?globalState=account-settings-long-values-light",
   "/projects?globalState=feedback-open-error",
