@@ -10,6 +10,7 @@ import {
 
 import { UNRESOLVED_API_BOUNDARIES } from "./api-boundaries";
 import { APP_ROUTES } from "./app-routes";
+import { projectFixtureIds } from "@/features/projects/project-model";
 
 const handoffPath = "docs/frontend-implementation-handoff.md";
 const handoff = readFileSync(join(process.cwd(), handoffPath), "utf8");
@@ -73,5 +74,22 @@ describe("frontend implementation handoff", () => {
     }
     expect(handoff).toContain("33개 토큰");
     expect(handoff).toContain("109개 컴포넌트");
+  });
+
+  it("documents the temporary project fixtures and their BFF replacement boundary", () => {
+    for (const projectId of projectFixtureIds) {
+      expect(handoff).toContain(`\`${projectId}\``);
+    }
+    for (const source of [
+      "src/features/projects/project-model.ts",
+      "src/features/workspace/workspace-fixtures.ts",
+      "src/features/workspace/workspace-mock-resolver.ts",
+    ]) {
+      expect(handoff).toContain(`\`${source}\``);
+      expect(existsSync(join(process.cwd(), source))).toBe(true);
+    }
+    expect(handoff).toContain("`projects.validate-access`");
+    expect(handoff).toContain("`workspace.restore-layout`");
+    expect(handoff).toContain("fallback");
   });
 });

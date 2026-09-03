@@ -31,6 +31,33 @@ Auth/BFF 서버가 연결되기 전의 임시 통합 상태다. 로그인은 성
 query parameter는 화면 상태와 식별자를 전달할 뿐, 접근 권한이나 저장 성공을
 증명하지 않는다.
 
+## 프로젝트별 임시 mock
+
+Auth/BFF 연결 전에는 아래 세 프로젝트만 정적 fixture로 제공한다. 프로젝트 목록의
+카드 ID와 `/workspace?projectId=...`의 query, 작업공간 fixture key는 항상 같아야 한다.
+
+| 프로젝트 ID | 작업공간 표시 이름 | 대표 초기 문서 |
+| --- | --- | --- |
+| `glass-garden` | 유리 정원의 기록 | 제17장 · 돌아오지 않는 밤 |
+| `winter-letter` | 겨울 숲에서 온 편지 | 서문 · 첫눈의 발신인 |
+| `orbit-record` | 궤도 도시 기록 | 기록 08 · 무중력 정거장 |
+
+- 프로젝트 카드와 ID의 기준은 `src/features/projects/project-model.ts`다.
+- 프로젝트별 표시 정보, 파일 트리, 즐겨찾기, 초기 탭과 본문은
+  `src/features/workspace/workspace-fixtures.ts`에만 둔다.
+- `src/features/workspace/workspace-mock-resolver.ts`는 등록된 ID만 fixture로
+  해석한다. 누락되거나 알려지지 않은 ID에는 다른 프로젝트 데이터를 대신 보여주지
+  않는다.
+- `WorkspaceRoute`는 resolver 결과를 `WorkspaceShell`에 전달하고, Shell 내부 전환도
+  같은 registry를 사용해 프로젝트 상태를 다시 초기화한다.
+
+BFF 연결 시 `ProjectListRoute.openProject`를 실제 `projects.validate-access` adapter로
+먼저 교체해 검증된 ID만 Route에 전달한다. 이어 `WorkspaceRoute`의 정적 resolver를
+`workspace.restore-layout` adapter로 교체하되, Shell에 전달하는 프로젝트 표시 정보,
+파일 트리, 즐겨찾기, 초기 탭과 문서 형태는 유지한다. 실제 조회가 성공하기 전에는
+기존 fixture나 다른 프로젝트를 fallback으로 노출하지 않는다. HTTP endpoint, method와
+오류 schema는 backend 계약에서 확정한다.
+
 ## 구현 기준과 범위
 
 화면 상태: 136개
@@ -50,8 +77,8 @@ query parameter는 화면 상태와 식별자를 전달할 뿐, 접근 권한이
 구현된 frontend 범위는 서비스 진입, 로그인, 프로젝트 목록·휴지통·계정·전역 도움,
 작업공간의 파일·탭·메모·속성 문서·시간 흐름·설정·도움말과 AI 채팅 UI다. 각 변경
 행동은 주입된 adapter가 성공을 확인한 뒤에만 완료 상태를 반영한다. 예외적으로 로그인과
-프로젝트 열기 Route의 기본 adapter는 현재 성공을 가정하며, Auth/BFF 연동 시 같은 port의
-실제 구현으로 교체한다.
+프로젝트 열기 Route의 기본 adapter와 작업공간 정적 resolver는 현재 성공을 가정한
+mock 흐름이며, Auth/BFF 연동 시 같은 port의 실제 구현으로 교체한다.
 
 ## Backend 연결 경계
 
