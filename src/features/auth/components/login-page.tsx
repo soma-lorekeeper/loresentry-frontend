@@ -4,10 +4,17 @@ import { useEffect, useRef, useState } from "react";
 
 import { WorkspaceIcon } from "@/features/workspace/icons";
 
+import {
+  type GoogleAuthOutcome,
+  type LoginState,
+  resolveAuthDestination,
+} from "../auth-model";
 import styles from "./login-page.module.css";
 
 export interface LoginPageProps {
-  startGoogleOAuth?: () => Promise<void> | void;
+  initialState?: LoginState;
+  onNavigate?: (href: string) => void;
+  startGoogleOAuth?: () => GoogleAuthOutcome | Promise<GoogleAuthOutcome>;
   privacyUrl?: string;
   termsUrl?: string;
   theme?: "dark" | "light";
@@ -66,13 +73,17 @@ function PolicyLink({ children, href }: { children: string; href?: string }) {
 }
 
 export function LoginPage({
+  initialState = "default",
+  onNavigate,
   privacyUrl,
   startGoogleOAuth,
   termsUrl,
   theme,
 }: LoginPageProps) {
-  const [processing, setProcessing] = useState(false);
-  const requestRef = useRef<Promise<void> | null>(null);
+  const [state, setState] = useState<LoginState>(initialState);
+  const requestRef = useRef<Promise<GoogleAuthOutcome> | null>(null);
+  const resultTitleRef = useRef<HTMLHeadingElement>(null);
+  const shouldFocusResultRef = useRef(false);
   useEffect(() => {
     if (!theme) return;
     const previousTheme = document.documentElement.dataset.theme;
@@ -83,19 +94,72 @@ export function LoginPage({
     };
   }, [theme]);
 
-  const startAuthentication = () => {
-    if (processing || requestRef.current) return;
-    setProcessing(true);
+  useEffect(() => {
+    if (!shouldFocusResultRef.current) return;
+    shouldFocusResultRef.current = false;
+    resultTitleRef.current?.focus();
+  }, [state]);
 
-    if (!startGoogleOAuth) return;
-    const request = Promise.resolve().then(startGoogleOAuth);
+  const showResult = (result: Extract<LoginState, "canceled" | "failed">) => {
+    shouldFocusResultRef.current = true;
+    setState(result);
+  };
+
+  const startAuthentication = () => {
+    if (state === "processing" || requestRef.current) return;
+    const resumeExpiredWorkspace = state === "session-expired";
+    setState("processing");
+
+    const request = Promise.resolve().then(() => {
+      if (!startGoogleOAuth) throw new Error("OAuth adapter is required");
+      return startGoogleOAuth();
+    });
     requestRef.current = request;
     void request
-      .catch(() => setProcessing(false))
+      .then((outcome) => {
+        if (outcome.status === "success") {
+          if (!onNavigate) throw new Error("navigation adapter is required");
+          onNavigate(resolveAuthDestination(outcome, resumeExpiredWorkspace));
+          return;
+        }
+        showResult(outcome.status);
+      })
+      .catch(() => showResult("failed"))
       .finally(() => {
         requestRef.current = null;
       });
   };
+
+  const processing = state === "processing";
+  const result =
+    state === "canceled"
+      ? {
+          detail: "Google 로그인이 취소됐어요.",
+          role: "status" as const,
+          title: "로그인이 취소됐어요",
+          variant: "info" as const,
+        }
+      : state === "failed"
+        ? {
+            detail: "로그인을 완료하지 못했어요. 다시 시도해 주세요.",
+            role: "alert" as const,
+            title: "로그인을 완료하지 못했어요",
+            variant: "error" as const,
+          }
+        : state === "session-expired"
+          ? {
+              detail: "세션이 만료됐어요. 계속하려면 다시 로그인해 주세요.",
+              role: "status" as const,
+              title: "세션이 만료됐어요",
+              variant: "info" as const,
+            }
+          : undefined;
+  const actionLabel =
+    state === "canceled" || state === "failed"
+      ? "다시 시도"
+      : processing
+        ? "Google 로그인으로 이동 중…"
+        : "Google로 계속하기";
 
   return (
     <main className={styles.page}>
@@ -127,12 +191,36 @@ export function LoginPage({
           ) : (
             <GoogleBrandMark />
           )}
-          <span>
-            {processing ? "Google 로그인으로 이동 중…" : "Google로 계속하기"}
+          <span aria-live={processing ? "polite" : undefined}>
+            {actionLabel}
           </span>
         </button>
 
-        <div aria-hidden="true" className={styles.statusSlot} />
+        <div className={styles.statusSlot}>
+          {result && (
+            <section
+              className={styles.statusNotice}
+              data-variant={result.variant}
+              role={result.role}
+            >
+              <span aria-hidden="true" className={styles.statusIcon}>
+                <WorkspaceIcon
+                  name={
+                    result.variant === "error"
+                      ? "triangle-alert"
+                      : "circle-alert"
+                  }
+                />
+              </span>
+              <span className={styles.statusCopy}>
+                <h2 ref={resultTitleRef} tabIndex={-1}>
+                  {result.title}
+                </h2>
+                <span>{result.detail}</span>
+              </span>
+            </section>
+          )}
+        </div>
 
         <div className={styles.policyNotice}>
           <p>계속하면 Lorekeeper의 정책에 동의하게 됩니다.</p>

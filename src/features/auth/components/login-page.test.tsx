@@ -42,7 +42,7 @@ describe.each(["dark", "light"] as const)("LoginPage (%s)", (theme) => {
 describe("Google authentication action", () => {
   it("keeps focus context and blocks duplicate execution while processing", async () => {
     const user = userEvent.setup();
-    const startGoogleOAuth = vi.fn(() => new Promise<void>(() => undefined));
+    const startGoogleOAuth = vi.fn(() => new Promise<never>(() => undefined));
     render(
       <LoginPage
         privacyUrl="https://policy.example/privacy"
@@ -71,5 +71,93 @@ describe("Google authentication action", () => {
     expect(
       screen.getByRole("link", { name: "개인정보처리방침" }),
     ).toHaveAttribute("href", "https://policy.example/privacy");
+  });
+});
+
+describe("authentication outcomes", () => {
+  it.each([
+    ["canceled", "status", "Google 로그인이 취소됐어요."],
+    ["failed", "alert", "로그인을 완료하지 못했어요."],
+  ] as const)(
+    "announces %s and returns focus to its title",
+    async (outcome, role, copy) => {
+      const user = userEvent.setup();
+      render(
+        <LoginPage
+          startGoogleOAuth={vi.fn().mockResolvedValue({ status: outcome })}
+        />,
+      );
+
+      await user.click(
+        screen.getByRole("button", { name: "Google로 계속하기" }),
+      );
+
+      const notice = await screen.findByRole(role);
+      expect(notice).toHaveTextContent(copy);
+      expect(screen.getByRole("button", { name: "다시 시도" })).toBeEnabled();
+      expect(screen.getByRole("heading", { level: 2 })).toHaveFocus();
+    },
+  );
+
+  it("reports a missing or failed backend adapter without pretending to authenticate", async () => {
+    const user = userEvent.setup();
+    const onNavigate = vi.fn();
+    render(<LoginPage onNavigate={onNavigate} />);
+
+    await user.click(screen.getByRole("button", { name: "Google로 계속하기" }));
+
+    expect(await screen.findByRole("alert")).toBeInTheDocument();
+    expect(onNavigate).not.toHaveBeenCalled();
+  });
+
+  it("does not report success without a navigation handoff", async () => {
+    const user = userEvent.setup();
+    render(
+      <LoginPage
+        startGoogleOAuth={vi.fn().mockResolvedValue({ status: "success" })}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Google로 계속하기" }));
+    expect(await screen.findByRole("alert")).toBeInTheDocument();
+  });
+
+  it("navigates ordinary success to the project list", async () => {
+    const user = userEvent.setup();
+    const onNavigate = vi.fn();
+    render(
+      <LoginPage
+        onNavigate={onNavigate}
+        startGoogleOAuth={vi.fn().mockResolvedValue({
+          status: "success",
+          verifiedReturnPath: "/workspace?projectId=glass-garden",
+        })}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Google로 계속하기" }));
+    expect(onNavigate).toHaveBeenCalledWith("/projects");
+  });
+
+  it("returns an expired session only to a server-verified internal workspace", async () => {
+    const user = userEvent.setup();
+    const onNavigate = vi.fn();
+    render(
+      <LoginPage
+        initialState="session-expired"
+        onNavigate={onNavigate}
+        startGoogleOAuth={vi.fn().mockResolvedValue({
+          status: "success",
+          verifiedReturnPath: "/workspace?projectId=glass-garden",
+        })}
+      />,
+    );
+
+    expect(screen.getByRole("status")).toHaveTextContent("세션이 만료됐어요.");
+    expect(document.body).toHaveFocus();
+    await user.click(screen.getByRole("button", { name: "Google로 계속하기" }));
+    expect(onNavigate).toHaveBeenCalledWith(
+      "/workspace?projectId=glass-garden",
+    );
   });
 });
