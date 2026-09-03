@@ -330,6 +330,7 @@ interface WorkspaceContentProps {
   activeTab: WorkspaceTab;
   aiChatOpen: boolean;
   deleteMemo?: (memo: MemoDeleteInput) => Promise<void>;
+  deleteTimelineItem?: (documentId: string, itemId: string) => Promise<void>;
   initialPropertyScenario?: PropertyDocumentScenario;
   onCreateFile: (fileType: string, icon: WorkspaceIconName) => void;
   onOpenSearchResult: (item: WorkspaceNavItem) => void;
@@ -346,6 +347,7 @@ interface WorkspaceContentProps {
     documentId: string,
     document: Pick<PropertyDocument, "body" | "properties" | "title">,
   ) => Promise<void>;
+  saveTimelineItem?: (documentId: string, item: TimelineItem) => Promise<void>;
   searchQuery: string;
 }
 
@@ -358,6 +360,7 @@ const availablePropertyFiles: PropertyReference[] = [
   { id: "place", title: "북쪽 온실", type: "place" },
   { id: "place-garden", title: "유리 정원", type: "place" },
   { id: "setting", title: "균열의 법칙", type: "setting" },
+  { id: "event-other", title: "등대의 침묵", type: "event" },
 ];
 
 const propertyDocumentIcons = new Set<WorkspaceIconName>(
@@ -368,6 +371,7 @@ export function WorkspaceContent({
   activeTab,
   aiChatOpen,
   deleteMemo,
+  deleteTimelineItem,
   initialPropertyScenario,
   onCreateFile,
   onOpenSearchResult,
@@ -378,6 +382,7 @@ export function WorkspaceContent({
   saveManuscript,
   saveMemo,
   savePropertyDocument,
+  saveTimelineItem,
   searchQuery,
 }: WorkspaceContentProps) {
   const [memoOpen, setMemoOpen] = useState(false);
@@ -949,7 +954,20 @@ export function WorkspaceContent({
           >
             {activeTab.icon === "event" && (
               <EventTimeline
+                availableFiles={availablePropertyFiles}
+                deleteItem={
+                  deleteTimelineItem
+                    ? (itemId) => deleteTimelineItem(activeTab.id, itemId)
+                    : undefined
+                }
+                eventTitle={currentPropertyDocument.title}
                 items={currentTimelineItems}
+                onItemsChange={(nextItems) =>
+                  setTimelineItems((current) => ({
+                    ...current,
+                    [activeTab.id]: nextItems,
+                  }))
+                }
                 onOpenReference={(reference) =>
                   onOpenSearchResult({
                     contentId: reference.id,
@@ -959,21 +977,10 @@ export function WorkspaceContent({
                     label: reference.title,
                   })
                 }
-                onRemoveReference={(item, reference) =>
-                  setTimelineItems((current) => ({
-                    ...current,
-                    [activeTab.id]: currentTimelineItems.map((candidate) =>
-                      candidate.id === item.id
-                        ? {
-                            ...candidate,
-                            references: candidate.references?.filter(
-                              (currentReference) =>
-                                currentReference.id !== reference.id,
-                            ),
-                          }
-                        : candidate,
-                    ),
-                  }))
+                saveItem={
+                  saveTimelineItem
+                    ? (item) => saveTimelineItem(activeTab.id, item)
+                    : undefined
                 }
               />
             )}

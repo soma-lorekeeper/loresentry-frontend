@@ -10,6 +10,7 @@ import {
   createPropertyDocumentScenario,
   type PropertyDocumentStateId,
 } from "@/features/property/property-document-states";
+import type { TimelineItem } from "@/features/timeline/timeline-model";
 import { projects, type WorkspaceNavItem } from "../workspace-data";
 import { WorkspaceSidebar } from "./workspace-sidebar";
 import type { ManuscriptDocument } from "./workspace-manuscript-editor";
@@ -47,6 +48,7 @@ function toTab(item: WorkspaceNavItem): WorkspaceTab | null {
 }
 
 export interface WorkspaceShellProps {
+  deleteTimelineItem?: (documentId: string, itemId: string) => Promise<void>;
   deleteMemo?: (memo: MemoDeleteInput) => Promise<void>;
   initialPropertyState?: PropertyDocumentStateId;
   initialProjectId: string;
@@ -60,16 +62,19 @@ export interface WorkspaceShellProps {
     documentId: string,
     document: Pick<PropertyDocument, "body" | "properties" | "title">,
   ) => Promise<void>;
+  saveTimelineItem?: (documentId: string, item: TimelineItem) => Promise<void>;
 }
 
 export function WorkspaceShell({
   deleteMemo,
+  deleteTimelineItem,
   initialPropertyState,
   initialProjectId,
   recentFiles,
   saveManuscript,
   saveMemo,
   savePropertyDocument,
+  saveTimelineItem,
 }: WorkspaceShellProps) {
   const initialPropertyScenario = initialPropertyState
     ? createPropertyDocumentScenario(initialPropertyState)
@@ -251,6 +256,7 @@ export function WorkspaceShell({
           activeTab={activeTab}
           aiChatOpen={aiChatOpen}
           deleteMemo={deleteMemo}
+          deleteTimelineItem={deleteTimelineItem}
           onCreateFile={createFileFromNewTab}
           onOpenSearchResult={openSearchResult}
           onSearchQueryChange={setSearchQuery}
@@ -261,6 +267,7 @@ export function WorkspaceShell({
           saveManuscript={saveManuscript}
           saveMemo={saveMemo}
           savePropertyDocument={savePropertyDocument}
+          saveTimelineItem={saveTimelineItem}
           searchQuery={searchQuery}
         />
       </main>

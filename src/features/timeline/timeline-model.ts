@@ -26,6 +26,17 @@ export type TimelineItem =
   DateTimelineItem | OrderTimelineItem | UnscheduledTimelineItem;
 export type TimelineItemType = TimelineItem["type"];
 
+export interface TimelineItemDraft {
+  date: string;
+  description: string;
+  id: string;
+  order: number;
+  references: PropertyReference[];
+  time: string;
+  title: string;
+  type: TimelineItemType;
+}
+
 export const timelineTypeLabels: Record<TimelineItemType, string> = {
   date: "날짜·시간",
   order: "순서",
@@ -43,6 +54,65 @@ export function formatTimelineItemTime(item: TimelineItem) {
   }
   if (item.type === "order") return `순서 ${item.order}`;
   return "시간 미정";
+}
+
+export function createTimelineItemDraft(
+  id: string,
+  item?: TimelineItem,
+): TimelineItemDraft {
+  return {
+    date: item?.type === "date" ? item.date : "",
+    description: item?.description ?? "",
+    id,
+    order: item?.type === "order" ? item.order : 1,
+    references: structuredClone(item?.references ?? []),
+    time: item?.type === "date" ? (item.time ?? "") : "",
+    title: item?.title ?? "",
+    type: item?.type ?? "unscheduled",
+  };
+}
+
+export function isTimelineItemDraftValid(draft: TimelineItemDraft) {
+  return Boolean(
+    draft.title.trim() &&
+    (draft.type !== "date" || /^\d{4}-\d{2}-\d{2}$/.test(draft.date)),
+  );
+}
+
+export function timelineItemFromDraft(draft: TimelineItemDraft): TimelineItem {
+  const optional = {
+    ...(draft.description.trim()
+      ? { description: draft.description.trim() }
+      : {}),
+    ...(draft.references.length > 0
+      ? { references: structuredClone(draft.references) }
+      : {}),
+  };
+  if (draft.type === "date") {
+    return {
+      ...optional,
+      date: draft.date,
+      id: draft.id,
+      ...(draft.time ? { time: draft.time } : {}),
+      title: draft.title.trim(),
+      type: "date",
+    };
+  }
+  if (draft.type === "order") {
+    return {
+      ...optional,
+      id: draft.id,
+      order: draft.order,
+      title: draft.title.trim(),
+      type: "order",
+    };
+  }
+  return {
+    ...optional,
+    id: draft.id,
+    title: draft.title.trim(),
+    type: "unscheduled",
+  };
 }
 
 export function groupTimelineItems(items: TimelineItem[]) {

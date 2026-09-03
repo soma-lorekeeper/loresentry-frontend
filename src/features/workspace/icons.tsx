@@ -7,6 +7,7 @@ export type WorkspaceIconName =
   | "character"
   | "check"
   | "circle-alert"
+  | "circle-check"
   | "circle-help"
   | "cloud-off"
   | "chevron"
@@ -37,12 +38,14 @@ export type WorkspaceIconName =
   | "plus"
   | "pencil"
   | "place"
+  | "rotate-cw"
   | "search"
   | "settings"
   | "setting-file"
   | "sidebar"
   | "sparkles"
   | "trash"
+  | "triangle-alert"
   | "type"
   | "worldbuilding";
 
@@ -71,6 +74,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     <>
       <circle cx="12" cy="12" r="9" />
       <path d="M12 7v6M12 17h.01" />
+    </>
+  ),
+  "circle-check": (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="m8 12 2.5 2.5L16 9" />
     </>
   ),
   "circle-help": (
@@ -218,6 +227,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
       <circle cx="12" cy="10" r="2.5" />
     </>
   ),
+  "rotate-cw": (
+    <>
+      <path d="M20 11a8 8 0 1 0-2.3 5.7" />
+      <path d="M20 5v6h-6" />
+    </>
+  ),
   search: (
     <>
       <circle cx="11" cy="11" r="7" />
@@ -252,6 +267,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     <>
       <path d="M4 7h16M9 7V4h6v3M7 7l1 14h8l1-14" />
       <path d="M10 11v6M14 11v6" />
+    </>
+  ),
+  "triangle-alert": (
+    <>
+      <path d="M10.3 3.8 2.5 18a2 2 0 0 0 1.8 3h15.4a2 2 0 0 0 1.8-3L13.7 3.8a2 2 0 0 0-3.4 0Z" />
+      <path d="M12 9v4M12 17h.01" />
     </>
   ),
   type: <path d="M5 6V4h14v2M12 4v16M8 20h8" />,

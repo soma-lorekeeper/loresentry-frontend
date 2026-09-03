@@ -101,6 +101,16 @@
   background: var(--lk-color-surface-default);
 }
 
+.item[data-selected="true"] {
+  padding: calc(var(--lk-space-4) - 1px);
+  border: 2px solid var(--lk-color-accent-primary);
+  background: var(--lk-color-state-selected);
+}
+
+.item[data-selected="true"] .marker {
+  color: var(--lk-color-accent-primary);
+}
+
 .marker {
   display: grid;
   width: 36px;
@@ -189,6 +199,7 @@
   place-items: center;
   padding: 0;
   border-radius: var(--lk-radius-control);
+  border-color: transparent;
   color: var(--lk-color-icon-default);
 }
 
