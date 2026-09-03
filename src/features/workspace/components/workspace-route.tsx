@@ -7,11 +7,8 @@ import { resolvePropertyDocumentStateId } from "@/features/property/property-doc
 import { resolveHelpStateId } from "@/features/help/help-states";
 import { resolveTimelineStateId } from "@/features/timeline/timeline-states";
 import { resolveSettingsStateId } from "@/features/settings/settings-states";
-import {
-  APP_ROUTES,
-  createWorkspaceRoute,
-  resolveWorkspaceProjectId,
-} from "@/integration/app-routes";
+import { APP_ROUTES, createWorkspaceRoute } from "@/integration/app-routes";
+import { resolveWorkspaceMockFixture } from "../workspace-mock-resolver";
 
 import { WorkspaceShell } from "./workspace-shell";
 
@@ -23,8 +20,8 @@ export function WorkspaceRoute({ navigate }: WorkspaceRouteProps = {}) {
   const router = useRouter();
   const navigateToRoute = navigate ?? router.push;
   const searchParams = useSearchParams();
-  const projectId = resolveWorkspaceProjectId(searchParams.get("projectId"));
-  if (!projectId) {
+  const workspace = resolveWorkspaceMockFixture(searchParams.get("projectId"));
+  if (workspace.status === "not-found") {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-8 text-center">
         <h1 className="text-2xl font-semibold">작업공간을 열 수 없어요</h1>
@@ -48,7 +45,7 @@ export function WorkspaceRoute({ navigate }: WorkspaceRouteProps = {}) {
 
   return (
     <WorkspaceShell
-      initialProjectId={projectId}
+      initialProjectId={workspace.projectId}
       initialHelpState={initialHelpState}
       initialPropertyState={initialPropertyState}
       initialSettingsState={initialSettingsState}

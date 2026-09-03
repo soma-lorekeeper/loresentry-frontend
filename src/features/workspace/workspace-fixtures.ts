@@ -70,6 +70,20 @@ export const workspaceMockFixtures = {
         kind: "file",
         label: "북쪽 온실",
       },
+      {
+        contentId: "setting",
+        icon: "setting-file",
+        id: "file-glass-setting",
+        kind: "file",
+        label: "설정",
+      },
+      {
+        contentId: "event",
+        icon: "event",
+        id: "file-glass-event",
+        kind: "file",
+        label: "균열의 밤",
+      },
     ],
     initialDocuments: [
       {
@@ -139,6 +153,20 @@ export const workspaceMockFixtures = {
         kind: "file",
         label: "눈 덮인 오두막",
       },
+      {
+        contentId: "winter-setting",
+        icon: "setting-file",
+        id: "file-winter-setting",
+        kind: "file",
+        label: "겨울 숲의 규칙",
+      },
+      {
+        contentId: "winter-event",
+        icon: "event",
+        id: "file-winter-event",
+        kind: "file",
+        label: "첫눈이 내린 날",
+      },
     ],
     initialDocuments: [
       {
@@ -207,6 +235,20 @@ export const workspaceMockFixtures = {
         id: "file-orbit-place-station",
         kind: "file",
         label: "제4 정거장",
+      },
+      {
+        contentId: "orbit-setting",
+        icon: "setting-file",
+        id: "file-orbit-setting",
+        kind: "file",
+        label: "궤도 도시 규약",
+      },
+      {
+        contentId: "orbit-event",
+        icon: "event",
+        id: "file-orbit-event",
+        kind: "file",
+        label: "정거장 정전",
       },
     ],
     initialDocuments: [

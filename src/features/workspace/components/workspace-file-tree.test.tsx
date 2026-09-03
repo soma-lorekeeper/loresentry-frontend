@@ -46,10 +46,12 @@ describe("Workspace file tree", () => {
 
     const files = fileRegion();
     await user.dblClick(
-      within(files).getByRole("button", { name: "12화 · 균열의 밤" }),
+      within(files).getByRole("button", {
+        name: "제17장 · 돌아오지 않는 밤",
+      }),
     );
     const input = screen.getByRole("textbox", {
-      name: "12화 · 균열의 밤 새 이름",
+      name: "제17장 · 돌아오지 않는 밤 새 이름",
     });
     await user.clear(input);
     await user.type(input, "12화 · 새벽의 균열{Enter}");
@@ -84,7 +86,7 @@ describe("Workspace file tree", () => {
     render(<WorkspaceShell initialProjectId="glass-garden" />);
     const files = fileRegion();
     const source = within(files).getByRole("button", {
-      name: "설정",
+      name: "서윤",
     }).parentElement;
     const target = within(files).getByRole("button", {
       name: "원고",
@@ -97,8 +99,8 @@ describe("Workspace file tree", () => {
     fireEvent.drop(target!, { dataTransfer });
 
     expect(
-      within(files).getByRole("button", { name: "설정" }).parentElement,
-    ).toHaveAttribute("data-parent-id", "folder-manuscript");
+      within(files).getByRole("button", { name: "서윤" }).parentElement,
+    ).toHaveAttribute("data-parent-id", "folder-glass-manuscripts");
   });
 
   it("creates one favorite shortcut without moving or duplicating the source", () => {
@@ -106,7 +108,7 @@ describe("Workspace file tree", () => {
     const files = fileRegion();
     const favorites = screen.getByRole("region", { name: "즐겨찾기" });
     const source = within(files).getByRole("button", {
-      name: "11화 · 유리 정원",
+      name: "제16장 · 유리 정원",
     }).parentElement;
 
     for (let index = 0; index < 2; index += 1) {
@@ -120,9 +122,11 @@ describe("Workspace file tree", () => {
     }
 
     expect(
-      within(files).getByRole("button", { name: "11화 · 유리 정원" }),
+      within(files).getByRole("button", { name: "제16장 · 유리 정원" }),
     ).toBeInTheDocument();
-    expect(within(favorites).getAllByText("11화 · 유리 정원")).toHaveLength(1);
+    expect(within(favorites).getAllByText("제16장 · 유리 정원")).toHaveLength(
+      1,
+    );
   });
 
   it("moves an item to trash once and removes only its related tab and favorite", async () => {
@@ -130,20 +134,24 @@ describe("Workspace file tree", () => {
     render(<WorkspaceShell initialProjectId="glass-garden" />);
 
     await user.click(
-      screen.getByRole("button", { name: "12화 · 균열의 밤 더보기" }),
+      screen.getByRole("button", {
+        name: "제17장 · 돌아오지 않는 밤 더보기",
+      }),
     );
     await user.click(
       within(
-        screen.getByRole("menu", { name: "12화 · 균열의 밤 더보기" }),
+        screen.getByRole("menu", {
+          name: "제17장 · 돌아오지 않는 밤 더보기",
+        }),
       ).getByRole("menuitem", { name: "휴지통으로 이동" }),
     );
 
     expect(
-      screen.queryByRole("tab", { name: "12화 · 균열의 밤" }),
+      screen.queryByRole("tab", { name: "제17장 · 돌아오지 않는 밤" }),
     ).not.toBeInTheDocument();
     expect(
-      screen.getByRole("tab", { name: "11화 · 유리 정원" }),
+      screen.getByRole("tab", { name: "제16장 · 유리 정원" }),
     ).toBeInTheDocument();
-    expect(screen.queryAllByText("12화 · 균열의 밤")).toHaveLength(0);
+    expect(screen.queryAllByText("제17장 · 돌아오지 않는 밤")).toHaveLength(0);
   });
 });

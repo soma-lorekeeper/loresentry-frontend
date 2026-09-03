@@ -6,6 +6,7 @@ import { LoginRoute } from "@/features/auth/components/login-route";
 import { ProjectListRoute } from "@/features/projects/components/project-list-route";
 import { projectFixtures } from "@/features/projects/project-model";
 import { WorkspaceRoute } from "@/features/workspace/components/workspace-route";
+import { workspaceMockFixtures } from "@/features/workspace/workspace-fixtures";
 
 const navigation = vi.hoisted(() => ({
   params: new URLSearchParams(),
@@ -71,10 +72,22 @@ describe("route component handoffs", () => {
     (project) => {
       navigation.params = new URLSearchParams({ projectId: project.id });
       const { container } = render(<WorkspaceRoute />);
+      const fixture = workspaceMockFixtures[project.id];
 
       expect(container.querySelector("[data-project-id]")).toHaveAttribute(
         "data-project-id",
         project.id,
+      );
+      expect(
+        screen.getByRole("button", {
+          name: `프로젝트 전환: ${fixture.project.name}`,
+        }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("tab", { name: fixture.initialTabs[0].label }),
+      ).toHaveAttribute("data-document-id", fixture.initialTabs[0].id);
+      expect(screen.getByRole("textbox", { name: "원고 본문" })).toHaveValue(
+        fixture.initialDocuments[0].body,
       );
     },
   );
@@ -113,10 +126,19 @@ describe("route component handoffs", () => {
       }),
     );
     await user.click(
-      screen.getByRole("menuitemradio", { name: "다른 프로젝트" }),
+      screen.getByRole("menuitemradio", { name: "궤도 도시 기록" }),
     );
 
-    expect(navigate).toHaveBeenCalledWith("/workspace?projectId=other-project");
+    expect(navigate).toHaveBeenCalledWith("/workspace?projectId=orbit-record");
+    expect(
+      screen.getByRole("tab", { name: "기록 08 · 무중력 정거장" }),
+    ).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("textbox", { name: "원고 본문" })).toHaveValue(
+      workspaceMockFixtures["orbit-record"].initialDocuments[0].body,
+    );
+    expect(
+      screen.queryByRole("tab", { name: "제17장 · 돌아오지 않는 밤" }),
+    ).not.toBeInTheDocument();
   });
 
   it("stops an unidentified direct workspace entry at the route boundary", () => {
@@ -128,5 +150,16 @@ describe("route component handoffs", () => {
     expect(
       screen.getByRole("link", { name: "프로젝트 목록으로 이동" }),
     ).toHaveAttribute("href", "/projects");
+  });
+
+  it("does not expose another fixture for an unknown project ID", () => {
+    navigation.params = new URLSearchParams({ projectId: "unknown-project" });
+    render(<WorkspaceRoute />);
+
+    expect(
+      screen.getByRole("heading", { name: "작업공간을 열 수 없어요" }),
+    ).toBeVisible();
+    expect(screen.queryByRole("tab")).not.toBeInTheDocument();
+    expect(screen.queryByText("유리 정원의 기록")).not.toBeInTheDocument();
   });
 });

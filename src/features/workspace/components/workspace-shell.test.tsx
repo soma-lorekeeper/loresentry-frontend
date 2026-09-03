@@ -13,7 +13,7 @@ describe("WorkspaceShell", () => {
 
     const manuscript = container.querySelector('[aria-current="page"]');
     expect(manuscript).toHaveAttribute("aria-current", "page");
-    expect(manuscript).toHaveTextContent("12화 · 균열의 밤");
+    expect(manuscript).toHaveTextContent("제17장 · 돌아오지 않는 밤");
 
     await user.click(screen.getByRole("button", { name: "검색" }));
     const search = container.querySelector('[aria-current="page"]');
@@ -46,10 +46,10 @@ describe("WorkspaceShell", () => {
     await user.keyboard("{End}{Enter}");
     await waitFor(() =>
       expect(
-        screen.getByRole("button", { name: "프로젝트 전환: 다른 프로젝트" }),
+        screen.getByRole("button", { name: "프로젝트 전환: 궤도 도시 기록" }),
       ).toBeInTheDocument(),
     );
-    expect(onProjectChange).toHaveBeenCalledWith("other-project");
+    expect(onProjectChange).toHaveBeenCalledWith("orbit-record");
 
     await user.click(screen.getByRole("button", { name: "즐겨찾기 메뉴" }));
     await waitFor(() =>
@@ -102,7 +102,9 @@ describe("WorkspaceShell", () => {
     await user.clear(description);
     await user.type(description, "탭을 이동해도 유지되는 설명");
 
-    await user.click(screen.getByRole("tab", { name: "12화 · 균열의 밤" }));
+    await user.click(
+      screen.getByRole("tab", { name: "제17장 · 돌아오지 않는 밤" }),
+    );
     await user.click(screen.getByRole("tab", { name: "설정" }));
     expect(screen.getByLabelText("프로젝트 설명")).toHaveValue(
       "탭을 이동해도 유지되는 설명",
@@ -139,7 +141,7 @@ describe("WorkspaceShell", () => {
       }),
     );
     await user.click(
-      screen.getByRole("menuitemradio", { name: "다른 프로젝트" }),
+      screen.getByRole("menuitemradio", { name: "궤도 도시 기록" }),
     );
 
     expect(
@@ -155,7 +157,7 @@ describe("WorkspaceShell", () => {
 
     await user.click(screen.getByRole("button", { name: "변경사항 버리기" }));
     expect(
-      screen.getByRole("button", { name: "프로젝트 전환: 다른 프로젝트" }),
+      screen.getByRole("button", { name: "프로젝트 전환: 궤도 도시 기록" }),
     ).toBeInTheDocument();
   });
 
@@ -175,7 +177,9 @@ describe("WorkspaceShell", () => {
 
     await user.click(screen.getByRole("button", { name: /사용 가이드/ }));
     await user.click(screen.getByRole("button", { name: /작업공간 시작하기/ }));
-    await user.click(screen.getByRole("tab", { name: "12화 · 균열의 밤" }));
+    await user.click(
+      screen.getByRole("tab", { name: "제17장 · 돌아오지 않는 밤" }),
+    );
     await user.click(screen.getByRole("tab", { name: "도움말" }));
 
     expect(

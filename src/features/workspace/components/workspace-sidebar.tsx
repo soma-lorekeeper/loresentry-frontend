@@ -12,8 +12,8 @@ import {
 import { Menu, MenuItem } from "@/components/ui";
 
 import { WorkspaceIcon } from "../icons";
+import type { WorkspaceMockProject } from "../workspace-fixtures";
 import {
-  fileItems as initialFileItems,
   primaryNavigation,
   type ProjectSummary,
   utilityNavigation,
@@ -164,18 +164,22 @@ function isInvalidFolderTarget(
 
 export interface WorkspaceSidebarProps {
   currentProject: ProjectSummary;
+  favoriteItemIds: readonly string[];
+  initialItems: readonly WorkspaceNavItem[];
   onProjectListSelect?: () => void;
-  onProjectSelect: (project: ProjectSummary) => void;
+  onProjectSelect: (project: WorkspaceMockProject) => void;
   onRename: (contentId: string, label: string) => void;
   onSelect: (item: WorkspaceNavItem) => void;
   onTrash: (contentIds: string[]) => void;
-  projects: ProjectSummary[];
+  projects: readonly WorkspaceMockProject[];
   selectedId: string;
   userName: string;
 }
 
 export function WorkspaceSidebar({
   currentProject,
+  favoriteItemIds,
+  initialItems,
   onProjectListSelect,
   onProjectSelect,
   onRename,
@@ -185,12 +189,19 @@ export function WorkspaceSidebar({
   selectedId,
   userName,
 }: WorkspaceSidebarProps) {
-  const [items, setItems] = useState(initialFileItems);
-  const [favoriteSourceIds, setFavoriteSourceIds] = useState([
-    "file-manuscript-12",
+  const [items, setItems] = useState<WorkspaceNavItem[]>(() => [
+    ...initialItems,
+  ]);
+  const [favoriteSourceIds, setFavoriteSourceIds] = useState<string[]>(() => [
+    ...favoriteItemIds,
   ]);
   const [expandedFolderIds, setExpandedFolderIds] = useState(
-    new Set(["folder-manuscript"]),
+    () =>
+      new Set(
+        initialItems
+          .filter((item) => item.kind === "folder" && !item.parentId)
+          .map((item) => item.id),
+      ),
   );
   const [editing, setEditing] = useState<EditState | null>(null);
   const [draftName, setDraftName] = useState("");

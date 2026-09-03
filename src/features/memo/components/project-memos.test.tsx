@@ -70,7 +70,9 @@ describe("Project and file memo cards", () => {
     await waitFor(() => expect(draft).toHaveFocus());
     await user.type(draft, "새 프로젝트 메모");
 
-    await user.click(screen.getByRole("tab", { name: "12화 · 균열의 밤" }));
+    await user.click(
+      screen.getByRole("tab", { name: "제17장 · 돌아오지 않는 밤" }),
+    );
     await user.click(
       within(screen.getByRole("banner", { name: "파일 도구" })).getByRole(
         "button",
@@ -78,7 +80,7 @@ describe("Project and file memo cards", () => {
       ),
     );
     const panel = screen.getByRole("complementary", {
-      name: "12화 · 균열의 밤 메모",
+      name: "제17장 · 돌아오지 않는 밤 메모",
     });
     expect(
       within(panel).getByRole("textbox", { name: "프로젝트 메모 1 본문" }),

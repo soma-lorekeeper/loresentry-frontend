@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 
 import { AiChatPanel } from "@/features/ai-chat/components/ai-chat-panel";
+import type { ProjectFixtureId } from "@/features/projects/project-model";
 import {
   createHelpScenario,
   type HelpStateId,
@@ -27,7 +28,12 @@ import {
   createTimelineScenario,
   type TimelineStateId,
 } from "@/features/timeline/timeline-states";
-import { projects, type WorkspaceNavItem } from "../workspace-data";
+import type { WorkspaceNavItem } from "../workspace-data";
+import {
+  type WorkspaceMockFixture,
+  type WorkspaceMockProject,
+  workspaceMockFixtures,
+} from "../workspace-fixtures";
 import { WorkspaceSidebar } from "./workspace-sidebar";
 import type { ManuscriptDocument } from "./workspace-manuscript-editor";
 import type { RecentWorkspaceFile } from "./workspace-new-tab";
@@ -38,20 +44,13 @@ import {
 } from "./workspace-tabs";
 import styles from "./workspace.module.css";
 
-const defaultInitialTabs: WorkspaceTab[] = [
-  {
-    id: "manuscript-12",
-    icon: "file",
-    isFile: true,
-    label: "12화 · 균열의 밤",
-  },
-  {
-    id: "manuscript-11",
-    icon: "file",
-    isFile: true,
-    label: "11화 · 유리 정원",
-  },
-];
+const workspaceProjects: WorkspaceMockProject[] = Object.values(
+  workspaceMockFixtures,
+).map((fixture) => fixture.project);
+
+function fixtureTabs(fixture: WorkspaceMockFixture): WorkspaceTab[] {
+  return fixture.initialTabs.map((tab) => ({ ...tab }));
+}
 
 function toTab(item: WorkspaceNavItem): WorkspaceTab | null {
   if (item.kind === "folder") return null;
@@ -69,7 +68,7 @@ export interface WorkspaceShellProps {
   deleteMemo?: (memo: MemoDeleteInput) => Promise<void>;
   initialPropertyState?: PropertyDocumentStateId;
   initialHelpState?: HelpStateId;
-  initialProjectId: string;
+  initialProjectId: ProjectFixtureId;
   initialSettingsState?: SettingsStateId;
   initialTimelineState?: TimelineStateId;
   moveProjectToTrash?: (projectId: string) => Promise<void>;
@@ -116,6 +115,7 @@ export function WorkspaceShell({
   saveWorkspaceSettings,
   saveTimelineItem,
 }: WorkspaceShellProps) {
+  const initialFixture = workspaceMockFixtures[initialProjectId];
   const initialPropertyScenario = initialPropertyState
     ? createPropertyDocumentScenario(initialPropertyState)
     : undefined;
@@ -164,7 +164,7 @@ export function WorkspaceShell({
                 label: initialPropertyScenario.label,
               },
             ]
-          : defaultInitialTabs;
+          : fixtureTabs(initialFixture);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [selectedId, setSelectedId] = useState(
     initialSettingsScenario
@@ -173,14 +173,16 @@ export function WorkspaceShell({
         ? "help"
         : initialTimelineScenario
           ? "event"
-          : (initialPropertyScenario?.documentId ?? "favorite-manuscript-12"),
+          : (initialPropertyScenario?.documentId ??
+            initialFixture.selectedItemId),
   );
   const [tabs, setTabs] = useState(initialTabs);
   const [activeTabId, setActiveTabId] = useState(initialTabs[0].id);
   const [aiChatOpen, setAiChatOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentProject, setCurrentProject] = useState(
-    projects.find((project) => project.id === initialProjectId) ?? projects[0],
+  const [currentFixture, setCurrentFixture] = useState(initialFixture);
+  const [currentProject, setCurrentProject] = useState<WorkspaceMockProject>(
+    initialFixture.project,
   );
   const draftCounterRef = useRef(0);
   const settingsRef = useRef<ProjectSettingsHandle>(null);
@@ -232,12 +234,19 @@ export function WorkspaceShell({
     performCloseTab(tabId);
   };
 
-  const commitProjectSelection = (project: (typeof projects)[number]) => {
-    setCurrentProject(project);
+  const commitProjectSelection = (project: WorkspaceMockProject) => {
+    const fixture = workspaceMockFixtures[project.id];
+    const nextTabs = fixtureTabs(fixture);
+    setCurrentFixture(fixture);
+    setCurrentProject(fixture.project);
+    setSelectedId(fixture.selectedItemId);
+    setTabs(nextTabs);
+    setActiveTabId(nextTabs[0].id);
+    setSearchQuery("");
     onProjectChange?.(project.id);
   };
 
-  const selectProject = (project: (typeof projects)[number]) => {
+  const selectProject = (project: WorkspaceMockProject) => {
     if (
       project.id !== currentProject.id &&
       settingsRef.current?.hasUnsavedChanges()
@@ -335,12 +344,15 @@ export function WorkspaceShell({
         {sidebarOpen && (
           <WorkspaceSidebar
             currentProject={currentProject}
+            favoriteItemIds={currentFixture.favoriteItemIds}
+            initialItems={currentFixture.fileItems}
+            key={currentFixture.project.id}
             onProjectListSelect={onProjectListSelect}
             onProjectSelect={selectProject}
             onRename={renameOpenTab}
             onSelect={selectTarget}
             onTrash={removeTrashedTabs}
-            projects={projects}
+            projects={workspaceProjects}
             selectedId={selectedId}
             userName="서윤주"
           />
@@ -371,6 +383,7 @@ export function WorkspaceShell({
           onSearchQueryChange={setSearchQuery}
           initialPropertyScenario={initialPropertyScenario}
           initialHelpScenario={initialHelpScenario}
+          initialManuscriptDocuments={currentFixture.initialDocuments}
           initialSettingsScenario={initialSettingsScenario}
           initialTimelineScenario={initialTimelineScenario}
           moveProjectToTrash={moveProjectToTrash}
@@ -380,6 +393,7 @@ export function WorkspaceShell({
           openExternalFeedback={openExternalFeedback}
           projectId={currentProject.id}
           projectName={currentProject.name}
+          key={currentFixture.project.id}
           recentFiles={recentFiles}
           saveManuscript={saveManuscript}
           saveMemo={saveMemo}

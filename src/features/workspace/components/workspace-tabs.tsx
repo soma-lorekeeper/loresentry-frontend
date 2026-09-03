@@ -52,6 +52,7 @@ import type { SettingsScenario } from "@/features/settings/settings-states";
 
 import { WorkspaceIcon, type WorkspaceIconName } from "../icons";
 import type { WorkspaceNavItem } from "../workspace-data";
+import type { WorkspaceMockDocument } from "../workspace-fixtures";
 import { type RecentWorkspaceFile, WorkspaceNewTab } from "./workspace-new-tab";
 import {
   createInitialManuscriptDocument,
@@ -343,6 +344,7 @@ interface WorkspaceContentProps {
   deleteTimelineItem?: (documentId: string, itemId: string) => Promise<void>;
   initialPropertyScenario?: PropertyDocumentScenario;
   initialHelpScenario?: HelpScenario;
+  initialManuscriptDocuments: readonly WorkspaceMockDocument[];
   initialSettingsScenario?: SettingsScenario;
   initialTimelineScenario?: TimelineScenario;
   feedbackUrl?: string;
@@ -398,6 +400,7 @@ export function WorkspaceContent({
   deleteTimelineItem,
   initialPropertyScenario,
   initialHelpScenario,
+  initialManuscriptDocuments,
   initialSettingsScenario,
   initialTimelineScenario,
   feedbackUrl,
@@ -432,7 +435,18 @@ export function WorkspaceContent({
   }>();
   const [manuscriptDocuments, setManuscriptDocuments] = useState<
     Record<string, ManuscriptDocument>
-  >({});
+  >(() =>
+    Object.fromEntries(
+      initialManuscriptDocuments.map((document) => [
+        document.id,
+        {
+          body: document.body,
+          saveStatus: "disconnected" as const,
+          title: document.title,
+        },
+      ]),
+    ),
+  );
   const [propertyDocuments, setPropertyDocuments] = useState<
     Record<string, PropertyDocument>
   >(() =>

@@ -22,7 +22,7 @@ describe("File memo panel placement", () => {
       ),
     );
     const panel = screen.getByRole("complementary", {
-      name: "12화 · 균열의 밤 메모",
+      name: "제17장 · 돌아오지 않는 밤 메모",
     });
     const right = within(panel).getByRole("button", { name: "오른쪽" });
     const below = within(panel).getByRole("button", { name: "아래" });
@@ -36,7 +36,7 @@ describe("File memo panel placement", () => {
     await user.click(within(panel).getByRole("tab", { name: "원고 메모" }));
     expect(
       within(panel).getByRole("tabpanel", { name: "원고 메모" }),
-    ).toHaveTextContent("12화 · 균열의 밤");
+    ).toHaveTextContent("제17장 · 돌아오지 않는 밤");
   });
 
   it("resizes with the keyboard without replacing the manuscript editor", async () => {

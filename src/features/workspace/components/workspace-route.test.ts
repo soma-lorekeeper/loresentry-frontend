@@ -1,16 +1,24 @@
 import { describe, expect, it } from "vitest";
 
-import { resolveWorkspaceProjectId } from "@/integration/app-routes";
+import { resolveWorkspaceMockFixture } from "../workspace-mock-resolver";
 
-describe("resolveWorkspaceProjectId", () => {
-  it("keeps a non-empty project from the server-verified workspace URL", () => {
-    expect(resolveWorkspaceProjectId("other-project")).toBe("other-project");
+describe("resolveWorkspaceMockFixture", () => {
+  it("rejects an unknown project at the workspace route boundary", () => {
+    expect(resolveWorkspaceMockFixture("other-project")).toEqual({
+      projectId: "other-project",
+      reason: "unknown-project-id",
+      status: "not-found",
+    });
   });
 
   it.each([null, "", "   "])(
     "does not invent a fallback when projectId is %s",
     (projectId) => {
-      expect(resolveWorkspaceProjectId(projectId)).toBeNull();
+      expect(resolveWorkspaceMockFixture(projectId)).toEqual({
+        projectId: null,
+        reason: "missing-project-id",
+        status: "not-found",
+      });
     },
   );
 });
