@@ -1,0 +1,856 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`account and global screen regression > locks semantic UI signatures for Pencil screens 123–138 1`] = `
+[
+  {
+    "id": "user-menu-open",
+    "pencilNodeId": "Pr4Vc",
+    "route": "/projects?globalState=user-menu-open",
+    "screenNumber": 123,
+    "ui": {
+      "alerts": [],
+      "controls": [
+        {
+          "disabled": undefined,
+          "expanded": "true",
+          "label": "이승주, seungju@lore.kr 사용자 메뉴",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "계정 설정",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "로그아웃",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "피드백 보내기, 새 탭에서 열림",
+          "tag": "button",
+        },
+      ],
+      "current": [
+        "프로젝트 목록",
+      ],
+      "dialogs": [],
+      "headings": [
+        {
+          "level": "h1",
+          "text": "프로젝트",
+        },
+      ],
+      "statuses": [],
+    },
+  },
+  {
+    "id": "account-settings-default",
+    "pencilNodeId": "l6YSG6",
+    "route": "/projects?globalState=account-settings-default",
+    "screenNumber": 124,
+    "ui": {
+      "alerts": [],
+      "controls": [
+        {
+          "disabled": undefined,
+          "expanded": "false",
+          "label": "이승주, seungju@lore.kr 사용자 메뉴",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "피드백 보내기, 새 탭에서 열림",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "취소",
+          "tag": "button",
+        },
+        {
+          "disabled": true,
+          "expanded": undefined,
+          "label": "저장",
+          "tag": "button",
+        },
+      ],
+      "current": [
+        "프로젝트 목록",
+      ],
+      "dialogs": [
+        "계정 설정프로젝트 목록과 사용자 메뉴에 표시되는 정보를 관리합니다.이름필수Google 계정 이메일취소저장",
+      ],
+      "headings": [
+        {
+          "level": "h2",
+          "text": "계정 설정",
+        },
+        {
+          "level": "h1",
+          "text": "프로젝트",
+        },
+      ],
+      "statuses": [],
+    },
+  },
+  {
+    "id": "account-settings-edited",
+    "pencilNodeId": "YlFtW",
+    "route": "/projects?globalState=account-settings-edited",
+    "screenNumber": 125,
+    "ui": {
+      "alerts": [],
+      "controls": [
+        {
+          "disabled": undefined,
+          "expanded": "false",
+          "label": "이승주, seungju@lore.kr 사용자 메뉴",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "피드백 보내기, 새 탭에서 열림",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "취소",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "저장",
+          "tag": "button",
+        },
+      ],
+      "current": [
+        "프로젝트 목록",
+      ],
+      "dialogs": [
+        "계정 설정프로젝트 목록과 사용자 메뉴에 표시되는 정보를 관리합니다.이름필수Google 계정 이메일취소저장",
+      ],
+      "headings": [
+        {
+          "level": "h2",
+          "text": "계정 설정",
+        },
+        {
+          "level": "h1",
+          "text": "프로젝트",
+        },
+      ],
+      "statuses": [],
+    },
+  },
+  {
+    "id": "account-settings-validation-error",
+    "pencilNodeId": "daOWS",
+    "route": "/projects?globalState=account-settings-validation-error",
+    "screenNumber": 126,
+    "ui": {
+      "alerts": [],
+      "controls": [
+        {
+          "disabled": undefined,
+          "expanded": "false",
+          "label": "이승주, seungju@lore.kr 사용자 메뉴",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "피드백 보내기, 새 탭에서 열림",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "취소",
+          "tag": "button",
+        },
+        {
+          "disabled": true,
+          "expanded": undefined,
+          "label": "저장",
+          "tag": "button",
+        },
+      ],
+      "current": [
+        "프로젝트 목록",
+      ],
+      "dialogs": [
+        "계정 설정프로젝트 목록과 사용자 메뉴에 표시되는 정보를 관리합니다.이름필수이름을 입력해 주세요.Google 계정 이메일취소저장",
+      ],
+      "headings": [
+        {
+          "level": "h2",
+          "text": "계정 설정",
+        },
+        {
+          "level": "h1",
+          "text": "프로젝트",
+        },
+      ],
+      "statuses": [],
+    },
+  },
+  {
+    "id": "account-settings-saving",
+    "pencilNodeId": "VemT4",
+    "route": "/projects?globalState=account-settings-saving",
+    "screenNumber": 127,
+    "ui": {
+      "alerts": [],
+      "controls": [
+        {
+          "disabled": undefined,
+          "expanded": "false",
+          "label": "이승주, seungju@lore.kr 사용자 메뉴",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "피드백 보내기, 새 탭에서 열림",
+          "tag": "button",
+        },
+        {
+          "disabled": true,
+          "expanded": undefined,
+          "label": "취소",
+          "tag": "button",
+        },
+        {
+          "disabled": true,
+          "expanded": undefined,
+          "label": "저장 중…",
+          "tag": "button",
+        },
+      ],
+      "current": [
+        "프로젝트 목록",
+      ],
+      "dialogs": [
+        "계정 설정프로젝트 목록과 사용자 메뉴에 표시되는 정보를 관리합니다.이름필수Google 계정 이메일취소저장 중…",
+      ],
+      "headings": [
+        {
+          "level": "h2",
+          "text": "계정 설정",
+        },
+        {
+          "level": "h1",
+          "text": "프로젝트",
+        },
+      ],
+      "statuses": [],
+    },
+  },
+  {
+    "id": "account-settings-saved",
+    "pencilNodeId": "Z0yHo",
+    "route": "/projects?globalState=account-settings-saved",
+    "screenNumber": 128,
+    "ui": {
+      "alerts": [],
+      "controls": [
+        {
+          "disabled": undefined,
+          "expanded": "false",
+          "label": "이승주, seungju@lore.kr 사용자 메뉴",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "피드백 보내기, 새 탭에서 열림",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "닫기",
+          "tag": "button",
+        },
+      ],
+      "current": [
+        "프로젝트 목록",
+      ],
+      "dialogs": [
+        "계정 설정프로젝트 목록과 사용자 메뉴에 표시되는 정보를 관리합니다.이름필수Google 계정 이메일i계정 정보를 저장했어요.닫기",
+      ],
+      "headings": [
+        {
+          "level": "h2",
+          "text": "계정 설정",
+        },
+        {
+          "level": "h1",
+          "text": "프로젝트",
+        },
+      ],
+      "statuses": [
+        "i계정 정보를 저장했어요.",
+      ],
+    },
+  },
+  {
+    "id": "account-settings-save-error",
+    "pencilNodeId": "CbnlA",
+    "route": "/projects?globalState=account-settings-save-error",
+    "screenNumber": 129,
+    "ui": {
+      "alerts": [
+        "!계정 정보를 저장하지 못했어요. 다시 시도해 주세요.",
+      ],
+      "controls": [
+        {
+          "disabled": undefined,
+          "expanded": "false",
+          "label": "이승주, seungju@lore.kr 사용자 메뉴",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "피드백 보내기, 새 탭에서 열림",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "취소",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "다시 시도",
+          "tag": "button",
+        },
+      ],
+      "current": [
+        "프로젝트 목록",
+      ],
+      "dialogs": [
+        "계정 설정프로젝트 목록과 사용자 메뉴에 표시되는 정보를 관리합니다.이름필수Google 계정 이메일!계정 정보를 저장하지 못했어요. 다시 시도해 주세요.취소다시 시도",
+      ],
+      "headings": [
+        {
+          "level": "h2",
+          "text": "계정 설정",
+        },
+        {
+          "level": "h1",
+          "text": "프로젝트",
+        },
+      ],
+      "statuses": [],
+    },
+  },
+  {
+    "id": "account-settings-long-values-light",
+    "pencilNodeId": "Mq1AS",
+    "route": "/projects?globalState=account-settings-long-values-light",
+    "screenNumber": 130,
+    "ui": {
+      "alerts": [],
+      "controls": [
+        {
+          "disabled": undefined,
+          "expanded": "false",
+          "label": "아주 긴 이름을 사용하는 로어키퍼 창작자 이승주, seungju.with.an.extraordinarily.long.google.account@example.com 사용자 메뉴",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "피드백 보내기, 새 탭에서 열림",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "취소",
+          "tag": "button",
+        },
+        {
+          "disabled": true,
+          "expanded": undefined,
+          "label": "저장",
+          "tag": "button",
+        },
+      ],
+      "current": [
+        "프로젝트 목록",
+      ],
+      "dialogs": [
+        "계정 설정프로젝트 목록과 사용자 메뉴에 표시되는 정보를 관리합니다.이름필수Google 계정 이메일취소저장",
+      ],
+      "headings": [
+        {
+          "level": "h2",
+          "text": "계정 설정",
+        },
+        {
+          "level": "h1",
+          "text": "프로젝트",
+        },
+      ],
+      "statuses": [],
+    },
+  },
+  {
+    "id": "logout-confirmation",
+    "pencilNodeId": "HcLfZ",
+    "route": "/projects?globalState=logout-confirmation",
+    "screenNumber": 131,
+    "ui": {
+      "alerts": [],
+      "controls": [
+        {
+          "disabled": undefined,
+          "expanded": "false",
+          "label": "이승주, seungju@lore.kr 사용자 메뉴",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "피드백 보내기, 새 탭에서 열림",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "취소",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "로그아웃",
+          "tag": "button",
+        },
+      ],
+      "current": [
+        "프로젝트 목록",
+      ],
+      "dialogs": [
+        "로그아웃할까요?현재 세션을 종료하고 로그인 화면으로 이동합니다.승주이승주seungju@lore.kr취소로그아웃로그인 화면으로 이동",
+      ],
+      "headings": [
+        {
+          "level": "h2",
+          "text": "로그아웃할까요?",
+        },
+        {
+          "level": "h1",
+          "text": "프로젝트",
+        },
+      ],
+      "statuses": [],
+    },
+  },
+  {
+    "id": "logout-processing",
+    "pencilNodeId": "y7wxgE",
+    "route": "/projects?globalState=logout-processing",
+    "screenNumber": 132,
+    "ui": {
+      "alerts": [],
+      "controls": [
+        {
+          "disabled": undefined,
+          "expanded": "false",
+          "label": "이승주, seungju@lore.kr 사용자 메뉴",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "피드백 보내기, 새 탭에서 열림",
+          "tag": "button",
+        },
+        {
+          "disabled": true,
+          "expanded": undefined,
+          "label": "취소",
+          "tag": "button",
+        },
+        {
+          "disabled": true,
+          "expanded": undefined,
+          "label": "로그아웃 중…",
+          "tag": "button",
+        },
+      ],
+      "current": [
+        "프로젝트 목록",
+      ],
+      "dialogs": [
+        "로그아웃할까요?현재 세션을 종료하고 로그인 화면으로 이동합니다.승주이승주seungju@lore.kr취소로그아웃 중…로그인 화면으로 이동",
+      ],
+      "headings": [
+        {
+          "level": "h2",
+          "text": "로그아웃할까요?",
+        },
+        {
+          "level": "h1",
+          "text": "프로젝트",
+        },
+      ],
+      "statuses": [],
+    },
+  },
+  {
+    "id": "logout-error",
+    "pencilNodeId": "EQJbK",
+    "route": "/projects?globalState=logout-error",
+    "screenNumber": 133,
+    "ui": {
+      "alerts": [
+        "!로그아웃하지 못했어요. 현재 세션은 유지됩니다. 다시 시도해 주세요.",
+      ],
+      "controls": [
+        {
+          "disabled": undefined,
+          "expanded": "false",
+          "label": "이승주, seungju@lore.kr 사용자 메뉴",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "피드백 보내기, 새 탭에서 열림",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "취소",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "다시 시도",
+          "tag": "button",
+        },
+      ],
+      "current": [
+        "프로젝트 목록",
+      ],
+      "dialogs": [
+        "로그아웃할까요?현재 세션을 종료하고 로그인 화면으로 이동합니다.승주이승주seungju@lore.kr!로그아웃하지 못했어요. 현재 세션은 유지됩니다. 다시 시도해 주세요.취소다시 시도로그인 화면으로 이동",
+      ],
+      "headings": [
+        {
+          "level": "h2",
+          "text": "로그아웃할까요?",
+        },
+        {
+          "level": "h1",
+          "text": "프로젝트",
+        },
+      ],
+      "statuses": [],
+    },
+  },
+  {
+    "id": "logout-complete",
+    "pencilNodeId": "N5M5TM",
+    "route": "/projects?globalState=logout-complete",
+    "screenNumber": 134,
+    "ui": {
+      "alerts": [],
+      "controls": [
+        {
+          "disabled": undefined,
+          "expanded": "false",
+          "label": "이승주, seungju@lore.kr 사용자 메뉴",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "피드백 보내기, 새 탭에서 열림",
+          "tag": "button",
+        },
+        {
+          "disabled": true,
+          "expanded": undefined,
+          "label": "취소",
+          "tag": "button",
+        },
+        {
+          "disabled": true,
+          "expanded": undefined,
+          "label": "이동 중…",
+          "tag": "button",
+        },
+      ],
+      "current": [
+        "프로젝트 목록",
+      ],
+      "dialogs": [
+        "로그아웃할까요?현재 세션을 종료하고 로그인 화면으로 이동합니다.승주이승주seungju@lore.kri로그아웃했어요. 로그인 화면으로 이동합니다.취소이동 중…로그인 화면으로 이동",
+      ],
+      "headings": [
+        {
+          "level": "h2",
+          "text": "로그아웃할까요?",
+        },
+        {
+          "level": "h1",
+          "text": "프로젝트",
+        },
+      ],
+      "statuses": [
+        "i로그아웃했어요. 로그인 화면으로 이동합니다.",
+      ],
+    },
+  },
+  {
+    "id": "guide-topics",
+    "pencilNodeId": "K5MEsG",
+    "route": "/projects/guide",
+    "screenNumber": 135,
+    "ui": {
+      "alerts": [],
+      "controls": [
+        {
+          "disabled": undefined,
+          "expanded": "false",
+          "label": "이승주, seungju@lore.kr 사용자 메뉴",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "피드백 보내기, 새 탭에서 열림",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "프로젝트 목록으로 돌아가기",
+          "tag": "a",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "작업공간 시작하기프로젝트, 사이드바와 탭의 기본 사용법",
+          "tag": "a",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "파일과 속성 문서파일을 만들고 정보를 구조화하는 방법",
+          "tag": "a",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "원고 작성원고 편집, 저장 상태와 버전 관리",
+          "tag": "a",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "검색과 그래프필요한 기록과 연결 관계를 찾는 방법",
+          "tag": "a",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "메모와 시간 흐름아이디어와 사건 순서를 함께 관리하기",
+          "tag": "a",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "휴지통과 복원삭제한 파일과 프로젝트를 안전하게 관리하기",
+          "tag": "a",
+        },
+      ],
+      "current": [
+        "사용 가이드",
+      ],
+      "dialogs": [],
+      "headings": [
+        {
+          "level": "h1",
+          "text": "사용 가이드",
+        },
+      ],
+      "statuses": [],
+    },
+  },
+  {
+    "id": "guide-article",
+    "pencilNodeId": "j3qmH",
+    "route": "/projects/guide?topic=workspace-start",
+    "screenNumber": 136,
+    "ui": {
+      "alerts": [],
+      "controls": [
+        {
+          "disabled": undefined,
+          "expanded": "false",
+          "label": "이승주, seungju@lore.kr 사용자 메뉴",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "피드백 보내기, 새 탭에서 열림",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "작업공간 둘러보기",
+          "tag": "a",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "탭으로 이동하기",
+          "tag": "a",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "첫 기록 시작하기",
+          "tag": "a",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "가이드 목록으로",
+          "tag": "a",
+        },
+      ],
+      "current": [
+        "사용 가이드",
+      ],
+      "dialogs": [],
+      "headings": [
+        {
+          "level": "h1",
+          "text": "작업공간 시작하기",
+        },
+        {
+          "level": "h2",
+          "text": "작업공간 둘러보기",
+        },
+        {
+          "level": "h2",
+          "text": "탭으로 이동하기",
+        },
+        {
+          "level": "h2",
+          "text": "첫 기록 시작하기",
+        },
+      ],
+      "statuses": [],
+    },
+  },
+  {
+    "id": "feedback-opened",
+    "pencilNodeId": "iZobk",
+    "route": "/projects?globalState=feedback-opened",
+    "screenNumber": 137,
+    "ui": {
+      "alerts": [],
+      "controls": [
+        {
+          "disabled": undefined,
+          "expanded": "false",
+          "label": "이승주, seungju@lore.kr 사용자 메뉴",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "피드백 보내기, 새 탭에서 열림",
+          "tag": "button",
+        },
+      ],
+      "current": [
+        "프로젝트 목록",
+      ],
+      "dialogs": [],
+      "headings": [
+        {
+          "level": "h1",
+          "text": "프로젝트",
+        },
+      ],
+      "statuses": [
+        "i피드백 페이지를 새 탭에서 열었습니다.",
+      ],
+    },
+  },
+  {
+    "id": "feedback-open-error",
+    "pencilNodeId": "c061WC",
+    "route": "/projects?globalState=feedback-open-error",
+    "screenNumber": 138,
+    "ui": {
+      "alerts": [
+        "!피드백 페이지를 열지 못했어요.다시 열기링크 복사",
+      ],
+      "controls": [
+        {
+          "disabled": undefined,
+          "expanded": "false",
+          "label": "이승주, seungju@lore.kr 사용자 메뉴",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "피드백 보내기, 새 탭에서 열림",
+          "tag": "button",
+        },
+        {
+          "disabled": undefined,
+          "expanded": undefined,
+          "label": "다시 열기",
+          "tag": "button",
+        },
+        {
+          "disabled": true,
+          "expanded": undefined,
+          "label": "링크 복사",
+          "tag": "button",
+        },
+      ],
+      "current": [
+        "프로젝트 목록",
+      ],
+      "dialogs": [],
+      "headings": [
+        {
+          "level": "h1",
+          "text": "프로젝트",
+        },
+      ],
+      "statuses": [],
+    },
+  },
+]
+`;

@@ -10,6 +10,7 @@ const requiredFiles = [
   "index.html",
   "design-system/index.html",
   "projects/index.html",
+  "projects/guide/index.html",
   "projects/trash/index.html",
   "workspace/index.html",
   "config.json",
@@ -90,6 +91,10 @@ const routes = [
   "/",
   "/design-system/",
   "/projects?projectState=project-list-default",
+  "/projects?globalState=account-settings-long-values-light",
+  "/projects?globalState=feedback-open-error",
+  "/projects/guide",
+  "/projects/guide?topic=workspace-start",
   "/projects/trash?trashState=project-trash-default",
   "/workspace?projectId=glass-garden",
 ];

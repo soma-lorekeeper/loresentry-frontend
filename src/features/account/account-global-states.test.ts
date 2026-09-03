@@ -7,19 +7,18 @@ import {
 } from "./account-global-states";
 
 describe("account global state registry", () => {
-  it("maps account, logout, and feedback Pencil screens exactly once", () => {
-    expect(ACCOUNT_GLOBAL_SCREEN_STATES).toHaveLength(14);
+  it("maps account and global Pencil screens 123–138 exactly once", () => {
+    expect(ACCOUNT_GLOBAL_SCREEN_STATES).toHaveLength(16);
     expect(
       ACCOUNT_GLOBAL_SCREEN_STATES.map((state) => state.screenNumber),
-    ).toEqual([
-      ...Array.from({ length: 12 }, (_, index) => 123 + index),
-      137,
-      138,
-    ]);
+    ).toEqual(Array.from({ length: 16 }, (_, index) => 123 + index));
     expect(
       new Set(ACCOUNT_GLOBAL_SCREEN_STATES.map((state) => state.pencilNodeId))
         .size,
-    ).toBe(14);
+    ).toBe(16);
+    expect(
+      new Set(ACCOUNT_GLOBAL_SCREEN_STATES.map((state) => state.route)).size,
+    ).toBe(16);
   });
 
   it("resolves explicit account scenarios including long light values", () => {
@@ -41,6 +40,15 @@ describe("account global state registry", () => {
     });
     expect(getAccountGlobalScenario("feedback-open-error")).toMatchObject({
       feedbackState: "error",
+    });
+    expect(
+      ACCOUNT_GLOBAL_SCREEN_STATES.find(
+        (state) => state.id === "guide-article",
+      ),
+    ).toMatchObject({
+      pencilNodeId: "j3qmH",
+      route: "/projects/guide?topic=workspace-start",
+      screenNumber: 136,
     });
   });
 });
