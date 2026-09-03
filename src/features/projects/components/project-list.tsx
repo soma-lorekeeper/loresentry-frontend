@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import {
   type KeyboardEvent,
   useCallback,
@@ -10,6 +9,8 @@ import {
 } from "react";
 
 import { Button, StatusNotice } from "@/components/ui";
+import type { AccountSettingsState } from "@/features/account/components/account-settings-dialog";
+import type { AccountProfile } from "@/features/account/account-model";
 import { WorkspaceIcon } from "@/features/workspace/icons";
 
 import {
@@ -31,8 +32,11 @@ import {
   type TrashProjectState,
 } from "./trash-project-dialog";
 import styles from "./project-list.module.css";
+import { ProjectSidebar } from "./project-sidebar";
 
 export interface ProjectListProps {
+  initialAccountState?: AccountSettingsState | "user-menu-open";
+  initialAccountProfile?: AccountProfile;
   createProject?: (input: { title: string }) => Promise<CreateProjectResult>;
   initialCreateState?: CreateProjectState;
   initialListStatus?: ProjectListStatus;
@@ -49,62 +53,11 @@ export interface ProjectListProps {
   onOpenProject?: (projectId: string) => void;
   onRenameRequest?: (project: ProjectSummary) => void;
   renameProject?: (projectId: string, title: string) => Promise<void>;
+  theme?: "dark" | "light";
+  updateAccount?: (input: { name: string }) => Promise<void>;
 }
 
 export type ProjectListStatus = "empty" | "error" | "loading" | "ready";
-
-export function ProjectSidebar({
-  current = "list",
-}: {
-  current?: "list" | "trash";
-}) {
-  return (
-    <aside className={styles.sidebar}>
-      <div className={styles.userSummary}>
-        <span aria-hidden="true" className={styles.avatar}>
-          승주
-        </span>
-        <div className={styles.userCopy}>
-          <strong>이승주</strong>
-          <span>seungju@lore.kr</span>
-        </div>
-      </div>
-      <nav aria-label="프로젝트">
-        <div className={styles.navigation}>
-          <Link
-            aria-current={current === "list" ? "page" : undefined}
-            className={styles.navItem}
-            href="/projects"
-          >
-            <WorkspaceIcon name="organization" />
-            프로젝트 목록
-          </Link>
-          <Link
-            aria-current={current === "trash" ? "page" : undefined}
-            className={styles.navItem}
-            href="/projects/trash"
-          >
-            <WorkspaceIcon name="trash" />
-            프로젝트 휴지통
-          </Link>
-        </div>
-      </nav>
-      <nav aria-label="도움말" className={styles.sidebarFooter}>
-        <Link
-          className={styles.navItem}
-          href="/workspace?helpState=help-default"
-        >
-          <WorkspaceIcon name="book" />
-          사용 가이드
-        </Link>
-        <a className={styles.navItem} href="mailto:feedback@lore.kr">
-          <WorkspaceIcon name="message-square" />
-          피드백 보내기
-        </a>
-      </nav>
-    </aside>
-  );
-}
 
 function ProjectCard({
   initialMenuOpen,
@@ -278,6 +231,8 @@ function ProjectCard({
 
 export function ProjectList({
   createProject,
+  initialAccountProfile,
+  initialAccountState,
   initialCreateState,
   initialListStatus,
   initialMenuProjectId,
@@ -293,6 +248,8 @@ export function ProjectList({
   onOpenProject,
   onRenameRequest,
   renameProject,
+  theme,
+  updateAccount,
 }: ProjectListProps) {
   const [selectedId, setSelectedId] = useState(initialSelectedProjectId);
   const [createOpen, setCreateOpen] = useState(Boolean(initialCreateState));
@@ -336,6 +293,16 @@ export function ProjectList({
   );
   const loadRequestRef = useRef(0);
 
+  useEffect(() => {
+    if (!theme) return;
+    const previousTheme = document.documentElement.dataset.theme;
+    document.documentElement.dataset.theme = theme;
+    return () => {
+      if (previousTheme) document.documentElement.dataset.theme = previousTheme;
+      else delete document.documentElement.dataset.theme;
+    };
+  }, [theme]);
+
   const load = useCallback(async () => {
     if (!loadProjects) {
       setListStatus("error");
@@ -372,7 +339,11 @@ export function ProjectList({
 
   return (
     <div className={styles.shell}>
-      <ProjectSidebar />
+      <ProjectSidebar
+        initialAccountState={initialAccountState}
+        initialProfile={initialAccountProfile}
+        updateAccount={updateAccount}
+      />
       <main className={styles.main}>
         <header className={styles.header}>
           <span className={styles.eyebrow}>Projects</span>

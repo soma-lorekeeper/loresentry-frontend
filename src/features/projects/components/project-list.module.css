@@ -18,10 +18,40 @@
 
 .userSummary {
   display: grid;
-  grid-template-columns: 32px minmax(0, 1fr);
+  width: 100%;
+  grid-template-columns: 32px minmax(0, 1fr) 16px;
   align-items: center;
   gap: 9px;
-  padding: 4px 6px 12px;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: var(--lk-radius-control);
+  background: transparent;
+  color: var(--lk-color-text-primary);
+  font: inherit;
+  text-align: left;
+}
+
+.userSection {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.userSummary:hover,
+.userSummary:focus-visible,
+.userSummary[aria-expanded="true"] {
+  border-color: var(--lk-color-border-default);
+  background: var(--lk-color-state-selected);
+}
+
+.userSummary:focus-visible {
+  outline: 2px solid var(--lk-color-accent-primary);
+  outline-offset: 2px;
+}
+
+.userSummary > svg {
+  width: 15px;
+  height: 15px;
+  color: var(--lk-color-icon-default);
 }
 
 .avatar {
@@ -37,6 +67,7 @@
 }
 
 .userCopy {
+  display: block;
   min-width: 0;
 }
 
@@ -46,6 +77,57 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.userMenu {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 4px);
+  left: 0;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-raised);
+  box-shadow: 0 4px 16px #00000055;
+}
+
+.userMenu button {
+  display: flex;
+  width: 100%;
+  min-height: 36px;
+  align-items: center;
+  gap: 9px;
+  padding: 0 9px;
+  border: 1px solid transparent;
+  border-radius: var(--lk-radius-control);
+  background: transparent;
+  color: var(--lk-color-text-primary);
+  font: inherit;
+  text-align: left;
+}
+
+.userMenu button:hover,
+.userMenu button:focus-visible {
+  background: var(--lk-color-state-selected);
+}
+
+.userMenu button:focus-visible {
+  outline: 2px solid var(--lk-color-accent-primary);
+  outline-offset: -2px;
+}
+
+.userMenu button svg {
+  width: 16px;
+  height: 16px;
+  color: var(--lk-color-icon-default);
+}
+
+.userMenu .dangerMenuItem {
+  color: var(--lk-color-accent-primary);
 }
 
 .userCopy strong {

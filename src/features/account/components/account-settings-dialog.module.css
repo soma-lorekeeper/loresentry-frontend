@@ -1,0 +1,13 @@
+.dialog {
+  width: min(480px, calc(100vw - 32px));
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-4);
+}
+
+.notice {
+  margin: var(--lk-space-4) 0 0;
+}

@@ -11,7 +11,7 @@ import {
   trashedProjectFixtures,
   type TrashedProjectSummary,
 } from "../project-trash-model";
-import { ProjectSidebar } from "./project-list";
+import { ProjectSidebar } from "./project-sidebar";
 import shellStyles from "./project-list.module.css";
 import styles from "./project-trash.module.css";
 
