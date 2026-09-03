@@ -1,0 +1,690 @@
+{
+  "screenCount": 136,
+  "sources": [
+    "docs/design/workspace/final-validation.md",
+    "docs/design/project-list/frontend-handoff.md",
+    "docs/design/login/frontend-handoff.md"
+  ],
+  "screens": [
+    {
+      "screenNumber": 8,
+      "name": "New Tab · Default",
+      "pencilNodeId": "dtvaQ"
+    },
+    {
+      "screenNumber": 9,
+      "name": "New Tab · No Recent Files",
+      "pencilNodeId": "TMBRe"
+    },
+    {
+      "screenNumber": 10,
+      "name": "Manuscript Editor · Default",
+      "pencilNodeId": "A9Wrm"
+    },
+    {
+      "screenNumber": 11,
+      "name": "Manuscript Editor · AI Chat Open",
+      "pencilNodeId": "iHWvC"
+    },
+    {
+      "screenNumber": 12,
+      "name": "Manuscript Editor · Memo · Work Selected",
+      "pencilNodeId": "BGPNV"
+    },
+    {
+      "screenNumber": 13,
+      "name": "Manuscript Editor · Memo · Manuscript Selected",
+      "pencilNodeId": "dm2JC"
+    },
+    {
+      "screenNumber": 14,
+      "name": "Manuscript Editor · Memo · Below Docked",
+      "pencilNodeId": "GY3eJ"
+    },
+    {
+      "screenNumber": 15,
+      "name": "Manuscript Editor · AI Chat · Session List Open",
+      "pencilNodeId": "azx8U"
+    },
+    {
+      "screenNumber": 16,
+      "name": "Manuscript Editor · AI Chat · Session Menu Open",
+      "pencilNodeId": "qJBRZ"
+    },
+    {
+      "screenNumber": 17,
+      "name": "Manuscript Editor · AI Chat · Session Rename",
+      "pencilNodeId": "W0bpE"
+    },
+    {
+      "screenNumber": 18,
+      "name": "Manuscript Editor · AI Chat · Delete Confirmation",
+      "pencilNodeId": "V3QwF1"
+    },
+    {
+      "screenNumber": 19,
+      "name": "Manuscript Editor · AI Chat · New Session Empty",
+      "pencilNodeId": "RFf3u"
+    },
+    {
+      "screenNumber": 21,
+      "name": "Workspace · Project Switcher Open",
+      "pencilNodeId": "YXcOP"
+    },
+    {
+      "screenNumber": 22,
+      "name": "Workspace · Favorites Menu Open",
+      "pencilNodeId": "tZZM3"
+    },
+    {
+      "screenNumber": 23,
+      "name": "Workspace · Files Menu Open",
+      "pencilNodeId": "oPs13"
+    },
+    {
+      "screenNumber": 24,
+      "name": "Workspace · Tabs Overflow",
+      "pencilNodeId": "Q6a0ol"
+    },
+    {
+      "screenNumber": 25,
+      "name": "Workspace · Tab Reorder",
+      "pencilNodeId": "TeBAK"
+    },
+    {
+      "screenNumber": 26,
+      "name": "Manuscript Editor · Memo Closed · Focus Returned",
+      "pencilNodeId": "sVEg1"
+    },
+    {
+      "screenNumber": 27,
+      "name": "Workspace · User Section Menu Open",
+      "pencilNodeId": "PAM02"
+    },
+    {
+      "screenNumber": 28,
+      "name": "Workspace · File Menu Open",
+      "pencilNodeId": "bleTW"
+    },
+    {
+      "screenNumber": 29,
+      "name": "Workspace · Folder Menu Open",
+      "pencilNodeId": "CVOQc"
+    },
+    {
+      "screenNumber": 30,
+      "name": "Workspace · Trash",
+      "pencilNodeId": "NSDvO"
+    },
+    {
+      "screenNumber": 31,
+      "name": "Workspace · File Create Inline",
+      "pencilNodeId": "jwhkD"
+    },
+    {
+      "screenNumber": 32,
+      "name": "Workspace · Folder Create Inline",
+      "pencilNodeId": "m7kHy"
+    },
+    {
+      "screenNumber": 33,
+      "name": "Workspace · Item Rename Inline",
+      "pencilNodeId": "H9zx7"
+    },
+    {
+      "screenNumber": 34,
+      "name": "Workspace · Item Dragging",
+      "pencilNodeId": "LmEmI"
+    },
+    {
+      "screenNumber": 35,
+      "name": "Workspace · Folder Drop Target",
+      "pencilNodeId": "CMK2T"
+    },
+    {
+      "screenNumber": 36,
+      "name": "Workspace · Favorites Drop Target",
+      "pencilNodeId": "GkSbZ"
+    },
+    {
+      "screenNumber": 37,
+      "name": "Workspace · Trash · Permanent Delete Confirmation",
+      "pencilNodeId": "so8pS"
+    },
+    {
+      "screenNumber": 38,
+      "name": "Workspace · Search · Default",
+      "pencilNodeId": "KVKU8"
+    },
+    {
+      "screenNumber": 39,
+      "name": "Workspace · Search · Input",
+      "pencilNodeId": "GqRoM"
+    },
+    {
+      "screenNumber": 40,
+      "name": "Workspace · Search · Results",
+      "pencilNodeId": "sj1mq"
+    },
+    {
+      "screenNumber": 41,
+      "name": "Workspace · Search · No Results",
+      "pencilNodeId": "gEeY1"
+    },
+    {
+      "screenNumber": 42,
+      "name": "Workspace · Search · Error",
+      "pencilNodeId": "fJm26"
+    },
+    {
+      "screenNumber": 43,
+      "name": "Workspace · Memo · Project",
+      "pencilNodeId": "rWDeP"
+    },
+    {
+      "screenNumber": 44,
+      "name": "Workspace · Memo · File",
+      "pencilNodeId": "o14lL6"
+    },
+    {
+      "screenNumber": 45,
+      "name": "Workspace · Memo · Project Empty",
+      "pencilNodeId": "x8Kpea"
+    },
+    {
+      "screenNumber": 46,
+      "name": "Workspace · Memo · File Empty",
+      "pencilNodeId": "G84QG"
+    },
+    {
+      "screenNumber": 47,
+      "name": "Workspace · Memo · Project New",
+      "pencilNodeId": "RIcSo"
+    },
+    {
+      "screenNumber": 48,
+      "name": "Workspace · Memo · Project Menu Open",
+      "pencilNodeId": "OdGCt"
+    },
+    {
+      "screenNumber": 49,
+      "name": "Workspace · Memo · File Menu Open",
+      "pencilNodeId": "JuOfu"
+    },
+    {
+      "screenNumber": 50,
+      "name": "Workspace · Memo · Delete Confirmation",
+      "pencilNodeId": "d5neDp"
+    },
+    {
+      "screenNumber": 51,
+      "name": "Workspace · Memo · Save Error",
+      "pencilNodeId": "xUHSQ"
+    },
+    {
+      "screenNumber": 52,
+      "name": "Property Document · Setting · Default",
+      "pencilNodeId": "V3E9p"
+    },
+    {
+      "screenNumber": 53,
+      "name": "Property Document · Worldbuilding · Default",
+      "pencilNodeId": "Cr1QM"
+    },
+    {
+      "screenNumber": 54,
+      "name": "Property Document · Place · Default",
+      "pencilNodeId": "A9aCt"
+    },
+    {
+      "screenNumber": 55,
+      "name": "Property Document · Worldbuilding · Empty",
+      "pencilNodeId": "B194Dr"
+    },
+    {
+      "screenNumber": 56,
+      "name": "Property Document · Place · Property Type Open",
+      "pencilNodeId": "Y7tLK"
+    },
+    {
+      "screenNumber": 57,
+      "name": "Property Document · Setting · Saving",
+      "pencilNodeId": "XWX3g"
+    },
+    {
+      "screenNumber": 58,
+      "name": "Property Document · Setting · Save Error",
+      "pencilNodeId": "N05XrO"
+    },
+    {
+      "screenNumber": 59,
+      "name": "Property Document · Character · Default",
+      "pencilNodeId": "S0KR3j"
+    },
+    {
+      "screenNumber": 60,
+      "name": "Property Document · Organization · Default",
+      "pencilNodeId": "HRRGt"
+    },
+    {
+      "screenNumber": 61,
+      "name": "Property Document · Item · Default",
+      "pencilNodeId": "aEeBT"
+    },
+    {
+      "screenNumber": 62,
+      "name": "Property Document · Character · Empty",
+      "pencilNodeId": "ZooEr"
+    },
+    {
+      "screenNumber": 63,
+      "name": "Property Document · Organization · Property Type Open",
+      "pencilNodeId": "R5JCCJ"
+    },
+    {
+      "screenNumber": 64,
+      "name": "Property Document · Item · Save Error",
+      "pencilNodeId": "t3UXM"
+    },
+    {
+      "screenNumber": 65,
+      "name": "Event Timeline · Default",
+      "pencilNodeId": "dCMXt"
+    },
+    {
+      "screenNumber": 66,
+      "name": "Event Timeline · Empty",
+      "pencilNodeId": "PeNqe"
+    },
+    {
+      "screenNumber": 67,
+      "name": "Event Timeline · Selected",
+      "pencilNodeId": "EYGdy"
+    },
+    {
+      "screenNumber": 68,
+      "name": "Event Timeline · Editing",
+      "pencilNodeId": "PmbP9"
+    },
+    {
+      "screenNumber": 69,
+      "name": "Event Timeline · Delete Confirmation",
+      "pencilNodeId": "NcFHe"
+    },
+    {
+      "screenNumber": 70,
+      "name": "Workspace Settings · Default",
+      "pencilNodeId": "EHbKj"
+    },
+    {
+      "screenNumber": 71,
+      "name": "Workspace Settings · Changed",
+      "pencilNodeId": "WFeMQ"
+    },
+    {
+      "screenNumber": 72,
+      "name": "Workspace Settings · Saving",
+      "pencilNodeId": "Mk1yl"
+    },
+    {
+      "screenNumber": 73,
+      "name": "Workspace Settings · Saved",
+      "pencilNodeId": "iEh4S"
+    },
+    {
+      "screenNumber": 74,
+      "name": "Workspace Settings · Save Error",
+      "pencilNodeId": "JfCF1"
+    },
+    {
+      "screenNumber": 75,
+      "name": "Workspace Settings · Unsaved Confirmation",
+      "pencilNodeId": "b5Rlml"
+    },
+    {
+      "screenNumber": 76,
+      "name": "Workspace Settings · Move To Trash Confirmation",
+      "pencilNodeId": "X9umV"
+    },
+    {
+      "screenNumber": 77,
+      "name": "Workspace Help · Default",
+      "pencilNodeId": "Zp4Gq"
+    },
+    {
+      "screenNumber": 78,
+      "name": "Workspace Help · Guide Topics",
+      "pencilNodeId": "p11tW"
+    },
+    {
+      "screenNumber": 79,
+      "name": "Workspace Help · Guide Article",
+      "pencilNodeId": "ZpiZx"
+    },
+    {
+      "screenNumber": 80,
+      "name": "Workspace Help · Feedback Opened",
+      "pencilNodeId": "HIJlb"
+    },
+    {
+      "screenNumber": 81,
+      "name": "Workspace Help · Feedback Open Error",
+      "pencilNodeId": "RxYQ5"
+    },
+    {
+      "screenNumber": 82,
+      "name": "Manuscript Editor · Memo · Right Resized",
+      "pencilNodeId": "o0mGAk"
+    },
+    {
+      "screenNumber": 83,
+      "name": "Manuscript Editor · Memo · Below Resized",
+      "pencilNodeId": "qCzrF"
+    },
+    {
+      "screenNumber": 84,
+      "name": "Manuscript Editor · AI Chat + Memo Below",
+      "pencilNodeId": "peKgW"
+    },
+    {
+      "screenNumber": 85,
+      "name": "Manuscript Editor · Narrow · Memo Collapsed",
+      "pencilNodeId": "B6O42H"
+    },
+    {
+      "screenNumber": 86,
+      "name": "Workspace · User Section Delete Confirmation",
+      "pencilNodeId": "eO5kL"
+    },
+    {
+      "screenNumber": 87,
+      "name": "Workspace · User Section Delete Error",
+      "pencilNodeId": "F9oF1"
+    },
+    {
+      "screenNumber": 88,
+      "name": "Event Timeline · Save Error",
+      "pencilNodeId": "v90GPC"
+    },
+    {
+      "screenNumber": 89,
+      "name": "Workspace Help · Guide Search Empty",
+      "pencilNodeId": "oAP5s"
+    },
+    {
+      "screenNumber": 90,
+      "name": "Workspace Help · Guide Load Error",
+      "pencilNodeId": "i4zE54"
+    },
+    {
+      "screenNumber": 91,
+      "name": "Project List · Default",
+      "pencilNodeId": "BvuoV"
+    },
+    {
+      "screenNumber": 92,
+      "name": "Project List · Card Menu Open",
+      "pencilNodeId": "G3Cvn"
+    },
+    {
+      "screenNumber": 93,
+      "name": "Project List · Empty",
+      "pencilNodeId": "Rpqy3"
+    },
+    {
+      "screenNumber": 94,
+      "name": "Project List · Loading",
+      "pencilNodeId": "z4wuM"
+    },
+    {
+      "screenNumber": 95,
+      "name": "Project List · Error",
+      "pencilNodeId": "sYDj4"
+    },
+    {
+      "screenNumber": 96,
+      "name": "Project Create · Initial",
+      "pencilNodeId": "PzeBB"
+    },
+    {
+      "screenNumber": 97,
+      "name": "Project Create · Required Error",
+      "pencilNodeId": "b7Hoq"
+    },
+    {
+      "screenNumber": 98,
+      "name": "Project Create · Ready",
+      "pencilNodeId": "xiX3C"
+    },
+    {
+      "screenNumber": 99,
+      "name": "Project Create · Submitting",
+      "pencilNodeId": "U83vsD"
+    },
+    {
+      "screenNumber": 100,
+      "name": "Project Create · Server Error",
+      "pencilNodeId": "mD2Vy"
+    },
+    {
+      "screenNumber": 101,
+      "name": "Project Rename · Current",
+      "pencilNodeId": "e2zKG"
+    },
+    {
+      "screenNumber": 102,
+      "name": "Project Rename · Invalid",
+      "pencilNodeId": "z8wIZo"
+    },
+    {
+      "screenNumber": 103,
+      "name": "Project Rename · Ready",
+      "pencilNodeId": "NaYPr"
+    },
+    {
+      "screenNumber": 104,
+      "name": "Project Rename · Saving",
+      "pencilNodeId": "syeZk"
+    },
+    {
+      "screenNumber": 105,
+      "name": "Project Rename · Save Error",
+      "pencilNodeId": "WXPWx"
+    },
+    {
+      "screenNumber": 106,
+      "name": "Project Rename · Success",
+      "pencilNodeId": "wB2c6"
+    },
+    {
+      "screenNumber": 107,
+      "name": "Project Trash Move · Confirmation",
+      "pencilNodeId": "DJf8k"
+    },
+    {
+      "screenNumber": 108,
+      "name": "Project Trash Move · Moving",
+      "pencilNodeId": "xyKPr"
+    },
+    {
+      "screenNumber": 109,
+      "name": "Project Trash Move · Error",
+      "pencilNodeId": "KCK49"
+    },
+    {
+      "screenNumber": 110,
+      "name": "Project Trash Move · Success",
+      "pencilNodeId": "Hhm0r"
+    },
+    {
+      "screenNumber": 111,
+      "name": "Project Trash · Default",
+      "pencilNodeId": "WYBJQ"
+    },
+    {
+      "screenNumber": 112,
+      "name": "Project Trash · Empty",
+      "pencilNodeId": "yvfHX"
+    },
+    {
+      "screenNumber": 113,
+      "name": "Project Trash · Loading",
+      "pencilNodeId": "FogDw"
+    },
+    {
+      "screenNumber": 114,
+      "name": "Project Trash · Load Error",
+      "pencilNodeId": "r5UPt"
+    },
+    {
+      "screenNumber": 115,
+      "name": "Project Trash · Restoring",
+      "pencilNodeId": "tErn6"
+    },
+    {
+      "screenNumber": 116,
+      "name": "Project Trash · Restore Error",
+      "pencilNodeId": "ISCdJ"
+    },
+    {
+      "screenNumber": 117,
+      "name": "Project Trash · Restore Success",
+      "pencilNodeId": "tTF2Z"
+    },
+    {
+      "screenNumber": 118,
+      "name": "Project Trash · Default · Light",
+      "pencilNodeId": "xjwox"
+    },
+    {
+      "screenNumber": 119,
+      "name": "Project Trash · Permanent Delete Confirmation",
+      "pencilNodeId": "BJyvs"
+    },
+    {
+      "screenNumber": 120,
+      "name": "Project Trash · Permanent Deleting",
+      "pencilNodeId": "l8tEHq"
+    },
+    {
+      "screenNumber": 121,
+      "name": "Project Trash · Permanent Delete Error",
+      "pencilNodeId": "tsGQR"
+    },
+    {
+      "screenNumber": 122,
+      "name": "Project Trash · Permanent Delete Success",
+      "pencilNodeId": "xI1cj"
+    },
+    {
+      "screenNumber": 123,
+      "name": "Project List · User Menu Open",
+      "pencilNodeId": "Pr4Vc"
+    },
+    {
+      "screenNumber": 124,
+      "name": "Account Settings · Default",
+      "pencilNodeId": "l6YSG6"
+    },
+    {
+      "screenNumber": 125,
+      "name": "Account Settings · Edited",
+      "pencilNodeId": "YlFtW"
+    },
+    {
+      "screenNumber": 126,
+      "name": "Account Settings · Validation Error",
+      "pencilNodeId": "daOWS"
+    },
+    {
+      "screenNumber": 127,
+      "name": "Account Settings · Saving",
+      "pencilNodeId": "VemT4"
+    },
+    {
+      "screenNumber": 128,
+      "name": "Account Settings · Saved",
+      "pencilNodeId": "Z0yHo"
+    },
+    {
+      "screenNumber": 129,
+      "name": "Account Settings · Save Error",
+      "pencilNodeId": "CbnlA"
+    },
+    {
+      "screenNumber": 130,
+      "name": "Account Settings · Long Values · Light",
+      "pencilNodeId": "Mq1AS"
+    },
+    {
+      "screenNumber": 131,
+      "name": "Project List · Logout Confirmation",
+      "pencilNodeId": "HcLfZ"
+    },
+    {
+      "screenNumber": 132,
+      "name": "Project List · Logout Processing",
+      "pencilNodeId": "y7wxgE"
+    },
+    {
+      "screenNumber": 133,
+      "name": "Project List · Logout Error",
+      "pencilNodeId": "EQJbK"
+    },
+    {
+      "screenNumber": 134,
+      "name": "Project List · Logout Complete",
+      "pencilNodeId": "N5M5TM"
+    },
+    {
+      "screenNumber": 135,
+      "name": "Project Guide · Topics",
+      "pencilNodeId": "K5MEsG"
+    },
+    {
+      "screenNumber": 136,
+      "name": "Project Guide · Article",
+      "pencilNodeId": "j3qmH"
+    },
+    {
+      "screenNumber": 137,
+      "name": "Project List · Feedback Opened",
+      "pencilNodeId": "iZobk"
+    },
+    {
+      "screenNumber": 138,
+      "name": "Project List · Feedback Open Error",
+      "pencilNodeId": "c061WC"
+    },
+    {
+      "screenNumber": 139,
+      "name": "Login · Default",
+      "pencilNodeId": "EwUtO"
+    },
+    {
+      "screenNumber": 140,
+      "name": "Login · Processing",
+      "pencilNodeId": "F4Qlk"
+    },
+    {
+      "screenNumber": 141,
+      "name": "Login · OAuth Canceled",
+      "pencilNodeId": "rENHC"
+    },
+    {
+      "screenNumber": 142,
+      "name": "Login · OAuth Failed",
+      "pencilNodeId": "vJY2I"
+    },
+    {
+      "screenNumber": 143,
+      "name": "Login · Session Expired",
+      "pencilNodeId": "y578o"
+    },
+    {
+      "screenNumber": 144,
+      "name": "Login · Default · Light",
+      "pencilNodeId": "sSVhG"
+    }
+  ]
+}
