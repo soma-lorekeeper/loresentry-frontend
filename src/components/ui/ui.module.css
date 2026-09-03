@@ -235,7 +235,7 @@
 
 .surface[data-elevation="raised"] {
   background: var(--lk-color-surface-raised);
-  box-shadow: 0 4px 16px #00000033;
+  box-shadow: 0 4px 16px #00000055;
 }
 
 .menuRoot {

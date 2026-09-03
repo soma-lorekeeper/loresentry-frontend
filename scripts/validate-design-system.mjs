@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 
 const registryUrl = new URL(
   "../src/design-system/pencil-registry.json",
@@ -10,6 +10,7 @@ const tokenCss = await readFile(
   new URL("../src/design-system/tokens.css", import.meta.url),
   "utf8",
 );
+const sourceRoot = new URL("../src/", import.meta.url);
 
 const unique = (values) => new Set(values).size === values.length;
 const countBy = (items, key) =>
@@ -105,6 +106,59 @@ for (const component of registry.components) {
   );
 }
 
+const allowedCssColors = new Set([
+  "#00000000",
+  "#00000055",
+  "#00000066",
+  "#00000088",
+  "#00000099",
+]);
+const allowedGoogleColors = new Set([
+  "#36a857",
+  "#428af2",
+  "#ea4336",
+  "#f9bb07",
+]);
+const sourceEntries = await readdir(sourceRoot, {
+  recursive: true,
+  withFileTypes: true,
+});
+const colorFailures = [];
+
+for (const entry of sourceEntries) {
+  if (!entry.isFile()) continue;
+  const relativePath =
+    `${entry.parentPath.slice(new URL(sourceRoot).pathname.length)}/${entry.name}`.replace(
+      /^\//,
+      "",
+    );
+  if (
+    relativePath === "design-system/tokens.css" ||
+    relativePath.includes(".test.") ||
+    (!relativePath.endsWith(".css") && !relativePath.endsWith(".tsx"))
+  ) {
+    continue;
+  }
+
+  const source = await readFile(new URL(relativePath, sourceRoot), "utf8");
+  const colors =
+    source.match(/#[0-9a-f]{3,8}\b|(?:rgb|hsl)a?\([^)]*\)/gi) ?? [];
+  for (const rawColor of colors) {
+    const color = rawColor.toLowerCase();
+    const allowed =
+      allowedCssColors.has(color) ||
+      (relativePath === "features/auth/components/login-page.tsx" &&
+        allowedGoogleColors.has(color));
+    if (!allowed) colorFailures.push(`${relativePath}: ${rawColor}`);
+  }
+}
+
+assert.deepEqual(
+  colorFailures,
+  [],
+  "direct colors must be a documented shadow/overlay or Google brand color",
+);
+
 console.log(
-  `Validated ${registry.tokens.length} tokens and ${registry.components.length} components (${registry.components.filter((component) => component.kind === "base").length} base, ${registry.components.filter((component) => component.kind === "state").length} state).`,
+  `Validated ${registry.tokens.length} tokens, ${registry.components.length} components (${registry.components.filter((component) => component.kind === "base").length} base, ${registry.components.filter((component) => component.kind === "state").length} state), and direct color exceptions.`,
 );
