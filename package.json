@@ -11,6 +11,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
+    "test:accessibility": "vitest run accessibility accessibility-coverage component-fixture workspace-core-flow workspace-settings-help-states dialog.test status-notice.test menu.test",
     "test:regression": "vitest run src/integration src/features",
     "typecheck": "tsc --noEmit",
     "check:cdn": "pnpm check:ui && pnpm validate:static",
