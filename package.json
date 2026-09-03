@@ -11,6 +11,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
+    "test:regression": "vitest run src/integration src/features",
     "typecheck": "tsc --noEmit",
     "check:cdn": "pnpm check:ui && pnpm validate:static",
     "check:ui": "pnpm format:check && pnpm validate:design-system && pnpm test && pnpm lint && pnpm typecheck && pnpm build:webpack",
