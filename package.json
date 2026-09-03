@@ -17,6 +17,7 @@
     "check:cdn": "pnpm check:ui && pnpm validate:static",
     "check:ui": "pnpm format:check && pnpm validate:design-system && pnpm validate:layout && pnpm test && pnpm lint && pnpm typecheck && pnpm build:webpack",
     "validate:design-system": "node scripts/validate-design-system.mjs",
+    "validate:handoff": "vitest run src/integration/frontend-handoff.test.ts",
     "validate:layout": "node scripts/validate-layout-contracts.mjs",
     "validate:screens": "vitest run src/design-system/screen-registry.test.ts",
     "validate:static": "node scripts/validate-static-export.mjs"
