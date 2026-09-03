@@ -3,9 +3,12 @@ import type { ReactNode, SVGProps } from "react";
 export type WorkspaceIconName =
   | "arrow-up"
   | "book"
+  | "calendar-days"
   | "character"
   | "check"
   | "circle-alert"
+  | "circle-check"
+  | "circle-help"
   | "cloud-off"
   | "chevron"
   | "chevron-left"
@@ -25,6 +28,7 @@ export type WorkspaceIconName =
   | "item"
   | "lock"
   | "loader-circle"
+  | "list-ordered"
   | "message-square"
   | "memo"
   | "notebook-pen"
@@ -34,12 +38,14 @@ export type WorkspaceIconName =
   | "plus"
   | "pencil"
   | "place"
+  | "rotate-cw"
   | "search"
   | "settings"
   | "setting-file"
   | "sidebar"
   | "sparkles"
   | "trash"
+  | "triangle-alert"
   | "type"
   | "worldbuilding";
 
@@ -49,6 +55,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     <>
       <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H11v15H6.5A2.5 2.5 0 0 0 4 19.5Z" />
       <path d="M20 4.5A2.5 2.5 0 0 0 17.5 2H13v15h4.5a2.5 2.5 0 0 1 2.5 2.5Z" />
+    </>
+  ),
+  "calendar-days": (
+    <>
+      <rect x="3" y="5" width="18" height="16" rx="1" />
+      <path d="M8 3v4M16 3v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01" />
     </>
   ),
   character: (
@@ -62,6 +74,18 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     <>
       <circle cx="12" cy="12" r="9" />
       <path d="M12 7v6M12 17h.01" />
+    </>
+  ),
+  "circle-check": (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="m8 12 2.5 2.5L16 9" />
+    </>
+  ),
+  "circle-help": (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M9.8 9a2.4 2.4 0 1 1 3.4 2.2c-.9.4-1.2 1-1.2 1.8M12 17h.01" />
     </>
   ),
   "cloud-off": (
@@ -150,6 +174,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
       <path d="M16 3h5v5" />
     </>
   ),
+  "list-ordered": (
+    <>
+      <path d="M10 6h11M10 12h11M10 18h11" />
+      <path d="M4 6h1V3M4 11h2l-2 3h2M4 17h2v4H4" />
+    </>
+  ),
   "message-square": (
     <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z" />
   ),
@@ -197,6 +227,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
       <circle cx="12" cy="10" r="2.5" />
     </>
   ),
+  "rotate-cw": (
+    <>
+      <path d="M20 11a8 8 0 1 0-2.3 5.7" />
+      <path d="M20 5v6h-6" />
+    </>
+  ),
   search: (
     <>
       <circle cx="11" cy="11" r="7" />
@@ -231,6 +267,12 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     <>
       <path d="M4 7h16M9 7V4h6v3M7 7l1 14h8l1-14" />
       <path d="M10 11v6M14 11v6" />
+    </>
+  ),
+  "triangle-alert": (
+    <>
+      <path d="M10.3 3.8 2.5 18a2 2 0 0 0 1.8 3h15.4a2 2 0 0 0 1.8-3L13.7 3.8a2 2 0 0 0-3.4 0Z" />
+      <path d="M12 9v4M12 17h.01" />
     </>
   ),
   type: <path d="M5 6V4h14v2M12 4v16M8 20h8" />,

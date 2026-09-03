@@ -61,6 +61,7 @@ export interface PropertyDocument {
 
 export interface PropertyDocumentEditorProps {
   availableFiles?: PropertyReference[];
+  children?: ReactNode;
   document: PropertyDocument;
   documentId: string;
   initialOpenTypeMenuFor?: string;
@@ -195,13 +196,13 @@ function PropertyTypeMenu({
   );
 }
 
-function FileChip({
+export function PropertyFileChip({
   onOpen,
   onRemove,
   reference,
 }: {
   onOpen?: () => void;
-  onRemove: () => void;
+  onRemove?: () => void;
   reference: PropertyReference;
 }) {
   return (
@@ -215,14 +216,16 @@ function FileChip({
         <WorkspaceIcon name={propertyFileIcons[reference.type]} />
         <span>{reference.title}</span>
       </button>
-      <button
-        aria-label={`${reference.title} 참조 제거`}
-        className={styles.fileChipRemove}
-        onClick={onRemove}
-        type="button"
-      >
-        <WorkspaceIcon name="close" />
-      </button>
+      {onRemove && (
+        <button
+          aria-label={`${reference.title} 참조 제거`}
+          className={styles.fileChipRemove}
+          onClick={onRemove}
+          type="button"
+        >
+          <WorkspaceIcon name="close" />
+        </button>
+      )}
     </span>
   );
 }
@@ -405,7 +408,7 @@ function PropertyRow({
         <div className={styles.propertyValue}>
           <div className={styles.referenceList}>
             {property.references.map((reference) => (
-              <FileChip
+              <PropertyFileChip
                 key={reference.id}
                 onOpen={() => onOpenReference?.(reference)}
                 onRemove={() =>
@@ -517,6 +520,7 @@ function PropertyRow({
 
 export function PropertyDocumentEditor({
   availableFiles = [],
+  children,
   document,
   documentId,
   initialOpenTypeMenuFor,
@@ -624,6 +628,8 @@ export function PropertyDocumentEditor({
           </div>
         </section>
 
+        {children}
+
         <label className={styles.bodyField}>
           <span>문서 내용</span>
           <textarea
@@ -664,6 +670,12 @@ export const propertyDocumentSamples: Record<string, PropertyDocument> = {
     ],
     saveStatus: "saved",
     title: "서윤",
+  },
+  event: {
+    body: "유리 등대가 멈춘 밤부터 정원의 기억 항로가 흔들리기 시작했다.",
+    properties: [],
+    saveStatus: "saved",
+    title: "균열의 밤",
   },
   item: {
     body: "균열의 방향을 비추는 오래된 등불이다.",

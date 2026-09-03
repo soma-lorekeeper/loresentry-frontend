@@ -35,6 +35,12 @@ import {
   propertyFileIcons,
 } from "@/features/property/components/property-document";
 import type { PropertyDocumentScenario } from "@/features/property/property-document-states";
+import { EventTimeline } from "@/features/timeline/components/event-timeline";
+import {
+  createInitialTimelineItems,
+  type TimelineItem,
+} from "@/features/timeline/timeline-model";
+import type { TimelineScenario } from "@/features/timeline/timeline-states";
 
 import { WorkspaceIcon, type WorkspaceIconName } from "../icons";
 import type { WorkspaceNavItem } from "../workspace-data";
@@ -325,7 +331,9 @@ interface WorkspaceContentProps {
   activeTab: WorkspaceTab;
   aiChatOpen: boolean;
   deleteMemo?: (memo: MemoDeleteInput) => Promise<void>;
+  deleteTimelineItem?: (documentId: string, itemId: string) => Promise<void>;
   initialPropertyScenario?: PropertyDocumentScenario;
+  initialTimelineScenario?: TimelineScenario;
   onCreateFile: (fileType: string, icon: WorkspaceIconName) => void;
   onOpenSearchResult: (item: WorkspaceNavItem) => void;
   onSearchQueryChange: (query: string) => void;
@@ -341,6 +349,7 @@ interface WorkspaceContentProps {
     documentId: string,
     document: Pick<PropertyDocument, "body" | "properties" | "title">,
   ) => Promise<void>;
+  saveTimelineItem?: (documentId: string, item: TimelineItem) => Promise<void>;
   searchQuery: string;
 }
 
@@ -353,6 +362,7 @@ const availablePropertyFiles: PropertyReference[] = [
   { id: "place", title: "북쪽 온실", type: "place" },
   { id: "place-garden", title: "유리 정원", type: "place" },
   { id: "setting", title: "균열의 법칙", type: "setting" },
+  { id: "event-other", title: "등대의 침묵", type: "event" },
 ];
 
 const propertyDocumentIcons = new Set<WorkspaceIconName>(
@@ -363,7 +373,9 @@ export function WorkspaceContent({
   activeTab,
   aiChatOpen,
   deleteMemo,
+  deleteTimelineItem,
   initialPropertyScenario,
+  initialTimelineScenario,
   onCreateFile,
   onOpenSearchResult,
   onSearchQueryChange,
@@ -373,6 +385,7 @@ export function WorkspaceContent({
   saveManuscript,
   saveMemo,
   savePropertyDocument,
+  saveTimelineItem,
   searchQuery,
 }: WorkspaceContentProps) {
   const [memoOpen, setMemoOpen] = useState(false);
@@ -396,6 +409,12 @@ export function WorkspaceContent({
         }
       : {},
   );
+  const [timelineItems, setTimelineItems] = useState<
+    Record<string, TimelineItem[]>
+  >(() => ({
+    event:
+      initialTimelineScenario?.items ?? createInitialTimelineItems("event"),
+  }));
   const [memoCollections, setMemoCollections] = useState<
     Record<string, MemoCollection>
   >(initialMemoCollections);
@@ -450,6 +469,8 @@ export function WorkspaceContent({
   const currentPropertyDocument =
     propertyDocuments[activeTab.id] ??
     createInitialPropertyDocument(activeTab.id, activeTab.label);
+  const currentTimelineItems =
+    timelineItems[activeTab.id] ?? createInitialTimelineItems(activeTab.id);
   const currentMemoCollection =
     memoCollections[projectId] ?? emptyMemoCollection();
   const currentMemoScope = memoScopes[projectId] ?? "project";
@@ -936,7 +957,45 @@ export function WorkspaceContent({
             }
             onRetrySave={() => retryPropertySave(activeTab.id)}
             saveAvailable={Boolean(savePropertyDocument)}
-          />
+          >
+            {activeTab.icon === "event" && (
+              <EventTimeline
+                availableFiles={availablePropertyFiles}
+                deleteItem={
+                  deleteTimelineItem
+                    ? (itemId) => deleteTimelineItem(activeTab.id, itemId)
+                    : undefined
+                }
+                eventTitle={currentPropertyDocument.title}
+                initialScenario={
+                  initialTimelineScenario?.stateId && activeTab.id === "event"
+                    ? initialTimelineScenario
+                    : undefined
+                }
+                items={currentTimelineItems}
+                onItemsChange={(nextItems) =>
+                  setTimelineItems((current) => ({
+                    ...current,
+                    [activeTab.id]: nextItems,
+                  }))
+                }
+                onOpenReference={(reference) =>
+                  onOpenSearchResult({
+                    contentId: reference.id,
+                    icon: propertyFileIcons[reference.type],
+                    id: reference.id,
+                    kind: "file",
+                    label: reference.title,
+                  })
+                }
+                saveItem={
+                  saveTimelineItem
+                    ? (item) => saveTimelineItem(activeTab.id, item)
+                    : undefined
+                }
+              />
+            )}
+          </PropertyDocumentEditor>
         </FileMemoWorkspace>
       ) : activeTab.isFile && activeTab.icon === "file" ? (
         <FileMemoWorkspace
