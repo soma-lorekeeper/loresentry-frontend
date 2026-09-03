@@ -28,6 +28,7 @@ export type WorkspaceIconName =
   | "item"
   | "lock"
   | "loader-circle"
+  | "log-out"
   | "list-ordered"
   | "message-square"
   | "memo"
@@ -172,6 +173,11 @@ const paths: Record<WorkspaceIconName, ReactNode> = {
     <>
       <path d="M21 12a9 9 0 1 1-5.3-8.2" />
       <path d="M16 3h5v5" />
+    </>
+  ),
+  "log-out": (
+    <>
+      <path d="M10 5H5v14h5M13 8l4 4-4 4M9 12h8" />
     </>
   ),
   "list-ordered": (

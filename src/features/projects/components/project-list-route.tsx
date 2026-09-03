@@ -31,6 +31,7 @@ export function ProjectListRoute() {
       initialAccountState={globalScenario?.accountState}
       initialCreateState={scenario?.createState}
       initialListStatus={scenario?.listStatus}
+      initialLogoutState={globalScenario?.logoutState}
       initialMenuProjectId={
         scenario?.menuOpen ? projectFixtures[0].id : undefined
       }

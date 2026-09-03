@@ -10,6 +10,7 @@ import {
 
 import { Button, StatusNotice } from "@/components/ui";
 import type { AccountSettingsState } from "@/features/account/components/account-settings-dialog";
+import type { LogoutState } from "@/features/account/components/logout-dialog";
 import type { AccountProfile } from "@/features/account/account-model";
 import { WorkspaceIcon } from "@/features/workspace/icons";
 
@@ -37,6 +38,7 @@ import { ProjectSidebar } from "./project-sidebar";
 export interface ProjectListProps {
   initialAccountState?: AccountSettingsState | "user-menu-open";
   initialAccountProfile?: AccountProfile;
+  initialLogoutState?: LogoutState;
   createProject?: (input: { title: string }) => Promise<CreateProjectResult>;
   initialCreateState?: CreateProjectState;
   initialListStatus?: ProjectListStatus;
@@ -47,9 +49,11 @@ export interface ProjectListProps {
   initialTrashState?: TrashProjectState;
   loadProjects?: () => Promise<ProjectSummary[]>;
   moveProjectToTrash?: (projectId: string) => Promise<void>;
+  logout?: () => Promise<void>;
   onCreateRequest?: () => void;
   onProjectCreated?: (project: ProjectSummary) => void;
   onMoveToTrashRequest?: (project: ProjectSummary) => void;
+  onNavigateToLogin?: () => void;
   onOpenProject?: (projectId: string) => void;
   onRenameRequest?: (project: ProjectSummary) => void;
   renameProject?: (projectId: string, title: string) => Promise<void>;
@@ -233,6 +237,7 @@ export function ProjectList({
   createProject,
   initialAccountProfile,
   initialAccountState,
+  initialLogoutState,
   initialCreateState,
   initialListStatus,
   initialMenuProjectId,
@@ -241,10 +246,12 @@ export function ProjectList({
   initialRenameState,
   initialTrashState,
   loadProjects,
+  logout,
   moveProjectToTrash,
   onCreateRequest,
   onProjectCreated,
   onMoveToTrashRequest,
+  onNavigateToLogin,
   onOpenProject,
   onRenameRequest,
   renameProject,
@@ -341,7 +348,10 @@ export function ProjectList({
     <div className={styles.shell}>
       <ProjectSidebar
         initialAccountState={initialAccountState}
+        initialLogoutState={initialLogoutState}
         initialProfile={initialAccountProfile}
+        logout={logout}
+        onNavigateToLogin={onNavigateToLogin}
         updateAccount={updateAccount}
       />
       <main className={styles.main}>

@@ -1,4 +1,5 @@
 import type { AccountSettingsState } from "./components/account-settings-dialog";
+import type { LogoutState } from "./components/logout-dialog";
 import { type AccountProfile, longAccountProfile } from "./account-model";
 
 export const ACCOUNT_GLOBAL_SCREEN_STATES = [
@@ -50,13 +51,38 @@ export const ACCOUNT_GLOBAL_SCREEN_STATES = [
     screenNumber: 130,
     theme: "light",
   },
+  {
+    id: "logout-confirmation",
+    logoutState: "confirmation",
+    pencilNodeId: "HcLfZ",
+    screenNumber: 131,
+  },
+  {
+    id: "logout-processing",
+    logoutState: "processing",
+    pencilNodeId: "y7wxgE",
+    screenNumber: 132,
+  },
+  {
+    id: "logout-error",
+    logoutState: "error",
+    pencilNodeId: "EQJbK",
+    screenNumber: 133,
+  },
+  {
+    id: "logout-complete",
+    logoutState: "complete",
+    pencilNodeId: "N5M5TM",
+    screenNumber: 134,
+  },
 ] as const;
 
 export type AccountGlobalStateId =
   (typeof ACCOUNT_GLOBAL_SCREEN_STATES)[number]["id"];
 
 export interface AccountGlobalScenario {
-  accountState: AccountSettingsState | "user-menu-open";
+  accountState?: AccountSettingsState | "user-menu-open";
+  logoutState?: LogoutState;
   profile?: AccountProfile;
   theme?: "dark" | "light";
 }
@@ -77,7 +103,11 @@ export function getAccountGlobalScenario(
     accountState:
       state.id === "user-menu-open"
         ? "user-menu-open"
-        : (state.accountState as AccountSettingsState),
+        : "accountState" in state
+          ? (state.accountState as AccountSettingsState)
+          : undefined,
+    logoutState:
+      "logoutState" in state ? (state.logoutState as LogoutState) : undefined,
     profile:
       state.id === "account-settings-long-values-light"
         ? longAccountProfile

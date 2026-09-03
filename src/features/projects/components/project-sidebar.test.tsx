@@ -90,4 +90,23 @@ describe("ProjectSidebar account settings", () => {
       screen.getByRole("textbox", { name: /Google 계정 이메일/ }),
     ).toHaveValue(longAccountProfile.email);
   });
+
+  it("returns focus to logout in the reopened user menu after cancel", async () => {
+    const user = userEvent.setup();
+    render(<ProjectSidebar />);
+
+    await user.click(screen.getByRole("button", { name: /사용자 메뉴/ }));
+    await user.click(screen.getByRole("menuitem", { name: "로그아웃" }));
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "취소" })).toHaveFocus(),
+    );
+    await user.click(screen.getByRole("button", { name: "취소" }));
+
+    const menu = await screen.findByRole("menu", { name: "사용자 메뉴" });
+    await waitFor(() =>
+      expect(
+        within(menu).getByRole("menuitem", { name: "로그아웃" }),
+      ).toHaveFocus(),
+    );
+  });
 });

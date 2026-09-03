@@ -8,6 +8,10 @@ import {
   type AccountSettingsState,
 } from "@/features/account/components/account-settings-dialog";
 import {
+  LogoutDialog,
+  type LogoutState,
+} from "@/features/account/components/logout-dialog";
+import {
   type AccountProfile,
   defaultAccountProfile,
 } from "@/features/account/account-model";
@@ -18,7 +22,10 @@ import styles from "./project-list.module.css";
 export interface ProjectSidebarProps {
   current?: "guide" | "list" | "trash";
   initialAccountState?: AccountSettingsState | "user-menu-open";
+  initialLogoutState?: LogoutState;
   initialProfile?: AccountProfile;
+  logout?: () => Promise<void>;
+  onNavigateToLogin?: () => void;
   onLogoutRequest?: (returnFocus: HTMLButtonElement) => void;
   onProfileUpdated?: (profile: AccountProfile) => void;
   updateAccount?: (input: { name: string }) => Promise<void>;
@@ -27,7 +34,10 @@ export interface ProjectSidebarProps {
 export function ProjectSidebar({
   current = "list",
   initialAccountState,
+  initialLogoutState,
   initialProfile = defaultAccountProfile,
+  logout,
+  onNavigateToLogin,
   onLogoutRequest,
   onProfileUpdated,
   updateAccount,
@@ -39,6 +49,7 @@ export function ProjectSidebar({
   const [accountOpen, setAccountOpen] = useState(
     Boolean(initialAccountState && initialAccountState !== "user-menu-open"),
   );
+  const [logoutOpen, setLogoutOpen] = useState(Boolean(initialLogoutState));
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const settingsRef = useRef<HTMLButtonElement>(null);
@@ -144,13 +155,14 @@ export function ProjectSidebar({
               className={styles.dangerMenuItem}
               onClick={() => {
                 setMenuOpen(false);
+                setLogoutOpen(true);
                 if (logoutRef.current) onLogoutRequest?.(logoutRef.current);
               }}
               ref={logoutRef}
               role="menuitem"
               type="button"
             >
-              <WorkspaceIcon name="external-link" />
+              <WorkspaceIcon name="log-out" />
               로그아웃
             </button>
           </div>
@@ -216,6 +228,21 @@ export function ProjectSidebar({
         open={accountOpen}
         profile={profile}
         updateAccount={updateAccount}
+      />
+      <LogoutDialog
+        initialState={initialLogoutState}
+        logout={logout}
+        onNavigateToLogin={onNavigateToLogin}
+        onOpenChange={(open) => {
+          setLogoutOpen(open);
+          if (open) return;
+          setMenuOpen(true);
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() => logoutRef.current?.focus()),
+          );
+        }}
+        open={logoutOpen}
+        profile={profile}
       />
     </aside>
   );
