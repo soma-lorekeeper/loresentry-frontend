@@ -239,4 +239,58 @@ describe("ProjectList", () => {
     );
     expect(screen.getByRole("dialog")).toBeVisible();
   });
+
+  it("moves a project to trash once and announces recoverability", async () => {
+    const user = userEvent.setup();
+    const moveProjectToTrash = vi.fn().mockResolvedValue(undefined);
+    render(<ProjectList moveProjectToTrash={moveProjectToTrash} />);
+    await user.click(
+      screen.getByRole("button", {
+        name: "별빛 아래 마지막 약속 — 장편 프로젝트 더 보기",
+      }),
+    );
+    await user.click(screen.getByRole("menuitem", { name: "휴지통으로 이동" }));
+    expect(screen.getByRole("dialog")).toHaveTextContent(
+      "별빛 아래 마지막 약속 — 장편 프로젝트",
+    );
+    expect(screen.getByRole("button", { name: "취소" })).toHaveFocus();
+
+    await user.click(screen.getByRole("button", { name: "휴지통으로 이동" }));
+    expect(moveProjectToTrash).toHaveBeenCalledOnce();
+    expect(
+      await screen.findByText(/휴지통에서 복원할 수 있습니다/),
+    ).toBeVisible();
+    expect(
+      screen.queryByRole("article", {
+        name: /별빛 아래 마지막 약속/,
+      }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("keeps trash context and supports retry after a backend failure", async () => {
+    const user = userEvent.setup();
+    const moveProjectToTrash = vi
+      .fn()
+      .mockRejectedValueOnce(new Error("offline"))
+      .mockResolvedValueOnce(undefined);
+    render(
+      <ProjectList
+        initialTrashState="confirmation"
+        moveProjectToTrash={moveProjectToTrash}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "휴지통으로 이동" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "프로젝트를 이동하지 못했어요. 다시 시도해 주세요.",
+    );
+    expect(screen.getByRole("dialog")).toHaveTextContent(
+      "별빛 아래 마지막 약속 — 장편 프로젝트",
+    );
+    await user.click(screen.getByRole("button", { name: "다시 시도" }));
+    expect(
+      await screen.findByText(/휴지통에서 복원할 수 있습니다/),
+    ).toBeVisible();
+    expect(moveProjectToTrash).toHaveBeenCalledTimes(2);
+  });
 });

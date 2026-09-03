@@ -26,6 +26,10 @@ import {
   RenameProjectDialog,
   type RenameProjectState,
 } from "./rename-project-dialog";
+import {
+  TrashProjectDialog,
+  type TrashProjectState,
+} from "./trash-project-dialog";
 import styles from "./project-list.module.css";
 
 export interface ProjectListProps {
@@ -36,7 +40,9 @@ export interface ProjectListProps {
   initialProjects?: ProjectSummary[];
   initialSelectedProjectId?: string;
   initialRenameState?: RenameProjectState;
+  initialTrashState?: TrashProjectState;
   loadProjects?: () => Promise<ProjectSummary[]>;
+  moveProjectToTrash?: (projectId: string) => Promise<void>;
   onCreateRequest?: () => void;
   onProjectCreated?: (project: ProjectSummary) => void;
   onMoveToTrashRequest?: (project: ProjectSummary) => void;
@@ -97,7 +103,7 @@ function ProjectCard({
   selected,
 }: {
   initialMenuOpen?: boolean;
-  onMoveToTrashRequest?: () => void;
+  onMoveToTrashRequest?: (returnFocus: HTMLButtonElement) => void;
   onOpen: () => void;
   onRenameRequest?: (returnFocus: HTMLButtonElement) => void;
   project: ProjectSummary;
@@ -241,7 +247,11 @@ function ProjectCard({
             이름 변경
           </button>
           <button
-            onClick={() => runMenuAction(onMoveToTrashRequest)}
+            onClick={() =>
+              runMenuAction(() => {
+                if (moreRef.current) onMoveToTrashRequest?.(moreRef.current);
+              })
+            }
             role="menuitem"
             type="button"
           >
@@ -262,7 +272,9 @@ export function ProjectList({
   initialProjects = projectFixtures,
   initialSelectedProjectId,
   initialRenameState,
+  initialTrashState,
   loadProjects,
+  moveProjectToTrash,
   onCreateRequest,
   onProjectCreated,
   onMoveToTrashRequest,
@@ -284,7 +296,29 @@ export function ProjectList({
   const [renameSuccess, setRenameSuccess] = useState(
     initialRenameState === "success",
   );
-  const [projects, setProjects] = useState(() => sortProjects(initialProjects));
+  const [trashingProject, setTrashingProject] = useState<
+    ProjectSummary | undefined
+  >(
+    initialTrashState && initialTrashState !== "success"
+      ? initialProjects[0]
+      : undefined,
+  );
+  const [trashReturnFocus, setTrashReturnFocus] =
+    useState<HTMLButtonElement | null>(null);
+  const [trashSuccess, setTrashSuccess] = useState(
+    initialTrashState === "success",
+  );
+  const [projects, setProjects] = useState(() => {
+    const seeded =
+      initialTrashState === "success"
+        ? initialProjects.slice(1)
+        : initialRenameState === "success"
+          ? initialProjects.map((project, index) =>
+              index === 0 ? { ...project, title: "유리 정원의 기록" } : project,
+            )
+          : initialProjects;
+    return sortProjects(seeded);
+  });
   const [listStatus, setListStatus] = useState<ProjectListStatus>(
     initialListStatus ?? (initialProjects.length === 0 ? "empty" : "ready"),
   );
@@ -379,7 +413,12 @@ export function ProjectList({
               <ProjectCard
                 initialMenuOpen={initialMenuProjectId === project.id}
                 key={project.id}
-                onMoveToTrashRequest={() => onMoveToTrashRequest?.(project)}
+                onMoveToTrashRequest={(returnFocus) => {
+                  setTrashReturnFocus(returnFocus);
+                  setTrashingProject(project);
+                  setTrashSuccess(false);
+                  onMoveToTrashRequest?.(project);
+                }}
                 onOpen={() => openProject(project.id)}
                 onRenameRequest={(returnFocus) => {
                   setRenameReturnFocus(returnFocus);
@@ -395,6 +434,11 @@ export function ProjectList({
         {renameSuccess && (
           <StatusNotice className={styles.successNotice} variant="success">
             프로젝트 이름을 변경했어요.
+          </StatusNotice>
+        )}
+        {trashSuccess && (
+          <StatusNotice className={styles.successNotice} variant="success">
+            프로젝트를 휴지통으로 이동했어요. 휴지통에서 복원할 수 있습니다.
           </StatusNotice>
         )}
       </main>
@@ -430,6 +474,24 @@ export function ProjectList({
         project={renamingProject}
         renameProject={renameProject}
         returnFocus={renameReturnFocus}
+      />
+      <TrashProjectDialog
+        initialState={initialTrashState}
+        key={trashingProject?.id ?? "trash-closed"}
+        moveProjectToTrash={moveProjectToTrash}
+        onMoved={(project) => {
+          setProjects((current) =>
+            current.filter((item) => item.id !== project.id),
+          );
+          setTrashSuccess(true);
+          if (selectedId === project.id) setSelectedId(undefined);
+        }}
+        onOpenChange={(open) => {
+          if (!open) setTrashingProject(undefined);
+        }}
+        open={Boolean(trashingProject)}
+        project={trashingProject}
+        returnFocus={trashReturnFocus}
       />
     </div>
   );

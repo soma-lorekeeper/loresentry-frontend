@@ -473,6 +473,24 @@
   margin: 22px auto 0;
 }
 
+.trashTarget {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding: 0 12px;
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-default);
+}
+
+.trashTarget svg {
+  width: 17px;
+  height: 17px;
+  color: var(--lk-color-icon-default);
+}
+
 @keyframes skeletonPulse {
   from {
     opacity: 0.45;
