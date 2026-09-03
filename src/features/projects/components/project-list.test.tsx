@@ -189,4 +189,54 @@ describe("ProjectList", () => {
       await screen.findByText("같은 제목의 프로젝트가 이미 있어요."),
     ).toBeVisible();
   });
+
+  it("renames through the backend, updates the card, and restores menu focus", async () => {
+    const user = userEvent.setup();
+    const renameProject = vi.fn().mockResolvedValue(undefined);
+    render(<ProjectList renameProject={renameProject} />);
+    const more = screen.getByRole("button", {
+      name: "별빛 아래 마지막 약속 — 장편 프로젝트 더 보기",
+    });
+
+    await user.click(more);
+    await user.click(screen.getByRole("menuitem", { name: "이름 변경" }));
+    const input = screen.getByRole("textbox", { name: /프로젝트 제목/ });
+    expect(
+      screen.getByRole("button", { name: "변경사항 저장" }),
+    ).toBeDisabled();
+    await user.clear(input);
+    await user.type(input, "  새 프로젝트 이름  ");
+    await user.click(screen.getByRole("button", { name: "변경사항 저장" }));
+
+    expect(renameProject).toHaveBeenCalledWith(
+      "glass-garden",
+      "새 프로젝트 이름",
+    );
+    expect(
+      await screen.findByText("프로젝트 이름을 변경했어요."),
+    ).toBeVisible();
+    expect(
+      screen.getByRole("article", { name: "프로젝트 새 프로젝트 이름" }),
+    ).toBeVisible();
+    await waitFor(() => expect(more).toHaveFocus());
+  });
+
+  it("preserves the rename draft and dialog after a backend failure", async () => {
+    const user = userEvent.setup();
+    render(
+      <ProjectList
+        initialRenameState="ready"
+        renameProject={vi.fn().mockRejectedValue(new Error("offline"))}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "변경사항 저장" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "프로젝트 이름을 변경하지 못했어요.",
+    );
+    expect(screen.getByRole("textbox", { name: /프로젝트 제목/ })).toHaveValue(
+      "별빛 아래 마지막 약속 — 장편 프로젝트 개정판",
+    );
+    expect(screen.getByRole("dialog")).toBeVisible();
+  });
 });

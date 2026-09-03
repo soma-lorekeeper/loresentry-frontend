@@ -468,6 +468,11 @@
   margin-top: -4px;
 }
 
+.successNotice {
+  max-width: 1220px;
+  margin: 22px auto 0;
+}
+
 @keyframes skeletonPulse {
   from {
     opacity: 0.45;

@@ -22,6 +22,10 @@ import {
   type CreateProjectResult,
   type CreateProjectState,
 } from "./create-project-dialog";
+import {
+  RenameProjectDialog,
+  type RenameProjectState,
+} from "./rename-project-dialog";
 import styles from "./project-list.module.css";
 
 export interface ProjectListProps {
@@ -31,12 +35,14 @@ export interface ProjectListProps {
   initialMenuProjectId?: string;
   initialProjects?: ProjectSummary[];
   initialSelectedProjectId?: string;
+  initialRenameState?: RenameProjectState;
   loadProjects?: () => Promise<ProjectSummary[]>;
   onCreateRequest?: () => void;
   onProjectCreated?: (project: ProjectSummary) => void;
   onMoveToTrashRequest?: (project: ProjectSummary) => void;
   onOpenProject?: (projectId: string) => void;
   onRenameRequest?: (project: ProjectSummary) => void;
+  renameProject?: (projectId: string, title: string) => Promise<void>;
 }
 
 export type ProjectListStatus = "empty" | "error" | "loading" | "ready";
@@ -93,7 +99,7 @@ function ProjectCard({
   initialMenuOpen?: boolean;
   onMoveToTrashRequest?: () => void;
   onOpen: () => void;
-  onRenameRequest?: () => void;
+  onRenameRequest?: (returnFocus: HTMLButtonElement) => void;
   project: ProjectSummary;
   selected: boolean;
 }) {
@@ -223,7 +229,11 @@ function ProjectCard({
           role="menu"
         >
           <button
-            onClick={() => runMenuAction(onRenameRequest)}
+            onClick={() =>
+              runMenuAction(() => {
+                if (moreRef.current) onRenameRequest?.(moreRef.current);
+              })
+            }
             role="menuitem"
             type="button"
           >
@@ -251,15 +261,29 @@ export function ProjectList({
   initialMenuProjectId,
   initialProjects = projectFixtures,
   initialSelectedProjectId,
+  initialRenameState,
   loadProjects,
   onCreateRequest,
   onProjectCreated,
   onMoveToTrashRequest,
   onOpenProject,
   onRenameRequest,
+  renameProject,
 }: ProjectListProps) {
   const [selectedId, setSelectedId] = useState(initialSelectedProjectId);
   const [createOpen, setCreateOpen] = useState(Boolean(initialCreateState));
+  const [renamingProject, setRenamingProject] = useState<
+    ProjectSummary | undefined
+  >(
+    initialRenameState && initialRenameState !== "success"
+      ? initialProjects[0]
+      : undefined,
+  );
+  const [renameReturnFocus, setRenameReturnFocus] =
+    useState<HTMLButtonElement | null>(null);
+  const [renameSuccess, setRenameSuccess] = useState(
+    initialRenameState === "success",
+  );
   const [projects, setProjects] = useState(() => sortProjects(initialProjects));
   const [listStatus, setListStatus] = useState<ProjectListStatus>(
     initialListStatus ?? (initialProjects.length === 0 ? "empty" : "ready"),
@@ -357,12 +381,22 @@ export function ProjectList({
                 key={project.id}
                 onMoveToTrashRequest={() => onMoveToTrashRequest?.(project)}
                 onOpen={() => openProject(project.id)}
-                onRenameRequest={() => onRenameRequest?.(project)}
+                onRenameRequest={(returnFocus) => {
+                  setRenameReturnFocus(returnFocus);
+                  setRenamingProject(project);
+                  setRenameSuccess(false);
+                  onRenameRequest?.(project);
+                }}
                 project={project}
                 selected={selectedId === project.id}
               />
             ))}
         </section>
+        {renameSuccess && (
+          <StatusNotice className={styles.successNotice} variant="success">
+            프로젝트 이름을 변경했어요.
+          </StatusNotice>
+        )}
       </main>
       <CreateProjectDialog
         createProject={createProject}
@@ -375,6 +409,27 @@ export function ProjectList({
         }}
         onOpenChange={setCreateOpen}
         open={createOpen}
+      />
+      <RenameProjectDialog
+        initialState={initialRenameState}
+        key={renamingProject?.id ?? "closed"}
+        onOpenChange={(open) => {
+          if (!open) setRenamingProject(undefined);
+        }}
+        onRenamed={(projectId, title) => {
+          setProjects((current) =>
+            sortProjects(
+              current.map((project) =>
+                project.id === projectId ? { ...project, title } : project,
+              ),
+            ),
+          );
+          setRenameSuccess(true);
+        }}
+        open={Boolean(renamingProject)}
+        project={renamingProject}
+        renameProject={renameProject}
+        returnFocus={renameReturnFocus}
       />
     </div>
   );
