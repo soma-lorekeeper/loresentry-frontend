@@ -20474,6 +20474,886 @@
           }
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "iiMlX",
+      "x": 23327,
+      "y": 0,
+      "name": "Timeline / Table",
+      "reusable": true,
+      "clip": true,
+      "width": 1204,
+      "height": 800,
+      "fill": "$color-bg-canvas",
+      "layout": "none",
+      "children": [
+        {
+          "type": "script",
+          "id": "rY9aT",
+          "x": 0,
+          "y": 0,
+          "name": "Timeline Table Script",
+          "width": 1204,
+          "height": 800,
+          "scriptUri": "timeline-table.js",
+          "inputs": {
+            "columnCount": 18,
+            "focusColumn": 4,
+            "varPrefix": ""
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "gNoAJ",
+      "x": 23327,
+      "y": 1000,
+      "name": "Timeline / Toolbar",
+      "reusable": true,
+      "width": 1204,
+      "height": 48,
+      "fill": "$color-surface-topbar",
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "bottom": 1
+      },
+      "gap": "$space-3",
+      "padding": [
+        0,
+        "$space-4"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "g49MVf",
+          "name": "Timeline Toolbar Episode Menu",
+          "height": 28,
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-2"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "t6xeqn",
+              "name": "Timeline Toolbar Episode Caption",
+              "fill": "$color-text-secondary",
+              "content": "에피소드",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "JiqzD",
+              "name": "Timeline Toolbar Episode Value",
+              "fill": "$color-text-primary",
+              "content": "전체",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            },
+            {
+              "type": "icon",
+              "id": "m3LlTt",
+              "name": "Timeline Toolbar Episode Chevron",
+              "width": 13,
+              "height": 13,
+              "icon": "chevron-down",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "grXpF",
+          "name": "Timeline Toolbar Chapter Nav",
+          "height": 28,
+          "fill": "$color-surface-icon",
+          "cornerRadius": "$radius-control",
+          "gap": 2,
+          "padding": 2,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "WyWzW",
+              "type": "ref",
+              "ref": "hMpn5",
+              "name": "Timeline Toolbar Prev",
+              "width": 24,
+              "height": 24,
+              "descendants": {
+                "UCRf6": {
+                  "icon": "chevron-left",
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "text",
+              "id": "P0Kduc",
+              "name": "Timeline Toolbar Chapter Name",
+              "fill": "$color-text-primary",
+              "content": "9화",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "600"
+            },
+            {
+              "id": "j5lyo5",
+              "type": "ref",
+              "ref": "hMpn5",
+              "name": "Timeline Toolbar Next",
+              "width": 24,
+              "height": 24,
+              "descendants": {
+                "UCRf6": {
+                  "icon": "chevron-right",
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "pIxIp",
+          "name": "Timeline Toolbar Spacer",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "id": "gxFtX",
+          "type": "ref",
+          "ref": "hMpn5",
+          "name": "Timeline Toolbar Row Filter",
+          "width": 28,
+          "height": 28,
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "descendants": {
+            "UCRf6": {
+              "icon": "list-filter"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "EGHZx",
+      "x": 23327,
+      "y": 1248,
+      "name": "Timeline / Row Filter / Open",
+      "reusable": true,
+      "width": 240,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000055",
+        "offset": {
+          "x": 0,
+          "y": 4
+        },
+        "blur": 16
+      },
+      "layout": "vertical",
+      "gap": "$space-1",
+      "padding": "$space-2",
+      "children": [
+        {
+          "type": "frame",
+          "id": "m0Hmz",
+          "name": "Row Filter Input",
+          "width": "fill_container",
+          "height": 32,
+          "fill": "$color-surface-default",
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "OIO2n",
+              "name": "Row Filter Input Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "search",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "Yc5IU",
+              "name": "Row Filter Input Text",
+              "fill": "$color-text-secondary",
+              "content": "이름으로 찾기",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "LYsOu",
+          "name": "Row Filter Row 김독자",
+          "width": "fill_container",
+          "height": 30,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-2"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "ng2yB",
+              "name": "Row Filter Check 김독자",
+              "width": 14,
+              "height": 14,
+              "icon": "square-check",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "ellipse",
+              "id": "iuxYo",
+              "name": "Row Filter Dot 김독자",
+              "fill": "$color-node-character",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "icon",
+              "id": "Grj15",
+              "name": "Row Filter Icon 김독자",
+              "width": 14,
+              "height": 14,
+              "icon": "circle-user-round",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "w9K2Y",
+              "name": "Row Filter Label 김독자",
+              "fill": "$color-text-primary",
+              "content": "김독자",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "Y9zSSo",
+              "name": "Row Filter Spacer 김독자",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "text",
+              "id": "SDYyb",
+              "name": "Row Filter Kind 김독자",
+              "fill": "$color-text-secondary",
+              "content": "캐릭터",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "xTtob",
+          "name": "Row Filter Row 유중혁",
+          "width": "fill_container",
+          "height": 30,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-2"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "Zz8VS",
+              "name": "Row Filter Check 유중혁",
+              "width": 14,
+              "height": 14,
+              "icon": "square-check",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "ellipse",
+              "id": "AxMSw",
+              "name": "Row Filter Dot 유중혁",
+              "fill": "$color-node-character",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "icon",
+              "id": "K01B5",
+              "name": "Row Filter Icon 유중혁",
+              "width": 14,
+              "height": 14,
+              "icon": "circle-user-round",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "GFSbq",
+              "name": "Row Filter Label 유중혁",
+              "fill": "$color-text-primary",
+              "content": "유중혁",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "W9tgi",
+              "name": "Row Filter Spacer 유중혁",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "text",
+              "id": "IadRR",
+              "name": "Row Filter Kind 유중혁",
+              "fill": "$color-text-secondary",
+              "content": "캐릭터",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "J7tWp",
+          "name": "Row Filter Row 유리 산맥",
+          "width": "fill_container",
+          "height": 30,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-2"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "Tvkjr",
+              "name": "Row Filter Check 유리 산맥",
+              "width": 14,
+              "height": 14,
+              "icon": "square",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "ellipse",
+              "id": "P4m1k",
+              "name": "Row Filter Dot 유리 산맥",
+              "fill": "$color-node-place",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "icon",
+              "id": "RXdGy",
+              "name": "Row Filter Icon 유리 산맥",
+              "width": 14,
+              "height": 14,
+              "icon": "map-pin",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "q7GhD",
+              "name": "Row Filter Label 유리 산맥",
+              "fill": "$color-text-primary",
+              "content": "유리 산맥",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "RxW6U",
+              "name": "Row Filter Spacer 유리 산맥",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "text",
+              "id": "bXrJj",
+              "name": "Row Filter Kind 유리 산맥",
+              "fill": "$color-text-secondary",
+              "content": "장소",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "WXZfm",
+          "name": "Row Filter Row 은빛 항해단",
+          "width": "fill_container",
+          "height": 30,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-2"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "T53Hb",
+              "name": "Row Filter Check 은빛 항해단",
+              "width": 14,
+              "height": 14,
+              "icon": "square",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "ellipse",
+              "id": "jYGJG",
+              "name": "Row Filter Dot 은빛 항해단",
+              "fill": "$color-node-organization",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "icon",
+              "id": "B28qU",
+              "name": "Row Filter Icon 은빛 항해단",
+              "width": 14,
+              "height": 14,
+              "icon": "building-2",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "c4aifX",
+              "name": "Row Filter Label 은빛 항해단",
+              "fill": "$color-text-primary",
+              "content": "은빛 항해단",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "MpNGw",
+              "name": "Row Filter Spacer 은빛 항해단",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "text",
+              "id": "h7gwwW",
+              "name": "Row Filter Kind 은빛 항해단",
+              "fill": "$color-text-secondary",
+              "content": "조직",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Qqs1M",
+          "name": "Row Filter Row 각성",
+          "width": "fill_container",
+          "height": 30,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-2"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "MOdd2",
+              "name": "Row Filter Check 각성",
+              "width": 14,
+              "height": 14,
+              "icon": "square",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "ellipse",
+              "id": "N3Xn0",
+              "name": "Row Filter Dot 각성",
+              "fill": "$color-node-event",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "icon",
+              "id": "UfF0E",
+              "name": "Row Filter Icon 각성",
+              "width": 14,
+              "height": 14,
+              "icon": "scroll",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "W4nlw",
+              "name": "Row Filter Label 각성",
+              "fill": "$color-text-primary",
+              "content": "각성",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "E088TG",
+              "name": "Row Filter Spacer 각성",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "text",
+              "id": "V0YDm",
+              "name": "Row Filter Kind 각성",
+              "fill": "$color-text-secondary",
+              "content": "이벤트",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "B6UO6",
+          "name": "Row Filter Separator",
+          "fill": "$color-border-default",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "frame",
+          "id": "WovPY",
+          "name": "Row Filter Clear",
+          "width": "fill_container",
+          "height": 28,
+          "cornerRadius": "$radius-control",
+          "padding": [
+            0,
+            "$space-2"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "PCBSn",
+              "name": "Row Filter Clear Label",
+              "fill": "$color-text-secondary",
+              "content": "선택 해제",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "yfAWD",
+      "x": 23767,
+      "y": 1248,
+      "name": "Timeline / Episode Menu / Open",
+      "reusable": true,
+      "width": 240,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000055",
+        "offset": {
+          "x": 0,
+          "y": 4
+        },
+        "blur": 16
+      },
+      "layout": "vertical",
+      "gap": "$space-1",
+      "padding": "$space-2",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f0ejT",
+          "name": "Episode Menu Row Episode 5. 어둠 파수꾼",
+          "width": "fill_container",
+          "height": 30,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-2"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "qfShF",
+              "name": "Episode Menu Check",
+              "width": 14,
+              "height": 14,
+              "icon": "square-check",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "yYLf7",
+              "name": "Episode Menu Label",
+              "fill": "$color-text-primary",
+              "content": "Episode 5. 어둠 파수꾼",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "uUtKo",
+          "name": "Episode Menu Row Episode 6. 심판의 시간",
+          "width": "fill_container",
+          "height": 30,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-2"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "vaidG",
+              "name": "Episode Menu Check",
+              "width": 14,
+              "height": 14,
+              "icon": "square-check",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "gQOiB",
+              "name": "Episode Menu Label",
+              "fill": "$color-text-primary",
+              "content": "Episode 6. 심판의 시간",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "h57Kun",
+          "name": "Episode Menu Row Episode 7. 건물주",
+          "width": "fill_container",
+          "height": 30,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-2"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "vB7Be",
+              "name": "Episode Menu Check",
+              "width": 14,
+              "height": 14,
+              "icon": "square-check",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "q3iGk",
+              "name": "Episode Menu Label",
+              "fill": "$color-text-primary",
+              "content": "Episode 7. 건물주",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "HfJYR",
+          "name": "Episode Menu Row Episode 8. 새 원고",
+          "width": "fill_container",
+          "height": 30,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-2"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "Q1bEI",
+              "name": "Episode Menu Check",
+              "width": 14,
+              "height": 14,
+              "icon": "square",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "onSrK",
+              "name": "Episode Menu Label",
+              "fill": "$color-text-primary",
+              "content": "Episode 8. 새 원고",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "H9jJc6",
+          "name": "Episode Menu Separator",
+          "fill": "$color-border-default",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "frame",
+          "id": "h6z9c",
+          "name": "Episode Menu Actions",
+          "width": "fill_container",
+          "gap": 2,
+          "children": [
+            {
+              "type": "frame",
+              "id": "PSmgU",
+              "name": "Episode Menu 모두 선택",
+              "width": "fill_container",
+              "height": 28,
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ZxfZS",
+                  "name": "Episode Menu 모두 선택 Label",
+                  "fill": "$color-text-secondary",
+                  "content": "모두 선택",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Y4Tpk",
+              "name": "Episode Menu 모두 해제",
+              "width": "fill_container",
+              "height": 28,
+              "cornerRadius": "$radius-control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "MV842",
+                  "name": "Episode Menu 모두 해제 Label",
+                  "fill": "$color-text-secondary",
+                  "content": "모두 해제",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "themes": {
