@@ -18899,6 +18899,1581 @@
           "height": 44
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "V2uNq",
+      "x": 21143,
+      "y": 0,
+      "name": "Graph / Canvas",
+      "reusable": true,
+      "clip": true,
+      "width": 1204,
+      "height": 800,
+      "fill": "$color-bg-canvas",
+      "layout": "none",
+      "children": [
+        {
+          "type": "script",
+          "id": "b1SDlO",
+          "x": 0,
+          "y": 0,
+          "name": "Graph Canvas Script",
+          "width": 1204,
+          "height": 800,
+          "scriptUri": "graph-canvas.js",
+          "inputs": {
+            "nodeCount": 46,
+            "showLabels": true,
+            "dimmed": false
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "dLaXy",
+      "x": 21143,
+      "y": 960,
+      "name": "Graph / Legend",
+      "reusable": true,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "gap": "$space-4",
+      "padding": [
+        "$space-2",
+        "$space-3"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "LTtfu",
+          "name": "Legend 캐릭터",
+          "gap": "$space-1",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "aBQ19",
+              "name": "Legend Dot 캐릭터",
+              "fill": "$color-node-character",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "text",
+              "id": "imvoz",
+              "name": "Legend Label 캐릭터",
+              "fill": "$color-text-secondary",
+              "content": "캐릭터",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Ppq9Y",
+          "name": "Legend 장소",
+          "gap": "$space-1",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "MvUgl",
+              "name": "Legend Dot 장소",
+              "fill": "$color-node-place",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "text",
+              "id": "plfXD",
+              "name": "Legend Label 장소",
+              "fill": "$color-text-secondary",
+              "content": "장소",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nhgRN",
+          "name": "Legend 조직",
+          "gap": "$space-1",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "uB1pl",
+              "name": "Legend Dot 조직",
+              "fill": "$color-node-organization",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "text",
+              "id": "A4Ugp",
+              "name": "Legend Label 조직",
+              "fill": "$color-text-secondary",
+              "content": "조직",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "EY2WC",
+          "name": "Legend 아이템",
+          "gap": "$space-1",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "DXgBB",
+              "name": "Legend Dot 아이템",
+              "fill": "$color-node-item",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "text",
+              "id": "JvQus",
+              "name": "Legend Label 아이템",
+              "fill": "$color-text-secondary",
+              "content": "아이템",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "WIOki",
+          "name": "Legend 이벤트",
+          "gap": "$space-1",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "SdDu6",
+              "name": "Legend Dot 이벤트",
+              "fill": "$color-node-event",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "text",
+              "id": "ngAFX",
+              "name": "Legend Label 이벤트",
+              "fill": "$color-text-secondary",
+              "content": "이벤트",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "e791uT",
+          "name": "Legend 세계관",
+          "gap": "$space-1",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "O26Kp",
+              "name": "Legend Dot 세계관",
+              "fill": "$color-node-worldview",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "text",
+              "id": "WWZOJ",
+              "name": "Legend Label 세계관",
+              "fill": "$color-text-secondary",
+              "content": "세계관",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "JGhXe",
+          "name": "Legend 원고",
+          "gap": "$space-1",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "crsQE",
+              "name": "Legend Dot 원고",
+              "fill": "$color-node-manuscript",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "text",
+              "id": "Dgp5B",
+              "name": "Legend Label 원고",
+              "fill": "$color-text-secondary",
+              "content": "원고",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "lrJlE",
+          "name": "Legend Separator",
+          "fill": "$color-border-default",
+          "width": 1,
+          "height": 12
+        },
+        {
+          "type": "frame",
+          "id": "EaGM0",
+          "name": "Legend Favorite",
+          "gap": "$space-1",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "XNHLH",
+              "name": "Legend Favorite Icon",
+              "width": 12,
+              "height": 12,
+              "icon": "star",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-favorite"
+            },
+            {
+              "type": "text",
+              "id": "jxyYK",
+              "name": "Legend Favorite Label",
+              "fill": "$color-text-secondary",
+              "content": "즐겨찾기",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "zy8eB",
+      "x": 21143,
+      "y": 1153,
+      "name": "Graph / Tools",
+      "reusable": true,
+      "gap": 2,
+      "children": [
+        {
+          "id": "ZrTfu",
+          "type": "ref",
+          "ref": "hMpn5",
+          "name": "Graph Tools Search Button",
+          "width": 28,
+          "height": 28,
+          "fill": "$color-surface-raised",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "descendants": {
+            "UCRf6": {
+              "icon": "search"
+            }
+          }
+        },
+        {
+          "id": "o3nt6",
+          "type": "ref",
+          "ref": "hMpn5",
+          "name": "Graph Tools Filter Button",
+          "width": 28,
+          "height": 28,
+          "fill": "$color-surface-raised",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "descendants": {
+            "UCRf6": {
+              "icon": "funnel"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "GeB25",
+      "x": 21143,
+      "y": 1341,
+      "name": "Graph / Filter Panel / Open",
+      "reusable": true,
+      "width": 220,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000055",
+        "offset": {
+          "x": 0,
+          "y": 4
+        },
+        "blur": 16
+      },
+      "layout": "vertical",
+      "gap": "$space-1",
+      "padding": "$space-2",
+      "children": [
+        {
+          "type": "frame",
+          "id": "avBM9",
+          "name": "Filter Row 캐릭터",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "il3rz",
+              "name": "Filter Check 캐릭터",
+              "width": 15,
+              "height": 15,
+              "icon": "square-check",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "ellipse",
+              "id": "rMkff",
+              "name": "Filter Dot 캐릭터",
+              "fill": "$color-node-character",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "icon",
+              "id": "Hps32",
+              "name": "Filter Kind Icon 캐릭터",
+              "width": 15,
+              "height": 15,
+              "icon": "circle-user-round",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "OSKGb",
+              "name": "Filter Label 캐릭터",
+              "fill": "$color-text-primary",
+              "content": "캐릭터",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "x4QVI",
+          "name": "Filter Row 장소",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "ZiPqk",
+              "name": "Filter Check 장소",
+              "width": 15,
+              "height": 15,
+              "icon": "square-check",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "ellipse",
+              "id": "S3vpx",
+              "name": "Filter Dot 장소",
+              "fill": "$color-node-place",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "icon",
+              "id": "pxbuM",
+              "name": "Filter Kind Icon 장소",
+              "width": 15,
+              "height": 15,
+              "icon": "map-pin",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "D8Y2hF",
+              "name": "Filter Label 장소",
+              "fill": "$color-text-primary",
+              "content": "장소",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "l2xhO",
+          "name": "Filter Row 조직",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "Qx3pA",
+              "name": "Filter Check 조직",
+              "width": 15,
+              "height": 15,
+              "icon": "square-check",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "ellipse",
+              "id": "fr1Tz",
+              "name": "Filter Dot 조직",
+              "fill": "$color-node-organization",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "icon",
+              "id": "AVAHP",
+              "name": "Filter Kind Icon 조직",
+              "width": 15,
+              "height": 15,
+              "icon": "building-2",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "TOWhd",
+              "name": "Filter Label 조직",
+              "fill": "$color-text-primary",
+              "content": "조직",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "YfeFg",
+          "name": "Filter Row 아이템",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "FTZLB",
+              "name": "Filter Check 아이템",
+              "width": 15,
+              "height": 15,
+              "icon": "square-check",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "ellipse",
+              "id": "O62hW",
+              "name": "Filter Dot 아이템",
+              "fill": "$color-node-item",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "icon",
+              "id": "GXt9y",
+              "name": "Filter Kind Icon 아이템",
+              "width": 15,
+              "height": 15,
+              "icon": "package",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "v7nCMG",
+              "name": "Filter Label 아이템",
+              "fill": "$color-text-primary",
+              "content": "아이템",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Ag8Gm",
+          "name": "Filter Row 이벤트",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "VcBGu",
+              "name": "Filter Check 이벤트",
+              "width": 15,
+              "height": 15,
+              "icon": "square-check",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "ellipse",
+              "id": "K61doj",
+              "name": "Filter Dot 이벤트",
+              "fill": "$color-node-event",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "icon",
+              "id": "k1B8Oh",
+              "name": "Filter Kind Icon 이벤트",
+              "width": 15,
+              "height": 15,
+              "icon": "scroll",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "VEsI5",
+              "name": "Filter Label 이벤트",
+              "fill": "$color-text-primary",
+              "content": "이벤트",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "SYLyS",
+          "name": "Filter Row 세계관",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "lTDj2",
+              "name": "Filter Check 세계관",
+              "width": 15,
+              "height": 15,
+              "icon": "square-check",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "ellipse",
+              "id": "WCVvs",
+              "name": "Filter Dot 세계관",
+              "fill": "$color-node-worldview",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "icon",
+              "id": "YRJz7",
+              "name": "Filter Kind Icon 세계관",
+              "width": 15,
+              "height": 15,
+              "icon": "globe",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "qzmoG",
+              "name": "Filter Label 세계관",
+              "fill": "$color-text-primary",
+              "content": "세계관",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "NVflL",
+          "name": "Filter Row 원고",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "cVoj2",
+              "name": "Filter Check 원고",
+              "width": 15,
+              "height": 15,
+              "icon": "square-check",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "ellipse",
+              "id": "cpBJy",
+              "name": "Filter Dot 원고",
+              "fill": "$color-node-manuscript",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "icon",
+              "id": "OQ6bt",
+              "name": "Filter Kind Icon 원고",
+              "width": 15,
+              "height": 15,
+              "icon": "file-text",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "h7b679",
+              "name": "Filter Label 원고",
+              "fill": "$color-text-primary",
+              "content": "원고",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "M2rMsT",
+          "name": "Filter Separator",
+          "fill": "$color-border-default",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "frame",
+          "id": "Jw8bY",
+          "name": "Filter Select All",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "z9nZn",
+              "name": "Filter Select All Label",
+              "fill": "$color-text-secondary",
+              "content": "모두 선택",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "KKgHc",
+      "x": 21523,
+      "y": 1341,
+      "name": "Graph / Search Panel / Open",
+      "reusable": true,
+      "width": 240,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000055",
+        "offset": {
+          "x": 0,
+          "y": 4
+        },
+        "blur": 16
+      },
+      "layout": "vertical",
+      "gap": "$space-1",
+      "padding": "$space-2",
+      "children": [
+        {
+          "type": "frame",
+          "id": "rnqL6",
+          "name": "Graph Search Input",
+          "width": "fill_container",
+          "height": 32,
+          "fill": "$color-surface-default",
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "xXtB6",
+              "name": "Graph Search Input Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "search",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "g0ciCF",
+              "name": "Graph Search Input Text",
+              "fill": "$color-text-secondary",
+              "content": "노드 이름으로 찾기",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "UgHKq",
+          "name": "Graph Search Result 김독자",
+          "width": "fill_container",
+          "height": 32,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "z7z6Ob",
+              "name": "Graph Search Dot 김독자",
+              "fill": "$color-node-character",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "icon",
+              "id": "Jzwp9",
+              "name": "Graph Search Icon 김독자",
+              "width": 15,
+              "height": 15,
+              "icon": "circle-user-round",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "bXSVA",
+              "name": "Graph Search Label 김독자",
+              "fill": "$color-text-primary",
+              "content": "김독자",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "aJ2aV",
+          "name": "Graph Search Result 김독자의 낡은 스마트폰",
+          "width": "fill_container",
+          "height": 32,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "yyQLo",
+              "name": "Graph Search Dot 김독자의 낡은 스마트폰",
+              "fill": "$color-node-item",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "icon",
+              "id": "h46vTg",
+              "name": "Graph Search Icon 김독자의 낡은 스마트폰",
+              "width": 15,
+              "height": 15,
+              "icon": "package",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "ekJlI",
+              "name": "Graph Search Label 김독자의 낡은 스마트폰",
+              "fill": "$color-text-primary",
+              "content": "김독자의 낡은 스마트폰",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "xYXpJ",
+          "name": "Graph Search Result 김독자 아파트",
+          "width": "fill_container",
+          "height": 32,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "u2eXIG",
+              "name": "Graph Search Dot 김독자 아파트",
+              "fill": "$color-node-place",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "icon",
+              "id": "rkXyq",
+              "name": "Graph Search Icon 김독자 아파트",
+              "width": 15,
+              "height": 15,
+              "icon": "map-pin",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "iWw3y",
+              "name": "Graph Search Label 김독자 아파트",
+              "fill": "$color-text-primary",
+              "content": "김독자 아파트",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "MfJKW",
+          "name": "Graph Search Result 김독자와의 계약",
+          "width": "fill_container",
+          "height": 32,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "zJBoP",
+              "name": "Graph Search Dot 김독자와의 계약",
+              "fill": "$color-node-event",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "icon",
+              "id": "ElePj",
+              "name": "Graph Search Icon 김독자와의 계약",
+              "width": 15,
+              "height": 15,
+              "icon": "scroll",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "iF9EL",
+              "name": "Graph Search Label 김독자와의 계약",
+              "fill": "$color-text-primary",
+              "content": "김독자와의 계약",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "mOkkb",
+      "x": 21923,
+      "y": 1341,
+      "name": "Graph / Node Panel",
+      "reusable": true,
+      "width": 280,
+      "height": 800,
+      "fill": "$color-surface-navigation",
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "left": 1
+      },
+      "layout": "vertical",
+      "gap": "$space-3",
+      "padding": "$space-4",
+      "children": [
+        {
+          "type": "frame",
+          "id": "TGQOV",
+          "name": "Node Panel Header",
+          "width": "fill_container",
+          "height": 24,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "WRneH",
+              "name": "Node Panel Title",
+              "fill": "$color-text-primary",
+              "content": "선택한 노드",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "xgHE5",
+              "name": "Node Panel Header Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "id": "CVxUt",
+              "type": "ref",
+              "ref": "hMpn5",
+              "name": "Node Panel Close",
+              "width": 24,
+              "height": 24,
+              "descendants": {
+                "UCRf6": {
+                  "icon": "x",
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "puImC",
+          "name": "Node Panel Focus Box",
+          "width": "fill_container",
+          "fill": "$color-surface-raised",
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "gap": "$space-2",
+          "padding": "$space-3",
+          "children": [
+            {
+              "type": "frame",
+              "id": "FacuS",
+              "name": "Node Panel Identity",
+              "width": "fill_container",
+              "gap": "$space-2",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "NGdmC",
+                  "name": "Node Panel Dot",
+                  "fill": "$color-node-character",
+                  "width": 10,
+                  "height": 10
+                },
+                {
+                  "type": "icon",
+                  "id": "IL5zE",
+                  "name": "Node Panel Kind Icon",
+                  "width": 15,
+                  "height": 15,
+                  "icon": "circle-user-round",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "EErHN",
+                  "name": "Node Panel Name",
+                  "fill": "$color-text-primary",
+                  "content": "레나 아르벨",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-body",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "kiQY8",
+                  "name": "Node Panel Identity Spacer",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "icon",
+                  "id": "Zc7n7",
+                  "name": "Node Panel Favorite",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "star",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-favorite"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "rMaOE",
+              "name": "Node Panel Path",
+              "fill": "$color-text-secondary",
+              "content": "캐릭터 · 은빛 항해단",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "RRNE2",
+              "name": "Node Panel Description",
+              "fill": "$color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "타인의 기억이 남긴 방향을 감각으로 읽는 항해사. 유리 산맥에서 잃어버린 자신의 기억을 추적한다.",
+              "lineHeight": "$line-height-body",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "e85sT",
+          "name": "Node Panel Section 들어오는 관계",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-1",
+          "children": [
+            {
+              "type": "text",
+              "id": "AcQVp",
+              "name": "Node Panel Section Label 들어오는 관계",
+              "fill": "$color-text-secondary",
+              "content": "들어오는 관계",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "zGeGD",
+              "name": "Node Panel Relation 12화 · 균열의 밤",
+              "width": "fill_container",
+              "height": 32,
+              "fill": "$color-surface-default",
+              "cornerRadius": "$radius-control",
+              "gap": "$space-2",
+              "padding": [
+                0,
+                "$space-2"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "a8rpau",
+                  "name": "Node Panel Relation Dot 12화 · 균열의 밤",
+                  "fill": "$color-node-manuscript",
+                  "width": 8,
+                  "height": 8
+                },
+                {
+                  "type": "icon",
+                  "id": "xQ8dF",
+                  "name": "Node Panel Relation Icon 12화 · 균열의 밤",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "file-text",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "q0WoFa",
+                  "name": "Node Panel Relation Label 12화 · 균열의 밤",
+                  "fill": "$color-text-primary",
+                  "content": "12화 · 균열의 밤",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "rdjf4",
+              "name": "Node Panel Relation 은빛 항해단",
+              "width": "fill_container",
+              "height": 32,
+              "fill": "$color-surface-default",
+              "cornerRadius": "$radius-control",
+              "gap": "$space-2",
+              "padding": [
+                0,
+                "$space-2"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "jUMjT",
+                  "name": "Node Panel Relation Dot 은빛 항해단",
+                  "fill": "$color-node-organization",
+                  "width": 8,
+                  "height": 8
+                },
+                {
+                  "type": "icon",
+                  "id": "AzCGR",
+                  "name": "Node Panel Relation Icon 은빛 항해단",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "building-2",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "Kk0Jw",
+                  "name": "Node Panel Relation Label 은빛 항해단",
+                  "fill": "$color-text-primary",
+                  "content": "은빛 항해단",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "k2JD6B",
+          "name": "Node Panel Section 나가는 관계",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-1",
+          "children": [
+            {
+              "type": "text",
+              "id": "zW1vU",
+              "name": "Node Panel Section Label 나가는 관계",
+              "fill": "$color-text-secondary",
+              "content": "나가는 관계",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "NbZt2",
+              "name": "Node Panel Relation 유리 산맥",
+              "width": "fill_container",
+              "height": 32,
+              "fill": "$color-surface-default",
+              "cornerRadius": "$radius-control",
+              "gap": "$space-2",
+              "padding": [
+                0,
+                "$space-2"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "dlr7d",
+                  "name": "Node Panel Relation Dot 유리 산맥",
+                  "fill": "$color-node-place",
+                  "width": 8,
+                  "height": 8
+                },
+                {
+                  "type": "icon",
+                  "id": "Z1zQT",
+                  "name": "Node Panel Relation Icon 유리 산맥",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "map-pin",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "rA0Sp",
+                  "name": "Node Panel Relation Label 유리 산맥",
+                  "fill": "$color-text-primary",
+                  "content": "유리 산맥",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ehlRq",
+              "name": "Node Panel Relation 각성",
+              "width": "fill_container",
+              "height": 32,
+              "fill": "$color-surface-default",
+              "cornerRadius": "$radius-control",
+              "gap": "$space-2",
+              "padding": [
+                0,
+                "$space-2"
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "zn2CP",
+                  "name": "Node Panel Relation Dot 각성",
+                  "fill": "$color-node-event",
+                  "width": 8,
+                  "height": 8
+                },
+                {
+                  "type": "icon",
+                  "id": "SLSbI",
+                  "name": "Node Panel Relation Icon 각성",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "scroll",
+                  "library": "lucide",
+                  "weight": "$icon-weight-default",
+                  "fill": "$color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "lcBux",
+                  "name": "Node Panel Relation Label 각성",
+                  "fill": "$color-text-primary",
+                  "content": "각성",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "GCcjO",
+          "name": "Node Panel Spacer",
+          "width": "fill_container",
+          "height": "fill_container"
+        },
+        {
+          "id": "EGHIW",
+          "type": "ref",
+          "ref": "celDl",
+          "name": "Node Panel Open File",
+          "width": "fill_container",
+          "justifyContent": "center",
+          "descendants": {
+            "n0keHY": {
+              "icon": "external-link"
+            },
+            "zprJP": {
+              "content": "파일 열기"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "t1bBoR",
+      "x": 21923,
+      "y": 2301,
+      "name": "Graph / Toolbar",
+      "reusable": true,
+      "width": 1204,
+      "height": 48,
+      "fill": "$color-surface-topbar",
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "bottom": 1
+      },
+      "gap": "$space-3",
+      "padding": [
+        0,
+        "$space-4"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "hsAp8",
+          "name": "Graph Toolbar Episode Menu",
+          "height": 28,
+          "cornerRadius": "$radius-control",
+          "stroke": "$color-border-default",
+          "strokeWidth": 1,
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-2"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "XHP0a",
+              "name": "Graph Toolbar Episode Caption",
+              "fill": "$color-text-secondary",
+              "content": "에피소드",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "q8rQom",
+              "name": "Graph Toolbar Episode Value",
+              "fill": "$color-text-primary",
+              "content": "전체",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            },
+            {
+              "type": "icon",
+              "id": "fuIoY",
+              "name": "Graph Toolbar Episode Chevron",
+              "width": 13,
+              "height": 13,
+              "icon": "chevron-down",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "N3psw",
+          "name": "Graph Toolbar Spacer",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "frame",
+          "id": "zptbD",
+          "name": "Graph Toolbar Zoom",
+          "height": 28,
+          "fill": "$color-surface-icon",
+          "cornerRadius": "$radius-control",
+          "gap": 2,
+          "padding": 2,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "a8oDO",
+              "type": "ref",
+              "ref": "hMpn5",
+              "name": "Graph Toolbar Zoom Out",
+              "width": 24,
+              "height": 24,
+              "descendants": {
+                "UCRf6": {
+                  "icon": "minus",
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            },
+            {
+              "type": "text",
+              "id": "F3YUwq",
+              "name": "Graph Toolbar Zoom Value",
+              "fill": "$color-text-primary",
+              "content": "100%",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            },
+            {
+              "id": "Yn3tg",
+              "type": "ref",
+              "ref": "hMpn5",
+              "name": "Graph Toolbar Zoom In",
+              "width": 24,
+              "height": 24,
+              "descendants": {
+                "UCRf6": {
+                  "icon": "plus",
+                  "width": 14,
+                  "height": 14
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "WaH8z",
+          "type": "ref",
+          "ref": "celDl",
+          "name": "Graph Toolbar Fit",
+          "height": 28,
+          "descendants": {
+            "n0keHY": {
+              "icon": "maximize",
+              "width": 14,
+              "height": 14
+            },
+            "zprJP": {
+              "content": "화면 맞춤",
+              "fontWeight": "normal",
+              "fontSize": "$font-size-label"
+            }
+          }
+        }
+      ]
     }
   ],
   "themes": {

@@ -8714,12 +8714,7 @@
           "ref": "b:nvJ4B",
           "name": "C Sidebar · File Menu Open",
           "width": 236,
-          "height": "fill_container",
-          "descendants": {
-            "b:INQCc": {
-              "fill": "$b:color-state-selected"
-            }
-          }
+          "height": "fill_container"
         },
         {
           "type": "frame",
@@ -9127,12 +9122,7 @@
           "ref": "b:nvJ4B",
           "name": "C Sidebar · Folder Menu Open",
           "width": 236,
-          "height": "fill_container",
-          "descendants": {
-            "b:t5DO0e": {
-              "fill": "$b:color-state-selected"
-            }
-          }
+          "height": "fill_container"
         },
         {
           "type": "frame",
@@ -16733,15 +16723,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "notebook-tabs"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "마나 순환"
             }
           }
         },
@@ -17607,15 +17588,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "globe"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "아르카디아"
             }
           }
         },
@@ -18481,15 +18453,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "map-pin"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "은빛 항구"
             }
           }
         },
@@ -19355,15 +19318,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "globe"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "제목 없음"
             }
           }
         },
@@ -20190,15 +20144,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "map-pin"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "은빛 항구"
             }
           }
         },
@@ -21091,15 +21036,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "notebook-tabs"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "마나 순환"
             }
           }
         },
@@ -21972,15 +21908,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "notebook-tabs"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "마나 순환"
             }
           }
         },
@@ -22853,24 +22780,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "#00000000"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "notebook-tabs"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "마나 순환"
-            },
-            "b:IUuBg": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:IUuBg/b:nCqu3": {
-              "icon": "user-round"
-            },
-            "b:IUuBg/b:bP6Qr": {
-              "content": "레나 아르벨"
             }
           }
         },
@@ -23736,15 +23645,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "users-round"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "은빛 항해단"
             }
           }
         },
@@ -24610,15 +24510,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "gem"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "파편 나침반"
             }
           }
         },
@@ -25484,24 +25375,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "#00000000"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "globe"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "제목 없음"
-            },
-            "b:IUuBg": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:IUuBg/b:nCqu3": {
-              "icon": "user-round"
-            },
-            "b:IUuBg/b:bP6Qr": {
-              "content": "제목 없음"
             }
           }
         },
@@ -26328,15 +26201,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "users-round"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "은빛 항해단"
             }
           }
         },
@@ -27229,15 +27093,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "gem"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "파편 나침반"
             }
           }
         },
@@ -28110,15 +27965,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "calendar-days"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "균열의 밤"
             }
           }
         },
@@ -29140,15 +28986,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "calendar-days"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "균열의 밤"
             }
           }
         },
@@ -30081,15 +29918,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "calendar-days"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "균열의 밤"
             }
           }
         },
@@ -31065,15 +30893,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "calendar-days"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "균열의 밤"
             }
           }
         },
@@ -31946,15 +31765,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "calendar-days"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "균열의 밤"
             }
           }
         },
@@ -39413,15 +39223,6 @@
           "descendants": {
             "b:BeegO": {
               "fill": "#00000000"
-            },
-            "b:UPUz2": {
-              "fill": "$b:color-state-selected"
-            },
-            "b:UPUz2/b:nCqu3": {
-              "icon": "calendar-days"
-            },
-            "b:UPUz2/b:bP6Qr": {
-              "content": "균열의 밤"
             }
           }
         },
