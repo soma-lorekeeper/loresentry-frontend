@@ -19083,6 +19083,142 @@
     "icon-weight-default": {
       "type": "number",
       "value": 400
+    },
+    "color-node-character": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#EDF2F2",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#182024",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
+    },
+    "color-node-place": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#D6DCDD",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#293236",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
+    },
+    "color-node-organization": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#BEC6C8",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#3A4448",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
+    },
+    "color-node-item": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#A7B1B3",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#4B5659",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
+    },
+    "color-node-event": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#8F9B9D",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#5C686B",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
+    },
+    "color-node-worldview": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#788588",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#6D7A7D",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
+    },
+    "color-node-manuscript": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#606F73",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#7E8C8F",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
+    },
+    "color-favorite": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#F7E29A",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#F2D478",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
     }
   },
   "fileToken": "a0620473-2c2e-4494-8ecc-b9ac29fb3fdd"

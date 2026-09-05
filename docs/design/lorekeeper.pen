@@ -10554,22 +10554,24 @@
           "width": "fill_container",
           "height": "fill_container",
           "fill": "$b:color-bg-canvas",
-          "layout": "vertical",
+          "layout": "none",
           "children": [
             {
               "id": "U4fE7G",
               "type": "ref",
               "ref": "b:J6y2A",
               "name": "C Tab Bar",
-              "width": "fill_container",
+              "width": "fill_container(1204)",
               "height": 52
             },
             {
               "type": "frame",
               "id": "P3Hz6L",
+              "x": 0,
+              "y": 52,
               "name": "Manuscript Workspace",
-              "width": "fill_container",
-              "height": "fill_container",
+              "width": "fill_container(1204)",
+              "height": "fill_container(848)",
               "fill": "$b:color-bg-canvas",
               "layout": "vertical",
               "children": [
