@@ -88301,6 +88301,453 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "W2GuwN",
+      "x": 0,
+      "y": 41060,
+      "name": "145 · Graph · Default",
+      "context": "LOREKEEPER-500 graph default state. Canvas nodes and edges come from graph-canvas.js. Node and edge counts, FPS and layout timing are intentionally absent.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "zOKAs",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "BLymc",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "UIkcx",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52
+            },
+            {
+              "id": "Fj4xZ",
+              "type": "ref",
+              "ref": "b:t1bBoR",
+              "name": "C Graph Toolbar",
+              "width": "fill_container",
+              "height": 48
+            },
+            {
+              "type": "frame",
+              "id": "lhIBa",
+              "name": "C Graph Area",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "none",
+              "children": [
+                {
+                  "id": "tfeIo",
+                  "type": "ref",
+                  "ref": "b:V2uNq",
+                  "name": "Graph Canvas",
+                  "x": 0,
+                  "y": 0,
+                  "width": 1204,
+                  "height": 800,
+                  "descendants": {
+                    "b:b1SDlO": {
+                      "inputs": {
+                        "nodeCount": 46,
+                        "showLabels": true,
+                        "dimmed": false,
+                        "varPrefix": "b:"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "jUf4X",
+                  "type": "ref",
+                  "ref": "b:dLaXy",
+                  "name": "Graph Legend",
+                  "x": 16,
+                  "y": 750
+                },
+                {
+                  "id": "GyiNe",
+                  "type": "ref",
+                  "ref": "b:zy8eB",
+                  "name": "Graph Tools",
+                  "x": 1134,
+                  "y": 12
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "zvh6B",
+      "x": 1560,
+      "y": 41060,
+      "name": "146 · Graph · Node Selected",
+      "context": "LOREKEEPER-500 graph with a node selected. Canvas dims so the selection reads, and the right panel carries the detail. No counts are shown.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "tf5Bf",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "V8SHG",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "v4Opl",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52
+            },
+            {
+              "id": "zPmmg",
+              "type": "ref",
+              "ref": "b:t1bBoR",
+              "name": "C Graph Toolbar",
+              "width": "fill_container",
+              "height": 48
+            },
+            {
+              "type": "frame",
+              "id": "ArcG3",
+              "name": "C Graph Body",
+              "width": "fill_container",
+              "height": "fill_container",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "X1Xw4f",
+                  "name": "C Graph Area",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "id": "yBYo3",
+                      "type": "ref",
+                      "ref": "b:V2uNq",
+                      "name": "Graph Canvas",
+                      "x": 0,
+                      "y": 0,
+                      "width": 924,
+                      "height": 800,
+                      "descendants": {
+                        "b:b1SDlO": {
+                          "inputs": {
+                            "nodeCount": 46,
+                            "showLabels": true,
+                            "dimmed": true,
+                            "varPrefix": "b:"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "k9u0Yn",
+                      "type": "ref",
+                      "ref": "b:dLaXy",
+                      "name": "Graph Legend",
+                      "x": 16,
+                      "y": 750
+                    },
+                    {
+                      "id": "rGeJ2",
+                      "type": "ref",
+                      "ref": "b:zy8eB",
+                      "name": "Graph Tools",
+                      "x": 854,
+                      "y": 12
+                    }
+                  ]
+                },
+                {
+                  "id": "f4NLUk",
+                  "type": "ref",
+                  "ref": "b:mOkkb",
+                  "name": "Graph Node Panel",
+                  "width": 280,
+                  "height": "fill_container"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "q8EAn",
+      "x": 3120,
+      "y": 41060,
+      "name": "147 · Graph · Filter Open",
+      "context": "LOREKEEPER-500 graph with the kind filter open. Action label follows text2graph wording.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "GqlqG",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "yYf1d",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "ed30u",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52
+            },
+            {
+              "id": "A3aXV",
+              "type": "ref",
+              "ref": "b:t1bBoR",
+              "name": "C Graph Toolbar",
+              "width": "fill_container",
+              "height": 48
+            },
+            {
+              "type": "frame",
+              "id": "YY8pc",
+              "name": "C Graph Body",
+              "width": "fill_container",
+              "height": "fill_container",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "IKvNU",
+                  "name": "C Graph Area",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "id": "uX09G",
+                      "type": "ref",
+                      "ref": "b:V2uNq",
+                      "name": "Graph Canvas",
+                      "x": 0,
+                      "y": 0,
+                      "width": 1204,
+                      "height": 800,
+                      "descendants": {
+                        "b:b1SDlO": {
+                          "inputs": {
+                            "nodeCount": 46,
+                            "showLabels": true,
+                            "dimmed": false,
+                            "varPrefix": "b:"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "iMmXK",
+                      "type": "ref",
+                      "ref": "b:dLaXy",
+                      "name": "Graph Legend",
+                      "x": 16,
+                      "y": 750
+                    },
+                    {
+                      "id": "T6sSL",
+                      "type": "ref",
+                      "ref": "b:zy8eB",
+                      "name": "Graph Tools",
+                      "x": 1134,
+                      "y": 12
+                    },
+                    {
+                      "id": "ai38y",
+                      "type": "ref",
+                      "ref": "b:GeB25",
+                      "name": "Graph Floating Panel",
+                      "x": 972,
+                      "y": 48
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "zqOrX",
+      "x": 4680,
+      "y": 41060,
+      "name": "148 · Graph · Search Open",
+      "context": "LOREKEEPER-500 graph with node search open. Placeholder follows text2graph wording.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "CcAHu",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "dqDpd",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "RSP7k",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52
+            },
+            {
+              "id": "QfFLb",
+              "type": "ref",
+              "ref": "b:t1bBoR",
+              "name": "C Graph Toolbar",
+              "width": "fill_container",
+              "height": 48
+            },
+            {
+              "type": "frame",
+              "id": "Cz1oj",
+              "name": "C Graph Body",
+              "width": "fill_container",
+              "height": "fill_container",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "r7E5vv",
+                  "name": "C Graph Area",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "id": "eEsPx",
+                      "type": "ref",
+                      "ref": "b:V2uNq",
+                      "name": "Graph Canvas",
+                      "x": 0,
+                      "y": 0,
+                      "width": 1204,
+                      "height": 800,
+                      "descendants": {
+                        "b:b1SDlO": {
+                          "inputs": {
+                            "nodeCount": 46,
+                            "showLabels": true,
+                            "dimmed": false,
+                            "varPrefix": "b:"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "E5Xyn",
+                      "type": "ref",
+                      "ref": "b:dLaXy",
+                      "name": "Graph Legend",
+                      "x": 16,
+                      "y": 750
+                    },
+                    {
+                      "id": "PRx7i",
+                      "type": "ref",
+                      "ref": "b:zy8eB",
+                      "name": "Graph Tools",
+                      "x": 1134,
+                      "y": 12
+                    },
+                    {
+                      "id": "DyKWb",
+                      "type": "ref",
+                      "ref": "b:KKgHc",
+                      "name": "Graph Floating Panel",
+                      "x": 952,
+                      "y": 48
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "imports": {

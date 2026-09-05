@@ -16,7 +16,18 @@
  * @input nodeCount: number = 46
  * @input showLabels: boolean = true
  * @input dimmed: boolean = false
+ * @input varPrefix: string = ""
  */
+
+/*
+ * 변수 이름 앞에 붙는 임포트 별칭.
+ *
+ * 이 스크립트가 만든 노드는 **인스턴스가 놓인 문서의 네임스페이스**로 변수를
+ * 해석한다. lib.pen 안에서는 `$color-node-character` 지만, 그 컴포넌트를
+ * lorekeeper.pen 에 인스턴스로 놓으면 같은 변수가 `$b:color-node-character` 다.
+ * 접두사를 붙이지 않으면 화면에서 색이 통째로 풀려 노드가 검게 나온다.
+ */
+const v = (name) => "$" + pencil.input.varPrefix + name;
 
 const W = pencil.width;
 const H = pencil.height;
@@ -183,7 +194,7 @@ for (const n of nodes) {
 // --- 노드로 그리기 ---------------------------------------------------------
 
 const out = [];
-const r1 = (v) => Math.round(v * 10) / 10;
+const r1 = (num) => Math.round(num * 10) / 10;
 
 /*
  * 엣지는 전부 한 path 에 몰아넣는다. 선 하나에 노드 하나씩 만들면 수백 개가
@@ -206,7 +217,7 @@ out.push({
   height: H,
   viewBox: [0, 0, W, H],
   geometry: segments,
-  stroke: "$color-border-default",
+  stroke: v("color-border-default"),
   strokeWidth: 1,
   strokeLinecap: "round",
   opacity: pencil.input.dimmed ? 0.35 : 1,
@@ -240,7 +251,7 @@ nodes.forEach((n, i) => {
     y: r1(n.y - radius),
     width: size,
     height: size,
-    fill: "$color-node-" + n.kind.key,
+    fill: v("color-node-" + n.kind.key),
     opacity: pencil.input.dimmed ? 0.4 : 1,
   });
 
@@ -255,8 +266,8 @@ nodes.forEach((n, i) => {
     height: iconSize,
     icon: n.kind.icon,
     library: "lucide",
-    weight: "$icon-weight-default",
-    fill: "$color-bg-canvas",
+    weight: v("icon-weight-default"),
+    fill: v("color-bg-canvas"),
     opacity: pencil.input.dimmed ? 0.4 : 1,
   });
 
@@ -270,8 +281,8 @@ nodes.forEach((n, i) => {
       height: 15,
       icon: "star",
       library: "lucide",
-      weight: "$icon-weight-default",
-      fill: "$color-favorite",
+      weight: v("icon-weight-default"),
+      fill: v("color-favorite"),
     });
   }
 });
@@ -297,9 +308,9 @@ if (pencil.input.showLabels) {
       x: r1(entry.n.x + radius + 6),
       y: r1(entry.n.y - 8),
       content: LABELS[order],
-      fontFamily: "$font-family-ui",
-      fontSize: "$font-size-label",
-      fill: "$color-text-primary",
+      fontFamily: v("font-family-ui"),
+      fontSize: v("font-size-label"),
+      fill: v("color-text-primary"),
       opacity: pencil.input.dimmed ? 0.4 : 1,
     });
   });
