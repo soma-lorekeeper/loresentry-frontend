@@ -88340,7 +88340,15 @@
               "ref": "b:J6y2A",
               "name": "C Tab Bar",
               "width": "fill_container",
-              "height": 52
+              "height": 52,
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "waypoints"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "그래프"
+                }
+              }
             },
             {
               "id": "Fj4xZ",
@@ -88439,7 +88447,15 @@
               "ref": "b:J6y2A",
               "name": "C Tab Bar",
               "width": "fill_container",
-              "height": 52
+              "height": 52,
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "waypoints"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "그래프"
+                }
+              }
             },
             {
               "id": "zPmmg",
@@ -88555,7 +88571,15 @@
               "ref": "b:J6y2A",
               "name": "C Tab Bar",
               "width": "fill_container",
-              "height": 52
+              "height": 52,
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "waypoints"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "그래프"
+                }
+              }
             },
             {
               "id": "A3aXV",
@@ -88671,7 +88695,15 @@
               "ref": "b:J6y2A",
               "name": "C Tab Bar",
               "width": "fill_container",
-              "height": 52
+              "height": 52,
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "waypoints"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "그래프"
+                }
+              }
             },
             {
               "id": "QfFLb",
@@ -88746,6 +88778,1253 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Bdome",
+      "x": 0,
+      "y": 42500,
+      "name": "149 · Timeline · Default",
+      "context": "LOREKEEPER-501 timeline default state. Rows are documents, columns are chapters. Appearance runs are drawn by timeline-table.js. Counts are intentionally absent.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "L0Ce3e",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "MWTDF",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "JueMp",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "chart-no-axes-gantt"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "타임라인"
+                }
+              }
+            },
+            {
+              "id": "P6u7d",
+              "type": "ref",
+              "ref": "b:gNoAJ",
+              "name": "C Timeline Toolbar",
+              "width": "fill_container",
+              "height": 48
+            },
+            {
+              "type": "frame",
+              "id": "CuLiw",
+              "name": "C Timeline Area",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "none",
+              "children": [
+                {
+                  "id": "pdWWw",
+                  "type": "ref",
+                  "ref": "b:iiMlX",
+                  "name": "Timeline Table",
+                  "x": 0,
+                  "y": 0,
+                  "width": 1204,
+                  "height": 800,
+                  "descendants": {
+                    "b:rY9aT": {
+                      "inputs": {
+                        "columnCount": 18,
+                        "focusColumn": 4,
+                        "varPrefix": "b:"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "dJh6u",
+      "x": 1560,
+      "y": 42500,
+      "name": "150 · Timeline · Chapter Selected",
+      "context": "LOREKEEPER-501 timeline with a different chapter selected. The vertical band and the toolbar chapter name move together.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "DLxcv",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "D5Ggk5",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "fON5u",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "chart-no-axes-gantt"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "타임라인"
+                }
+              }
+            },
+            {
+              "id": "clMIt",
+              "type": "ref",
+              "ref": "b:gNoAJ",
+              "name": "C Timeline Toolbar",
+              "width": "fill_container",
+              "height": 48,
+              "descendants": {
+                "b:P0Kduc": {
+                  "content": "16화"
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "M5FM6X",
+              "name": "C Timeline Area",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "none",
+              "children": [
+                {
+                  "id": "o9jsQ",
+                  "type": "ref",
+                  "ref": "b:iiMlX",
+                  "name": "Timeline Table",
+                  "x": 0,
+                  "y": 0,
+                  "width": 1204,
+                  "height": 800,
+                  "descendants": {
+                    "b:rY9aT": {
+                      "inputs": {
+                        "columnCount": 18,
+                        "focusColumn": 11,
+                        "varPrefix": "b:"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "H5d6eV",
+      "x": 3120,
+      "y": 42500,
+      "name": "151 · Timeline · Row Filter Open",
+      "context": "LOREKEEPER-501 timeline with the row picker open. Wording follows text2graph.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "gisEa",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "WAmXm",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "QgNrQ",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "chart-no-axes-gantt"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "타임라인"
+                }
+              }
+            },
+            {
+              "id": "A1HYh",
+              "type": "ref",
+              "ref": "b:gNoAJ",
+              "name": "C Timeline Toolbar",
+              "width": "fill_container",
+              "height": 48
+            },
+            {
+              "type": "frame",
+              "id": "JuSdh",
+              "name": "C Timeline Area",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "none",
+              "children": [
+                {
+                  "id": "nsq5q",
+                  "type": "ref",
+                  "ref": "b:iiMlX",
+                  "name": "Timeline Table",
+                  "x": 0,
+                  "y": 0,
+                  "width": 1204,
+                  "height": 800,
+                  "descendants": {
+                    "b:rY9aT": {
+                      "inputs": {
+                        "columnCount": 18,
+                        "focusColumn": 4,
+                        "varPrefix": "b:"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "lnycN",
+                  "type": "ref",
+                  "ref": "b:EGHZx",
+                  "name": "Timeline Floating Panel",
+                  "x": 950,
+                  "y": 8
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "xh1Mo",
+      "x": 4680,
+      "y": 42500,
+      "name": "152 · Timeline · Episode Menu Open",
+      "context": "LOREKEEPER-501 timeline with the episode menu open. Actions follow text2graph wording.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "f0cnOi",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "w0Mwp5",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "xvOnf",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "chart-no-axes-gantt"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "타임라인"
+                }
+              }
+            },
+            {
+              "id": "to124",
+              "type": "ref",
+              "ref": "b:gNoAJ",
+              "name": "C Timeline Toolbar",
+              "width": "fill_container",
+              "height": 48
+            },
+            {
+              "type": "frame",
+              "id": "Y4T7u",
+              "name": "C Timeline Area",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "none",
+              "children": [
+                {
+                  "id": "IxK4N",
+                  "type": "ref",
+                  "ref": "b:iiMlX",
+                  "name": "Timeline Table",
+                  "x": 0,
+                  "y": 0,
+                  "width": 1204,
+                  "height": 800,
+                  "descendants": {
+                    "b:rY9aT": {
+                      "inputs": {
+                        "columnCount": 18,
+                        "focusColumn": 4,
+                        "varPrefix": "b:"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "GhUKN",
+                  "type": "ref",
+                  "ref": "b:yfAWD",
+                  "name": "Timeline Floating Panel",
+                  "x": 14,
+                  "y": 8
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "xS0Br",
+      "x": 0,
+      "y": 43940,
+      "name": "153 · Graph Refresh · Default",
+      "context": "LOREKEEPER-502 refresh entry point at rest. Pressing it starts re-extraction.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "jyqDZ",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "n9YmO0",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "XZzhU",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "waypoints"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "그래프"
+                }
+              }
+            },
+            {
+              "id": "mWIUy",
+              "type": "ref",
+              "ref": "b:t1bBoR",
+              "name": "C Graph Toolbar",
+              "width": "fill_container",
+              "height": 48
+            },
+            {
+              "type": "frame",
+              "id": "o5m7Vl",
+              "name": "C Graph Area",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "none",
+              "children": [
+                {
+                  "id": "eyyTc",
+                  "type": "ref",
+                  "ref": "b:V2uNq",
+                  "name": "Graph Canvas",
+                  "x": 0,
+                  "y": 0,
+                  "width": 1204,
+                  "height": 800,
+                  "descendants": {
+                    "b:b1SDlO": {
+                      "inputs": {
+                        "nodeCount": 46,
+                        "showLabels": true,
+                        "dimmed": false,
+                        "varPrefix": "b:"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "wgtEo",
+                  "type": "ref",
+                  "ref": "b:dLaXy",
+                  "name": "Graph Legend",
+                  "x": 16,
+                  "y": 750
+                },
+                {
+                  "id": "MKjgG",
+                  "type": "ref",
+                  "ref": "b:zy8eB",
+                  "name": "Graph Tools",
+                  "x": 1134,
+                  "y": 12
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "QkTu2",
+      "x": 1560,
+      "y": 43940,
+      "name": "154 · Graph Refresh · Extracting",
+      "context": "LOREKEEPER-502 re-extraction running. The button is disabled and its label reports progress.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "wxL5T",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:BKXDI": {
+              "opacity": 0.5
+            },
+            "b:BKXDI/b:nCqu3": {
+              "icon": "loader-circle"
+            },
+            "b:BKXDI/b:bP6Qr": {
+              "content": "그래프 추출 중…",
+              "fill": "$b:color-text-secondary"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "Q38V8",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "XD82N",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "waypoints"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "그래프"
+                }
+              }
+            },
+            {
+              "id": "tygax",
+              "type": "ref",
+              "ref": "b:t1bBoR",
+              "name": "C Graph Toolbar",
+              "width": "fill_container",
+              "height": 48
+            },
+            {
+              "type": "frame",
+              "id": "lsWWe",
+              "name": "C Graph Area",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "none",
+              "children": [
+                {
+                  "id": "hQUFj",
+                  "type": "ref",
+                  "ref": "b:V2uNq",
+                  "name": "Graph Canvas",
+                  "x": 0,
+                  "y": 0,
+                  "width": 1204,
+                  "height": 800,
+                  "descendants": {
+                    "b:b1SDlO": {
+                      "inputs": {
+                        "nodeCount": 46,
+                        "showLabels": true,
+                        "dimmed": false,
+                        "varPrefix": "b:"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "RO8lW",
+                  "type": "ref",
+                  "ref": "b:dLaXy",
+                  "name": "Graph Legend",
+                  "x": 16,
+                  "y": 750
+                },
+                {
+                  "id": "W5K5RS",
+                  "type": "ref",
+                  "ref": "b:zy8eB",
+                  "name": "Graph Tools",
+                  "x": 1134,
+                  "y": 12
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "wYk96",
+      "x": 3120,
+      "y": 43940,
+      "name": "155 · Graph Refresh · Ready",
+      "context": "LOREKEEPER-502 extraction finished. The button turns into the entry point for reviewing the diff.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "tD9pM",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:BKXDI": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:BKXDI/b:nCqu3": {
+              "icon": "git-compare-arrows"
+            },
+            "b:BKXDI/b:bP6Qr": {
+              "content": "변경 사항 반영"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "rpATi",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "PKRyC",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "waypoints"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "그래프"
+                }
+              }
+            },
+            {
+              "id": "T0yT2M",
+              "type": "ref",
+              "ref": "b:t1bBoR",
+              "name": "C Graph Toolbar",
+              "width": "fill_container",
+              "height": 48
+            },
+            {
+              "type": "frame",
+              "id": "lbd99",
+              "name": "C Graph Area",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "none",
+              "children": [
+                {
+                  "id": "otBAY",
+                  "type": "ref",
+                  "ref": "b:V2uNq",
+                  "name": "Graph Canvas",
+                  "x": 0,
+                  "y": 0,
+                  "width": 1204,
+                  "height": 800,
+                  "descendants": {
+                    "b:b1SDlO": {
+                      "inputs": {
+                        "nodeCount": 46,
+                        "showLabels": true,
+                        "dimmed": false,
+                        "varPrefix": "b:"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "azuVG",
+                  "type": "ref",
+                  "ref": "b:dLaXy",
+                  "name": "Graph Legend",
+                  "x": 16,
+                  "y": 750
+                },
+                {
+                  "id": "AQ51G",
+                  "type": "ref",
+                  "ref": "b:zy8eB",
+                  "name": "Graph Tools",
+                  "x": 1134,
+                  "y": 12
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "FKEyB",
+      "x": 4680,
+      "y": 43940,
+      "name": "156 · Graph Diff · No Selection",
+      "context": "LOREKEEPER-502 diff modal before a document is picked. Counts are replaced with wording that carries the same meaning.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "xkXUy",
+          "x": 0,
+          "y": 0,
+          "name": "C Workspace",
+          "width": 1440,
+          "height": 900,
+          "children": [
+            {
+              "id": "C1VSBc",
+              "type": "ref",
+              "ref": "b:nvJ4B",
+              "name": "C Sidebar",
+              "width": 236,
+              "height": "fill_container",
+              "descendants": {
+                "b:BKXDI": {
+                  "fill": "$b:color-state-selected"
+                },
+                "b:BKXDI/b:nCqu3": {
+                  "icon": "git-compare-arrows"
+                },
+                "b:BKXDI/b:bP6Qr": {
+                  "content": "변경 사항 반영"
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "y4P2G",
+              "name": "C Main Shell",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "w6NjCn",
+                  "type": "ref",
+                  "ref": "b:J6y2A",
+                  "name": "C Tab Bar",
+                  "width": "fill_container",
+                  "height": 52,
+                  "descendants": {
+                    "b:f2qqJ/b:QXd7u": {
+                      "icon": "waypoints"
+                    },
+                    "b:f2qqJ/b:s9UJUl": {
+                      "content": "그래프"
+                    }
+                  }
+                },
+                {
+                  "id": "P5Ni1r",
+                  "type": "ref",
+                  "ref": "b:t1bBoR",
+                  "name": "C Graph Toolbar",
+                  "width": "fill_container",
+                  "height": 48
+                },
+                {
+                  "type": "frame",
+                  "id": "R4FLJ",
+                  "name": "C Graph Area",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "id": "x9lxB1",
+                      "type": "ref",
+                      "ref": "b:V2uNq",
+                      "name": "Graph Canvas",
+                      "x": 0,
+                      "y": 0,
+                      "width": 1204,
+                      "height": 800,
+                      "descendants": {
+                        "b:b1SDlO": {
+                          "inputs": {
+                            "nodeCount": 46,
+                            "showLabels": true,
+                            "dimmed": false,
+                            "varPrefix": "b:"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "BurOc",
+                      "type": "ref",
+                      "ref": "b:dLaXy",
+                      "name": "Graph Legend",
+                      "x": 16,
+                      "y": 750
+                    },
+                    {
+                      "id": "C0ZEeV",
+                      "type": "ref",
+                      "ref": "b:zy8eB",
+                      "name": "Graph Tools",
+                      "x": 1134,
+                      "y": 12
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "i2FHhp",
+          "x": 0,
+          "y": 0,
+          "name": "C Modal Scrim",
+          "fill": "#00000088",
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "id": "cP1iw",
+          "type": "ref",
+          "ref": "b:wSTOW",
+          "name": "C Diff Modal",
+          "x": 29,
+          "y": 27,
+          "descendants": {
+            "b:aaolA": {
+              "type": "frame",
+              "id": "Y6NDDe",
+              "name": "Diff Compare Empty",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$b:space-3",
+              "padding": 40,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "DacdK",
+                  "name": "Diff Empty Icon",
+                  "width": 34,
+                  "height": 34,
+                  "icon": "git-compare-arrows",
+                  "library": "lucide",
+                  "weight": "$b:icon-weight-default",
+                  "fill": "$b:color-icon-default"
+                },
+                {
+                  "type": "text",
+                  "id": "s3zyu",
+                  "name": "Diff Empty Title",
+                  "fill": "$b:color-text-primary",
+                  "content": "달라진 문서가 있다",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-heading",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "IneWo",
+                  "name": "Diff Empty Body",
+                  "fill": "$b:color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 520,
+                  "content": "왼쪽 목록에서 문서를 고르면 지금 쓰는 버전과 새로 뽑아낸 버전을 나란히 견줄 수 있다. 값마다 화살표를 눌러 한쪽을 다른 쪽에 넣는다.",
+                  "lineHeight": "$b:line-height-body",
+                  "textAlign": "center",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-body",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Xre3n",
+      "x": 6240,
+      "y": 43940,
+      "name": "157 · Graph Diff · Document Selected",
+      "context": "LOREKEEPER-502 diff modal comparing one document. Confirm stays disabled while differences remain.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "fYG30",
+          "x": 0,
+          "y": 0,
+          "name": "C Workspace",
+          "width": 1440,
+          "height": 900,
+          "children": [
+            {
+              "id": "dWmO1",
+              "type": "ref",
+              "ref": "b:nvJ4B",
+              "name": "C Sidebar",
+              "width": 236,
+              "height": "fill_container",
+              "descendants": {
+                "b:BKXDI": {
+                  "fill": "$b:color-state-selected"
+                },
+                "b:BKXDI/b:nCqu3": {
+                  "icon": "git-compare-arrows"
+                },
+                "b:BKXDI/b:bP6Qr": {
+                  "content": "변경 사항 반영"
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "PKQhW",
+              "name": "C Main Shell",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "c8pOD",
+                  "type": "ref",
+                  "ref": "b:J6y2A",
+                  "name": "C Tab Bar",
+                  "width": "fill_container",
+                  "height": 52,
+                  "descendants": {
+                    "b:f2qqJ/b:QXd7u": {
+                      "icon": "waypoints"
+                    },
+                    "b:f2qqJ/b:s9UJUl": {
+                      "content": "그래프"
+                    }
+                  }
+                },
+                {
+                  "id": "ox1nF",
+                  "type": "ref",
+                  "ref": "b:t1bBoR",
+                  "name": "C Graph Toolbar",
+                  "width": "fill_container",
+                  "height": 48
+                },
+                {
+                  "type": "frame",
+                  "id": "wu0om",
+                  "name": "C Graph Area",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "id": "WS63p",
+                      "type": "ref",
+                      "ref": "b:V2uNq",
+                      "name": "Graph Canvas",
+                      "x": 0,
+                      "y": 0,
+                      "width": 1204,
+                      "height": 800,
+                      "descendants": {
+                        "b:b1SDlO": {
+                          "inputs": {
+                            "nodeCount": 46,
+                            "showLabels": true,
+                            "dimmed": false,
+                            "varPrefix": "b:"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "AeSwN",
+                      "type": "ref",
+                      "ref": "b:dLaXy",
+                      "name": "Graph Legend",
+                      "x": 16,
+                      "y": 750
+                    },
+                    {
+                      "id": "GyiNp",
+                      "type": "ref",
+                      "ref": "b:zy8eB",
+                      "name": "Graph Tools",
+                      "x": 1134,
+                      "y": 12
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "Ghv8b",
+          "x": 0,
+          "y": 0,
+          "name": "C Modal Scrim",
+          "fill": "#00000088",
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "id": "j4ZF1",
+          "type": "ref",
+          "ref": "b:wSTOW",
+          "name": "C Diff Modal",
+          "x": 29,
+          "y": 27
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "gGqSP",
+      "x": 7800,
+      "y": 43940,
+      "name": "158 · Graph Diff · All Resolved",
+      "context": "LOREKEEPER-502 every document matches, so Confirm becomes available. It sits left of the two bulk-apply actions.",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "xi8Pp",
+          "x": 0,
+          "y": 0,
+          "name": "C Workspace",
+          "width": 1440,
+          "height": 900,
+          "children": [
+            {
+              "id": "q74WEv",
+              "type": "ref",
+              "ref": "b:nvJ4B",
+              "name": "C Sidebar",
+              "width": 236,
+              "height": "fill_container",
+              "descendants": {
+                "b:BKXDI": {
+                  "fill": "$b:color-state-selected"
+                },
+                "b:BKXDI/b:nCqu3": {
+                  "icon": "git-compare-arrows"
+                },
+                "b:BKXDI/b:bP6Qr": {
+                  "content": "변경 사항 반영"
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "nkDFC",
+              "name": "C Main Shell",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "kF1ow",
+                  "type": "ref",
+                  "ref": "b:J6y2A",
+                  "name": "C Tab Bar",
+                  "width": "fill_container",
+                  "height": 52,
+                  "descendants": {
+                    "b:f2qqJ/b:QXd7u": {
+                      "icon": "waypoints"
+                    },
+                    "b:f2qqJ/b:s9UJUl": {
+                      "content": "그래프"
+                    }
+                  }
+                },
+                {
+                  "id": "hjvdY",
+                  "type": "ref",
+                  "ref": "b:t1bBoR",
+                  "name": "C Graph Toolbar",
+                  "width": "fill_container",
+                  "height": 48
+                },
+                {
+                  "type": "frame",
+                  "id": "jNlB3",
+                  "name": "C Graph Area",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "id": "kDLUl",
+                      "type": "ref",
+                      "ref": "b:V2uNq",
+                      "name": "Graph Canvas",
+                      "x": 0,
+                      "y": 0,
+                      "width": 1204,
+                      "height": 800,
+                      "descendants": {
+                        "b:b1SDlO": {
+                          "inputs": {
+                            "nodeCount": 46,
+                            "showLabels": true,
+                            "dimmed": false,
+                            "varPrefix": "b:"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "yLkx2",
+                      "type": "ref",
+                      "ref": "b:dLaXy",
+                      "name": "Graph Legend",
+                      "x": 16,
+                      "y": 750
+                    },
+                    {
+                      "id": "BqogC",
+                      "type": "ref",
+                      "ref": "b:zy8eB",
+                      "name": "Graph Tools",
+                      "x": 1134,
+                      "y": 12
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "r7S9Q",
+          "x": 0,
+          "y": 0,
+          "name": "C Modal Scrim",
+          "fill": "#00000088",
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "id": "uFd0Y",
+          "type": "ref",
+          "ref": "b:wSTOW",
+          "name": "C Diff Modal",
+          "x": 29,
+          "y": 27,
+          "descendants": {
+            "b:fxFjw": {
+              "opacity": 1,
+              "fill": "$b:color-state-selected"
+            },
+            "b:O5V3O": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:O5V3O/b:GUD4m": {
+              "content": "✓"
+            },
+            "b:BmUG3": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:BmUG3/b:GUD4m": {
+              "content": "✓"
+            },
+            "b:a88Hs": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:a88Hs/b:GUD4m": {
+              "content": "✓"
+            },
+            "b:vZDBl": {
+              "content": "✓ 두 버전이 같아져 반영이 끝났다"
+            }
+          }
         }
       ]
     }
