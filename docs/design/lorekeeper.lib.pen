@@ -21354,6 +21354,1363 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "PMWOl",
+      "x": 23767,
+      "y": 1633,
+      "name": "Diff / Entry Row",
+      "reusable": true,
+      "width": 276,
+      "height": 40,
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "left": 3
+      },
+      "gap": "$space-2",
+      "padding": [
+        0,
+        "$space-3"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "id": "n4AZog",
+          "name": "Diff Entry Kind",
+          "fill": "$color-text-secondary",
+          "content": "캐릭터",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-label",
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "mFgdP",
+          "name": "Diff Entry Name",
+          "fill": "$color-text-primary",
+          "content": "김독자",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-body",
+          "fontWeight": "normal"
+        },
+        {
+          "type": "frame",
+          "id": "LMIM5",
+          "name": "Diff Entry Spacer",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "text",
+          "id": "GUD4m",
+          "name": "Diff Entry Mark",
+          "fill": "$color-text-primary",
+          "content": "~",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-body",
+          "fontWeight": "600"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "wSTOW",
+      "x": 23767,
+      "y": 1893,
+      "name": "Diff / Modal / Compare",
+      "reusable": true,
+      "clip": true,
+      "width": 1382,
+      "height": 846,
+      "fill": "$color-surface-default",
+      "cornerRadius": "$radius-card",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000066",
+        "offset": {
+          "x": 0,
+          "y": 8
+        },
+        "blur": 24
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "CTpTe",
+          "name": "Diff Modal Head",
+          "width": "fill_container",
+          "height": 56,
+          "stroke": "$color-border-default",
+          "strokeWidth": {
+            "bottom": 1
+          },
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-4"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "m1NVkO",
+              "name": "Diff Modal Title",
+              "fill": "$color-text-primary",
+              "content": "변경 사항",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-heading",
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "XR4yQ",
+              "name": "Diff Modal Head Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "fxFjw",
+              "name": "Diff Action 반영 확정",
+              "opacity": 0.4,
+              "height": 28,
+              "cornerRadius": "$radius-control",
+              "stroke": "$color-border-default",
+              "strokeWidth": 1,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "CmbIp",
+                  "name": "Diff Action Label 반영 확정",
+                  "fill": "$color-text-primary",
+                  "content": "반영 확정",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "w5JX45",
+              "name": "Diff Action 현재 버전 전체 반영",
+              "height": 28,
+              "cornerRadius": "$radius-control",
+              "stroke": "$color-border-default",
+              "strokeWidth": 1,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "oHIL9",
+                  "name": "Diff Action Label 현재 버전 전체 반영",
+                  "fill": "$color-text-primary",
+                  "content": "현재 버전 전체 반영",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "rIKoP",
+              "name": "Diff Action 신규 버전 전체 반영",
+              "height": 28,
+              "cornerRadius": "$radius-control",
+              "stroke": "$color-border-default",
+              "strokeWidth": 1,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "e2C0b",
+                  "name": "Diff Action Label 신규 버전 전체 반영",
+                  "fill": "$color-text-primary",
+                  "content": "신규 버전 전체 반영",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "cw1U2",
+              "name": "Diff Action 되돌리기",
+              "height": 28,
+              "cornerRadius": "$radius-control",
+              "stroke": "$color-border-default",
+              "strokeWidth": 1,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "lO2GB",
+                  "name": "Diff Action Label 되돌리기",
+                  "fill": "$color-text-primary",
+                  "content": "되돌리기",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-label",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "id": "YxtAj",
+              "type": "ref",
+              "ref": "hMpn5",
+              "name": "Diff Modal Close",
+              "width": 28,
+              "height": 28,
+              "descendants": {
+                "UCRf6": {
+                  "icon": "x",
+                  "width": 16,
+                  "height": 16
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Lg1Am",
+          "name": "Diff Modal Body",
+          "width": "fill_container",
+          "height": "fill_container",
+          "children": [
+            {
+              "type": "frame",
+              "id": "B3m7K",
+              "name": "Diff List",
+              "width": 276,
+              "height": "fill_container",
+              "fill": "$color-surface-navigation",
+              "stroke": "$color-border-default",
+              "strokeWidth": {
+                "right": 1
+              },
+              "layout": "vertical",
+              "gap": "$space-1",
+              "padding": "$space-2",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "EBKAc",
+                  "name": "Diff List Head",
+                  "width": "fill_container",
+                  "height": 32,
+                  "padding": [
+                    0,
+                    "$space-2"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "gQC5u",
+                      "name": "Diff List Head Label",
+                      "fill": "$color-text-secondary",
+                      "content": "변경 · 확정",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-label",
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "id": "O5V3O",
+                  "type": "ref",
+                  "ref": "PMWOl",
+                  "name": "Diff Entry · 김독자",
+                  "width": "fill_container",
+                  "fill": "#00000000",
+                  "descendants": {
+                    "n4AZog": {
+                      "content": "캐릭터"
+                    },
+                    "mFgdP": {
+                      "content": "김독자"
+                    },
+                    "GUD4m": {
+                      "content": "~"
+                    }
+                  }
+                },
+                {
+                  "id": "BmUG3",
+                  "type": "ref",
+                  "ref": "PMWOl",
+                  "name": "Diff Entry · 유리 산맥",
+                  "width": "fill_container",
+                  "fill": "#00000000",
+                  "descendants": {
+                    "n4AZog": {
+                      "content": "장소"
+                    },
+                    "mFgdP": {
+                      "content": "유리 산맥"
+                    },
+                    "GUD4m": {
+                      "content": "+"
+                    }
+                  }
+                },
+                {
+                  "id": "a88Hs",
+                  "type": "ref",
+                  "ref": "PMWOl",
+                  "name": "Diff Entry · 도깨비 학살",
+                  "width": "fill_container",
+                  "fill": "#00000000",
+                  "descendants": {
+                    "n4AZog": {
+                      "content": "이벤트"
+                    },
+                    "mFgdP": {
+                      "content": "도깨비 학살"
+                    },
+                    "GUD4m": {
+                      "content": "−"
+                    }
+                  }
+                },
+                {
+                  "id": "u1bg2",
+                  "type": "ref",
+                  "ref": "PMWOl",
+                  "name": "Diff Entry · 유중혁",
+                  "width": "fill_container",
+                  "fill": "$color-state-selected",
+                  "descendants": {
+                    "n4AZog": {
+                      "content": "캐릭터"
+                    },
+                    "mFgdP": {
+                      "content": "유중혁"
+                    },
+                    "GUD4m": {
+                      "content": "✓"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "aaolA",
+              "name": "Diff Compare",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$space-3",
+              "padding": "$space-4",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "LZGVl",
+                  "name": "Diff Doc Head",
+                  "width": "fill_container",
+                  "gap": "$space-2",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "emewU",
+                      "name": "Diff Doc Name",
+                      "fill": "$color-text-primary",
+                      "content": "김독자",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "i9wPht",
+                      "name": "Diff Doc Badge",
+                      "cornerRadius": 999,
+                      "stroke": "$color-border-default",
+                      "strokeWidth": 1,
+                      "padding": [
+                        "$space-1",
+                        "$space-2"
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "iOkmU",
+                          "name": "Diff Doc Badge Label",
+                          "fill": "$color-text-secondary",
+                          "content": "수정",
+                          "fontFamily": "$font-family-ui",
+                          "fontSize": "$font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "EVveU",
+                  "name": "Diff Status Bar",
+                  "width": "fill_container",
+                  "height": 40,
+                  "cornerRadius": "$radius-control",
+                  "stroke": "$color-border-default",
+                  "strokeWidth": 1,
+                  "gap": "$space-2",
+                  "padding": [
+                    0,
+                    "$space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "vZDBl",
+                      "name": "Diff Status Text",
+                      "fill": "$color-text-secondary",
+                      "content": "아직 다른 곳이 있다",
+                      "fontFamily": "$font-family-ui",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xZflI",
+                      "name": "Diff Status Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XSdSE",
+                      "name": "Diff Action 현재 버전 반영",
+                      "height": 28,
+                      "cornerRadius": "$radius-control",
+                      "stroke": "$color-border-default",
+                      "strokeWidth": 1,
+                      "padding": [
+                        0,
+                        "$space-3"
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "qRiyg",
+                          "name": "Diff Action Label 현재 버전 반영",
+                          "fill": "$color-text-primary",
+                          "content": "현재 버전 반영",
+                          "fontFamily": "$font-family-ui",
+                          "fontSize": "$font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "CnpTH",
+                      "name": "Diff Action 신규 버전 반영",
+                      "height": 28,
+                      "cornerRadius": "$radius-control",
+                      "stroke": "$color-border-default",
+                      "strokeWidth": 1,
+                      "padding": [
+                        0,
+                        "$space-3"
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "YMSHa",
+                          "name": "Diff Action Label 신규 버전 반영",
+                          "fill": "$color-text-primary",
+                          "content": "신규 버전 반영",
+                          "fontFamily": "$font-family-ui",
+                          "fontSize": "$font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "MnCLh",
+                      "name": "Diff Action 되돌리기",
+                      "height": 28,
+                      "cornerRadius": "$radius-control",
+                      "stroke": "$color-border-default",
+                      "strokeWidth": 1,
+                      "padding": [
+                        0,
+                        "$space-3"
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "q0WFV",
+                          "name": "Diff Action Label 되돌리기",
+                          "fill": "$color-text-primary",
+                          "content": "되돌리기",
+                          "fontFamily": "$font-family-ui",
+                          "fontSize": "$font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "kHNlD",
+                  "name": "Diff Panes",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "kwCZ6",
+                      "name": "Diff Pane Current",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$space-2",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "R1OCyn",
+                          "name": "Diff Pane Title Current",
+                          "fill": "$color-text-primary",
+                          "content": "현재 버전",
+                          "fontFamily": "$font-family-ui",
+                          "fontSize": "$font-size-body",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "jCvy2",
+                          "name": "Diff Pane Box Current",
+                          "clip": true,
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "fill": "$color-surface-raised",
+                          "cornerRadius": "$radius-control",
+                          "stroke": "$color-border-default",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "lc7BA",
+                              "name": "Diff Cell Current 분류",
+                              "width": "fill_container",
+                              "fill": "#00000000",
+                              "stroke": "$color-border-default",
+                              "strokeWidth": {
+                                "bottom": 1
+                              },
+                              "gap": "$space-3",
+                              "padding": [
+                                "$space-2",
+                                "$space-3"
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "aXWKe",
+                                  "name": "Diff Cell Label Wrap",
+                                  "width": 96,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "yhj62",
+                                      "name": "Diff Cell Label",
+                                      "fill": "$color-text-secondary",
+                                      "content": "분류",
+                                      "fontFamily": "$font-family-ui",
+                                      "fontSize": "$font-size-label",
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "POr0y",
+                                  "name": "Diff Cell Value",
+                                  "fill": "$color-text-primary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "캐릭터",
+                                  "lineHeight": "$line-height-body",
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": "$font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "R52rn4",
+                              "name": "Diff Cell Current 설명",
+                              "width": "fill_container",
+                              "fill": "$color-state-selected",
+                              "stroke": "$color-border-default",
+                              "strokeWidth": {
+                                "bottom": 1
+                              },
+                              "gap": "$space-3",
+                              "padding": [
+                                "$space-2",
+                                "$space-3"
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "g3NQ5M",
+                                  "name": "Diff Cell Label Wrap",
+                                  "width": 96,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "SrOrp",
+                                      "name": "Diff Cell Label",
+                                      "fill": "$color-text-secondary",
+                                      "content": "설명",
+                                      "fontFamily": "$font-family-ui",
+                                      "fontSize": "$font-size-label",
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "PhbsX",
+                                  "name": "Diff Cell Value",
+                                  "fill": "$color-text-primary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "10년을 따라온 장편 판타지를 완독한 독자.",
+                                  "lineHeight": "$line-height-body",
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": "$font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "NTDsR",
+                              "name": "Diff Cell Current 관련 원고",
+                              "width": "fill_container",
+                              "fill": "#00000000",
+                              "stroke": "$color-border-default",
+                              "strokeWidth": {
+                                "bottom": 1
+                              },
+                              "gap": "$space-3",
+                              "padding": [
+                                "$space-2",
+                                "$space-3"
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "pmzKz",
+                                  "name": "Diff Cell Label Wrap",
+                                  "width": 96,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "cHdyP",
+                                      "name": "Diff Cell Label",
+                                      "fill": "$color-text-secondary",
+                                      "content": "관련 원고",
+                                      "fontFamily": "$font-family-ui",
+                                      "fontSize": "$font-size-label",
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "A8CGai",
+                                  "name": "Diff Cell Value",
+                                  "fill": "$color-text-primary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "1화",
+                                  "lineHeight": "$line-height-body",
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": "$font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "IfVqt",
+                              "name": "Diff Cell Current 관련 인물",
+                              "width": "fill_container",
+                              "fill": "$color-state-selected",
+                              "stroke": "$color-border-default",
+                              "strokeWidth": {
+                                "bottom": 1
+                              },
+                              "gap": "$space-3",
+                              "padding": [
+                                "$space-2",
+                                "$space-3"
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "v7FOp",
+                                  "name": "Diff Cell Label Wrap",
+                                  "width": 96,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "xAZTw",
+                                      "name": "Diff Cell Label",
+                                      "fill": "$color-text-secondary",
+                                      "content": "관련 인물",
+                                      "fontFamily": "$font-family-ui",
+                                      "fontSize": "$font-size-label",
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "wSP9W",
+                                  "name": "Diff Cell Value",
+                                  "fill": "$color-text-primary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "유중혁 · 유상아",
+                                  "lineHeight": "$line-height-body",
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": "$font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "jsPgl",
+                      "name": "Diff Gutter",
+                      "width": 156,
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$space-2",
+                      "padding": [
+                        "$space-6",
+                        0
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "h5K7N3",
+                          "name": "Diff Gutter To New",
+                          "width": "fill_container",
+                          "height": 34,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "EewXJ",
+                              "name": "Diff Gutter Icon To New",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "chevrons-right",
+                              "library": "lucide",
+                              "weight": "$icon-weight-default",
+                              "fill": "$color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "USmDJ",
+                          "name": "Diff Gutter To Current",
+                          "width": "fill_container",
+                          "height": 34,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "S7VrNk",
+                              "name": "Diff Gutter Icon To Current",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "chevrons-left",
+                              "library": "lucide",
+                              "weight": "$icon-weight-default",
+                              "fill": "$color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "TxUjb",
+                      "name": "Diff Pane New",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$space-2",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "gX0Ul",
+                          "name": "Diff Pane Title New",
+                          "fill": "$color-text-primary",
+                          "content": "신규 버전",
+                          "fontFamily": "$font-family-ui",
+                          "fontSize": "$font-size-body",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "SlBOc",
+                          "name": "Diff Pane Box New",
+                          "clip": true,
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "fill": "$color-surface-raised",
+                          "cornerRadius": "$radius-control",
+                          "stroke": "$color-border-default",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "A04cI",
+                              "name": "Diff Cell New 분류",
+                              "width": "fill_container",
+                              "fill": "#00000000",
+                              "stroke": "$color-border-default",
+                              "strokeWidth": {
+                                "bottom": 1
+                              },
+                              "gap": "$space-3",
+                              "padding": [
+                                "$space-2",
+                                "$space-3"
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "dKsD2",
+                                  "name": "Diff Cell Label Wrap",
+                                  "width": 96,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "RaJ5t",
+                                      "name": "Diff Cell Label",
+                                      "fill": "$color-text-secondary",
+                                      "content": "분류",
+                                      "fontFamily": "$font-family-ui",
+                                      "fontSize": "$font-size-label",
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "h2Rif",
+                                  "name": "Diff Cell Value",
+                                  "fill": "$color-text-primary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "캐릭터",
+                                  "lineHeight": "$line-height-body",
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": "$font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "M7JBZr",
+                              "name": "Diff Cell New 설명",
+                              "width": "fill_container",
+                              "fill": "$color-state-selected",
+                              "stroke": "$color-border-default",
+                              "strokeWidth": {
+                                "bottom": 1
+                              },
+                              "gap": "$space-3",
+                              "padding": [
+                                "$space-2",
+                                "$space-3"
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "G9pQ0v",
+                                  "name": "Diff Cell Label Wrap",
+                                  "width": 96,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "ZPeVd",
+                                      "name": "Diff Cell Label",
+                                      "fill": "$color-text-secondary",
+                                      "content": "설명",
+                                      "fontFamily": "$font-family-ui",
+                                      "fontSize": "$font-size-label",
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "o8uPtA",
+                                  "name": "Diff Cell Value",
+                                  "fill": "$color-text-primary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "멸살법을 끝까지 읽은 유일한 독자. 시나리오 시작과 함께 각성한다.",
+                                  "lineHeight": "$line-height-body",
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": "$font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "xQ7pC",
+                              "name": "Diff Cell New 관련 원고",
+                              "width": "fill_container",
+                              "fill": "#00000000",
+                              "stroke": "$color-border-default",
+                              "strokeWidth": {
+                                "bottom": 1
+                              },
+                              "gap": "$space-3",
+                              "padding": [
+                                "$space-2",
+                                "$space-3"
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "j69XY",
+                                  "name": "Diff Cell Label Wrap",
+                                  "width": 96,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "flMza",
+                                      "name": "Diff Cell Label",
+                                      "fill": "$color-text-secondary",
+                                      "content": "관련 원고",
+                                      "fontFamily": "$font-family-ui",
+                                      "fontSize": "$font-size-label",
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "sCPbw",
+                                  "name": "Diff Cell Value",
+                                  "fill": "$color-text-primary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "1화",
+                                  "lineHeight": "$line-height-body",
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": "$font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "fc0aK",
+                              "name": "Diff Cell New 관련 인물",
+                              "width": "fill_container",
+                              "fill": "$color-state-selected",
+                              "stroke": "$color-border-default",
+                              "strokeWidth": {
+                                "bottom": 1
+                              },
+                              "gap": "$space-3",
+                              "padding": [
+                                "$space-2",
+                                "$space-3"
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "nrH55",
+                                  "name": "Diff Cell Label Wrap",
+                                  "width": 96,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "yMYyD",
+                                      "name": "Diff Cell Label",
+                                      "fill": "$color-text-secondary",
+                                      "content": "관련 인물",
+                                      "fontFamily": "$font-family-ui",
+                                      "fontSize": "$font-size-label",
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "nBGF9",
+                                  "name": "Diff Cell Value",
+                                  "fill": "$color-text-primary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "유중혁 · 유상아 · 이지혜",
+                                  "lineHeight": "$line-height-body",
+                                  "fontFamily": "$font-family-ui",
+                                  "fontSize": "$font-size-label",
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "rsMLG",
+      "x": 24243,
+      "y": 1633,
+      "name": "Property / Relation Chip",
+      "reusable": true,
+      "height": 28,
+      "cornerRadius": 7,
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "gap": 7,
+      "padding": [
+        0,
+        7
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "ellipse",
+          "id": "hAQfN",
+          "name": "Relation Chip Dot",
+          "fill": "$color-node-character",
+          "width": 8,
+          "height": 8
+        },
+        {
+          "type": "icon",
+          "id": "iIrQP",
+          "name": "Relation Chip Icon",
+          "width": 14,
+          "height": 14,
+          "icon": "circle-user-round",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-icon-default"
+        },
+        {
+          "type": "text",
+          "id": "U2khY",
+          "name": "Relation Chip Name",
+          "fill": "$color-text-primary",
+          "content": "김독자",
+          "fontFamily": "$font-family-ui",
+          "fontSize": "$font-size-label",
+          "fontWeight": "600"
+        },
+        {
+          "type": "icon",
+          "id": "h2CPwH",
+          "name": "Relation Chip Remove",
+          "width": 13,
+          "height": 13,
+          "icon": "x",
+          "library": "lucide",
+          "weight": "$icon-weight-default",
+          "fill": "$color-icon-default"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "nXw6k",
+      "x": 24243,
+      "y": 2939,
+      "name": "Property / Row / Relation",
+      "reusable": true,
+      "width": 760,
+      "stroke": "$color-border-default",
+      "strokeWidth": {
+        "top": 1
+      },
+      "gap": 12,
+      "padding": [
+        3,
+        0
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "umBzp",
+          "name": "Relation Row Label Wrap",
+          "width": 108,
+          "padding": [
+            4,
+            0,
+            0,
+            0
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "QNaPm",
+              "name": "Relation Row Label",
+              "fill": "$color-text-secondary",
+              "content": "관련 캐릭터",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nthQx",
+          "name": "Relation Row Values",
+          "width": "fill_container",
+          "gap": 6,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "sl5NB",
+              "type": "ref",
+              "ref": "rsMLG",
+              "name": "Relation Row Chip 1"
+            },
+            {
+              "id": "D5EfvG",
+              "type": "ref",
+              "ref": "rsMLG",
+              "name": "Relation Row Chip 2",
+              "descendants": {
+                "U2khY": {
+                  "content": "유중혁"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "E1st2m",
+      "x": 24243,
+      "y": 3173,
+      "name": "Menu / Episode Folder / Open",
+      "reusable": true,
+      "width": 204,
+      "fill": "$color-surface-raised",
+      "cornerRadius": "$radius-control",
+      "stroke": "$color-border-default",
+      "strokeWidth": 1,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000055",
+        "offset": {
+          "x": 0,
+          "y": 4
+        },
+        "blur": 16
+      },
+      "layout": "vertical",
+      "gap": "$space-1",
+      "padding": "$space-2",
+      "children": [
+        {
+          "type": "frame",
+          "id": "ShzVu",
+          "name": "원고 추가 Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "mgktX",
+              "name": "원고 추가 Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "file-plus",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "X5a4b",
+              "name": "원고 추가 Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "원고 추가",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "DH9H4",
+          "name": "Episode Folder Menu Separator",
+          "fill": "$color-border-default",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "frame",
+          "id": "FG0N5",
+          "name": "이름 변경 Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "T1T3b",
+              "name": "이름 변경 Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "pencil",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "kJvNm",
+              "name": "이름 변경 Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "이름 변경",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "uCrOZ",
+          "name": "에피소드 폴더 삭제 Menu Item",
+          "width": "fill_container",
+          "height": 34,
+          "cornerRadius": "$radius-control",
+          "gap": "$space-2",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "H6jzF",
+              "name": "에피소드 폴더 삭제 Menu Item Icon",
+              "width": 15,
+              "height": 15,
+              "icon": "trash-2",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-icon-default"
+            },
+            {
+              "type": "text",
+              "id": "s7LZF",
+              "name": "에피소드 폴더 삭제 Menu Item Label",
+              "fill": "$color-text-primary",
+              "content": "에피소드 폴더 삭제",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
     }
   ],
   "themes": {
