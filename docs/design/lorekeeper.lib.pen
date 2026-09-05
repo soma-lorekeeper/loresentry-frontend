@@ -389,10 +389,28 @@
               ],
               "descendants": {
                 "nCqu3": {
-                  "icon": "share-2"
+                  "icon": "waypoints"
                 },
                 "bP6Qr": {
                   "content": "그래프"
+                }
+              }
+            },
+            {
+              "id": "FbXdo",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Instance · Timeline",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "chart-no-axes-gantt"
+                },
+                "bP6Qr": {
+                  "content": "타임라인"
                 }
               }
             },
@@ -413,6 +431,42 @@
                 },
                 "bP6Qr": {
                   "content": "메모"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "K7BFWT",
+          "name": "Sidebar Graph Refresh Block",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-1",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "PFYBJ",
+              "name": "Sidebar Graph Refresh Divider",
+              "fill": "$color-border-default",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "id": "BKXDI",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Graph Refresh",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "refresh-cw"
+                },
+                "bP6Qr": {
+                  "content": "그래프 최신화"
                 }
               }
             }
@@ -541,19 +595,18 @@
               ]
             },
             {
-              "id": "t5DO0e",
+              "id": "onx6n",
               "type": "ref",
               "ref": "ocZ7t",
               "name": "Sidebar Manuscript Folder",
-              "width": "fill_container",
-              "fill": "#00000000",
               "padding": [
                 0,
                 "$space-3"
               ],
+              "height": 30,
               "descendants": {
                 "nCqu3": {
-                  "icon": "folder"
+                  "icon": "folder-open"
                 },
                 "bP6Qr": {
                   "content": "원고"
@@ -561,16 +614,34 @@
               }
             },
             {
-              "id": "INQCc",
+              "id": "uDRts",
               "type": "ref",
               "ref": "ocZ7t",
-              "name": "Sidebar Current Manuscript",
-              "width": "fill_container",
-              "fill": "#00000000",
+              "name": "Sidebar Episode Folder Open",
               "padding": [
                 0,
                 28
               ],
+              "height": 30,
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder-open"
+                },
+                "bP6Qr": {
+                  "content": "Episode 8. 새 원고"
+                }
+              }
+            },
+            {
+              "id": "OAnzp",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Chapter Current",
+              "padding": [
+                0,
+                46
+              ],
+              "height": 30,
               "descendants": {
                 "nCqu3": {
                   "icon": "file-text"
@@ -581,62 +652,116 @@
               }
             },
             {
-              "id": "wVZtO",
+              "id": "DIwDF",
               "type": "ref",
               "ref": "ocZ7t",
-              "name": "Sidebar Previous Manuscript",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                28
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "11화 · 유리 정원"
-                }
-              }
-            },
-            {
-              "id": "UPUz2",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Setting File",
-              "width": "fill_container",
-              "fill": "#00000000",
+              "name": "Sidebar Character Folder",
               "padding": [
                 0,
                 "$space-3"
               ],
+              "height": 30,
               "descendants": {
                 "nCqu3": {
-                  "icon": "settings-2"
-                },
-                "bP6Qr": {
-                  "content": "설정"
-                }
-              }
-            },
-            {
-              "id": "IUuBg",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Character File",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "user-round"
+                  "icon": "folder"
                 },
                 "bP6Qr": {
                   "content": "캐릭터"
+                }
+              }
+            },
+            {
+              "id": "Z9FYr",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Place Folder",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "height": 30,
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "장소"
+                }
+              }
+            },
+            {
+              "id": "UiAS5",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Organization Folder",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "height": 30,
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "조직"
+                }
+              }
+            },
+            {
+              "id": "Mm7Dp",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Folder",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "height": 30,
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "아이템"
+                }
+              }
+            },
+            {
+              "id": "uCYEn",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Event Folder",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "height": 30,
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "이벤트"
+                }
+              }
+            },
+            {
+              "id": "bWaRa",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Worldview Folder",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "height": 30,
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "세계관"
                 }
               }
             }
