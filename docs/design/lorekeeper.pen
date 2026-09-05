@@ -90027,6 +90027,3949 @@
           }
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "l76fWh",
+      "x": 0,
+      "y": 45380,
+      "name": "159 · Property Document · Event · Default",
+      "context": "LOREKEEPER-503 event document. The old in-document timeline is dropped; time is carried by the 관련 원고 relation, matching text2graph.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "id": "HUTdJ",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Character Document Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:BeegO": {
+              "fill": "#00000000"
+            },
+            "b:uCYEn": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "uWqe9",
+          "name": "Character Document Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "e30sB0",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "Character Document Tab Bar",
+              "width": "fill_container",
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "scroll"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "도깨비 학살"
+                },
+                "b:f2qqJ/b:joUxb": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "OCFyo",
+              "name": "Character Document Workspace",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "v6924",
+                  "type": "ref",
+                  "ref": "b:zdoWO",
+                  "name": "Character Document File Header",
+                  "width": "fill_container"
+                },
+                {
+                  "type": "frame",
+                  "id": "ngLZr",
+                  "name": "Character Document Editing Toolbar",
+                  "width": "fill_container",
+                  "height": 52,
+                  "fill": "$b:color-surface-default",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "gap": "$b:space-1",
+                  "padding": [
+                    "$b:space-2",
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "hQ6RW",
+                      "name": "History Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "SG5on",
+                          "name": "Undo",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "Sgmm4",
+                              "name": "Undo Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "undo-2",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "i904LJ",
+                          "name": "Redo",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "WCZLy",
+                              "name": "Redo Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "redo-2",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "n4SZM",
+                      "name": "Toolbar Separator 1",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "D8I8mb",
+                      "name": "Writing Environment Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "t4HBAO",
+                          "name": "Font Family",
+                          "width": 88,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "JZvQs",
+                              "name": "Font Family Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "Inter",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "QbYNC",
+                              "name": "Font Family Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "lRQKb",
+                              "name": "Font Family Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "yhqS6",
+                          "name": "Font Size",
+                          "width": 58,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "z3un8",
+                              "name": "Font Size Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "16",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "PCmEp",
+                              "name": "Font Size Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "tdooj",
+                              "name": "Font Size Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "z5IY29",
+                          "name": "Line Height",
+                          "width": 64,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uAqhH",
+                              "name": "Line Height Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "1.78",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "DiMMH",
+                              "name": "Line Height Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "b6eXQ",
+                              "name": "Line Height Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "oxaNw",
+                      "name": "Toolbar Separator 2",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "N1t5z",
+                      "name": "Paragraph Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "KqDBP",
+                          "name": "Text Alignment",
+                          "width": 68,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "EMJWX",
+                              "name": "Text Alignment Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "정렬",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "C2GtV",
+                              "name": "Text Alignment Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "Qnqlc",
+                              "name": "Text Alignment Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "BEWni",
+                          "name": "Outdent",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "nZSVT",
+                              "name": "Outdent Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list-indent-decrease",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "zMPmX",
+                          "name": "Indent",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "X9eWp",
+                              "name": "Indent Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list-indent-increase",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "S3Hhx",
+                      "name": "Toolbar Separator 3",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "QdFZY",
+                      "name": "Character Format Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "u1zSN",
+                          "name": "Bold",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "w7pwe",
+                              "name": "Bold Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "bold",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "mcFL4",
+                          "name": "Italic",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "qGDVo",
+                              "name": "Italic Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "italic",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "e0c4v",
+                          "name": "Underline",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "oBzI1",
+                              "name": "Underline Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "underline",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "fXKxl",
+                          "name": "Strikethrough",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "rZI9T",
+                              "name": "Strikethrough Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "strikethrough",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "XJVvY",
+                      "name": "Toolbar Separator 4",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "R8F3c",
+                      "name": "List Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "D6IOY",
+                          "name": "Bullet List",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "rRJhc",
+                              "name": "Bullet List Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "lzjiW",
+                          "name": "Numbered List",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "djkst",
+                              "name": "Numbered List Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list-ordered",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "CNhmQ",
+                      "name": "Toolbar Separator 5",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "GvcIq",
+                      "name": "Find and Replace",
+                      "height": 32,
+                      "cornerRadius": "$b:radius-control",
+                      "gap": "$b:space-2",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "DPaWq",
+                          "name": "Find and Replace Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "search",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Z2t62",
+                          "name": "Find and Replace Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "찾기·바꾸기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "TC2P2",
+                      "name": "Toolbar Flexible Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "AGjhp",
+                      "name": "Autosave Status",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "MzRMN",
+                          "name": "Autosave Status Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "cloud-check",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "XXQOV",
+                          "name": "Autosave Status Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "자동 저장됨",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "eyRlj",
+                      "name": "Toolbar Separator 6",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "text",
+                      "id": "qoJUa",
+                      "name": "Character Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "자동 저장됨",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "yGikZ",
+                  "name": "Character Property Document Canvas",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "$b:color-surface-default",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "dwFxj",
+                      "x": 202,
+                      "y": 0,
+                      "name": "Character Property Document Page",
+                      "width": 800,
+                      "height": 748,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": [
+                        36,
+                        10,
+                        56,
+                        10
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "KNSzE",
+                          "name": "Character Document Context Row",
+                          "width": "fill_container",
+                          "height": 36,
+                          "gap": "$b:space-2",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "ksrdy",
+                              "name": "Character Document Type Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "scroll",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            },
+                            {
+                              "type": "text",
+                              "id": "G1g9HQ",
+                              "name": "Character Document Type Label",
+                              "fill": "$b:color-text-secondary",
+                              "content": "이벤트",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "XOMBH",
+                              "name": "Character Document Status Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "xX4qE",
+                          "name": "Character Document Title",
+                          "fill": "$b:color-text-primary",
+                          "content": "도깨비 학살",
+                          "lineHeight": "$b:line-height-body",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-manuscript-title",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "qq3lA",
+                          "name": "Character Properties",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "hhHoG",
+                              "name": "Character Properties Header",
+                              "width": "fill_container",
+                              "height": 32,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "OZ4oF",
+                                  "name": "Character Properties Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "속성",
+                                  "lineHeight": "$b:line-height-body",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "id": "IlkBI",
+                              "type": "ref",
+                              "ref": "b:sL5cJ",
+                              "name": "설명 Text Property",
+                              "width": "fill_container",
+                              "descendants": {
+                                "b:e7Vzqr": {
+                                  "content": "설명"
+                                },
+                                "b:oqUQo": {
+                                  "content": "도깨비가 3807호차 승객을 시나리오로 몰아넣었다"
+                                }
+                              }
+                            },
+                            {
+                              "id": "JVj32",
+                              "type": "ref",
+                              "ref": "b:nXw6k",
+                              "name": "관련 원고 Relation Property",
+                              "width": "fill_container",
+                              "descendants": {
+                                "b:QNaPm": {
+                                  "content": "관련 원고"
+                                },
+                                "b:sl5NB/b:hAQfN": {
+                                  "fill": "$b:color-node-manuscript"
+                                },
+                                "b:sl5NB/b:iIrQP": {
+                                  "icon": "file-text"
+                                },
+                                "b:sl5NB/b:U2khY": {
+                                  "content": "3화"
+                                },
+                                "b:D5EfvG": {
+                                  "enabled": false
+                                }
+                              }
+                            },
+                            {
+                              "id": "K0TJkK",
+                              "type": "ref",
+                              "ref": "b:nXw6k",
+                              "name": "관련 캐릭터 Relation Property",
+                              "width": "fill_container",
+                              "descendants": {
+                                "b:QNaPm": {
+                                  "content": "관련 캐릭터"
+                                },
+                                "b:sl5NB/b:U2khY": {
+                                  "content": "도깨비"
+                                },
+                                "b:D5EfvG/b:U2khY": {
+                                  "content": "김독자"
+                                }
+                              }
+                            },
+                            {
+                              "id": "u0b2M7",
+                              "type": "ref",
+                              "ref": "b:nXw6k",
+                              "name": "관련 장소 Relation Property",
+                              "width": "fill_container",
+                              "descendants": {
+                                "b:QNaPm": {
+                                  "content": "관련 장소"
+                                },
+                                "b:sl5NB/b:hAQfN": {
+                                  "fill": "$b:color-node-place"
+                                },
+                                "b:sl5NB/b:iIrQP": {
+                                  "icon": "map-pin"
+                                },
+                                "b:sl5NB/b:U2khY": {
+                                  "content": "3807호차"
+                                },
+                                "b:D5EfvG": {
+                                  "enabled": false
+                                }
+                              }
+                            },
+                            {
+                              "id": "MmAfS",
+                              "type": "ref",
+                              "ref": "b:K4A0d",
+                              "name": "Character Add Property",
+                              "width": "fill_container"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "hiJ6Y",
+                          "name": "Character Content Divider",
+                          "fill": "$b:color-border-default",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "text",
+                          "id": "VUYAE",
+                          "name": "Character Document Body",
+                          "fill": "$b:color-text-primary",
+                          "textGrowth": "fixed-width-height",
+                          "width": "fill_container",
+                          "height": 190,
+                          "content": "3807호차에서 도깨비가 승객을 시나리오로 몰아넣은 밤. 김독자가 멸살법의 전개를 처음으로 실제와 맞춰 본 자리다.",
+                          "lineHeight": "$b:line-height-body",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-manuscript-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "S5XbQn",
+      "x": 1560,
+      "y": 45380,
+      "name": "160 · Property Document · Event · Empty",
+      "context": "LOREKEEPER-503 event document with nothing filled in yet. Only 분류 and 설명 are offered; relations appear once they exist.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "id": "jy7Kd",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "Character Document Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:BeegO": {
+              "fill": "#00000000"
+            },
+            "b:uCYEn": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "cVywE",
+          "name": "Character Document Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "DTLQe",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "Character Document Tab Bar",
+              "width": "fill_container",
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "scroll"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "제목 없는 이벤트"
+                },
+                "b:f2qqJ/b:joUxb": {
+                  "enabled": false,
+                  "width": 0,
+                  "height": 0
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "Prcp6",
+              "name": "Character Document Workspace",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "CDgzO",
+                  "type": "ref",
+                  "ref": "b:zdoWO",
+                  "name": "Character Document File Header",
+                  "width": "fill_container"
+                },
+                {
+                  "type": "frame",
+                  "id": "i6XTZI",
+                  "name": "Character Document Editing Toolbar",
+                  "width": "fill_container",
+                  "height": 52,
+                  "fill": "$b:color-surface-default",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "gap": "$b:space-1",
+                  "padding": [
+                    "$b:space-2",
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "qRnjA",
+                      "name": "History Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "AEWow",
+                          "name": "Undo",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "nhMQu",
+                              "name": "Undo Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "undo-2",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "OJWag",
+                          "name": "Redo",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "FBzXq",
+                              "name": "Redo Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "redo-2",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "lZr2m",
+                      "name": "Toolbar Separator 1",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "DdNVT",
+                      "name": "Writing Environment Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "blivv",
+                          "name": "Font Family",
+                          "width": 88,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "JiotO",
+                              "name": "Font Family Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "Inter",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "OSmhP",
+                              "name": "Font Family Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "QPayD",
+                              "name": "Font Family Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "AYj0Q",
+                          "name": "Font Size",
+                          "width": 58,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "TSGnS",
+                              "name": "Font Size Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "16",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "b5eZb",
+                              "name": "Font Size Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "K2MT4",
+                              "name": "Font Size Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "YCG7F",
+                          "name": "Line Height",
+                          "width": 64,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "kiEaZ",
+                              "name": "Line Height Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "1.78",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "B2VowE",
+                              "name": "Line Height Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "SvPqC",
+                              "name": "Line Height Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "SAu7B",
+                      "name": "Toolbar Separator 2",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XlOlt",
+                      "name": "Paragraph Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "LlIzU",
+                          "name": "Text Alignment",
+                          "width": 68,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "LlmrD",
+                              "name": "Text Alignment Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "정렬",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "XTr2a",
+                              "name": "Text Alignment Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "JQBfC",
+                              "name": "Text Alignment Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "n3EWtY",
+                          "name": "Outdent",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "V7wzcM",
+                              "name": "Outdent Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list-indent-decrease",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "o5L8G",
+                          "name": "Indent",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "F5eAD3",
+                              "name": "Indent Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list-indent-increase",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "U3Kuly",
+                      "name": "Toolbar Separator 3",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "YnZiC",
+                      "name": "Character Format Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "j5SnKm",
+                          "name": "Bold",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "nqcgG",
+                              "name": "Bold Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "bold",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "naGVY",
+                          "name": "Italic",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "eyFmi",
+                              "name": "Italic Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "italic",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "YNXcw",
+                          "name": "Underline",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "KzhRR",
+                              "name": "Underline Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "underline",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "yx3Qz",
+                          "name": "Strikethrough",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "I5233",
+                              "name": "Strikethrough Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "strikethrough",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "IYQkA",
+                      "name": "Toolbar Separator 4",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "AktJq",
+                      "name": "List Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "iXc2K",
+                          "name": "Bullet List",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "X7zISp",
+                              "name": "Bullet List Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "crch2",
+                          "name": "Numbered List",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "VxPst",
+                              "name": "Numbered List Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list-ordered",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "iLEnV",
+                      "name": "Toolbar Separator 5",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "djl5T",
+                      "name": "Find and Replace",
+                      "height": 32,
+                      "cornerRadius": "$b:radius-control",
+                      "gap": "$b:space-2",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "Y4TzIb",
+                          "name": "Find and Replace Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "search",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "hJgCF",
+                          "name": "Find and Replace Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "찾기·바꾸기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "C1fbbb",
+                      "name": "Toolbar Flexible Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nQwg1",
+                      "name": "Autosave Status",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "EFo0w",
+                          "name": "Autosave Status Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "cloud-check",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "PYDOA",
+                          "name": "Autosave Status Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "자동 저장됨",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "H4YMU",
+                      "name": "Toolbar Separator 6",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "text",
+                      "id": "b3qX6p",
+                      "name": "Character Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "자동 저장됨",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "T5XQSV",
+                  "name": "Character Property Document Canvas",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "$b:color-surface-default",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "gKt7o",
+                      "x": 202,
+                      "y": 0,
+                      "name": "Character Property Document Page",
+                      "width": 800,
+                      "height": 748,
+                      "layout": "vertical",
+                      "gap": "$b:space-4",
+                      "padding": [
+                        36,
+                        10,
+                        56,
+                        10
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ElEiZ",
+                          "name": "Character Document Context Row",
+                          "width": "fill_container",
+                          "height": 36,
+                          "gap": "$b:space-2",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "iNk7D",
+                              "name": "Character Document Type Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "scroll",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            },
+                            {
+                              "type": "text",
+                              "id": "ten48",
+                              "name": "Character Document Type Label",
+                              "fill": "$b:color-text-secondary",
+                              "content": "이벤트",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "PJ4RB",
+                              "name": "Character Document Status Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "Qet2n",
+                          "name": "Character Document Title",
+                          "fill": "$b:color-text-secondary",
+                          "content": "제목 없는 이벤트",
+                          "lineHeight": "$b:line-height-body",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-manuscript-title",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "jlYLX",
+                          "name": "Character Properties",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "M07bG",
+                              "name": "Character Properties Header",
+                              "width": "fill_container",
+                              "height": 32,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "bx4eS",
+                                  "name": "Character Properties Label",
+                                  "fill": "$b:color-text-secondary",
+                                  "content": "속성",
+                                  "lineHeight": "$b:line-height-body",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-label",
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "id": "z0f7Y",
+                              "type": "ref",
+                              "ref": "b:sL5cJ",
+                              "name": "설명 Text Property",
+                              "width": "fill_container",
+                              "descendants": {
+                                "b:e7Vzqr": {
+                                  "content": "설명"
+                                },
+                                "b:oqUQo": {
+                                  "content": "설명을 적어보자",
+                                  "fill": "$b:color-text-secondary"
+                                }
+                              }
+                            },
+                            {
+                              "id": "Yrr93",
+                              "type": "ref",
+                              "ref": "b:K4A0d",
+                              "name": "Character Add Property",
+                              "width": "fill_container"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "w5LWAM",
+                          "name": "Character Content Divider",
+                          "fill": "$b:color-border-default",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "text",
+                          "id": "l6hZsu",
+                          "name": "Character Document Body",
+                          "fill": "$b:color-text-secondary",
+                          "textGrowth": "fixed-width-height",
+                          "width": "fill_container",
+                          "height": 190,
+                          "content": "이 문서에 대해 적어보자",
+                          "lineHeight": "$b:line-height-body",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-manuscript-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "QV43A",
+      "x": 3120,
+      "y": 45380,
+      "name": "161 · Workspace · Document Create Inline",
+      "context": "LOREKEEPER-503 naming a new document inside a kind folder. Folders themselves cannot be created here.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "IxqS8",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:DIwDF": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:DIwDF/b:nCqu3": {
+              "icon": "folder-open"
+            },
+            "b:Z9FYr": {
+              "type": "frame",
+              "id": "dpjs3",
+              "name": "Character Create Slot",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 2,
+              "children": [
+                {
+                  "id": "v6ynxc",
+                  "type": "ref",
+                  "ref": "b:o1Gt4T",
+                  "name": "Sidebar Inline Edit",
+                  "width": "fill_container",
+                  "height": 30,
+                  "padding": [
+                    0,
+                    28
+                  ],
+                  "descendants": {
+                    "b:O8zH1s": {
+                      "icon": "circle-user-round"
+                    },
+                    "b:WwuSQ": {
+                      "content": "새 캐릭터"
+                    }
+                  }
+                },
+                {
+                  "id": "j4j6y",
+                  "type": "ref",
+                  "ref": "b:ocZ7t",
+                  "name": "Sidebar Place Folder",
+                  "width": "fill_container",
+                  "height": 30,
+                  "padding": [
+                    0,
+                    "$b:space-3"
+                  ],
+                  "descendants": {
+                    "b:nCqu3": {
+                      "icon": "folder"
+                    },
+                    "b:bP6Qr": {
+                      "content": "장소"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "oJgOO",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "owbLX",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "file-text"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "12화 · 균열의 밤"
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "xTwWy",
+              "name": "Manuscript Workspace",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "IlKyZ",
+                  "type": "ref",
+                  "ref": "b:zdoWO",
+                  "name": "Manuscript File Header",
+                  "width": "fill_container",
+                  "height": 48
+                },
+                {
+                  "type": "frame",
+                  "id": "F9vcAJ",
+                  "name": "Manuscript Editing Toolbar",
+                  "width": "fill_container",
+                  "height": 52,
+                  "fill": "$b:color-surface-default",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "gap": "$b:space-1",
+                  "padding": [
+                    "$b:space-2",
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "hYqZe",
+                      "name": "History Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "CHVP1",
+                          "name": "Undo",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "p8f18",
+                              "name": "Undo Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "undo-2",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vZRo2",
+                          "name": "Redo",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "lzIcr",
+                              "name": "Redo Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "redo-2",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "QDWLF",
+                      "name": "Toolbar Separator 1",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "YOkTq",
+                      "name": "Writing Environment Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "NeQa3",
+                          "name": "Font Family",
+                          "width": 88,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "GTG87",
+                              "name": "Font Family Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "Inter",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "jPJHM",
+                              "name": "Font Family Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "sDOik",
+                              "name": "Font Family Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "k0UMdD",
+                          "name": "Font Size",
+                          "width": 58,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "azayT",
+                              "name": "Font Size Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "16",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "OmnYE",
+                              "name": "Font Size Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "Urc8y",
+                              "name": "Font Size Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "fx6fu",
+                          "name": "Line Height",
+                          "width": 64,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "f9OoL",
+                              "name": "Line Height Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "1.78",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "o3LD2",
+                              "name": "Line Height Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "rUOOU",
+                              "name": "Line Height Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "RbsH3",
+                      "name": "Toolbar Separator 2",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "U81TC",
+                      "name": "Paragraph Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "G12q5m",
+                          "name": "Text Alignment",
+                          "width": 68,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "x6T48f",
+                              "name": "Text Alignment Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "정렬",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "COZlW",
+                              "name": "Text Alignment Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "D1jyr",
+                              "name": "Text Alignment Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "cVRzA",
+                          "name": "Outdent",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "s2cTk",
+                              "name": "Outdent Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list-indent-decrease",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "P3K6j",
+                          "name": "Indent",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "nlNRr",
+                              "name": "Indent Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list-indent-increase",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "G8kHI",
+                      "name": "Toolbar Separator 3",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "M78RW4",
+                      "name": "Character Format Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "KqNn3",
+                          "name": "Bold",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "qoHrY",
+                              "name": "Bold Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "bold",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "fqOjn",
+                          "name": "Italic",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "kqqNG",
+                              "name": "Italic Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "italic",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "xae0t",
+                          "name": "Underline",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "i5KJS",
+                              "name": "Underline Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "underline",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "TY696",
+                          "name": "Strikethrough",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "RhP79",
+                              "name": "Strikethrough Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "strikethrough",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "VSdrg",
+                      "name": "Toolbar Separator 4",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "rEPVs",
+                      "name": "List Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Hxr8k",
+                          "name": "Bullet List",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "QiS5x",
+                              "name": "Bullet List Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "a7La4",
+                          "name": "Numbered List",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "g0Pi6",
+                              "name": "Numbered List Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list-ordered",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "zCHmk",
+                      "name": "Toolbar Separator 5",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "pOEs9",
+                      "name": "Find and Replace",
+                      "height": 32,
+                      "cornerRadius": "$b:radius-control",
+                      "gap": "$b:space-2",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "PItRy",
+                          "name": "Find and Replace Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "search",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "EoS1t",
+                          "name": "Find and Replace Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "찾기·바꾸기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nVk8S",
+                      "name": "Toolbar Flexible Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "PHFku",
+                      "name": "Autosave Status",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "x903o9",
+                          "name": "Autosave Status Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "cloud-check",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "y9lhf",
+                          "name": "Autosave Status Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "자동 저장됨",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "PmDka",
+                      "name": "Toolbar Separator 6",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "text",
+                      "id": "Dgxj9",
+                      "name": "Character Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "공백 포함 3,842 · 제외 3,267",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "id": "GBM1W",
+                  "type": "ref",
+                  "ref": "b:cK6jp",
+                  "name": "Manuscript Writing Canvas",
+                  "width": "fill_container",
+                  "height": "fill_container"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "FtTky",
+      "x": 4680,
+      "y": 45380,
+      "name": "162 · Workspace · Episode Folder Create Inline",
+      "context": "LOREKEEPER-503 naming a new episode folder. Episode folders are the only folders a user can create, and only under 원고.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "BrIGP",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:onx6n": {
+              "fill": "$b:color-state-selected"
+            },
+            "b:uDRts": {
+              "type": "frame",
+              "id": "roFSJ",
+              "name": "Episode Create Slot",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 2,
+              "children": [
+                {
+                  "id": "imQmJ",
+                  "type": "ref",
+                  "ref": "b:o1Gt4T",
+                  "name": "Sidebar Inline Edit",
+                  "width": "fill_container",
+                  "height": 30,
+                  "padding": [
+                    0,
+                    28
+                  ],
+                  "descendants": {
+                    "b:O8zH1s": {
+                      "icon": "folder"
+                    },
+                    "b:WwuSQ": {
+                      "content": "새 에피소드"
+                    }
+                  }
+                },
+                {
+                  "id": "B3wII4",
+                  "type": "ref",
+                  "ref": "b:ocZ7t",
+                  "name": "Sidebar Episode Folder Open",
+                  "width": "fill_container",
+                  "height": 30,
+                  "padding": [
+                    0,
+                    28
+                  ],
+                  "descendants": {
+                    "b:nCqu3": {
+                      "icon": "folder-open"
+                    },
+                    "b:bP6Qr": {
+                      "content": "Episode 8. 새 원고"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "QawOv",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "m38zu",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "file-text"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "12화 · 균열의 밤"
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "RtnHV",
+              "name": "Manuscript Workspace",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "WnjEw",
+                  "type": "ref",
+                  "ref": "b:zdoWO",
+                  "name": "Manuscript File Header",
+                  "width": "fill_container",
+                  "height": 48
+                },
+                {
+                  "type": "frame",
+                  "id": "j0KLbB",
+                  "name": "Manuscript Editing Toolbar",
+                  "width": "fill_container",
+                  "height": 52,
+                  "fill": "$b:color-surface-default",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "gap": "$b:space-1",
+                  "padding": [
+                    "$b:space-2",
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "X6gb4",
+                      "name": "History Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "h1NAq",
+                          "name": "Undo",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "mOyXp",
+                              "name": "Undo Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "undo-2",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ZRuZ1",
+                          "name": "Redo",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "I2vgE",
+                              "name": "Redo Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "redo-2",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "h4oETU",
+                      "name": "Toolbar Separator 1",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "i6RUW",
+                      "name": "Writing Environment Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "xTe4i",
+                          "name": "Font Family",
+                          "width": 88,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "k4pnUY",
+                              "name": "Font Family Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "Inter",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "hHr4h",
+                              "name": "Font Family Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "WT9Ll",
+                              "name": "Font Family Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ZRPyU",
+                          "name": "Font Size",
+                          "width": 58,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Seyon",
+                              "name": "Font Size Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "16",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "fvOBK",
+                              "name": "Font Size Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "TN10y",
+                              "name": "Font Size Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "SHUkq",
+                          "name": "Line Height",
+                          "width": 64,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "rMfpe",
+                              "name": "Line Height Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "1.78",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "r6TOf",
+                              "name": "Line Height Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "Z04pa",
+                              "name": "Line Height Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "cZrRw",
+                      "name": "Toolbar Separator 2",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Zzt84",
+                      "name": "Paragraph Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "TFMRg",
+                          "name": "Text Alignment",
+                          "width": 68,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "XVAX3",
+                              "name": "Text Alignment Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "정렬",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Qy4Pr",
+                              "name": "Text Alignment Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "bvtRg",
+                              "name": "Text Alignment Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "copWd",
+                          "name": "Outdent",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "WFtbO",
+                              "name": "Outdent Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list-indent-decrease",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "e9Vyvp",
+                          "name": "Indent",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "Jdgl8",
+                              "name": "Indent Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list-indent-increase",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "Df2Fw",
+                      "name": "Toolbar Separator 3",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hZzRR",
+                      "name": "Character Format Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "IBNZj",
+                          "name": "Bold",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "oTiuP",
+                              "name": "Bold Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "bold",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "OUCB6",
+                          "name": "Italic",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "AFN7p",
+                              "name": "Italic Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "italic",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "k6q593",
+                          "name": "Underline",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "zFpqr",
+                              "name": "Underline Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "underline",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Vrm6E",
+                          "name": "Strikethrough",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "NMQO9",
+                              "name": "Strikethrough Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "strikethrough",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "SycI2",
+                      "name": "Toolbar Separator 4",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "WQGGI",
+                      "name": "List Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Zat3a",
+                          "name": "Bullet List",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "XQqVt",
+                              "name": "Bullet List Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "O3l50u",
+                          "name": "Numbered List",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "ELzCV",
+                              "name": "Numbered List Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list-ordered",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "bgx7a",
+                      "name": "Toolbar Separator 5",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "EqjV0",
+                      "name": "Find and Replace",
+                      "height": 32,
+                      "cornerRadius": "$b:radius-control",
+                      "gap": "$b:space-2",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "N6P46I",
+                          "name": "Find and Replace Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "search",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "oLqHQ",
+                          "name": "Find and Replace Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "찾기·바꾸기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wk3UW",
+                      "name": "Toolbar Flexible Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "WaKai",
+                      "name": "Autosave Status",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "NvRFn",
+                          "name": "Autosave Status Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "cloud-check",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "iwSOE",
+                          "name": "Autosave Status Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "자동 저장됨",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "d5AV3X",
+                      "name": "Toolbar Separator 6",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "text",
+                      "id": "o6hcUv",
+                      "name": "Character Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "공백 포함 3,842 · 제외 3,267",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "id": "DWLMn",
+                  "type": "ref",
+                  "ref": "b:cK6jp",
+                  "name": "Manuscript Writing Canvas",
+                  "width": "fill_container",
+                  "height": "fill_container"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "BzaMR",
+      "x": 6240,
+      "y": 45380,
+      "name": "163 · Workspace · Episode Folder Menu",
+      "context": "LOREKEEPER-503 episode folder menu. Only rename and delete are offered; kind folders have no menu.",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "stroke": "$b:color-border-default",
+      "children": [
+        {
+          "id": "IWBn9",
+          "type": "ref",
+          "ref": "b:nvJ4B",
+          "name": "C Sidebar",
+          "width": 236,
+          "height": "fill_container",
+          "descendants": {
+            "b:uDRts": {
+              "fill": "$b:color-state-selected"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "rcu1h",
+          "name": "C Main Shell",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "jWnY0",
+              "type": "ref",
+              "ref": "b:J6y2A",
+              "name": "C Tab Bar",
+              "width": "fill_container",
+              "height": 52,
+              "descendants": {
+                "b:f2qqJ/b:QXd7u": {
+                  "icon": "file-text"
+                },
+                "b:f2qqJ/b:s9UJUl": {
+                  "content": "12화 · 균열의 밤"
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "FxaSY",
+              "name": "Manuscript Workspace",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "$b:color-bg-canvas",
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "IjX7z",
+                  "type": "ref",
+                  "ref": "b:zdoWO",
+                  "name": "Manuscript File Header",
+                  "width": "fill_container",
+                  "height": 48
+                },
+                {
+                  "type": "frame",
+                  "id": "Wfbla",
+                  "name": "Manuscript Editing Toolbar",
+                  "width": "fill_container",
+                  "height": 52,
+                  "fill": "$b:color-surface-default",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "gap": "$b:space-1",
+                  "padding": [
+                    "$b:space-2",
+                    "$b:space-3"
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "yAYk9",
+                      "name": "History Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "vTOIL",
+                          "name": "Undo",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "OrbXr",
+                              "name": "Undo Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "undo-2",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Z8Pbbt",
+                          "name": "Redo",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "E5K23",
+                              "name": "Redo Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "redo-2",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "llbhy",
+                      "name": "Toolbar Separator 1",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XYeUW",
+                      "name": "Writing Environment Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "KtIr2",
+                          "name": "Font Family",
+                          "width": 88,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "e1vQGp",
+                              "name": "Font Family Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "Inter",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "BXVKM",
+                              "name": "Font Family Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "x8iyD5",
+                              "name": "Font Family Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "g4uT7",
+                          "name": "Font Size",
+                          "width": 58,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "cz2Wq",
+                              "name": "Font Size Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "16",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "wJIeE",
+                              "name": "Font Size Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "ZRXJv",
+                              "name": "Font Size Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vVpF4",
+                          "name": "Line Height",
+                          "width": 64,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "DlHfD",
+                              "name": "Line Height Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "1.78",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "zb4SO",
+                              "name": "Line Height Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "seVwM",
+                              "name": "Line Height Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "UO2Qt",
+                      "name": "Toolbar Separator 2",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "WeBEV",
+                      "name": "Paragraph Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "frhVG",
+                          "name": "Text Alignment",
+                          "width": 68,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "stroke": "$b:color-border-default",
+                          "strokeWidth": 1,
+                          "gap": "$b:space-2",
+                          "padding": [
+                            0,
+                            "$b:space-2"
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "VroVW",
+                              "name": "Text Alignment Value",
+                              "fill": "$b:color-text-secondary",
+                              "content": "정렬",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-label",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "AyaXr",
+                              "name": "Text Alignment Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "icon",
+                              "id": "ixjFD",
+                              "name": "Text Alignment Chevron",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "J7zUwo",
+                          "name": "Outdent",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "h8EVb",
+                              "name": "Outdent Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list-indent-decrease",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "m1pvQ",
+                          "name": "Indent",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "FWYRk",
+                              "name": "Indent Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list-indent-increase",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "kDGQA",
+                      "name": "Toolbar Separator 3",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "CKvns",
+                      "name": "Character Format Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tsvLh",
+                          "name": "Bold",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "epOBJ",
+                              "name": "Bold Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "bold",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "w2wpV",
+                          "name": "Italic",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "KX050",
+                              "name": "Italic Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "italic",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "EoJGI",
+                          "name": "Underline",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "bSAMa",
+                              "name": "Underline Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "underline",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "pOAiM",
+                          "name": "Strikethrough",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "UgqVj",
+                              "name": "Strikethrough Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "strikethrough",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "v1JJEx",
+                      "name": "Toolbar Separator 4",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XfT3d",
+                      "name": "List Controls",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "e1fLTx",
+                          "name": "Bullet List",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "n9M9o",
+                              "name": "Bullet List Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "zdjKB",
+                          "name": "Numbered List",
+                          "width": 32,
+                          "height": 32,
+                          "cornerRadius": "$b:radius-control",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "oUIVH",
+                              "name": "Numbered List Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "list-ordered",
+                              "library": "lucide",
+                              "weight": "$b:icon-weight-default",
+                              "fill": "$b:color-icon-default"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "J1XITm",
+                      "name": "Toolbar Separator 5",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "frame",
+                      "id": "l7lGf8",
+                      "name": "Find and Replace",
+                      "height": 32,
+                      "cornerRadius": "$b:radius-control",
+                      "gap": "$b:space-2",
+                      "padding": [
+                        0,
+                        "$b:space-2"
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "fKgWm",
+                          "name": "Find and Replace Icon",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "search",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "EJClk",
+                          "name": "Find and Replace Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "찾기·바꾸기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "L5x6J4",
+                      "name": "Toolbar Flexible Spacer",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "F8zPwE",
+                      "name": "Autosave Status",
+                      "gap": "$b:space-1",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "TIbJM",
+                          "name": "Autosave Status Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "cloud-check",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "cIme6",
+                          "name": "Autosave Status Label",
+                          "fill": "$b:color-text-secondary",
+                          "content": "자동 저장됨",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "d7W69",
+                      "name": "Toolbar Separator 6",
+                      "fill": "$b:color-border-default",
+                      "width": 1,
+                      "height": 24
+                    },
+                    {
+                      "type": "text",
+                      "id": "Fxt46",
+                      "name": "Character Count",
+                      "fill": "$b:color-text-secondary",
+                      "content": "공백 포함 3,842 · 제외 3,267",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "id": "eU06W",
+                  "type": "ref",
+                  "ref": "b:cK6jp",
+                  "name": "Manuscript Writing Canvas",
+                  "width": "fill_container",
+                  "height": "fill_container"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "F2Sdy",
+          "type": "ref",
+          "ref": "b:E1st2m",
+          "name": "C Episode Folder Menu",
+          "layoutPosition": "absolute",
+          "x": 240,
+          "y": 481
+        }
+      ]
     }
   ],
   "imports": {
