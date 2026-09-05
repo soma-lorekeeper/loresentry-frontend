@@ -208,6 +208,52 @@ const segments = edges
   })
   .join(" ");
 
+/*
+ * 배경 격자. text2graph 의 canvas-grid.ts 와 같은 규칙이다 — 20 단위로 긋고
+ * 5칸마다 한 단계 진하게 한다. 배경이 완전히 비어 있으면 줌과 이동이 얼마나
+ * 일어났는지 알 수 없어서, 눈금 역할을 하는 옅은 격자를 깔아 둔다.
+ *
+ * 얇은 선과 굵은 선을 각각 하나의 path 로 몰아 그린다. 선마다 노드를 만들면
+ * 백 개가 넘게 생겨 레이어 목록을 덮는다 — 엣지를 하나로 묶는 것과 같은 이유다.
+ */
+const GRID_STEP = 20;
+const GRID_STRONG_EVERY = 5;
+const gridThin = [];
+const gridStrong = [];
+for (let gx = 0; gx <= W; gx += GRID_STEP) {
+  const line = "M " + gx + " 0 L " + gx + " " + H;
+  const strong = Math.round(gx / GRID_STEP) % GRID_STRONG_EVERY === 0;
+  (strong ? gridStrong : gridThin).push(line);
+}
+for (let gy = 0; gy <= H; gy += GRID_STEP) {
+  const line = "M 0 " + gy + " L " + W + " " + gy;
+  const strong = Math.round(gy / GRID_STEP) % GRID_STRONG_EVERY === 0;
+  (strong ? gridStrong : gridThin).push(line);
+}
+
+for (const grid of [
+  { name: "Graph Grid", lines: gridThin, opacity: 0.35 },
+  { name: "Graph Grid Strong", lines: gridStrong, opacity: 0.7 },
+]) {
+  out.push({
+    type: "path",
+    name: grid.name,
+    x: 0,
+    y: 0,
+    width: W,
+    height: H,
+    viewBox: [0, 0, W, H],
+    geometry: grid.lines.join(" "),
+    stroke: v("color-border-default"),
+    strokeWidth: 1,
+    opacity: grid.opacity,
+  });
+}
+
+/*
+ * 엣지 굵기 0.6 은 text2graph 값이다. 선이 원 전체를 가로지르는 화면이라
+ * 1px 로 그리면 겹쳐 쌓인 선에 노드가 파묻힌다.
+ */
 out.push({
   type: "path",
   name: "Graph Edges",
@@ -218,7 +264,7 @@ out.push({
   viewBox: [0, 0, W, H],
   geometry: segments,
   stroke: v("color-border-default"),
-  strokeWidth: 1,
+  strokeWidth: 0.6,
   strokeLinecap: "round",
   opacity: pencil.input.dimmed ? 0.35 : 1,
 });
@@ -239,9 +285,25 @@ const favoriteIndex = nodes.reduce(
   0,
 );
 
+/*
+ * 반지름은 text2graph 의 비율을 따른다 — 가장 큰 노드가 가장 작은 노드의 **3배**다
+ * (원본 `min(√(1+차수×0.22)×4, 15)` 가 상한에 걸렸을 때의 비율). 전부 같은 크기면
+ * 어디가 중심인지 알 수 없고, 3배를 넘기면 허브 몇 개가 화면을 덮어 그 아래 노드가
+ * 가린다. 5〜15 로 잡아 원본의 상한 15 와 그 비율을 함께 맞춘다.
+ */
+const nodeRadius = (degree) => {
+  const ratio = (degree - 1) / Math.max(maxDegree - 1, 1);
+  return r1(5 + Math.sqrt(Math.max(ratio, 0)) * 10);
+};
+
+/*
+ * 이보다 작은 노드에는 분류 아이콘을 그리지 않는다(원본 ICON_MIN_SCREEN_RADIUS).
+ * 24×24 짜리 선 아이콘이 점 두어 개로 뭉개져서, 그리는 값보다 어수선한 값이 커진다.
+ */
+const ICON_MIN_RADIUS = 9;
+
 nodes.forEach((n, i) => {
-  const ratio = (n.degree - 1) / Math.max(maxDegree - 1, 1);
-  const radius = r1(11 + Math.sqrt(Math.max(ratio, 0)) * 9);
+  const radius = nodeRadius(n.degree);
   const size = radius * 2;
 
   out.push({
@@ -255,30 +317,41 @@ nodes.forEach((n, i) => {
     opacity: pencil.input.dimmed ? 0.4 : 1,
   });
 
-  // 분류는 색으로 가르지 않는다. 노드 안 아이콘이 그 일을 맡는다.
-  const iconSize = r1(Math.min(size * 0.52, 16));
-  out.push({
-    type: "icon",
-    name: "Graph Node Icon " + (i + 1),
-    x: r1(n.x - iconSize / 2),
-    y: r1(n.y - iconSize / 2),
-    width: iconSize,
-    height: iconSize,
-    icon: n.kind.icon,
-    library: "lucide",
-    weight: v("icon-weight-default"),
-    fill: v("color-bg-canvas"),
-    opacity: pencil.input.dimmed ? 0.4 : 1,
-  });
+  /*
+   * 분류는 색으로 가르지 않는다(노드는 무채색 7단계다). 노드 안 아이콘이 그 일을
+   * 맡는다. 크기는 원본과 같은 `반지름 × 1.2` 다.
+   */
+  if (radius >= ICON_MIN_RADIUS) {
+    const iconSize = r1(radius * 1.2);
+    out.push({
+      type: "icon",
+      name: "Graph Node Icon " + (i + 1),
+      x: r1(n.x - iconSize / 2),
+      y: r1(n.y - iconSize / 2),
+      width: iconSize,
+      height: iconSize,
+      icon: n.kind.icon,
+      library: "lucide",
+      weight: v("icon-weight-default"),
+      fill: v("color-bg-canvas"),
+      opacity: pencil.input.dimmed ? 0.4 : 1,
+    });
+  }
 
+  /*
+   * 즐겨찾기 별. 원본은 노드 중심에서 오른쪽 위로 `반지름 × 0.72` 만큼 옮긴 자리에
+   * `반지름 × 0.95` 크기로 찍는다 — 원에 걸치되 원을 덮지는 않는 자리다.
+   * pen 의 아이콘은 좌상단 기준이라 절반을 빼서 그 점에 중심을 맞춘다.
+   */
   if (i === favoriteIndex) {
+    const starSize = r1(radius * 0.95);
     out.push({
       type: "icon",
       name: "Graph Node Favorite Badge",
-      x: r1(n.x + radius - 6),
-      y: r1(n.y - radius - 6),
-      width: 15,
-      height: 15,
+      x: r1(n.x + radius * 0.72 - starSize / 2),
+      y: r1(n.y - radius * 0.72 - starSize / 2),
+      width: starSize,
+      height: starSize,
       icon: "star",
       library: "lucide",
       weight: v("icon-weight-default"),
@@ -299,14 +372,24 @@ if (pencil.input.showLabels) {
     .sort((a, b) => b.n.degree - a.n.degree)
     .slice(0, LABELS.length);
 
+  /*
+   * 이름은 원 **아래 가운데**에 붙인다(원본과 같다). 오른쪽에 붙이면 이웃 노드
+   * 위로 글자가 올라타고, 어느 원의 이름인지도 흐려진다.
+   *
+   * 글자 폭을 잴 수 없으므로 고정 폭 상자를 노드 중심에 맞추고 가운데 정렬한다.
+   * 상자는 투명해서 넓어도 다른 것을 가리지 않는다.
+   */
+  const LABEL_BOX = 140;
   ranked.forEach((entry, order) => {
-    const ratio = (entry.n.degree - 1) / Math.max(maxDegree - 1, 1);
-    const radius = 11 + Math.sqrt(Math.max(ratio, 0)) * 9;
+    const radius = nodeRadius(entry.n.degree);
     out.push({
       type: "text",
       name: "Graph Node Label · " + LABELS[order],
-      x: r1(entry.n.x + radius + 6),
-      y: r1(entry.n.y - 8),
+      x: r1(entry.n.x - LABEL_BOX / 2),
+      y: r1(entry.n.y + radius + 4.5),
+      width: LABEL_BOX,
+      textGrowth: "fixed-width",
+      textAlign: "center",
       content: LABELS[order],
       fontFamily: v("font-family-ui"),
       fontSize: v("font-size-label"),

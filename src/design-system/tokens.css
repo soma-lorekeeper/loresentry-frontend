@@ -22,26 +22,43 @@
   --lk-color-node-worldview: #788588;
   --lk-color-node-manuscript: #606f73;
   --lk-color-favorite: #f7e29a;
+  --lk-color-diff-modify: #5ab3c9;
+  --lk-color-diff-modify-bg: #2b3a40;
+  --lk-color-diff-add: #84a7eb;
+  --lk-color-diff-add-bg: #303944;
+  --lk-color-diff-remove: #dc968e;
+  --lk-color-diff-remove-bg: #3b3739;
+  --lk-color-diff-done: #73b589;
+  --lk-color-diff-done-bg: #2e3b38;
   --lk-space-1: 4px;
   --lk-space-2: 8px;
   --lk-space-3: 10px;
   --lk-space-4: 14px;
   --lk-space-6: 20px;
+  --lk-space-7: 28px;
   --lk-radius-control: 2px;
   --lk-radius-card: 2px;
   --lk-font-family-ui: "Geist";
-  --lk-font-size-label: 12px;
-  --lk-font-size-body: 13px;
-  --lk-font-size-context: 13px;
-  --lk-font-size-heading: 17px;
-  --lk-font-size-heading-lg: 21px;
-  --lk-font-size-manuscript-title: 30px;
-  --lk-font-size-manuscript-body: 16px;
+  --lk-font-family-mono: "Geist Mono";
+  --lk-font-size-label: 11px;
+  --lk-font-size-body: 12px;
+  --lk-font-size-context: 12px;
+  --lk-font-size-heading: 15px;
+  --lk-font-size-heading-lg: 18px;
+  --lk-font-size-manuscript-title: 21px;
+  --lk-font-size-manuscript-body: 14px;
   --lk-line-height-manuscript-title: 1.25;
-  --lk-line-height-manuscript-body: 1.78;
+  --lk-line-height-manuscript-body: 1.5;
   --lk-line-height-context: 1.55;
   --lk-line-height-body: 1.5;
   --lk-icon-weight-default: 400;
+  /* 문서 한 장의 콘텐츠 폭. 두 문서를 좌우로 놓아도 축소 없이 읽히는 값이다 */
+  --lk-doc-content-width: 672px;
+  /* 속성 라벨 칸. 유형 아이콘과 이름이 함께 들어간다 */
+  --lk-property-label-width: 168px;
+  --lk-property-row-height: 34px;
+  /* 툴바·에디터 바의 컨트롤 높이 */
+  --lk-control-height: 28px;
 }
 
 :root[data-theme="light"] {
@@ -67,6 +84,14 @@
   --lk-color-node-worldview: #6d7a7d;
   --lk-color-node-manuscript: #7e8c8f;
   --lk-color-favorite: #f2d478;
+  --lk-color-diff-modify: #2a6e7f;
+  --lk-color-diff-modify-bg: #eaf0f2;
+  --lk-color-diff-add: #2360d7;
+  --lk-color-diff-add-bg: #e9effb;
+  --lk-color-diff-remove: #af4336;
+  --lk-color-diff-remove-bg: #f7eceb;
+  --lk-color-diff-done: #3c714e;
+  --lk-color-diff-done-bg: #ecf1ed;
 }
 
 @media (prefers-color-scheme: light) {
@@ -93,6 +118,14 @@
     --lk-color-node-worldview: #6d7a7d;
     --lk-color-node-manuscript: #7e8c8f;
     --lk-color-favorite: #f2d478;
+    --lk-color-diff-modify: #2a6e7f;
+    --lk-color-diff-modify-bg: #eaf0f2;
+    --lk-color-diff-add: #2360d7;
+    --lk-color-diff-add-bg: #e9effb;
+    --lk-color-diff-remove: #af4336;
+    --lk-color-diff-remove-bg: #f7eceb;
+    --lk-color-diff-done: #3c714e;
+    --lk-color-diff-done-bg: #ecf1ed;
   }
 }
 
@@ -118,5 +151,14 @@
   --color-node-worldview: var(--lk-color-node-worldview);
   --color-node-manuscript: var(--lk-color-node-manuscript);
   --color-favorite: var(--lk-color-favorite);
+  --color-diff-modify: var(--lk-color-diff-modify);
+  --color-diff-modify-bg: var(--lk-color-diff-modify-bg);
+  --color-diff-add: var(--lk-color-diff-add);
+  --color-diff-add-bg: var(--lk-color-diff-add-bg);
+  --color-diff-remove: var(--lk-color-diff-remove);
+  --color-diff-remove-bg: var(--lk-color-diff-remove-bg);
+  --color-diff-done: var(--lk-color-diff-done);
+  --color-diff-done-bg: var(--lk-color-diff-done-bg);
   --font-sans: var(--font-geist-sans), var(--lk-font-family-ui), sans-serif;
+  --font-mono: var(--lk-font-family-mono), monospace;
 }

@@ -157,6 +157,13 @@
       "unit": "px"
     },
     {
+      "name": "space-7",
+      "type": "number",
+      "cssVariable": "--lk-space-7",
+      "value": 28,
+      "unit": "px"
+    },
+    {
       "name": "radius-control",
       "type": "number",
       "cssVariable": "--lk-radius-control",
@@ -180,49 +187,49 @@
       "name": "font-size-label",
       "type": "number",
       "cssVariable": "--lk-font-size-label",
-      "value": 12,
+      "value": 11,
       "unit": "px"
     },
     {
       "name": "font-size-body",
       "type": "number",
       "cssVariable": "--lk-font-size-body",
-      "value": 13,
+      "value": 12,
       "unit": "px"
     },
     {
       "name": "font-size-context",
       "type": "number",
       "cssVariable": "--lk-font-size-context",
-      "value": 13,
+      "value": 12,
       "unit": "px"
     },
     {
       "name": "font-size-heading",
       "type": "number",
       "cssVariable": "--lk-font-size-heading",
-      "value": 17,
+      "value": 15,
       "unit": "px"
     },
     {
       "name": "font-size-heading-lg",
       "type": "number",
       "cssVariable": "--lk-font-size-heading-lg",
-      "value": 21,
+      "value": 18,
       "unit": "px"
     },
     {
       "name": "font-size-manuscript-title",
       "type": "number",
       "cssVariable": "--lk-font-size-manuscript-title",
-      "value": 30,
+      "value": 21,
       "unit": "px"
     },
     {
       "name": "font-size-manuscript-body",
       "type": "number",
       "cssVariable": "--lk-font-size-manuscript-body",
-      "value": 16,
+      "value": 14,
       "unit": "px"
     },
     {
@@ -235,7 +242,7 @@
       "name": "line-height-manuscript-body",
       "type": "number",
       "cssVariable": "--lk-line-height-manuscript-body",
-      "value": 1.78
+      "value": 1.5
     },
     {
       "name": "line-height-context",
@@ -326,6 +333,112 @@
         "dark": "#F7E29A",
         "light": "#F2D478"
       }
+    },
+    {
+      "name": "color-diff-modify",
+      "type": "color",
+      "cssVariable": "--lk-color-diff-modify",
+      "value": {
+        "dark": "#5AB3C9",
+        "light": "#2A6E7F"
+      }
+    },
+    {
+      "name": "color-diff-modify-bg",
+      "type": "color",
+      "cssVariable": "--lk-color-diff-modify-bg",
+      "value": {
+        "dark": "#2B3A40",
+        "light": "#EAF0F2"
+      }
+    },
+    {
+      "name": "color-diff-add",
+      "type": "color",
+      "cssVariable": "--lk-color-diff-add",
+      "value": {
+        "dark": "#84A7EB",
+        "light": "#2360D7"
+      }
+    },
+    {
+      "name": "color-diff-add-bg",
+      "type": "color",
+      "cssVariable": "--lk-color-diff-add-bg",
+      "value": {
+        "dark": "#303944",
+        "light": "#E9EFFB"
+      }
+    },
+    {
+      "name": "color-diff-remove",
+      "type": "color",
+      "cssVariable": "--lk-color-diff-remove",
+      "value": {
+        "dark": "#DC968E",
+        "light": "#AF4336"
+      }
+    },
+    {
+      "name": "color-diff-remove-bg",
+      "type": "color",
+      "cssVariable": "--lk-color-diff-remove-bg",
+      "value": {
+        "dark": "#3B3739",
+        "light": "#F7ECEB"
+      }
+    },
+    {
+      "name": "color-diff-done",
+      "type": "color",
+      "cssVariable": "--lk-color-diff-done",
+      "value": {
+        "dark": "#73B589",
+        "light": "#3C714E"
+      }
+    },
+    {
+      "name": "color-diff-done-bg",
+      "type": "color",
+      "cssVariable": "--lk-color-diff-done-bg",
+      "value": {
+        "dark": "#2E3B38",
+        "light": "#ECF1ED"
+      }
+    },
+    {
+      "name": "font-family-mono",
+      "type": "string",
+      "cssVariable": "--lk-font-family-mono",
+      "value": "Geist Mono"
+    },
+    {
+      "name": "doc-content-width",
+      "type": "number",
+      "cssVariable": "--lk-doc-content-width",
+      "value": 672,
+      "unit": "px"
+    },
+    {
+      "name": "property-label-width",
+      "type": "number",
+      "cssVariable": "--lk-property-label-width",
+      "value": 168,
+      "unit": "px"
+    },
+    {
+      "name": "property-row-height",
+      "type": "number",
+      "cssVariable": "--lk-property-row-height",
+      "value": 34,
+      "unit": "px"
+    },
+    {
+      "name": "control-height",
+      "type": "number",
+      "cssVariable": "--lk-control-height",
+      "value": 28,
+      "unit": "px"
     }
   ],
   "owners": {
@@ -962,13 +1075,13 @@
       "owner": "timeline"
     },
     {
-      "id": "PMWOl",
+      "id": "R02UG",
       "name": "Diff / Entry Row",
       "kind": "base",
       "owner": "diff"
     },
     {
-      "id": "wSTOW",
+      "id": "f5VFU",
       "name": "Diff / Modal / Compare",
       "kind": "state",
       "owner": "diff"

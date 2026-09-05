@@ -34,7 +34,21 @@ const COLUMN_H = 30;
 
 const COLS = Math.max(4, Math.floor(pencil.input.columnCount));
 const trackW = W - LABEL_W;
-const colW = trackW / COLS;
+
+/*
+ * 회차 열 폭. text2graph 와 같이 남는 자리를 회차 수로 나눠 **가로를 꽉 채우되**,
+ * 44〜260 으로 묶는다.
+ *
+ * 아래는 44 — 이보다 좁으면 회차 이름이 들어가지 않는다. 위는 260 — 에피소드
+ * 하나만 골라 회차가 넷일 때 남는 폭을 그냥 나누면 열 하나가 500px 가까이 되어,
+ * 막대가 화면을 가로지르는 띠로만 보이고 회차의 경계가 읽히지 않는다.
+ *
+ * 아래에 걸리면 표가 캔버스보다 넓어진다. 실제 화면에서 가로 스크롤이 생기는
+ * 자리이고, 와이어프레임에서는 오른쪽이 잘려 나가는 것으로 그 사실이 보인다.
+ */
+const COLUMN_MIN = 44;
+const COLUMN_MAX = 260;
+const colW = Math.min(Math.max(trackW / COLS, COLUMN_MIN), COLUMN_MAX);
 
 let seed = 20260905;
 const rand = () => {
@@ -104,6 +118,44 @@ const FAVORITE_KIND = {
 
 const out = [];
 const r1 = (num) => Math.round(num * 10) / 10;
+
+// --- 배경 점 격자 ----------------------------------------------------------
+
+/*
+ * text2graph 의 `.scroller` 와 같은 바탕이다 — 간격 16, 반지름 0.9 의 점.
+ * 그래프 화면은 캔버스에 찍고 여기는 CSS 로 깔지만, 두 화면이 같은 바탕 위에
+ * 있는 것처럼 보여야 하므로 같은 값을 쓴다.
+ *
+ * 점은 선 격자보다 훨씬 진하다. 선은 화면을 가로질러 이어지므로 옅어도 눈에
+ * 남지만, 점은 한 칸에 하나뿐이라 같은 세기로 찍으면 아예 보이지 않는다.
+ *
+ * 점 하나에 노드를 만들면 수천 개가 되어 레이어 목록을 덮으므로 path 하나에
+ * 몰아넣는다. 길이 0 인 선분에 둥근 끝을 주면 지름 `strokeWidth` 인 점이 된다.
+ *
+ * **맨 먼저 넣는다.** out 의 차례가 곧 쌓임 차례라, 뒤에 오는 머리글·막대가
+ * 이 위에 그려져야 한다.
+ */
+const DOT_STEP = 16;
+const DOT_RADIUS = 0.9;
+const dots = [];
+for (let dy = DOT_STEP / 2; dy < H; dy += DOT_STEP) {
+  for (let dx = DOT_STEP / 2; dx < W; dx += DOT_STEP) {
+    dots.push("M " + dx + " " + dy + " h 0.01");
+  }
+}
+out.push({
+  type: "path",
+  name: "Timeline Dot Grid",
+  x: 0,
+  y: 0,
+  width: W,
+  height: H,
+  viewBox: [0, 0, W, H],
+  geometry: dots.join(" "),
+  stroke: v("color-border-default"),
+  strokeWidth: DOT_RADIUS * 2,
+  strokeLinecap: "round",
+});
 
 // --- 머리글 ---------------------------------------------------------------
 
