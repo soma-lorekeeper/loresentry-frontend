@@ -83422,7 +83422,11 @@
           "name": "Diff Backdrop",
           "width": 1440,
           "height": 900,
-          "fill": "#00000066"
+          "fill": "#00000066",
+          "effect": {
+            "type": "background_blur",
+            "radius": 2
+          }
         },
         {
           "id": "Maltp",
@@ -83430,10 +83434,10 @@
           "ref": "b:f5VFU",
           "name": "Diff Modal",
           "layoutPosition": "absolute",
-          "x": 29,
-          "y": 27,
-          "width": 1383,
-          "height": 846,
+          "x": 80,
+          "y": 55,
+          "width": 1280,
+          "height": 790,
           "descendants": {
             "b:f1itH": {
               "fill": "#00000000"
@@ -83578,7 +83582,11 @@
           "name": "Diff Backdrop",
           "width": 1440,
           "height": 900,
-          "fill": "#00000066"
+          "fill": "#00000066",
+          "effect": {
+            "type": "background_blur",
+            "radius": 2
+          }
         },
         {
           "id": "kxbam",
@@ -83586,10 +83594,10 @@
           "ref": "b:f5VFU",
           "name": "Diff Modal",
           "layoutPosition": "absolute",
-          "x": 29,
-          "y": 27,
-          "width": 1383,
-          "height": 846
+          "x": 80,
+          "y": 55,
+          "width": 1280,
+          "height": 790
         }
       ]
     },
@@ -83723,7 +83731,11 @@
           "name": "Diff Backdrop",
           "width": 1440,
           "height": 900,
-          "fill": "#00000066"
+          "fill": "#00000066",
+          "effect": {
+            "type": "background_blur",
+            "radius": 2
+          }
         },
         {
           "id": "kdku3",
@@ -83731,10 +83743,10 @@
           "ref": "b:f5VFU",
           "name": "Diff Modal",
           "layoutPosition": "absolute",
-          "x": 29,
-          "y": 27,
-          "width": 1383,
-          "height": 846,
+          "x": 80,
+          "y": 55,
+          "width": 1280,
+          "height": 790,
           "descendants": {
             "b:wjbMF": {
               "stroke": "$b:color-border-default"
