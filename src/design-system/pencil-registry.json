@@ -8,128 +8,167 @@
       "name": "color-bg-canvas",
       "type": "color",
       "cssVariable": "--lk-color-bg-canvas",
-      "value": { "dark": "#1A1D1F", "light": "#F4F6F7" }
+      "value": {
+        "dark": "#1A1D1F",
+        "light": "#F4F6F7"
+      }
     },
     {
       "name": "color-surface-navigation",
       "type": "color",
       "cssVariable": "--lk-color-surface-navigation",
-      "value": { "dark": "#111416", "light": "#F7F9FA" }
+      "value": {
+        "dark": "#111416",
+        "light": "#F7F9FA"
+      }
     },
     {
       "name": "color-surface-topbar",
       "type": "color",
       "cssVariable": "--lk-color-surface-topbar",
-      "value": { "dark": "#15181A", "light": "#EEF2F3" }
+      "value": {
+        "dark": "#15181A",
+        "light": "#EEF2F3"
+      }
     },
     {
       "name": "color-surface-default",
       "type": "color",
       "cssVariable": "--lk-color-surface-default",
-      "value": { "dark": "#222629", "light": "#FFFFFF" }
+      "value": {
+        "dark": "#222629",
+        "light": "#FFFFFF"
+      }
     },
     {
       "name": "color-surface-raised",
       "type": "color",
       "cssVariable": "--lk-color-surface-raised",
-      "value": { "dark": "#252A2D", "light": "#FFFFFF" }
+      "value": {
+        "dark": "#252A2D",
+        "light": "#FFFFFF"
+      }
     },
     {
       "name": "color-surface-icon",
       "type": "color",
       "cssVariable": "--lk-color-surface-icon",
-      "value": { "dark": "#30363A", "light": "#E5EBED" }
+      "value": {
+        "dark": "#30363A",
+        "light": "#E5EBED"
+      }
     },
     {
       "name": "color-border-default",
       "type": "color",
       "cssVariable": "--lk-color-border-default",
-      "value": { "dark": "#3A4246", "light": "#C7D0D3" }
+      "value": {
+        "dark": "#3A4246",
+        "light": "#C7D0D3"
+      }
     },
     {
       "name": "color-text-primary",
       "type": "color",
       "cssVariable": "--lk-color-text-primary",
-      "value": { "dark": "#EDF2F2", "light": "#182024" }
+      "value": {
+        "dark": "#EDF2F2",
+        "light": "#182024"
+      }
     },
     {
       "name": "color-text-secondary",
       "type": "color",
       "cssVariable": "--lk-color-text-secondary",
-      "value": { "dark": "#9AA6A8", "light": "#5B686D" }
+      "value": {
+        "dark": "#9AA6A8",
+        "light": "#5B686D"
+      }
     },
     {
       "name": "color-icon-default",
       "type": "color",
       "cssVariable": "--lk-color-icon-default",
-      "value": { "dark": "#B8C3C5", "light": "#526167" }
+      "value": {
+        "dark": "#B8C3C5",
+        "light": "#526167"
+      }
     },
     {
       "name": "color-accent-primary",
       "type": "color",
       "cssVariable": "--lk-color-accent-primary",
-      "value": { "dark": "#A9C7D0", "light": "#486A73" }
+      "value": {
+        "dark": "#A9C7D0",
+        "light": "#486A73"
+      }
     },
     {
       "name": "color-text-on-accent",
       "type": "color",
       "cssVariable": "--lk-color-text-on-accent",
-      "value": { "dark": "#111719", "light": "#FFFFFF" }
+      "value": {
+        "dark": "#111719",
+        "light": "#FFFFFF"
+      }
     },
     {
       "name": "color-state-selected",
       "type": "color",
       "cssVariable": "--lk-color-state-selected",
-      "value": { "dark": "#293237", "light": "#DCE7EA" }
+      "value": {
+        "dark": "#293237",
+        "light": "#DCE7EA"
+      }
     },
     {
       "name": "space-1",
       "type": "number",
       "cssVariable": "--lk-space-1",
-      "unit": "px",
-      "value": 4
+      "value": 4,
+      "unit": "px"
     },
     {
       "name": "space-2",
       "type": "number",
       "cssVariable": "--lk-space-2",
-      "unit": "px",
-      "value": 8
+      "value": 8,
+      "unit": "px"
     },
     {
       "name": "space-3",
       "type": "number",
       "cssVariable": "--lk-space-3",
-      "unit": "px",
-      "value": 10
+      "value": 10,
+      "unit": "px"
     },
     {
       "name": "space-4",
       "type": "number",
       "cssVariable": "--lk-space-4",
-      "unit": "px",
-      "value": 14
+      "value": 14,
+      "unit": "px"
     },
     {
       "name": "space-6",
       "type": "number",
       "cssVariable": "--lk-space-6",
-      "unit": "px",
-      "value": 20
+      "value": 20,
+      "unit": "px"
     },
     {
       "name": "radius-control",
       "type": "number",
       "cssVariable": "--lk-radius-control",
-      "unit": "px",
-      "value": 2
+      "value": 2,
+      "unit": "px"
     },
     {
       "name": "radius-card",
       "type": "number",
       "cssVariable": "--lk-radius-card",
-      "unit": "px",
-      "value": 2
+      "value": 2,
+      "unit": "px"
     },
     {
       "name": "font-family-ui",
@@ -141,50 +180,50 @@
       "name": "font-size-label",
       "type": "number",
       "cssVariable": "--lk-font-size-label",
-      "unit": "px",
-      "value": 12
+      "value": 12,
+      "unit": "px"
     },
     {
       "name": "font-size-body",
       "type": "number",
       "cssVariable": "--lk-font-size-body",
-      "unit": "px",
-      "value": 13
+      "value": 13,
+      "unit": "px"
     },
     {
       "name": "font-size-context",
       "type": "number",
       "cssVariable": "--lk-font-size-context",
-      "unit": "px",
-      "value": 13
+      "value": 13,
+      "unit": "px"
     },
     {
       "name": "font-size-heading",
       "type": "number",
       "cssVariable": "--lk-font-size-heading",
-      "unit": "px",
-      "value": 17
+      "value": 17,
+      "unit": "px"
     },
     {
       "name": "font-size-heading-lg",
       "type": "number",
       "cssVariable": "--lk-font-size-heading-lg",
-      "unit": "px",
-      "value": 21
+      "value": 21,
+      "unit": "px"
     },
     {
       "name": "font-size-manuscript-title",
       "type": "number",
       "cssVariable": "--lk-font-size-manuscript-title",
-      "unit": "px",
-      "value": 30
+      "value": 30,
+      "unit": "px"
     },
     {
       "name": "font-size-manuscript-body",
       "type": "number",
       "cssVariable": "--lk-font-size-manuscript-body",
-      "unit": "px",
-      "value": 16
+      "value": 16,
+      "unit": "px"
     },
     {
       "name": "line-height-manuscript-title",
@@ -215,22 +254,101 @@
       "type": "number",
       "cssVariable": "--lk-icon-weight-default",
       "value": 400
+    },
+    {
+      "name": "color-node-character",
+      "type": "color",
+      "cssVariable": "--lk-color-node-character",
+      "value": {
+        "dark": "#EDF2F2",
+        "light": "#182024"
+      }
+    },
+    {
+      "name": "color-node-place",
+      "type": "color",
+      "cssVariable": "--lk-color-node-place",
+      "value": {
+        "dark": "#D6DCDD",
+        "light": "#293236"
+      }
+    },
+    {
+      "name": "color-node-organization",
+      "type": "color",
+      "cssVariable": "--lk-color-node-organization",
+      "value": {
+        "dark": "#BEC6C8",
+        "light": "#3A4448"
+      }
+    },
+    {
+      "name": "color-node-item",
+      "type": "color",
+      "cssVariable": "--lk-color-node-item",
+      "value": {
+        "dark": "#A7B1B3",
+        "light": "#4B5659"
+      }
+    },
+    {
+      "name": "color-node-event",
+      "type": "color",
+      "cssVariable": "--lk-color-node-event",
+      "value": {
+        "dark": "#8F9B9D",
+        "light": "#5C686B"
+      }
+    },
+    {
+      "name": "color-node-worldview",
+      "type": "color",
+      "cssVariable": "--lk-color-node-worldview",
+      "value": {
+        "dark": "#788588",
+        "light": "#6D7A7D"
+      }
+    },
+    {
+      "name": "color-node-manuscript",
+      "type": "color",
+      "cssVariable": "--lk-color-node-manuscript",
+      "value": {
+        "dark": "#606F73",
+        "light": "#7E8C8F"
+      }
+    },
+    {
+      "name": "color-favorite",
+      "type": "color",
+      "cssVariable": "--lk-color-favorite",
+      "value": {
+        "dark": "#F7E29A",
+        "light": "#F2D478"
+      }
     }
   ],
   "owners": {
-    "ui": "src/components/ui",
-    "workspace": "src/features/workspace/components",
-    "new-tab": "src/features/new-tab/components",
     "ai-chat": "src/features/ai-chat/components",
+    "auth": "src/features/auth/components",
+    "diff": "src/features/diff/components",
+    "graph": "src/features/graph/components",
     "memo": "src/features/memo/components",
-    "property": "src/features/property/components",
-    "timeline": "src/features/timeline/components",
-    "settings": "src/features/settings/components",
+    "new-tab": "src/features/new-tab/components",
     "project-list": "src/features/projects/components",
-    "auth": "src/features/auth/components"
+    "property": "src/features/property/components",
+    "settings": "src/features/settings/components",
+    "timeline": "src/features/timeline/components",
+    "ui": "src/components/ui",
+    "workspace": "src/features/workspace/components"
   },
   "components": [
-    { "id": "XRxLA", "name": "Tab / Document", "kind": "base", "owner": "ui" },
+    {
+      "id": "XRxLA",
+      "name": "Tab / Document",
+      "kind": "base",
+      "owner": "ui"
+    },
     {
       "id": "ocZ7t",
       "name": "Sidebar Item / Default",
@@ -454,12 +572,6 @@
       "owner": "workspace"
     },
     {
-      "id": "vL1SQ",
-      "name": "Menu / Folder / Open",
-      "kind": "state",
-      "owner": "workspace"
-    },
-    {
       "id": "cvE3I",
       "name": "Workspace / Trash Item",
       "kind": "base",
@@ -470,54 +582,6 @@
       "name": "Sidebar Item / Inline Edit",
       "kind": "state",
       "owner": "ui"
-    },
-    {
-      "id": "NkBl5",
-      "name": "Sidebar / Workspace / File Create Inline",
-      "kind": "state",
-      "owner": "workspace"
-    },
-    {
-      "id": "ziYz1",
-      "name": "Sidebar / Workspace / Folder Create Inline",
-      "kind": "state",
-      "owner": "workspace"
-    },
-    {
-      "id": "jxo3r",
-      "name": "Sidebar / Workspace / Item Rename Inline",
-      "kind": "state",
-      "owner": "workspace"
-    },
-    {
-      "id": "Jbq1p",
-      "name": "Sidebar Item / Dragging",
-      "kind": "state",
-      "owner": "ui"
-    },
-    {
-      "id": "YW4Vf",
-      "name": "Sidebar Item / Drop Target",
-      "kind": "state",
-      "owner": "ui"
-    },
-    {
-      "id": "cVJSM",
-      "name": "Sidebar / Workspace / Item Dragging",
-      "kind": "state",
-      "owner": "workspace"
-    },
-    {
-      "id": "UqLj6",
-      "name": "Sidebar / Workspace / Folder Drop Target",
-      "kind": "state",
-      "owner": "workspace"
-    },
-    {
-      "id": "r8EM10",
-      "name": "Sidebar / Workspace / Favorites Drop Target",
-      "kind": "state",
-      "owner": "workspace"
     },
     {
       "id": "ehyXz",
@@ -652,48 +716,6 @@
       "owner": "property"
     },
     {
-      "id": "Mg1rm",
-      "name": "Timeline / Item / Date",
-      "kind": "base",
-      "owner": "timeline"
-    },
-    {
-      "id": "Pog78",
-      "name": "Timeline / Item / Order",
-      "kind": "base",
-      "owner": "timeline"
-    },
-    {
-      "id": "vy3y2",
-      "name": "Timeline / Item / Unscheduled",
-      "kind": "base",
-      "owner": "timeline"
-    },
-    {
-      "id": "ejEL1",
-      "name": "Timeline / Item / Selected",
-      "kind": "state",
-      "owner": "timeline"
-    },
-    {
-      "id": "SAEqe",
-      "name": "Timeline / Add",
-      "kind": "base",
-      "owner": "timeline"
-    },
-    {
-      "id": "zhKoc",
-      "name": "Timeline / Item / Editing",
-      "kind": "state",
-      "owner": "timeline"
-    },
-    {
-      "id": "uNshP",
-      "name": "Dialog / Timeline Item Delete",
-      "kind": "state",
-      "owner": "timeline"
-    },
-    {
       "id": "sgSNm",
       "name": "Settings / Section",
       "kind": "base",
@@ -770,12 +792,6 @@
       "name": "Dialog / User Section Delete Error",
       "kind": "state",
       "owner": "workspace"
-    },
-    {
-      "id": "veu74",
-      "name": "Timeline / Item / Save Error",
-      "kind": "state",
-      "owner": "timeline"
     },
     {
       "id": "rgK6h",
@@ -878,6 +894,102 @@
       "name": "Auth / Google Button / Focused",
       "kind": "state",
       "owner": "auth"
+    },
+    {
+      "id": "V2uNq",
+      "name": "Graph / Canvas",
+      "kind": "base",
+      "owner": "graph"
+    },
+    {
+      "id": "dLaXy",
+      "name": "Graph / Legend",
+      "kind": "base",
+      "owner": "graph"
+    },
+    {
+      "id": "zy8eB",
+      "name": "Graph / Tools",
+      "kind": "base",
+      "owner": "graph"
+    },
+    {
+      "id": "GeB25",
+      "name": "Graph / Filter Panel / Open",
+      "kind": "state",
+      "owner": "graph"
+    },
+    {
+      "id": "KKgHc",
+      "name": "Graph / Search Panel / Open",
+      "kind": "state",
+      "owner": "graph"
+    },
+    {
+      "id": "mOkkb",
+      "name": "Graph / Node Panel",
+      "kind": "base",
+      "owner": "graph"
+    },
+    {
+      "id": "t1bBoR",
+      "name": "Graph / Toolbar",
+      "kind": "base",
+      "owner": "graph"
+    },
+    {
+      "id": "iiMlX",
+      "name": "Timeline / Table",
+      "kind": "base",
+      "owner": "timeline"
+    },
+    {
+      "id": "gNoAJ",
+      "name": "Timeline / Toolbar",
+      "kind": "base",
+      "owner": "timeline"
+    },
+    {
+      "id": "EGHZx",
+      "name": "Timeline / Row Filter / Open",
+      "kind": "state",
+      "owner": "timeline"
+    },
+    {
+      "id": "yfAWD",
+      "name": "Timeline / Episode Menu / Open",
+      "kind": "state",
+      "owner": "timeline"
+    },
+    {
+      "id": "PMWOl",
+      "name": "Diff / Entry Row",
+      "kind": "base",
+      "owner": "diff"
+    },
+    {
+      "id": "wSTOW",
+      "name": "Diff / Modal / Compare",
+      "kind": "state",
+      "owner": "diff"
+    },
+    {
+      "id": "rsMLG",
+      "name": "Property / Relation Chip",
+      "kind": "base",
+      "owner": "property"
+    },
+    {
+      "id": "nXw6k",
+      "name": "Property / Row / Relation",
+      "kind": "base",
+      "owner": "property"
+    },
+    {
+      "id": "E1st2m",
+      "name": "Menu / Episode Folder / Open",
+      "kind": "state",
+      "owner": "workspace"
     }
   ]
 }

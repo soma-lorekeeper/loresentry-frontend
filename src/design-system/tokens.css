@@ -14,6 +14,14 @@
   --lk-color-accent-primary: #a9c7d0;
   --lk-color-text-on-accent: #111719;
   --lk-color-state-selected: #293237;
+  --lk-color-node-character: #edf2f2;
+  --lk-color-node-place: #d6dcdd;
+  --lk-color-node-organization: #bec6c8;
+  --lk-color-node-item: #a7b1b3;
+  --lk-color-node-event: #8f9b9d;
+  --lk-color-node-worldview: #788588;
+  --lk-color-node-manuscript: #606f73;
+  --lk-color-favorite: #f7e29a;
   --lk-space-1: 4px;
   --lk-space-2: 8px;
   --lk-space-3: 10px;
@@ -51,6 +59,14 @@
   --lk-color-accent-primary: #486a73;
   --lk-color-text-on-accent: #ffffff;
   --lk-color-state-selected: #dce7ea;
+  --lk-color-node-character: #182024;
+  --lk-color-node-place: #293236;
+  --lk-color-node-organization: #3a4448;
+  --lk-color-node-item: #4b5659;
+  --lk-color-node-event: #5c686b;
+  --lk-color-node-worldview: #6d7a7d;
+  --lk-color-node-manuscript: #7e8c8f;
+  --lk-color-favorite: #f2d478;
 }
 
 @media (prefers-color-scheme: light) {
@@ -69,6 +85,14 @@
     --lk-color-accent-primary: #486a73;
     --lk-color-text-on-accent: #ffffff;
     --lk-color-state-selected: #dce7ea;
+    --lk-color-node-character: #182024;
+    --lk-color-node-place: #293236;
+    --lk-color-node-organization: #3a4448;
+    --lk-color-node-item: #4b5659;
+    --lk-color-node-event: #5c686b;
+    --lk-color-node-worldview: #6d7a7d;
+    --lk-color-node-manuscript: #7e8c8f;
+    --lk-color-favorite: #f2d478;
   }
 }
 
@@ -86,5 +110,13 @@
   --color-accent-primary: var(--lk-color-accent-primary);
   --color-text-on-accent: var(--lk-color-text-on-accent);
   --color-state-selected: var(--lk-color-state-selected);
+  --color-node-character: var(--lk-color-node-character);
+  --color-node-place: var(--lk-color-node-place);
+  --color-node-organization: var(--lk-color-node-organization);
+  --color-node-item: var(--lk-color-node-item);
+  --color-node-event: var(--lk-color-node-event);
+  --color-node-worldview: var(--lk-color-node-worldview);
+  --color-node-manuscript: var(--lk-color-node-manuscript);
+  --color-favorite: var(--lk-color-favorite);
   --font-sans: var(--font-geist-sans), var(--lk-font-family-ui), sans-serif;
 }

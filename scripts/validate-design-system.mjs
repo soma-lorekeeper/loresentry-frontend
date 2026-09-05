@@ -24,11 +24,11 @@ const countBy = (items, key) =>
   );
 
 assert.deepEqual(registry.themes, { mode: ["dark", "light"] });
-assert.equal(registry.tokens.length, 33, "Pencil token count must stay at 33");
+assert.equal(registry.tokens.length, 41, "Pencil token count must stay at 41");
 assert.equal(
   registry.tokens.filter((token) => token.type === "color").length,
-  13,
-  "Pencil themed color count must stay at 13",
+  21,
+  "Pencil themed color count must stay at 21",
 );
 assert.equal(
   registry.tokens.filter((token) => token.type === "number").length,
@@ -86,10 +86,10 @@ assert.deepEqual(
 
 assert.equal(
   registry.components.length,
-  109,
-  "Pencil component count must stay at 109",
+  108,
+  "Pencil component count must stay at 108",
 );
-assert.deepEqual(countBy(registry.components, "kind"), { base: 42, state: 67 });
+assert.deepEqual(countBy(registry.components, "kind"), { base: 48, state: 60 });
 assert.ok(
   unique(registry.components.map((component) => component.id)),
   "duplicate Pencil component id",
