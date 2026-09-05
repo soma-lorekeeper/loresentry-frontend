@@ -1779,10 +1779,28 @@
               ],
               "descendants": {
                 "nCqu3": {
-                  "icon": "share-2"
+                  "icon": "waypoints"
                 },
                 "bP6Qr": {
                   "content": "그래프"
+                }
+              }
+            },
+            {
+              "id": "W3eunw",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Instance · Timeline",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "chart-no-axes-gantt"
+                },
+                "bP6Qr": {
+                  "content": "타임라인"
                 }
               }
             },
@@ -1803,6 +1821,42 @@
                 },
                 "bP6Qr": {
                   "content": "메모"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "YJcLb",
+          "name": "Sidebar Graph Refresh Block",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-1",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "V2JXs",
+              "name": "Sidebar Graph Refresh Divider",
+              "fill": "$color-border-default",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "id": "p5K3V",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Graph Refresh",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "refresh-cw"
+                },
+                "bP6Qr": {
+                  "content": "그래프 최신화"
                 }
               }
             }
@@ -1930,19 +1984,18 @@
               ]
             },
             {
-              "id": "QLusc",
+              "id": "tKgOo",
               "type": "ref",
               "ref": "ocZ7t",
               "name": "Sidebar Manuscript Folder",
-              "width": "fill_container",
-              "fill": "#00000000",
+              "height": 30,
               "padding": [
                 0,
                 "$space-3"
               ],
               "descendants": {
                 "nCqu3": {
-                  "icon": "folder"
+                  "icon": "folder-open"
                 },
                 "bP6Qr": {
                   "content": "원고"
@@ -1950,15 +2003,33 @@
               }
             },
             {
-              "id": "c81Bf",
+              "id": "Gs4mu",
               "type": "ref",
               "ref": "ocZ7t",
-              "name": "Sidebar Current Manuscript",
-              "width": "fill_container",
-              "fill": "#00000000",
+              "name": "Sidebar Episode Folder Open",
+              "height": 30,
               "padding": [
                 0,
                 28
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder-open"
+                },
+                "bP6Qr": {
+                  "content": "Episode 8. 새 원고"
+                }
+              }
+            },
+            {
+              "id": "LwHbH",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Chapter Current",
+              "height": 30,
+              "padding": [
+                0,
+                46
               ],
               "descendants": {
                 "nCqu3": {
@@ -1970,62 +2041,116 @@
               }
             },
             {
-              "id": "aVBym",
+              "id": "YSX2q",
               "type": "ref",
               "ref": "ocZ7t",
-              "name": "Sidebar Previous Manuscript",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                28
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "11화 · 유리 정원"
-                }
-              }
-            },
-            {
-              "id": "espv3",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Setting File",
-              "width": "fill_container",
-              "fill": "#00000000",
+              "name": "Sidebar Character Folder",
+              "height": 30,
               "padding": [
                 0,
                 "$space-3"
               ],
               "descendants": {
                 "nCqu3": {
-                  "icon": "settings-2"
-                },
-                "bP6Qr": {
-                  "content": "설정"
-                }
-              }
-            },
-            {
-              "id": "tIRnX",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Character File",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "user-round"
+                  "icon": "folder"
                 },
                 "bP6Qr": {
                   "content": "캐릭터"
+                }
+              }
+            },
+            {
+              "id": "hENdb",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Place Folder",
+              "height": 30,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "장소"
+                }
+              }
+            },
+            {
+              "id": "VUcNF",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Organization Folder",
+              "height": 30,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "조직"
+                }
+              }
+            },
+            {
+              "id": "tWpJx",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Folder",
+              "height": 30,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "아이템"
+                }
+              }
+            },
+            {
+              "id": "l70Rf",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Event Folder",
+              "height": 30,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "이벤트"
+                }
+              }
+            },
+            {
+              "id": "z8QQ9",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Worldview Folder",
+              "height": 30,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "세계관"
                 }
               }
             }
@@ -2254,10 +2379,28 @@
               ],
               "descendants": {
                 "nCqu3": {
-                  "icon": "share-2"
+                  "icon": "waypoints"
                 },
                 "bP6Qr": {
                   "content": "그래프"
+                }
+              }
+            },
+            {
+              "id": "Em2pb",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Instance · Timeline",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "chart-no-axes-gantt"
+                },
+                "bP6Qr": {
+                  "content": "타임라인"
                 }
               }
             },
@@ -2278,6 +2421,42 @@
                 },
                 "bP6Qr": {
                   "content": "메모"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "H2cPUY",
+          "name": "Sidebar Graph Refresh Block",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-1",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "U23Gn9",
+              "name": "Sidebar Graph Refresh Divider",
+              "fill": "$color-border-default",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "id": "uYv3i",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Graph Refresh",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "refresh-cw"
+                },
+                "bP6Qr": {
+                  "content": "그래프 최신화"
                 }
               }
             }
@@ -2406,19 +2585,18 @@
               ]
             },
             {
-              "id": "qZUPp",
+              "id": "fRwJI",
               "type": "ref",
               "ref": "ocZ7t",
               "name": "Sidebar Manuscript Folder",
-              "width": "fill_container",
-              "fill": "#00000000",
+              "height": 30,
               "padding": [
                 0,
                 "$space-3"
               ],
               "descendants": {
                 "nCqu3": {
-                  "icon": "folder"
+                  "icon": "folder-open"
                 },
                 "bP6Qr": {
                   "content": "원고"
@@ -2426,15 +2604,33 @@
               }
             },
             {
-              "id": "xvBTa",
+              "id": "o4bW9",
               "type": "ref",
               "ref": "ocZ7t",
-              "name": "Sidebar Current Manuscript",
-              "width": "fill_container",
-              "fill": "#00000000",
+              "name": "Sidebar Episode Folder Open",
+              "height": 30,
               "padding": [
                 0,
                 28
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder-open"
+                },
+                "bP6Qr": {
+                  "content": "Episode 8. 새 원고"
+                }
+              }
+            },
+            {
+              "id": "ONgTG",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Chapter Current",
+              "height": 30,
+              "padding": [
+                0,
+                46
               ],
               "descendants": {
                 "nCqu3": {
@@ -2446,62 +2642,116 @@
               }
             },
             {
-              "id": "JVSad",
+              "id": "aJAH7",
               "type": "ref",
               "ref": "ocZ7t",
-              "name": "Sidebar Previous Manuscript",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                28
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "11화 · 유리 정원"
-                }
-              }
-            },
-            {
-              "id": "VYods",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Setting File",
-              "width": "fill_container",
-              "fill": "#00000000",
+              "name": "Sidebar Character Folder",
+              "height": 30,
               "padding": [
                 0,
                 "$space-3"
               ],
               "descendants": {
                 "nCqu3": {
-                  "icon": "settings-2"
-                },
-                "bP6Qr": {
-                  "content": "설정"
-                }
-              }
-            },
-            {
-              "id": "YMtlT",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Character File",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "user-round"
+                  "icon": "folder"
                 },
                 "bP6Qr": {
                   "content": "캐릭터"
+                }
+              }
+            },
+            {
+              "id": "M1MlUu",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Place Folder",
+              "height": 30,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "장소"
+                }
+              }
+            },
+            {
+              "id": "rDokA",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Organization Folder",
+              "height": 30,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "조직"
+                }
+              }
+            },
+            {
+              "id": "pW3jI",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Folder",
+              "height": 30,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "아이템"
+                }
+              }
+            },
+            {
+              "id": "OESyi",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Event Folder",
+              "height": 30,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "이벤트"
+                }
+              }
+            },
+            {
+              "id": "J49vG",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Worldview Folder",
+              "height": 30,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "세계관"
                 }
               }
             }
@@ -2730,10 +2980,28 @@
               ],
               "descendants": {
                 "nCqu3": {
-                  "icon": "share-2"
+                  "icon": "waypoints"
                 },
                 "bP6Qr": {
                   "content": "그래프"
+                }
+              }
+            },
+            {
+              "id": "MARWi",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Instance · Timeline",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "chart-no-axes-gantt"
+                },
+                "bP6Qr": {
+                  "content": "타임라인"
                 }
               }
             },
@@ -2754,6 +3022,42 @@
                 },
                 "bP6Qr": {
                   "content": "메모"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "L5Kt0",
+          "name": "Sidebar Graph Refresh Block",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-1",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "m3iKUR",
+              "name": "Sidebar Graph Refresh Divider",
+              "fill": "$color-border-default",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "id": "q28AdF",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Graph Refresh",
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "refresh-cw"
+                },
+                "bP6Qr": {
+                  "content": "그래프 최신화"
                 }
               }
             }
@@ -2882,19 +3186,18 @@
               ]
             },
             {
-              "id": "aMXYM",
+              "id": "j28YzI",
               "type": "ref",
               "ref": "ocZ7t",
               "name": "Sidebar Manuscript Folder",
-              "width": "fill_container",
-              "fill": "#00000000",
+              "height": 30,
               "padding": [
                 0,
                 "$space-3"
               ],
               "descendants": {
                 "nCqu3": {
-                  "icon": "folder"
+                  "icon": "folder-open"
                 },
                 "bP6Qr": {
                   "content": "원고"
@@ -2902,15 +3205,33 @@
               }
             },
             {
-              "id": "sRYeZ",
+              "id": "g3hxU",
               "type": "ref",
               "ref": "ocZ7t",
-              "name": "Sidebar Current Manuscript",
-              "width": "fill_container",
-              "fill": "#00000000",
+              "name": "Sidebar Episode Folder Open",
+              "height": 30,
               "padding": [
                 0,
                 28
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder-open"
+                },
+                "bP6Qr": {
+                  "content": "Episode 8. 새 원고"
+                }
+              }
+            },
+            {
+              "id": "zBWO6",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Chapter Current",
+              "height": 30,
+              "padding": [
+                0,
+                46
               ],
               "descendants": {
                 "nCqu3": {
@@ -2922,62 +3243,116 @@
               }
             },
             {
-              "id": "Bjc7T",
+              "id": "d4JUA",
               "type": "ref",
               "ref": "ocZ7t",
-              "name": "Sidebar Previous Manuscript",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                28
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "11화 · 유리 정원"
-                }
-              }
-            },
-            {
-              "id": "wsSQQ",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Setting File",
-              "width": "fill_container",
-              "fill": "#00000000",
+              "name": "Sidebar Character Folder",
+              "height": 30,
               "padding": [
                 0,
                 "$space-3"
               ],
               "descendants": {
                 "nCqu3": {
-                  "icon": "settings-2"
-                },
-                "bP6Qr": {
-                  "content": "설정"
-                }
-              }
-            },
-            {
-              "id": "R5gWKY",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Character File",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "user-round"
+                  "icon": "folder"
                 },
                 "bP6Qr": {
                   "content": "캐릭터"
+                }
+              }
+            },
+            {
+              "id": "CLr0Y",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Place Folder",
+              "height": 30,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "장소"
+                }
+              }
+            },
+            {
+              "id": "PhXAq",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Organization Folder",
+              "height": 30,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "조직"
+                }
+              }
+            },
+            {
+              "id": "eLKRo",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Item Folder",
+              "height": 30,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "아이템"
+                }
+              }
+            },
+            {
+              "id": "k4jcGB",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Event Folder",
+              "height": 30,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "이벤트"
+                }
+              }
+            },
+            {
+              "id": "yyLh9",
+              "type": "ref",
+              "ref": "ocZ7t",
+              "name": "Sidebar Worldview Folder",
+              "height": 30,
+              "padding": [
+                0,
+                "$space-3"
+              ],
+              "descendants": {
+                "nCqu3": {
+                  "icon": "folder"
+                },
+                "bP6Qr": {
+                  "content": "세계관"
                 }
               }
             }
@@ -8697,494 +9072,6 @@
     },
     {
       "type": "frame",
-      "id": "vL1SQ",
-      "x": 2736,
-      "y": 1608,
-      "name": "Menu / Folder / Open",
-      "reusable": true,
-      "width": 204,
-      "fill": "$color-surface-raised",
-      "cornerRadius": "$radius-control",
-      "stroke": "$color-border-default",
-      "strokeWidth": 1,
-      "effect": {
-        "type": "shadow",
-        "shadowType": "outer",
-        "color": "#00000055",
-        "offset": {
-          "x": 0,
-          "y": 4
-        },
-        "blur": 16
-      },
-      "layout": "vertical",
-      "gap": "$space-1",
-      "padding": "$space-2",
-      "children": [
-        {
-          "type": "frame",
-          "id": "Z7qvj",
-          "name": "원고 Create Menu Item",
-          "width": "fill_container",
-          "height": 34,
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": [
-            0,
-            "$space-3"
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "w5tsQ8",
-              "name": "원고 Create Menu Item Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "file-text",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "pTEhi",
-              "name": "원고 Create Menu Item Label",
-              "fill": "$color-text-primary",
-              "content": "원고",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "IivnC",
-          "name": "설정 Create Menu Item",
-          "width": "fill_container",
-          "height": 34,
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": [
-            0,
-            "$space-3"
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "TnEgw",
-              "name": "설정 Create Menu Item Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "notebook-tabs",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "gNpiv",
-              "name": "설정 Create Menu Item Label",
-              "fill": "$color-text-primary",
-              "content": "설정",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "n7wUNj",
-          "name": "캐릭터 Create Menu Item",
-          "width": "fill_container",
-          "height": 34,
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": [
-            0,
-            "$space-3"
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "d82SEf",
-              "name": "캐릭터 Create Menu Item Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "user-round",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "vp2Ne",
-              "name": "캐릭터 Create Menu Item Label",
-              "fill": "$color-text-primary",
-              "content": "캐릭터",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "wkHZB",
-          "name": "이벤트 Create Menu Item",
-          "width": "fill_container",
-          "height": 34,
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": [
-            0,
-            "$space-3"
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "G3r3j",
-              "name": "이벤트 Create Menu Item Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "calendar-days",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "b4bJUq",
-              "name": "이벤트 Create Menu Item Label",
-              "fill": "$color-text-primary",
-              "content": "이벤트",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "gQ04L",
-          "name": "조직 Create Menu Item",
-          "width": "fill_container",
-          "height": 34,
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": [
-            0,
-            "$space-3"
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "ZHSAe",
-              "name": "조직 Create Menu Item Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "users-round",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "fyfcF",
-              "name": "조직 Create Menu Item Label",
-              "fill": "$color-text-primary",
-              "content": "조직",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "YiNXk",
-          "name": "아이템 Create Menu Item",
-          "width": "fill_container",
-          "height": 34,
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": [
-            0,
-            "$space-3"
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "BQxpI",
-              "name": "아이템 Create Menu Item Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "gem",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "XVtXg",
-              "name": "아이템 Create Menu Item Label",
-              "fill": "$color-text-primary",
-              "content": "아이템",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "cJzmj",
-          "name": "장소 Create Menu Item",
-          "width": "fill_container",
-          "height": 34,
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": [
-            0,
-            "$space-3"
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "Z8KNnW",
-              "name": "장소 Create Menu Item Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "map-pin",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "cnfb7",
-              "name": "장소 Create Menu Item Label",
-              "fill": "$color-text-primary",
-              "content": "장소",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "ZRDdM",
-          "name": "세계관 Create Menu Item",
-          "width": "fill_container",
-          "height": 34,
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": [
-            0,
-            "$space-3"
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "GnyHo",
-              "name": "세계관 Create Menu Item Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "globe",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "A9SXW",
-              "name": "세계관 Create Menu Item Label",
-              "fill": "$color-text-primary",
-              "content": "세계관",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "rectangle",
-          "id": "wZH5I",
-          "name": "Files Menu Separator",
-          "fill": "$color-border-default",
-          "width": "fill_container",
-          "height": 1
-        },
-        {
-          "type": "frame",
-          "id": "FI4R3",
-          "name": "새 폴더 Menu Item",
-          "width": "fill_container",
-          "height": 34,
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": [
-            0,
-            "$space-3"
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "eZDTn",
-              "name": "새 폴더 Menu Item Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "folder-plus",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "x5EQx",
-              "name": "새 폴더 Menu Item Label",
-              "fill": "$color-text-primary",
-              "content": "새 폴더",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "gIrmH",
-          "name": "가져오기 Menu Item",
-          "width": "fill_container",
-          "height": 34,
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": [
-            0,
-            "$space-3"
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "Gl6zS",
-              "name": "가져오기 Menu Item Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "download",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "TBXAP",
-              "name": "가져오기 Menu Item Label",
-              "fill": "$color-text-primary",
-              "content": "가져오기",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "lwN0l",
-          "name": "이름 변경 Menu Item",
-          "width": "fill_container",
-          "height": 34,
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": [
-            0,
-            "$space-3"
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "Md6Tv",
-              "name": "이름 변경 Menu Item Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "pencil",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "m7yjtS",
-              "name": "이름 변경 Menu Item Label",
-              "fill": "$color-text-primary",
-              "content": "이름 변경",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "rectangle",
-          "id": "xpaPr",
-          "name": "Folder Menu Destructive Separator",
-          "fill": "$color-border-default",
-          "width": "fill_container",
-          "height": 1
-        },
-        {
-          "type": "frame",
-          "id": "eXUPG",
-          "name": "휴지통으로 이동 Menu Item",
-          "width": "fill_container",
-          "height": 34,
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": [
-            0,
-            "$space-3"
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "kqwt2",
-              "name": "휴지통으로 이동 Menu Item Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "trash-2",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "J8rFFt",
-              "name": "휴지통으로 이동 Menu Item Label",
-              "fill": "$color-text-primary",
-              "content": "휴지통으로 이동",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "normal"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
       "id": "cvE3I",
       "x": 3020,
       "y": 1608,
@@ -9370,2966 +9257,6 @@
               "library": "lucide",
               "weight": "$icon-weight-default",
               "fill": "$color-icon-default"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "NkBl5",
-      "x": 4328,
-      "y": 1608,
-      "name": "Sidebar / Workspace / File Create Inline",
-      "reusable": true,
-      "width": 236,
-      "height": 900,
-      "fill": "$color-surface-navigation",
-      "stroke": "$color-border-default",
-      "strokeWidth": {
-        "right": 1
-      },
-      "layout": "vertical",
-      "gap": "$space-4",
-      "padding": [
-        18,
-        "$space-4"
-      ],
-      "children": [
-        {
-          "type": "frame",
-          "id": "Qo7yQ",
-          "name": "Sidebar User",
-          "width": "fill_container",
-          "height": 28,
-          "gap": "$space-2",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "ellipse",
-              "id": "bLU7j",
-              "name": "Sidebar User Avatar",
-              "fill": "$color-surface-icon",
-              "width": 28,
-              "height": 28
-            },
-            {
-              "type": "text",
-              "id": "tRb3X",
-              "name": "Sidebar User Name",
-              "fill": "$color-text-primary",
-              "content": "서윤주",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "600"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "FRCkc",
-          "name": "Sidebar Project Switcher",
-          "width": "fill_container",
-          "height": 39,
-          "fill": "$color-surface-default",
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": "$space-3",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "CbtLW",
-              "name": "Sidebar Project Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "book-open",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "wB0fp",
-              "name": "Sidebar Project Name",
-              "fill": "$color-text-primary",
-              "content": "유리 정원의 기록",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "500"
-            },
-            {
-              "type": "frame",
-              "id": "J94SJ",
-              "name": "Sidebar Project Spacer",
-              "width": "fill_container",
-              "height": 1
-            },
-            {
-              "type": "icon",
-              "id": "SSVzi",
-              "name": "Sidebar Project Chevron",
-              "width": 14,
-              "height": 14,
-              "icon": "chevron-down",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "yxnwJ",
-          "name": "Sidebar Primary Navigation",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 3,
-          "children": [
-            {
-              "id": "tm1in",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Search",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "search"
-                },
-                "bP6Qr": {
-                  "content": "검색"
-                }
-              }
-            },
-            {
-              "id": "ReZQ3",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Graph",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "share-2"
-                },
-                "bP6Qr": {
-                  "content": "그래프"
-                }
-              }
-            },
-            {
-              "id": "jLg7N",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Memo",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "notebook-pen"
-                },
-                "bP6Qr": {
-                  "content": "메모"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "TOGIp",
-          "name": "Sidebar Favorites Section",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 2,
-          "children": [
-            {
-              "type": "frame",
-              "id": "U5yOnI",
-              "name": "Sidebar Favorites Header",
-              "width": "fill_container",
-              "height": 33,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "OHnSM",
-                  "name": "Sidebar Favorites Header Label",
-                  "fill": "$color-text-secondary",
-                  "content": "즐겨찾기",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "W3V1K",
-                  "name": "Sidebar Favorites Header Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "id": "pQ3mm",
-                  "type": "ref",
-                  "ref": "hMpn5",
-                  "name": "Sidebar Favorites Header More Button",
-                  "width": 24,
-                  "height": 24,
-                  "descendants": {
-                    "UCRf6": {
-                      "icon": "ellipsis",
-                      "width": 15,
-                      "height": 15
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "id": "q09sSh",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Favorite Manuscript",
-              "width": "fill_container",
-              "fill": "$color-state-selected",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "12화 · 균열의 밤"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "bCiZe",
-          "name": "Sidebar Files Section",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 2,
-          "children": [
-            {
-              "type": "frame",
-              "id": "zFJXC",
-              "name": "Sidebar Files Header",
-              "width": "fill_container",
-              "height": 33,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "j5eM5m",
-                  "name": "Sidebar Files Header Label",
-                  "fill": "$color-text-secondary",
-                  "content": "파일",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "S3sKm",
-                  "name": "Sidebar Files Header Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "id": "oHXfq",
-                  "type": "ref",
-                  "ref": "hMpn5",
-                  "name": "Sidebar Files Header More Button",
-                  "width": 24,
-                  "height": 24,
-                  "descendants": {
-                    "UCRf6": {
-                      "icon": "ellipsis",
-                      "width": 15,
-                      "height": 15
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "id": "O88sFX",
-              "type": "ref",
-              "ref": "o1Gt4T",
-              "name": "Sidebar New File Inline Edit",
-              "width": "fill_container",
-              "descendants": {
-                "O8zH1s": {
-                  "icon": "file-text"
-                },
-                "WwuSQ": {
-                  "content": "새 원고"
-                }
-              }
-            },
-            {
-              "id": "dMUmc",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Manuscript Folder",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "folder"
-                },
-                "bP6Qr": {
-                  "content": "원고"
-                }
-              }
-            },
-            {
-              "id": "wRiGy",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Current Manuscript",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                28
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "12화 · 균열의 밤"
-                }
-              }
-            },
-            {
-              "id": "fzesT",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Previous Manuscript",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                28
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "11화 · 유리 정원"
-                }
-              }
-            },
-            {
-              "id": "t1cpJ",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Setting File",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "settings-2"
-                },
-                "bP6Qr": {
-                  "content": "설정"
-                }
-              }
-            },
-            {
-              "id": "W0kYj",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Character File",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "user-round"
-                },
-                "bP6Qr": {
-                  "content": "캐릭터"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "DXyEO",
-          "name": "Sidebar Flexible Spacer",
-          "width": "fill_container",
-          "height": "fill_container"
-        },
-        {
-          "type": "frame",
-          "id": "l4Rcs",
-          "name": "Sidebar Utility Navigation",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 3,
-          "children": [
-            {
-              "id": "JJox7",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Trash",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "trash-2"
-                },
-                "bP6Qr": {
-                  "content": "휴지통"
-                }
-              }
-            },
-            {
-              "id": "FDEY9",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Settings",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "settings"
-                },
-                "bP6Qr": {
-                  "content": "설정"
-                }
-              }
-            },
-            {
-              "id": "XvnOI",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Help",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "circle-help"
-                },
-                "bP6Qr": {
-                  "content": "도움말"
-                }
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "ziYz1",
-      "x": 4644,
-      "y": 1608,
-      "name": "Sidebar / Workspace / Folder Create Inline",
-      "reusable": true,
-      "width": 236,
-      "height": 900,
-      "fill": "$color-surface-navigation",
-      "stroke": "$color-border-default",
-      "strokeWidth": {
-        "right": 1
-      },
-      "layout": "vertical",
-      "gap": "$space-4",
-      "padding": [
-        18,
-        "$space-4"
-      ],
-      "children": [
-        {
-          "type": "frame",
-          "id": "MYdMW",
-          "name": "Sidebar User",
-          "width": "fill_container",
-          "height": 28,
-          "gap": "$space-2",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "ellipse",
-              "id": "JRW3P",
-              "name": "Sidebar User Avatar",
-              "fill": "$color-surface-icon",
-              "width": 28,
-              "height": 28
-            },
-            {
-              "type": "text",
-              "id": "O0sTGM",
-              "name": "Sidebar User Name",
-              "fill": "$color-text-primary",
-              "content": "서윤주",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "600"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "CiRFM",
-          "name": "Sidebar Project Switcher",
-          "width": "fill_container",
-          "height": 39,
-          "fill": "$color-surface-default",
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": "$space-3",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "u5NTP",
-              "name": "Sidebar Project Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "book-open",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "jDqHO",
-              "name": "Sidebar Project Name",
-              "fill": "$color-text-primary",
-              "content": "유리 정원의 기록",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "500"
-            },
-            {
-              "type": "frame",
-              "id": "E68ixz",
-              "name": "Sidebar Project Spacer",
-              "width": "fill_container",
-              "height": 1
-            },
-            {
-              "type": "icon",
-              "id": "RfrKQ",
-              "name": "Sidebar Project Chevron",
-              "width": 14,
-              "height": 14,
-              "icon": "chevron-down",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "SyGP7",
-          "name": "Sidebar Primary Navigation",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 3,
-          "children": [
-            {
-              "id": "Gu8wi",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Search",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "search"
-                },
-                "bP6Qr": {
-                  "content": "검색"
-                }
-              }
-            },
-            {
-              "id": "RvIkA",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Graph",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "share-2"
-                },
-                "bP6Qr": {
-                  "content": "그래프"
-                }
-              }
-            },
-            {
-              "id": "gqlbO",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Memo",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "notebook-pen"
-                },
-                "bP6Qr": {
-                  "content": "메모"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "L33N62",
-          "name": "Sidebar Favorites Section",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 2,
-          "children": [
-            {
-              "type": "frame",
-              "id": "tv6DJ",
-              "name": "Sidebar Favorites Header",
-              "width": "fill_container",
-              "height": 33,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "wOgve",
-                  "name": "Sidebar Favorites Header Label",
-                  "fill": "$color-text-secondary",
-                  "content": "즐겨찾기",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "MWBgj",
-                  "name": "Sidebar Favorites Header Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "id": "Kt4pg",
-                  "type": "ref",
-                  "ref": "hMpn5",
-                  "name": "Sidebar Favorites Header More Button",
-                  "width": 24,
-                  "height": 24,
-                  "descendants": {
-                    "UCRf6": {
-                      "icon": "ellipsis",
-                      "width": 15,
-                      "height": 15
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "id": "fljUR",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Favorite Manuscript",
-              "width": "fill_container",
-              "fill": "$color-state-selected",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "12화 · 균열의 밤"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "RUbhY",
-          "name": "Sidebar Files Section",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 2,
-          "children": [
-            {
-              "type": "frame",
-              "id": "QVRLi",
-              "name": "Sidebar Files Header",
-              "width": "fill_container",
-              "height": 33,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "Pk3vN",
-                  "name": "Sidebar Files Header Label",
-                  "fill": "$color-text-secondary",
-                  "content": "파일",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "IzVmc",
-                  "name": "Sidebar Files Header Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "id": "e3lLW",
-                  "type": "ref",
-                  "ref": "hMpn5",
-                  "name": "Sidebar Files Header More Button",
-                  "width": 24,
-                  "height": 24,
-                  "descendants": {
-                    "UCRf6": {
-                      "icon": "ellipsis",
-                      "width": 15,
-                      "height": 15
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "id": "qQ0w3",
-              "type": "ref",
-              "ref": "o1Gt4T",
-              "name": "Sidebar New Folder Inline Edit",
-              "width": "fill_container",
-              "descendants": {
-                "O8zH1s": {
-                  "icon": "folder"
-                },
-                "WwuSQ": {
-                  "content": "새 폴더"
-                }
-              }
-            },
-            {
-              "id": "ip0aI",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Manuscript Folder",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "folder"
-                },
-                "bP6Qr": {
-                  "content": "원고"
-                }
-              }
-            },
-            {
-              "id": "mKDek",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Current Manuscript",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                28
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "12화 · 균열의 밤"
-                }
-              }
-            },
-            {
-              "id": "HIfvl",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Previous Manuscript",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                28
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "11화 · 유리 정원"
-                }
-              }
-            },
-            {
-              "id": "Auyft",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Setting File",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "settings-2"
-                },
-                "bP6Qr": {
-                  "content": "설정"
-                }
-              }
-            },
-            {
-              "id": "Ddu5w",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Character File",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "user-round"
-                },
-                "bP6Qr": {
-                  "content": "캐릭터"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "UyBFN",
-          "name": "Sidebar Flexible Spacer",
-          "width": "fill_container",
-          "height": "fill_container"
-        },
-        {
-          "type": "frame",
-          "id": "vngRE",
-          "name": "Sidebar Utility Navigation",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 3,
-          "children": [
-            {
-              "id": "up2V3",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Trash",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "trash-2"
-                },
-                "bP6Qr": {
-                  "content": "휴지통"
-                }
-              }
-            },
-            {
-              "id": "L4IUwh",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Settings",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "settings"
-                },
-                "bP6Qr": {
-                  "content": "설정"
-                }
-              }
-            },
-            {
-              "id": "zopaG",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Help",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "circle-help"
-                },
-                "bP6Qr": {
-                  "content": "도움말"
-                }
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "jxo3r",
-      "x": 4960,
-      "y": 1608,
-      "name": "Sidebar / Workspace / Item Rename Inline",
-      "reusable": true,
-      "width": 236,
-      "height": 900,
-      "fill": "$color-surface-navigation",
-      "stroke": "$color-border-default",
-      "strokeWidth": {
-        "right": 1
-      },
-      "layout": "vertical",
-      "gap": "$space-4",
-      "padding": [
-        18,
-        "$space-4"
-      ],
-      "children": [
-        {
-          "type": "frame",
-          "id": "qjtgC",
-          "name": "Sidebar User",
-          "width": "fill_container",
-          "height": 28,
-          "gap": "$space-2",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "ellipse",
-              "id": "U8fNNt",
-              "name": "Sidebar User Avatar",
-              "fill": "$color-surface-icon",
-              "width": 28,
-              "height": 28
-            },
-            {
-              "type": "text",
-              "id": "xKs3B",
-              "name": "Sidebar User Name",
-              "fill": "$color-text-primary",
-              "content": "서윤주",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "600"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "HIsSn",
-          "name": "Sidebar Project Switcher",
-          "width": "fill_container",
-          "height": 39,
-          "fill": "$color-surface-default",
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": "$space-3",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "LJwZd",
-              "name": "Sidebar Project Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "book-open",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "D2YzZl",
-              "name": "Sidebar Project Name",
-              "fill": "$color-text-primary",
-              "content": "유리 정원의 기록",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "500"
-            },
-            {
-              "type": "frame",
-              "id": "p9hrr9",
-              "name": "Sidebar Project Spacer",
-              "width": "fill_container",
-              "height": 1
-            },
-            {
-              "type": "icon",
-              "id": "L5lAi9",
-              "name": "Sidebar Project Chevron",
-              "width": 14,
-              "height": 14,
-              "icon": "chevron-down",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "MqO35",
-          "name": "Sidebar Primary Navigation",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 3,
-          "children": [
-            {
-              "id": "nY2Zq",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Search",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "search"
-                },
-                "bP6Qr": {
-                  "content": "검색"
-                }
-              }
-            },
-            {
-              "id": "htTJs",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Graph",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "share-2"
-                },
-                "bP6Qr": {
-                  "content": "그래프"
-                }
-              }
-            },
-            {
-              "id": "U2VVY5",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Memo",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "notebook-pen"
-                },
-                "bP6Qr": {
-                  "content": "메모"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "DVDHB",
-          "name": "Sidebar Favorites Section",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 2,
-          "children": [
-            {
-              "type": "frame",
-              "id": "qEGUd",
-              "name": "Sidebar Favorites Header",
-              "width": "fill_container",
-              "height": 33,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "H61Kh0",
-                  "name": "Sidebar Favorites Header Label",
-                  "fill": "$color-text-secondary",
-                  "content": "즐겨찾기",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "wxPvq",
-                  "name": "Sidebar Favorites Header Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "id": "N4eXn",
-                  "type": "ref",
-                  "ref": "hMpn5",
-                  "name": "Sidebar Favorites Header More Button",
-                  "width": 24,
-                  "height": 24,
-                  "descendants": {
-                    "UCRf6": {
-                      "icon": "ellipsis",
-                      "width": 15,
-                      "height": 15
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "id": "BygEr",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Favorite Manuscript",
-              "width": "fill_container",
-              "fill": "$color-state-selected",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "12화 · 균열의 밤"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "V8beuo",
-          "name": "Sidebar Files Section",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 2,
-          "children": [
-            {
-              "type": "frame",
-              "id": "jthiW",
-              "name": "Sidebar Files Header",
-              "width": "fill_container",
-              "height": 33,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "GZuYl",
-                  "name": "Sidebar Files Header Label",
-                  "fill": "$color-text-secondary",
-                  "content": "파일",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "mmeSJ",
-                  "name": "Sidebar Files Header Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "id": "dWF7d",
-                  "type": "ref",
-                  "ref": "hMpn5",
-                  "name": "Sidebar Files Header More Button",
-                  "width": 24,
-                  "height": 24,
-                  "descendants": {
-                    "UCRf6": {
-                      "icon": "ellipsis",
-                      "width": 15,
-                      "height": 15
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "id": "Bv5G8",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Manuscript Folder",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "folder"
-                },
-                "bP6Qr": {
-                  "content": "원고"
-                }
-              }
-            },
-            {
-              "id": "voiNI",
-              "type": "ref",
-              "ref": "o1Gt4T",
-              "name": "Sidebar Current Item Inline Rename",
-              "width": "fill_container",
-              "descendants": {
-                "O8zH1s": {
-                  "icon": "file-text"
-                },
-                "WwuSQ": {
-                  "content": "12화 · 균열의 밤"
-                }
-              }
-            },
-            {
-              "id": "yXPAh",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Previous Manuscript",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                28
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "11화 · 유리 정원"
-                }
-              }
-            },
-            {
-              "id": "jFnNv",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Setting File",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "settings-2"
-                },
-                "bP6Qr": {
-                  "content": "설정"
-                }
-              }
-            },
-            {
-              "id": "PQ5Wv",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Character File",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "user-round"
-                },
-                "bP6Qr": {
-                  "content": "캐릭터"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "f0qdjG",
-          "name": "Sidebar Flexible Spacer",
-          "width": "fill_container",
-          "height": "fill_container"
-        },
-        {
-          "type": "frame",
-          "id": "LhFys",
-          "name": "Sidebar Utility Navigation",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 3,
-          "children": [
-            {
-              "id": "CXR26",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Trash",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "trash-2"
-                },
-                "bP6Qr": {
-                  "content": "휴지통"
-                }
-              }
-            },
-            {
-              "id": "O8ocvE",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Settings",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "settings"
-                },
-                "bP6Qr": {
-                  "content": "설정"
-                }
-              }
-            },
-            {
-              "id": "Wz86m",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Help",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "circle-help"
-                },
-                "bP6Qr": {
-                  "content": "도움말"
-                }
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "Jbq1p",
-      "x": 5276,
-      "y": 1608,
-      "name": "Sidebar Item / Dragging",
-      "reusable": true,
-      "opacity": 0.92,
-      "width": 204,
-      "height": 35,
-      "fill": "$color-surface-raised",
-      "cornerRadius": "$radius-control",
-      "stroke": "$color-accent-primary",
-      "strokeWidth": 1,
-      "gap": "$space-2",
-      "padding": [
-        0,
-        "$space-3"
-      ],
-      "alignItems": "center",
-      "children": [
-        {
-          "type": "icon",
-          "id": "jDoga",
-          "name": "Dragging Item Icon",
-          "width": 15,
-          "height": 15,
-          "icon": "file-text",
-          "library": "lucide",
-          "weight": "$icon-weight-default",
-          "fill": "$color-icon-default"
-        },
-        {
-          "type": "text",
-          "id": "m2fxcu",
-          "name": "Dragging Item Label",
-          "fill": "$color-text-primary",
-          "content": "12화 · 균열의 밤",
-          "fontFamily": "$font-family-ui",
-          "fontSize": "$font-size-body",
-          "fontWeight": "500"
-        },
-        {
-          "type": "frame",
-          "id": "JmhNq",
-          "name": "Dragging Item Spacer",
-          "width": "fill_container",
-          "height": 1
-        },
-        {
-          "type": "icon",
-          "id": "EY75n",
-          "name": "Dragging Item Grip",
-          "width": 14,
-          "height": 14,
-          "icon": "grip-vertical",
-          "library": "lucide",
-          "weight": "$icon-weight-default",
-          "fill": "$color-accent-primary"
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "YW4Vf",
-      "x": 5560,
-      "y": 1608,
-      "name": "Sidebar Item / Drop Target",
-      "reusable": true,
-      "width": 204,
-      "height": 35,
-      "fill": "$color-state-selected",
-      "cornerRadius": "$radius-control",
-      "stroke": "$color-accent-primary",
-      "strokeWidth": 1,
-      "gap": "$space-2",
-      "padding": [
-        0,
-        "$space-3"
-      ],
-      "alignItems": "center",
-      "children": [
-        {
-          "type": "icon",
-          "id": "iVngG",
-          "name": "Drop Target Item Icon",
-          "width": 15,
-          "height": 15,
-          "icon": "folder",
-          "library": "lucide",
-          "weight": "$icon-weight-default",
-          "fill": "$color-accent-primary"
-        },
-        {
-          "type": "text",
-          "id": "g3tlTd",
-          "name": "Drop Target Item Label",
-          "fill": "$color-text-primary",
-          "content": "원고로 이동",
-          "fontFamily": "$font-family-ui",
-          "fontSize": "$font-size-body",
-          "fontWeight": "600"
-        },
-        {
-          "type": "frame",
-          "id": "pKWbI",
-          "name": "Drop Target Item Spacer",
-          "width": "fill_container",
-          "height": 1
-        },
-        {
-          "type": "icon",
-          "id": "AfVkX",
-          "name": "Drop Target Indicator",
-          "width": 14,
-          "height": 14,
-          "icon": "corner-down-left",
-          "library": "lucide",
-          "weight": "$icon-weight-default",
-          "fill": "$color-accent-primary"
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "cVJSM",
-      "x": 5844,
-      "y": 1608,
-      "name": "Sidebar / Workspace / Item Dragging",
-      "reusable": true,
-      "width": 236,
-      "height": 900,
-      "fill": "$color-surface-navigation",
-      "stroke": "$color-border-default",
-      "strokeWidth": {
-        "right": 1
-      },
-      "layout": "vertical",
-      "gap": "$space-4",
-      "padding": [
-        18,
-        "$space-4"
-      ],
-      "children": [
-        {
-          "type": "frame",
-          "id": "Zhwgs",
-          "name": "Sidebar User",
-          "width": "fill_container",
-          "height": 28,
-          "gap": "$space-2",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "ellipse",
-              "id": "OuXEy",
-              "name": "Sidebar User Avatar",
-              "fill": "$color-surface-icon",
-              "width": 28,
-              "height": 28
-            },
-            {
-              "type": "text",
-              "id": "JMJJv",
-              "name": "Sidebar User Name",
-              "fill": "$color-text-primary",
-              "content": "서윤주",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "600"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "VRlyI",
-          "name": "Sidebar Project Switcher",
-          "width": "fill_container",
-          "height": 39,
-          "fill": "$color-surface-default",
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": "$space-3",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "XfX18",
-              "name": "Sidebar Project Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "book-open",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "b9Jeiz",
-              "name": "Sidebar Project Name",
-              "fill": "$color-text-primary",
-              "content": "유리 정원의 기록",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "500"
-            },
-            {
-              "type": "frame",
-              "id": "luRfw",
-              "name": "Sidebar Project Spacer",
-              "width": "fill_container",
-              "height": 1
-            },
-            {
-              "type": "icon",
-              "id": "q59lY",
-              "name": "Sidebar Project Chevron",
-              "width": 14,
-              "height": 14,
-              "icon": "chevron-down",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "q0ulF9",
-          "name": "Sidebar Primary Navigation",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 3,
-          "children": [
-            {
-              "id": "n8YDK",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Search",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "search"
-                },
-                "bP6Qr": {
-                  "content": "검색"
-                }
-              }
-            },
-            {
-              "id": "ia0zP",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Graph",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "share-2"
-                },
-                "bP6Qr": {
-                  "content": "그래프"
-                }
-              }
-            },
-            {
-              "id": "l49mfV",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Memo",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "notebook-pen"
-                },
-                "bP6Qr": {
-                  "content": "메모"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "dA5R8",
-          "name": "Sidebar Favorites Section",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 2,
-          "children": [
-            {
-              "type": "frame",
-              "id": "pB4Kc",
-              "name": "Sidebar Favorites Header",
-              "width": "fill_container",
-              "height": 33,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "Z7lJ0i",
-                  "name": "Sidebar Favorites Header Label",
-                  "fill": "$color-text-secondary",
-                  "content": "즐겨찾기",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "fdD4o",
-                  "name": "Sidebar Favorites Header Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "id": "add1R",
-                  "type": "ref",
-                  "ref": "hMpn5",
-                  "name": "Sidebar Favorites Header More Button",
-                  "width": 24,
-                  "height": 24,
-                  "descendants": {
-                    "UCRf6": {
-                      "icon": "ellipsis",
-                      "width": 15,
-                      "height": 15
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "id": "aFKon",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Favorite Manuscript",
-              "width": "fill_container",
-              "fill": "$color-state-selected",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "12화 · 균열의 밤"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "IImZt",
-          "name": "Sidebar Files Section",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 2,
-          "children": [
-            {
-              "type": "frame",
-              "id": "MsK9v",
-              "name": "Sidebar Files Header",
-              "width": "fill_container",
-              "height": 33,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "GEnT7",
-                  "name": "Sidebar Files Header Label",
-                  "fill": "$color-text-secondary",
-                  "content": "파일",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "cWeLc",
-                  "name": "Sidebar Files Header Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "id": "bNGHs",
-                  "type": "ref",
-                  "ref": "hMpn5",
-                  "name": "Sidebar Files Header More Button",
-                  "width": 24,
-                  "height": 24,
-                  "descendants": {
-                    "UCRf6": {
-                      "icon": "ellipsis",
-                      "width": 15,
-                      "height": 15
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "id": "hOR6T",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Manuscript Folder",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "folder"
-                },
-                "bP6Qr": {
-                  "content": "원고"
-                }
-              }
-            },
-            {
-              "id": "vTuKO",
-              "type": "ref",
-              "ref": "Jbq1p",
-              "name": "Sidebar Current Item Dragging",
-              "width": "fill_container"
-            },
-            {
-              "id": "f6ca9",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Previous Manuscript",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                28
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "11화 · 유리 정원"
-                }
-              }
-            },
-            {
-              "id": "ujPFX",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Setting File",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "settings-2"
-                },
-                "bP6Qr": {
-                  "content": "설정"
-                }
-              }
-            },
-            {
-              "id": "GiF7X",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Character File",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "user-round"
-                },
-                "bP6Qr": {
-                  "content": "캐릭터"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "iT49u",
-          "name": "Sidebar Flexible Spacer",
-          "width": "fill_container",
-          "height": "fill_container"
-        },
-        {
-          "type": "frame",
-          "id": "m3mJLB",
-          "name": "Sidebar Utility Navigation",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 3,
-          "children": [
-            {
-              "id": "p5vGaG",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Trash",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "trash-2"
-                },
-                "bP6Qr": {
-                  "content": "휴지통"
-                }
-              }
-            },
-            {
-              "id": "iaDrK",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Settings",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "settings"
-                },
-                "bP6Qr": {
-                  "content": "설정"
-                }
-              }
-            },
-            {
-              "id": "i79TRZ",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Help",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "circle-help"
-                },
-                "bP6Qr": {
-                  "content": "도움말"
-                }
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "UqLj6",
-      "x": 6160,
-      "y": 1608,
-      "name": "Sidebar / Workspace / Folder Drop Target",
-      "reusable": true,
-      "width": 236,
-      "height": 900,
-      "fill": "$color-surface-navigation",
-      "stroke": "$color-border-default",
-      "strokeWidth": {
-        "right": 1
-      },
-      "layout": "vertical",
-      "gap": "$space-4",
-      "padding": [
-        18,
-        "$space-4"
-      ],
-      "children": [
-        {
-          "type": "frame",
-          "id": "VZIC9",
-          "name": "Sidebar User",
-          "width": "fill_container",
-          "height": 28,
-          "gap": "$space-2",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "ellipse",
-              "id": "Bo7az",
-              "name": "Sidebar User Avatar",
-              "fill": "$color-surface-icon",
-              "width": 28,
-              "height": 28
-            },
-            {
-              "type": "text",
-              "id": "dygwP",
-              "name": "Sidebar User Name",
-              "fill": "$color-text-primary",
-              "content": "서윤주",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "600"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "p9GRdx",
-          "name": "Sidebar Project Switcher",
-          "width": "fill_container",
-          "height": 39,
-          "fill": "$color-surface-default",
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": "$space-3",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "E2U5B4",
-              "name": "Sidebar Project Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "book-open",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "U8TbQ",
-              "name": "Sidebar Project Name",
-              "fill": "$color-text-primary",
-              "content": "유리 정원의 기록",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "500"
-            },
-            {
-              "type": "frame",
-              "id": "VeRkJ",
-              "name": "Sidebar Project Spacer",
-              "width": "fill_container",
-              "height": 1
-            },
-            {
-              "type": "icon",
-              "id": "CwbGK",
-              "name": "Sidebar Project Chevron",
-              "width": 14,
-              "height": 14,
-              "icon": "chevron-down",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "vTesy",
-          "name": "Sidebar Primary Navigation",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 3,
-          "children": [
-            {
-              "id": "cT7zI",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Search",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "search"
-                },
-                "bP6Qr": {
-                  "content": "검색"
-                }
-              }
-            },
-            {
-              "id": "f1W9P",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Graph",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "share-2"
-                },
-                "bP6Qr": {
-                  "content": "그래프"
-                }
-              }
-            },
-            {
-              "id": "ituZu",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Memo",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "notebook-pen"
-                },
-                "bP6Qr": {
-                  "content": "메모"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "VnbYf",
-          "name": "Sidebar Favorites Section",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 2,
-          "children": [
-            {
-              "type": "frame",
-              "id": "ETkem",
-              "name": "Sidebar Favorites Header",
-              "width": "fill_container",
-              "height": 33,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "Cc3Ng",
-                  "name": "Sidebar Favorites Header Label",
-                  "fill": "$color-text-secondary",
-                  "content": "즐겨찾기",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "SaOLE",
-                  "name": "Sidebar Favorites Header Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "id": "fDO45",
-                  "type": "ref",
-                  "ref": "hMpn5",
-                  "name": "Sidebar Favorites Header More Button",
-                  "width": 24,
-                  "height": 24,
-                  "descendants": {
-                    "UCRf6": {
-                      "icon": "ellipsis",
-                      "width": 15,
-                      "height": 15
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "id": "lGWsf",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Favorite Manuscript",
-              "width": "fill_container",
-              "fill": "$color-state-selected",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "12화 · 균열의 밤"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "MaCfO",
-          "name": "Sidebar Files Section",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 2,
-          "children": [
-            {
-              "type": "frame",
-              "id": "z3CeF",
-              "name": "Sidebar Files Header",
-              "width": "fill_container",
-              "height": 33,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "DOLnN",
-                  "name": "Sidebar Files Header Label",
-                  "fill": "$color-text-secondary",
-                  "content": "파일",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "bPjNE",
-                  "name": "Sidebar Files Header Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "id": "wyDt5",
-                  "type": "ref",
-                  "ref": "hMpn5",
-                  "name": "Sidebar Files Header More Button",
-                  "width": 24,
-                  "height": 24,
-                  "descendants": {
-                    "UCRf6": {
-                      "icon": "ellipsis",
-                      "width": 15,
-                      "height": 15
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "id": "DUAdD",
-              "type": "ref",
-              "ref": "YW4Vf",
-              "name": "Sidebar Folder Drop Target",
-              "width": "fill_container",
-              "descendants": {
-                "iVngG": {
-                  "icon": "folder"
-                },
-                "g3tlTd": {
-                  "content": "원고로 이동"
-                }
-              }
-            },
-            {
-              "id": "TrV17",
-              "type": "ref",
-              "ref": "Jbq1p",
-              "name": "Sidebar Current Item Dragging",
-              "width": "fill_container"
-            },
-            {
-              "id": "LL6hj",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Previous Manuscript",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                28
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "11화 · 유리 정원"
-                }
-              }
-            },
-            {
-              "id": "F6JGMa",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Setting File",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "settings-2"
-                },
-                "bP6Qr": {
-                  "content": "설정"
-                }
-              }
-            },
-            {
-              "id": "YfL1t",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Character File",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "user-round"
-                },
-                "bP6Qr": {
-                  "content": "캐릭터"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "nlz5f",
-          "name": "Sidebar Flexible Spacer",
-          "width": "fill_container",
-          "height": "fill_container"
-        },
-        {
-          "type": "frame",
-          "id": "jbVTn",
-          "name": "Sidebar Utility Navigation",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 3,
-          "children": [
-            {
-              "id": "lCU23",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Trash",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "trash-2"
-                },
-                "bP6Qr": {
-                  "content": "휴지통"
-                }
-              }
-            },
-            {
-              "id": "euSUs",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Settings",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "settings"
-                },
-                "bP6Qr": {
-                  "content": "설정"
-                }
-              }
-            },
-            {
-              "id": "m8GxV",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Help",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "circle-help"
-                },
-                "bP6Qr": {
-                  "content": "도움말"
-                }
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "r8EM10",
-      "x": 6476,
-      "y": 1608,
-      "name": "Sidebar / Workspace / Favorites Drop Target",
-      "reusable": true,
-      "width": 236,
-      "height": 900,
-      "fill": "$color-surface-navigation",
-      "stroke": "$color-border-default",
-      "strokeWidth": {
-        "right": 1
-      },
-      "layout": "vertical",
-      "gap": "$space-4",
-      "padding": [
-        18,
-        "$space-4"
-      ],
-      "children": [
-        {
-          "type": "frame",
-          "id": "IEuJA",
-          "name": "Sidebar User",
-          "width": "fill_container",
-          "height": 28,
-          "gap": "$space-2",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "ellipse",
-              "id": "A567nk",
-              "name": "Sidebar User Avatar",
-              "fill": "$color-surface-icon",
-              "width": 28,
-              "height": 28
-            },
-            {
-              "type": "text",
-              "id": "v0QVD",
-              "name": "Sidebar User Name",
-              "fill": "$color-text-primary",
-              "content": "서윤주",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "600"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "exvIY",
-          "name": "Sidebar Project Switcher",
-          "width": "fill_container",
-          "height": 39,
-          "fill": "$color-surface-default",
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": "$space-3",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "yaUhu",
-              "name": "Sidebar Project Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "book-open",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "Ex02a",
-              "name": "Sidebar Project Name",
-              "fill": "$color-text-primary",
-              "content": "유리 정원의 기록",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "500"
-            },
-            {
-              "type": "frame",
-              "id": "v9hVv",
-              "name": "Sidebar Project Spacer",
-              "width": "fill_container",
-              "height": 1
-            },
-            {
-              "type": "icon",
-              "id": "Q8Mzb",
-              "name": "Sidebar Project Chevron",
-              "width": 14,
-              "height": 14,
-              "icon": "chevron-down",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "pj4Ey",
-          "name": "Sidebar Primary Navigation",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 3,
-          "children": [
-            {
-              "id": "QrH02",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Search",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "search"
-                },
-                "bP6Qr": {
-                  "content": "검색"
-                }
-              }
-            },
-            {
-              "id": "c4u8t",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Graph",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "share-2"
-                },
-                "bP6Qr": {
-                  "content": "그래프"
-                }
-              }
-            },
-            {
-              "id": "ulrse",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Item Instance · Memo",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "notebook-pen"
-                },
-                "bP6Qr": {
-                  "content": "메모"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "GblZT",
-          "name": "Sidebar Favorites Section",
-          "width": "fill_container",
-          "fill": "$color-state-selected",
-          "cornerRadius": "$radius-control",
-          "stroke": "$color-accent-primary",
-          "strokeWidth": 1,
-          "layout": "vertical",
-          "gap": 2,
-          "padding": "$space-1",
-          "children": [
-            {
-              "type": "frame",
-              "id": "XLhKF",
-              "name": "Sidebar Favorites Header",
-              "width": "fill_container",
-              "height": 33,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "ckKM1",
-                  "name": "Sidebar Favorites Header Label",
-                  "fill": "$color-text-secondary",
-                  "content": "즐겨찾기",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "v8blm",
-                  "name": "Sidebar Favorites Header Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "id": "oJnU6",
-                  "type": "ref",
-                  "ref": "hMpn5",
-                  "name": "Sidebar Favorites Header More Button",
-                  "width": 24,
-                  "height": 24,
-                  "descendants": {
-                    "UCRf6": {
-                      "icon": "ellipsis",
-                      "width": 15,
-                      "height": 15
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "id": "SV0Zj",
-              "type": "ref",
-              "ref": "YW4Vf",
-              "name": "Sidebar Favorites Drop Target Item",
-              "width": "fill_container",
-              "descendants": {
-                "iVngG": {
-                  "icon": "star"
-                },
-                "g3tlTd": {
-                  "content": "여기에 바로가기 추가"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "a9hXAF",
-          "name": "Sidebar Files Section",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 2,
-          "children": [
-            {
-              "type": "frame",
-              "id": "D2KT2T",
-              "name": "Sidebar Files Header",
-              "width": "fill_container",
-              "height": 33,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "XRPTV",
-                  "name": "Sidebar Files Header Label",
-                  "fill": "$color-text-secondary",
-                  "content": "파일",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "MpJnD",
-                  "name": "Sidebar Files Header Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "id": "nc5tA",
-                  "type": "ref",
-                  "ref": "hMpn5",
-                  "name": "Sidebar Files Header More Button",
-                  "width": 24,
-                  "height": 24,
-                  "descendants": {
-                    "UCRf6": {
-                      "icon": "ellipsis",
-                      "width": 15,
-                      "height": 15
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "id": "Hoz3m",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Manuscript Folder",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "folder"
-                },
-                "bP6Qr": {
-                  "content": "원고"
-                }
-              }
-            },
-            {
-              "id": "PNdAy",
-              "type": "ref",
-              "ref": "Jbq1p",
-              "name": "Sidebar Current Item Dragging",
-              "width": "fill_container"
-            },
-            {
-              "id": "p3P9ss",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Previous Manuscript",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                28
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "file-text"
-                },
-                "bP6Qr": {
-                  "content": "11화 · 유리 정원"
-                }
-              }
-            },
-            {
-              "id": "yjRJd",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Setting File",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "settings-2"
-                },
-                "bP6Qr": {
-                  "content": "설정"
-                }
-              }
-            },
-            {
-              "id": "m1dh5",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Character File",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "user-round"
-                },
-                "bP6Qr": {
-                  "content": "캐릭터"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "u0tGa4",
-          "name": "Sidebar Flexible Spacer",
-          "width": "fill_container",
-          "height": "fill_container"
-        },
-        {
-          "type": "frame",
-          "id": "o9t2g",
-          "name": "Sidebar Utility Navigation",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 3,
-          "children": [
-            {
-              "id": "wCnyH",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Trash",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "trash-2"
-                },
-                "bP6Qr": {
-                  "content": "휴지통"
-                }
-              }
-            },
-            {
-              "id": "zS2tO",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Settings",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "settings"
-                },
-                "bP6Qr": {
-                  "content": "설정"
-                }
-              }
-            },
-            {
-              "id": "oCjxJ",
-              "type": "ref",
-              "ref": "ocZ7t",
-              "name": "Sidebar Help",
-              "width": "fill_container",
-              "fill": "#00000000",
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "descendants": {
-                "nCqu3": {
-                  "icon": "circle-help"
-                },
-                "bP6Qr": {
-                  "content": "도움말"
-                }
-              }
             }
           ]
         }
@@ -14185,1371 +11112,6 @@
     },
     {
       "type": "frame",
-      "id": "Mg1rm",
-      "x": 12551,
-      "y": 0,
-      "name": "Timeline / Item / Date",
-      "context": "Timeline item with non-color time type label, related file and persistent actions.",
-      "reusable": true,
-      "width": 760,
-      "height": 136,
-      "fill": "$color-surface-default",
-      "cornerRadius": "$radius-card",
-      "stroke": "$color-border-default",
-      "strokeWidth": 1,
-      "gap": "$space-4",
-      "padding": "$space-4",
-      "children": [
-        {
-          "type": "frame",
-          "id": "U3Bmix",
-          "name": "Timeline / Item / Date Marker",
-          "width": 36,
-          "height": 36,
-          "fill": "$color-surface-icon",
-          "cornerRadius": "$radius-control",
-          "justifyContent": "center",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "V3Zcfr",
-              "name": "Timeline / Item / Date Marker Icon",
-              "width": 17,
-              "height": 17,
-              "icon": "calendar-days",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "FpFg7",
-          "name": "Timeline / Item / Date Body",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": "$space-1",
-          "children": [
-            {
-              "type": "frame",
-              "id": "UCC3n",
-              "name": "Timeline / Item / Date Time Row",
-              "width": "fill_container",
-              "height": 24,
-              "gap": "$space-2",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "IqBzz",
-                  "name": "Timeline / Item / Date Time Icon",
-                  "width": 14,
-                  "height": 14,
-                  "icon": "calendar-days",
-                  "library": "lucide",
-                  "weight": "$icon-weight-default",
-                  "fill": "$color-icon-default"
-                },
-                {
-                  "type": "text",
-                  "id": "BszkN",
-                  "name": "Timeline / Item / Date Time Label",
-                  "fill": "$color-text-secondary",
-                  "content": "1024. 3. 18. · 21:30",
-                  "lineHeight": "$line-height-body",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "yLaXO",
-                  "name": "Timeline / Item / Date Time Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "id": "Fifun",
-                  "type": "ref",
-                  "ref": "hMpn5",
-                  "name": "Timeline / Item / Date More Button",
-                  "width": 24,
-                  "height": 24,
-                  "descendants": {
-                    "UCRf6": {
-                      "icon": "ellipsis",
-                      "width": 14,
-                      "height": 14
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "text",
-              "id": "YoDUK",
-              "name": "Timeline / Item / Date Title",
-              "fill": "$color-text-primary",
-              "content": "유리 등대가 멈추다",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-heading",
-              "fontWeight": "600"
-            },
-            {
-              "type": "text",
-              "id": "FteJw",
-              "name": "Timeline / Item / Date Description",
-              "fill": "$color-text-secondary",
-              "content": "항구의 모든 부유 등대가 동시에 빛을 잃는다.",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "normal"
-            },
-            {
-              "type": "frame",
-              "id": "OHLtS",
-              "name": "Timeline / Item / Date Related Files",
-              "width": "fill_container",
-              "height": 30,
-              "gap": "$space-2",
-              "alignItems": "center",
-              "children": [
-                {
-                  "id": "BXoEe",
-                  "type": "ref",
-                  "ref": "hqWLU",
-                  "name": "Timeline / Item / Date Related File Chip",
-                  "width": 180,
-                  "height": 30,
-                  "descendants": {
-                    "q0yS1": {
-                      "icon": "map-pin"
-                    },
-                    "BuYqm": {
-                      "content": "은빛 항구"
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "Pog78",
-      "x": 12551,
-      "y": 170,
-      "name": "Timeline / Item / Order",
-      "context": "Timeline item with non-color time type label, related file and persistent actions.",
-      "reusable": true,
-      "width": 760,
-      "height": 136,
-      "fill": "$color-surface-default",
-      "cornerRadius": "$radius-card",
-      "stroke": "$color-border-default",
-      "strokeWidth": 1,
-      "gap": "$space-4",
-      "padding": "$space-4",
-      "children": [
-        {
-          "type": "frame",
-          "id": "kUaR3",
-          "name": "Timeline / Item / Order Marker",
-          "width": 36,
-          "height": 36,
-          "fill": "$color-surface-icon",
-          "cornerRadius": "$radius-control",
-          "justifyContent": "center",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "qPdq0",
-              "name": "Timeline / Item / Order Marker Icon",
-              "width": 17,
-              "height": 17,
-              "icon": "list-ordered",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "x4DrJI",
-          "name": "Timeline / Item / Order Body",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": "$space-1",
-          "children": [
-            {
-              "type": "frame",
-              "id": "kdrbW",
-              "name": "Timeline / Item / Order Time Row",
-              "width": "fill_container",
-              "height": 24,
-              "gap": "$space-2",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "m51UA",
-                  "name": "Timeline / Item / Order Time Icon",
-                  "width": 14,
-                  "height": 14,
-                  "icon": "list-ordered",
-                  "library": "lucide",
-                  "weight": "$icon-weight-default",
-                  "fill": "$color-icon-default"
-                },
-                {
-                  "type": "text",
-                  "id": "S95HB",
-                  "name": "Timeline / Item / Order Time Label",
-                  "fill": "$color-text-secondary",
-                  "content": "순서 2",
-                  "lineHeight": "$line-height-body",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "shzq8",
-                  "name": "Timeline / Item / Order Time Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "id": "drUlT",
-                  "type": "ref",
-                  "ref": "hMpn5",
-                  "name": "Timeline / Item / Order More Button",
-                  "width": 24,
-                  "height": 24,
-                  "descendants": {
-                    "UCRf6": {
-                      "icon": "ellipsis",
-                      "width": 14,
-                      "height": 14
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "text",
-              "id": "b5w4IU",
-              "name": "Timeline / Item / Order Title",
-              "fill": "$color-text-primary",
-              "content": "기억 항로를 복원하다",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-heading",
-              "fontWeight": "600"
-            },
-            {
-              "type": "text",
-              "id": "OuK56",
-              "name": "Timeline / Item / Order Description",
-              "fill": "$color-text-secondary",
-              "content": "항해단이 남은 기록으로 임시 항로를 연결한다.",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "normal"
-            },
-            {
-              "type": "frame",
-              "id": "tmexX",
-              "name": "Timeline / Item / Order Related Files",
-              "width": "fill_container",
-              "height": 30,
-              "gap": "$space-2",
-              "alignItems": "center",
-              "children": [
-                {
-                  "id": "HqDUo",
-                  "type": "ref",
-                  "ref": "hqWLU",
-                  "name": "Timeline / Item / Order Related File Chip",
-                  "width": 180,
-                  "height": 30,
-                  "descendants": {
-                    "q0yS1": {
-                      "icon": "users-round"
-                    },
-                    "BuYqm": {
-                      "content": "은빛 항해단"
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "vy3y2",
-      "x": 12551,
-      "y": 340,
-      "name": "Timeline / Item / Unscheduled",
-      "context": "Timeline item with non-color time type label, related file and persistent actions.",
-      "reusable": true,
-      "width": 760,
-      "height": 136,
-      "fill": "$color-surface-default",
-      "cornerRadius": "$radius-card",
-      "stroke": "$color-border-default",
-      "strokeWidth": 1,
-      "gap": "$space-4",
-      "padding": "$space-4",
-      "children": [
-        {
-          "type": "frame",
-          "id": "F0UzC",
-          "name": "Timeline / Item / Unscheduled Marker",
-          "width": 36,
-          "height": 36,
-          "fill": "$color-surface-icon",
-          "cornerRadius": "$radius-control",
-          "justifyContent": "center",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "DAjCs",
-              "name": "Timeline / Item / Unscheduled Marker Icon",
-              "width": 17,
-              "height": 17,
-              "icon": "circle-question-mark",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "uh65P",
-          "name": "Timeline / Item / Unscheduled Body",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": "$space-1",
-          "children": [
-            {
-              "type": "frame",
-              "id": "c1OMxN",
-              "name": "Timeline / Item / Unscheduled Time Row",
-              "width": "fill_container",
-              "height": 24,
-              "gap": "$space-2",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "aNCtB",
-                  "name": "Timeline / Item / Unscheduled Time Icon",
-                  "width": 14,
-                  "height": 14,
-                  "icon": "circle-question-mark",
-                  "library": "lucide",
-                  "weight": "$icon-weight-default",
-                  "fill": "$color-icon-default"
-                },
-                {
-                  "type": "text",
-                  "id": "dtgmJ",
-                  "name": "Timeline / Item / Unscheduled Time Label",
-                  "fill": "$color-text-secondary",
-                  "content": "시간 미정",
-                  "lineHeight": "$line-height-body",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "LvZ4U",
-                  "name": "Timeline / Item / Unscheduled Time Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "id": "QdAhm",
-                  "type": "ref",
-                  "ref": "hMpn5",
-                  "name": "Timeline / Item / Unscheduled More Button",
-                  "width": 24,
-                  "height": 24,
-                  "descendants": {
-                    "UCRf6": {
-                      "icon": "ellipsis",
-                      "width": 14,
-                      "height": 14
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "text",
-              "id": "bBH85",
-              "name": "Timeline / Item / Unscheduled Title",
-              "fill": "$color-text-primary",
-              "content": "균열의 근원을 찾다",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-heading",
-              "fontWeight": "600"
-            },
-            {
-              "type": "text",
-              "id": "kVn9a",
-              "name": "Timeline / Item / Unscheduled Description",
-              "fill": "$color-text-secondary",
-              "content": "발생 시점이 확정되지 않은 조사 단계다.",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "normal"
-            },
-            {
-              "type": "frame",
-              "id": "B8PQW",
-              "name": "Timeline / Item / Unscheduled Related Files",
-              "width": "fill_container",
-              "height": 30,
-              "gap": "$space-2",
-              "alignItems": "center",
-              "children": [
-                {
-                  "id": "PGzvx",
-                  "type": "ref",
-                  "ref": "hqWLU",
-                  "name": "Timeline / Item / Unscheduled Related File Chip",
-                  "width": 180,
-                  "height": 30,
-                  "descendants": {
-                    "q0yS1": {
-                      "icon": "file-text"
-                    },
-                    "BuYqm": {
-                      "content": "1장 · 균열의 시작"
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "ejEL1",
-      "x": 13371,
-      "y": 0,
-      "name": "Timeline / Item / Selected",
-      "context": "Timeline item with non-color time type label, related file and persistent actions.",
-      "reusable": true,
-      "width": 760,
-      "height": 136,
-      "fill": "$color-state-selected",
-      "cornerRadius": "$radius-card",
-      "stroke": "$color-accent-primary",
-      "strokeWidth": 2,
-      "gap": "$space-4",
-      "padding": "$space-4",
-      "children": [
-        {
-          "type": "frame",
-          "id": "ko8cG",
-          "name": "Timeline / Item / Selected Marker",
-          "width": 36,
-          "height": 36,
-          "fill": "$color-surface-icon",
-          "cornerRadius": "$radius-control",
-          "justifyContent": "center",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "pSA1Z",
-              "name": "Timeline / Item / Selected Marker Icon",
-              "width": 17,
-              "height": 17,
-              "icon": "circle-check",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-accent-primary"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "oHsbJ",
-          "name": "Timeline / Item / Selected Body",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": "$space-1",
-          "children": [
-            {
-              "type": "frame",
-              "id": "QL8lp",
-              "name": "Timeline / Item / Selected Time Row",
-              "width": "fill_container",
-              "height": 24,
-              "gap": "$space-2",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "CGiNg",
-                  "name": "Timeline / Item / Selected Time Icon",
-                  "width": 14,
-                  "height": 14,
-                  "icon": "calendar-days",
-                  "library": "lucide",
-                  "weight": "$icon-weight-default",
-                  "fill": "$color-icon-default"
-                },
-                {
-                  "type": "text",
-                  "id": "YqdUs",
-                  "name": "Timeline / Item / Selected Time Label",
-                  "fill": "$color-text-secondary",
-                  "content": "1024. 3. 18. · 21:30",
-                  "lineHeight": "$line-height-body",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "Fxz41",
-                  "name": "Timeline / Item / Selected Time Spacer",
-                  "width": "fill_container",
-                  "height": 1
-                },
-                {
-                  "id": "H9TQi",
-                  "type": "ref",
-                  "ref": "hMpn5",
-                  "name": "Timeline / Item / Selected More Button",
-                  "width": 24,
-                  "height": 24,
-                  "descendants": {
-                    "UCRf6": {
-                      "icon": "ellipsis",
-                      "width": 14,
-                      "height": 14
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "text",
-              "id": "GNqhp",
-              "name": "Timeline / Item / Selected Title",
-              "fill": "$color-text-primary",
-              "content": "유리 등대가 멈추다",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-heading",
-              "fontWeight": "600"
-            },
-            {
-              "type": "text",
-              "id": "HUij0",
-              "name": "Timeline / Item / Selected Description",
-              "fill": "$color-text-secondary",
-              "content": "선택된 항목은 테두리와 체크 아이콘을 함께 표시한다.",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "normal"
-            },
-            {
-              "type": "frame",
-              "id": "U02uXF",
-              "name": "Timeline / Item / Selected Related Files",
-              "width": "fill_container",
-              "height": 30,
-              "gap": "$space-2",
-              "alignItems": "center",
-              "children": [
-                {
-                  "id": "Y7Q1SH",
-                  "type": "ref",
-                  "ref": "hqWLU",
-                  "name": "Timeline / Item / Selected Related File Chip",
-                  "width": 180,
-                  "height": 30,
-                  "descendants": {
-                    "q0yS1": {
-                      "icon": "map-pin"
-                    },
-                    "BuYqm": {
-                      "content": "은빛 항구"
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "SAEqe",
-      "x": 13371,
-      "y": 170,
-      "name": "Timeline / Add",
-      "context": "Adds an unscheduled timeline item and opens its editor.",
-      "reusable": true,
-      "width": 760,
-      "height": 40,
-      "cornerRadius": "$radius-control",
-      "stroke": "$color-border-default",
-      "strokeWidth": 1,
-      "gap": "$space-2",
-      "padding": [
-        0,
-        "$space-3"
-      ],
-      "alignItems": "center",
-      "children": [
-        {
-          "type": "icon",
-          "id": "tY50J",
-          "name": "Timeline Add Icon",
-          "width": 15,
-          "height": 15,
-          "icon": "plus",
-          "library": "lucide",
-          "weight": "$icon-weight-default",
-          "fill": "$color-icon-default"
-        },
-        {
-          "type": "text",
-          "id": "o9IlI",
-          "name": "Timeline Add Label",
-          "fill": "$color-text-primary",
-          "content": "시간 항목 추가",
-          "lineHeight": "$line-height-body",
-          "fontFamily": "$font-family-ui",
-          "fontSize": "$font-size-body",
-          "fontWeight": "600"
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "zhKoc",
-      "x": 14211,
-      "y": 0,
-      "name": "Timeline / Item / Editing",
-      "context": "Inline editor for creating or updating a timeline item and its time representation.",
-      "reusable": true,
-      "width": 760,
-      "height": 475,
-      "fill": "$color-surface-raised",
-      "cornerRadius": "$radius-card",
-      "stroke": "$color-accent-primary",
-      "strokeWidth": 1,
-      "layout": "vertical",
-      "gap": "$space-4",
-      "padding": "$space-6",
-      "children": [
-        {
-          "type": "frame",
-          "id": "ZMwaD",
-          "name": "Timeline Editing Header",
-          "width": "fill_container",
-          "height": 32,
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "RXsYg",
-              "name": "Timeline Editing Title",
-              "fill": "$color-text-primary",
-              "content": "시간 항목 편집",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-heading",
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "ex2or",
-              "name": "Timeline Editing Header Spacer",
-              "width": "fill_container",
-              "height": 1
-            },
-            {
-              "type": "text",
-              "id": "nlyk8",
-              "name": "Timeline Editing Required",
-              "fill": "$color-text-secondary",
-              "content": "제목 필수",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "WZrxA",
-          "name": "Timeline Item Title Field",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": "$space-1",
-          "children": [
-            {
-              "type": "text",
-              "id": "gTxfW",
-              "name": "Timeline Item Title Field Label",
-              "fill": "$color-text-secondary",
-              "content": "항목 제목",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "wkCNL",
-              "name": "Timeline Item Title Field Input",
-              "width": "fill_container",
-              "height": 40,
-              "fill": "$color-surface-default",
-              "cornerRadius": "$radius-control",
-              "stroke": "$color-border-default",
-              "strokeWidth": 1,
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "eJB27",
-                  "name": "Timeline Item Title Field Value",
-                  "fill": "$color-text-primary",
-                  "content": "유리 등대가 멈추다",
-                  "lineHeight": "$line-height-body",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-body",
-                  "fontWeight": "normal"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "E4SoqC",
-          "name": "Timeline Time Type Field",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": "$space-1",
-          "children": [
-            {
-              "type": "text",
-              "id": "zMMty",
-              "name": "Timeline Time Type Label",
-              "fill": "$color-text-secondary",
-              "content": "시간 유형",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "kvUze",
-              "name": "Timeline Time Type Segments",
-              "width": "fill_container",
-              "height": 38,
-              "fill": "$color-surface-default",
-              "cornerRadius": "$radius-control",
-              "stroke": "$color-border-default",
-              "strokeWidth": 1,
-              "gap": "$space-1",
-              "padding": "$space-1",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "Nzs2T",
-                  "name": "날짜·시간 Time Type",
-                  "width": "fill_container",
-                  "height": 30,
-                  "fill": "$color-state-selected",
-                  "cornerRadius": "$radius-control",
-                  "gap": "$space-2",
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "FzbrR",
-                      "name": "날짜·시간 Time Type Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "calendar-days",
-                      "library": "lucide",
-                      "weight": "$icon-weight-default",
-                      "fill": "$color-icon-default"
-                    },
-                    {
-                      "type": "text",
-                      "id": "jkHBD",
-                      "name": "날짜·시간 Time Type Label",
-                      "fill": "$color-text-primary",
-                      "content": "날짜·시간",
-                      "lineHeight": "$line-height-body",
-                      "fontFamily": "$font-family-ui",
-                      "fontSize": "$font-size-label",
-                      "fontWeight": "600"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "Q9TWo",
-                  "name": "순서 Time Type",
-                  "width": "fill_container",
-                  "height": 30,
-                  "fill": "#00000000",
-                  "cornerRadius": "$radius-control",
-                  "gap": "$space-2",
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "Z9LkrF",
-                      "name": "순서 Time Type Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "list-ordered",
-                      "library": "lucide",
-                      "weight": "$icon-weight-default",
-                      "fill": "$color-icon-default"
-                    },
-                    {
-                      "type": "text",
-                      "id": "oKU6q",
-                      "name": "순서 Time Type Label",
-                      "fill": "$color-text-secondary",
-                      "content": "순서",
-                      "lineHeight": "$line-height-body",
-                      "fontFamily": "$font-family-ui",
-                      "fontSize": "$font-size-label",
-                      "fontWeight": "normal"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "lJH8X",
-                  "name": "미정 Time Type",
-                  "width": "fill_container",
-                  "height": 30,
-                  "fill": "#00000000",
-                  "cornerRadius": "$radius-control",
-                  "gap": "$space-2",
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "IyKEE",
-                      "name": "미정 Time Type Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "circle-question-mark",
-                      "library": "lucide",
-                      "weight": "$icon-weight-default",
-                      "fill": "$color-icon-default"
-                    },
-                    {
-                      "type": "text",
-                      "id": "hukLf",
-                      "name": "미정 Time Type Label",
-                      "fill": "$color-text-secondary",
-                      "content": "미정",
-                      "lineHeight": "$line-height-body",
-                      "fontFamily": "$font-family-ui",
-                      "fontSize": "$font-size-label",
-                      "fontWeight": "normal"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "ePM0t",
-          "name": "Timeline Date And Time Fields",
-          "width": "fill_container",
-          "gap": "$space-4",
-          "children": [
-            {
-              "type": "frame",
-              "id": "d5XOkG",
-              "name": "Timeline Date Field",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": "$space-1",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "uSCdM",
-                  "name": "Timeline Date Field Label",
-                  "fill": "$color-text-secondary",
-                  "content": "날짜",
-                  "lineHeight": "$line-height-body",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "cid3J",
-                  "name": "Timeline Date Field Input",
-                  "width": "fill_container",
-                  "height": 40,
-                  "fill": "$color-surface-default",
-                  "cornerRadius": "$radius-control",
-                  "stroke": "$color-border-default",
-                  "strokeWidth": 1,
-                  "padding": [
-                    0,
-                    "$space-3"
-                  ],
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "R7oks",
-                      "name": "Timeline Date Field Value",
-                      "fill": "$color-text-primary",
-                      "content": "1024. 3. 18.",
-                      "lineHeight": "$line-height-body",
-                      "fontFamily": "$font-family-ui",
-                      "fontSize": "$font-size-body",
-                      "fontWeight": "normal"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "Z1Vt2c",
-              "name": "Timeline Time Field",
-              "width": 180,
-              "layout": "vertical",
-              "gap": "$space-1",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "Tfcu4",
-                  "name": "Timeline Time Field Label",
-                  "fill": "$color-text-secondary",
-                  "content": "시간",
-                  "lineHeight": "$line-height-body",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "s9RSm",
-                  "name": "Timeline Time Field Input",
-                  "width": "fill_container",
-                  "height": 40,
-                  "fill": "$color-surface-default",
-                  "cornerRadius": "$radius-control",
-                  "stroke": "$color-border-default",
-                  "strokeWidth": 1,
-                  "padding": [
-                    0,
-                    "$space-3"
-                  ],
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "qQbQc",
-                      "name": "Timeline Time Field Value",
-                      "fill": "$color-text-primary",
-                      "content": "21:30",
-                      "lineHeight": "$line-height-body",
-                      "fontFamily": "$font-family-ui",
-                      "fontSize": "$font-size-body",
-                      "fontWeight": "normal"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "h72Z3",
-          "name": "Timeline Description Field",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": "$space-1",
-          "children": [
-            {
-              "type": "text",
-              "id": "EbiBN",
-              "name": "Timeline Description Field Label",
-              "fill": "$color-text-secondary",
-              "content": "짧은 설명",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "ekq5u",
-              "name": "Timeline Description Field Input",
-              "width": "fill_container",
-              "height": 40,
-              "fill": "$color-surface-default",
-              "cornerRadius": "$radius-control",
-              "stroke": "$color-border-default",
-              "strokeWidth": 1,
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "V03Sd",
-                  "name": "Timeline Description Field Value",
-                  "fill": "$color-text-primary",
-                  "content": "항구의 모든 부유 등대가 동시에 빛을 잃는다.",
-                  "lineHeight": "$line-height-body",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-body",
-                  "fontWeight": "normal"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "AhH3T",
-          "name": "Timeline Editing Related Files",
-          "width": "fill_container",
-          "height": 34,
-          "gap": "$space-2",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "m0I9O7",
-              "name": "Timeline Editing Related Label",
-              "fill": "$color-text-secondary",
-              "content": "관련 파일",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "600"
-            },
-            {
-              "id": "d1yKt",
-              "type": "ref",
-              "ref": "hqWLU",
-              "name": "Timeline Editing Related File Chip",
-              "width": 180,
-              "height": 30,
-              "descendants": {
-                "q0yS1": {
-                  "icon": "map-pin"
-                },
-                "BuYqm": {
-                  "content": "은빛 항구"
-                }
-              }
-            },
-            {
-              "id": "xutwV",
-              "type": "ref",
-              "ref": "hMpn5",
-              "name": "Timeline Editing Add Related File",
-              "width": 28,
-              "height": 28,
-              "descendants": {
-                "UCRf6": {
-                  "icon": "plus"
-                }
-              }
-            },
-            {
-              "type": "frame",
-              "id": "h3pc9",
-              "name": "Timeline Editing Related Spacer",
-              "width": "fill_container",
-              "height": 1
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "JCG8v",
-          "name": "Timeline Editing Actions",
-          "width": "fill_container",
-          "height": 36,
-          "gap": "$space-2",
-          "justifyContent": "end",
-          "children": [
-            {
-              "id": "rMjNE",
-              "type": "ref",
-              "ref": "celDl",
-              "name": "Cancel Timeline Editing",
-              "height": 36,
-              "descendants": {
-                "n0keHY": {
-                  "enabled": false,
-                  "width": 0,
-                  "height": 0
-                },
-                "zprJP": {
-                  "content": "취소"
-                }
-              }
-            },
-            {
-              "id": "qrGAu",
-              "type": "ref",
-              "ref": "celDl",
-              "name": "Complete Timeline Editing",
-              "height": 36,
-              "fill": "$color-accent-primary",
-              "strokeWidth": 0,
-              "descendants": {
-                "n0keHY": {
-                  "icon": "check"
-                },
-                "zprJP": {
-                  "content": "완료",
-                  "fill": "$color-text-on-accent"
-                }
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "uNshP",
-      "x": 15031,
-      "y": 0,
-      "name": "Dialog / Timeline Item Delete",
-      "context": "Confirmation dialog that deletes a timeline item and its item-level file relations only.",
-      "reusable": true,
-      "width": 440,
-      "height": 244,
-      "fill": "$color-surface-raised",
-      "cornerRadius": "$radius-card",
-      "stroke": "$color-border-default",
-      "strokeWidth": 1,
-      "effect": {
-        "type": "shadow",
-        "shadowType": "outer",
-        "color": "#00000066",
-        "offset": {
-          "x": 0,
-          "y": 8
-        },
-        "blur": 24
-      },
-      "layout": "vertical",
-      "gap": "$space-4",
-      "padding": "$space-6",
-      "children": [
-        {
-          "type": "frame",
-          "id": "G5lTGD",
-          "name": "Timeline Delete Header",
-          "width": "fill_container",
-          "gap": "$space-3",
-          "children": [
-            {
-              "type": "frame",
-              "id": "NCzfI",
-              "name": "Timeline Delete Icon Box",
-              "width": 36,
-              "height": 36,
-              "fill": "$color-surface-icon",
-              "cornerRadius": "$radius-control",
-              "justifyContent": "center",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "x5sEX",
-                  "name": "Timeline Delete Icon",
-                  "width": 17,
-                  "height": 17,
-                  "icon": "trash-2",
-                  "library": "lucide",
-                  "weight": "$icon-weight-default",
-                  "fill": "$color-icon-default"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "mHyug",
-              "name": "Timeline Delete Header Copy",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": "$space-1",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "z5S0Jw",
-                  "name": "Timeline Delete Title",
-                  "fill": "$color-text-primary",
-                  "content": "시간 항목을 삭제할까요?",
-                  "lineHeight": "$line-height-body",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-heading",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "i0L8i6",
-                  "name": "Timeline Delete Description",
-                  "fill": "$color-text-secondary",
-                  "content": "항목과 이 항목이 만든 파일 관계가 함께 삭제됩니다.",
-                  "lineHeight": "$line-height-body",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "normal"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "Qpws3",
-          "name": "Timeline Delete Target",
-          "width": "fill_container",
-          "height": 58,
-          "fill": "$color-surface-default",
-          "cornerRadius": "$radius-control",
-          "stroke": "$color-border-default",
-          "strokeWidth": 1,
-          "layout": "vertical",
-          "gap": "$space-1",
-          "padding": "$space-3",
-          "children": [
-            {
-              "type": "text",
-              "id": "WkNjW",
-              "name": "Timeline Delete Target Event",
-              "fill": "$color-text-secondary",
-              "content": "균열의 밤 · 날짜·시간",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "600"
-            },
-            {
-              "type": "text",
-              "id": "sNIXI",
-              "name": "Timeline Delete Target Item",
-              "fill": "$color-text-primary",
-              "content": "유리 등대가 멈추다 · 1024. 3. 18. 21:30",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "500"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "cWzWX",
-          "name": "Timeline Delete Actions",
-          "width": "fill_container",
-          "height": 36,
-          "gap": "$space-2",
-          "justifyContent": "end",
-          "children": [
-            {
-              "id": "cfPsE",
-              "type": "ref",
-              "ref": "celDl",
-              "name": "Cancel Timeline Delete",
-              "height": 36,
-              "descendants": {
-                "n0keHY": {
-                  "enabled": false,
-                  "width": 0,
-                  "height": 0
-                },
-                "zprJP": {
-                  "content": "취소"
-                }
-              }
-            },
-            {
-              "id": "uRpHC",
-              "type": "ref",
-              "ref": "celDl",
-              "name": "Confirm Timeline Delete",
-              "height": 36,
-              "descendants": {
-                "n0keHY": {
-                  "icon": "trash-2"
-                },
-                "zprJP": {
-                  "content": "삭제"
-                }
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
       "id": "sgSNm",
       "x": 15551,
       "y": 0,
@@ -16796,591 +12358,6 @@
                 },
                 "zprJP": {
                   "content": "다시 시도",
-                  "fill": "$color-text-on-accent"
-                }
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "veu74",
-      "x": 18443,
-      "y": 0,
-      "name": "Timeline / Item / Save Error",
-      "context": "Timeline item editor after a failed save; keeps all input and exposes a non-color retry status.",
-      "reusable": true,
-      "width": 760,
-      "height": 475,
-      "fill": "$color-surface-raised",
-      "cornerRadius": "$radius-card",
-      "stroke": "$color-accent-primary",
-      "strokeWidth": 1,
-      "layout": "vertical",
-      "gap": "$space-4",
-      "padding": "$space-6",
-      "children": [
-        {
-          "type": "frame",
-          "id": "Glnjg",
-          "name": "Timeline Editing Header",
-          "width": "fill_container",
-          "height": 32,
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "Hhulz",
-              "name": "Timeline Editing Title",
-              "fill": "$color-text-primary",
-              "content": "시간 항목 편집",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-heading",
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "LnSpO",
-              "name": "Timeline Editing Header Spacer",
-              "width": "fill_container",
-              "height": 1
-            },
-            {
-              "type": "text",
-              "id": "q7szWS",
-              "name": "Timeline Editing Required",
-              "fill": "$color-text-secondary",
-              "content": "제목 필수",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "sl8PU",
-          "name": "Timeline Item Title Field",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": "$space-1",
-          "children": [
-            {
-              "type": "text",
-              "id": "koM5G",
-              "name": "Timeline Item Title Field Label",
-              "fill": "$color-text-secondary",
-              "content": "항목 제목",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "I4VcR",
-              "name": "Timeline Item Title Field Input",
-              "width": "fill_container",
-              "height": 40,
-              "fill": "$color-surface-default",
-              "cornerRadius": "$radius-control",
-              "stroke": "$color-border-default",
-              "strokeWidth": 1,
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "bTerx",
-                  "name": "Timeline Item Title Field Value",
-                  "fill": "$color-text-primary",
-                  "content": "유리 등대가 멈추다",
-                  "lineHeight": "$line-height-body",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-body",
-                  "fontWeight": "normal"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "TggjC",
-          "name": "Timeline Time Type Field",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": "$space-1",
-          "children": [
-            {
-              "type": "text",
-              "id": "FBwfD",
-              "name": "Timeline Time Type Label",
-              "fill": "$color-text-secondary",
-              "content": "시간 유형",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "M0oDQQ",
-              "name": "Timeline Time Type Segments",
-              "width": "fill_container",
-              "height": 38,
-              "fill": "$color-surface-default",
-              "cornerRadius": "$radius-control",
-              "stroke": "$color-border-default",
-              "strokeWidth": 1,
-              "gap": "$space-1",
-              "padding": "$space-1",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "d4mwEN",
-                  "name": "날짜·시간 Time Type",
-                  "width": "fill_container",
-                  "height": 30,
-                  "fill": "$color-state-selected",
-                  "cornerRadius": "$radius-control",
-                  "gap": "$space-2",
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "IElA0",
-                      "name": "날짜·시간 Time Type Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "calendar-days",
-                      "library": "lucide",
-                      "weight": "$icon-weight-default",
-                      "fill": "$color-icon-default"
-                    },
-                    {
-                      "type": "text",
-                      "id": "uAj5i",
-                      "name": "날짜·시간 Time Type Label",
-                      "fill": "$color-text-primary",
-                      "content": "날짜·시간",
-                      "lineHeight": "$line-height-body",
-                      "fontFamily": "$font-family-ui",
-                      "fontSize": "$font-size-label",
-                      "fontWeight": "600"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "cDjr2",
-                  "name": "순서 Time Type",
-                  "width": "fill_container",
-                  "height": 30,
-                  "fill": "#00000000",
-                  "cornerRadius": "$radius-control",
-                  "gap": "$space-2",
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "fskyr",
-                      "name": "순서 Time Type Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "list-ordered",
-                      "library": "lucide",
-                      "weight": "$icon-weight-default",
-                      "fill": "$color-icon-default"
-                    },
-                    {
-                      "type": "text",
-                      "id": "BIkOU",
-                      "name": "순서 Time Type Label",
-                      "fill": "$color-text-secondary",
-                      "content": "순서",
-                      "lineHeight": "$line-height-body",
-                      "fontFamily": "$font-family-ui",
-                      "fontSize": "$font-size-label",
-                      "fontWeight": "normal"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "yk5lo",
-                  "name": "미정 Time Type",
-                  "width": "fill_container",
-                  "height": 30,
-                  "fill": "#00000000",
-                  "cornerRadius": "$radius-control",
-                  "gap": "$space-2",
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "Zf3aH",
-                      "name": "미정 Time Type Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "circle-question-mark",
-                      "library": "lucide",
-                      "weight": "$icon-weight-default",
-                      "fill": "$color-icon-default"
-                    },
-                    {
-                      "type": "text",
-                      "id": "ltkhS",
-                      "name": "미정 Time Type Label",
-                      "fill": "$color-text-secondary",
-                      "content": "미정",
-                      "lineHeight": "$line-height-body",
-                      "fontFamily": "$font-family-ui",
-                      "fontSize": "$font-size-label",
-                      "fontWeight": "normal"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "uZWY7",
-          "name": "Timeline Date And Time Fields",
-          "width": "fill_container",
-          "gap": "$space-4",
-          "children": [
-            {
-              "type": "frame",
-              "id": "vbJVC",
-              "name": "Timeline Date Field",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": "$space-1",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "vNcFe",
-                  "name": "Timeline Date Field Label",
-                  "fill": "$color-text-secondary",
-                  "content": "날짜",
-                  "lineHeight": "$line-height-body",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "s0ANG",
-                  "name": "Timeline Date Field Input",
-                  "width": "fill_container",
-                  "height": 40,
-                  "fill": "$color-surface-default",
-                  "cornerRadius": "$radius-control",
-                  "stroke": "$color-border-default",
-                  "strokeWidth": 1,
-                  "padding": [
-                    0,
-                    "$space-3"
-                  ],
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "u9oHY",
-                      "name": "Timeline Date Field Value",
-                      "fill": "$color-text-primary",
-                      "content": "1024. 3. 18.",
-                      "lineHeight": "$line-height-body",
-                      "fontFamily": "$font-family-ui",
-                      "fontSize": "$font-size-body",
-                      "fontWeight": "normal"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "Fj4gm",
-              "name": "Timeline Time Field",
-              "width": 180,
-              "layout": "vertical",
-              "gap": "$space-1",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "n4yvS",
-                  "name": "Timeline Time Field Label",
-                  "fill": "$color-text-secondary",
-                  "content": "시간",
-                  "lineHeight": "$line-height-body",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "frame",
-                  "id": "tD7td",
-                  "name": "Timeline Time Field Input",
-                  "width": "fill_container",
-                  "height": 40,
-                  "fill": "$color-surface-default",
-                  "cornerRadius": "$radius-control",
-                  "stroke": "$color-border-default",
-                  "strokeWidth": 1,
-                  "padding": [
-                    0,
-                    "$space-3"
-                  ],
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "D5EeQ",
-                      "name": "Timeline Time Field Value",
-                      "fill": "$color-text-primary",
-                      "content": "21:30",
-                      "lineHeight": "$line-height-body",
-                      "fontFamily": "$font-family-ui",
-                      "fontSize": "$font-size-body",
-                      "fontWeight": "normal"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "lGfy5",
-          "name": "Timeline Description Field",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": "$space-1",
-          "children": [
-            {
-              "type": "text",
-              "id": "g4MhzD",
-              "name": "Timeline Description Field Label",
-              "fill": "$color-text-secondary",
-              "content": "짧은 설명",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "FOZ9D",
-              "name": "Timeline Description Field Input",
-              "width": "fill_container",
-              "height": 40,
-              "fill": "$color-surface-default",
-              "cornerRadius": "$radius-control",
-              "stroke": "$color-border-default",
-              "strokeWidth": 1,
-              "padding": [
-                0,
-                "$space-3"
-              ],
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "jKA1t",
-                  "name": "Timeline Description Field Value",
-                  "fill": "$color-text-primary",
-                  "content": "항구의 모든 부유 등대가 동시에 빛을 잃는다.",
-                  "lineHeight": "$line-height-body",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-body",
-                  "fontWeight": "normal"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "d865c",
-          "name": "Timeline Editing Related Files",
-          "width": "fill_container",
-          "height": 34,
-          "gap": "$space-2",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "iz7ry",
-              "name": "Timeline Editing Related Label",
-              "fill": "$color-text-secondary",
-              "content": "관련 파일",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "600"
-            },
-            {
-              "id": "GTidj",
-              "type": "ref",
-              "ref": "hqWLU",
-              "name": "Timeline Editing Related File Chip",
-              "width": 180,
-              "height": 30,
-              "descendants": {
-                "q0yS1": {
-                  "icon": "map-pin"
-                },
-                "BuYqm": {
-                  "content": "은빛 항구"
-                }
-              }
-            },
-            {
-              "id": "udTEy",
-              "type": "ref",
-              "ref": "hMpn5",
-              "name": "Timeline Editing Add Related File",
-              "width": 28,
-              "height": 28,
-              "descendants": {
-                "UCRf6": {
-                  "icon": "plus"
-                }
-              }
-            },
-            {
-              "type": "frame",
-              "id": "N0Y12",
-              "name": "Timeline Editing Related Spacer",
-              "width": "fill_container",
-              "height": 1
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "EF1Y2",
-          "name": "Timeline Editing Actions",
-          "width": "fill_container",
-          "height": 36,
-          "gap": "$space-2",
-          "justifyContent": "end",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "StYSk",
-              "name": "Timeline Save Error Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "triangle-alert",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-accent-primary"
-            },
-            {
-              "type": "text",
-              "id": "jBrYW",
-              "name": "Timeline Save Error Message",
-              "fill": "$color-text-primary",
-              "content": "저장하지 못했습니다. 입력은 유지됩니다.",
-              "lineHeight": "$line-height-body",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-label",
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "I1wK6l",
-              "name": "Timeline Save Error Spacer",
-              "width": "fill_container",
-              "height": 1
-            },
-            {
-              "type": "frame",
-              "id": "C39TmU",
-              "name": "Retry Timeline Save",
-              "height": 30,
-              "cornerRadius": "$radius-control",
-              "stroke": "$color-border-default",
-              "strokeWidth": 1,
-              "gap": "$space-1",
-              "padding": [
-                0,
-                "$space-2"
-              ],
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "WVvoE",
-                  "name": "Retry Timeline Save Icon",
-                  "width": 13,
-                  "height": 13,
-                  "icon": "rotate-cw",
-                  "library": "lucide",
-                  "weight": "$icon-weight-default",
-                  "fill": "$color-icon-default"
-                },
-                {
-                  "type": "text",
-                  "id": "WBZkR",
-                  "name": "Retry Timeline Save Label",
-                  "fill": "$color-text-primary",
-                  "content": "다시 시도",
-                  "fontFamily": "$font-family-ui",
-                  "fontSize": "$font-size-label",
-                  "fontWeight": "600"
-                }
-              ]
-            },
-            {
-              "id": "E5j1ih",
-              "type": "ref",
-              "ref": "celDl",
-              "name": "Cancel Timeline Editing",
-              "height": 36,
-              "descendants": {
-                "n0keHY": {
-                  "enabled": false,
-                  "width": 0,
-                  "height": 0
-                },
-                "zprJP": {
-                  "content": "취소"
-                }
-              }
-            },
-            {
-              "id": "o0Sa65",
-              "type": "ref",
-              "ref": "celDl",
-              "name": "Complete Timeline Editing",
-              "height": 36,
-              "fill": "$color-accent-primary",
-              "strokeWidth": 0,
-              "descendants": {
-                "n0keHY": {
-                  "icon": "check"
-                },
-                "zprJP": {
-                  "content": "완료",
                   "fill": "$color-text-on-accent"
                 }
               }
