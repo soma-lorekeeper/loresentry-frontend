@@ -30,6 +30,7 @@ Lorekeeper의 전체 화면 구조는 다음과 같다.
 - [새 탭 화면](./workspace/new-tab.md)
 - [AI 챗 보조 사이드 패널](./workspace/ai-chat-panel.md)
 - [파일 헤더](./workspace/file-header.md)
+- [버전 기록](./workspace/version-history.md)
 - [파일 메모 패널](./workspace/file-memo-panel.md)
 - [원고 편집 영역](./workspace/manuscript-editor.md)
 - [속성 문서 편집 영역](./workspace/structured-file-editor.md)
@@ -55,4 +56,5 @@ Lorekeeper의 전체 화면 구조는 다음과 같다.
 - [그래프 최신화와 변경 사항 반영](./workflow/graph-refresh.md)
 - [메모 탭](./workflow/project-memos.md)
 - [속성 문서 편집](./workflow/structured-file-editing.md)
+- [파일 헤더 동작](./workflow/file-header-actions.md)
 - [작업공간 설정과 도움말](./workflow/workspace-settings-and-help.md)

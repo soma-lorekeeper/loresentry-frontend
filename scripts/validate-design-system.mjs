@@ -86,10 +86,10 @@ assert.deepEqual(
 
 assert.equal(
   registry.components.length,
-  108,
-  "Pencil component count must stay at 108",
+  115,
+  "Pencil component count must stay at 115",
 );
-assert.deepEqual(countBy(registry.components, "kind"), { base: 48, state: 60 });
+assert.deepEqual(countBy(registry.components, "kind"), { base: 51, state: 64 });
 assert.ok(
   unique(registry.components.map((component) => component.id)),
   "duplicate Pencil component id",

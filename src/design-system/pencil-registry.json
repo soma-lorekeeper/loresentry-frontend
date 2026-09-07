@@ -1103,6 +1103,48 @@
       "name": "Menu / Episode Folder / Open",
       "kind": "state",
       "owner": "workspace"
+    },
+    {
+      "id": "pMUQM",
+      "name": "Toast / Notice",
+      "kind": "base",
+      "owner": "ui"
+    },
+    {
+      "id": "G2jwA",
+      "name": "Menu / Export / Open",
+      "kind": "state",
+      "owner": "workspace"
+    },
+    {
+      "id": "cKOUG",
+      "name": "Manuscript / File Header / Locked",
+      "kind": "state",
+      "owner": "workspace"
+    },
+    {
+      "id": "y187p",
+      "name": "Version / Entry",
+      "kind": "base",
+      "owner": "workspace"
+    },
+    {
+      "id": "Ec6rs",
+      "name": "Version / Modal",
+      "kind": "base",
+      "owner": "workspace"
+    },
+    {
+      "id": "n0yfcX",
+      "name": "Version / Modal / Empty",
+      "kind": "state",
+      "owner": "workspace"
+    },
+    {
+      "id": "bRey4",
+      "name": "Version / Entry / Hover",
+      "kind": "state",
+      "owner": "workspace"
     }
   ]
 }

@@ -15,7 +15,7 @@
  * @schema 2.11
  * @input nodeCount: number = 46
  * @input showLabels: boolean = true
- * @input dimmed: boolean = false
+ * @input selectedLabel: string = ""
  * @input varPrefix: string = ""
  */
 
@@ -57,10 +57,22 @@ const KINDS = [
   { key: "worldview", weight: 8, icon: "globe" },
 ];
 
-/** 라벨은 몇 개만 붙인다. 전부 붙이면 글자가 겹쳐 그래프가 읽히지 않는다. */
+/*
+ * 라벨은 몇 개만 붙인다. 전부 붙이면 글자가 겹쳐 그래프가 읽히지 않는다.
+ *
+ * 이름마다 분류를 함께 적는 것은, 이름을 차수 순서로만 나눠 주면 `레나 아르벨`
+ * 같은 인물 이름이 두루마리(이벤트) 아이콘 위에 얹히기 때문이다. 노드 패널이
+ * 그 이름을 캐릭터로 보여주고 있어서, 같은 화면 안에서 분류가 어긋난다.
+ */
 const LABELS = [
-  "김독자", "유중혁", "12화 · 균열의 밤", "은빛 항해단",
-  "유리 산맥", "각성", "시나리오", "낡은 스마트폰",
+  { name: "김독자", kind: "character" },
+  { name: "레나 아르벨", kind: "character" },
+  { name: "12화 · 균열의 밤", kind: "manuscript" },
+  { name: "은빛 항해단", kind: "organization" },
+  { name: "유리 산맥", kind: "place" },
+  { name: "각성", kind: "event" },
+  { name: "시나리오", kind: "worldview" },
+  { name: "낡은 스마트폰", kind: "item" },
 ];
 
 // --- 노드 만들기 -----------------------------------------------------------
@@ -266,7 +278,6 @@ out.push({
   stroke: v("color-border-default"),
   strokeWidth: 0.6,
   strokeLinecap: "round",
-  opacity: pencil.input.dimmed ? 0.35 : 1,
 });
 
 /*
@@ -314,7 +325,6 @@ nodes.forEach((n, i) => {
     width: size,
     height: size,
     fill: v("color-node-" + n.kind.key),
-    opacity: pencil.input.dimmed ? 0.4 : 1,
   });
 
   /*
@@ -334,7 +344,6 @@ nodes.forEach((n, i) => {
       library: "lucide",
       weight: v("icon-weight-default"),
       fill: v("color-bg-canvas"),
-      opacity: pencil.input.dimmed ? 0.4 : 1,
     });
   }
 
@@ -360,18 +369,81 @@ nodes.forEach((n, i) => {
   }
 });
 
-// --- 라벨 -----------------------------------------------------------------
+// --- 선택 표시와 라벨 -------------------------------------------------------
 
 /*
  * 이어진 수가 많은 노드에만 이름을 붙인다. 전부 붙이면 겹쳐서 아무것도 읽히지
  * 않고, 실제 화면도 확대 비율에 따라 골라 보여준다.
  */
-if (pencil.input.showLabels) {
-  const ranked = nodes
-    .map((n, i) => ({ n, i }))
-    .sort((a, b) => b.n.degree - a.n.degree)
-    .slice(0, LABELS.length);
+const byDegree = nodes
+  .map((n, i) => ({ n, i }))
+  .sort((a, b) => b.n.degree - a.n.degree);
 
+/*
+ * 이름마다 같은 분류의 노드 중 가장 많이 이어진 것을 고른다. 한 번 쓴 노드는 다시
+ * 쓰지 않는다. 노드 수가 적을 때 그 분류가 아예 없을 수 있어서, 없으면 그 이름은
+ * 조용히 건너뛴다 — 억지로 다른 분류에 얹으면 아이콘과 이름이 어긋난다.
+ */
+const taken = [];
+const ranked = [];
+for (const label of LABELS) {
+  const entry = byDegree.find(
+    (e) => e.n.kind.key === label.kind && taken.indexOf(e.i) === -1,
+  );
+  if (!entry) continue;
+  taken.push(entry.i);
+  ranked.push({ n: entry.n, i: entry.i, label: label.name });
+}
+
+/*
+ * 선택한 노드는 번호가 아니라 이름으로 지목한다. 배치는 시드에 딸려 있어 노드 수를
+ * 바꾸면 번호가 통째로 밀리는데, 이름은 화면에 실제로 적히는 값이라 어긋나면 바로
+ * 눈에 띈다.
+ */
+const selectedOrder = ranked.findIndex(
+  (entry) => entry.label === pencil.input.selectedLabel,
+);
+
+/*
+ * 선택 링.
+ *
+ * 노드 색은 무채색 일곱 단계라 밝기 축을 이미 다 쓴다 — 가장 밝은 캐릭터
+ * (`color-node-character`)는 `color-text-primary` 와 같은 값이다. 그래서 밝은 색
+ * 하나로만 링을 그으면 캐릭터 노드에서는 원과 링이 같은 색이 되어 링이 사라진다.
+ *
+ * 배경색 띠를 원과 링 사이에 한 겹 끼워 둘을 떼어 놓는다. 어느 분류에서도, 그리고
+ * 라이트 모드에서도(그쪽은 둘 다 `#182024` 로 부딪힌다) 같은 방식으로 성립한다.
+ *
+ * 선택을 크기로 알리지는 않는다. 반지름은 이미 이어진 수를 말하고 있어서, 선택이
+ * 원을 키우면 "큰 노드 = 많이 이어진 노드"라는 읽기가 무너진다.
+ */
+if (selectedOrder !== -1) {
+  const target = ranked[selectedOrder];
+  const targetRadius = nodeRadius(target.n.degree);
+  for (const ring of [
+    { name: "Graph Node Selected Gap", grow: 1, stroke: v("color-bg-canvas") },
+    {
+      name: "Graph Node Selected Ring",
+      grow: 3,
+      stroke: v("color-text-primary"),
+    },
+  ]) {
+    const outer = targetRadius + ring.grow;
+    out.push({
+      type: "ellipse",
+      name: ring.name,
+      x: r1(target.n.x - outer),
+      y: r1(target.n.y - outer),
+      width: r1(outer * 2),
+      height: r1(outer * 2),
+      fill: "#00000000",
+      stroke: ring.stroke,
+      strokeWidth: 2,
+    });
+  }
+}
+
+if (pencil.input.showLabels) {
   /*
    * 이름은 원 **아래 가운데**에 붙인다(원본과 같다). 오른쪽에 붙이면 이웃 노드
    * 위로 글자가 올라타고, 어느 원의 이름인지도 흐려진다.
@@ -380,21 +452,20 @@ if (pencil.input.showLabels) {
    * 상자는 투명해서 넓어도 다른 것을 가리지 않는다.
    */
   const LABEL_BOX = 140;
-  ranked.forEach((entry, order) => {
+  ranked.forEach((entry) => {
     const radius = nodeRadius(entry.n.degree);
     out.push({
       type: "text",
-      name: "Graph Node Label · " + LABELS[order],
+      name: "Graph Node Label · " + entry.label,
       x: r1(entry.n.x - LABEL_BOX / 2),
       y: r1(entry.n.y + radius + 4.5),
       width: LABEL_BOX,
       textGrowth: "fixed-width",
       textAlign: "center",
-      content: LABELS[order],
+      content: entry.label,
       fontFamily: v("font-family-ui"),
       fontSize: v("font-size-label"),
       fill: v("color-text-primary"),
-      opacity: pencil.input.dimmed ? 0.4 : 1,
     });
   });
 }
