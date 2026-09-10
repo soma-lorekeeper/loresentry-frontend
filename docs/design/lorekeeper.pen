@@ -13703,16 +13703,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "plOcH",
-                          "name": "세계관 Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "아르카디아",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "nGvaS",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "plOcH",
+                              "name": "세계관 Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "아르카디아",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "gk92D",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -14571,16 +14592,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "zmozY",
-                          "name": "장소 Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "은빛 항구",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "d1jp4",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "zmozY",
+                              "name": "장소 Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "은빛 항구",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "t42tTJ",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -15439,16 +15481,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "misi1",
-                          "name": "세계관 Document Title",
-                          "fill": "$b:color-text-secondary",
-                          "content": "제목 없음",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "k04WI",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "misi1",
+                              "name": "세계관 Document Title",
+                              "fill": "$b:color-text-secondary",
+                              "content": "제목 없음",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "V1SKWs",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -16268,16 +16331,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "dAaWz",
-                          "name": "장소 Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "은빛 항구",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "ZBwaO",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "dAaWz",
+                              "name": "장소 Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "은빛 항구",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "uVkDf",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -17145,16 +17229,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "sBAVr",
-                          "name": "Character Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "레나 아르벨",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "J9vYMP",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "sBAVr",
+                              "name": "Character Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "레나 아르벨",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "UaefQ",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -18013,16 +18118,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "TpwRg",
-                          "name": "Organization Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "은빛 항해단",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "y3oyKc",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "TpwRg",
+                              "name": "Organization Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "은빛 항해단",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "uSBYO",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -18881,16 +19007,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "cR0FH",
-                          "name": "Item Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "파편 나침반",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "tAhvh",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "cR0FH",
+                              "name": "Item Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "파편 나침반",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "mbI82",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -19749,16 +19896,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "eIy8q",
-                          "name": "Character Document Title",
-                          "fill": "$b:color-text-secondary",
-                          "content": "제목 없음",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "OsOFM",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "eIy8q",
+                              "name": "Character Document Title",
+                              "fill": "$b:color-text-secondary",
+                              "content": "제목 없음",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "AY7LH",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -20578,16 +20746,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "jBfJn",
-                          "name": "Organization Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "은빛 항해단",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "hnXUK",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "jBfJn",
+                              "name": "Organization Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "은빛 항해단",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "gS6Wk",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -21455,16 +21644,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "C3wZ0",
-                          "name": "Item Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "파편 나침반",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "vrR7s",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "C3wZ0",
+                              "name": "Item Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "파편 나침반",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "qcCD1",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -78160,16 +78370,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "xX4qE",
-                          "name": "Character Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "도깨비 학살",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "Uqg6w",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "xX4qE",
+                              "name": "Character Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "도깨비 학살",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "oRO7N",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -79064,16 +79295,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "Qet2n",
-                          "name": "Character Document Title",
-                          "fill": "$b:color-text-secondary",
-                          "content": "제목 없는 이벤트",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "GSxdh",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Qet2n",
+                              "name": "Character Document Title",
+                              "fill": "$b:color-text-secondary",
+                              "content": "제목 없는 이벤트",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "oYQsB",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -85169,16 +85421,37 @@
                           ],
                           "children": [
                             {
-                              "type": "text",
-                              "id": "TWnDz",
-                              "name": "Character Document Title",
-                              "fill": "$b:color-text-primary",
-                              "content": "레나 아르벨",
-                              "lineHeight": "$b:line-height-manuscript-title",
-                              "fontFamily": "$b:font-family-ui",
-                              "fontSize": "$b:font-size-manuscript-title",
-                              "fontWeight": "700",
-                              "letterSpacing": -0.21
+                              "type": "frame",
+                              "id": "wUfoq",
+                              "name": "Document Title Row",
+                              "width": "fill_container",
+                              "gap": "$b:space-1",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "TWnDz",
+                                  "name": "Character Document Title",
+                                  "fill": "$b:color-text-primary",
+                                  "content": "레나 아르벨",
+                                  "lineHeight": "$b:line-height-manuscript-title",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-manuscript-title",
+                                  "fontWeight": "700",
+                                  "letterSpacing": -0.21
+                                },
+                                {
+                                  "id": "WHYCT",
+                                  "type": "ref",
+                                  "ref": "b:hMpn5",
+                                  "name": "Document Favorite",
+                                  "descendants": {
+                                    "b:UCRf6": {
+                                      "icon": "star"
+                                    }
+                                  }
+                                }
+                              ]
                             },
                             {
                               "type": "frame",
@@ -86059,16 +86332,37 @@
                           ],
                           "children": [
                             {
-                              "type": "text",
-                              "id": "Z34z6",
-                              "name": "Organization Document Title",
-                              "fill": "$b:color-text-primary",
-                              "content": "은빛 항해단",
-                              "lineHeight": "$b:line-height-manuscript-title",
-                              "fontFamily": "$b:font-family-ui",
-                              "fontSize": "$b:font-size-manuscript-title",
-                              "fontWeight": "700",
-                              "letterSpacing": -0.21
+                              "type": "frame",
+                              "id": "RbFSK",
+                              "name": "Document Title Row",
+                              "width": "fill_container",
+                              "gap": "$b:space-1",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Z34z6",
+                                  "name": "Organization Document Title",
+                                  "fill": "$b:color-text-primary",
+                                  "content": "은빛 항해단",
+                                  "lineHeight": "$b:line-height-manuscript-title",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-manuscript-title",
+                                  "fontWeight": "700",
+                                  "letterSpacing": -0.21
+                                },
+                                {
+                                  "id": "N3YKL",
+                                  "type": "ref",
+                                  "ref": "b:hMpn5",
+                                  "name": "Document Favorite",
+                                  "descendants": {
+                                    "b:UCRf6": {
+                                      "icon": "star"
+                                    }
+                                  }
+                                }
+                              ]
                             },
                             {
                               "type": "frame",
@@ -89132,16 +89426,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "if4W6",
-                          "name": "Character Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "레나 아르벨",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "JuNVi",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "if4W6",
+                              "name": "Character Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "레나 아르벨",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "PIYv9",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -90026,16 +90341,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "U2Nq9N",
-                          "name": "Character Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "레나 아르벨",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "lnh70",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "U2Nq9N",
+                              "name": "Character Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "레나 아르벨",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "p5puH6",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -104968,16 +105304,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "QtojX",
-                          "name": "세계관 Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "아르카디아",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "GZ19d",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "QtojX",
+                              "name": "세계관 Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "아르카디아",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "n7X3u",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -105840,16 +106197,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "Y8d80e",
-                          "name": "장소 Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "은빛 항구",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "H8Z6dc",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Y8d80e",
+                              "name": "장소 Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "은빛 항구",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "Ylb8j",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -106712,16 +107090,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "US6I8",
-                          "name": "세계관 Document Title",
-                          "fill": "$b:color-text-secondary",
-                          "content": "제목 없음",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "KeNYh",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "US6I8",
+                              "name": "세계관 Document Title",
+                              "fill": "$b:color-text-secondary",
+                              "content": "제목 없음",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "O6Yow8",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -107545,16 +107944,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "P9la50",
-                          "name": "장소 Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "은빛 항구",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "zgSA4",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "P9la50",
+                              "name": "장소 Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "은빛 항구",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "T7kvmG",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -108426,16 +108846,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "QRSah",
-                          "name": "Character Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "레나 아르벨",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "iJKYr",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "QRSah",
+                              "name": "Character Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "레나 아르벨",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "S2HDe",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -109298,16 +109739,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "F2jDmU",
-                          "name": "Organization Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "은빛 항해단",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "QYIJJ",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "F2jDmU",
+                              "name": "Organization Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "은빛 항해단",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "fXJ5M",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -110170,16 +110632,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "Q2jpX",
-                          "name": "Item Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "파편 나침반",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "i00B0",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Q2jpX",
+                              "name": "Item Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "파편 나침반",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "yAIes",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -111042,16 +111525,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "p4IH7Y",
-                          "name": "Character Document Title",
-                          "fill": "$b:color-text-secondary",
-                          "content": "제목 없음",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "f84z9",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "p4IH7Y",
+                              "name": "Character Document Title",
+                              "fill": "$b:color-text-secondary",
+                              "content": "제목 없음",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "uNP4L",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -111875,16 +112379,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "d0Cqjo",
-                          "name": "Organization Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "은빛 항해단",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "GAdjM",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "d0Cqjo",
+                              "name": "Organization Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "은빛 항해단",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "a3oVb",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -112756,16 +113281,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "VSDpi",
-                          "name": "Item Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "파편 나침반",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "I6uPl",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "VSDpi",
+                              "name": "Item Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "파편 나침반",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "giTBs",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -167179,16 +167725,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "Tu6Va",
-                          "name": "Character Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "도깨비 학살",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "tQLqE",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Tu6Va",
+                              "name": "Character Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "도깨비 학살",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "fwzkv",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -168087,16 +168654,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "B0sJ9n",
-                          "name": "Character Document Title",
-                          "fill": "$b:color-text-secondary",
-                          "content": "제목 없는 이벤트",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "s3MgB",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "B0sJ9n",
+                              "name": "Character Document Title",
+                              "fill": "$b:color-text-secondary",
+                              "content": "제목 없는 이벤트",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "WmV2v",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -173555,16 +174143,37 @@
                           ],
                           "children": [
                             {
-                              "type": "text",
-                              "id": "NhXh1",
-                              "name": "Character Document Title",
-                              "fill": "$b:color-text-primary",
-                              "content": "레나 아르벨",
-                              "lineHeight": "$b:line-height-manuscript-title",
-                              "fontFamily": "$b:font-family-ui",
-                              "fontSize": "$b:font-size-manuscript-title",
-                              "fontWeight": "700",
-                              "letterSpacing": -0.21
+                              "type": "frame",
+                              "id": "thbf9",
+                              "name": "Document Title Row",
+                              "width": "fill_container",
+                              "gap": "$b:space-1",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "NhXh1",
+                                  "name": "Character Document Title",
+                                  "fill": "$b:color-text-primary",
+                                  "content": "레나 아르벨",
+                                  "lineHeight": "$b:line-height-manuscript-title",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-manuscript-title",
+                                  "fontWeight": "700",
+                                  "letterSpacing": -0.21
+                                },
+                                {
+                                  "id": "K7auc",
+                                  "type": "ref",
+                                  "ref": "b:hMpn5",
+                                  "name": "Document Favorite",
+                                  "descendants": {
+                                    "b:UCRf6": {
+                                      "icon": "star"
+                                    }
+                                  }
+                                }
+                              ]
                             },
                             {
                               "type": "frame",
@@ -174446,16 +175055,37 @@
                           ],
                           "children": [
                             {
-                              "type": "text",
-                              "id": "UhS2O",
-                              "name": "Organization Document Title",
-                              "fill": "$b:color-text-primary",
-                              "content": "은빛 항해단",
-                              "lineHeight": "$b:line-height-manuscript-title",
-                              "fontFamily": "$b:font-family-ui",
-                              "fontSize": "$b:font-size-manuscript-title",
-                              "fontWeight": "700",
-                              "letterSpacing": -0.21
+                              "type": "frame",
+                              "id": "LfYGy",
+                              "name": "Document Title Row",
+                              "width": "fill_container",
+                              "gap": "$b:space-1",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "UhS2O",
+                                  "name": "Organization Document Title",
+                                  "fill": "$b:color-text-primary",
+                                  "content": "은빛 항해단",
+                                  "lineHeight": "$b:line-height-manuscript-title",
+                                  "fontFamily": "$b:font-family-ui",
+                                  "fontSize": "$b:font-size-manuscript-title",
+                                  "fontWeight": "700",
+                                  "letterSpacing": -0.21
+                                },
+                                {
+                                  "id": "m5qRF",
+                                  "type": "ref",
+                                  "ref": "b:hMpn5",
+                                  "name": "Document Favorite",
+                                  "descendants": {
+                                    "b:UCRf6": {
+                                      "icon": "star"
+                                    }
+                                  }
+                                }
+                              ]
                             },
                             {
                               "type": "frame",
@@ -175320,16 +175950,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "rKWiJ",
-                          "name": "Character Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "레나 아르벨",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "L0ZFK",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "rKWiJ",
+                              "name": "Character Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "레나 아르벨",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "n5dnEt",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",
@@ -176226,16 +176877,37 @@
                       ],
                       "children": [
                         {
-                          "type": "text",
-                          "id": "b60Hzw",
-                          "name": "Character Document Title",
-                          "fill": "$b:color-text-primary",
-                          "content": "레나 아르벨",
-                          "lineHeight": "$b:line-height-manuscript-title",
-                          "fontFamily": "$b:font-family-ui",
-                          "fontSize": "$b:font-size-manuscript-title",
-                          "fontWeight": "700",
-                          "letterSpacing": -0.21
+                          "type": "frame",
+                          "id": "mWEge",
+                          "name": "Document Title Row",
+                          "width": "fill_container",
+                          "gap": "$b:space-1",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "b60Hzw",
+                              "name": "Character Document Title",
+                              "fill": "$b:color-text-primary",
+                              "content": "레나 아르벨",
+                              "lineHeight": "$b:line-height-manuscript-title",
+                              "fontFamily": "$b:font-family-ui",
+                              "fontSize": "$b:font-size-manuscript-title",
+                              "fontWeight": "700",
+                              "letterSpacing": -0.21
+                            },
+                            {
+                              "id": "k1yY8",
+                              "type": "ref",
+                              "ref": "b:hMpn5",
+                              "name": "Document Favorite",
+                              "descendants": {
+                                "b:UCRf6": {
+                                  "icon": "star"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "frame",

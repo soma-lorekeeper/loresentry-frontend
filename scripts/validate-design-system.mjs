@@ -24,11 +24,11 @@ const countBy = (items, key) =>
   );
 
 assert.deepEqual(registry.themes, { mode: ["dark", "light"] });
-assert.equal(registry.tokens.length, 63, "Pencil token count must stay at 63");
+assert.equal(registry.tokens.length, 64, "Pencil token count must stay at 64");
 assert.equal(
   registry.tokens.filter((token) => token.type === "color").length,
-  37,
-  "Pencil themed color count must stay at 37",
+  38,
+  "Pencil themed color count must stay at 38",
 );
 assert.equal(
   registry.tokens.filter((token) => token.type === "number").length,

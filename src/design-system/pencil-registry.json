@@ -353,6 +353,15 @@
       }
     },
     {
+      "name": "color-favorite-on",
+      "type": "color",
+      "cssVariable": "--lk-color-favorite-on",
+      "value": {
+        "dark": "#EDF2F2",
+        "light": "#C8901A"
+      }
+    },
+    {
       "name": "color-diff-modify",
       "type": "color",
       "cssVariable": "--lk-color-diff-modify",

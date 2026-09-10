@@ -1278,18 +1278,53 @@
           ],
           "children": [
             {
-              "type": "text",
-              "id": "kmcJt",
-              "name": "Manuscript Editable Title",
-              "fill": "$color-text-primary",
-              "textGrowth": "fixed-width",
+              "type": "frame",
+              "id": "s3RdE",
+              "name": "Manuscript Title Row",
               "width": "fill_container",
-              "content": "12화 · 균열의 밤",
-              "lineHeight": "$line-height-manuscript-title",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-manuscript-title",
-              "fontWeight": "700",
-              "letterSpacing": -0.21
+              "gap": "$space-1",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "kmcJt",
+                  "name": "Manuscript Editable Title",
+                  "fill": "$color-text-primary",
+                  "content": "12화 · 균열의 밤",
+                  "lineHeight": "$line-height-manuscript-title",
+                  "fontFamily": "$font-family-ui",
+                  "fontSize": "$font-size-manuscript-title",
+                  "fontWeight": "700",
+                  "letterSpacing": -0.21
+                },
+                {
+                  "type": "frame",
+                  "id": "F47vDr",
+                  "name": "Document Favorite",
+                  "width": 28,
+                  "height": 28,
+                  "cornerRadius": "$radius-control",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "path",
+                      "id": "UPlzj",
+                      "name": "Document Favorite Icon",
+                      "geometry": "M12 2l3.09 6.26 6.91 1.01-5 4.87 1.18 6.88-6.18-3.25-6.18 3.25 1.18-6.88-5-4.87 6.91-1.01z",
+                      "viewBox": [
+                        0,
+                        0,
+                        24,
+                        24
+                      ],
+                      "fill": "$color-favorite-on",
+                      "width": 14,
+                      "height": 14
+                    }
+                  ]
+                }
+              ]
             },
             {
               "type": "frame",
@@ -23955,6 +23990,23 @@
         },
         {
           "value": "#002E591A",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
+    },
+    "color-favorite-on": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#EDF2F2",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#C8901A",
           "theme": {
             "mode": "light"
           }

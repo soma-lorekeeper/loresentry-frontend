@@ -24,6 +24,7 @@
   --lk-color-node-worldview: #788588;
   --lk-color-node-manuscript: #606f73;
   --lk-color-favorite: #f7e29a;
+  --lk-color-favorite-on: #edf2f2;
   --lk-color-diff-modify: #5ab3c9;
   --lk-color-diff-modify-bg: #2b3a40;
   --lk-color-diff-add: #84a7eb;
@@ -94,6 +95,7 @@
   --lk-color-node-worldview: #219180;
   --lk-color-node-manuscript: #81878d;
   --lk-color-favorite: #c8901a;
+  --lk-color-favorite-on: #c8901a;
   --lk-color-diff-modify: #2a6e7f;
   --lk-color-diff-modify-bg: #eaf0f2;
   --lk-color-diff-add: #2360d7;
@@ -136,6 +138,7 @@
     --lk-color-node-worldview: #219180;
     --lk-color-node-manuscript: #81878d;
     --lk-color-favorite: #c8901a;
+    --lk-color-favorite-on: #c8901a;
     --lk-color-diff-modify: #2a6e7f;
     --lk-color-diff-modify-bg: #eaf0f2;
     --lk-color-diff-add: #2360d7;
@@ -177,6 +180,7 @@
   --color-node-worldview: var(--lk-color-node-worldview);
   --color-node-manuscript: var(--lk-color-node-manuscript);
   --color-favorite: var(--lk-color-favorite);
+  --color-favorite-on: var(--lk-color-favorite-on);
   --color-diff-modify: var(--lk-color-diff-modify);
   --color-diff-modify-bg: var(--lk-color-diff-modify-bg);
   --color-diff-add: var(--lk-color-diff-add);
