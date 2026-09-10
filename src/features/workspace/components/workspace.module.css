@@ -186,7 +186,10 @@
   padding-left: 28px;
 }
 
-.sidebarItem:hover,
+.sidebarItem:hover:not([data-selected="true"]) {
+  background: var(--lk-color-state-hover);
+}
+
 .sidebarItem[data-selected="true"] {
   background: var(--lk-color-state-selected);
 }
@@ -263,7 +266,10 @@
   text-align: left;
 }
 
-.treeItemButton:hover,
+.treeItemButton:hover:not([data-selected="true"]) {
+  background: var(--lk-color-state-hover);
+}
+
 .treeItemButton[data-selected="true"] {
   background: var(--lk-color-state-selected);
 }
@@ -507,7 +513,7 @@
 }
 
 .tabClose:hover {
-  background: var(--lk-color-state-selected);
+  background: var(--lk-color-state-hover);
   color: var(--lk-color-text-primary);
 }
 
@@ -650,7 +656,7 @@
 }
 
 .createAction:hover {
-  background: var(--lk-color-state-selected);
+  background: var(--lk-color-state-hover);
 }
 
 .createAction:focus-visible,
@@ -703,7 +709,7 @@
 }
 
 .recentFileRow:hover {
-  background: var(--lk-color-state-selected);
+  background: var(--lk-color-state-hover);
 }
 
 .recentFileRow > svg {
@@ -894,7 +900,7 @@
 }
 
 .resultRow:hover {
-  background: var(--lk-color-state-selected);
+  background: var(--lk-color-state-hover);
 }
 
 .resultRow:focus-visible {

@@ -51,7 +51,7 @@
 
 .addButton:hover,
 .moreButton:hover {
-  background: var(--lk-color-state-selected);
+  background: var(--lk-color-state-hover);
 }
 
 .addButton:focus-visible,

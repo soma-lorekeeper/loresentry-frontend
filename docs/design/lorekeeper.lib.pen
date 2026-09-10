@@ -1640,7 +1640,7 @@
           "id": "tVZQO",
           "name": "Recent File Meta",
           "fill": "$color-text-secondary",
-          "content": "설정 · 2분 전",
+          "content": "장소 · 2분 전",
           "fontFamily": "$font-family-ui",
           "fontSize": "$font-size-label",
           "fontWeight": "normal"
@@ -1790,7 +1790,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000066",
+        "color": "$color-shadow-dialog",
         "offset": {
           "x": 0,
           "y": 6
@@ -1942,9 +1942,9 @@
           "name": "Sidebar Project Switcher",
           "width": "fill_container",
           "height": 39,
-          "fill": "$color-surface-default",
+          "fill": "$color-state-selected",
           "cornerRadius": "$radius-control",
-          "stroke": "$color-accent-primary",
+          "stroke": "$color-border-default",
           "strokeWidth": 1,
           "gap": "$space-2",
           "padding": "$space-3",
@@ -3727,7 +3727,7 @@
           "height": 28,
           "strokeWidth": 1,
           "fill": "$color-state-selected",
-          "stroke": "$color-accent-primary",
+          "stroke": "$color-border-default",
           "descendants": {
             "n0keHY": {
               "icon": "notebook-pen"
@@ -3833,8 +3833,9 @@
           "name": "File Header Memo",
           "width": "fit_content",
           "height": 28,
-          "strokeWidth": 2,
-          "stroke": "$color-accent-primary",
+          "strokeWidth": 0,
+          "stroke": "#00000000",
+          "fill": "$color-state-hover",
           "descendants": {
             "n0keHY": {
               "icon": "notebook-pen"
@@ -4069,10 +4070,9 @@
           "name": "Tabs Scroll Right · More Available",
           "width": 28,
           "height": 28,
-          "fill": "$color-state-selected",
+          "fill": "$color-surface-icon",
           "cornerRadius": "$radius-control",
-          "stroke": "$color-accent-primary",
-          "strokeWidth": 1,
+          "stroke": "#00000000",
           "justifyContent": "center",
           "alignItems": "center",
           "children": [
@@ -4217,8 +4217,7 @@
               "height": 36,
               "fill": "$color-state-selected",
               "cornerRadius": "$radius-control",
-              "stroke": "$color-accent-primary",
-              "strokeWidth": 1
+              "stroke": "#00000000"
             },
             {
               "id": "RsowE",
@@ -4347,7 +4346,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000055",
+        "color": "$color-shadow-menu",
         "offset": {
           "x": 0,
           "y": 4
@@ -4505,7 +4504,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000055",
+        "color": "$color-shadow-menu",
         "offset": {
           "x": 0,
           "y": 4
@@ -4652,7 +4651,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000055",
+        "color": "$color-shadow-menu",
         "offset": {
           "x": 0,
           "y": 4
@@ -4702,43 +4701,6 @@
         },
         {
           "type": "frame",
-          "id": "W4fGBj",
-          "name": "설정 Create Menu Item",
-          "width": "fill_container",
-          "height": 34,
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": [
-            0,
-            "$space-3"
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "N8gjw",
-              "name": "설정 Create Menu Item Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "notebook-tabs",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "jf6jh",
-              "name": "설정 Create Menu Item Label",
-              "fill": "$color-text-primary",
-              "content": "설정",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "e1XeU",
           "name": "캐릭터 Create Menu Item",
           "width": "fill_container",
@@ -4776,8 +4738,8 @@
         },
         {
           "type": "frame",
-          "id": "cWjnU",
-          "name": "이벤트 Create Menu Item",
+          "id": "nvqyk",
+          "name": "장소 Create Menu Item",
           "width": "fill_container",
           "height": 34,
           "cornerRadius": "$radius-control",
@@ -4790,21 +4752,21 @@
           "children": [
             {
               "type": "icon",
-              "id": "uXL2N",
-              "name": "이벤트 Create Menu Item Icon",
+              "id": "MvZTW",
+              "name": "장소 Create Menu Item Icon",
               "width": 15,
               "height": 15,
-              "icon": "calendar-days",
+              "icon": "map-pin",
               "library": "lucide",
               "weight": "$icon-weight-default",
               "fill": "$color-icon-default"
             },
             {
               "type": "text",
-              "id": "EjMAr",
-              "name": "이벤트 Create Menu Item Label",
+              "id": "dH8ye",
+              "name": "장소 Create Menu Item Label",
               "fill": "$color-text-primary",
-              "content": "이벤트",
+              "content": "장소",
               "fontFamily": "$font-family-ui",
               "fontSize": "$font-size-body",
               "fontWeight": "normal"
@@ -4887,8 +4849,8 @@
         },
         {
           "type": "frame",
-          "id": "nvqyk",
-          "name": "장소 Create Menu Item",
+          "id": "cWjnU",
+          "name": "이벤트 Create Menu Item",
           "width": "fill_container",
           "height": 34,
           "cornerRadius": "$radius-control",
@@ -4901,21 +4863,21 @@
           "children": [
             {
               "type": "icon",
-              "id": "MvZTW",
-              "name": "장소 Create Menu Item Icon",
+              "id": "uXL2N",
+              "name": "이벤트 Create Menu Item Icon",
               "width": 15,
               "height": 15,
-              "icon": "map-pin",
+              "icon": "calendar-days",
               "library": "lucide",
               "weight": "$icon-weight-default",
               "fill": "$color-icon-default"
             },
             {
               "type": "text",
-              "id": "dH8ye",
-              "name": "장소 Create Menu Item Label",
+              "id": "EjMAr",
+              "name": "이벤트 Create Menu Item Label",
               "fill": "$color-text-primary",
-              "content": "장소",
+              "content": "이벤트",
               "fontFamily": "$font-family-ui",
               "fontSize": "$font-size-body",
               "fontWeight": "normal"
@@ -5198,7 +5160,7 @@
               "name": "File Memo Toggle Hint",
               "enabled": false,
               "fill": "$color-text-secondary",
-              "content": "메모 버튼으로 닫기",
+              "content": "메모 버튼을 누르면 닫혀요",
               "fontFamily": "$font-family-ui",
               "fontSize": "$font-size-label",
               "fontWeight": "normal"
@@ -5316,14 +5278,12 @@
               "id": "THBRw",
               "name": "Work Memo Tab Selected",
               "context": "Shows memo cards shared across the work.",
-              "height": "fill_container",
-              "stroke": "$color-accent-primary",
-              "strokeWidth": {
-                "bottom": 2
-              },
+              "height": 28,
+              "fill": "$color-state-selected",
+              "stroke": "#00000000",
               "padding": [
                 0,
-                "$space-2"
+                "$space-3"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -5345,10 +5305,10 @@
               "id": "nlJt1",
               "name": "Manuscript Memo Tab",
               "context": "Shows the memo linked only to the current manuscript file.",
-              "height": "fill_container",
+              "height": 28,
               "padding": [
                 0,
-                "$space-2"
+                "$space-3"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -5627,7 +5587,7 @@
               "name": "File Memo Toggle Hint",
               "enabled": false,
               "fill": "$color-text-secondary",
-              "content": "메모 버튼으로 닫기",
+              "content": "메모 버튼을 누르면 닫혀요",
               "fontFamily": "$font-family-ui",
               "fontSize": "$font-size-label",
               "fontWeight": "normal"
@@ -5745,11 +5705,11 @@
               "id": "gIHLN",
               "name": "Work Memo Tab",
               "context": "Shows memo cards shared across the work.",
-              "height": "fill_container",
+              "height": 28,
               "stroke": "$color-border-default",
               "padding": [
                 0,
-                "$space-2"
+                "$space-3"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -5771,14 +5731,12 @@
               "id": "dYMII",
               "name": "Manuscript Memo Tab Selected",
               "context": "Shows the memo linked only to the current manuscript file.",
-              "height": "fill_container",
-              "stroke": "$color-accent-primary",
-              "strokeWidth": {
-                "bottom": 2
-              },
+              "height": 28,
+              "fill": "$color-state-selected",
+              "stroke": "#00000000",
               "padding": [
                 0,
-                "$space-2"
+                "$space-3"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -6056,7 +6014,7 @@
               "name": "File Memo Toggle Hint",
               "enabled": false,
               "fill": "$color-text-secondary",
-              "content": "메모 버튼으로 닫기",
+              "content": "메모 버튼을 누르면 닫혀요",
               "fontFamily": "$font-family-ui",
               "fontSize": "$font-size-label",
               "fontWeight": "normal"
@@ -6175,14 +6133,12 @@
               "id": "tUfMP",
               "name": "Work Memo Tab Selected",
               "context": "Shows memo cards shared across the work.",
-              "height": "fill_container",
-              "stroke": "$color-accent-primary",
-              "strokeWidth": {
-                "bottom": 2
-              },
+              "height": 28,
+              "fill": "$color-state-selected",
+              "stroke": "#00000000",
               "padding": [
                 0,
-                "$space-2"
+                "$space-3"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -6204,10 +6160,10 @@
               "id": "DS9UM",
               "name": "Manuscript Memo Tab",
               "context": "Shows the memo linked only to the current manuscript file.",
-              "height": "fill_container",
+              "height": 28,
               "padding": [
                 0,
-                "$space-2"
+                "$space-3"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -6676,7 +6632,7 @@
                   "id": "X0Bp7V",
                   "name": "AI Chat Input Placeholder",
                   "fill": "$color-text-secondary",
-                  "content": "메시지 입력",
+                  "content": "메시지를 입력하세요",
                   "fontFamily": "$font-family-ui",
                   "fontSize": "$font-size-body",
                   "fontWeight": "normal"
@@ -6997,7 +6953,7 @@
                   "id": "Q7uZ0",
                   "name": "AI Chat Input Placeholder",
                   "fill": "$color-text-secondary",
-                  "content": "메시지 입력",
+                  "content": "메시지를 입력하세요",
                   "fontFamily": "$font-family-ui",
                   "fontSize": "$font-size-body",
                   "fontWeight": "normal"
@@ -7065,7 +7021,7 @@
           "effect": {
             "type": "shadow",
             "shadowType": "outer",
-            "color": "#00000055",
+            "color": "$color-shadow-menu",
             "offset": {
               "x": 0,
               "y": 4
@@ -7475,7 +7431,7 @@
                   "id": "hSLjL",
                   "name": "AI Chat Input Placeholder",
                   "fill": "$color-text-secondary",
-                  "content": "메시지 입력",
+                  "content": "메시지를 입력하세요",
                   "fontFamily": "$font-family-ui",
                   "fontSize": "$font-size-body",
                   "fontWeight": "normal"
@@ -7543,7 +7499,7 @@
           "effect": {
             "type": "shadow",
             "shadowType": "outer",
-            "color": "#00000055",
+            "color": "$color-shadow-menu",
             "offset": {
               "x": 0,
               "y": 4
@@ -7672,9 +7628,9 @@
               "id": "egxI6",
               "name": "Current Chat Session",
               "height": 36,
-              "fill": "$color-surface-raised",
+              "fill": "$color-state-hover",
               "cornerRadius": "$radius-control",
-              "stroke": "$color-accent-primary",
+              "stroke": "$color-border-default",
               "strokeWidth": 1,
               "gap": "$space-2",
               "padding": [
@@ -7908,7 +7864,7 @@
                   "id": "eCxL3",
                   "name": "AI Chat Input Placeholder",
                   "fill": "$color-text-secondary",
-                  "content": "메시지 입력",
+                  "content": "메시지를 입력하세요",
                   "fontFamily": "$font-family-ui",
                   "fontSize": "$font-size-body",
                   "fontWeight": "normal"
@@ -8227,7 +8183,7 @@
                   "id": "hsfvB",
                   "name": "AI Chat Input Placeholder",
                   "fill": "$color-text-secondary",
-                  "content": "메시지 입력",
+                  "content": "메시지를 입력하세요",
                   "fontFamily": "$font-family-ui",
                   "fontSize": "$font-size-body",
                   "fontWeight": "normal"
@@ -8307,7 +8263,7 @@
           "effect": {
             "type": "shadow",
             "shadowType": "outer",
-            "color": "#00000066",
+            "color": "$color-shadow-dialog",
             "offset": {
               "x": 0,
               "y": 8
@@ -8335,7 +8291,7 @@
               "fill": "$color-text-secondary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
-              "content": "‘균열 장면 다듬기’의 대화 내역이 삭제되며 되돌릴 수 없습니다.",
+              "content": "‘균열 장면 다듬기’의 대화 내역이 삭제되고 되돌릴 수 없어요.",
               "lineHeight": "$line-height-context",
               "fontFamily": "$font-family-ui",
               "fontSize": "$font-size-body",
@@ -8383,7 +8339,7 @@
                   "height": 36,
                   "fill": "$color-state-selected",
                   "cornerRadius": "$radius-control",
-                  "stroke": "$color-accent-primary",
+                  "stroke": "$color-border-default",
                   "strokeWidth": 1,
                   "padding": [
                     0,
@@ -8614,10 +8570,10 @@
               "name": "AI Chat Composer",
               "width": "fill_container",
               "height": "fill_container",
-              "fill": "$color-surface-raised",
+              "fill": "$color-state-hover",
               "cornerRadius": "$radius-card",
-              "stroke": "$color-accent-primary",
-              "strokeWidth": 2,
+              "stroke": "$color-border-default",
+              "strokeWidth": 1,
               "layout": "vertical",
               "gap": "$space-2",
               "padding": "$space-3",
@@ -8697,7 +8653,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000055",
+        "color": "$color-shadow-menu",
         "offset": {
           "x": 0,
           "y": 4
@@ -8747,43 +8703,6 @@
         },
         {
           "type": "frame",
-          "id": "E5FBJs",
-          "name": "설정 Create Menu Item",
-          "width": "fill_container",
-          "height": 34,
-          "cornerRadius": "$radius-control",
-          "gap": "$space-2",
-          "padding": [
-            0,
-            "$space-3"
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "icon",
-              "id": "OO0fq",
-              "name": "설정 Create Menu Item Icon",
-              "width": 15,
-              "height": 15,
-              "icon": "notebook-tabs",
-              "library": "lucide",
-              "weight": "$icon-weight-default",
-              "fill": "$color-icon-default"
-            },
-            {
-              "type": "text",
-              "id": "UwATr",
-              "name": "설정 Create Menu Item Label",
-              "fill": "$color-text-primary",
-              "content": "설정",
-              "fontFamily": "$font-family-ui",
-              "fontSize": "$font-size-body",
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "wP1me",
           "name": "캐릭터 Create Menu Item",
           "width": "fill_container",
@@ -8821,8 +8740,8 @@
         },
         {
           "type": "frame",
-          "id": "I6E1L",
-          "name": "이벤트 Create Menu Item",
+          "id": "bxTtq",
+          "name": "장소 Create Menu Item",
           "width": "fill_container",
           "height": 34,
           "cornerRadius": "$radius-control",
@@ -8835,21 +8754,21 @@
           "children": [
             {
               "type": "icon",
-              "id": "PS1wE",
-              "name": "이벤트 Create Menu Item Icon",
+              "id": "e3wZQ",
+              "name": "장소 Create Menu Item Icon",
               "width": 15,
               "height": 15,
-              "icon": "calendar-days",
+              "icon": "map-pin",
               "library": "lucide",
               "weight": "$icon-weight-default",
               "fill": "$color-icon-default"
             },
             {
               "type": "text",
-              "id": "h2IgVi",
-              "name": "이벤트 Create Menu Item Label",
+              "id": "W47mU",
+              "name": "장소 Create Menu Item Label",
               "fill": "$color-text-primary",
-              "content": "이벤트",
+              "content": "장소",
               "fontFamily": "$font-family-ui",
               "fontSize": "$font-size-body",
               "fontWeight": "normal"
@@ -8932,8 +8851,8 @@
         },
         {
           "type": "frame",
-          "id": "bxTtq",
-          "name": "장소 Create Menu Item",
+          "id": "I6E1L",
+          "name": "이벤트 Create Menu Item",
           "width": "fill_container",
           "height": 34,
           "cornerRadius": "$radius-control",
@@ -8946,21 +8865,21 @@
           "children": [
             {
               "type": "icon",
-              "id": "e3wZQ",
-              "name": "장소 Create Menu Item Icon",
+              "id": "PS1wE",
+              "name": "이벤트 Create Menu Item Icon",
               "width": 15,
               "height": 15,
-              "icon": "map-pin",
+              "icon": "calendar-days",
               "library": "lucide",
               "weight": "$icon-weight-default",
               "fill": "$color-icon-default"
             },
             {
               "type": "text",
-              "id": "W47mU",
-              "name": "장소 Create Menu Item Label",
+              "id": "h2IgVi",
+              "name": "이벤트 Create Menu Item Label",
               "fill": "$color-text-primary",
-              "content": "장소",
+              "content": "이벤트",
               "fontFamily": "$font-family-ui",
               "fontSize": "$font-size-body",
               "fontWeight": "normal"
@@ -9230,7 +9149,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000055",
+        "color": "$color-shadow-menu",
         "offset": {
           "x": 0,
           "y": 4
@@ -9466,9 +9385,9 @@
           "name": "Inline Edit Field",
           "width": "fill_container",
           "height": "fill_container",
-          "fill": "$color-surface-raised",
+          "fill": "$color-state-hover",
           "cornerRadius": "$radius-control",
-          "stroke": "$color-accent-primary",
+          "stroke": "$color-border-default",
           "strokeWidth": 1,
           "gap": "$space-1",
           "padding": [
@@ -9546,7 +9465,7 @@
               "name": "Permanent Delete Icon Surface",
               "width": 38,
               "height": 38,
-              "fill": "$color-state-selected",
+              "fill": "$color-surface-icon",
               "cornerRadius": "$radius-control",
               "justifyContent": "center",
               "alignItems": "center",
@@ -9589,7 +9508,7 @@
                   "fill": "$color-text-secondary",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "이 항목은 프로젝트에서 완전히 삭제되며 복원할 수 없습니다.",
+                  "content": "이 항목은 프로젝트에서 완전히 삭제되고 복원할 수 없어요.",
                   "lineHeight": "$line-height-body",
                   "fontFamily": "$font-family-ui",
                   "fontSize": "$font-size-body",
@@ -10153,8 +10072,9 @@
           "name": "Focused Memo Editor",
           "width": "fill_container",
           "height": "fill_container",
-          "stroke": "$color-accent-primary",
-          "strokeWidth": 2,
+          "stroke": "#00000000",
+          "strokeWidth": 0,
+          "fill": "$color-state-selected",
           "descendants": {
             "F9e71l": {
               "content": "메모 안에서 바로 작성하고 수정합니다."
@@ -10206,19 +10126,22 @@
           "name": "Save Error Memo Editor",
           "width": "fill_container",
           "height": "fill_container",
-          "stroke": "$color-accent-primary",
+          "stroke": "$color-border-default",
           "descendants": {
+            "F9e71l": {
+              "height": 166
+            },
             "YfHn5": {
               "type": "frame",
               "id": "YRGnP",
               "name": "Memo Save Error",
               "width": "fill_container",
-              "gap": "$space-1",
+              "gap": "$space-2",
               "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
-                  "id": "z7iZd",
+                  "id": "zPlf3",
                   "name": "Memo Save Error Icon",
                   "width": 14,
                   "height": 14,
@@ -10229,13 +10152,46 @@
                 },
                 {
                   "type": "text",
-                  "id": "YUuRc",
+                  "id": "lRUxN",
                   "name": "Memo Save Error Label",
                   "fill": "$color-text-primary",
-                  "content": "저장하지 못했습니다 · 다시 시도",
+                  "content": "저장하지 못했어요",
                   "fontFamily": "$font-family-ui",
                   "fontSize": "$font-size-label",
                   "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "ZHtc4",
+                  "name": "Memo Save Error Spacer",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "id": "BrX3e",
+                  "type": "ref",
+                  "ref": "celDl",
+                  "name": "Memo Save Error Retry",
+                  "height": 26,
+                  "fill": "$color-accent-primary",
+                  "strokeWidth": 0,
+                  "padding": [
+                    0,
+                    "$space-3"
+                  ],
+                  "descendants": {
+                    "n0keHY": {
+                      "icon": "rotate-ccw",
+                      "width": 12,
+                      "height": 12,
+                      "fill": "$color-text-on-accent"
+                    },
+                    "zprJP": {
+                      "content": "다시 시도",
+                      "fill": "$color-text-on-accent",
+                      "fontSize": "$font-size-label"
+                    }
+                  }
                 }
               ]
             }
@@ -10258,7 +10214,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000055",
+        "color": "$color-shadow-menu",
         "offset": {
           "x": 0,
           "y": 4
@@ -10322,7 +10278,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000055",
+        "color": "$color-shadow-menu",
         "offset": {
           "x": 0,
           "y": 4
@@ -10732,7 +10688,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000055",
+        "color": "$color-shadow-menu",
         "offset": {
           "x": 0,
           "y": 4
@@ -11220,7 +11176,7 @@
           "id": "vV8a7",
           "name": "Property Document / Save Status / Error Label",
           "fill": "$color-text-primary",
-          "content": "저장하지 못했습니다",
+          "content": "저장하지 못했어요",
           "fontFamily": "$font-family-ui",
           "fontSize": "$font-size-label",
           "fontWeight": "500"
@@ -11626,7 +11582,7 @@
               "id": "yEicn",
               "name": "Settings / Save Bar / Saving Status Detail",
               "fill": "$color-text-secondary",
-              "content": "잠시만 기다려주세요.",
+              "content": "잠시만 기다려 주세요.",
               "lineHeight": "$line-height-body",
               "fontFamily": "$font-family-ui",
               "fontSize": "$font-size-label",
@@ -11761,7 +11717,7 @@
               "id": "ovE2o",
               "name": "Settings / Save Bar / Error Status Message",
               "fill": "$color-text-primary",
-              "content": "설정을 저장하지 못했습니다",
+              "content": "설정을 저장하지 못했어요",
               "lineHeight": "$line-height-body",
               "fontFamily": "$font-family-ui",
               "fontSize": "$font-size-body",
@@ -11806,7 +11762,6 @@
       "context": "Project settings confirmation dialog.",
       "reusable": true,
       "width": 440,
-      "height": 250,
       "fill": "$color-surface-raised",
       "cornerRadius": "$radius-card",
       "stroke": "$color-border-default",
@@ -11814,7 +11769,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000066",
+        "color": "$color-shadow-dialog",
         "offset": {
           "x": 0,
           "y": 8
@@ -11948,12 +11903,16 @@
               "ref": "celDl",
               "name": "Dialog / Unsaved Settings Confirm",
               "height": 32,
+              "fill": "$color-accent-primary",
+              "strokeWidth": 0,
               "descendants": {
                 "n0keHY": {
-                  "icon": "file-x"
+                  "icon": "file-x",
+                  "fill": "$color-text-on-accent"
                 },
                 "zprJP": {
-                  "content": "변경사항 버리기"
+                  "content": "변경사항 버리기",
+                  "fill": "$color-text-on-accent"
                 }
               }
             }
@@ -11970,7 +11929,6 @@
       "context": "Project settings confirmation dialog.",
       "reusable": true,
       "width": 440,
-      "height": 250,
       "fill": "$color-surface-raised",
       "cornerRadius": "$radius-card",
       "stroke": "$color-border-default",
@@ -11978,7 +11936,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000066",
+        "color": "$color-shadow-dialog",
         "offset": {
           "x": 0,
           "y": 8
@@ -12112,12 +12070,16 @@
               "ref": "celDl",
               "name": "Dialog / Move Project To Trash Confirm",
               "height": 32,
+              "fill": "$color-accent-primary",
+              "strokeWidth": 0,
               "descendants": {
                 "n0keHY": {
-                  "icon": "trash-2"
+                  "icon": "trash-2",
+                  "fill": "$color-text-on-accent"
                 },
                 "zprJP": {
-                  "content": "휴지통으로 이동"
+                  "content": "휴지통으로 이동",
+                  "fill": "$color-text-on-accent"
                 }
               }
             }
@@ -12205,7 +12167,7 @@
               "name": "User Section Delete Icon Surface",
               "width": 38,
               "height": 38,
-              "fill": "$color-state-selected",
+              "fill": "$color-surface-icon",
               "cornerRadius": "$radius-control",
               "justifyContent": "center",
               "alignItems": "center",
@@ -12374,7 +12336,7 @@
               "name": "User Section Delete Error Icon Surface",
               "width": 38,
               "height": 38,
-              "fill": "$color-state-selected",
+              "fill": "$color-surface-icon",
               "cornerRadius": "$radius-control",
               "justifyContent": "center",
               "alignItems": "center",
@@ -12536,7 +12498,7 @@
           "name": "User Avatar",
           "width": 32,
           "height": 32,
-          "fill": "$color-state-selected",
+          "fill": "$color-surface-icon",
           "cornerRadius": 16,
           "justifyContent": "center",
           "alignItems": "center",
@@ -12767,7 +12729,7 @@
       "reusable": true,
       "width": 300,
       "height": 180,
-      "fill": "$color-state-selected",
+      "fill": "$color-state-hover",
       "cornerRadius": "$radius-card",
       "stroke": "$color-border-default",
       "strokeWidth": 1,
@@ -12832,10 +12794,9 @@
       "reusable": true,
       "width": 300,
       "height": 180,
-      "fill": "$color-surface-default",
+      "fill": "$color-state-hover",
       "cornerRadius": "$radius-card",
-      "stroke": "$color-accent-primary",
-      "strokeWidth": 2,
+      "stroke": "#00000000",
       "layout": "vertical",
       "gap": "$space-3",
       "padding": "$space-6",
@@ -12947,7 +12908,7 @@
           "id": "JKGR8",
           "name": "New Project Hint",
           "fill": "$color-text-secondary",
-          "content": "현재 새 프로젝트를 만들 수 없습니다",
+          "content": "프로젝트를 불러온 뒤에 만들 수 있어요",
           "fontFamily": "$font-family-ui",
           "fontSize": "$font-size-label",
           "fontWeight": "normal"
@@ -13118,7 +13079,7 @@
       "reusable": true,
       "width": 300,
       "height": 180,
-      "fill": "$color-state-selected",
+      "fill": "$color-state-hover",
       "cornerRadius": "$radius-card",
       "stroke": "$color-border-default",
       "strokeWidth": 1,
@@ -13273,10 +13234,9 @@
       "reusable": true,
       "width": 300,
       "height": 180,
-      "fill": "$color-surface-default",
+      "fill": "$color-state-hover",
       "cornerRadius": "$radius-card",
-      "stroke": "$color-accent-primary",
-      "strokeWidth": 2,
+      "stroke": "#00000000",
       "layout": "vertical",
       "gap": "$space-4",
       "padding": "$space-6",
@@ -13428,9 +13388,9 @@
       "reusable": true,
       "width": 300,
       "height": 180,
-      "fill": "$color-surface-default",
+      "fill": "$color-state-selected",
       "cornerRadius": "$radius-card",
-      "stroke": "$color-accent-primary",
+      "stroke": "$color-border-default",
       "strokeWidth": 1,
       "layout": "vertical",
       "gap": "$space-4",
@@ -13482,7 +13442,7 @@
               "height": 24,
               "fill": "$color-state-selected",
               "cornerRadius": "$radius-control",
-              "stroke": "$color-accent-primary",
+              "stroke": "$color-border-default",
               "strokeWidth": 1,
               "gap": "$space-1",
               "padding": [
@@ -13703,7 +13663,7 @@
       "height": 44,
       "fill": "$color-surface-default",
       "cornerRadius": "$radius-control",
-      "stroke": "$color-accent-primary",
+      "stroke": "$color-border-default",
       "strokeWidth": 1,
       "gap": "$space-3",
       "padding": [
@@ -13840,7 +13800,7 @@
       "width": 360,
       "fill": "$color-state-selected",
       "cornerRadius": "$radius-card",
-      "stroke": "$color-accent-primary",
+      "stroke": "$color-border-default",
       "strokeWidth": 1,
       "gap": "$space-3",
       "padding": "$space-4",
@@ -14009,10 +13969,9 @@
       "reusable": true,
       "width": 360,
       "height": 48,
-      "fill": "#00000000",
+      "fill": "$color-state-hover",
       "cornerRadius": "$radius-control",
-      "stroke": "$color-accent-primary",
-      "strokeWidth": 2,
+      "stroke": "#00000000",
       "padding": 2,
       "justifyContent": "center",
       "alignItems": "center",
@@ -14023,7 +13982,8 @@
           "ref": "YuQi0",
           "name": "Focused Google Button Surface",
           "width": "fill_container",
-          "height": 44
+          "height": 44,
+          "stroke": "$color-border-default"
         }
       ]
     },
@@ -14362,7 +14322,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000055",
+        "color": "$color-shadow-menu",
         "offset": {
           "x": 0,
           "y": 4
@@ -14801,6 +14761,31 @@
               "fontWeight": "normal"
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "s7qkn",
+          "name": "Filter Clear",
+          "width": "fill_container",
+          "height": 28,
+          "cornerRadius": "$radius-control",
+          "padding": [
+            0,
+            "$space-3"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "WStnf",
+              "name": "Filter Clear Label",
+              "fill": "$color-text-secondary",
+              "content": "선택 해제",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
         }
       ]
     },
@@ -14819,7 +14804,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000055",
+        "color": "$color-shadow-menu",
         "offset": {
           "x": 0,
           "y": 4
@@ -15208,9 +15193,9 @@
                   "id": "LSxMv",
                   "name": "Node Box Body 레나 아르벨",
                   "width": "fill_container",
-                  "stroke": "$color-text-primary",
+                  "stroke": "$color-accent-primary",
                   "strokeWidth": {
-                    "left": 2
+                    "left": 3
                   },
                   "layout": "vertical",
                   "gap": "$space-1",
@@ -15282,7 +15267,7 @@
                   "width": "fill_container",
                   "stroke": "#00000000",
                   "strokeWidth": {
-                    "left": 2
+                    "left": 3
                   },
                   "layout": "vertical",
                   "gap": "$space-1",
@@ -15367,7 +15352,7 @@
                   "width": "fill_container",
                   "stroke": "#00000000",
                   "strokeWidth": {
-                    "left": 2
+                    "left": 3
                   },
                   "layout": "vertical",
                   "gap": "$space-1",
@@ -15452,7 +15437,7 @@
                   "width": "fill_container",
                   "stroke": "#00000000",
                   "strokeWidth": {
-                    "left": 2
+                    "left": 3
                   },
                   "layout": "vertical",
                   "gap": "$space-1",
@@ -15550,7 +15535,7 @@
                   "width": "fill_container",
                   "stroke": "#00000000",
                   "strokeWidth": {
-                    "left": 2
+                    "left": 3
                   },
                   "layout": "vertical",
                   "gap": "$space-1",
@@ -15648,7 +15633,7 @@
                   "width": "fill_container",
                   "stroke": "#00000000",
                   "strokeWidth": {
-                    "left": 2
+                    "left": 3
                   },
                   "layout": "vertical",
                   "gap": "$space-1",
@@ -15746,7 +15731,7 @@
                   "width": "fill_container",
                   "stroke": "#00000000",
                   "strokeWidth": {
-                    "left": 2
+                    "left": 3
                   },
                   "layout": "vertical",
                   "gap": "$space-1",
@@ -15844,7 +15829,7 @@
                   "width": "fill_container",
                   "stroke": "#00000000",
                   "strokeWidth": {
-                    "left": 2
+                    "left": 3
                   },
                   "layout": "vertical",
                   "gap": "$space-1",
@@ -15942,7 +15927,7 @@
                   "width": "fill_container",
                   "stroke": "#00000000",
                   "strokeWidth": {
-                    "left": 2
+                    "left": 3
                   },
                   "layout": "vertical",
                   "gap": "$space-1",
@@ -16368,7 +16353,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000055",
+        "color": "$color-shadow-menu",
         "offset": {
           "x": 0,
           "y": 4
@@ -16798,7 +16783,7 @@
         {
           "type": "frame",
           "id": "WovPY",
-          "name": "Row Filter Clear",
+          "name": "Row Filter Select All",
           "width": "fill_container",
           "height": 28,
           "cornerRadius": "$radius-control",
@@ -16811,6 +16796,31 @@
             {
               "type": "text",
               "id": "PCBSn",
+              "name": "Row Filter Select All Label",
+              "fill": "$color-text-secondary",
+              "content": "모두 선택",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "CsAbM",
+          "name": "Row Filter Clear",
+          "width": "fill_container",
+          "height": 28,
+          "cornerRadius": "$radius-control",
+          "padding": [
+            0,
+            "$space-2"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "nqPzQ",
               "name": "Row Filter Clear Label",
               "fill": "$color-text-secondary",
               "content": "선택 해제",
@@ -16837,7 +16847,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000055",
+        "color": "$color-shadow-menu",
         "offset": {
           "x": 0,
           "y": 4
@@ -17010,7 +17020,8 @@
           "id": "h6z9c",
           "name": "Episode Menu Actions",
           "width": "fill_container",
-          "gap": 2,
+          "layout": "vertical",
+          "gap": "$space-1",
           "children": [
             {
               "type": "frame",
@@ -17019,7 +17030,10 @@
               "width": "fill_container",
               "height": 28,
               "cornerRadius": "$radius-control",
-              "justifyContent": "center",
+              "padding": [
+                0,
+                "$space-2"
+              ],
               "alignItems": "center",
               "children": [
                 {
@@ -17037,19 +17051,22 @@
             {
               "type": "frame",
               "id": "Y4Tpk",
-              "name": "Episode Menu 모두 해제",
+              "name": "Episode Menu 선택 해제",
               "width": "fill_container",
               "height": 28,
               "cornerRadius": "$radius-control",
-              "justifyContent": "center",
+              "padding": [
+                0,
+                "$space-2"
+              ],
               "alignItems": "center",
               "children": [
                 {
                   "type": "text",
                   "id": "MV842",
-                  "name": "Episode Menu 모두 해제 Label",
+                  "name": "Episode Menu 선택 해제 Label",
                   "fill": "$color-text-secondary",
-                  "content": "모두 해제",
+                  "content": "선택 해제",
                   "fontFamily": "$font-family-ui",
                   "fontSize": "$font-size-label",
                   "fontWeight": "normal"
@@ -17212,7 +17229,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000055",
+        "color": "$color-shadow-menu",
         "offset": {
           "x": 0,
           "y": 4
@@ -17354,7 +17371,7 @@
       "width": 252,
       "height": 36,
       "cornerRadius": "$radius-card",
-      "stroke": "$color-accent-primary",
+      "stroke": "$color-border-default",
       "strokeWidth": {
         "left": 3
       },
@@ -17731,7 +17748,7 @@
                       "ref": "R02UG",
                       "name": "Diff Entry · 유리 산맥",
                       "width": "fill_container",
-                      "stroke": "$color-accent-primary",
+                      "stroke": "$color-border-default",
                       "descendants": {
                         "VK1hI": {
                           "icon": "map-pin"
@@ -17754,7 +17771,7 @@
                       "ref": "R02UG",
                       "name": "Diff Entry · 도깨비 학살",
                       "width": "fill_container",
-                      "stroke": "$color-accent-primary",
+                      "stroke": "$color-border-default",
                       "descendants": {
                         "VK1hI": {
                           "icon": "scroll"
@@ -19899,7 +19916,7 @@
                                 },
                                 "colors": [
                                   {
-                                    "color": "#00000000",
+                                    "color": "$color-surface-alpha0",
                                     "position": 0
                                   },
                                   {
@@ -19931,7 +19948,7 @@
                                 },
                                 "colors": [
                                   {
-                                    "color": "#00000000",
+                                    "color": "$color-surface-alpha0",
                                     "position": 0
                                   },
                                   {
@@ -20034,50 +20051,70 @@
       "x": 26275,
       "y": 100,
       "name": "Toast / Notice",
-      "context": "Transient bottom-centered pill that reports a state change such as edit lock on or off. Auto-dismisses; carries no action.",
+      "context": "Transient card that reports a state change such as edit lock on or off. Sits under the control that caused it, auto-dismisses, and carries no action.",
       "reusable": true,
-      "height": 36,
+      "width": 272,
       "fill": "$color-surface-raised",
-      "cornerRadius": 18,
+      "cornerRadius": "$radius-card",
       "stroke": "$color-border-default",
       "strokeWidth": 1,
-      "effect": {
-        "type": "shadow",
-        "shadowType": "outer",
-        "color": "#00000066",
-        "offset": {
-          "x": 0,
-          "y": 8
-        },
-        "blur": 24
-      },
-      "gap": "$space-2",
-      "padding": [
-        0,
-        "$space-6"
-      ],
+      "gap": "$space-3",
+      "padding": "$space-4",
       "alignItems": "center",
       "children": [
         {
-          "type": "icon",
-          "id": "I2t8Gq",
-          "name": "Toast Icon",
-          "width": 14,
-          "height": 14,
-          "icon": "lock",
-          "library": "lucide",
-          "weight": "$icon-weight-default",
-          "fill": "$color-icon-default"
+          "type": "frame",
+          "id": "WjvqP",
+          "name": "Toast Icon Surface",
+          "width": 32,
+          "height": 32,
+          "fill": "$color-surface-icon",
+          "cornerRadius": "$radius-control",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "THYHb",
+              "name": "Toast Icon",
+              "width": 17,
+              "height": 17,
+              "icon": "lock",
+              "library": "lucide",
+              "weight": "$icon-weight-default",
+              "fill": "$color-accent-primary"
+            }
+          ]
         },
         {
-          "type": "text",
-          "id": "z4Lrd",
-          "name": "Toast Label",
-          "fill": "$color-text-primary",
-          "content": "편집이 비활성화 되었습니다",
-          "fontFamily": "$font-family-ui",
-          "fontSize": "$font-size-body",
-          "fontWeight": "normal"
+          "type": "frame",
+          "id": "v1IfWP",
+          "name": "Toast Copy",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": "$space-1",
+          "children": [
+            {
+              "type": "text",
+              "id": "IbRLS",
+              "name": "Toast Title",
+              "fill": "$color-text-primary",
+              "content": "파일을 잠갔어요.",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-body",
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "lJdun",
+              "name": "Toast Description",
+              "fill": "$color-text-secondary",
+              "content": "잠금을 풀기 전까지는 편집할 수 없어요.",
+              "fontFamily": "$font-family-ui",
+              "fontSize": "$font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
         }
       ]
     },
@@ -20097,7 +20134,7 @@
       "effect": {
         "type": "shadow",
         "shadowType": "outer",
-        "color": "#00000055",
+        "color": "$color-shadow-menu",
         "offset": {
           "x": 0,
           "y": 4
@@ -20390,7 +20427,7 @@
           "height": 28,
           "strokeWidth": 1,
           "fill": "$color-state-selected",
-          "stroke": "$color-accent-primary",
+          "stroke": "$color-border-default",
           "descendants": {
             "n0keHY": {
               "icon": "lock"
@@ -21706,7 +21743,7 @@
                                 },
                                 "colors": [
                                   {
-                                    "color": "#00000000",
+                                    "color": "$color-surface-alpha0",
                                     "position": 0
                                   },
                                   {
@@ -22763,7 +22800,7 @@
                                 },
                                 "colors": [
                                   {
-                                    "color": "#00000000",
+                                    "color": "$color-surface-alpha0",
                                     "position": 0
                                   },
                                   {
@@ -23131,7 +23168,7 @@
       "context": "A version list row under the pointer. It takes the same $color-state-selected bar as a selected row; the delete button on the right is what marks the pointer. The button never sits in a resting row.",
       "reusable": true,
       "width": 240,
-      "fill": "$color-state-selected",
+      "fill": "$color-state-hover",
       "cornerRadius": "$radius-card",
       "gap": "$space-2",
       "padding": [
@@ -23201,7 +23238,7 @@
           }
         },
         {
-          "value": "#F4F6F7",
+          "value": "#F3F4F6",
           "theme": {
             "mode": "light"
           }
@@ -23218,7 +23255,7 @@
           }
         },
         {
-          "value": "#F7F9FA",
+          "value": "#E7E9EB",
           "theme": {
             "mode": "light"
           }
@@ -23235,7 +23272,7 @@
           }
         },
         {
-          "value": "#EEF2F3",
+          "value": "#ECEEF0",
           "theme": {
             "mode": "light"
           }
@@ -23286,7 +23323,7 @@
           }
         },
         {
-          "value": "#E5EBED",
+          "value": "#002E590D",
           "theme": {
             "mode": "light"
           }
@@ -23303,7 +23340,7 @@
           }
         },
         {
-          "value": "#C7D0D3",
+          "value": "#C8CCD0",
           "theme": {
             "mode": "light"
           }
@@ -23320,7 +23357,7 @@
           }
         },
         {
-          "value": "#182024",
+          "value": "#1C1F23",
           "theme": {
             "mode": "light"
           }
@@ -23337,7 +23374,7 @@
           }
         },
         {
-          "value": "#5B686D",
+          "value": "#51555A",
           "theme": {
             "mode": "light"
           }
@@ -23354,7 +23391,7 @@
           }
         },
         {
-          "value": "#526167",
+          "value": "#3B4146",
           "theme": {
             "mode": "light"
           }
@@ -23371,7 +23408,7 @@
           }
         },
         {
-          "value": "#486A73",
+          "value": "#1C6070",
           "theme": {
             "mode": "light"
           }
@@ -23399,13 +23436,13 @@
       "type": "color",
       "value": [
         {
-          "value": "#293237",
+          "value": "#CAD9EB1F",
           "theme": {
             "mode": "dark"
           }
         },
         {
-          "value": "#DCE7EA",
+          "value": "#002E591F",
           "theme": {
             "mode": "light"
           }
@@ -23502,7 +23539,7 @@
           }
         },
         {
-          "value": "#182024",
+          "value": "#2F5892",
           "theme": {
             "mode": "light"
           }
@@ -23519,7 +23556,7 @@
           }
         },
         {
-          "value": "#293236",
+          "value": "#2F6F3C",
           "theme": {
             "mode": "light"
           }
@@ -23536,7 +23573,7 @@
           }
         },
         {
-          "value": "#3A4448",
+          "value": "#645CA0",
           "theme": {
             "mode": "light"
           }
@@ -23553,7 +23590,7 @@
           }
         },
         {
-          "value": "#4B5659",
+          "value": "#995F23",
           "theme": {
             "mode": "light"
           }
@@ -23570,7 +23607,7 @@
           }
         },
         {
-          "value": "#5C686B",
+          "value": "#AC5C56",
           "theme": {
             "mode": "light"
           }
@@ -23587,7 +23624,7 @@
           }
         },
         {
-          "value": "#6D7A7D",
+          "value": "#219180",
           "theme": {
             "mode": "light"
           }
@@ -23604,7 +23641,7 @@
           }
         },
         {
-          "value": "#7E8C8F",
+          "value": "#81878D",
           "theme": {
             "mode": "light"
           }
@@ -23621,7 +23658,7 @@
           }
         },
         {
-          "value": "#F2D478",
+          "value": "#C8901A",
           "theme": {
             "mode": "light"
           }
@@ -23787,6 +23824,142 @@
     "control-height": {
       "type": "number",
       "value": 28
+    },
+    "color-surface-alpha0": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#22262900",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#FFFFFF00",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
+    },
+    "color-shadow-menu": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#00000055",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#00000026",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
+    },
+    "color-shadow-dialog": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#00000066",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#00000033",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
+    },
+    "color-scrim-modal": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#00000066",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#0000004D",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
+    },
+    "color-scrim-dialog": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#00000088",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#00000059",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
+    },
+    "color-scrim-strong": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#00000099",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#00000066",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
+    },
+    "color-state-hover": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#CAD9EB0F",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#002E590F",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
+    },
+    "color-surface-icon-hover": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#CAD9EB1A",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "value": "#002E591A",
+          "theme": {
+            "mode": "light"
+          }
+        }
+      ]
     }
   },
   "fileToken": "a0620473-2c2e-4494-8ecc-b9ac29fb3fdd"

@@ -7,13 +7,15 @@
   --lk-color-surface-default: #222629;
   --lk-color-surface-raised: #252a2d;
   --lk-color-surface-icon: #30363a;
+  --lk-color-surface-icon-hover: #cad9eb1a;
   --lk-color-border-default: #3a4246;
   --lk-color-text-primary: #edf2f2;
   --lk-color-text-secondary: #9aa6a8;
   --lk-color-icon-default: #b8c3c5;
   --lk-color-accent-primary: #a9c7d0;
   --lk-color-text-on-accent: #111719;
-  --lk-color-state-selected: #293237;
+  --lk-color-state-selected: #cad9eb1f;
+  --lk-color-state-hover: #cad9eb0f;
   --lk-color-node-character: #edf2f2;
   --lk-color-node-place: #d6dcdd;
   --lk-color-node-organization: #bec6c8;
@@ -30,6 +32,12 @@
   --lk-color-diff-remove-bg: #3b3739;
   --lk-color-diff-done: #73b589;
   --lk-color-diff-done-bg: #2e3b38;
+  --lk-color-surface-alpha0: #22262900;
+  --lk-color-shadow-menu: #00000055;
+  --lk-color-shadow-dialog: #00000066;
+  --lk-color-scrim-modal: #00000066;
+  --lk-color-scrim-dialog: #00000088;
+  --lk-color-scrim-strong: #00000099;
   --lk-space-1: 4px;
   --lk-space-2: 8px;
   --lk-space-3: 10px;
@@ -63,27 +71,29 @@
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --lk-color-bg-canvas: #f4f6f7;
-  --lk-color-surface-navigation: #f7f9fa;
-  --lk-color-surface-topbar: #eef2f3;
+  --lk-color-bg-canvas: #f3f4f6;
+  --lk-color-surface-navigation: #e7e9eb;
+  --lk-color-surface-topbar: #eceef0;
   --lk-color-surface-default: #ffffff;
   --lk-color-surface-raised: #ffffff;
-  --lk-color-surface-icon: #e5ebed;
-  --lk-color-border-default: #c7d0d3;
-  --lk-color-text-primary: #182024;
-  --lk-color-text-secondary: #5b686d;
-  --lk-color-icon-default: #526167;
-  --lk-color-accent-primary: #486a73;
+  --lk-color-surface-icon: #002e590d;
+  --lk-color-surface-icon-hover: #002e591a;
+  --lk-color-border-default: #c8ccd0;
+  --lk-color-text-primary: #1c1f23;
+  --lk-color-text-secondary: #51555a;
+  --lk-color-icon-default: #3b4146;
+  --lk-color-accent-primary: #1c6070;
   --lk-color-text-on-accent: #ffffff;
-  --lk-color-state-selected: #dce7ea;
-  --lk-color-node-character: #182024;
-  --lk-color-node-place: #293236;
-  --lk-color-node-organization: #3a4448;
-  --lk-color-node-item: #4b5659;
-  --lk-color-node-event: #5c686b;
-  --lk-color-node-worldview: #6d7a7d;
-  --lk-color-node-manuscript: #7e8c8f;
-  --lk-color-favorite: #f2d478;
+  --lk-color-state-selected: #002e591f;
+  --lk-color-state-hover: #002e590f;
+  --lk-color-node-character: #2f5892;
+  --lk-color-node-place: #2f6f3c;
+  --lk-color-node-organization: #645ca0;
+  --lk-color-node-item: #995f23;
+  --lk-color-node-event: #ac5c56;
+  --lk-color-node-worldview: #219180;
+  --lk-color-node-manuscript: #81878d;
+  --lk-color-favorite: #c8901a;
   --lk-color-diff-modify: #2a6e7f;
   --lk-color-diff-modify-bg: #eaf0f2;
   --lk-color-diff-add: #2360d7;
@@ -92,32 +102,40 @@
   --lk-color-diff-remove-bg: #f7eceb;
   --lk-color-diff-done: #3c714e;
   --lk-color-diff-done-bg: #ecf1ed;
+  --lk-color-surface-alpha0: #ffffff00;
+  --lk-color-shadow-menu: #00000026;
+  --lk-color-shadow-dialog: #00000033;
+  --lk-color-scrim-modal: #0000004d;
+  --lk-color-scrim-dialog: #00000059;
+  --lk-color-scrim-strong: #00000066;
 }
 
 @media (prefers-color-scheme: light) {
   :root:not([data-theme]) {
     color-scheme: light;
-    --lk-color-bg-canvas: #f4f6f7;
-    --lk-color-surface-navigation: #f7f9fa;
-    --lk-color-surface-topbar: #eef2f3;
+    --lk-color-bg-canvas: #f3f4f6;
+    --lk-color-surface-navigation: #e7e9eb;
+    --lk-color-surface-topbar: #eceef0;
     --lk-color-surface-default: #ffffff;
     --lk-color-surface-raised: #ffffff;
-    --lk-color-surface-icon: #e5ebed;
-    --lk-color-border-default: #c7d0d3;
-    --lk-color-text-primary: #182024;
-    --lk-color-text-secondary: #5b686d;
-    --lk-color-icon-default: #526167;
-    --lk-color-accent-primary: #486a73;
+    --lk-color-surface-icon: #002e590d;
+    --lk-color-surface-icon-hover: #002e591a;
+    --lk-color-border-default: #c8ccd0;
+    --lk-color-text-primary: #1c1f23;
+    --lk-color-text-secondary: #51555a;
+    --lk-color-icon-default: #3b4146;
+    --lk-color-accent-primary: #1c6070;
     --lk-color-text-on-accent: #ffffff;
-    --lk-color-state-selected: #dce7ea;
-    --lk-color-node-character: #182024;
-    --lk-color-node-place: #293236;
-    --lk-color-node-organization: #3a4448;
-    --lk-color-node-item: #4b5659;
-    --lk-color-node-event: #5c686b;
-    --lk-color-node-worldview: #6d7a7d;
-    --lk-color-node-manuscript: #7e8c8f;
-    --lk-color-favorite: #f2d478;
+    --lk-color-state-selected: #002e591f;
+    --lk-color-state-hover: #002e590f;
+    --lk-color-node-character: #2f5892;
+    --lk-color-node-place: #2f6f3c;
+    --lk-color-node-organization: #645ca0;
+    --lk-color-node-item: #995f23;
+    --lk-color-node-event: #ac5c56;
+    --lk-color-node-worldview: #219180;
+    --lk-color-node-manuscript: #81878d;
+    --lk-color-favorite: #c8901a;
     --lk-color-diff-modify: #2a6e7f;
     --lk-color-diff-modify-bg: #eaf0f2;
     --lk-color-diff-add: #2360d7;
@@ -126,6 +144,12 @@
     --lk-color-diff-remove-bg: #f7eceb;
     --lk-color-diff-done: #3c714e;
     --lk-color-diff-done-bg: #ecf1ed;
+    --lk-color-surface-alpha0: #ffffff00;
+    --lk-color-shadow-menu: #00000026;
+    --lk-color-shadow-dialog: #00000033;
+    --lk-color-scrim-modal: #0000004d;
+    --lk-color-scrim-dialog: #00000059;
+    --lk-color-scrim-strong: #00000066;
   }
 }
 
@@ -136,6 +160,7 @@
   --color-surface-default: var(--lk-color-surface-default);
   --color-surface-raised: var(--lk-color-surface-raised);
   --color-surface-icon: var(--lk-color-surface-icon);
+  --color-surface-icon-hover: var(--lk-color-surface-icon-hover);
   --color-border-default: var(--lk-color-border-default);
   --color-text-primary: var(--lk-color-text-primary);
   --color-text-secondary: var(--lk-color-text-secondary);
@@ -143,6 +168,7 @@
   --color-accent-primary: var(--lk-color-accent-primary);
   --color-text-on-accent: var(--lk-color-text-on-accent);
   --color-state-selected: var(--lk-color-state-selected);
+  --color-state-hover: var(--lk-color-state-hover);
   --color-node-character: var(--lk-color-node-character);
   --color-node-place: var(--lk-color-node-place);
   --color-node-organization: var(--lk-color-node-organization);
@@ -159,6 +185,12 @@
   --color-diff-remove-bg: var(--lk-color-diff-remove-bg);
   --color-diff-done: var(--lk-color-diff-done);
   --color-diff-done-bg: var(--lk-color-diff-done-bg);
+  --color-surface-alpha0: var(--lk-color-surface-alpha0);
+  --color-shadow-menu: var(--lk-color-shadow-menu);
+  --color-shadow-dialog: var(--lk-color-shadow-dialog);
+  --color-scrim-modal: var(--lk-color-scrim-modal);
+  --color-scrim-dialog: var(--lk-color-scrim-dialog);
+  --color-scrim-strong: var(--lk-color-scrim-strong);
   --font-sans: var(--font-geist-sans), var(--lk-font-family-ui), sans-serif;
   --font-mono: var(--lk-font-family-mono), monospace;
 }

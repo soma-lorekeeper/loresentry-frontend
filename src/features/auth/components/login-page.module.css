@@ -86,7 +86,7 @@
 }
 
 .googleButton:hover {
-  background: var(--lk-color-state-selected);
+  background: var(--lk-color-state-hover);
 }
 
 .googleButton[data-processing="true"] {

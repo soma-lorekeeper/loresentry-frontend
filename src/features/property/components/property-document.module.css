@@ -278,7 +278,7 @@
 .addProperty:hover,
 .typeOption:hover,
 .referenceOption:hover {
-  background: var(--lk-color-state-selected);
+  background: var(--lk-color-state-hover);
 }
 
 .iconButton:focus-visible,
