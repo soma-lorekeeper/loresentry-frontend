@@ -84389,42 +84389,63 @@
               "content": "확정 4"
             },
             "b:f1itH": {
-              "stroke": "$b:color-diff-done",
-              "fill": "$b:color-diff-done-bg"
+              "stroke": "$b:color-border-default",
+              "fill": "#00000000"
+            },
+            "b:f1itH/b:VK1hI": {
+              "fill": "$b:color-text-secondary"
+            },
+            "b:f1itH/b:rQNHK": {
+              "fill": "$b:color-text-secondary"
             },
             "b:f1itH/b:IeQqI": {
               "enabled": false
             },
             "b:f1itH/b:RpxkD": {
-              "enabled": true
+              "enabled": true,
+              "fill": "$b:color-text-secondary"
             },
             "b:KJMdK": {
-              "stroke": "$b:color-diff-done",
-              "fill": "$b:color-diff-done-bg"
+              "stroke": "$b:color-border-default",
+              "fill": "#00000000"
+            },
+            "b:KJMdK/b:VK1hI": {
+              "fill": "$b:color-text-secondary"
+            },
+            "b:KJMdK/b:rQNHK": {
+              "fill": "$b:color-text-secondary"
             },
             "b:KJMdK/b:IeQqI": {
               "enabled": false
             },
             "b:KJMdK/b:RpxkD": {
-              "enabled": true
+              "enabled": true,
+              "fill": "$b:color-text-secondary"
             },
             "b:fOFBF": {
-              "stroke": "$b:color-diff-done",
-              "fill": "$b:color-diff-done-bg"
+              "stroke": "$b:color-border-default",
+              "fill": "#00000000"
+            },
+            "b:fOFBF/b:VK1hI": {
+              "fill": "$b:color-text-secondary"
+            },
+            "b:fOFBF/b:rQNHK": {
+              "fill": "$b:color-text-secondary"
             },
             "b:fOFBF/b:IeQqI": {
               "enabled": false
             },
             "b:fOFBF/b:RpxkD": {
-              "enabled": true
+              "enabled": true,
+              "fill": "$b:color-text-secondary"
             },
             "b:AT9xQ": {
-              "fill": "$b:color-diff-done-bg",
-              "stroke": "$b:color-diff-done"
+              "fill": "$b:color-surface-navigation",
+              "stroke": "$b:color-border-default"
             },
             "b:OtiTJ": {
               "content": "✓ 두 버전이 같아져서 반영이 끝났어요",
-              "fill": "$b:color-diff-done"
+              "fill": "$b:color-text-primary"
             },
             "b:b0hK4O": {
               "stroke": "$b:color-surface-icon"
