@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 
 const registryUrl = new URL(
   "../src/design-system/pencil-registry.json",
@@ -128,7 +129,7 @@ const colorFailures = [];
 for (const entry of sourceEntries) {
   if (!entry.isFile()) continue;
   const relativePath =
-    `${entry.parentPath.slice(new URL(sourceRoot).pathname.length)}/${entry.name}`.replace(
+    `${entry.parentPath.slice(fileURLToPath(sourceRoot).length)}/${entry.name}`.replace(
       /^\//,
       "",
     );
