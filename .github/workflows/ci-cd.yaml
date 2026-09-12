@@ -1,0 +1,83 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy-${{ github.repository }}
+  cancel-in-progress: true
+
+env:
+  AWS_REGION: ap-northeast-2
+  AWS_ACCOUNT_ID: "197179613039"
+
+  S3_BUCKET: loresentry-web-prod-197179613039
+  CLOUDFRONT_DISTRIBUTION_ID: E3L6QXQGVEJTYQ
+
+jobs:
+  build-verify-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify and build the static export
+        run: pnpm check:cdn
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6.2.3
+        with:
+          role-to-assume: ${{ vars.AWS_CI_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          allowed-account-ids: ${{ env.AWS_ACCOUNT_ID }}
+
+      - name: Upload fingerprinted assets
+        run: |
+          aws s3 sync out/_next/ "s3://$S3_BUCKET/_next/" \
+            --cache-control "public,max-age=31536000,immutable" \
+            --only-show-errors
+
+      - name: Upload HTML and remove stale objects
+        run: |
+          aws s3 sync out/ "s3://$S3_BUCKET/" --delete \
+            --exclude "_next/*" --exclude "config.json" \
+            --cache-control "public,max-age=60,must-revalidate" \
+            --only-show-errors
+
+      - name: Upload runtime config
+        run: |
+          aws s3 cp out/config.json "s3://$S3_BUCKET/config.json" \
+            --cache-control "no-cache,no-store,must-revalidate" \
+            --content-type application/json \
+            --only-show-errors
+
+      - name: Invalidate the CloudFront cache
+        run: |
+          INVALIDATION_ID=$(aws cloudfront create-invalidation \
+            --distribution-id "$CLOUDFRONT_DISTRIBUTION_ID" \
+            --paths "/*" \
+            --query Invalidation.Id --output text)
+          echo "Invalidation: $INVALIDATION_ID"
+          aws cloudfront wait invalidation-completed \
+            --distribution-id "$CLOUDFRONT_DISTRIBUTION_ID" \
+            --id "$INVALIDATION_ID"
