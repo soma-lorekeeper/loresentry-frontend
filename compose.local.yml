@@ -17,7 +17,7 @@ services:
     environment:
       COREPACK_ENABLE_DOWNLOAD_PROMPT: "0"
       pnpm_config_store_dir: /home/node/.local/share/pnpm/store
-      NEXT_PUBLIC_API_BASE_URL: http://localhost:8080
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
     ports:
       - "3000:3000"
     volumes:
