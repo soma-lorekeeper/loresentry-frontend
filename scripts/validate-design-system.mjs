@@ -25,21 +25,21 @@ const countBy = (items, key) =>
   );
 
 assert.deepEqual(registry.themes, { mode: ["dark", "light"] });
-assert.equal(registry.tokens.length, 33, "Pencil token count must stay at 33");
+assert.equal(registry.tokens.length, 64, "Pencil token count must stay at 64");
 assert.equal(
   registry.tokens.filter((token) => token.type === "color").length,
-  13,
-  "Pencil themed color count must stay at 13",
+  38,
+  "Pencil themed color count must stay at 38",
 );
 assert.equal(
   registry.tokens.filter((token) => token.type === "number").length,
-  19,
-  "Pencil number token count must stay at 19",
+  24,
+  "Pencil number token count must stay at 24",
 );
 assert.equal(
   registry.tokens.filter((token) => token.type === "string").length,
-  1,
-  "Pencil string token count must stay at 1",
+  2,
+  "Pencil string token count must stay at 2",
 );
 assert.ok(
   unique(registry.tokens.map((token) => token.name)),
@@ -54,8 +54,9 @@ for (const token of registry.tokens) {
   assert.match(token.cssVariable, /^--lk-[a-z0-9-]+$/);
   if (token.type === "color") {
     assert.deepEqual(Object.keys(token.value).sort(), ["dark", "light"]);
-    assert.match(token.value.dark, /^#[0-9A-F]{6}$/);
-    assert.match(token.value.light, /^#[0-9A-F]{6}$/);
+    // 알파 채널을 쓰는 그림자·스크림 토큰이 있어 8자리도 받는다
+    assert.match(token.value.dark, /^#[0-9A-F]{6}([0-9A-F]{2})?$/);
+    assert.match(token.value.light, /^#[0-9A-F]{6}([0-9A-F]{2})?$/);
     assert.match(
       tokenCss,
       new RegExp(`${token.cssVariable}: ${token.value.dark}`, "i"),
@@ -87,10 +88,10 @@ assert.deepEqual(
 
 assert.equal(
   registry.components.length,
-  109,
-  "Pencil component count must stay at 109",
+  115,
+  "Pencil component count must stay at 115",
 );
-assert.deepEqual(countBy(registry.components, "kind"), { base: 42, state: 67 });
+assert.deepEqual(countBy(registry.components, "kind"), { base: 51, state: 64 });
 assert.ok(
   unique(registry.components.map((component) => component.id)),
   "duplicate Pencil component id",

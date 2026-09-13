@@ -90,7 +90,7 @@
 .topic:hover,
 .card:focus-visible,
 .topic:focus-visible {
-  background: var(--lk-color-state-selected);
+  background: var(--lk-color-state-hover);
 }
 
 .card:focus-visible,

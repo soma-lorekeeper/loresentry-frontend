@@ -64,7 +64,7 @@
 .button:hover:not(:disabled),
 .iconButton:hover:not(:disabled),
 .menuItem:hover:not(:disabled) {
-  background: var(--lk-color-state-selected);
+  background: var(--lk-color-state-hover);
 }
 
 .button[data-variant="primary"]:hover:not(:disabled) {

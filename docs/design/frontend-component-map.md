@@ -7,8 +7,8 @@
 ## 단일 기준
 
 - 전체 매핑은 `src/design-system/pencil-registry.json`에 저장한다.
-- 변수 33개는 같은 이름의 `--lk-*` CSS 변수로 연결한다.
-- 재사용 컴포넌트 109개는 정확히 한 소유 영역을 가진다.
+- 변수 41개는 같은 이름의 `--lk-*` CSS 변수로 연결한다.
+- 재사용 컴포넌트 108개는 정확히 한 소유 영역을 가진다.
 - 매핑 수량과 이름·ID·CSS 변수 중복은 `pnpm validate:design-system`으로 검사한다.
 
 ## 코드 소유 영역
@@ -21,10 +21,22 @@
 | `ai-chat` | `src/features/ai-chat/components` | AI Chat 패널과 세션 상태 |
 | `memo` | `src/features/memo/components` | 메모 카드, 범위, 패널과 크기 조절 |
 | `property` | `src/features/property/components` | 속성 행, 유형 메뉴와 저장 상태 |
-| `timeline` | `src/features/timeline/components` | 사건 시간 항목, 편집과 저장 상태 |
+| `timeline` | `src/features/timeline/components` | 사건 시간 흐름 표, 회차 이동과 줄 고르기 |
+| `graph` | `src/features/graph/components` | 그래프 캔버스, 도구 패널, 범례와 노드 상세 |
+| `diff` | `src/features/diff/components` | 재추출 비교 모달, 문서 목록과 좌우 비교 |
 | `settings` | `src/features/settings/components` | 설정 필드, 저장 바와 확인 대화상자 |
 | `project-list` | `src/features/projects/components` | 프로젝트 목록, 카드와 전역 사용자 정보 |
 | `auth` | `src/features/auth/components` | Google 인증 행동, 상태 안내와 정책 안내 |
+
+### script 노드
+
+그래프 캔버스와 사건 시간 흐름 표는 노드 수백 개를 만들어야 해서 Pencil `script`
+노드로 그린다. `docs/design/graph-canvas.js`와 `docs/design/timeline-table.js`가
+그 원본이고, 두 파일은 Pencil 이 읽는 저작물이지 frontend 번들에 들어가지 않는다.
+
+스크립트가 만든 노드는 **인스턴스가 놓인 문서의 네임스페이스**로 변수를 푼다.
+그래서 두 스크립트 모두 `varPrefix` 입력을 받아 `lorekeeper.pen` 화면에서는
+`b:` 를 넘긴다. 접두사를 빠뜨리면 색이 통째로 풀린다.
 
 `base`는 독립적으로 조합할 수 있는 기본 구조이고 `state`는 같은 역할의 상호작용
 상태다. 상태별 화면을 별도 컴포넌트로 복제하지 않고 기본 구조의 variant와 상태

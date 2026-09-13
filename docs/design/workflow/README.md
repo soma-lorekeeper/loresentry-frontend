@@ -23,5 +23,6 @@
 - [메모 탭](./project-memos.md)
 - [메모 패널 배치](./memo-panel-layout.md)
 - [속성 문서 편집](./structured-file-editing.md)
+- [파일 헤더 동작](./file-header-actions.md)
 - [이벤트 시간 흐름 편집](./event-timeline-editing.md)
 - [작업공간 설정과 도움말](./workspace-settings-and-help.md)

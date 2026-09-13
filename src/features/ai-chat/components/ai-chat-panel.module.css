@@ -180,7 +180,7 @@
 .sessionTrigger:hover,
 .headerAction:hover,
 .sendButton:hover:not(:disabled) {
-  background: var(--lk-color-state-selected);
+  background: var(--lk-color-state-hover);
 }
 
 .sessionTrigger:focus-visible,

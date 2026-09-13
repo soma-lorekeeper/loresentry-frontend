@@ -40,6 +40,14 @@
 .userSummary:focus-visible,
 .userSummary[aria-expanded="true"] {
   border-color: var(--lk-color-border-default);
+}
+
+.userSummary:hover:not([aria-expanded="true"]),
+.userSummary:focus-visible:not([aria-expanded="true"]) {
+  background: var(--lk-color-state-hover);
+}
+
+.userSummary[aria-expanded="true"] {
   background: var(--lk-color-state-selected);
 }
 
@@ -112,7 +120,7 @@
 
 .userMenu button:hover,
 .userMenu button:focus-visible {
-  background: var(--lk-color-state-selected);
+  background: var(--lk-color-state-hover);
 }
 
 .userMenu button:focus-visible {
@@ -179,9 +187,9 @@
   font-weight: 600;
 }
 
-.navItem:hover,
-.navItem:focus-visible {
-  background: var(--lk-color-state-selected);
+.navItem:hover:not([aria-current="page"]),
+.navItem:focus-visible:not([aria-current="page"]) {
+  background: var(--lk-color-state-hover);
 }
 
 .navItem:focus-visible {
@@ -349,7 +357,7 @@
 
 .moreButton:hover {
   border-color: var(--lk-color-border-default);
-  background: var(--lk-color-state-selected);
+  background: var(--lk-color-state-hover);
 }
 
 .moreButton svg {
@@ -430,7 +438,7 @@
 
 .cardMenu button:hover,
 .cardMenu button:focus-visible {
-  background: var(--lk-color-state-selected);
+  background: var(--lk-color-state-hover);
 }
 
 .cardMenu button:focus-visible {
