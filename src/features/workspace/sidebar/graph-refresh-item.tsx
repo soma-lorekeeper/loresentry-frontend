@@ -42,6 +42,7 @@ export function GraphRefreshItem() {
           onClick={() => setReviewing(true)}
         />
         <GraphDiffModal
+          key={run.data.id}
           run={run.data}
           open={reviewing}
           onClose={() => setReviewing(false)}
