@@ -26,7 +26,7 @@ import {
   TRASHED_PROJECTS,
 } from "./seed-world";
 
-export const MOCK_DB_VERSION = 6;
+export const MOCK_DB_VERSION = 7;
 const STORAGE_KEY = "loresentry.mock.db";
 
 export interface StoredDocument {
@@ -401,20 +401,14 @@ function buildGlassGarden(now: number, db: MockDb) {
     "한 번도 길을 잃지 않았다",
     "길을 잃지 않았다",
   );
-  const today = new Date(now);
-  const at = (daysAgo: number, hour: number, minute: number) => {
-    const date = new Date(today);
-    date.setDate(date.getDate() - daysAgo);
-    date.setHours(hour, minute, 0, 0);
-    return Math.min(date.getTime(), now - 60_000);
-  };
+  const at = (minutesAgo: number) => now - minutesAgo * 60_000;
   db.versions.push(
     {
       id: "ver-lena-4",
       fileId: lenaId,
       kind: "NAMED",
       label: null,
-      createdAt: new Date(at(0, 15, 4)).toISOString(),
+      createdAt: new Date(at(42)).toISOString(),
       snapshot: snapshotOf(
         "타인의 기억이 남긴 방향을 감각으로 읽는 항해사",
         olderBody,
@@ -426,7 +420,7 @@ function buildGlassGarden(now: number, db: MockDb) {
       fileId: lenaId,
       kind: "AUTO",
       label: null,
-      createdAt: new Date(at(0, 9, 22)).toISOString(),
+      createdAt: new Date(at(60 * 5 + 20)).toISOString(),
       snapshot: snapshotOf(
         "타인의 기억이 남긴 방향을 감각으로 읽는 항해사",
         olderBody,
@@ -438,7 +432,7 @@ function buildGlassGarden(now: number, db: MockDb) {
       fileId: lenaId,
       kind: "NAMED",
       label: null,
-      createdAt: new Date(at(1, 22, 19)).toISOString(),
+      createdAt: new Date(at(60 * 27 + 10)).toISOString(),
       snapshot: snapshotOf("은빛 항해단의 항해사", olderBody, true),
     },
     {
@@ -446,7 +440,7 @@ function buildGlassGarden(now: number, db: MockDb) {
       fileId: lenaId,
       kind: "AUTO",
       label: null,
-      createdAt: new Date(at(15, 17, 40)).toISOString(),
+      createdAt: new Date(at(60 * 24 * 15 + 90)).toISOString(),
       snapshot: snapshotOf("항해사", olderBody, true),
     },
   );

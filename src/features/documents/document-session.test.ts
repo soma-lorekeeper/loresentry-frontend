@@ -136,4 +136,34 @@ describe("DocumentSession", () => {
     expect(session.getSnapshot()).toMatchObject({ status: "locked" });
     expect(session.getSnapshot().draft?.bodyMd).not.toBe("잠긴 문서");
   });
+
+  it("merges instead of overwriting when another save arrives while editing", async () => {
+    const { session } = await hydrated();
+    const original = session.getSnapshot().draft!;
+    const paragraphs = original.bodyMd.split("\n\n");
+
+    const other = new DocumentSession(fileId, mockDocuments, () => {});
+    other.hydrate(await mockDocuments.get(fileId));
+    other.update({
+      bodyMd: [
+        paragraphs[0],
+        paragraphs[1],
+        "다른 창에서 고친 마지막 문단",
+      ].join("\n\n"),
+    });
+    await vi.advanceTimersByTimeAsync(SAVE_IDLE_MS);
+
+    session.update({
+      bodyMd: ["이 창에서 고친 첫 문단", paragraphs[1], paragraphs[2]].join(
+        "\n\n",
+      ),
+    });
+    session.hydrate(await mockDocuments.get(fileId));
+    await vi.advanceTimersByTimeAsync(SAVE_IDLE_MS);
+    await vi.advanceTimersByTimeAsync(SAVE_IDLE_MS);
+
+    const stored = (await mockDocuments.get(fileId)).bodyMd;
+    expect(stored).toContain("이 창에서 고친 첫 문단");
+    expect(stored).toContain("다른 창에서 고친 마지막 문단");
+  });
 });

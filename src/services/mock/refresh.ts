@@ -259,6 +259,22 @@ export const mockRefresh: RefreshService = {
             );
           }
         }
+        // 서버 가정(TABLE_AND_LOGIC §7.6): 추출 뒤 실제 문서가 또 바뀌었으면 덮어쓰지 않는다(STALE).
+        for (const proposal of run.proposals) {
+          if (proposal.kind !== "modified" || proposal.baseRevisionNo === null)
+            continue;
+          const node = getDb().files.find((f) => f.id === proposal.fileId);
+          if (
+            node &&
+            isDocumentNode(node) &&
+            node.revisionNo !== proposal.baseRevisionNo
+          ) {
+            throw new ServiceError(
+              "validation",
+              `‘${proposal.title}’이 추출 뒤에 수정됐어요. 그래프를 다시 최신화해 주세요.`,
+            );
+          }
+        }
         for (const proposal of run.proposals) {
           const final = resolved[proposal.id];
           if (proposal.kind === "added") {

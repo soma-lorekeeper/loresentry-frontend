@@ -290,6 +290,7 @@ export function DocumentView({
     panels.memoOpen &&
     panels.memoDock === "right" &&
     workSize !== null &&
+    workSize.width > 0 &&
     workSize.width - panels.memoRightWidth < MIN_EDITOR_WIDTH;
   const closeMemo = () => {
     dispatch({ type: "setPanels", panels: { memoOpen: false } });
@@ -453,6 +454,7 @@ export function DocumentView({
         title={draft.title || "제목 없음"}
         current={{ ...draft, docType }}
         locked={locked}
+        unsaved={doc.status === "error" || doc.status === "conflict"}
         index={index}
         onClose={() => setVersionsOpen(false)}
         beforeSave={() => doc.session.save()}

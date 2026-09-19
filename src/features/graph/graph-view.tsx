@@ -189,7 +189,7 @@ export function GraphView() {
         <div className={styles.canvas}>
           {graph.isPending ? (
             <div className={styles.canvasLoading} aria-busy="true" />
-          ) : graph.isError || !data || !renderGraph ? (
+          ) : !data || !renderGraph ? (
             <EmptyState
               role="alert"
               icon="triangle-alert"

@@ -302,7 +302,7 @@ export function TimelineView() {
   );
 
   if (graph.isPending) return <div className={styles.view} aria-busy="true" />;
-  if (graph.isError || !graph.data || !table)
+  if (!graph.data || !table)
     return (
       <EmptyState
         role="alert"
@@ -323,6 +323,8 @@ export function TimelineView() {
     setSelected(stepColumn(table, current, dx, dy));
 
   const onKeyDown = (event: KeyboardEvent) => {
+    // 안쪽 단추(회차 머리글·줄 이름)가 받은 키는 그 단추가 처리한다.
+    if (event.target !== event.currentTarget) return;
     const keys: Record<string, [number, number]> = {
       ArrowLeft: [-1, 0],
       ArrowRight: [1, 0],

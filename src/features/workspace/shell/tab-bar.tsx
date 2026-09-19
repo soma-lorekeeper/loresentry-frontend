@@ -56,7 +56,7 @@ export function TabBar({ pane }: { pane: WorkspacePane }) {
       >
         {pane.tabs.map((tab, index) => {
           const selected = tab.id === pane.activeTabId;
-          const { icon, title } = present(tab.target);
+          const { icon, title } = present(tab.target, pane.id);
           return (
             <div
               key={tab.id}

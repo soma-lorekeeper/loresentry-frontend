@@ -9,16 +9,19 @@ import type { WorkspaceTarget } from "../model/layout";
 import { indexNodes, isDocument } from "../model/tree";
 import { useFileTree } from "../queries";
 import { WORKSPACE_VIEWS } from "../views/registry";
-import { useWorkspace } from "../workspace-context";
+import { tabKey, useWorkspace } from "../workspace-context";
 
 export function useTabPresentation() {
   const { projectId, tabLabels } = useWorkspace();
   const tree = useFileTree(projectId);
   const index = useMemo(() => indexNodes(tree.data ?? []), [tree.data]);
   return useCallback(
-    (target: WorkspaceTarget): { icon: IconName; title: string } => {
+    (
+      target: WorkspaceTarget,
+      paneId: string,
+    ): { icon: IconName; title: string } => {
       if (target.kind !== "file") {
-        const label = tabLabels.get(target.kind);
+        const label = tabLabels.get(tabKey(paneId, target.kind));
         if (label) return label;
         const view = WORKSPACE_VIEWS[target.kind];
         return { icon: view.icon, title: view.title };

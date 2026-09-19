@@ -41,9 +41,13 @@ interface WorkspaceContextValue {
     options?: { toSide?: boolean; paneId?: string },
   ) => void;
   closeTab: (paneId: string, tabId: string) => void;
-  registerCloseGuard: (tabId: string, guard: CloseGuard) => () => void;
+  registerCloseGuard: (
+    paneId: string,
+    tabId: string,
+    guard: CloseGuard,
+  ) => () => void;
   tabLabels: ReadonlyMap<string, TabLabel>;
-  setTabLabel: (tabId: string, label: TabLabel | null) => void;
+  setTabLabel: (paneId: string, tabId: string, label: TabLabel | null) => void;
 }
 
 export interface TabLabel {
@@ -52,6 +56,11 @@ export interface TabLabel {
 }
 
 export type CloseGuard = (proceed: () => void) => boolean;
+
+// 같은 뷰가 두 창에 동시에 열릴 수 있으므로(옆에 열기) 창까지 합쳐 탭을 가리킨다.
+export function tabKey(paneId: string, tabId: string) {
+  return `${paneId}/${tabId}`;
+}
 
 const WorkspaceContext = createContext<WorkspaceContextValue | null>(null);
 
@@ -101,30 +110,38 @@ export function WorkspaceProvider({
     () => new Map(),
   );
 
-  const setTabLabel = useCallback((tabId: string, label: TabLabel | null) => {
-    setTabLabels((current) => {
-      const existing = current.get(tabId);
-      if (existing?.icon === label?.icon && existing?.title === label?.title)
-        return current;
-      const next = new Map(current);
-      if (label) next.set(tabId, label);
-      else next.delete(tabId);
-      return next;
-    });
-  }, []);
+  const setTabLabel = useCallback(
+    (paneId: string, tabId: string, label: TabLabel | null) => {
+      const key = tabKey(paneId, tabId);
+      setTabLabels((current) => {
+        const existing = current.get(key);
+        if (existing?.icon === label?.icon && existing?.title === label?.title)
+          return current;
+        const next = new Map(current);
+        if (label) next.set(key, label);
+        else next.delete(key);
+        return next;
+      });
+    },
+    [],
+  );
 
   const guards = useRef(new Map<string, CloseGuard>());
 
-  const registerCloseGuard = useCallback((tabId: string, guard: CloseGuard) => {
-    guards.current.set(tabId, guard);
-    return () => {
-      if (guards.current.get(tabId) === guard) guards.current.delete(tabId);
-    };
-  }, []);
+  const registerCloseGuard = useCallback(
+    (paneId: string, tabId: string, guard: CloseGuard) => {
+      const key = tabKey(paneId, tabId);
+      guards.current.set(key, guard);
+      return () => {
+        if (guards.current.get(key) === guard) guards.current.delete(key);
+      };
+    },
+    [],
+  );
 
   const closeTab = useCallback((paneId: string, tabId: string) => {
     const proceed = () => dispatch({ type: "close", paneId, tabId });
-    const guard = guards.current.get(tabId);
+    const guard = guards.current.get(tabKey(paneId, tabId));
     if (guard?.(proceed)) {
       dispatch({ type: "activate", paneId, tabId });
       return;

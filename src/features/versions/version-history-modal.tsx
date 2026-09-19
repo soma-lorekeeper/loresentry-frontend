@@ -177,6 +177,7 @@ export function VersionHistoryModal({
   title,
   current,
   locked,
+  unsaved,
   index,
   onClose,
   beforeSave,
@@ -188,6 +189,8 @@ export function VersionHistoryModal({
   title: string;
   current: Snapshot;
   locked: boolean;
+  /** 저장하지 못한 편집이 남아 있다(저장 오류·충돌). 복원하면 그 편집을 잃는다 */
+  unsaved: boolean;
   index: ReadonlyMap<string, FileNode>;
   onClose: () => void;
   beforeSave: () => Promise<void>;
@@ -199,27 +202,47 @@ export function VersionHistoryModal({
   const mutations = useVersionMutations(fileId);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<DocumentVersion | null>(null);
+  const [preparing, setPreparing] = useState(false);
   const list = versions.data ?? [];
   const selected =
     list.find((version) => version.id === selectedId) ?? list[0] ?? null;
-  const busy = mutations.save.isPending || mutations.restore.isPending;
+  const busy =
+    preparing || mutations.save.isPending || mutations.restore.isPending;
+
+  const close = () => {
+    if (busy) return;
+    mutations.save.reset();
+    mutations.restore.reset();
+    mutations.remove.reset();
+    onClose();
+  };
 
   const saveVersion = async () => {
-    await beforeSave();
+    setPreparing(true);
+    try {
+      await beforeSave();
+    } finally {
+      setPreparing(false);
+    }
     mutations.save.mutate(undefined, {
       onSuccess: (version) => setSelectedId(version.id),
     });
   };
 
   const restore = async () => {
-    if (!selected) return;
-    await beforeSave();
+    if (!selected || unsaved) return;
+    setPreparing(true);
+    try {
+      await beforeSave();
+    } finally {
+      setPreparing(false);
+    }
     mutations.restore.mutate(
       { versionId: selected.id, revision: currentRevision() },
       {
         onSuccess: (content) => {
           onRestored(content);
-          onClose();
+          close();
         },
       },
     );
@@ -234,7 +257,7 @@ export function VersionHistoryModal({
   return (
     <Modal
       open={open}
-      onClose={onClose}
+      onClose={close}
       labelledBy={titleId}
       className={styles.modal}
       dismissible={!busy}
@@ -247,7 +270,7 @@ export function VersionHistoryModal({
           icon="x"
           iconSize={16}
           label="버전 기록 닫기"
-          onClick={onClose}
+          onClick={close}
           disabled={busy}
         />
       </header>
@@ -316,11 +339,18 @@ export function VersionHistoryModal({
           )}
           {error && <InlineNotice icon="circle-alert">{error}</InlineNotice>}
           <footer className={styles.footer}>
-            {locked && (
+            {locked ? (
               <span className={styles.lockedHint}>
                 <Icon name="lock" size={14} />
                 잠긴 문서는 버전을 저장하거나 복원할 수 없어요.
               </span>
+            ) : (
+              unsaved && (
+                <span className={styles.lockedHint}>
+                  <Icon name="circle-alert" size={14} />
+                  저장하지 못한 편집이 있어요. 먼저 저장해야 복원할 수 있어요.
+                </span>
+              )
             )}
             <Button
               size="md"
@@ -338,7 +368,7 @@ export function VersionHistoryModal({
                 variant="primary"
                 icon="rotate-ccw"
                 busy={mutations.restore.isPending}
-                disabled={locked || busy}
+                disabled={locked || unsaved || busy}
                 onClick={() => void restore()}
               >
                 이 버전으로 복원

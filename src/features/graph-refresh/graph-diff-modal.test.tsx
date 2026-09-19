@@ -2,7 +2,14 @@ import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
-import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
+import { GLASS_GARDEN_ID, getDb, resetDb } from "@/services/mock/db";
+import { clearMockRules, setMockLatency } from "@/services/mock/control";
+import { createMockServices } from "@/services/mock";
+import { mockRefresh } from "@/services/mock/refresh";
+import { ServicesProvider } from "@/services/services-context";
+import { ToastProvider } from "@/design-system/primitives";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render } from "@testing-library/react";
 import type { RefreshRun } from "@/domain/models";
 import { renderWithServices, routerMock } from "@/test/render";
 import { createLayout } from "@/features/workspace/model/layout";
@@ -71,5 +78,45 @@ describe("GraphDiffModal", () => {
       within(dialog).getByRole("button", { name: "신규 버전 전체 반영" }),
     );
     await waitFor(() => expect(confirm).toBeEnabled());
+  });
+
+  it("applies the resolved drafts to the documents", async () => {
+    resetDb();
+    clearMockRules();
+    setMockLatency(0);
+    await mockRefresh.start(GLASS_GARDEN_ID);
+    (
+      getDb().refreshRuns[GLASS_GARDEN_ID] as unknown as { readyAt: number }
+    ).readyAt = 0;
+    const run = await mockRefresh.current(GLASS_GARDEN_ID);
+    expect(run.status).toBe("READY");
+    const harin = run.proposals.find((p) => p.kind === "modified")!;
+    const onClose = vi.fn();
+    const actor = userEvent.setup();
+    render(
+      <QueryClientProvider client={new QueryClient()}>
+        <ServicesProvider services={createMockServices()}>
+          <ToastProvider>
+            <WorkspaceProvider
+              project={getDb().projects.find((p) => p.id === GLASS_GARDEN_ID)!}
+              user={user}
+              initialLayout={createLayout()}
+            >
+              <GraphDiffModal run={run} open onClose={onClose} />
+            </WorkspaceProvider>
+          </ToastProvider>
+        </ServicesProvider>
+      </QueryClientProvider>,
+    );
+    const dialog = await screen.findByRole("dialog");
+    await actor.click(
+      within(dialog).getByRole("button", { name: "신규 버전 전체 반영" }),
+    );
+    await actor.click(
+      within(dialog).getByRole("button", { name: "반영 확정" }),
+    );
+    await waitFor(() => expect(onClose).toHaveBeenCalled());
+    expect(getDb().documents[harin.fileId].bodyMd).toBe(harin.proposed!.bodyMd);
+    expect(getDb().refreshRuns[GLASS_GARDEN_ID].status).toBe("APPLIED");
   });
 });

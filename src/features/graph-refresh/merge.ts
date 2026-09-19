@@ -280,12 +280,17 @@ export function isResolved(state: MergeState, docId: string): boolean {
   return remainingOf(state, docId) === 0;
 }
 
-/** 확정할 값. 왼쪽 최종값이고, 왼쪽에서 사라졌으면 null 이다 */
+/**
+ * 확정할 값. 제안 id 를 열쇠로, 왼쪽 최종값을 담는다. 왼쪽에서 사라졌으면 null 이다.
+ *
+ * 서버(RefreshService.apply)는 제안 단위로 결과를 받는다 — 새로 생길 문서는 아직
+ * 파일 id 가 없기 때문이다.
+ */
 export function resolvedDrafts(
   state: MergeState,
-  docIds: readonly string[],
+  proposals: readonly { id: string; fileId: string }[],
 ): Record<string, DocumentDraft | null> {
   return Object.fromEntries(
-    docIds.map((id) => [id, state.left.get(id) ?? null]),
+    proposals.map((p) => [p.id, state.left.get(p.fileId) ?? null]),
   );
 }

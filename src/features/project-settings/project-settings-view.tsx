@@ -118,9 +118,11 @@ function TrashDialog({
 }
 
 function SettingsForm({
+  paneId,
   tabId,
   initial,
 }: {
+  paneId: string;
   tabId: string;
   initial: ProjectSettings;
 }) {
@@ -137,12 +139,12 @@ function SettingsForm({
   const dirty = changes.length > 0;
   useEffect(
     () =>
-      registerCloseGuard(tabId, (proceed) => {
+      registerCloseGuard(paneId, tabId, (proceed) => {
         if (!dirty) return false;
         setLeaving(() => proceed);
         return true;
       }),
-    [registerCloseGuard, tabId, dirty],
+    [registerCloseGuard, paneId, tabId, dirty],
   );
 
   useEffect(() => {
@@ -320,7 +322,7 @@ function SettingsForm({
   );
 }
 
-export function ProjectSettingsView({ tab }: WorkspaceViewProps) {
+export function ProjectSettingsView({ tab, paneId }: WorkspaceViewProps) {
   const { projectId } = useWorkspace();
   const settings = useProjectSettings(projectId);
 
@@ -355,7 +357,7 @@ export function ProjectSettingsView({ tab }: WorkspaceViewProps) {
           }
         />
       ) : (
-        <SettingsForm tabId={tab.id} initial={settings.data} />
+        <SettingsForm paneId={paneId} tabId={tab.id} initial={settings.data} />
       )}
     </div>
   );

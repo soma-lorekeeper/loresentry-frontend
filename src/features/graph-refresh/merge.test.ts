@@ -62,7 +62,7 @@ describe("merge", () => {
       state = pushBodyHunk(state, "a", hunk, "<<");
     }
     expect(isResolved(state, "a")).toBe(true);
-    const result = resolvedDrafts(state, ["a"]).a!;
+    const result = resolvedDrafts(state, [{ id: "p", fileId: "a" }]).p!;
     expect(result.bodyMd).toBe("가\n\n나나\n\n다\n\n라");
     expect(result.properties.map((p) => p.key)).toEqual(["description"]);
   });
@@ -73,7 +73,7 @@ describe("merge", () => {
     expect(isResolved(taken, "n")).toBe(true);
     const dropped = pushDocument(added, "n", ">>");
     expect(isResolved(dropped, "n")).toBe(true);
-    expect(resolvedDrafts(dropped, ["n"]).n).toBeNull();
+    expect(resolvedDrafts(dropped, [{ id: "q", fileId: "n" }]).q).toBeNull();
     expect(resetDocument(dropped, "n", added).right.get("n")).toBe(proposed);
   });
 });

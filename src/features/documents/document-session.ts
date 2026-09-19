@@ -107,11 +107,9 @@ export class DocumentSession {
       if (status !== this.snapshot.status) this.set({ status });
       return;
     }
-    if (this.dirty || this.inFlight) {
-      if (content.revisionNo > this.revision)
-        this.revision = content.revisionNo;
-      return;
-    }
+    // 편집 중에 다른 곳의 저장이 도착하면 revision 을 올리지 않는다. 그래야 다음 저장이
+    // 409 를 받아 문단 병합(resolveConflict)으로 넘어간다. 올려 버리면 그 저장이 새 내용을 덮어쓴다.
+    if (this.dirty || this.inFlight) return;
     this.replace(content);
   }
 

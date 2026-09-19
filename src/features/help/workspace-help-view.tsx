@@ -328,12 +328,16 @@ export function WorkspaceHelpView({ tab, paneId }: WorkspaceViewProps) {
 
   useEffect(() => {
     setTabLabel(
+      paneId,
       tab.id,
       page.kind === "home" ? null : { icon: "book-open", title: "사용 가이드" },
     );
-  }, [page.kind, setTabLabel, tab.id]);
+  }, [page.kind, paneId, setTabLabel, tab.id]);
 
-  useEffect(() => () => setTabLabel(tab.id, null), [setTabLabel, tab.id]);
+  useEffect(
+    () => () => setTabLabel(paneId, tab.id, null),
+    [paneId, setTabLabel, tab.id],
+  );
 
   const go = (next: HelpPage) => {
     setPage(next);
@@ -401,10 +405,20 @@ export function WorkspaceHelpView({ tab, paneId }: WorkspaceViewProps) {
         />
       )}
       {page.kind === "topics" &&
-        (guides.isPending ? (
-          loading
-        ) : guides.isError ? (
-          loadError
+        (guides.isPending || guides.isError ? (
+          <div className={styles.home}>
+            <header className={styles.inlineHeader}>
+              <Button
+                size="md"
+                icon="arrow-left"
+                onClick={() => go({ kind: "home" })}
+              >
+                도움말로 돌아가기
+              </Button>
+              <h1 className={styles.pageTitle}>사용 가이드</h1>
+            </header>
+            {guides.isPending ? loading : loadError}
+          </div>
         ) : (
           <GuideTopics
             topics={guides.data}
@@ -432,6 +446,7 @@ export function WorkspaceHelpView({ tab, paneId }: WorkspaceViewProps) {
             loadError
           ) : (
             <GuideArticle
+              key={topic.id}
               topic={topic}
               topics={guides.data}
               onOpen={(id) => go({ kind: "topic", id })}

@@ -22,6 +22,7 @@ import type {
 import { indexNodes, isDocument } from "@/features/workspace/model/tree";
 import { useFileTree } from "@/features/workspace/queries";
 import { useWorkspace } from "@/features/workspace/workspace-context";
+import { isServiceError } from "@/services/errors";
 import { cx } from "@/shared/cx";
 
 import styles from "./graph-diff-modal.module.css";
@@ -363,7 +364,7 @@ export function GraphDiffModal({
 
   const confirm = () =>
     actions.apply.mutate(
-      { runId: run.id, resolved: resolvedDrafts(state, ids) },
+      { runId: run.id, resolved: resolvedDrafts(state, proposals) },
       {
         onSuccess: () => {
           onClose();
@@ -522,7 +523,11 @@ export function GraphDiffModal({
           )}
           {actions.apply.isError && (
             <InlineNotice icon="circle-alert">
-              변경 사항을 반영하지 못했어요. 고른 내용은 그대로 남아 있어요.
+              {isServiceError(actions.apply.error) &&
+              actions.apply.error.code === "validation"
+                ? actions.apply.error.message
+                : "변경 사항을 반영하지 못했어요."}{" "}
+              고른 내용은 그대로 남아 있어요.
             </InlineNotice>
           )}
         </div>
