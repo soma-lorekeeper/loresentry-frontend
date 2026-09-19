@@ -48,7 +48,7 @@ import { FileHeader } from "./file-header";
 import { PropertyTable } from "./property-table";
 import { useDocumentSession } from "./use-document-session";
 
-const MIN_EDITOR_WIDTH = 560;
+const MIN_EDITOR_WIDTH = 640;
 
 function BodyEditor({
   markdown,

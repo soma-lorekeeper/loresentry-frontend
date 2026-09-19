@@ -30,7 +30,7 @@ export const mockChat: ChatService = {
       const session: ChatSession = {
         id: nextId("chat"),
         projectId,
-        title: "새 대화",
+        title: "새 채팅",
         updatedAt: new Date().toISOString(),
       };
       getDb().chatSessions.push(session);
@@ -79,7 +79,7 @@ export const mockChat: ChatService = {
       const session = db.chatSessions.find((s) => s.id === sessionId);
       if (session) {
         session.updatedAt = userMessage.createdAt;
-        if (session.title === "새 대화") session.title = content.slice(0, 18);
+        if (session.title === "새 채팅") session.title = content.slice(0, 18);
       }
       persistDb();
     });

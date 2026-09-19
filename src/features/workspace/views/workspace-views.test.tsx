@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
+import { ChatPanel } from "@/features/chat/chat-panel";
 import { MemoView } from "@/features/memos/memo-view";
 import { FileTrashView } from "@/features/file-trash/file-trash-view";
 import { ProjectSettingsView } from "@/features/project-settings/project-settings-view";
@@ -192,5 +193,36 @@ describe("workspace views", () => {
         before - 1,
       ),
     );
+  });
+
+  it("streams an AI reply and can stop it without keeping the partial", async () => {
+    const actor = userEvent.setup();
+    renderInWorkspace("new", <ChatPanel />);
+    const input = await screen.findByRole("textbox", { name: "메시지" });
+    await waitFor(() => expect(input).toBeEnabled());
+    await actor.type(input, "장면을 다듬어 줘{Enter}");
+    const stop = await screen.findByRole("button", { name: "응답 중단" });
+    await actor.click(stop);
+    expect(
+      await screen.findByText(/미완성 답변은 기록에 남기지 않았어요/),
+    ).toBeInTheDocument();
+    const stored = getDb().chatMessages.filter((m) => m.role === "assistant");
+    expect(stored.every((m) => m.content.length > 0)).toBe(true);
+    expect(
+      getDb().chatMessages.some((m) => m.content === "장면을 다듬어 줘"),
+    ).toBe(true);
+  });
+
+  it("deletes a chat session after confirming in the panel", async () => {
+    const actor = userEvent.setup();
+    renderInWorkspace("new", <ChatPanel />);
+    const before = getDb().chatSessions.length;
+    await actor.click(
+      await screen.findByRole("button", { name: "채팅 세션 메뉴" }),
+    );
+    await actor.click(await screen.findByRole("menuitem", { name: "삭제" }));
+    const dialog = await screen.findByRole("alertdialog");
+    await actor.click(within(dialog).getByRole("button", { name: "삭제" }));
+    await waitFor(() => expect(getDb().chatSessions).toHaveLength(before - 1));
   });
 });
