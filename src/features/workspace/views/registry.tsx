@@ -1,5 +1,6 @@
 import { FileTrashView } from "@/features/file-trash/file-trash-view";
 import { GraphView } from "@/features/graph/graph-view";
+import { TimelineView } from "@/features/timeline/timeline-view";
 import { WorkspaceHelpView } from "@/features/help/workspace-help-view";
 import { MemoView } from "@/features/memos/memo-view";
 import { ProjectSettingsView } from "@/features/project-settings/project-settings-view";
@@ -7,7 +8,6 @@ import { SearchView } from "@/features/search/search-view";
 
 import type { WorkspaceViewKind } from "../model/layout";
 import { NewTabView } from "./new-tab-view";
-import { PlannedView } from "./planned-view";
 import type { WorkspaceViewDefinition } from "./view-types";
 
 export const WORKSPACE_VIEWS: Record<
@@ -36,7 +36,7 @@ export const WORKSPACE_VIEWS: Record<
     kind: "timeline",
     icon: "chart-no-axes-gantt",
     title: "타임라인",
-    render: () => <PlannedView title="타임라인" />,
+    render: () => <TimelineView />,
   },
   memo: {
     kind: "memo",
