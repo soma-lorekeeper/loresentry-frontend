@@ -10,6 +10,7 @@ interface SidebarItemBase {
   icon: IconName;
   label: string;
   selected?: boolean;
+  strong?: boolean;
   trailing?: ReactNode;
   className?: string;
 }
@@ -18,6 +19,7 @@ export function SidebarLink({
   icon,
   label,
   selected,
+  strong,
   trailing,
   className,
   href,
@@ -25,7 +27,7 @@ export function SidebarLink({
   return (
     <Link
       href={href}
-      className={cx(styles.item, className)}
+      className={cx(styles.item, strong && styles.strong, className)}
       aria-current={selected ? "page" : undefined}
     >
       <Icon name={icon} size={15} />
@@ -39,6 +41,7 @@ export function SidebarButton({
   icon,
   label,
   selected,
+  strong,
   trailing,
   className,
   ...rest
@@ -46,7 +49,7 @@ export function SidebarButton({
   return (
     <button
       type="button"
-      className={cx(styles.item, className)}
+      className={cx(styles.item, strong && styles.strong, className)}
       data-selected={selected || undefined}
       {...rest}
     >

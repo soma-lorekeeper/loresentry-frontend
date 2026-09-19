@@ -69,12 +69,14 @@ export function ProjectShell({
           icon="layout-grid"
           label="프로젝트 목록"
           selected={section === "list"}
+          strong
         />
         <SidebarLink
           href="/projects/trash"
           icon="trash-2"
           label="프로젝트 휴지통"
           selected={section === "trash"}
+          strong
         />
         <div className={styles.spacer} />
         <SidebarLink
@@ -82,6 +84,7 @@ export function ProjectShell({
           icon="book-open"
           label="사용 가이드"
           selected={section === "guide"}
+          strong
         />
         <SidebarButton
           icon="message-square"

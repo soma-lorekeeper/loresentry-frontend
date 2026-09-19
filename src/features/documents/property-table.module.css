@@ -1,0 +1,235 @@
+.table {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--lk-color-border-default);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-4);
+  min-height: var(--lk-property-row-height);
+  padding: 3px 0;
+  border-top: 1px solid var(--lk-color-border-default);
+}
+
+.identity {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--lk-space-1);
+  width: var(--lk-property-label-width);
+  height: 28px;
+  padding: 0 var(--lk-space-1);
+  color: var(--lk-color-text-secondary);
+  font-weight: 500;
+}
+
+.identityButton {
+  width: 22px;
+  height: 22px;
+}
+
+.identityName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.value {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  min-height: 28px;
+  padding: 0 7px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+}
+
+.value:hover:not([aria-disabled="true"]),
+.value:focus-within {
+  border-color: var(--lk-color-border-default);
+}
+
+.textInput {
+  flex: 1;
+  min-width: 0;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--lk-color-text-primary);
+}
+
+.textInput::placeholder {
+  color: var(--lk-color-text-secondary);
+}
+
+.fileValue {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 26px;
+  border-radius: 7px;
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+}
+
+.fileValue > svg,
+.chip > svg {
+  flex: none;
+  color: var(--lk-color-icon-default);
+}
+
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 220px;
+  height: 28px;
+  padding: 0 7px;
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: 7px;
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+}
+
+.chip:hover {
+  background: var(--lk-color-state-hover);
+}
+
+.chipLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chipRemove {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-right: -3px;
+  border-radius: var(--lk-radius-control);
+  color: var(--lk-color-icon-default);
+}
+
+.chip:hover .chipRemove,
+.chipRemove:focus-visible {
+  display: inline-flex;
+}
+
+.chipRemove:hover {
+  background: var(--lk-color-surface-icon-hover);
+}
+
+.addChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--lk-radius-control);
+  color: var(--lk-color-icon-default);
+  opacity: 0;
+}
+
+.value:hover .addChip,
+.addChip:focus-visible,
+.addChip[aria-expanded="true"] {
+  opacity: 1;
+}
+
+.addChip:hover {
+  background: var(--lk-color-state-hover);
+}
+
+.emptyValue {
+  color: var(--lk-color-text-secondary);
+}
+
+.addProperty {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: var(--lk-space-1);
+  height: 28px;
+  padding: 0 var(--lk-space-1);
+  border-radius: var(--lk-radius-control);
+  color: var(--lk-color-text-secondary);
+  font-weight: 500;
+}
+
+.addProperty > svg {
+  color: var(--lk-color-icon-default);
+}
+
+.addProperty:hover,
+.addProperty[aria-expanded="true"] {
+  background: var(--lk-color-state-hover);
+}
+
+.picker {
+  display: flex;
+  flex-direction: column;
+  width: 260px;
+  max-height: 320px;
+  padding: var(--lk-space-2);
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-raised);
+  box-shadow: 0 4px 16px var(--lk-color-shadow-menu);
+}
+
+.pickerSearch {
+  height: 32px;
+  margin-bottom: var(--lk-space-1);
+  padding: 0 var(--lk-space-3);
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  outline: none;
+  background: var(--lk-color-surface-default);
+  color: var(--lk-color-text-primary);
+}
+
+.pickerList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+}
+
+.pickerItem {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--lk-space-2);
+  height: 32px;
+  padding: 0 var(--lk-space-3);
+  border-radius: var(--lk-radius-control);
+  text-align: left;
+}
+
+.pickerItem > svg {
+  flex: none;
+  color: var(--lk-color-icon-default);
+}
+
+.pickerItem:hover,
+.pickerItem:focus-visible,
+.pickerItem[data-active="true"] {
+  background: var(--lk-color-state-hover);
+  outline: none;
+}
+
+.pickerEmpty {
+  padding: var(--lk-space-3);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}

@@ -76,3 +76,7 @@
   font-size: var(--lk-font-size-label);
   font-weight: 600;
 }
+
+.item > .check {
+  color: var(--lk-color-accent-primary);
+}

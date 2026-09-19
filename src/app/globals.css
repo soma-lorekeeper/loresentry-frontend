@@ -74,3 +74,22 @@ ol {
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+@media print {
+  body.lk-printing * {
+    visibility: hidden;
+  }
+
+  body.lk-printing [data-print-root],
+  body.lk-printing [data-print-root] * {
+    visibility: visible;
+  }
+
+  body.lk-printing [data-print-root] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    color: #000;
+  }
+}

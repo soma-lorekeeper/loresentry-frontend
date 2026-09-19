@@ -159,6 +159,9 @@ export function Menu({
               {entry.hint && (
                 <span className={styles.itemHint}>{entry.hint}</span>
               )}
+              {entry.checked && (
+                <Icon name="check" size={14} className={styles.check} />
+              )}
             </button>
           );
         })}

@@ -1,0 +1,211 @@
+.toolbar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--lk-space-1);
+  height: 42px;
+  padding: 3px var(--lk-space-3);
+  border-bottom: 1px solid var(--lk-color-border-default);
+  background: var(--lk-color-surface-default);
+  overflow: hidden;
+}
+
+.toolbar[aria-disabled="true"] .controls {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.controls {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--lk-space-1);
+  min-width: 0;
+}
+
+.group {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--lk-space-1);
+}
+
+.separator {
+  flex: none;
+  width: 1px;
+  height: 24px;
+  margin: 0 var(--lk-space-1);
+  background: var(--lk-color-border-default);
+}
+
+.tool {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--lk-radius-control);
+  color: var(--lk-color-icon-default);
+}
+
+.tool:hover:not(:disabled) {
+  background: var(--lk-color-state-hover);
+}
+
+.tool[aria-pressed="true"] {
+  background: var(--lk-color-state-selected);
+}
+
+.tool:disabled {
+  opacity: 0.4;
+}
+
+.select {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--lk-space-2);
+  height: 32px;
+  padding: 0 var(--lk-space-2);
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}
+
+.select > span {
+  flex: 1;
+  text-align: left;
+}
+
+.select > svg {
+  flex: none;
+  color: var(--lk-color-icon-default);
+}
+
+.select:hover,
+.select[aria-expanded="true"] {
+  background: var(--lk-color-state-hover);
+}
+
+.labelTool {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--lk-space-2);
+  height: 32px;
+  padding: 0 var(--lk-space-2);
+  border-radius: var(--lk-radius-control);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}
+
+.labelTool > svg {
+  color: var(--lk-color-icon-default);
+}
+
+.labelTool:hover,
+.labelTool[aria-pressed="true"],
+.labelTool[aria-expanded="true"] {
+  background: var(--lk-color-state-hover);
+}
+
+.more {
+  border: 1px solid var(--lk-color-border-default);
+}
+
+.status {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--lk-space-4);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  white-space: nowrap;
+}
+
+.saveState {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+}
+
+.saveState > svg {
+  color: var(--lk-color-icon-default);
+}
+
+.saveError {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+  height: 32px;
+  padding: 0 var(--lk-space-3);
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-raised);
+  color: var(--lk-color-text-primary);
+  font-weight: 500;
+}
+
+.saveError > svg {
+  color: var(--lk-color-icon-default);
+}
+
+.retry {
+  color: var(--lk-color-accent-primary);
+  font-weight: 600;
+}
+
+.counts {
+  display: flex;
+  gap: var(--lk-space-3);
+}
+
+.spin {
+  animation: spin 900ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.findBar {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--lk-space-2);
+  padding: var(--lk-space-2) var(--lk-space-3);
+  border-bottom: 1px solid var(--lk-color-border-default);
+  background: var(--lk-color-surface-default);
+}
+
+.findInput {
+  width: 200px;
+  height: 30px;
+  padding: 0 var(--lk-space-3);
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  outline: none;
+  background: var(--lk-color-bg-canvas);
+  color: var(--lk-color-text-primary);
+}
+
+.findInput:focus-visible {
+  outline: 2px solid var(--lk-color-accent-primary);
+  outline-offset: -1px;
+}
+
+.findCount {
+  min-width: 56px;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  font-variant-numeric: tabular-nums;
+}
+
+.findSpacer {
+  flex: 1;
+}

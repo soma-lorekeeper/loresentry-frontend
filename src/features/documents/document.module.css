@@ -1,0 +1,201 @@
+.view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.below {
+  flex-direction: column;
+}
+
+.canvasScroll {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--lk-color-surface-default);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-2);
+  width: 100%;
+  max-width: calc(var(--lk-doc-content-width) + var(--lk-space-7) * 2);
+  margin: 0 auto;
+  padding: 56px var(--lk-space-7) 120px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-1);
+}
+
+.title {
+  min-width: 2ch;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--lk-color-text-primary);
+  font-size: var(--lk-font-size-manuscript-title);
+  font-weight: 700;
+  line-height: var(--lk-line-height-manuscript-title);
+  field-sizing: content;
+}
+
+.title::placeholder {
+  color: var(--lk-color-text-secondary);
+}
+
+.favorite {
+  width: 28px;
+  height: 28px;
+}
+
+.favorite[aria-pressed="true"] {
+  background: transparent;
+}
+
+.favorite[aria-pressed="true"] svg {
+  color: var(--lk-color-favorite-on);
+  fill: var(--lk-color-favorite-on);
+}
+
+.lockedNotice {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}
+
+.lockedNotice > svg {
+  color: var(--lk-color-accent-primary);
+}
+
+.editor {
+  color: var(--lk-color-text-primary);
+  font-family: var(--editor-font, var(--lk-font-stack-ui));
+  font-size: var(--editor-size, var(--lk-font-size-manuscript-body));
+  line-height: var(--editor-line-height, var(--lk-line-height-manuscript-body));
+  text-align: var(--editor-align, left);
+}
+
+.editor :global(.ProseMirror) {
+  min-height: 240px;
+  outline: none;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.editor :global(.ProseMirror) > * + * {
+  margin-top: 1em;
+}
+
+.editor :global(.ProseMirror h1),
+.editor :global(.ProseMirror h2),
+.editor :global(.ProseMirror h3) {
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.editor :global(.ProseMirror h1) {
+  font-size: 1.5em;
+}
+
+.editor :global(.ProseMirror h2) {
+  font-size: 1.3em;
+}
+
+.editor :global(.ProseMirror h3) {
+  font-size: 1.12em;
+}
+
+.editor :global(.ProseMirror ul),
+.editor :global(.ProseMirror ol) {
+  padding-left: 1.4em;
+}
+
+.editor :global(.ProseMirror ul) {
+  list-style: disc;
+}
+
+.editor :global(.ProseMirror ol) {
+  list-style: decimal;
+}
+
+.editor :global(.ProseMirror li + li) {
+  margin-top: 0.25em;
+}
+
+.editor :global(.ProseMirror blockquote) {
+  padding-left: var(--lk-space-4);
+  border-left: 2px solid var(--lk-color-border-default);
+  color: var(--lk-color-text-secondary);
+}
+
+.editor :global(.ProseMirror code) {
+  padding: 1px 4px;
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-icon);
+  font-family: var(--lk-font-stack-mono);
+  font-size: 0.9em;
+}
+
+.editor :global(.ProseMirror pre) {
+  padding: var(--lk-space-3);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-icon);
+  font-family: var(--lk-font-stack-mono);
+}
+
+.editor :global(.ProseMirror pre code) {
+  padding: 0;
+  background: none;
+}
+
+.editor :global(.ProseMirror hr) {
+  border: 0;
+  border-top: 1px solid var(--lk-color-border-default);
+}
+
+.editor :global(.ProseMirror a) {
+  color: var(--lk-color-accent-primary);
+  text-decoration: underline;
+}
+
+.editor :global(.ProseMirror p.is-editor-empty:first-child::before) {
+  float: left;
+  height: 0;
+  color: var(--lk-color-text-secondary);
+  content: attr(data-placeholder);
+  pointer-events: none;
+}
+
+.editor :global(.lk-find-match) {
+  border-radius: 2px;
+  background: var(--lk-color-diff-modify-bg);
+  box-shadow: 0 0 0 1px var(--lk-color-diff-modify);
+}
+
+.editor :global(.lk-find-current) {
+  background: var(--lk-color-accent-primary);
+  color: var(--lk-color-text-on-accent);
+}
+
+.state {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
