@@ -3,6 +3,7 @@ export type DataSource = "mock" | "api";
 export interface RuntimeConfig {
   apiBaseUrl: string;
   dataSource: DataSource;
+  feedbackUrl: string;
   privacyPolicyUrl: string;
   termsOfServiceUrl: string;
 }
@@ -10,6 +11,7 @@ export interface RuntimeConfig {
 export const DEFAULT_RUNTIME_CONFIG: RuntimeConfig = {
   apiBaseUrl: "",
   dataSource: "mock",
+  feedbackUrl: "",
   privacyPolicyUrl: "",
   termsOfServiceUrl: "",
 };
@@ -31,6 +33,7 @@ export function parseRuntimeConfig(value: unknown): RuntimeConfig {
     apiBaseUrl: absoluteHttpUrl(raw.apiBaseUrl),
     // 백엔드 API가 준비되기 전까지 기본값은 mock이다. api로 바꾸려면 services/api 어댑터가 필요하다.
     dataSource: raw.dataSource === "api" ? "api" : "mock",
+    feedbackUrl: absoluteHttpUrl(raw.feedbackUrl),
     privacyPolicyUrl: absoluteHttpUrl(raw.privacyPolicyUrl),
     termsOfServiceUrl: absoluteHttpUrl(raw.termsOfServiceUrl),
   };

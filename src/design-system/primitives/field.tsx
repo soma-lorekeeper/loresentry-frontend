@@ -17,6 +17,7 @@ export type FieldDensity = "dialog" | "settings";
 interface FieldChromeProps {
   label: string;
   required?: boolean;
+  labelHint?: string;
   hint?: string;
   error?: string;
   maxLength?: number;
@@ -28,6 +29,7 @@ interface FieldChromeProps {
 function FieldChrome({
   label,
   required,
+  labelHint,
   hint,
   error,
   maxLength,
@@ -56,14 +58,18 @@ function FieldChrome({
         <label htmlFor={controlId} className={styles.label}>
           {label}
         </label>
-        {required && <span className={styles.required}>필수</span>}
+        {(required || labelHint) && (
+          <span className={cx(styles.required, labelHint && styles.labelHint)}>
+            {labelHint ?? "필수"}
+          </span>
+        )}
       </div>
       {children}
       {hasMeta && (
         <div className={styles.meta}>
           {error ? (
             <span id={messageId} className={styles.error} role="alert">
-              <Icon name="circle-alert" size={14} />
+              {density !== "settings" && <Icon name="circle-alert" size={14} />}
               {error}
             </span>
           ) : (
@@ -92,6 +98,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     {
       label,
       required,
+      labelHint,
       hint,
       error,
       maxLength,
@@ -110,6 +117,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       <FieldChrome
         label={label}
         required={required}
+        labelHint={labelHint}
         hint={hint}
         error={error}
         maxLength={maxLength}
@@ -149,6 +157,7 @@ export const TextAreaField = forwardRef<
   {
     label,
     required,
+    labelHint,
     hint,
     error,
     maxLength,
@@ -167,6 +176,7 @@ export const TextAreaField = forwardRef<
     <FieldChrome
       label={label}
       required={required}
+      labelHint={labelHint}
       hint={hint}
       error={error}
       maxLength={maxLength}

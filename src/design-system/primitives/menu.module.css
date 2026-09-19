@@ -15,7 +15,7 @@
   align-items: center;
   gap: var(--lk-space-2);
   width: 100%;
-  height: 34px;
+  height: var(--menu-item-height, 34px);
   padding: 0 var(--lk-space-3);
   border-radius: var(--lk-radius-control);
   color: var(--lk-color-text-primary);
@@ -32,6 +32,12 @@
 .item:focus-visible {
   background: var(--lk-color-state-hover);
   outline: none;
+}
+
+.destructive,
+.destructive > svg {
+  color: var(--lk-color-accent-primary);
+  font-weight: 600;
 }
 
 .item[aria-checked="true"] {

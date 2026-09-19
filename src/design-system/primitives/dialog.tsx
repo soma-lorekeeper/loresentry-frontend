@@ -11,6 +11,7 @@ import {
 import { cx } from "@/shared/cx";
 
 import { Icon, type IconName } from "../icons/icon";
+import { IconButton } from "./button";
 import styles from "./dialog.module.css";
 
 export type ModalScrim = "dialog" | "modal" | "strong";
@@ -96,31 +97,47 @@ export function Modal({
   );
 }
 
-interface ConfirmDialogProps {
+export type DialogSize = "sm" | "md" | "lg";
+
+const sizeClass: Record<DialogSize, string> = {
+  sm: styles.sizeSm,
+  md: styles.sizeMd,
+  lg: styles.sizeLg,
+};
+
+interface DialogCardProps {
   open: boolean;
   onClose: () => void;
-  icon: IconName;
+  size?: DialogSize;
+  icon?: IconName;
   title: string;
   description?: ReactNode;
+  closeLabel?: string;
+  closeDisabled?: boolean;
+  compact?: boolean;
   target?: { icon: IconName; name: string };
   children?: ReactNode;
+  footerHint?: ReactNode;
   actions: ReactNode;
-  actionsLead?: ReactNode;
   dismissible?: boolean;
 }
 
-export function ConfirmDialog({
+export function DialogCard({
   open,
   onClose,
+  size = "sm",
   icon,
   title,
   description,
+  closeLabel,
+  closeDisabled,
+  compact,
   target,
   children,
+  footerHint,
   actions,
-  actionsLead,
   dismissible = true,
-}: ConfirmDialogProps) {
+}: DialogCardProps) {
   const titleId = useId();
   const descriptionId = useId();
   return (
@@ -129,14 +146,16 @@ export function ConfirmDialog({
       onClose={onClose}
       labelledBy={titleId}
       describedBy={description ? descriptionId : undefined}
-      className={styles.confirm}
+      className={sizeClass[size]}
       dismissible={dismissible}
     >
-      <div className={styles.confirmBody}>
+      <div className={cx(styles.card, compact && styles.compact)}>
         <div className={styles.header}>
-          <div className={styles.iconSurface}>
-            <Icon name={icon} size={18} />
-          </div>
+          {icon && (
+            <div className={styles.iconSurface}>
+              <Icon name={icon} size={size === "sm" ? 18 : 20} />
+            </div>
+          )}
           <div className={styles.copy}>
             <h2 id={titleId} className={styles.title}>
               {title}
@@ -147,6 +166,15 @@ export function ConfirmDialog({
               </p>
             )}
           </div>
+          {closeLabel && (
+            <IconButton
+              icon="x"
+              label={closeLabel}
+              className={styles.close}
+              onClick={onClose}
+              disabled={closeDisabled}
+            />
+          )}
         </div>
         {target && (
           <div className={styles.target}>
@@ -156,12 +184,45 @@ export function ConfirmDialog({
         )}
         {children}
         <div className={styles.actions}>
-          {actionsLead && (
-            <div className={styles.actionsLead}>{actionsLead}</div>
-          )}
+          {footerHint && <div className={styles.actionsLead}>{footerHint}</div>}
           {actions}
         </div>
       </div>
     </Modal>
+  );
+}
+
+export function DialogDetail({
+  label,
+  value,
+}: {
+  label: string;
+  value: ReactNode;
+}) {
+  return (
+    <div className={styles.detail}>
+      <span className={styles.detailLabel}>{label}</span>
+      <span className={styles.detailValue}>{value}</span>
+    </div>
+  );
+}
+
+export function DialogBullets({
+  items,
+}: {
+  items: Array<{ icon: IconName; text: string; accent?: boolean }>;
+}) {
+  return (
+    <ul className={styles.bullets}>
+      {items.map((item) => (
+        <li
+          key={item.text}
+          className={cx(styles.bullet, item.accent && styles.bulletAccent)}
+        >
+          <Icon name={item.icon} size={15} />
+          {item.text}
+        </li>
+      ))}
+    </ul>
   );
 }

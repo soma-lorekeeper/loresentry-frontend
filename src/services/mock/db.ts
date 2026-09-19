@@ -27,7 +27,7 @@ import {
   TRASHED_PROJECTS,
 } from "./seed-world";
 
-export const MOCK_DB_VERSION = 3;
+export const MOCK_DB_VERSION = 4;
 const STORAGE_KEY = "loresentry.mock.db";
 
 export interface StoredDocument {

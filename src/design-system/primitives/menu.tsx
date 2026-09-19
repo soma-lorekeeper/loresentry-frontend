@@ -24,6 +24,7 @@ export type MenuEntry =
       hint?: string;
       checked?: boolean;
       disabled?: boolean;
+      destructive?: boolean;
       onSelect: () => void;
     }
   | { type: "separator"; id: string }
@@ -37,6 +38,7 @@ interface MenuProps {
   label: string;
   placement?: PopoverPlacement;
   width?: number;
+  itemHeight?: number;
   className?: string;
   footer?: ReactNode;
 }
@@ -57,6 +59,7 @@ export function Menu({
   label,
   placement,
   width,
+  itemHeight,
   className,
   footer,
 }: MenuProps) {
@@ -108,7 +111,12 @@ export function Menu({
         role="menu"
         aria-label={label}
         className={cx(styles.menu, className)}
-        style={width ? { width } : undefined}
+        style={{
+          ...(width ? { width } : {}),
+          ...(itemHeight
+            ? { ["--menu-item-height" as string]: `${itemHeight}px` }
+            : {}),
+        }}
         onKeyDown={onKeyDown}
       >
         {entries.map((entry) => {
@@ -137,7 +145,10 @@ export function Menu({
               aria-checked={checkable ? entry.checked : undefined}
               disabled={entry.disabled}
               tabIndex={-1}
-              className={styles.item}
+              className={cx(
+                styles.item,
+                entry.destructive && styles.destructive,
+              )}
               onClick={() => {
                 close(true);
                 entry.onSelect();

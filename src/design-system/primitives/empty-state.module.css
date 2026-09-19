@@ -1,0 +1,47 @@
+.state {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lk-space-3);
+  padding: var(--lk-space-7) var(--lk-space-4);
+  text-align: center;
+}
+
+.iconSurface {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: var(--lk-space-1);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-icon);
+  color: var(--lk-color-icon-default);
+}
+
+.large .iconSurface {
+  width: 64px;
+  height: 64px;
+}
+
+.title {
+  font-size: var(--lk-font-size-heading);
+  font-weight: 600;
+}
+
+.large .title {
+  font-size: var(--lk-font-size-heading-lg);
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-2);
+  color: var(--lk-color-text-secondary);
+}
+
+.action {
+  margin-top: var(--lk-space-2);
+}

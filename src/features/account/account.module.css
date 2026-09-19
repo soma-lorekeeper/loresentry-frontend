@@ -1,0 +1,129 @@
+.dialog {
+  width: 648px;
+  margin-top: 104px;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-6);
+  padding: var(--lk-space-7);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lk-space-4);
+}
+
+.headerCopy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--lk-space-2);
+}
+
+.title {
+  font-size: var(--lk-font-size-heading-lg);
+  font-weight: 600;
+}
+
+.description {
+  color: var(--lk-color-text-secondary);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-4);
+}
+
+.close {
+  width: 32px;
+  height: 32px;
+}
+
+.ghost {
+  background: var(--lk-color-state-hover);
+  border-color: transparent;
+}
+
+.muted {
+  background: var(--lk-color-surface-navigation);
+  color: var(--lk-color-text-secondary);
+  opacity: 1;
+}
+
+.page {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--lk-space-6);
+  background: var(--lk-color-bg-canvas);
+}
+
+.brand {
+  position: absolute;
+  top: 40px;
+  left: 48px;
+  font-size: var(--lk-font-size-heading-lg);
+  font-weight: 650;
+}
+
+.completion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 520px;
+  max-width: 100%;
+  padding: 36px;
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-raised);
+}
+
+.announcement {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+  width: 100%;
+  padding: var(--lk-space-4);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-state-selected);
+  font-weight: 600;
+}
+
+.announcement > svg {
+  color: var(--lk-color-accent-primary);
+}
+
+.completionHeading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lk-space-2);
+  text-align: center;
+}
+
+.completionIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-icon);
+  color: var(--lk-color-accent-primary);
+}
+
+.completionTitle {
+  font-size: var(--lk-font-size-heading-lg);
+  font-weight: 650;
+}
+
+.fullWidth {
+  width: 100%;
+}

@@ -330,15 +330,21 @@ export const OTHER_PROJECTS: SeedOtherProject[] = [
 
 export const TRASHED_PROJECTS = [
   {
-    id: "old-draft",
-    title: "첫 번째 초고 모음",
-    icon: "file-stack",
-    trashedDaysAgo: 2,
+    id: "starlight-draft",
+    title: "별빛 아래 마지막 약속",
+    icon: "book-open",
+    trashedDaysAgo: 19,
   },
   {
-    id: "short-stories",
-    title: "짧은 이야기 실험실",
-    icon: "pen-line",
-    trashedDaysAgo: 9,
+    id: "glass-sea",
+    title: "유리 바다의 지도",
+    icon: "book-open",
+    trashedDaysAgo: 23,
+  },
+  {
+    id: "winter-station",
+    title: "겨울 정거장의 편지",
+    icon: "book-open",
+    trashedDaysAgo: 31,
   },
 ] as const;

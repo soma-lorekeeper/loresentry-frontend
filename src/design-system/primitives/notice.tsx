@@ -13,6 +13,7 @@ import {
 import { cx } from "@/shared/cx";
 
 import { Icon, type IconName } from "../icons/icon";
+import { Button } from "./button";
 import styles from "./notice.module.css";
 
 export function InlineNotice({
@@ -64,6 +65,7 @@ export interface ToastInput {
   title: string;
   description?: string;
   durationMs?: number;
+  action?: { label: string; icon?: IconName; onSelect: () => void };
 }
 
 interface ToastEntry extends ToastInput {
@@ -82,7 +84,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     setToasts((current) => [...current.slice(-2), { ...toast, id }]);
     window.setTimeout(
       () => setToasts((current) => current.filter((t) => t.id !== id)),
-      toast.durationMs ?? 3200,
+      toast.durationMs ?? (toast.action ? 6000 : 3200),
     );
   }, []);
 
@@ -105,6 +107,21 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 </span>
               )}
             </div>
+            {toast.action && (
+              <Button
+                size="md"
+                icon={toast.action.icon}
+                className={styles.toastAction}
+                onClick={() => {
+                  toast.action?.onSelect();
+                  setToasts((current) =>
+                    current.filter((t) => t.id !== toast.id),
+                  );
+                }}
+              >
+                {toast.action.label}
+              </Button>
+            )}
           </div>
         ))}
       </div>

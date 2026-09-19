@@ -32,7 +32,8 @@
   font-weight: 600;
 }
 
-.settings .required {
+.settings .required,
+.labelHint {
   color: var(--lk-color-text-secondary);
   font-weight: normal;
 }
@@ -72,6 +73,16 @@ textarea.control {
 .control:read-only,
 .control:disabled {
   background: var(--lk-color-surface-icon);
+}
+
+.settings .control:read-only {
+  background: var(--lk-color-surface-navigation);
+  color: var(--lk-color-text-secondary);
+}
+
+.settings .control[aria-invalid="true"] {
+  border-color: var(--lk-color-border-default);
+  background: var(--lk-color-state-hover);
 }
 
 .control[aria-invalid="true"] {
