@@ -35,12 +35,20 @@ export interface WorkspacePanels {
   aiChatOpen: boolean;
 }
 
+// 요구사항 §3: 프로젝트를 다시 열면 그래프 보기(분류 필터·에피소드)도 복원한다.
+// kinds 가 null 이면 아직 사용자가 고른 적이 없다는 뜻이고, 그래프 규모로 기본값을 정한다.
+export interface GraphViewState {
+  kinds: string[] | null;
+  episodeIds: string[];
+}
+
 export interface WorkspaceLayout {
   version: 1;
   panes: WorkspacePane[];
   activePaneId: string;
   sidebarOpen: boolean;
   panels: WorkspacePanels;
+  graphView?: GraphViewState;
 }
 
 export const MAX_PANES = 2;
@@ -98,6 +106,7 @@ export type LayoutAction =
   | { type: "closeFiles"; fileIds: string[] }
   | { type: "toggleSidebar" }
   | { type: "setPanels"; panels: Partial<WorkspacePanels> }
+  | { type: "setGraphView"; graphView: GraphViewState }
   | { type: "replace"; layout: WorkspaceLayout };
 
 function updatePane(
@@ -225,6 +234,8 @@ export function layoutReducer(
     }
     case "toggleSidebar":
       return { ...layout, sidebarOpen: !layout.sidebarOpen };
+    case "setGraphView":
+      return { ...layout, graphView: action.graphView };
     case "setPanels":
       return { ...layout, panels: { ...layout.panels, ...action.panels } };
     case "replace":

@@ -1,4 +1,5 @@
 import { FileTrashView } from "@/features/file-trash/file-trash-view";
+import { GraphView } from "@/features/graph/graph-view";
 import { WorkspaceHelpView } from "@/features/help/workspace-help-view";
 import { MemoView } from "@/features/memos/memo-view";
 import { ProjectSettingsView } from "@/features/project-settings/project-settings-view";
@@ -29,7 +30,7 @@ export const WORKSPACE_VIEWS: Record<
     kind: "graph",
     icon: "waypoints",
     title: "그래프",
-    render: () => <PlannedView title="그래프" />,
+    render: () => <GraphView />,
   },
   timeline: {
     kind: "timeline",
