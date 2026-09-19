@@ -1,89 +1,50 @@
+export type DataSource = "mock" | "api";
+
 export interface RuntimeConfig {
-  apiBaseUrl: string | null;
-  privacyPolicyUrl: string | null;
-  termsOfServiceUrl: string | null;
+  apiBaseUrl: string;
+  dataSource: DataSource;
+  feedbackUrl: string;
+  privacyPolicyUrl: string;
+  termsOfServiceUrl: string;
 }
 
-interface RuntimeConfigResponse {
-  json: () => Promise<unknown>;
-  ok: boolean;
-  status: number;
-}
+export const DEFAULT_RUNTIME_CONFIG: RuntimeConfig = {
+  apiBaseUrl: "",
+  dataSource: "mock",
+  feedbackUrl: "",
+  privacyPolicyUrl: "",
+  termsOfServiceUrl: "",
+};
 
-export type RuntimeConfigFetcher = (
-  input: string,
-  init?: RequestInit,
-) => Promise<RuntimeConfigResponse>;
-
-function parseOptionalHttpUrl(value: unknown, fieldName: string) {
-  if (value === undefined || value === "") return null;
-  if (typeof value !== "string") {
-    throw new Error(`config.json의 ${fieldName}은 문자열이어야 합니다.`);
-  }
-
-  const normalized = value.trim();
-  if (!normalized) return null;
-
-  let url: URL;
+function absoluteHttpUrl(value: unknown) {
+  if (typeof value !== "string" || !value) return "";
   try {
-    url = new URL(normalized);
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:" ? value : "";
   } catch {
-    throw new Error(`config.json의 ${fieldName}은 절대 URL이어야 합니다.`);
+    return "";
   }
-  if (!["http:", "https:"].includes(url.protocol)) {
-    throw new Error(`config.json의 ${fieldName}은 HTTP(S) URL이어야 합니다.`);
-  }
-  return url.toString();
 }
 
 export function parseRuntimeConfig(value: unknown): RuntimeConfig {
-  if (
-    typeof value !== "object" ||
-    value === null ||
-    !("apiBaseUrl" in value) ||
-    typeof value.apiBaseUrl !== "string"
-  ) {
-    throw new Error("config.json의 apiBaseUrl은 문자열이어야 합니다.");
-  }
-
-  const apiBaseUrl = value.apiBaseUrl.trim();
-  const privacyPolicyUrl = parseOptionalHttpUrl(
-    "privacyPolicyUrl" in value ? value.privacyPolicyUrl : undefined,
-    "privacyPolicyUrl",
-  );
-  const termsOfServiceUrl = parseOptionalHttpUrl(
-    "termsOfServiceUrl" in value ? value.termsOfServiceUrl : undefined,
-    "termsOfServiceUrl",
-  );
-  if (!apiBaseUrl) {
-    return { apiBaseUrl: null, privacyPolicyUrl, termsOfServiceUrl };
-  }
-
-  let url: URL;
-  try {
-    url = new URL(apiBaseUrl);
-  } catch {
-    throw new Error("config.json의 apiBaseUrl은 절대 URL이어야 합니다.");
-  }
-
-  if (!["http:", "https:"].includes(url.protocol)) {
-    throw new Error("config.json의 apiBaseUrl은 HTTP(S) URL이어야 합니다.");
-  }
-
+  if (!value || typeof value !== "object") return DEFAULT_RUNTIME_CONFIG;
+  const raw = value as Record<string, unknown>;
   return {
-    apiBaseUrl: apiBaseUrl.replace(/\/+$/, ""),
-    privacyPolicyUrl,
-    termsOfServiceUrl,
+    apiBaseUrl: absoluteHttpUrl(raw.apiBaseUrl),
+    // 백엔드 API가 준비되기 전까지 기본값은 mock이다. api로 바꾸려면 services/api 어댑터가 필요하다.
+    dataSource: raw.dataSource === "api" ? "api" : "mock",
+    feedbackUrl: absoluteHttpUrl(raw.feedbackUrl),
+    privacyPolicyUrl: absoluteHttpUrl(raw.privacyPolicyUrl),
+    termsOfServiceUrl: absoluteHttpUrl(raw.termsOfServiceUrl),
   };
 }
 
-export async function loadRuntimeConfig(
-  fetcher: RuntimeConfigFetcher = fetch,
-): Promise<RuntimeConfig> {
-  const response = await fetcher("/config.json", { cache: "no-store" });
-  if (!response.ok) {
-    throw new Error(`config.json을 불러오지 못했습니다. (${response.status})`);
+export async function loadRuntimeConfig(): Promise<RuntimeConfig> {
+  try {
+    const response = await fetch("/config.json", { cache: "no-store" });
+    if (!response.ok) return DEFAULT_RUNTIME_CONFIG;
+    return parseRuntimeConfig(await response.json());
+  } catch {
+    return DEFAULT_RUNTIME_CONFIG;
   }
-
-  return parseRuntimeConfig(await response.json());
 }

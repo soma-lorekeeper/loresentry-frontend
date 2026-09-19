@@ -1,0 +1,114 @@
+.inline {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+  padding: var(--lk-space-3);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-state-selected);
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+  line-height: var(--lk-line-height-body);
+}
+
+.inline > svg {
+  flex: none;
+  color: var(--lk-color-accent-primary);
+}
+
+.inlineText {
+  flex: 1;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-3);
+  padding: var(--lk-space-4);
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-card);
+  font-size: var(--lk-font-size-context);
+  line-height: var(--lk-line-height-context);
+}
+
+.status > svg {
+  flex: none;
+}
+
+.statusInfo {
+  background: var(--lk-color-state-selected);
+}
+
+.statusInfo > svg {
+  color: var(--lk-color-accent-primary);
+}
+
+.statusError {
+  background: var(--lk-color-surface-default);
+  border-color: var(--lk-color-text-secondary);
+}
+
+.statusError > svg {
+  color: var(--lk-color-icon-default);
+}
+
+.statusText {
+  flex: 1;
+}
+
+.toastRegion {
+  position: fixed;
+  top: 24px;
+  right: 40px;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-2);
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-3);
+  min-width: 272px;
+  max-width: 460px;
+  padding: var(--lk-space-4);
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-raised);
+  box-shadow: 0 4px 16px var(--lk-color-shadow-menu);
+  pointer-events: auto;
+}
+
+.toastIcon {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-icon);
+  color: var(--lk-color-accent-primary);
+}
+
+.toastCopy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--lk-space-1);
+  min-width: 0;
+}
+
+.toastTitle {
+  font-weight: 600;
+}
+
+.toastDescription {
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}
+
+.toastAction {
+  background: var(--lk-color-surface-default);
+}

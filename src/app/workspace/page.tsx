@@ -1,20 +1,14 @@
+"use client";
+
 import { Suspense } from "react";
 
-import { WorkspaceRoute } from "@/features/workspace/components/workspace-route";
+import { SessionGate } from "@/features/auth/session-gate";
+import { WorkspacePage } from "@/features/workspace/workspace-page";
 
-export default function WorkspacePage() {
+export default function Page() {
   return (
-    <Suspense
-      fallback={
-        <main
-          aria-busy="true"
-          className="flex min-h-screen items-center justify-center"
-        >
-          작업공간을 불러오는 중입니다.
-        </main>
-      }
-    >
-      <WorkspaceRoute />
+    <Suspense>
+      <SessionGate>{(user) => <WorkspacePage user={user} />}</SessionGate>
     </Suspense>
   );
 }

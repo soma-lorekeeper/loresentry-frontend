@@ -1,20 +1,14 @@
+"use client";
+
 import { Suspense } from "react";
 
-import { ProjectListRoute } from "@/features/projects/components/project-list-route";
+import { SessionGate } from "@/features/auth/session-gate";
+import { ProjectListPage } from "@/features/projects/project-list";
 
-export default function ProjectsPage() {
+export default function Page() {
   return (
-    <Suspense
-      fallback={
-        <main
-          aria-busy="true"
-          className="flex min-h-screen items-center justify-center"
-        >
-          프로젝트를 불러오는 중입니다.
-        </main>
-      }
-    >
-      <ProjectListRoute />
+    <Suspense>
+      <SessionGate>{(user) => <ProjectListPage user={user} />}</SessionGate>
     </Suspense>
   );
 }

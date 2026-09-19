@@ -1,20 +1,13 @@
 import { Suspense } from "react";
 
-import { LoginRoute } from "@/features/auth/components/login-route";
+import { LoginPage } from "@/features/auth/login-page";
 
-export default function LoginRoutePage() {
+export const metadata = { title: "로그인 · Lorekeeper" };
+
+export default function Page() {
   return (
-    <Suspense
-      fallback={
-        <main
-          aria-busy="true"
-          className="flex min-h-screen items-center justify-center"
-        >
-          로그인 화면을 불러오는 중입니다.
-        </main>
-      }
-    >
-      <LoginRoute />
+    <Suspense>
+      <LoginPage />
     </Suspense>
   );
 }

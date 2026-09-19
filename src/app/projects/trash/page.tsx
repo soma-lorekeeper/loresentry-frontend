@@ -1,20 +1,14 @@
+"use client";
+
 import { Suspense } from "react";
 
-import { ProjectTrashRoute } from "@/features/projects/components/project-trash-route";
+import { SessionGate } from "@/features/auth/session-gate";
+import { ProjectTrashPage } from "@/features/projects/project-trash";
 
-export default function ProjectTrashPage() {
+export default function Page() {
   return (
-    <Suspense
-      fallback={
-        <main
-          aria-busy="true"
-          className="flex min-h-screen items-center justify-center"
-        >
-          휴지통을 불러오는 중입니다.
-        </main>
-      }
-    >
-      <ProjectTrashRoute />
+    <Suspense>
+      <SessionGate>{(user) => <ProjectTrashPage user={user} />}</SessionGate>
     </Suspense>
   );
 }

@@ -1,10 +1,95 @@
-@import "tailwindcss";
-@import "../design-system/tokens.css";
+@import "../design-system/tokens/tokens.css";
+
+:root {
+  --lk-font-stack-ui:
+    var(--font-geist-sans), "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", sans-serif;
+  --lk-font-stack-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
 
 body {
   background: var(--lk-color-bg-canvas);
   color: var(--lk-color-text-primary);
-  font-family: var(--font-geist-sans), var(--lk-font-family-ui), sans-serif;
+  font-family: var(--lk-font-stack-ui);
   font-size: var(--lk-font-size-body);
   line-height: var(--lk-line-height-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--lk-color-accent-primary);
+  outline-offset: 1px;
+}
+
+.lk-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media print {
+  body.lk-printing * {
+    visibility: hidden;
+  }
+
+  body.lk-printing [data-print-root],
+  body.lk-printing [data-print-root] * {
+    visibility: visible;
+  }
+
+  body.lk-printing [data-print-root] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    color: #000;
+  }
 }

@@ -1,0 +1,14 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-4);
+}
+
+.cancel {
+  background: var(--lk-color-surface-default);
+}
+
+.ghost {
+  background: var(--lk-color-state-hover);
+  border-color: transparent;
+}

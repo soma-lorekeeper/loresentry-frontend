@@ -1,0 +1,168 @@
+.search {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-3);
+  height: 46px;
+  padding: 0 var(--lk-space-4);
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-default);
+  color: var(--lk-color-icon-default);
+}
+
+.search:focus-within {
+  outline: 2px solid var(--lk-color-accent-primary);
+  outline-offset: -1px;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--lk-color-text-primary);
+}
+
+.searchInput::placeholder {
+  color: var(--lk-color-text-secondary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--lk-space-4);
+}
+
+.topic {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-4);
+  height: 114px;
+  padding: 0 var(--lk-space-6);
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-default);
+  text-align: left;
+}
+
+.topic:hover {
+  background: var(--lk-color-surface-default)
+    linear-gradient(var(--lk-color-state-hover), var(--lk-color-state-hover));
+}
+
+.topicIcon {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-icon);
+  color: var(--lk-color-icon-default);
+}
+
+.topicCopy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--lk-space-2);
+  min-width: 0;
+}
+
+.topicTitle {
+  font-size: var(--lk-font-size-heading);
+  font-weight: 600;
+}
+
+.topicSummary {
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}
+
+.topic > svg:last-child {
+  flex: none;
+  color: var(--lk-color-icon-default);
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-3);
+  margin-top: -12px;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}
+
+.breadcrumb > svg {
+  color: var(--lk-color-icon-default);
+}
+
+.crumbLink:hover {
+  color: var(--lk-color-text-primary);
+}
+
+.crumbCurrent {
+  color: var(--lk-color-text-primary);
+  font-weight: 600;
+}
+
+.article {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-6);
+  max-width: 820px;
+  padding: var(--lk-space-7);
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-default);
+}
+
+.lead {
+  font-size: var(--lk-font-size-heading);
+  font-weight: 600;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-6);
+}
+
+.step {
+  display: flex;
+  gap: var(--lk-space-4);
+}
+
+.stepNumber {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-icon);
+  font-size: var(--lk-font-size-label);
+}
+
+.stepCopy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-1);
+}
+
+.stepTitle {
+  font-weight: 600;
+}
+
+.stepBody {
+  color: var(--lk-color-text-secondary);
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

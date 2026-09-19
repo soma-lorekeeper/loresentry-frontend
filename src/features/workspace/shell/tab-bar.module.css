@@ -1,0 +1,118 @@
+.bar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--lk-space-2);
+  height: 42px;
+  padding: 3px var(--lk-space-2);
+  border-bottom: 1px solid var(--lk-color-border-default);
+  background: var(--lk-color-surface-topbar);
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-1);
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--lk-space-2);
+  min-width: 86px;
+  max-width: 200px;
+  height: 34px;
+  padding: 0 var(--lk-space-3);
+  border-radius: var(--lk-radius-control);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-body);
+  cursor: default;
+  user-select: none;
+}
+
+.tab:hover:not([aria-selected="true"]) {
+  background: var(--lk-color-state-hover);
+}
+
+.tab[aria-selected="true"] {
+  background: var(--lk-color-surface-default);
+  color: var(--lk-color-text-primary);
+  font-weight: 500;
+}
+
+.tab[data-dragging="true"] {
+  opacity: 0.5;
+}
+
+.tab[data-drop-target="true"]::before {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: -3px;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--lk-color-accent-primary);
+  content: "";
+}
+
+.tab > svg {
+  flex: none;
+  color: var(--lk-color-icon-default);
+}
+
+.tabLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tabLabelFixed {
+  min-width: 120px;
+}
+
+.close {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-right: -4px;
+  border-radius: var(--lk-radius-control);
+  color: var(--lk-color-icon-default);
+  opacity: 0;
+}
+
+.tab:hover .close,
+.tab[aria-selected="true"] .close,
+.close:focus-visible {
+  opacity: 1;
+}
+
+.close:hover {
+  background: var(--lk-color-surface-icon-hover);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.toggle {
+  flex: none;
+}
+
+.chat[aria-pressed="true"] {
+  background: var(--lk-color-surface-default);
+  font-weight: 600;
+}

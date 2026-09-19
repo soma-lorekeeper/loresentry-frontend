@@ -1,0 +1,902 @@
+{
+  "screenCount": 150,
+  "source": "docs/design/lorekeeper.pen",
+  "syncedAt": "2026-09-18",
+  "screens": [
+    {
+      "screenNumber": 8,
+      "name": "New Tab · Default",
+      "pencilNodeId": "dtvaQ",
+      "lightPencilNodeId": "HdLc9"
+    },
+    {
+      "screenNumber": 9,
+      "name": "New Tab · No Recent Files",
+      "pencilNodeId": "TMBRe",
+      "lightPencilNodeId": "mkc5U"
+    },
+    {
+      "screenNumber": 10,
+      "name": "Manuscript Editor · Default",
+      "pencilNodeId": "A9Wrm",
+      "lightPencilNodeId": "jDwUh"
+    },
+    {
+      "screenNumber": 11,
+      "name": "Manuscript Editor · AI Chat Open",
+      "pencilNodeId": "iHWvC",
+      "lightPencilNodeId": "Nqnj6"
+    },
+    {
+      "screenNumber": 12,
+      "name": "Manuscript Editor · Memo · Work Selected",
+      "pencilNodeId": "BGPNV",
+      "lightPencilNodeId": "klKhr"
+    },
+    {
+      "screenNumber": 13,
+      "name": "Manuscript Editor · Memo · Manuscript Selected",
+      "pencilNodeId": "dm2JC",
+      "lightPencilNodeId": "MgXWU"
+    },
+    {
+      "screenNumber": 14,
+      "name": "Manuscript Editor · Memo · Below Docked",
+      "pencilNodeId": "GY3eJ",
+      "lightPencilNodeId": "A6Suz"
+    },
+    {
+      "screenNumber": 15,
+      "name": "Manuscript Editor · AI Chat · Session List Open",
+      "pencilNodeId": "azx8U",
+      "lightPencilNodeId": "fKrlB"
+    },
+    {
+      "screenNumber": 16,
+      "name": "Manuscript Editor · AI Chat · Session Menu Open",
+      "pencilNodeId": "qJBRZ",
+      "lightPencilNodeId": "hRNG5"
+    },
+    {
+      "screenNumber": 17,
+      "name": "Manuscript Editor · AI Chat · Session Rename",
+      "pencilNodeId": "W0bpE",
+      "lightPencilNodeId": "ttIWF"
+    },
+    {
+      "screenNumber": 18,
+      "name": "Manuscript Editor · AI Chat · Delete Confirmation",
+      "pencilNodeId": "V3QwF1",
+      "lightPencilNodeId": "em1UI"
+    },
+    {
+      "screenNumber": 19,
+      "name": "Manuscript Editor · AI Chat · New Session Empty",
+      "pencilNodeId": "RFf3u",
+      "lightPencilNodeId": "OvXvr"
+    },
+    {
+      "screenNumber": 21,
+      "name": "Workspace · Project Switcher Open",
+      "pencilNodeId": "YXcOP",
+      "lightPencilNodeId": "y77ppE"
+    },
+    {
+      "screenNumber": 22,
+      "name": "Workspace · Favorites Menu Open",
+      "pencilNodeId": "tZZM3",
+      "lightPencilNodeId": "pcYbt"
+    },
+    {
+      "screenNumber": 23,
+      "name": "Workspace · Files Menu Open",
+      "pencilNodeId": "oPs13",
+      "lightPencilNodeId": "Uhimv"
+    },
+    {
+      "screenNumber": 24,
+      "name": "Workspace · Tabs Overflow",
+      "pencilNodeId": "Q6a0ol",
+      "lightPencilNodeId": "P4ZXQt"
+    },
+    {
+      "screenNumber": 25,
+      "name": "Workspace · Tab Reorder",
+      "pencilNodeId": "TeBAK",
+      "lightPencilNodeId": "k1tTm2"
+    },
+    {
+      "screenNumber": 26,
+      "name": "Manuscript Editor · Memo Closed · Focus Returned",
+      "pencilNodeId": "sVEg1",
+      "lightPencilNodeId": "f36dh"
+    },
+    {
+      "screenNumber": 27,
+      "name": "Workspace · User Section Menu Open",
+      "pencilNodeId": "PAM02",
+      "lightPencilNodeId": "Do178"
+    },
+    {
+      "screenNumber": 28,
+      "name": "Workspace · File Menu Open",
+      "pencilNodeId": "bleTW",
+      "lightPencilNodeId": "OWsur"
+    },
+    {
+      "screenNumber": 30,
+      "name": "Workspace · Trash",
+      "pencilNodeId": "NSDvO",
+      "lightPencilNodeId": "Ospa2"
+    },
+    {
+      "screenNumber": 37,
+      "name": "Workspace · Trash · Permanent Delete Confirmation",
+      "pencilNodeId": "so8pS",
+      "lightPencilNodeId": "w2jgfo"
+    },
+    {
+      "screenNumber": 38,
+      "name": "Workspace · Search · Default",
+      "pencilNodeId": "KVKU8",
+      "lightPencilNodeId": "rT5d2"
+    },
+    {
+      "screenNumber": 39,
+      "name": "Workspace · Search · Input",
+      "pencilNodeId": "GqRoM",
+      "lightPencilNodeId": "shWR0"
+    },
+    {
+      "screenNumber": 40,
+      "name": "Workspace · Search · Results",
+      "pencilNodeId": "sj1mq",
+      "lightPencilNodeId": "E9Kb6"
+    },
+    {
+      "screenNumber": 41,
+      "name": "Workspace · Search · No Results",
+      "pencilNodeId": "gEeY1",
+      "lightPencilNodeId": "gU477"
+    },
+    {
+      "screenNumber": 42,
+      "name": "Workspace · Search · Error",
+      "pencilNodeId": "fJm26",
+      "lightPencilNodeId": "JLI78"
+    },
+    {
+      "screenNumber": 43,
+      "name": "Workspace · Memo · Project",
+      "pencilNodeId": "rWDeP",
+      "lightPencilNodeId": "D5MJ7q"
+    },
+    {
+      "screenNumber": 44,
+      "name": "Workspace · Memo · File",
+      "pencilNodeId": "o14lL6",
+      "lightPencilNodeId": "xaw4J"
+    },
+    {
+      "screenNumber": 45,
+      "name": "Workspace · Memo · Project Empty",
+      "pencilNodeId": "x8Kpea",
+      "lightPencilNodeId": "bwGKJ"
+    },
+    {
+      "screenNumber": 46,
+      "name": "Workspace · Memo · File Empty",
+      "pencilNodeId": "G84QG",
+      "lightPencilNodeId": "C8Sa4m"
+    },
+    {
+      "screenNumber": 47,
+      "name": "Workspace · Memo · Project New",
+      "pencilNodeId": "RIcSo",
+      "lightPencilNodeId": "zhnZJ"
+    },
+    {
+      "screenNumber": 48,
+      "name": "Workspace · Memo · Project Menu Open",
+      "pencilNodeId": "OdGCt",
+      "lightPencilNodeId": "y8kI6"
+    },
+    {
+      "screenNumber": 49,
+      "name": "Workspace · Memo · File Menu Open",
+      "pencilNodeId": "JuOfu",
+      "lightPencilNodeId": "iNszY"
+    },
+    {
+      "screenNumber": 50,
+      "name": "Workspace · Memo · Delete Confirmation",
+      "pencilNodeId": "d5neDp",
+      "lightPencilNodeId": "F616SM"
+    },
+    {
+      "screenNumber": 51,
+      "name": "Workspace · Memo · Save Error",
+      "pencilNodeId": "xUHSQ",
+      "lightPencilNodeId": "J6ijqI"
+    },
+    {
+      "screenNumber": 53,
+      "name": "Property Document · Worldbuilding · Default",
+      "pencilNodeId": "Cr1QM",
+      "lightPencilNodeId": "Qmvum"
+    },
+    {
+      "screenNumber": 54,
+      "name": "Property Document · Place · Default",
+      "pencilNodeId": "A9aCt",
+      "lightPencilNodeId": "GWtgT"
+    },
+    {
+      "screenNumber": 55,
+      "name": "Property Document · Worldbuilding · Empty",
+      "pencilNodeId": "B194Dr",
+      "lightPencilNodeId": "Rj0zT"
+    },
+    {
+      "screenNumber": 56,
+      "name": "Property Document · Place · Add Property Menu Open",
+      "pencilNodeId": "Y7tLK",
+      "lightPencilNodeId": "uUfh2"
+    },
+    {
+      "screenNumber": 59,
+      "name": "Property Document · Character · Default",
+      "pencilNodeId": "S0KR3j",
+      "lightPencilNodeId": "uu3lW"
+    },
+    {
+      "screenNumber": 60,
+      "name": "Property Document · Organization · Default",
+      "pencilNodeId": "HRRGt",
+      "lightPencilNodeId": "C4tHe"
+    },
+    {
+      "screenNumber": 61,
+      "name": "Property Document · Item · Default",
+      "pencilNodeId": "aEeBT",
+      "lightPencilNodeId": "Uj6Bf"
+    },
+    {
+      "screenNumber": 62,
+      "name": "Property Document · Character · Empty",
+      "pencilNodeId": "ZooEr",
+      "lightPencilNodeId": "wde5C"
+    },
+    {
+      "screenNumber": 63,
+      "name": "Property Document · Organization · Add Property Menu Open",
+      "pencilNodeId": "R5JCCJ",
+      "lightPencilNodeId": "a8qBF"
+    },
+    {
+      "screenNumber": 64,
+      "name": "Property Document · Item · Save Error",
+      "pencilNodeId": "t3UXM",
+      "lightPencilNodeId": "RGKrp"
+    },
+    {
+      "screenNumber": 70,
+      "name": "Workspace Settings · Default",
+      "pencilNodeId": "EHbKj",
+      "lightPencilNodeId": "bheRv"
+    },
+    {
+      "screenNumber": 71,
+      "name": "Workspace Settings · Changed",
+      "pencilNodeId": "WFeMQ",
+      "lightPencilNodeId": "UDrtA"
+    },
+    {
+      "screenNumber": 72,
+      "name": "Workspace Settings · Saving",
+      "pencilNodeId": "Mk1yl",
+      "lightPencilNodeId": "SGID9"
+    },
+    {
+      "screenNumber": 73,
+      "name": "Workspace Settings · Saved",
+      "pencilNodeId": "iEh4S",
+      "lightPencilNodeId": "ST1v7"
+    },
+    {
+      "screenNumber": 74,
+      "name": "Workspace Settings · Save Error",
+      "pencilNodeId": "JfCF1",
+      "lightPencilNodeId": "RAhOP"
+    },
+    {
+      "screenNumber": 75,
+      "name": "Workspace Settings · Unsaved Confirmation",
+      "pencilNodeId": "b5Rlml",
+      "lightPencilNodeId": "DrbQ5"
+    },
+    {
+      "screenNumber": 76,
+      "name": "Workspace Settings · Move To Trash Confirmation",
+      "pencilNodeId": "X9umV",
+      "lightPencilNodeId": "sbOWN"
+    },
+    {
+      "screenNumber": 77,
+      "name": "Workspace Help · Default",
+      "pencilNodeId": "Zp4Gq",
+      "lightPencilNodeId": "TLph9"
+    },
+    {
+      "screenNumber": 78,
+      "name": "Workspace Help · Guide Topics",
+      "pencilNodeId": "p11tW",
+      "lightPencilNodeId": "a40Bv"
+    },
+    {
+      "screenNumber": 79,
+      "name": "Workspace Help · Guide Article",
+      "pencilNodeId": "ZpiZx",
+      "lightPencilNodeId": "TjkoB"
+    },
+    {
+      "screenNumber": 80,
+      "name": "Workspace Help · Feedback Opened",
+      "pencilNodeId": "HIJlb",
+      "lightPencilNodeId": "Dz7Ak"
+    },
+    {
+      "screenNumber": 81,
+      "name": "Workspace Help · Feedback Open Error",
+      "pencilNodeId": "RxYQ5",
+      "lightPencilNodeId": "AzuBR"
+    },
+    {
+      "screenNumber": 82,
+      "name": "Manuscript Editor · Memo · Right Resized",
+      "pencilNodeId": "o0mGAk",
+      "lightPencilNodeId": "fsCDI"
+    },
+    {
+      "screenNumber": 83,
+      "name": "Manuscript Editor · Memo · Below Resized",
+      "pencilNodeId": "qCzrF",
+      "lightPencilNodeId": "d1MrP"
+    },
+    {
+      "screenNumber": 84,
+      "name": "Manuscript Editor · AI Chat + Memo Below",
+      "pencilNodeId": "peKgW",
+      "lightPencilNodeId": "A6Jdb"
+    },
+    {
+      "screenNumber": 85,
+      "name": "Manuscript Editor · Narrow · Memo Collapsed",
+      "pencilNodeId": "B6O42H",
+      "lightPencilNodeId": "yFHaI"
+    },
+    {
+      "screenNumber": 86,
+      "name": "Workspace · User Section Delete Confirmation",
+      "pencilNodeId": "eO5kL",
+      "lightPencilNodeId": "gV42V"
+    },
+    {
+      "screenNumber": 87,
+      "name": "Workspace · User Section Delete Error",
+      "pencilNodeId": "F9oF1",
+      "lightPencilNodeId": "w90jK2"
+    },
+    {
+      "screenNumber": 89,
+      "name": "Workspace Help · Guide Search Empty",
+      "pencilNodeId": "oAP5s",
+      "lightPencilNodeId": "AFEuJ"
+    },
+    {
+      "screenNumber": 90,
+      "name": "Workspace Help · Guide Load Error",
+      "pencilNodeId": "i4zE54",
+      "lightPencilNodeId": "GQ1q7"
+    },
+    {
+      "screenNumber": 91,
+      "name": "Project List · Default",
+      "pencilNodeId": "BvuoV",
+      "lightPencilNodeId": "VBDRN"
+    },
+    {
+      "screenNumber": 92,
+      "name": "Project List · Card Menu Open",
+      "pencilNodeId": "G3Cvn",
+      "lightPencilNodeId": "qnTU2"
+    },
+    {
+      "screenNumber": 93,
+      "name": "Project List · Empty",
+      "pencilNodeId": "Rpqy3",
+      "lightPencilNodeId": "qCXIt"
+    },
+    {
+      "screenNumber": 94,
+      "name": "Project List · Loading",
+      "pencilNodeId": "z4wuM",
+      "lightPencilNodeId": "Zb7ZB"
+    },
+    {
+      "screenNumber": 95,
+      "name": "Project List · Error",
+      "pencilNodeId": "sYDj4",
+      "lightPencilNodeId": "Ik1Lu"
+    },
+    {
+      "screenNumber": 96,
+      "name": "Project Create · Initial",
+      "pencilNodeId": "PzeBB",
+      "lightPencilNodeId": "tXIX7"
+    },
+    {
+      "screenNumber": 97,
+      "name": "Project Create · Required Error",
+      "pencilNodeId": "b7Hoq",
+      "lightPencilNodeId": "SqnSe"
+    },
+    {
+      "screenNumber": 98,
+      "name": "Project Create · Ready",
+      "pencilNodeId": "xiX3C",
+      "lightPencilNodeId": "JJ9sL"
+    },
+    {
+      "screenNumber": 99,
+      "name": "Project Create · Submitting",
+      "pencilNodeId": "U83vsD",
+      "lightPencilNodeId": "OM9Fp"
+    },
+    {
+      "screenNumber": 100,
+      "name": "Project Create · Server Error",
+      "pencilNodeId": "mD2Vy",
+      "lightPencilNodeId": "CbxPt"
+    },
+    {
+      "screenNumber": 101,
+      "name": "Project Rename · Current",
+      "pencilNodeId": "e2zKG",
+      "lightPencilNodeId": "Q3DtwY"
+    },
+    {
+      "screenNumber": 102,
+      "name": "Project Rename · Invalid",
+      "pencilNodeId": "z8wIZo",
+      "lightPencilNodeId": "C0EvQt"
+    },
+    {
+      "screenNumber": 103,
+      "name": "Project Rename · Ready",
+      "pencilNodeId": "NaYPr",
+      "lightPencilNodeId": "R5dzYq"
+    },
+    {
+      "screenNumber": 104,
+      "name": "Project Rename · Saving",
+      "pencilNodeId": "syeZk",
+      "lightPencilNodeId": "ZKGCS"
+    },
+    {
+      "screenNumber": 105,
+      "name": "Project Rename · Save Error",
+      "pencilNodeId": "WXPWx",
+      "lightPencilNodeId": "i1B5l"
+    },
+    {
+      "screenNumber": 106,
+      "name": "Project Rename · Success",
+      "pencilNodeId": "wB2c6",
+      "lightPencilNodeId": "KEaOl"
+    },
+    {
+      "screenNumber": 107,
+      "name": "Project Trash Move · Confirmation",
+      "pencilNodeId": "DJf8k",
+      "lightPencilNodeId": "I9uhR"
+    },
+    {
+      "screenNumber": 108,
+      "name": "Project Trash Move · Moving",
+      "pencilNodeId": "xyKPr",
+      "lightPencilNodeId": "FPfCZ"
+    },
+    {
+      "screenNumber": 109,
+      "name": "Project Trash Move · Error",
+      "pencilNodeId": "KCK49",
+      "lightPencilNodeId": "wHuwT"
+    },
+    {
+      "screenNumber": 110,
+      "name": "Project Trash Move · Success",
+      "pencilNodeId": "Hhm0r",
+      "lightPencilNodeId": "Is1Cx"
+    },
+    {
+      "screenNumber": 111,
+      "name": "Project Trash · Default",
+      "pencilNodeId": "WYBJQ"
+    },
+    {
+      "screenNumber": 112,
+      "name": "Project Trash · Empty",
+      "pencilNodeId": "yvfHX",
+      "lightPencilNodeId": "OrCZy"
+    },
+    {
+      "screenNumber": 113,
+      "name": "Project Trash · Loading",
+      "pencilNodeId": "FogDw",
+      "lightPencilNodeId": "n0CQtx"
+    },
+    {
+      "screenNumber": 114,
+      "name": "Project Trash · Load Error",
+      "pencilNodeId": "r5UPt",
+      "lightPencilNodeId": "GQsuV"
+    },
+    {
+      "screenNumber": 115,
+      "name": "Project Trash · Restoring",
+      "pencilNodeId": "tErn6",
+      "lightPencilNodeId": "Odpei"
+    },
+    {
+      "screenNumber": 116,
+      "name": "Project Trash · Restore Error",
+      "pencilNodeId": "ISCdJ",
+      "lightPencilNodeId": "L6URPv"
+    },
+    {
+      "screenNumber": 117,
+      "name": "Project Trash · Restore Success",
+      "pencilNodeId": "tTF2Z",
+      "lightPencilNodeId": "bL0EA"
+    },
+    {
+      "screenNumber": 118,
+      "name": "Project Trash · Default · Light",
+      "pencilNodeId": "xjwox"
+    },
+    {
+      "screenNumber": 119,
+      "name": "Project Trash · Permanent Delete Confirmation",
+      "pencilNodeId": "BJyvs",
+      "lightPencilNodeId": "IQDsI"
+    },
+    {
+      "screenNumber": 120,
+      "name": "Project Trash · Permanent Deleting",
+      "pencilNodeId": "l8tEHq",
+      "lightPencilNodeId": "DAiLI"
+    },
+    {
+      "screenNumber": 121,
+      "name": "Project Trash · Permanent Delete Error",
+      "pencilNodeId": "tsGQR",
+      "lightPencilNodeId": "Yp5Wg"
+    },
+    {
+      "screenNumber": 122,
+      "name": "Project Trash · Permanent Delete Success",
+      "pencilNodeId": "xI1cj",
+      "lightPencilNodeId": "xygKd"
+    },
+    {
+      "screenNumber": 123,
+      "name": "Project List · User Menu Open",
+      "pencilNodeId": "Pr4Vc",
+      "lightPencilNodeId": "P3tdX"
+    },
+    {
+      "screenNumber": 124,
+      "name": "Account Settings · Default",
+      "pencilNodeId": "l6YSG6",
+      "lightPencilNodeId": "TfhaW"
+    },
+    {
+      "screenNumber": 125,
+      "name": "Account Settings · Edited",
+      "pencilNodeId": "YlFtW",
+      "lightPencilNodeId": "Qo927"
+    },
+    {
+      "screenNumber": 126,
+      "name": "Account Settings · Validation Error",
+      "pencilNodeId": "daOWS",
+      "lightPencilNodeId": "JY2QQ"
+    },
+    {
+      "screenNumber": 127,
+      "name": "Account Settings · Saving",
+      "pencilNodeId": "VemT4",
+      "lightPencilNodeId": "N8pfQy"
+    },
+    {
+      "screenNumber": 128,
+      "name": "Account Settings · Saved",
+      "pencilNodeId": "Z0yHo",
+      "lightPencilNodeId": "OQ7Hb"
+    },
+    {
+      "screenNumber": 129,
+      "name": "Account Settings · Save Error",
+      "pencilNodeId": "CbnlA",
+      "lightPencilNodeId": "S9i56Q"
+    },
+    {
+      "screenNumber": 130,
+      "name": "Account Settings · Long Values · Light",
+      "pencilNodeId": "Mq1AS"
+    },
+    {
+      "screenNumber": 131,
+      "name": "Project List · Logout Confirmation",
+      "pencilNodeId": "HcLfZ",
+      "lightPencilNodeId": "fXmYd"
+    },
+    {
+      "screenNumber": 132,
+      "name": "Project List · Logout Processing",
+      "pencilNodeId": "y7wxgE",
+      "lightPencilNodeId": "ngvLb"
+    },
+    {
+      "screenNumber": 133,
+      "name": "Project List · Logout Error",
+      "pencilNodeId": "EQJbK",
+      "lightPencilNodeId": "rnu50"
+    },
+    {
+      "screenNumber": 134,
+      "name": "Project List · Logout Complete",
+      "pencilNodeId": "N5M5TM",
+      "lightPencilNodeId": "grHJD"
+    },
+    {
+      "screenNumber": 135,
+      "name": "Project Guide · Topics",
+      "pencilNodeId": "K5MEsG",
+      "lightPencilNodeId": "tV1sl"
+    },
+    {
+      "screenNumber": 136,
+      "name": "Project Guide · Article",
+      "pencilNodeId": "j3qmH",
+      "lightPencilNodeId": "nthtI"
+    },
+    {
+      "screenNumber": 137,
+      "name": "Project List · Feedback Opened",
+      "pencilNodeId": "iZobk",
+      "lightPencilNodeId": "v4N1gc"
+    },
+    {
+      "screenNumber": 138,
+      "name": "Project List · Feedback Open Error",
+      "pencilNodeId": "c061WC",
+      "lightPencilNodeId": "vR5CP"
+    },
+    {
+      "screenNumber": 139,
+      "name": "Login · Default",
+      "pencilNodeId": "EwUtO"
+    },
+    {
+      "screenNumber": 140,
+      "name": "Login · Processing",
+      "pencilNodeId": "F4Qlk",
+      "lightPencilNodeId": "F8Wfpz"
+    },
+    {
+      "screenNumber": 141,
+      "name": "Login · OAuth Canceled",
+      "pencilNodeId": "rENHC",
+      "lightPencilNodeId": "jPRb8"
+    },
+    {
+      "screenNumber": 142,
+      "name": "Login · OAuth Failed",
+      "pencilNodeId": "vJY2I",
+      "lightPencilNodeId": "Ek7mH"
+    },
+    {
+      "screenNumber": 143,
+      "name": "Login · Session Expired",
+      "pencilNodeId": "y578o",
+      "lightPencilNodeId": "biwyt"
+    },
+    {
+      "screenNumber": 144,
+      "name": "Login · Default · Light",
+      "pencilNodeId": "sSVhG"
+    },
+    {
+      "screenNumber": 145,
+      "name": "Graph · Default",
+      "pencilNodeId": "W2GuwN",
+      "lightPencilNodeId": "drxzM"
+    },
+    {
+      "screenNumber": 146,
+      "name": "Graph · Node Selected",
+      "pencilNodeId": "zvh6B",
+      "lightPencilNodeId": "QU7tM"
+    },
+    {
+      "screenNumber": 147,
+      "name": "Graph · Filter Open",
+      "pencilNodeId": "q8EAn",
+      "lightPencilNodeId": "FjuXh"
+    },
+    {
+      "screenNumber": 148,
+      "name": "Graph · Search Open",
+      "pencilNodeId": "zqOrX",
+      "lightPencilNodeId": "CaIlj"
+    },
+    {
+      "screenNumber": 149,
+      "name": "Timeline · Default",
+      "pencilNodeId": "Bdome",
+      "lightPencilNodeId": "pjuyl"
+    },
+    {
+      "screenNumber": 150,
+      "name": "Timeline · Chapter Selected",
+      "pencilNodeId": "dJh6u",
+      "lightPencilNodeId": "JJBA1"
+    },
+    {
+      "screenNumber": 151,
+      "name": "Timeline · Row Filter Open",
+      "pencilNodeId": "H5d6eV",
+      "lightPencilNodeId": "N6CodG"
+    },
+    {
+      "screenNumber": 152,
+      "name": "Timeline · Episode Menu Open",
+      "pencilNodeId": "xh1Mo",
+      "lightPencilNodeId": "pYYvN"
+    },
+    {
+      "screenNumber": 153,
+      "name": "Graph Refresh · Default",
+      "pencilNodeId": "xS0Br",
+      "lightPencilNodeId": "U6sIAw"
+    },
+    {
+      "screenNumber": 154,
+      "name": "Graph Refresh · Extracting",
+      "pencilNodeId": "QkTu2",
+      "lightPencilNodeId": "e1IEo"
+    },
+    {
+      "screenNumber": 155,
+      "name": "Graph Refresh · Ready",
+      "pencilNodeId": "wYk96",
+      "lightPencilNodeId": "BiCqN"
+    },
+    {
+      "screenNumber": 156,
+      "name": "Graph Diff · No Selection",
+      "pencilNodeId": "y2cUW",
+      "lightPencilNodeId": "V9R7m"
+    },
+    {
+      "screenNumber": 157,
+      "name": "Graph Diff · Document Selected",
+      "pencilNodeId": "ZszSk",
+      "lightPencilNodeId": "bjTTO"
+    },
+    {
+      "screenNumber": 158,
+      "name": "Graph Diff · All Resolved",
+      "pencilNodeId": "RNtpI",
+      "lightPencilNodeId": "TjcNq"
+    },
+    {
+      "screenNumber": 159,
+      "name": "Property Document · Event · Default",
+      "pencilNodeId": "l76fWh",
+      "lightPencilNodeId": "npPko"
+    },
+    {
+      "screenNumber": 160,
+      "name": "Property Document · Event · Empty",
+      "pencilNodeId": "S5XbQn",
+      "lightPencilNodeId": "A1olv7"
+    },
+    {
+      "screenNumber": 161,
+      "name": "Workspace · Document Create Inline",
+      "pencilNodeId": "QV43A",
+      "lightPencilNodeId": "z3NrG3"
+    },
+    {
+      "screenNumber": 162,
+      "name": "Workspace · Episode Folder Create Inline",
+      "pencilNodeId": "FtTky",
+      "lightPencilNodeId": "P42Ox"
+    },
+    {
+      "screenNumber": 163,
+      "name": "Workspace · Episode Folder Menu",
+      "pencilNodeId": "BzaMR",
+      "lightPencilNodeId": "Xraml"
+    },
+    {
+      "screenNumber": 164,
+      "name": "Workspace · Chapter Create Inline",
+      "pencilNodeId": "xZ6qd",
+      "lightPencilNodeId": "uM2C2"
+    },
+    {
+      "screenNumber": 165,
+      "name": "Workspace · Episode Folder Rename Inline",
+      "pencilNodeId": "U102n5",
+      "lightPencilNodeId": "P7Wx5U"
+    },
+    {
+      "screenNumber": 166,
+      "name": "Workspace · Episode Folder Delete Confirmation",
+      "pencilNodeId": "L9pGL",
+      "lightPencilNodeId": "vVxan"
+    },
+    {
+      "screenNumber": 167,
+      "name": "Workspace · Split View · Two Documents",
+      "pencilNodeId": "pQgTr",
+      "lightPencilNodeId": "fPap9"
+    },
+    {
+      "screenNumber": 168,
+      "name": "Property Document · Version History",
+      "pencilNodeId": "cHMFN",
+      "lightPencilNodeId": "VII1E"
+    },
+    {
+      "screenNumber": 169,
+      "name": "Property Document · Version History · Empty",
+      "pencilNodeId": "hnaQv",
+      "lightPencilNodeId": "wgF9r"
+    },
+    {
+      "screenNumber": 170,
+      "name": "Manuscript Editor · Export Menu Open",
+      "pencilNodeId": "C4X6b1",
+      "lightPencilNodeId": "fU425"
+    },
+    {
+      "screenNumber": 171,
+      "name": "Manuscript Editor · Locked",
+      "pencilNodeId": "sr43z",
+      "lightPencilNodeId": "tyVW0"
+    },
+    {
+      "screenNumber": 172,
+      "name": "Manuscript Editor · Unlocked",
+      "pencilNodeId": "l829Nb",
+      "lightPencilNodeId": "Jv870"
+    },
+    {
+      "screenNumber": 173,
+      "name": "Graph · Filter Hover",
+      "pencilNodeId": "nVBun",
+      "lightPencilNodeId": "N5Vz8o"
+    },
+    {
+      "screenNumber": 174,
+      "name": "Timeline · Row Filter Hover",
+      "pencilNodeId": "Pds8t",
+      "lightPencilNodeId": "rQpEA"
+    }
+  ]
+}

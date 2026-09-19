@@ -1,126 +1,84 @@
-import assert from "node:assert/strict";
-import { once } from "node:events";
-import { access, readdir, readFile, stat } from "node:fs/promises";
-import { createServer } from "node:http";
-import { extname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { join, relative } from "node:path";
 
-const outputDirectory = fileURLToPath(new URL("../out", import.meta.url));
-const requiredFiles = [
-  "index.html",
-  "design-system/index.html",
-  "login/index.html",
-  "projects/index.html",
-  "projects/guide/index.html",
-  "projects/trash/index.html",
-  "workspace/index.html",
-  "config.json",
+const OUT = "out";
+const ROUTES = [
+  "",
+  "login/",
+  "logout/",
+  "projects/",
+  "projects/trash/",
+  "projects/guide/",
+  "workspace/",
 ];
+const MAX_ASSET_BYTES = 2_500_000;
 
-for (const file of requiredFiles) {
-  await access(resolve(outputDirectory, file));
-}
+const errors = [];
 
-async function collectFiles(directory) {
-  const entries = await readdir(directory, { withFileTypes: true });
-  const files = await Promise.all(
-    entries.map(async (entry) => {
-      const path = resolve(directory, entry.name);
-      return entry.isDirectory() ? collectFiles(path) : path;
-    }),
-  );
-  return files.flat();
-}
-
-const outputFiles = await collectFiles(outputDirectory);
-assert.ok(
-  outputFiles.some((file) => file.includes("/_next/static/")),
-  "out/_next/static must contain browser assets",
-);
-assert.equal(
-  outputFiles.some(
-    (file) => file.endsWith("/server.js") || file.endsWith(".nft.json"),
-  ),
-  false,
-  "static export must not contain a Node.js server artifact",
-);
-
-const contentTypes = {
-  ".css": "text/css; charset=utf-8",
-  ".html": "text/html; charset=utf-8",
-  ".js": "text/javascript; charset=utf-8",
-  ".json": "application/json; charset=utf-8",
-  ".svg": "image/svg+xml",
-};
-
-const server = createServer(async (request, response) => {
-  try {
-    const pathname = decodeURIComponent(
-      new URL(request.url ?? "/", "http://static.local").pathname,
-    );
-    const relativePath = pathname.replace(/^\/+/, "");
-    let filePath = resolve(outputDirectory, relativePath || "index.html");
-
-    assert.ok(
-      filePath === outputDirectory ||
-        filePath.startsWith(`${outputDirectory}/`),
-      "request path must remain inside out",
-    );
-
-    if (!extname(filePath) && relativePath) {
-      filePath = resolve(filePath, "index.html");
-    } else if ((await stat(filePath)).isDirectory()) {
-      filePath = resolve(filePath, "index.html");
-    }
-
-    const body = await readFile(filePath);
-    response.writeHead(200, {
-      "content-type":
-        contentTypes[extname(filePath)] ?? "application/octet-stream",
-    });
-    response.end(body);
-  } catch {
-    response.writeHead(404);
-    response.end("Not found");
-  }
-});
-
-server.listen(0, "127.0.0.1");
-await once(server, "listening");
-
-const routes = [
-  "/",
-  "/design-system/",
-  "/login?loginState=login-default-light",
-  "/login?loginState=login-oauth-failed",
-  "/projects?projectState=project-list-default",
-  "/projects?globalState=account-settings-long-values-light",
-  "/projects?globalState=feedback-open-error",
-  "/projects/guide",
-  "/projects/guide?topic=workspace-start",
-  "/projects/trash?trashState=project-trash-default",
-  "/workspace?projectId=glass-garden",
-];
-
-try {
-  const address = server.address();
-  assert.ok(address && typeof address === "object");
-
-  for (const path of routes) {
-    const response = await fetch(`http://127.0.0.1:${address.port}${path}`);
-    assert.equal(response.status, 200, `${path} must return HTTP 200`);
-    assert.match(
-      await response.text(),
-      /<!DOCTYPE html>/i,
-      `${path} must return HTML`,
-    );
-  }
-} finally {
-  await new Promise((resolveClose, rejectClose) => {
-    server.close((error) => (error ? rejectClose(error) : resolveClose()));
+function walk(dir) {
+  return readdirSync(dir).flatMap((name) => {
+    const path = join(dir, name);
+    return statSync(path).isDirectory() ? walk(path) : [path];
   });
 }
 
+if (!existsSync(OUT)) {
+  console.error(`${OUT}/ 가 없습니다. 먼저 pnpm build 를 실행하세요.`);
+  process.exit(1);
+}
+
+// CloudFront 함수(docs/deploy/cloudfront-rewrite.js)는 /path/ 를 /path/index.html 로 바꾼다.
+for (const route of ROUTES) {
+  if (!existsSync(join(OUT, route, "index.html")))
+    errors.push(`라우트 /${route} 의 index.html 이 없습니다.`);
+}
+if (!existsSync(join(OUT, "404.html"))) errors.push("404.html 이 없습니다.");
+
+const configPath = join(OUT, "config.json");
+if (!existsSync(configPath)) {
+  errors.push("config.json 이 없습니다. 런타임 설정을 읽지 못합니다.");
+} else {
+  try {
+    const config = JSON.parse(readFileSync(configPath, "utf8"));
+    if (config.dataSource && !["mock", "api"].includes(config.dataSource))
+      errors.push(
+        `config.json 의 dataSource 값이 잘못됐습니다: ${config.dataSource}`,
+      );
+  } catch {
+    errors.push("config.json 을 JSON 으로 읽을 수 없습니다.");
+  }
+}
+
+const files = walk(OUT);
+const htmlFiles = files.filter((file) => file.endsWith(".html"));
+
+for (const file of htmlFiles) {
+  const html = readFileSync(file, "utf8");
+  for (const [, ref] of html.matchAll(/(?:src|href)="(\/_next\/[^"?#]+)/g)) {
+    if (!existsSync(join(OUT, ref)))
+      errors.push(`${relative(OUT, file)} 가 없는 자산을 가리킵니다: ${ref}`);
+  }
+}
+
+for (const file of files) {
+  if (/\.(map|env)$|\.env\./.test(file))
+    errors.push(`배포하면 안 되는 파일이 있습니다: ${relative(OUT, file)}`);
+  if (file.includes(`${join(OUT, "api")}`))
+    errors.push(
+      `정적 export 에 API 라우트가 섞였습니다: ${relative(OUT, file)}`,
+    );
+  const size = statSync(file).size;
+  if (file.endsWith(".js") && size > MAX_ASSET_BYTES)
+    errors.push(
+      `스크립트가 너무 큽니다(${(size / 1e6).toFixed(1)}MB): ${relative(OUT, file)}`,
+    );
+}
+
+if (errors.length > 0) {
+  console.error(`정적 export 검증 실패 (${errors.length}건)`);
+  for (const error of errors) console.error(`  - ${error}`);
+  process.exit(1);
+}
 console.log(
-  `Validated ${outputFiles.length} static files and ${routes.length} CDN-style HTTP routes.`,
+  `정적 export 검증 통과: 라우트 ${ROUTES.length}개, HTML ${htmlFiles.length}개, 파일 ${files.length}개`,
 );

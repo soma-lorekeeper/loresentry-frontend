@@ -1,20 +1,14 @@
+"use client";
+
 import { Suspense } from "react";
 
-import { ProjectGuideRoute } from "@/features/help/components/project-guide-route";
+import { SessionGate } from "@/features/auth/session-gate";
+import { ProjectGuidePage } from "@/features/help/project-guide";
 
-export default function ProjectGuidePage() {
+export default function Page() {
   return (
-    <Suspense
-      fallback={
-        <main
-          aria-busy="true"
-          className="flex min-h-screen items-center justify-center"
-        >
-          사용 가이드를 불러오는 중입니다.
-        </main>
-      }
-    >
-      <ProjectGuideRoute />
+    <Suspense>
+      <SessionGate>{(user) => <ProjectGuidePage user={user} />}</SessionGate>
     </Suspense>
   );
 }
