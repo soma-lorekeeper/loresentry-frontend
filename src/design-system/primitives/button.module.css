@@ -1,0 +1,114 @@
+.button {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lk-space-2);
+  height: var(--lk-control-height);
+  padding: 0 var(--lk-space-4);
+  border: 1px solid transparent;
+  border-radius: var(--lk-radius-control);
+  color: var(--lk-color-text-primary);
+  font-size: var(--lk-font-size-body);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.button > svg {
+  color: var(--lk-color-icon-default);
+  flex: none;
+}
+
+.sizeMd {
+  height: 32px;
+}
+
+.sizeLg {
+  height: 40px;
+}
+
+.outline {
+  border-color: var(--lk-color-border-default);
+}
+
+.ghost {
+  padding: 0 var(--lk-space-3);
+  font-weight: normal;
+}
+
+.outline:hover:not(:disabled),
+.ghost:hover:not(:disabled):not([aria-pressed="true"]) {
+  background: var(--lk-color-state-hover);
+}
+
+.ghost[aria-pressed="true"],
+.outline[aria-pressed="true"] {
+  background: var(--lk-color-state-selected);
+  font-weight: 600;
+}
+
+.primary {
+  background: var(--lk-color-accent-primary);
+  border-color: var(--lk-color-accent-primary);
+  color: var(--lk-color-text-on-accent);
+}
+
+.primary > svg {
+  color: var(--lk-color-text-on-accent);
+}
+
+.primary:hover:not(:disabled) {
+  background: color-mix(
+    in srgb,
+    var(--lk-color-accent-primary) 88%,
+    var(--lk-color-text-primary)
+  );
+}
+
+.button:disabled {
+  opacity: 0.45;
+}
+
+.button[aria-busy="true"] {
+  opacity: 1;
+}
+
+.iconButton {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--lk-control-height);
+  height: var(--lk-control-height);
+  border-radius: var(--lk-radius-control);
+  color: var(--lk-color-icon-default);
+}
+
+.iconButton:hover:not(:disabled):not([aria-pressed="true"]) {
+  background: var(--lk-color-state-hover);
+}
+
+.iconButton[aria-pressed="true"],
+.iconButton[aria-expanded="true"] {
+  background: var(--lk-color-state-selected);
+}
+
+.iconButton:disabled {
+  opacity: 0.4;
+}
+
+.spin {
+  animation: spin 900ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation-duration: 2400ms;
+  }
+}

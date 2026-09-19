@@ -5,3 +5,7 @@ node_modules/
 out/
 next-env.d.ts
 pnpm-lock.yaml
+src/design-system/tokens/tokens.css
+src/design-system/tokens/tokens.ts
+src/design-system/tokens/pencil-variables.json
+src/design-system/screens/pencil-screen-catalog.json

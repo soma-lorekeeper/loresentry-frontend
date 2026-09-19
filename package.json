@@ -1,34 +1,28 @@
 {
-  "name": "frontend",
+  "name": "loresentry-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "build:webpack": "next build --webpack",
-    "start": "next start",
+    "build": "next build --webpack",
     "lint": "eslint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
-    "test:accessibility": "vitest run accessibility accessibility-coverage component-fixture workspace-core-flow workspace-settings-help-states dialog.test status-notice.test menu.test",
-    "test:regression": "vitest run src/integration src/features",
     "typecheck": "next typegen && tsc --noEmit",
-    "check:cdn": "pnpm check:ui && pnpm validate:static",
-    "check:ui": "pnpm format:check && pnpm validate:design-system && pnpm validate:layout && pnpm test && pnpm lint && pnpm typecheck && pnpm build:webpack",
-    "validate:design-system": "node scripts/validate-design-system.mjs",
-    "validate:handoff": "vitest run src/integration/frontend-handoff.test.ts",
-    "validate:layout": "node scripts/validate-layout-contracts.mjs",
-    "validate:screens": "vitest run src/design-system/screen-registry.test.ts",
-    "validate:static": "node scripts/validate-static-export.mjs"
+    "tokens": "node scripts/generate-tokens.mjs",
+    "tokens:check": "node scripts/generate-tokens.mjs --check",
+    "validate:static": "node scripts/validate-static-export.mjs",
+    "check:cdn": "pnpm format:check && pnpm tokens:check && pnpm test && pnpm lint && pnpm typecheck && pnpm build && pnpm validate:static"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.103.1",
+    "lucide-react": "^1.46.0",
     "next": "16.3.2",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.6",
@@ -40,8 +34,6 @@
     "eslint-config-next": "16.3.2",
     "jsdom": "^30.0.1",
     "prettier": "3.9.6",
-    "prettier-plugin-tailwindcss": "0.8.1",
-    "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.11"
   },
