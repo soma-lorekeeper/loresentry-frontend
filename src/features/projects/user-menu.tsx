@@ -3,6 +3,8 @@
 import { useRef, useState } from "react";
 
 import { Icon, Menu } from "@/design-system/primitives";
+import { themeMenuEntries } from "@/design-system/theme/theme-menu";
+import { useTheme } from "@/design-system/theme/theme-store";
 import type { User } from "@/domain/models";
 import { AccountSettingsDialog } from "@/features/account/account-settings-dialog";
 import { LogoutDialog } from "@/features/account/logout-dialog";
@@ -44,6 +46,7 @@ export function UserMenu({ user }: { user: User }) {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [dialog, setDialog] = useState<"account" | "logout" | null>(null);
+  const theme = useTheme();
 
   return (
     <>
@@ -81,6 +84,8 @@ export function UserMenu({ user }: { user: User }) {
             onSelect: () => setDialog("account"),
           },
           { type: "separator", id: "separator" },
+          ...themeMenuEntries(theme.preference, theme.setPreference),
+          { type: "separator", id: "separator-theme" },
           {
             id: "logout",
             label: "로그아웃",
