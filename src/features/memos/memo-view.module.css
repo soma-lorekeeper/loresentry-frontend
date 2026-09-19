@@ -1,0 +1,87 @@
+.view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-6);
+  width: 100%;
+  max-width: 1220px;
+  padding: 38px 64px 64px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-3);
+  min-height: 40px;
+}
+
+.title {
+  font-size: var(--lk-font-size-heading-lg);
+  font-weight: 600;
+}
+
+.add {
+  width: 36px;
+  height: 36px;
+  background: var(--lk-color-surface-icon);
+}
+
+.scope {
+  width: 282px;
+  margin-left: auto;
+}
+
+.scope > button {
+  height: 30px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 270px));
+  gap: 18px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-3);
+}
+
+.fileHead {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+  min-height: 26px;
+  color: var(--lk-color-icon-default);
+}
+
+.fileTitle {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--lk-color-text-primary);
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menuButton {
+  width: 26px;
+  height: 26px;
+}
+
+.cardMenu {
+  position: absolute;
+  top: var(--lk-space-4);
+  right: var(--lk-space-4);
+  width: 26px;
+  height: 26px;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 560px;
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-raised);
+}

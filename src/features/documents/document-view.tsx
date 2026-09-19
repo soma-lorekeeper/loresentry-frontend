@@ -13,15 +13,19 @@ import {
 import {
   Button,
   EmptyState,
+  Icon,
   IconButton,
   InlineNotice,
   useToast,
 } from "@/design-system/primitives";
 import type { DocumentType } from "@/domain/document-types";
 import type { ExportFormat, FolderNode } from "@/domain/models";
+import { MemoPanel } from "@/features/memos/memo-panel";
 import { isServiceError } from "@/services/errors";
 import { invalidateProjectContent, queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
+import { cx } from "@/shared/cx";
+import { useElementSize } from "@/shared/use-element-size";
 
 import {
   categoryFolderOf,
@@ -43,6 +47,8 @@ import { createDocumentExtensions } from "./editor/extensions";
 import { FileHeader } from "./file-header";
 import { PropertyTable } from "./property-table";
 import { useDocumentSession } from "./use-document-session";
+
+const MIN_EDITOR_WIDTH = 560;
 
 function BodyEditor({
   markdown,
@@ -129,6 +135,8 @@ export function DocumentView({
   const [editor, setEditor] = useState<Editor | null>(null);
   const [lockPending, setLockPending] = useState(false);
   const printRoot = useRef<HTMLDivElement>(null);
+  const [workArea, setWorkArea] = useState<HTMLDivElement | null>(null);
+  const workSize = useElementSize(workArea);
 
   const nodes = useMemo(() => tree.data ?? [], [tree.data]);
   const index = useMemo(() => indexNodes(nodes), [nodes]);
@@ -270,16 +278,35 @@ export function DocumentView({
     );
   };
 
+  const panels = layout.panels;
+  const memoSize =
+    panels.memoDock === "right"
+      ? panels.memoRightWidth
+      : panels.memoBelowHeight;
+  // 요구사항 §5.3: 편집 영역이 너무 좁아지면 오른쪽 메모를 접고 다시 열 수 있게 안내한다.
+  const memoCollapsed =
+    panels.memoOpen &&
+    panels.memoDock === "right" &&
+    workSize !== null &&
+    workSize.width - panels.memoRightWidth < MIN_EDITOR_WIDTH;
+  const closeMemo = () => {
+    dispatch({ type: "setPanels", panels: { memoOpen: false } });
+    workArea
+      ?.closest("[data-document-view]")
+      ?.querySelector<HTMLElement>("[data-memo-toggle]")
+      ?.focus();
+  };
+
   return (
-    <div className={styles.view}>
+    <div className={styles.view} data-document-view>
       <FileHeader
-        memoOpen={layout.panels.memoOpen}
+        memoOpen={panels.memoOpen}
         locked={locked}
         lockPending={lockPending}
         onToggleMemo={() =>
           dispatch({
             type: "setPanels",
-            panels: { memoOpen: !layout.panels.memoOpen },
+            panels: { memoOpen: !panels.memoOpen },
           })
         }
         onOpenVersions={() =>
@@ -292,86 +319,137 @@ export function DocumentView({
         onExport={exportAs}
         onToggleLock={toggleLock}
       />
-      <EditorToolbar
-        key={editor ? "ready" : "pending"}
-        editor={editor}
-        prefs={prefs}
-        status={doc.status}
-        locked={locked}
-        onRetry={() => void doc.session.retry()}
-      />
-      {doc.status === "conflict" && (
-        <InlineNotice
-          icon="triangle-alert"
-          action={
-            <>
-              <Button onClick={() => void doc.session.keepMine()}>
-                내 변경 유지
-              </Button>
-              <Button onClick={() => void doc.session.takeTheirs()}>
-                최신 버전 불러오기
-              </Button>
-            </>
-          }
-        >
-          다른 곳에서 같은 문단을 먼저 고쳤어요. 어느 쪽을 남길지 골라 주세요.
-        </InlineNotice>
-      )}
-      <div className={styles.body}>
-        <div className={styles.canvasScroll}>
-          <div ref={printRoot} className={styles.column} style={editorVars}>
-            <div className={styles.titleRow}>
-              <input
-                className={styles.title}
-                value={draft.title}
-                readOnly={locked}
-                placeholder="제목 없음"
-                aria-label="제목"
-                onChange={(event) =>
-                  doc.session.update({ title: event.target.value })
-                }
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") {
-                    event.preventDefault();
-                    editor?.commands.focus("start");
-                  }
-                }}
-              />
-              <IconButton
-                icon="star"
-                iconSize={15}
-                label={favorite ? "즐겨찾기에서 제거" : "즐겨찾기에 추가"}
-                aria-pressed={favorite}
-                className={styles.favorite}
-                onClick={() =>
-                  setFavorite.mutate({ fileId, favorite: !favorite })
-                }
-              />
-            </div>
-            <PropertyTable
-              fileId={fileId}
-              docType={docType}
-              properties={draft.properties}
-              nodes={nodes}
-              episode={episodeOf(index, fileId)}
-              episodes={episodes}
-              readOnly={locked}
-              onChange={(properties) => doc.session.update({ properties })}
-              onChangeType={changeType}
-              onMoveToEpisode={(episodeId) =>
-                move.mutate({ fileId, parentId: episodeId, beforeId: null })
+      <div
+        ref={setWorkArea}
+        className={cx(
+          styles.workArea,
+          panels.memoDock === "below" && styles.below,
+        )}
+      >
+        {memoCollapsed && (
+          <div className={styles.collapsedNotice} role="status">
+            <Icon name="panel-right-close" size={15} />
+            <span>작업 영역이 좁아 메모를 접었습니다</span>
+            <Button
+              size="md"
+              icon="panel-bottom"
+              onClick={() =>
+                dispatch({ type: "setPanels", panels: { memoDock: "below" } })
               }
-              onOpenFile={(target) => open({ kind: "file", fileId: target })}
-            />
-            <BodyEditor
-              markdown={draft.bodyMd}
-              version={doc.contentVersion}
-              editable={!locked}
-              onChange={(bodyMd) => doc.session.update({ bodyMd })}
-              onReady={setEditor}
-            />
+            >
+              다시 열기
+            </Button>
+          </div>
+        )}
+        <div className={styles.main}>
+          <EditorToolbar
+            key={editor ? "ready" : "pending"}
+            editor={editor}
+            prefs={prefs}
+            status={doc.status}
+            locked={locked}
+            onRetry={() => void doc.session.retry()}
+          />
+          {doc.status === "conflict" && (
+            <InlineNotice
+              icon="triangle-alert"
+              action={
+                <>
+                  <Button onClick={() => void doc.session.keepMine()}>
+                    내 변경 유지
+                  </Button>
+                  <Button onClick={() => void doc.session.takeTheirs()}>
+                    최신 버전 불러오기
+                  </Button>
+                </>
+              }
+            >
+              다른 곳에서 같은 문단을 먼저 고쳤어요. 어느 쪽을 남길지 골라
+              주세요.
+            </InlineNotice>
+          )}
+          <div className={styles.body}>
+            <div className={styles.canvasScroll}>
+              <div ref={printRoot} className={styles.column} style={editorVars}>
+                <div className={styles.titleRow}>
+                  <input
+                    className={styles.title}
+                    value={draft.title}
+                    readOnly={locked}
+                    placeholder="제목 없음"
+                    aria-label="제목"
+                    onChange={(event) =>
+                      doc.session.update({ title: event.target.value })
+                    }
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") {
+                        event.preventDefault();
+                        editor?.commands.focus("start");
+                      }
+                    }}
+                  />
+                  <IconButton
+                    icon="star"
+                    iconSize={15}
+                    label={favorite ? "즐겨찾기에서 제거" : "즐겨찾기에 추가"}
+                    aria-pressed={favorite}
+                    className={styles.favorite}
+                    onClick={() =>
+                      setFavorite.mutate({ fileId, favorite: !favorite })
+                    }
+                  />
+                </div>
+                <PropertyTable
+                  fileId={fileId}
+                  docType={docType}
+                  properties={draft.properties}
+                  nodes={nodes}
+                  episode={episodeOf(index, fileId)}
+                  episodes={episodes}
+                  readOnly={locked}
+                  onChange={(properties) => doc.session.update({ properties })}
+                  onChangeType={changeType}
+                  onMoveToEpisode={(episodeId) =>
+                    move.mutate({ fileId, parentId: episodeId, beforeId: null })
+                  }
+                  onOpenFile={(target) =>
+                    open({ kind: "file", fileId: target })
+                  }
+                />
+                <BodyEditor
+                  markdown={draft.bodyMd}
+                  version={doc.contentVersion}
+                  editable={!locked}
+                  onChange={(bodyMd) => doc.session.update({ bodyMd })}
+                  onReady={setEditor}
+                />
+              </div>
+            </div>
           </div>
         </div>
+        {panels.memoOpen && !memoCollapsed && (
+          <MemoPanel
+            projectId={projectId}
+            fileId={fileId}
+            fileTitle={draft.title || "제목 없음"}
+            docType={docType}
+            dock={panels.memoDock}
+            size={memoSize}
+            onResize={(size) =>
+              dispatch({
+                type: "setPanels",
+                panels:
+                  panels.memoDock === "right"
+                    ? { memoRightWidth: size }
+                    : { memoBelowHeight: size },
+              })
+            }
+            onDock={(memoDock) =>
+              dispatch({ type: "setPanels", panels: { memoDock } })
+            }
+            onClose={closeMemo}
+          />
+        )}
       </div>
     </div>
   );

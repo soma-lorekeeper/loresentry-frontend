@@ -26,7 +26,7 @@ import {
   TRASHED_PROJECTS,
 } from "./seed-world";
 
-export const MOCK_DB_VERSION = 5;
+export const MOCK_DB_VERSION = 6;
 const STORAGE_KEY = "loresentry.mock.db";
 
 export interface StoredDocument {
@@ -330,6 +330,13 @@ function buildGlassGarden(now: number, db: MockDb) {
 
   db.favorites[projectId] = [docId("ch-12")];
 
+  const projectMemoTitles = [
+    "균열의 방향",
+    "북쪽 온실",
+    "진향 용어",
+    "사건 순서",
+    "표지 문구",
+  ];
   const projectMemoBodies = [
     "균열은 문이 아니라 기억의 방향이다. 다음 장면에서 유리 조각의 의미를 다시 연결한다.",
     "서윤과 하린이 처음 마주치는 장소는 북쪽 온실. 빛이 유리 벽을 통과하는 시간을 확인한다.",
@@ -343,7 +350,7 @@ function buildGlassGarden(now: number, db: MockDb) {
       projectId,
       scope: "project",
       fileId: null,
-      title: "",
+      title: projectMemoTitles[index] ?? "",
       body,
       updatedAt: minutes(now, 60 * (index + 1)),
     });

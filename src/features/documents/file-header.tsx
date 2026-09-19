@@ -83,6 +83,7 @@ export function FileHeader({
       <Action
         icon="notebook-pen"
         label="메모"
+        data-memo-toggle
         pressed={memoOpen}
         onClick={onToggleMemo}
       />

@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
+import { MemoView } from "@/features/memos/memo-view";
 import { FileTrashView } from "@/features/file-trash/file-trash-view";
 import { ProjectSettingsView } from "@/features/project-settings/project-settings-view";
 import { SearchView } from "@/features/search/search-view";
@@ -155,6 +156,41 @@ describe("workspace views", () => {
     ).toBeInTheDocument();
     expect(getDb().projects.find((p) => p.id === GLASS_GARDEN_ID)?.title).toBe(
       "유리 정원의 연대기",
+    );
+  });
+
+  it("autosaves an edited project memo", async () => {
+    const actor = userEvent.setup();
+    renderInWorkspace("memo", <MemoView />);
+    const editors = await screen.findAllByRole("textbox", {
+      name: "프로젝트 메모",
+    });
+    await actor.type(editors[0], " 추가");
+    await waitFor(
+      () =>
+        expect(getDb().memos.some((memo) => memo.body.endsWith(" 추가"))).toBe(
+          true,
+        ),
+      { timeout: 3000 },
+    );
+  });
+
+  it("deletes a memo after confirmation", async () => {
+    const actor = userEvent.setup();
+    renderInWorkspace("memo", <MemoView />);
+    const before = getDb().memos.filter((m) => m.scope === "project").length;
+    await actor.click(
+      (await screen.findAllByRole("button", { name: "메모 메뉴" }))[0],
+    );
+    await actor.click(await screen.findByRole("menuitem", { name: "삭제" }));
+    const dialog = await screen.findByRole("dialog");
+    await actor.click(
+      within(dialog).getByRole("button", { name: "메모 삭제" }),
+    );
+    await waitFor(() =>
+      expect(getDb().memos.filter((m) => m.scope === "project")).toHaveLength(
+        before - 1,
+      ),
     );
   });
 });

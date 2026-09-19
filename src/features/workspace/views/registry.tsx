@@ -1,5 +1,6 @@
 import { FileTrashView } from "@/features/file-trash/file-trash-view";
 import { WorkspaceHelpView } from "@/features/help/workspace-help-view";
+import { MemoView } from "@/features/memos/memo-view";
 import { ProjectSettingsView } from "@/features/project-settings/project-settings-view";
 import { SearchView } from "@/features/search/search-view";
 
@@ -40,7 +41,7 @@ export const WORKSPACE_VIEWS: Record<
     kind: "memo",
     icon: "notebook-pen",
     title: "메모",
-    render: () => <PlannedView title="메모" />,
+    render: () => <MemoView />,
   },
   trash: {
     kind: "trash",
