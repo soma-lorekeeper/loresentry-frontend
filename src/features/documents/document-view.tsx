@@ -21,6 +21,7 @@ import {
 import type { DocumentType } from "@/domain/document-types";
 import type { ExportFormat, FolderNode } from "@/domain/models";
 import { MemoPanel } from "@/features/memos/memo-panel";
+import { VersionHistoryModal } from "@/features/versions/version-history-modal";
 import { isServiceError } from "@/services/errors";
 import { invalidateProjectContent, queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
@@ -134,6 +135,7 @@ export function DocumentView({
   const doc = useDocumentSession(fileId);
   const [editor, setEditor] = useState<Editor | null>(null);
   const [lockPending, setLockPending] = useState(false);
+  const [versionsOpen, setVersionsOpen] = useState(false);
   const printRoot = useRef<HTMLDivElement>(null);
   const [workArea, setWorkArea] = useState<HTMLDivElement | null>(null);
   const workSize = useElementSize(workArea);
@@ -309,13 +311,7 @@ export function DocumentView({
             panels: { memoOpen: !panels.memoOpen },
           })
         }
-        onOpenVersions={() =>
-          toast({
-            icon: "history",
-            title: "버전 기록",
-            description: "버전 기록 화면을 준비하고 있어요.",
-          })
-        }
+        onOpenVersions={() => setVersionsOpen(true)}
         onExport={exportAs}
         onToggleLock={toggleLock}
       />
@@ -451,6 +447,27 @@ export function DocumentView({
           />
         )}
       </div>
+      <VersionHistoryModal
+        open={versionsOpen}
+        fileId={fileId}
+        title={draft.title || "제목 없음"}
+        current={{ ...draft, docType }}
+        locked={locked}
+        index={index}
+        onClose={() => setVersionsOpen(false)}
+        beforeSave={() => doc.session.save()}
+        currentRevision={() => doc.session.revisionNo}
+        onRestored={(next) => {
+          doc.session.replace(next);
+          queryClient.setQueryData(queryKeys.document(fileId), next);
+          void invalidateProjectContent(queryClient, projectId);
+          toast({
+            icon: "rotate-ccw",
+            title: "선택한 버전으로 복원했어요.",
+            description: "복원 직전 상태도 버전 기록에 남겨 두었어요.",
+          });
+        }}
+      />
     </div>
   );
 }

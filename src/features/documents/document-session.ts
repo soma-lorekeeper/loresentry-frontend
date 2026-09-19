@@ -89,6 +89,10 @@ export class DocumentSession {
     );
   }
 
+  get revisionNo() {
+    return this.revision;
+  }
+
   hydrate(content: DocumentContent) {
     if (content.revisionNo < this.revision) return;
     const incoming = toDraft(content);
