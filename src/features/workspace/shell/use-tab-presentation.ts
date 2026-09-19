@@ -12,12 +12,14 @@ import { WORKSPACE_VIEWS } from "../views/registry";
 import { useWorkspace } from "../workspace-context";
 
 export function useTabPresentation() {
-  const { projectId } = useWorkspace();
+  const { projectId, tabLabels } = useWorkspace();
   const tree = useFileTree(projectId);
   const index = useMemo(() => indexNodes(tree.data ?? []), [tree.data]);
   return useCallback(
     (target: WorkspaceTarget): { icon: IconName; title: string } => {
       if (target.kind !== "file") {
+        const label = tabLabels.get(target.kind);
+        if (label) return label;
         const view = WORKSPACE_VIEWS[target.kind];
         return { icon: view.icon, title: view.title };
       }
@@ -33,6 +35,6 @@ export function useTabPresentation() {
         title: tree.isPending ? "불러오는 중" : "찾을 수 없는 파일",
       };
     },
-    [index, tree.isPending],
+    [index, tree.isPending, tabLabels],
   );
 }

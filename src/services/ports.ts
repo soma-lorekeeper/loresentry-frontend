@@ -17,6 +17,7 @@ import type {
   TrashEntry,
   User,
 } from "@/domain/models";
+import type { GuideTopic } from "@/features/help/guide-content";
 import type { WorkspaceLayout } from "@/features/workspace/model/layout";
 
 export type AuthFailure = "canceled" | "failed" | "expired";
@@ -185,6 +186,12 @@ export interface WorkspaceStateService {
   save(projectId: string, layout: WorkspaceLayout): Promise<void>;
 }
 
+export interface HelpService {
+  // 서버 가정(미확정): 사용 가이드는 서버나 CMS에서 받아온다(와이어프레임 90의 불러오기 실패 상태).
+  // 정적 번들로 확정되면 이 포트 없이 guide-content를 직접 읽으면 된다.
+  guides(): Promise<GuideTopic[]>;
+}
+
 export interface Services {
   auth: AuthService;
   account: AccountService;
@@ -198,4 +205,5 @@ export interface Services {
   refresh: RefreshService;
   chat: ChatService;
   workspaceState: WorkspaceStateService;
+  help: HelpService;
 }

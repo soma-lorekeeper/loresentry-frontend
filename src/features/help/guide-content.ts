@@ -228,10 +228,10 @@ export function findTopic(topicId: string | null) {
   return GUIDE_TOPICS.find((topic) => topic.id === topicId) ?? null;
 }
 
-export function searchTopics(query: string) {
+export function searchTopics(query: string, topics = GUIDE_TOPICS) {
   const needle = query.trim().toLocaleLowerCase();
-  if (!needle) return GUIDE_TOPICS;
-  return GUIDE_TOPICS.filter((topic) =>
+  if (!needle) return topics;
+  return topics.filter((topic) =>
     [
       topic.title,
       topic.summary,

@@ -8,10 +8,12 @@ import {
   useMemo,
   useReducer,
   useRef,
+  useState,
   type Dispatch,
   type ReactNode,
 } from "react";
 
+import type { IconName } from "@/design-system/icons/icon";
 import type { Project, User } from "@/domain/models";
 import { useServices } from "@/services/services-context";
 
@@ -38,7 +40,18 @@ interface WorkspaceContextValue {
     target: WorkspaceTarget,
     options?: { toSide?: boolean; paneId?: string },
   ) => void;
+  closeTab: (paneId: string, tabId: string) => void;
+  registerCloseGuard: (tabId: string, guard: CloseGuard) => () => void;
+  tabLabels: ReadonlyMap<string, TabLabel>;
+  setTabLabel: (tabId: string, label: TabLabel | null) => void;
 }
+
+export interface TabLabel {
+  icon: IconName;
+  title: string;
+}
+
+export type CloseGuard = (proceed: () => void) => boolean;
 
 const WorkspaceContext = createContext<WorkspaceContextValue | null>(null);
 
@@ -84,6 +97,41 @@ export function WorkspaceProvider({
     [],
   );
 
+  const [tabLabels, setTabLabels] = useState<ReadonlyMap<string, TabLabel>>(
+    () => new Map(),
+  );
+
+  const setTabLabel = useCallback((tabId: string, label: TabLabel | null) => {
+    setTabLabels((current) => {
+      const existing = current.get(tabId);
+      if (existing?.icon === label?.icon && existing?.title === label?.title)
+        return current;
+      const next = new Map(current);
+      if (label) next.set(tabId, label);
+      else next.delete(tabId);
+      return next;
+    });
+  }, []);
+
+  const guards = useRef(new Map<string, CloseGuard>());
+
+  const registerCloseGuard = useCallback((tabId: string, guard: CloseGuard) => {
+    guards.current.set(tabId, guard);
+    return () => {
+      if (guards.current.get(tabId) === guard) guards.current.delete(tabId);
+    };
+  }, []);
+
+  const closeTab = useCallback((paneId: string, tabId: string) => {
+    const proceed = () => dispatch({ type: "close", paneId, tabId });
+    const guard = guards.current.get(tabId);
+    if (guard?.(proceed)) {
+      dispatch({ type: "activate", paneId, tabId });
+      return;
+    }
+    proceed();
+  }, []);
+
   const activePane =
     layout.panes.find((pane) => pane.id === layout.activePaneId) ??
     layout.panes[0];
@@ -101,8 +149,23 @@ export function WorkspaceProvider({
       activePane,
       activeFileId,
       open,
+      closeTab,
+      registerCloseGuard,
+      tabLabels,
+      setTabLabel,
     }),
-    [project, user, layout, activePane, activeFileId, open],
+    [
+      project,
+      user,
+      layout,
+      activePane,
+      activeFileId,
+      open,
+      closeTab,
+      registerCloseGuard,
+      tabLabels,
+      setTabLabel,
+    ],
   );
 
   return (

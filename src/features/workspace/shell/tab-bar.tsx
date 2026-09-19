@@ -10,7 +10,7 @@ import styles from "./tab-bar.module.css";
 import { useTabPresentation } from "./use-tab-presentation";
 
 export function TabBar({ pane }: { pane: WorkspacePane }) {
-  const { dispatch, layout } = useWorkspace();
+  const { dispatch, layout, closeTab } = useWorkspace();
   const present = useTabPresentation();
   const listRef = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState<string | null>(null);
@@ -33,8 +33,7 @@ export function TabBar({ pane }: { pane: WorkspacePane }) {
     else if (event.key === "ArrowLeft") focusTab(index - 1);
     else if (event.key === "Home") focusTab(0);
     else if (event.key === "End") focusTab(pane.tabs.length - 1);
-    else if (event.key === "Delete")
-      dispatch({ type: "close", paneId: pane.id, tabId });
+    else if (event.key === "Delete") closeTab(pane.id, tabId);
     else return;
     event.preventDefault();
   };
@@ -77,8 +76,7 @@ export function TabBar({ pane }: { pane: WorkspacePane }) {
                 dispatch({ type: "activate", paneId: pane.id, tabId: tab.id })
               }
               onAuxClick={(event) => {
-                if (event.button === 1)
-                  dispatch({ type: "close", paneId: pane.id, tabId: tab.id });
+                if (event.button === 1) closeTab(pane.id, tab.id);
               }}
               onKeyDown={(event) => onKeyDown(event, index, tab.id)}
               onDragStart={(event) => {
@@ -119,7 +117,7 @@ export function TabBar({ pane }: { pane: WorkspacePane }) {
                   tabIndex={-1}
                   onClick={(event) => {
                     event.stopPropagation();
-                    dispatch({ type: "close", paneId: pane.id, tabId: tab.id });
+                    closeTab(pane.id, tab.id);
                   }}
                 >
                   <Icon name="x" size={13} />

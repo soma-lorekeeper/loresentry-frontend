@@ -1,3 +1,8 @@
+import { FileTrashView } from "@/features/file-trash/file-trash-view";
+import { WorkspaceHelpView } from "@/features/help/workspace-help-view";
+import { ProjectSettingsView } from "@/features/project-settings/project-settings-view";
+import { SearchView } from "@/features/search/search-view";
+
 import type { WorkspaceViewKind } from "../model/layout";
 import { NewTabView } from "./new-tab-view";
 import { PlannedView } from "./planned-view";
@@ -17,7 +22,7 @@ export const WORKSPACE_VIEWS: Record<
     kind: "search",
     icon: "search",
     title: "검색",
-    render: () => <PlannedView title="검색" />,
+    render: () => <SearchView />,
   },
   graph: {
     kind: "graph",
@@ -41,18 +46,18 @@ export const WORKSPACE_VIEWS: Record<
     kind: "trash",
     icon: "trash-2",
     title: "휴지통",
-    render: () => <PlannedView title="휴지통" />,
+    render: () => <FileTrashView />,
   },
   settings: {
     kind: "settings",
     icon: "settings",
-    title: "설정",
-    render: () => <PlannedView title="설정" />,
+    title: "프로젝트 설정",
+    render: (props) => <ProjectSettingsView {...props} />,
   },
   help: {
     kind: "help",
     icon: "circle-help",
     title: "도움말",
-    render: () => <PlannedView title="도움말" />,
+    render: (props) => <WorkspaceHelpView {...props} />,
   },
 };
