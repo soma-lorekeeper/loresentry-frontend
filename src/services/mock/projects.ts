@@ -95,7 +95,6 @@ export const mockProjects: ProjectService = {
         }),
       );
       db.favorites[project.id] = [];
-      db.sections[project.id] = [];
       persistDb();
       return project;
     }),

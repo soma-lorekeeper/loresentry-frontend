@@ -121,3 +121,22 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.extracting {
+  opacity: 0.5;
+}
+
+.extracting > svg {
+  animation: spin 900ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.sectionHeader[data-drop-target="true"] {
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-state-selected);
+}

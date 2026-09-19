@@ -16,7 +16,6 @@ import type {
   Project,
   RefreshRun,
   User,
-  UserSection,
 } from "@/domain/models";
 import type { WorkspaceLayout } from "@/features/workspace/model/layout";
 
@@ -27,7 +26,7 @@ import {
   TRASHED_PROJECTS,
 } from "./seed-world";
 
-export const MOCK_DB_VERSION = 4;
+export const MOCK_DB_VERSION = 5;
 const STORAGE_KEY = "loresentry.mock.db";
 
 export interface StoredDocument {
@@ -43,7 +42,6 @@ export interface MockDb {
   files: FileNode[];
   documents: Record<string, StoredDocument>;
   favorites: Record<string, string[]>;
-  sections: Record<string, UserSection[]>;
   memos: Memo[];
   versions: DocumentVersion[];
   chatSessions: ChatSession[];
@@ -331,7 +329,6 @@ function buildGlassGarden(now: number, db: MockDb) {
   };
 
   db.favorites[projectId] = [docId("ch-12")];
-  db.sections[projectId] = [];
 
   const projectMemoBodies = [
     "균열은 문이 아니라 기억의 방향이다. 다음 장면에서 유리 조각의 의미를 다시 연결한다.",
@@ -523,7 +520,6 @@ function buildOtherProject(
     properties: [descriptionProperty(lastFileId, "")],
   };
   db.favorites[seed.id] = [];
-  db.sections[seed.id] = [];
   db.projects.push({
     id: seed.id,
     title: seed.title,
@@ -545,7 +541,6 @@ export function buildSeedDb(now = Date.now()): MockDb {
     files: [],
     documents: {},
     favorites: {},
-    sections: {},
     memos: [],
     versions: [],
     chatSessions: [],

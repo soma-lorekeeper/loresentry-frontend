@@ -23,7 +23,9 @@ export interface Project {
 
 // 서버 가정(DOCUMENT_EDITING_PROPOSAL §4.1): 파일과 폴더는 files 한 테이블에 있고
 // rank는 드래그 이동을 위한 문자열 fractional index다.
-export type FolderRole = "category" | "episode" | "section";
+// 와이어프레임(27·86)에 따라 사용자 섹션도 최상위 폴더이며, 섹션을 지우면 같은 이름의
+// 일반 폴더(folder)가 되어 파일 영역으로 내려간다. 요구사항 §4.1보다 넓은 해석이다.
+export type FolderRole = "category" | "episode" | "section" | "folder";
 
 interface FileNodeBase {
   id: string;
@@ -172,12 +174,6 @@ export interface TrashEntry {
   node: FileNode;
   originalPath: string[];
   childCount: number;
-}
-
-export interface UserSection {
-  id: string;
-  title: string;
-  itemIds: string[];
 }
 
 export interface ProjectSettings {

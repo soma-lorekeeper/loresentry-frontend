@@ -2,27 +2,24 @@
 
 import { useMemo, useRef } from "react";
 
-import { Button, Icon, useToast } from "@/design-system/primitives";
+import { Button, Icon } from "@/design-system/primitives";
 import {
   DOCUMENT_TYPE_META,
   DOCUMENT_TYPES,
   type DocumentType,
 } from "@/domain/document-types";
 import type { DocumentNode } from "@/domain/models";
-import { useServices } from "@/services/services-context";
 import { relativeTime } from "@/shared/format";
 
 import { categoryFolderOf, documentsOf } from "../model/tree";
 import { useCreateFile, useFileTree } from "../queries";
+import { IMPORT_ACCEPT, useImportDocument } from "../use-import-document";
 import { useWorkspace } from "../workspace-context";
 import styles from "./new-tab.module.css";
 
-const IMPORT_ACCEPT = ".txt,.md,.markdown,text/plain,text/markdown";
-
 export function NewTabView() {
   const { project, projectId, open } = useWorkspace();
-  const services = useServices();
-  const toast = useToast();
+  const importDocument = useImportDocument(projectId);
   const tree = useFileTree(projectId);
   const create = useCreateFile(projectId);
   const fileInput = useRef<HTMLInputElement>(null);
@@ -57,23 +54,8 @@ export function NewTabView() {
   const importFile = async (file: File) => {
     const parent = categoryFolderOf(nodes, "manuscript");
     if (!parent) return;
-    const text = await file.text();
-    const title =
-      file.name.replace(/\.(txt|md|markdown)$/i, "") || "가져온 원고";
-    const node = await create.mutateAsync({
-      parentId: parent.id,
-      kind: "document",
-      docType: "manuscript",
-      title,
-    });
-    const doc = await services.documents.get(node.id);
-    await services.documents.save(node.id, {
-      draft: { title: doc.title, bodyMd: text, properties: doc.properties },
-      ifMatchRevision: doc.revisionNo,
-      saveId: crypto.randomUUID(),
-    });
-    toast({ icon: "upload", title: "원고를 가져왔어요.", description: title });
-    open({ kind: "file", fileId: node.id });
+    const node = await importDocument(file, parent.id);
+    if (node) open({ kind: "file", fileId: node.id });
   };
 
   return (

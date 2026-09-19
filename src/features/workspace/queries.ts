@@ -30,14 +30,6 @@ export function useFavorites(projectId: string) {
   });
 }
 
-export function useSections(projectId: string) {
-  const services = useServices();
-  return useQuery({
-    queryKey: queryKeys.sections(projectId),
-    queryFn: () => services.files.sections(projectId),
-  });
-}
-
 export function useFileTrash(projectId: string) {
   const services = useServices();
   return useQuery({
@@ -62,7 +54,7 @@ export function useCreateFile(projectId: string) {
   return useFileMutation(
     projectId,
     (input: {
-      parentId: string;
+      parentId: string | null;
       kind: "document" | "folder";
       title: string;
       docType?: DocumentType;
@@ -139,34 +131,15 @@ export function useSetFavorite(projectId: string) {
 
 export function useSectionMutations(projectId: string) {
   const services = useServices();
-  const queryClient = useQueryClient();
-  const refresh = () =>
-    queryClient.invalidateQueries({ queryKey: queryKeys.sections(projectId) });
   return {
-    create: useMutation({
-      mutationFn: ({
-        title,
-        afterSectionId,
-      }: {
-        title: string;
-        afterSectionId: string | null;
-      }) => services.files.createSection(projectId, title, afterSectionId),
-      onSuccess: refresh,
-    }),
-    rename: useMutation({
-      mutationFn: ({
-        sectionId,
-        title,
-      }: {
-        sectionId: string;
-        title: string;
-      }) => services.files.renameSection(projectId, sectionId, title),
-      onSuccess: refresh,
-    }),
-    remove: useMutation({
-      mutationFn: (sectionId: string) =>
-        services.files.deleteSection(projectId, sectionId),
-      onSuccess: refresh,
-    }),
+    create: useFileMutation(projectId, (title: string) =>
+      services.files.createSection(projectId, title),
+    ),
+    remove: useFileMutation(projectId, (sectionId: string) =>
+      services.files.deleteSection(sectionId),
+    ),
+    removeEpisode: useFileMutation(projectId, (episodeId: string) =>
+      services.files.deleteEpisode(episodeId),
+    ),
   };
 }

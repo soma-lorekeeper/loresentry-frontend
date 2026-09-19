@@ -16,7 +16,6 @@ import type {
   SearchHit,
   TrashEntry,
   User,
-  UserSection,
 } from "@/domain/models";
 import type { WorkspaceLayout } from "@/features/workspace/model/layout";
 
@@ -50,7 +49,7 @@ export interface ProjectService {
 
 export interface CreateFileInput {
   projectId: string;
-  parentId: string;
+  parentId: string | null;
   kind: "document" | "folder";
   title: string;
   docType?: DocumentType;
@@ -75,19 +74,11 @@ export interface FileService {
     fileId: string,
     favorite: boolean,
   ): Promise<string[]>;
-  sections(projectId: string): Promise<UserSection[]>;
-  createSection(
-    projectId: string,
-    title: string,
-    afterSectionId: string | null,
-  ): Promise<UserSection>;
-  renameSection(
-    projectId: string,
-    sectionId: string,
-    title: string,
-  ): Promise<UserSection>;
-  // 요구사항 §4.1: 섹션을 지워도 안의 파일은 지우지 않고 기본 파일 영역으로 옮긴다.
-  deleteSection(projectId: string, sectionId: string): Promise<void>;
+  createSection(projectId: string, title: string): Promise<FileNode>;
+  // 요구사항 §4.1·와이어프레임 86: 섹션을 지우면 안의 자료는 같은 이름의 폴더로 파일 영역에 남는다.
+  deleteSection(sectionId: string): Promise<FileNode>;
+  // 와이어프레임 166: 에피소드 폴더를 지우면 폴더만 사라지고 회차는 원고 폴더로 돌아간다.
+  deleteEpisode(episodeId: string): Promise<void>;
 }
 
 export class ConflictError extends Error {

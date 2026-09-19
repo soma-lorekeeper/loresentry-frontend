@@ -65,27 +65,34 @@ export const mockFiles: FileService = {
   create: ({ projectId, parentId, kind, title, docType }) =>
     simulate("files.create", () => {
       const db = getDb();
-      const parent = requireNode(parentId);
-      if (parent.kind !== "folder") {
+      const parent = parentId ? requireNode(parentId) : null;
+      if (parent && parent.kind !== "folder") {
         throw new ServiceError("validation", "폴더 안에만 만들 수 있어요.");
       }
-      const category = categoryOf(parent);
+      const category = parent ? categoryOf(parent) : null;
       const now = new Date().toISOString();
       if (kind === "folder") {
-        if (category?.category !== "manuscript" || parent.role !== "category") {
+        if (parent?.role === "episode") {
+          throw new ServiceError(
+            "validation",
+            "에피소드 안에는 폴더를 만들 수 없어요.",
+          );
+        }
+        if (parent?.role === "category" && parent.category !== "manuscript") {
           throw new ServiceError(
             "validation",
             "에피소드 폴더는 원고 아래에만 만들 수 있어요.",
           );
         }
+        const role = parent?.role === "category" ? "episode" : "folder";
         const folder: FolderNode = {
           kind: "folder",
           id: nextId("folder"),
           projectId,
           parentId,
           title: validateTitle(title),
-          role: "episode",
-          category: "manuscript",
+          role,
+          category: role === "episode" ? "manuscript" : null,
           rank: nextRank(db, parentId, projectId),
           trashedAt: null,
         };
@@ -93,7 +100,16 @@ export const mockFiles: FileService = {
         persistDb();
         return folder;
       }
+      if (!parent) {
+        throw new ServiceError("validation", "문서는 폴더 안에 만들어 주세요.");
+      }
       const type = docType ?? category?.category ?? "manuscript";
+      if (parent.role === "episode" && type !== "manuscript") {
+        throw new ServiceError(
+          "validation",
+          "에피소드에는 원고만 둘 수 있어요.",
+        );
+      }
       const document: DocumentNode = {
         kind: "document",
         id: nextId("doc"),
@@ -147,13 +163,29 @@ export const mockFiles: FileService = {
       if (parent.kind !== "folder") {
         throw new ServiceError("validation", "폴더 안으로만 옮길 수 있어요.");
       }
-      if (node.kind === "folder" && parent.role === "episode") {
+      if (
+        node.kind === "folder" &&
+        (parent.role === "episode" || parent.role === "category")
+      ) {
         throw new ServiceError(
           "validation",
-          "에피소드 안에는 폴더를 둘 수 없어요.",
+          "이 폴더 안에는 폴더를 옮길 수 없어요.",
         );
       }
-      if (descendantsOf(db, fileId).some((child) => child.id === parentId)) {
+      if (
+        parent.role === "episode" &&
+        node.kind === "document" &&
+        node.docType !== "manuscript"
+      ) {
+        throw new ServiceError(
+          "validation",
+          "에피소드에는 원고만 둘 수 있어요.",
+        );
+      }
+      if (
+        descendantsOf(db, fileId).some((child) => child.id === parentId) ||
+        parentId === fileId
+      ) {
         throw new ServiceError(
           "validation",
           "폴더를 자기 안으로 옮길 수 없어요.",
@@ -173,9 +205,13 @@ export const mockFiles: FileService = {
       const high = next ? Number(next.rank) : low + 2048;
       node.parentId = parentId;
       node.rank = String((low + high) / 2);
-      const targetCategory = categoryOf(parent)?.category;
-      if (node.kind === "document" && targetCategory)
-        node.docType = targetCategory;
+      if (
+        node.kind === "document" &&
+        parent.role === "category" &&
+        parent.category
+      ) {
+        node.docType = parent.category;
+      }
       persistDb();
       return node;
     }),
@@ -270,45 +306,54 @@ export const mockFiles: FileService = {
       return db.favorites[projectId];
     }),
 
-  sections: (projectId) =>
-    simulate("files.sections", () => getDb().sections[projectId] ?? []),
-
-  createSection: (projectId, title, afterSectionId) =>
+  createSection: (projectId, title) =>
     simulate("files.createSection", () => {
       const db = getDb();
-      const sections = db.sections[projectId] ?? [];
-      const section = {
+      const section: FolderNode = {
+        kind: "folder",
         id: nextId("section"),
+        projectId,
+        parentId: null,
         title: validateTitle(title),
-        itemIds: [],
+        role: "section",
+        category: null,
+        rank: nextRank(db, null, projectId),
+        trashedAt: null,
       };
-      const index = afterSectionId
-        ? sections.findIndex((s) => s.id === afterSectionId) + 1
-        : 0;
-      sections.splice(index, 0, section);
-      db.sections[projectId] = sections;
+      db.files.push(section);
       persistDb();
       return section;
     }),
 
-  renameSection: (projectId, sectionId, title) =>
-    simulate("files.renameSection", () => {
-      const section = (getDb().sections[projectId] ?? []).find(
-        (s) => s.id === sectionId,
-      );
-      if (!section)
-        throw new ServiceError("not-found", "섹션을 찾을 수 없어요.");
-      section.title = validateTitle(title);
-      persistDb();
-      return section;
-    }),
-
-  deleteSection: (projectId, sectionId) =>
+  deleteSection: (sectionId) =>
     simulate("files.deleteSection", () => {
+      const node = requireNode(sectionId);
+      if (node.kind !== "folder" || node.role !== "section") {
+        throw new ServiceError("validation", "사용자 섹션만 삭제할 수 있어요.");
+      }
+      node.role = "folder";
+      persistDb();
+      return node;
+    }),
+
+  deleteEpisode: (episodeId) =>
+    simulate("files.deleteEpisode", () => {
       const db = getDb();
-      db.sections[projectId] = (db.sections[projectId] ?? []).filter(
-        (s) => s.id !== sectionId,
-      );
+      const node = requireNode(episodeId);
+      if (node.kind !== "folder" || node.role !== "episode") {
+        throw new ServiceError(
+          "validation",
+          "에피소드 폴더만 삭제할 수 있어요.",
+        );
+      }
+      const children = db.files
+        .filter((f) => f.parentId === episodeId)
+        .sort((a, b) => Number(a.rank) - Number(b.rank));
+      for (const child of children) {
+        child.parentId = node.parentId;
+        child.rank = nextRank(db, node.parentId, node.projectId);
+      }
+      db.files = db.files.filter((f) => f.id !== episodeId);
       persistDb();
     }),
 };

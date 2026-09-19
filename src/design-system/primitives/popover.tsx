@@ -9,6 +9,7 @@ import {
   type CSSProperties,
   type ReactNode,
   type RefObject,
+  type SyntheticEvent,
 } from "react";
 import { createPortal } from "react-dom";
 
@@ -27,6 +28,8 @@ interface PopoverProps {
 }
 
 const VIEWPORT_MARGIN = 8;
+
+const stop = (event: SyntheticEvent) => event.stopPropagation();
 
 function computePosition(
   anchor: DOMRect,
@@ -122,6 +125,12 @@ function PopoverPanel({
     <div
       ref={panelRef}
       className={className}
+      onClick={stop}
+      onDoubleClick={stop}
+      onContextMenu={stop}
+      onKeyDown={stop}
+      onPointerDown={stop}
+      onDragStart={stop}
       style={{
         position: "fixed",
         zIndex: 50,

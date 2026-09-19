@@ -47,3 +47,80 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.row[data-drop-target="true"] {
+  background: var(--lk-color-state-selected);
+  box-shadow: inset 0 0 0 1px var(--lk-color-accent-primary);
+}
+
+.row[data-menu-open="true"]:not([aria-selected="true"]) {
+  background: var(--lk-color-state-hover);
+}
+
+.more {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-right: calc(var(--lk-space-1) * -1);
+  border-radius: var(--lk-radius-control);
+  color: var(--lk-color-icon-default);
+  opacity: 0;
+}
+
+.row:hover .more,
+.row:focus-visible .more,
+.more[aria-expanded="true"] {
+  opacity: 1;
+}
+
+.more:hover {
+  background: var(--lk-color-surface-icon-hover);
+}
+
+.editRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+  height: 32px;
+  padding-right: var(--lk-space-3);
+}
+
+.editRow > svg {
+  flex: none;
+  color: var(--lk-color-icon-default);
+}
+
+.editInput {
+  flex: 1;
+  min-width: 0;
+  height: 28px;
+  padding: 0 var(--lk-space-2);
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  outline: none;
+  background: var(--lk-color-state-hover);
+  caret-color: var(--lk-color-accent-primary);
+  color: var(--lk-color-text-primary);
+}
+
+.editInput:focus-visible {
+  border-color: var(--lk-color-accent-primary);
+}
+
+.editConfirm {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--lk-radius-control);
+  color: var(--lk-color-icon-default);
+}
+
+.editConfirm:hover {
+  background: var(--lk-color-state-hover);
+}

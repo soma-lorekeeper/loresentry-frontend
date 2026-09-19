@@ -188,6 +188,62 @@ describe("mock files", () => {
     expect(restored.parentId).toBe(`${GLASS_GARDEN_ID}:folder:place`);
   });
 
+  it("turns a deleted section into a folder in the files area", async () => {
+    const section = await services.files.createSection(
+      GLASS_GARDEN_ID,
+      "자료 조사",
+    );
+    const note = await services.files.create({
+      projectId: GLASS_GARDEN_ID,
+      parentId: section.id,
+      kind: "document",
+      title: "조사 메모",
+      docType: "worldview",
+    });
+    const converted = await services.files.deleteSection(section.id);
+    expect(converted).toMatchObject({ role: "folder", title: "자료 조사" });
+    const tree = await services.files.tree(GLASS_GARDEN_ID);
+    expect(tree.find((node) => node.id === note.id)?.parentId).toBe(section.id);
+  });
+
+  it("returns chapters to the manuscript folder when an episode is deleted", async () => {
+    const episodeId = `${GLASS_GARDEN_ID}:ep-4`;
+    await services.files.deleteEpisode(episodeId);
+    const tree = await services.files.tree(GLASS_GARDEN_ID);
+    expect(tree.some((node) => node.id === episodeId)).toBe(false);
+    expect(tree.find((node) => node.id === chapter12)?.parentId).toBe(
+      `${GLASS_GARDEN_ID}:folder:manuscript`,
+    );
+  });
+
+  it("changes a document type when it moves into another category", async () => {
+    const lena = `${GLASS_GARDEN_ID}:c-lena`;
+    const moved = await services.files.move(
+      lena,
+      `${GLASS_GARDEN_ID}:folder:organization`,
+      null,
+    );
+    expect(moved.kind === "document" && moved.docType).toBe("organization");
+  });
+
+  it("allows plain folders at the files root but keeps settings out of episodes", async () => {
+    const folder = await services.files.create({
+      projectId: GLASS_GARDEN_ID,
+      parentId: null,
+      kind: "folder",
+      title: "참고 자료",
+    });
+    expect(folder.kind === "folder" && folder.role).toBe("folder");
+    const wrong = await rejection(
+      services.files.move(
+        `${GLASS_GARDEN_ID}:c-lena`,
+        `${GLASS_GARDEN_ID}:ep-1`,
+        null,
+      ),
+    );
+    expect(isServiceError(wrong)).toBe(true);
+  });
+
   it("hides trashed items and their children from the tree", async () => {
     const tree = await services.files.tree(GLASS_GARDEN_ID);
     expect(tree.some((node) => node.trashedAt)).toBe(false);
