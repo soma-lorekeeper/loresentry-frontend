@@ -120,7 +120,6 @@ export interface VersionService {
     versionId: string,
     ifMatchRevision: number,
   ): Promise<DocumentContent>;
-  remove(fileId: string, versionId: string): Promise<void>;
 }
 
 export interface MemoService {

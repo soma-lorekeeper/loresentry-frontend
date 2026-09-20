@@ -71,3 +71,15 @@
 .error > svg {
   color: var(--lk-color-icon-default);
 }
+
+.save {
+  width: 26px;
+  height: 26px;
+  border: 1px solid transparent;
+}
+
+.saveReady {
+  border-color: var(--lk-color-border-default);
+  background: var(--lk-color-surface-icon);
+  color: var(--lk-color-text-primary);
+}

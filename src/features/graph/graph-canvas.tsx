@@ -25,7 +25,9 @@ export interface GraphCanvasProps {
   onSelect: (node: RenderNode) => void;
 }
 
+// 사용자가 붙인 관계 설명이 있으면 그것을, 없으면 대상 문서 종류의 관계 이름을 얹는다.
 function relationName(link: RenderLink) {
+  if (link.description) return link.description;
   const target = link.target;
   if (typeof target === "string") return null;
   return DOCUMENT_TYPE_META[target.kind].relationLabel;

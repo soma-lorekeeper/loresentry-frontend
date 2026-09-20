@@ -67,6 +67,9 @@ export interface RelationProperty {
   label: string;
   targetType: DocumentType;
   targetIds: string[];
+  // 요구사항 §10: 관계마다 설명을 붙일 수 있다. 대상 문서 id 를 열쇠로 둔다.
+  // 서버 가정(미확정): TABLE_AND_LOGIC §4.7 의 document_relations 에는 아직 이 칸이 없다.
+  descriptions?: Record<string, string>;
 }
 
 export type DocumentProperty = TextProperty | RelationProperty;
@@ -162,6 +165,8 @@ export interface GraphEdge {
   source: string;
   target: string;
   key: string;
+  /** 관계에 붙인 설명. 그래프에서 엣지 위에 얹는다 */
+  description?: string;
 }
 
 export interface ProjectGraph {

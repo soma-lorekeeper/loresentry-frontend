@@ -26,7 +26,7 @@ import {
   TRASHED_PROJECTS,
 } from "./seed-world";
 
-export const MOCK_DB_VERSION = 7;
+export const MOCK_DB_VERSION = 8;
 const STORAGE_KEY = "loresentry.mock.db";
 
 export interface StoredDocument {
@@ -101,6 +101,7 @@ function relationProperty(
   fileId: string,
   targetType: DocumentType,
   targetIds: string[],
+  descriptions?: Record<string, string>,
 ): DocumentProperty {
   return {
     id: `${fileId}:${relationKey(targetType)}`,
@@ -109,8 +110,16 @@ function relationProperty(
     label: DOCUMENT_TYPE_META[targetType].relationLabel,
     targetType,
     targetIds,
+    descriptions,
   };
 }
+
+// 관계 설명 시드. `출발 문서 키 > 대상 문서 키` 로 적는다.
+const RELATION_DESCRIPTIONS: Record<string, string> = {
+  "c-lena > o-fleet": "길잡이",
+  "c-seoyun > c-lena": "기록단에서 만난 사이",
+  "c-harin > p-greenhouse": "열쇠를 맡은 곳",
+};
 
 function categoryFolders(projectId: string): FolderNode[] {
   return DOCUMENT_TYPES.map((type, index) => ({
@@ -269,8 +278,22 @@ function buildGlassGarden(now: number, db: MockDb) {
     ];
     for (const targetType of DOCUMENT_TYPES) {
       const targets = byType?.get(targetType);
-      if (targets?.size)
-        properties.push(relationProperty(id, targetType, [...targets]));
+      if (targets?.size) {
+        const descriptions: Record<string, string> = {};
+        for (const target of targets) {
+          const note =
+            RELATION_DESCRIPTIONS[`${key} > ${target.split(":").pop()}`];
+          if (note) descriptions[target] = note;
+        }
+        properties.push(
+          relationProperty(
+            id,
+            targetType,
+            [...targets],
+            Object.keys(descriptions).length > 0 ? descriptions : undefined,
+          ),
+        );
+      }
     }
     db.documents[id] = { bodyMd: bodies.get(key) ?? "", properties };
   }

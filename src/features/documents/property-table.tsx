@@ -23,6 +23,7 @@ import type {
   RelationProperty,
 } from "@/domain/models";
 
+import { InlineText } from "./inline-text";
 import styles from "./property-table.module.css";
 
 interface PropertyTableProps {
@@ -123,6 +124,18 @@ function RelationPicker({
   );
 }
 
+/** 설명이 비면 열쇠를 아예 지운다. 빈 문자열이 남아 diff 가 "달라졌다"로 보이지 않게 */
+function withDescription(
+  descriptions: Record<string, string> | undefined,
+  targetId: string,
+  description: string,
+): Record<string, string> | undefined {
+  const next = { ...descriptions };
+  if (description) next[targetId] = description;
+  else delete next[targetId];
+  return Object.keys(next).length > 0 ? next : undefined;
+}
+
 function RelationRow({
   property,
   fileId,
@@ -205,6 +218,22 @@ function RelationRow({
             >
               {node.title}
             </button>
+            <InlineText
+              value={property.descriptions?.[node.id] ?? ""}
+              placeholder="+ 설명"
+              label={`${node.title} 관계 설명`}
+              readOnly={readOnly}
+              onCommit={(description) =>
+                onChange({
+                  ...property,
+                  descriptions: withDescription(
+                    property.descriptions,
+                    node.id,
+                    description,
+                  ),
+                })
+              }
+            />
             {!readOnly && (
               <button
                 type="button"
@@ -215,6 +244,11 @@ function RelationRow({
                     ...property,
                     targetIds: property.targetIds.filter(
                       (id) => id !== node.id,
+                    ),
+                    descriptions: withDescription(
+                      property.descriptions,
+                      node.id,
+                      "",
                     ),
                   })
                 }

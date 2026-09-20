@@ -105,7 +105,12 @@ function toMarkdown(content: DocumentContent) {
       lines.push(`- ${property.label}: ${property.value}`);
     } else {
       const titles = property.targetIds
-        .map((id) => db.files.find((f) => f.id === id)?.title)
+        .map((id) => {
+          const title = db.files.find((f) => f.id === id)?.title;
+          if (!title) return null;
+          const description = property.descriptions?.[id];
+          return description ? `${title}(${description})` : title;
+        })
         .filter(Boolean);
       lines.push(`- ${property.label}: ${titles.join(", ")}`);
     }
@@ -211,14 +216,5 @@ export const mockVersions: VersionService = {
       addVersion(fileId, "RESTORE");
       persistDb();
       return readDocument(fileId);
-    }),
-
-  remove: (fileId, versionId) =>
-    simulate("versions.remove", () => {
-      const db = getDb();
-      db.versions = db.versions.filter(
-        (v) => !(v.fileId === fileId && v.id === versionId),
-      );
-      persistDb();
     }),
 };

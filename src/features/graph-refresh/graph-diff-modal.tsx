@@ -95,10 +95,15 @@ function PropertyValue({
   if (property.kind === "text") return <span>{property.value || "—"}</span>;
   if (!targetId) return <span className={styles.missing}>—</span>;
   const target = lookup(targetId);
+  const description =
+    property.kind === "relation"
+      ? property.descriptions?.[targetId]
+      : undefined;
   return (
     <span className={styles.chip}>
       <Icon name={target?.icon ?? "file"} size={14} />
       {target?.title ?? "새 문서"}
+      {description && <span className={styles.chipNote}>{description}</span>}
     </span>
   );
 }

@@ -262,3 +262,15 @@
   font-weight: 700;
   text-align: center;
 }
+
+.chipNote {
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  font-weight: 500;
+}
+
+.chipNote {
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  font-weight: 500;
+}

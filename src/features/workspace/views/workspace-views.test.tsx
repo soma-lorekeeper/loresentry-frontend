@@ -160,13 +160,19 @@ describe("workspace views", () => {
     );
   });
 
-  it("autosaves an edited project memo", async () => {
+  it("saves an edited project memo when the save button is pressed", async () => {
     const actor = userEvent.setup();
     renderInWorkspace("memo", <MemoView />);
     const editors = await screen.findAllByRole("textbox", {
       name: "프로젝트 메모",
     });
     await actor.type(editors[0], " 추가");
+    expect(getDb().memos.some((memo) => memo.body.endsWith(" 추가"))).toBe(
+      false,
+    );
+    await actor.click(
+      screen.getAllByRole("button", { name: "프로젝트 메모 저장" })[0],
+    );
     await waitFor(
       () =>
         expect(getDb().memos.some((memo) => memo.body.endsWith(" 추가"))).toBe(

@@ -46,4 +46,27 @@ describe("version compare", () => {
     ]);
     expect(rows[1].left).toEqual({ kind: "missing" });
   });
+
+  it("marks a relation row as changed when only the description differs", () => {
+    const relation = (descriptions?: Record<string, string>) => ({
+      id: "1",
+      kind: "relation" as const,
+      key: "manuscripts",
+      label: "관련 원고",
+      targetType: "manuscript" as const,
+      targetIds: ["a"],
+      descriptions,
+    });
+    const rows = compareProperties(
+      [relation({ a: "길잡이" })],
+      [relation({ a: "동료" })],
+    );
+    expect(rows).toHaveLength(1);
+    expect(rows[0].changed).toBe(true);
+    expect(rows[0].left).toEqual({
+      kind: "relation",
+      targetId: "a",
+      description: "길잡이",
+    });
+  });
 });

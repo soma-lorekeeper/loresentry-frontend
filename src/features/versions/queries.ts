@@ -24,11 +24,6 @@ export function useVersionMutations(fileId: string) {
       mutationFn: () => services.versions.saveNamed(fileId),
       onSuccess: invalidate,
     }),
-    remove: useMutation({
-      mutationFn: (versionId: string) =>
-        services.versions.remove(fileId, versionId),
-      onSuccess: invalidate,
-    }),
     restore: useMutation({
       mutationFn: ({
         versionId,

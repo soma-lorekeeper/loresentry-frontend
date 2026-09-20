@@ -4,7 +4,6 @@ import { useId, useState } from "react";
 
 import {
   Button,
-  DialogCard,
   EmptyState,
   Icon,
   IconButton,
@@ -64,6 +63,9 @@ function Cell({
         size={14}
       />
       {node?.title ?? "삭제된 파일"}
+      {cell.description && (
+        <span className={styles.chipNote}>{cell.description}</span>
+      )}
     </span>
   );
 }
@@ -140,12 +142,10 @@ function VersionRow({
   version,
   selected,
   onSelect,
-  onDelete,
 }: {
   version: DocumentVersion;
   selected: boolean;
   onSelect: () => void;
-  onDelete: () => void;
 }) {
   return (
     <li className={cx(styles.version, selected && styles.selected)}>
@@ -160,13 +160,6 @@ function VersionRow({
         </span>
         <span className={styles.versionKind}>{KIND_LABEL[version.kind]}</span>
       </button>
-      <IconButton
-        icon="trash-2"
-        iconSize={15}
-        label={`${versionTimeLabel(version.createdAt)} 버전 삭제`}
-        className={styles.versionDelete}
-        onClick={onDelete}
-      />
     </li>
   );
 }
@@ -201,7 +194,6 @@ export function VersionHistoryModal({
   const versions = useVersions(fileId, open);
   const mutations = useVersionMutations(fileId);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [deleting, setDeleting] = useState<DocumentVersion | null>(null);
   const [preparing, setPreparing] = useState(false);
   const list = versions.data ?? [];
   const selected =
@@ -213,7 +205,6 @@ export function VersionHistoryModal({
     if (busy) return;
     mutations.save.reset();
     mutations.restore.reset();
-    mutations.remove.reset();
     onClose();
   };
 
@@ -284,7 +275,6 @@ export function VersionHistoryModal({
                 version={version}
                 selected={version.id === selected?.id}
                 onSelect={() => setSelectedId(version.id)}
-                onDelete={() => setDeleting(version)}
               />
             ))}
           </ul>
@@ -377,53 +367,6 @@ export function VersionHistoryModal({
           </footer>
         </div>
       </div>
-      <DialogCard
-        open={deleting !== null}
-        onClose={() => !mutations.remove.isPending && setDeleting(null)}
-        icon="trash-2"
-        title="이 버전을 삭제할까요?"
-        description="삭제한 버전은 되돌릴 수 없어요. 현재 문서는 바뀌지 않습니다."
-        target={
-          deleting
-            ? { icon: "history", name: fullTime(deleting.createdAt) }
-            : undefined
-        }
-        actions={
-          <>
-            <Button
-              size="md"
-              icon="x"
-              disabled={mutations.remove.isPending}
-              onClick={() => setDeleting(null)}
-            >
-              취소
-            </Button>
-            <Button
-              size="md"
-              variant="primary"
-              icon="trash-2"
-              busy={mutations.remove.isPending}
-              onClick={() =>
-                deleting &&
-                mutations.remove.mutate(deleting.id, {
-                  onSuccess: () => {
-                    if (selectedId === deleting.id) setSelectedId(null);
-                    setDeleting(null);
-                  },
-                })
-              }
-            >
-              버전 삭제
-            </Button>
-          </>
-        }
-      >
-        {mutations.remove.isError && (
-          <InlineNotice icon="circle-alert">
-            버전을 삭제하지 못했어요. 다시 시도해 주세요.
-          </InlineNotice>
-        )}
-      </DialogCard>
     </Modal>
   );
 }

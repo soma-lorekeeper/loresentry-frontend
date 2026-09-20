@@ -42,7 +42,9 @@ function sameDraft(a: DocumentDraft, b: DocumentDraft) {
 function relationSignature(draft: DocumentDraft) {
   return JSON.stringify(
     draft.properties.flatMap((p) =>
-      p.kind === "relation" ? [[p.key, [...p.targetIds].sort()]] : [],
+      p.kind === "relation"
+        ? [[p.key, [...p.targetIds].sort(), p.descriptions ?? {}]]
+        : [],
     ),
   );
 }

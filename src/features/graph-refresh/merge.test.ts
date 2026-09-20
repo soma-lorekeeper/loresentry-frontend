@@ -76,4 +76,34 @@ describe("merge", () => {
     expect(resolvedDrafts(dropped, [{ id: "q", fileId: "n" }]).q).toBeNull();
     expect(resetDocument(dropped, "n", added).right.get("n")).toBe(proposed);
   });
+
+  it("counts a relation description change and pushes it across", () => {
+    const relation = (description: string) => ({
+      id: "r",
+      kind: "relation" as const,
+      key: "related_character",
+      label: "관련 캐릭터",
+      targetType: "character" as const,
+      targetIds: ["teo"],
+      descriptions: { teo: description },
+    });
+    const base = initMerge([
+      {
+        fileId: "a",
+        current: { title: "하린", bodyMd: "", properties: [relation("동료")] },
+        proposed: {
+          title: "하린",
+          bodyMd: "",
+          properties: [relation("길잡이")],
+        },
+      },
+    ]);
+    expect(remainingOf(base, "a")).toBe(1);
+    const merged = pushProperty(base, "a", "related_character", "<<");
+    expect(isResolved(merged, "a")).toBe(true);
+    const property = merged.left.get("a")!.properties[0];
+    expect(property.kind === "relation" && property.descriptions).toEqual({
+      teo: "길잡이",
+    });
+  });
 });

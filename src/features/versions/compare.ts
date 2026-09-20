@@ -11,7 +11,7 @@ export interface CompareRow {
 
 export type CompareCell =
   | { kind: "text"; value: string }
-  | { kind: "relation"; targetId: string }
+  | { kind: "relation"; targetId: string; description: string }
   | { kind: "missing" };
 
 export function paragraphsOf(markdown: string) {
@@ -43,6 +43,8 @@ export function compareProperties(
         ...leftIds,
         ...rightIds.filter((id) => !leftIds.includes(id)),
       ];
+      const leftNotes = a?.kind === "relation" ? (a.descriptions ?? {}) : {};
+      const rightNotes = b?.kind === "relation" ? (b.descriptions ?? {}) : {};
       ids.forEach((id, index) => {
         const inLeft = leftIds.includes(id);
         const inRight = rightIds.includes(id);
@@ -50,12 +52,22 @@ export function compareProperties(
           key: `${key}:${id}`,
           label: index === 0 ? label : null,
           left: inLeft
-            ? { kind: "relation", targetId: id }
+            ? {
+                kind: "relation",
+                targetId: id,
+                description: leftNotes[id] ?? "",
+              }
             : { kind: "missing" },
           right: inRight
-            ? { kind: "relation", targetId: id }
+            ? {
+                kind: "relation",
+                targetId: id,
+                description: rightNotes[id] ?? "",
+              }
             : { kind: "missing" },
-          changed: inLeft !== inRight,
+          changed:
+            inLeft !== inRight ||
+            (leftNotes[id] ?? "") !== (rightNotes[id] ?? ""),
         });
       });
       if (ids.length === 0)

@@ -42,8 +42,10 @@ export interface RenderLink {
   /** force-graph 가 첫 렌더에서 문자열을 노드 객체로 바꿔 넣는다 */
   source: string | RenderNode;
   target: string | RenderNode;
-  /** 관계 속성 키. 엣지 위 이름표에 쓴다 */
+  /** 관계 속성 키 */
   key: string;
+  /** 사용자가 관계에 붙인 설명. 엣지 위 이름표에 쓴다 */
+  description?: string;
 }
 
 export interface RenderGraph {
@@ -65,6 +67,7 @@ export function buildRenderGraph(graph: ProjectGraph): RenderGraph {
     source: edge.source,
     target: edge.target,
     key: edge.key,
+    description: edge.description,
   }));
   return { nodes, links };
 }

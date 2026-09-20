@@ -91,7 +91,11 @@ function sameProperty(
   if (a.kind === "relation" && b.kind === "relation")
     return (
       a.targetIds.length === b.targetIds.length &&
-      a.targetIds.every((id) => b.targetIds.includes(id))
+      a.targetIds.every(
+        (id) =>
+          b.targetIds.includes(id) &&
+          (a.descriptions?.[id] ?? "") === (b.descriptions?.[id] ?? ""),
+      )
     );
   return false;
 }
