@@ -39,12 +39,25 @@ export function parseRuntimeConfig(value: unknown): RuntimeConfig {
   };
 }
 
+/**
+ * URL 로 데이터 출처를 바꾼다: `?data=api` 또는 `?data=mock`.
+ *
+ * 배포된 사이트의 기본값을 건드리지 않고 실제 API 를 확인할 수 있어야 한다. 반대로 API 에 문제가
+ * 있을 때 `?data=mock` 으로 화면만 따로 볼 수도 있다. `config.json` 을 고치면 배포가 필요하다.
+ */
+export function applyDataSourceOverride(config: RuntimeConfig): RuntimeConfig {
+  if (typeof window === "undefined") return config;
+  const requested = new URLSearchParams(window.location.search).get("data");
+  if (requested !== "api" && requested !== "mock") return config;
+  return { ...config, dataSource: requested };
+}
+
 export async function loadRuntimeConfig(): Promise<RuntimeConfig> {
   try {
     const response = await fetch("/config.json", { cache: "no-store" });
-    if (!response.ok) return DEFAULT_RUNTIME_CONFIG;
-    return parseRuntimeConfig(await response.json());
+    if (!response.ok) return applyDataSourceOverride(DEFAULT_RUNTIME_CONFIG);
+    return applyDataSourceOverride(parseRuntimeConfig(await response.json()));
   } catch {
-    return DEFAULT_RUNTIME_CONFIG;
+    return applyDataSourceOverride(DEFAULT_RUNTIME_CONFIG);
   }
 }
