@@ -31,9 +31,9 @@ export function LogoutDialog({
 
   const confirm = () =>
     logout.mutate(undefined, {
-      onSuccess: () => {
+      onSuccess: (result) => {
         queryClient.clear();
-        router.replace("/logout");
+        router.replace(`/logout?result=${result}`);
       },
     });
 
@@ -48,7 +48,7 @@ export function LogoutDialog({
           icon: "cloud-off" as const,
           title: "로그아웃하지 못했어요",
           description:
-            "지금 화면과 작업은 그대로예요. 연결을 확인한 뒤 다시 시도해 주세요.",
+            "서버의 세션 종료 여부를 확인하지 못했어요. 작성 중인 내용은 보관하고, 연결을 확인해 주세요.",
         }
       : {
           icon: "log-out" as const,

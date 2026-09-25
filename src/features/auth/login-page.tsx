@@ -2,10 +2,12 @@
 
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useRuntimeConfig } from "@/app/providers";
 import { Icon, StatusNotice } from "@/design-system/primitives";
+import { LOGIN_RETURN_KEY } from "@/services/api/auth";
+import { ServiceError } from "@/services/errors";
 import type { AuthFailure } from "@/services/ports";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
@@ -15,7 +17,7 @@ import { GoogleMark } from "./google-mark";
 import styles from "./login-page.module.css";
 import { safeReturnTo } from "./return-to";
 
-type LoginStatus = "idle" | "processing" | AuthFailure;
+type LoginStatus = "idle" | "processing" | "unavailable" | AuthFailure;
 
 const COPY: Record<
   LoginStatus,
@@ -30,6 +32,11 @@ const COPY: Record<
     title: "Lorekeeper에 로그인",
     description: "Google 계정으로 안전하게 계속하세요.",
     action: "Google 로그인으로 이동 중…",
+  },
+  unavailable: {
+    title: "로그인 상태를 확인할 수 없어요",
+    description: "일시적인 연결 문제일 수 있어요. 잠시 뒤 다시 시도해 주세요.",
+    action: "다시 Google로 계속하기",
   },
   canceled: {
     title: "Lorekeeper에 로그인",
@@ -48,10 +55,12 @@ const COPY: Record<
   },
 };
 
-function initialStatus(value: string | null): LoginStatus {
-  return value === "canceled" || value === "failed" || value === "expired"
-    ? value
-    : "idle";
+export function initialStatus(value: string | null): LoginStatus {
+  if (value === "success") return "processing";
+  if (value === "cancelled" || value === "canceled") return "canceled";
+  if (value === "invalid" || value === "expired") return "expired";
+  if (value === "unavailable") return "unavailable";
+  return value === "failed" ? "failed" : "idle";
 }
 
 function PolicyLink({ href, label }: { href: string; label: string }) {
@@ -81,9 +90,49 @@ export function LoginPage() {
   const queryClient = useQueryClient();
   const config = useRuntimeConfig();
   const [status, setStatus] = useState<LoginStatus>(() =>
-    initialStatus(searchParams.get("auth")),
+    initialStatus(searchParams.get("result") ?? searchParams.get("auth")),
   );
-  const returnTo = safeReturnTo(searchParams.get("returnTo"));
+  const [storedReturnTo] = useState(() => {
+    try {
+      return safeReturnTo(window.sessionStorage.getItem(LOGIN_RETURN_KEY));
+    } catch {
+      return null;
+    }
+  });
+  const returnTo = safeReturnTo(searchParams.get("returnTo")) ?? storedReturnTo;
+  const result = searchParams.get("result");
+  useEffect(() => {
+    if (result !== "success") return;
+    let active = true;
+    services.auth
+      .getSession()
+      .then((user) => {
+        if (!active) return;
+        if (!user) {
+          setStatus("expired");
+          return;
+        }
+        queryClient.setQueryData(queryKeys.session, user);
+        try {
+          window.sessionStorage.removeItem(LOGIN_RETURN_KEY);
+        } catch {
+          /* Optional navigation state. */
+        }
+        router.replace(returnTo ?? "/projects");
+      })
+      .catch((error) => {
+        if (active)
+          setStatus(
+            error instanceof ServiceError &&
+              (error.code === "session-unavailable" || error.code === "network")
+              ? "unavailable"
+              : "failed",
+          );
+      });
+    return () => {
+      active = false;
+    };
+  }, [result, services, queryClient, router, returnTo]);
   const copy = COPY[status];
   const processing = status === "processing";
 
@@ -91,6 +140,7 @@ export function LoginPage() {
     setStatus("processing");
     try {
       await services.auth.startGoogleLogin(returnTo ?? "/projects");
+      if (config.dataSource === "api") return;
       await queryClient.invalidateQueries({ queryKey: queryKeys.session });
       router.replace(returnTo ?? "/projects");
     } catch {
@@ -156,9 +206,11 @@ export function LoginPage() {
                 Google 로그인이 취소됐어요.
               </StatusNotice>
             )}
-            {status === "failed" && (
+            {(status === "failed" || status === "unavailable") && (
               <StatusNotice tone="error">
-                로그인을 완료하지 못했어요. 다시 시도해 주세요.
+                {status === "unavailable"
+                  ? "로그인 상태를 확인하지 못했어요. 잠시 뒤 다시 시도해 주세요."
+                  : "로그인을 완료하지 못했어요. 다시 시도해 주세요."}
               </StatusNotice>
             )}
             {status === "expired" && (

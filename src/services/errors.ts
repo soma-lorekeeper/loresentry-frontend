@@ -1,4 +1,6 @@
 export type ServiceErrorCode =
+  | "session-required"
+  | "session-unavailable"
   | "network"
   | "not-found"
   | "validation"

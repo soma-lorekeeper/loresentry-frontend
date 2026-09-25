@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, type ReactNode } from "react";
 
+import { Button, StatusNotice } from "@/design-system/primitives";
 import type { User } from "@/domain/models";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
@@ -35,6 +36,13 @@ export function SessionGate({
     router.replace(`/login?returnTo=${encodeURIComponent(returnTo)}`);
   }, [signedOut, pathname, searchParams, router]);
 
+  if (session.isError && !session.data)
+    return (
+      <StatusNotice tone="error">
+        로그인 상태를 확인할 수 없어요.{" "}
+        <Button onClick={() => session.refetch()}>다시 확인</Button>
+      </StatusNotice>
+    );
   if (!session.data) return null;
   return children(session.data);
 }

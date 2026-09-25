@@ -1,5 +1,6 @@
 import type { Services } from "../ports";
 
+import { createApiAuth, createApiAccount } from "./auth";
 import { createApiDocuments, createApiVersions } from "./documents";
 import { LocalFavoriteStore } from "./favorites";
 import { createApiFiles } from "./files";
@@ -21,12 +22,14 @@ export function createApiServices(baseUrl: string): Partial<Services> {
   const documents = createApiDocuments(client);
 
   return {
+    auth: createApiAuth(client, baseUrl),
+    account: createApiAccount(client),
     projects: createApiProjects(client),
     files: createApiFiles(client, new LocalFavoriteStore()),
     documents,
     versions: createApiVersions(client, documents),
     search: createApiSearch(client),
-    // 아직 서버에 없다: auth, account, memos, graph, refresh, chat, workspaceState, help.
-    // 각각 authentication 서비스 연동, 테이블 결정, graph-rag, LLM 을 기다린다.
+    // 아직 서버에 없다: memos, graph, refresh, chat, workspaceState, help.
+    // 각각 테이블 결정, graph-rag, LLM 을 기다린다.
   };
 }

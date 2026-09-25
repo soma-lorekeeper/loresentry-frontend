@@ -47,7 +47,14 @@ export function parseRuntimeConfig(value: unknown): RuntimeConfig {
  */
 export function applyDataSourceOverride(config: RuntimeConfig): RuntimeConfig {
   if (typeof window === "undefined") return config;
-  const requested = new URLSearchParams(window.location.search).get("data");
+  let requested = new URLSearchParams(window.location.search).get("data");
+  try {
+    if (requested === "api" || requested === "mock")
+      window.sessionStorage.setItem("loresentry.dataSource", requested);
+    else requested = window.sessionStorage.getItem("loresentry.dataSource");
+  } catch {
+    /* Explicit URL and deployment config still work without storage. */
+  }
   if (requested !== "api" && requested !== "mock") return config;
   return { ...config, dataSource: requested };
 }

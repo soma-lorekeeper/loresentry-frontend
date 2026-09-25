@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useState,
+  useMemo,
   type ReactNode,
 } from "react";
 
@@ -38,8 +39,11 @@ function createQueryClient() {
 
 export function AppProviders({ children }: { children: ReactNode }) {
   const [queryClient] = useState(createQueryClient);
-  const [config, setConfig] = useState(DEFAULT_RUNTIME_CONFIG);
-  const [services] = useState(() => createServices(DEFAULT_RUNTIME_CONFIG));
+  const [config, setConfig] = useState<RuntimeConfig | null>(null);
+  const services = useMemo(
+    () => (config ? createServices(config) : null),
+    [config],
+  );
 
   useEffect(() => {
     applyMockParam(new URLSearchParams(window.location.search).get("mock"));
@@ -51,6 +55,8 @@ export function AppProviders({ children }: { children: ReactNode }) {
       active = false;
     };
   }, []);
+
+  if (!config || !services) return null;
 
   return (
     <RuntimeConfigContext.Provider value={config}>

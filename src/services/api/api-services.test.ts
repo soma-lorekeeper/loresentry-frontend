@@ -10,9 +10,7 @@ import { isServiceError } from "../errors";
 import { ConflictError } from "../ports";
 
 import { createApiServices } from ".";
-import { setDevUserId } from "./identity";
 
-const USER = "0199a3f2-8c41-7c2a-9f3d-2b7e1c4a5d60";
 const BASE = "https://api.test.invalid";
 
 interface Call {
@@ -20,6 +18,7 @@ interface Call {
   method: string;
   headers: Record<string, string>;
   body: unknown;
+  credentials?: RequestCredentials;
 }
 
 let calls: Call[];
@@ -32,12 +31,12 @@ function reply(status: number, body?: unknown) {
 beforeEach(() => {
   calls = [];
   responses = [];
-  setDevUserId(USER);
   window.localStorage.clear();
 
   vi.stubGlobal("fetch", (input: string, init: RequestInit = {}) => {
     calls.push({
       url: String(input),
+      credentials: init.credentials,
       method: init.method ?? "GET",
       headers: (init.headers ?? {}) as Record<string, string>,
       body: init.body ? JSON.parse(String(init.body)) : undefined,
@@ -72,12 +71,13 @@ const apiProject = {
 };
 
 describe("identity and transport", () => {
-  it("sends the user id on every request", async () => {
+  it("sends credential cookies without a client user header", async () => {
     reply(200, { projects: [apiProject] });
     await services().projects!.list();
 
     expect(calls[0].url).toBe(`${BASE}/projects`);
-    expect(calls[0].headers["X-User-Id"]).toBe(USER);
+    expect(calls[0].headers["X-User-Id"]).toBeUndefined();
+    expect(calls[0].credentials).toBe("include");
   });
 
   it("turns a failed fetch into a network error rather than letting it escape", async () => {
@@ -558,7 +558,8 @@ describe("wiring", () => {
     expect(wired.graph).toBe(mock.graph);
     expect(wired.memos).toBe(mock.memos);
     expect(wired.workspaceState).toBe(mock.workspaceState);
-    expect(wired.auth).toBe(mock.auth);
+    expect(wired.auth).not.toBe(mock.auth);
+    expect(wired.account).not.toBe(mock.account);
   });
 
   it("stays on mock when the base url is missing, rather than requesting nowhere", () => {
@@ -593,5 +594,58 @@ describe("data source override", () => {
     expect(applyDataSourceOverride(base).dataSource).toBe("mock");
 
     window.history.replaceState({}, "", "/workspace/");
+  });
+});
+
+describe("session authentication", () => {
+  it("maps the server account and sends CSRF for account changes", async () => {
+    const profile = { id: "user-1", display_name: "작가", email: null };
+    reply(200, profile);
+    expect(await services().auth!.getSession()).toEqual({
+      id: "user-1",
+      displayName: "작가",
+      email: "",
+    });
+    reply(200, { ...profile, display_name: "새 이름" });
+    await services().account!.updateDisplayName("새 이름");
+    expect(calls[1].headers["X-LS-CSRF"]).toBe("1");
+    expect(calls[1].body).toEqual({ display_name: "새 이름" });
+    expect(calls[1].headers["X-User-Id"]).toBeUndefined();
+  });
+  it.each(["SESSION_REQUIRED", "SESSION_INVALID"])(
+    "treats %s as a missing login without retry",
+    async (code) => {
+      reply(401, { code, next_action: "RELOGIN" });
+      expect(await services().auth!.getSession()).toBeNull();
+      expect(calls).toHaveLength(1);
+    },
+  );
+  it("keeps unavailable authentication distinct from signed out", async () => {
+    reply(503, { code: "SESSION_UNAVAILABLE", next_action: "RETRY_LATER" });
+    await expect(services().auth!.getSession()).rejects.toMatchObject({
+      code: "session-unavailable",
+    });
+    expect(calls).toHaveLength(1);
+  });
+  it.each([
+    [200, "confirmed"],
+    [200, "not_requested"],
+    [400, "rejected"],
+    [503, "unconfirmed"],
+  ] as const)("preserves logout outcome %s %s", async (status, result) => {
+    reply(status, { session_revocation: result });
+    expect(await services().auth!.logout()).toBe(result);
+    expect(calls).toHaveLength(1);
+    expect(calls[0]).toMatchObject({
+      url: `${BASE}/auth/sessions/revoke`,
+      method: "POST",
+      credentials: "include",
+      body: undefined,
+    });
+    expect(calls[0].headers["X-LS-CSRF"]).toBe("1");
+  });
+  it("does not call a malformed successful logout response confirmed", async () => {
+    reply(200, {});
+    expect(await services().auth!.logout()).toBe("unconfirmed");
   });
 });

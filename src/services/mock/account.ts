@@ -30,6 +30,7 @@ export const mockAuth: AuthService = {
     simulate("auth.logout", () => {
       getDb().signedIn = false;
       persistDb();
+      return "confirmed" as const;
     }),
 };
 

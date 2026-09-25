@@ -1,7 +1,6 @@
 import { ServiceError } from "../errors";
 
 import { toServiceError, type ApiErrorBody } from "./errors";
-import { devUserId } from "./identity";
 
 export interface RequestOptions {
   method?: "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
@@ -21,7 +20,7 @@ export interface ApiFailure {
 }
 
 /**
- * 한 곳에서 base URL, 신원 헤더, 오류 변환을 맡는다. 포트 어댑터들은 경로와 본문만 안다.
+ * 한 곳에서 base URL, 쿠키·CSRF, 오류 변환을 맡는다. 포트 어댑터들은 경로와 본문만 안다.
  *
  * <p>새 엔드포인트를 붙일 때 여기를 고칠 일이 없도록, 메서드·조건부 헤더·멱등 키를 모두 옵션으로
  * 받는다. 확장은 `services/api/<port>.ts` 파일 하나를 더하는 것으로 끝난다.
@@ -72,7 +71,9 @@ export class ApiClient {
   }
 
   private async send(path: string, options: RequestOptions): Promise<Response> {
-    const headers: Record<string, string> = { "X-User-Id": devUserId() };
+    const headers: Record<string, string> = {};
+    const method = options.method ?? "GET";
+    if (method !== "GET") headers["X-LS-CSRF"] = "1";
     if (options.body !== undefined)
       headers["Content-Type"] = "application/json";
     // 서버는 따옴표 있는 형태와 없는 형태를 모두 받는다. ETag 관례를 따른다.
@@ -82,14 +83,16 @@ export class ApiClient {
 
     try {
       return await fetch(`${this.baseUrl}${path}`, {
-        method: options.method ?? "GET",
+        method,
+        credentials: "include",
+        cache: "no-store",
         headers,
         body:
           options.body === undefined ? undefined : JSON.stringify(options.body),
         signal: options.signal,
       });
     } catch (cause) {
-      // 요청이 나가지도 못했다. 서버 오류와 구분해 재시도 안내를 다르게 낼 수 있어야 한다.
+      // 전송 실패와 응답 유실을 구분할 수 없으므로 변경 요청을 자동 재전송하지 않는다.
       if (cause instanceof DOMException && cause.name === "AbortError")
         throw cause;
       throw new ServiceError(

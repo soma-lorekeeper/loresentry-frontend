@@ -18,6 +18,9 @@ export interface ApiErrorBody {
  * 표에 없는 코드는 `unknown` 이 되어, 화면은 "알 수 없는 오류"로 안전하게 떨어진다.
  */
 const CODE_TO_SERVICE_ERROR: Record<string, ServiceErrorCode> = {
+  SESSION_REQUIRED: "session-required",
+  SESSION_INVALID: "session-required",
+  SESSION_UNAVAILABLE: "session-unavailable",
   INVALID_REQUEST: "validation",
   INVALID_PROJECT_NAME: "validation",
   INVALID_PROJECT_DESCRIPTION: "validation",
@@ -39,6 +42,10 @@ const CODE_TO_SERVICE_ERROR: Record<string, ServiceErrorCode> = {
 };
 
 const MESSAGES: Partial<Record<ServiceErrorCode, string>> = {
+  "session-required":
+    "로그인이 필요해요. 작성 중인 내용을 보관한 뒤 다시 로그인해 주세요.",
+  "session-unavailable":
+    "로그인 상태를 확인할 수 없어요. 잠시 뒤 다시 시도해 주세요.",
   validation: "입력을 다시 확인해 주세요.",
   duplicate: "같은 이름이 이미 있어요.",
   "not-found": "찾을 수 없어요.",
