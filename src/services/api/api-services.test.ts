@@ -660,3 +660,21 @@ describe("session authentication", () => {
     expect(await services().auth!.logout()).toBe("unconfirmed");
   });
 });
+
+it("does not send a heartbeat during 14 days of inactivity; server rejection is authoritative", async () => {
+  vi.useFakeTimers();
+  try {
+    reply(200, { id: "writer", display_name: "작가", email: null });
+    const auth = services().auth!;
+    expect(await auth.getSession()).not.toBeNull();
+    await vi.advanceTimersByTimeAsync(14 * 24 * 60 * 60 * 1000);
+    expect(calls).toHaveLength(1);
+    reply(401, { code: "SESSION_INVALID", next_action: "RELOGIN" });
+    expect(await auth.getSession()).toBeNull();
+    expect(calls).toHaveLength(2);
+    expect(await auth.getSession()).toBeNull();
+    expect(calls).toHaveLength(2);
+  } finally {
+    vi.useRealTimers();
+  }
+});

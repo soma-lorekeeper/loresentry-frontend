@@ -1,0 +1,19 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgb(0 0 0 / 45%);
+}
+.notice {
+  max-width: 520px;
+  padding: 24px;
+  border-radius: 12px;
+  background: var(--lk-color-surface-default);
+  color: var(--lk-color-text-primary);
+}
+.notice button {
+  margin: 8px 8px 0 0;
+}

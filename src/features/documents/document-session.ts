@@ -1,3 +1,4 @@
+import type { DraftRecovery, RecoveryDraft } from "./draft-recovery";
 import type { DocumentContent, DocumentDraft } from "@/domain/models";
 import { isServiceError } from "@/services/errors";
 import { ConflictError, type DocumentService } from "@/services/ports";
@@ -56,6 +57,8 @@ export class DocumentSession {
   private listeners = new Set<() => void>();
   private base: DocumentDraft | null = null;
   private revision = 0;
+  private paused = false;
+  private pendingSave?: { draft: DocumentDraft; revision: number; id: string };
   private inFlight: Promise<void> | null = null;
   private idleTimer: ReturnType<typeof setTimeout> | null = null;
   private maxTimer: ReturnType<typeof setTimeout> | null = null;
@@ -65,6 +68,7 @@ export class DocumentSession {
     private readonly documents: DocumentService,
     private readonly onSaved: (outcome: SaveOutcome) => void,
     private readonly newSaveId: () => string = () => crypto.randomUUID(),
+    private readonly recovery?: DraftRecovery,
   ) {}
 
   subscribe = (listener: () => void) => {
@@ -78,6 +82,13 @@ export class DocumentSession {
 
   private set(patch: Partial<DocumentSessionSnapshot>) {
     this.snapshot = { ...this.snapshot, ...patch };
+    try {
+      const recovery = this.recoverySnapshot();
+      if (recovery) this.recovery?.save(recovery);
+      else this.recovery?.clear();
+    } catch {
+      /* Keep the in-memory draft and beforeunload guard if storage is unavailable. */
+    }
     this.listeners.forEach((listener) => listener());
   }
 
@@ -93,10 +104,51 @@ export class DocumentSession {
     return this.revision;
   }
 
+  recoverySnapshot(): RecoveryDraft | null {
+    if (!this.dirty || !this.snapshot.draft || !this.base) return null;
+    return {
+      draft: this.snapshot.draft,
+      base: this.base,
+      revision: this.revision,
+      saveId:
+        this.pendingSave &&
+        sameDraft(this.pendingSave.draft, this.snapshot.draft)
+          ? this.pendingSave.id
+          : undefined,
+    };
+  }
+
+  pause() {
+    this.paused = true;
+    this.clearTimers();
+    if (this.dirty && !this.inFlight) this.set({ status: "error" });
+  }
+
   hydrate(content: DocumentContent) {
+    if (!this.base) {
+      const recovered = this.recovery?.load();
+      if (recovered) {
+        this.revision = recovered.revision;
+        this.base = recovered.base;
+        this.paused = true;
+        if (recovered.saveId)
+          this.pendingSave = {
+            draft: recovered.draft,
+            revision: recovered.revision,
+            id: recovered.saveId,
+          };
+        this.set({
+          draft: recovered.draft,
+          status: "error",
+          contentVersion: this.snapshot.contentVersion + 1,
+        });
+        return;
+      }
+    }
     if (content.revisionNo < this.revision) return;
     const incoming = toDraft(content);
     if (this.snapshot.draft && sameDraft(incoming, this.snapshot.draft)) {
+      this.pendingSave = undefined;
       this.revision = content.revisionNo;
       this.base = incoming;
       const status = content.locked
@@ -114,6 +166,7 @@ export class DocumentSession {
   }
 
   replace(content: DocumentContent) {
+    this.paused = false;
     this.clearTimers();
     this.revision = content.revisionNo;
     this.base = toDraft(content);
@@ -134,8 +187,11 @@ export class DocumentSession {
       this.set({ draft, status: "saved" });
       return;
     }
-    this.set({ draft, status: this.inFlight ? "saving" : "dirty" });
-    this.schedule();
+    this.set({
+      draft,
+      status: this.paused ? "error" : this.inFlight ? "saving" : "dirty",
+    });
+    if (!this.paused) this.schedule();
   }
 
   private schedule() {
@@ -153,6 +209,7 @@ export class DocumentSession {
 
   save(): Promise<void> {
     this.clearTimers();
+    if (this.paused) return Promise.resolve();
     if (this.inFlight) {
       return this.inFlight.then(() => (this.dirty ? this.save() : undefined));
     }
@@ -173,11 +230,23 @@ export class DocumentSession {
   private async send(pending: DocumentDraft, saved: DocumentDraft) {
     this.set({ status: "saving" });
     try {
+      if (
+        !this.pendingSave ||
+        this.pendingSave.revision !== this.revision ||
+        !sameDraft(this.pendingSave.draft, pending)
+      ) {
+        this.pendingSave = {
+          draft: pending,
+          revision: this.revision,
+          id: this.newSaveId(),
+        };
+      }
       const content = await this.documents.save(this.fileId, {
         draft: pending,
         ifMatchRevision: this.revision,
-        saveId: this.newSaveId(),
+        saveId: this.pendingSave.id,
       });
+      this.pendingSave = undefined;
       this.revision = content.revisionNo;
       this.base = pending;
       this.onSaved({
@@ -196,6 +265,8 @@ export class DocumentSession {
         this.set({ status: "locked" });
         return;
       }
+      this.paused = true;
+      this.clearTimers();
       this.set({ status: "error" });
     }
   }
@@ -227,6 +298,7 @@ export class DocumentSession {
   }
 
   keepMine() {
+    this.paused = false;
     this.set({ status: "dirty" });
     return this.save();
   }
@@ -238,6 +310,7 @@ export class DocumentSession {
   }
 
   retry() {
+    this.paused = false;
     this.set({ status: "dirty" });
     return this.save();
   }

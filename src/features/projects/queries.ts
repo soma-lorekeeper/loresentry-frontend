@@ -94,7 +94,7 @@ export function useUpdateAccount() {
       services.account.updateDisplayName(displayName),
     onSuccess: (user) => {
       queryClient.setQueryData(queryKeys.account, user);
-      queryClient.setQueryData(queryKeys.session, user);
+      queryClient.setQueriesData({ queryKey: queryKeys.session }, user);
     },
   });
 }
