@@ -29,6 +29,17 @@ function reply(status: number, body?: unknown) {
 }
 
 beforeEach(() => {
+  vi.stubGlobal("navigator", {
+    locks: {
+      request: async (
+        _name: string,
+        options: unknown,
+        callback?: () => Promise<unknown>,
+      ) => {
+        return typeof options === "function" ? options() : callback!();
+      },
+    },
+  });
   calls = [];
   responses = [];
   window.localStorage.clear();

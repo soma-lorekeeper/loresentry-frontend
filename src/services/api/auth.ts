@@ -43,8 +43,25 @@ export function createApiAccount(client: ApiClient): AccountService {
 
 export function createApiAuth(client: ApiClient, baseUrl: string): AuthService {
   return {
-    async getSession() {
+    async getSession(afterLogin = false) {
       try {
+        if (afterLogin)
+          return await client.coordinator.completeLogin(async () => {
+            try {
+              return user(
+                await client.request<Profile>("/auth/users/me", {
+                  authTransition: true,
+                }),
+              );
+            } catch (error) {
+              if (
+                error instanceof ServiceError &&
+                error.code === "session-required"
+              )
+                return null;
+              throw error;
+            }
+          });
         return await createApiAccount(client).getAccount();
       } catch (error) {
         if (error instanceof ServiceError && error.code === "session-required")
@@ -52,41 +69,54 @@ export function createApiAuth(client: ApiClient, baseUrl: string): AuthService {
         throw error;
       }
     },
-    async startGoogleLogin(returnTo) {
-      try {
-        window.sessionStorage.setItem(
-          LOGIN_RETURN_KEY,
-          safeReturnTo(returnTo) ?? "/projects",
-        );
-      } catch {
-        /* The fixed projects destination remains available. */
-      }
-      // External BFF navigation starts OAuth; this is not a Next.js route.
-      // eslint-disable-next-line @next/next/no-location-assign-relative-destination
-      window.location.assign(`${baseUrl}/auth/oauth/google/prepare`);
+    cancelGoogleLogin: () => client.coordinator.cancelLogin(),
+    async startGoogleLogin(returnTo, recover = false) {
+      return client.coordinator.transition(
+        "login",
+        async () => {
+          try {
+            window.sessionStorage.setItem(
+              LOGIN_RETURN_KEY,
+              safeReturnTo(returnTo) ?? "/projects",
+            );
+          } catch {
+            /* The fixed projects destination remains available. */
+          }
+          // External BFF navigation starts OAuth; this is not a Next.js route.
+          // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+          window.location.assign(`${baseUrl}/auth/oauth/google/prepare`);
+        },
+        recover,
+      );
     },
     async logout() {
-      const response = await client.requestAllowing<{
-        session_revocation?: LogoutResult;
-      }>("/auth/sessions/revoke", [400, 503], {
-        method: "POST",
-        operation: "auth.logout",
+      return client.coordinator.transition("logout", async () => {
+        const response = await client.requestAllowing<{
+          session_revocation?: LogoutResult;
+        }>("/auth/sessions/revoke", [400, 503], {
+          method: "POST",
+          operation: "auth.logout",
+          authTransition: true,
+        });
+        const body = response.ok
+          ? response.data
+          : (response.failure.body as {
+              session_revocation?: LogoutResult;
+            } | null);
+        const result = body?.session_revocation;
+        if (
+          response.ok &&
+          (result === "confirmed" || result === "not_requested")
+        )
+          return result;
+        if (
+          !response.ok &&
+          ((response.failure.status === 400 && result === "rejected") ||
+            (response.failure.status === 503 && result === "unconfirmed"))
+        )
+          return result;
+        return "unconfirmed" as const;
       });
-      const body = response.ok
-        ? response.data
-        : (response.failure.body as {
-            session_revocation?: LogoutResult;
-          } | null);
-      const result = body?.session_revocation;
-      if (response.ok && (result === "confirmed" || result === "not_requested"))
-        return result;
-      if (
-        !response.ok &&
-        ((response.failure.status === 400 && result === "rejected") ||
-          (response.failure.status === 503 && result === "unconfirmed"))
-      )
-        return result;
-      return "unconfirmed";
     },
   };
 }

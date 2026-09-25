@@ -1,3 +1,4 @@
+import { authCoordinator, type AuthCoordinator } from "./auth-coordinator";
 import { ServiceError } from "../errors";
 
 import { toServiceError, type ApiErrorBody } from "./errors";
@@ -12,6 +13,8 @@ export interface RequestOptions {
   /** 오류에 붙일 연산 이름. 화면이 어느 요청이 실패했는지 구분할 때 쓴다. */
   operation?: string;
   signal?: AbortSignal;
+  /** Only auth service calls inside an exclusive transition may set this. */
+  authTransition?: boolean;
 }
 
 export interface ApiFailure {
@@ -26,9 +29,44 @@ export interface ApiFailure {
  * 받는다. 확장은 `services/api/<port>.ts` 파일 하나를 더하는 것으로 끝난다.
  */
 export class ApiClient {
-  constructor(private readonly baseUrl: string) {}
+  constructor(
+    private readonly baseUrl: string,
+    readonly coordinator: AuthCoordinator = authCoordinator,
+  ) {}
 
-  async request<T>(path: string, options: RequestOptions = {}): Promise<T> {
+  private coordinate<T>(
+    path: string,
+    options: RequestOptions,
+    operation: () => Promise<T>,
+  ): Promise<T> {
+    if (
+      options.authTransition &&
+      (path === "/auth/users/me" || path === "/auth/sessions/revoke")
+    )
+      return operation();
+    return this.coordinator.request(operation, options.signal);
+  }
+
+  request<T>(path: string, options: RequestOptions = {}): Promise<T> {
+    return this.coordinate(path, options, () =>
+      this.requestDirect<T>(path, options),
+    );
+  }
+
+  requestAllowing<T>(
+    path: string,
+    allowedStatus: number[],
+    options: RequestOptions = {},
+  ): Promise<{ ok: true; data: T } | { ok: false; failure: ApiFailure }> {
+    return this.coordinate(path, options, () =>
+      this.requestAllowingDirect<T>(path, allowedStatus, options),
+    );
+  }
+
+  private async requestDirect<T>(
+    path: string,
+    options: RequestOptions = {},
+  ): Promise<T> {
     const response = await this.send(path, options);
 
     if (response.status === 204) return undefined as T;
@@ -48,7 +86,7 @@ export class ApiClient {
    * 오류 본문까지 호출자가 봐야 하는 경우에 쓴다. 문서 저장 충돌이 그렇다 —
    * 응답에 현재 문서와 공통 조상이 실려 오므로 `ServiceError` 로 접으면 그 정보가 사라진다.
    */
-  async requestAllowing<T>(
+  private async requestAllowingDirect<T>(
     path: string,
     allowedStatus: number[],
     options: RequestOptions = {},
@@ -89,7 +127,7 @@ export class ApiClient {
         headers,
         body:
           options.body === undefined ? undefined : JSON.stringify(options.body),
-        signal: options.signal,
+        // Wait for headers/body even if the caller cancels; Set-Cookie cannot be undone.
       });
     } catch (cause) {
       // 전송 실패와 응답 유실을 구분할 수 없으므로 변경 요청을 자동 재전송하지 않는다.

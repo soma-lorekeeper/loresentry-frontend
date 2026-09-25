@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 import { useRuntimeConfig } from "@/app/providers";
 import { Icon, StatusNotice } from "@/design-system/primitives";
+import { authCoordinator } from "@/services/api/auth-coordinator";
 import { LOGIN_RETURN_KEY } from "@/services/api/auth";
 import { ServiceError } from "@/services/errors";
 import type { AuthFailure } from "@/services/ports";
@@ -102,12 +103,21 @@ export function LoginPage() {
   const returnTo = safeReturnTo(searchParams.get("returnTo")) ?? storedReturnTo;
   const result = searchParams.get("result");
   useEffect(() => {
-    if (result !== "success") return;
+    if (result !== "success") {
+      if (result) void services.auth.cancelGoogleLogin?.().catch(() => {});
+      return;
+    }
     let active = true;
+    const generation = authCoordinator.state().generation;
     services.auth
-      .getSession()
+      .getSession(true)
       .then((user) => {
-        if (!active) return;
+        if (
+          !active ||
+          (config.dataSource === "api" &&
+            authCoordinator.state().generation !== generation)
+        )
+          return;
         if (!user) {
           setStatus("expired");
           return;
@@ -121,7 +131,11 @@ export function LoginPage() {
         router.replace(returnTo ?? "/projects");
       })
       .catch((error) => {
-        if (active)
+        if (
+          active &&
+          (config.dataSource !== "api" ||
+            authCoordinator.state().generation === generation)
+        )
           setStatus(
             error instanceof ServiceError &&
               (error.code === "session-unavailable" || error.code === "network")
@@ -132,19 +146,23 @@ export function LoginPage() {
     return () => {
       active = false;
     };
-  }, [result, services, queryClient, router, returnTo]);
+  }, [result, services, queryClient, router, returnTo, config.dataSource]);
   const copy = COPY[status];
   const processing = status === "processing";
 
-  const start = async () => {
+  const start = async (recover = false) => {
     setStatus("processing");
     try {
-      await services.auth.startGoogleLogin(returnTo ?? "/projects");
+      await services.auth.startGoogleLogin(returnTo ?? "/projects", recover);
       if (config.dataSource === "api") return;
       await queryClient.invalidateQueries({ queryKey: queryKeys.session });
       router.replace(returnTo ?? "/projects");
-    } catch {
-      setStatus("failed");
+    } catch (error) {
+      setStatus(
+        error instanceof ServiceError && error.code === "busy"
+          ? "unavailable"
+          : "failed",
+      );
     }
   };
 
@@ -178,7 +196,7 @@ export function LoginPage() {
             <button
               type="button"
               className={styles.googleButton}
-              onClick={start}
+              onClick={() => void start()}
               disabled={processing}
               aria-busy={processing || undefined}
             >
@@ -212,6 +230,21 @@ export function LoginPage() {
                   ? "로그인 상태를 확인하지 못했어요. 잠시 뒤 다시 시도해 주세요."
                   : "로그인을 완료하지 못했어요. 다시 시도해 주세요."}
               </StatusNotice>
+            )}
+            {status === "unavailable" && config.dataSource === "api" && (
+              <button
+                type="button"
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "다른 탭의 로그인 창을 모두 닫았나요? 늦은 응답이 남아 있으면 다시 로그인해야 할 수 있습니다.",
+                    )
+                  )
+                    void start(true);
+                }}
+              >
+                중단된 로그인 복구
+              </button>
             )}
             {status === "expired" && (
               <>

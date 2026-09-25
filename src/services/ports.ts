@@ -26,10 +26,11 @@ export type LogoutResult =
   "confirmed" | "not_requested" | "rejected" | "unconfirmed";
 
 export interface AuthService {
-  getSession(): Promise<User | null>;
+  getSession(afterLogin?: boolean): Promise<User | null>;
+  cancelGoogleLogin?(): Promise<void>;
   // 서버 가정: Google OAuth는 Gateway/BFF가 리다이렉트로 처리하고, 프론트는 시작만 요청한다.
   // 고정 /login?result=... 복귀 후 서버 계정을 조회하여 인증을 확인한다.
-  startGoogleLogin(returnTo: string): Promise<void>;
+  startGoogleLogin(returnTo: string, recover?: boolean): Promise<void>;
   logout(): Promise<LogoutResult>;
 }
 
