@@ -103,7 +103,7 @@ export function LoginPage() {
   const queryClient = useQueryClient();
   const config = useRuntimeConfig();
   const loginResult = searchParams.get("result");
-  const [status, setStatus] = useState<LoginStatus>(() => {
+  const [requested, setRequested] = useState<LoginStatus>(() => {
     // `result=success` 는 아직 증거가 아니므로 "확인 중"으로 시작한다. 아래 effect 가
     // 세션을 다시 물어 확정한다.
     if (loginResult === "success") return "processing";
@@ -111,6 +111,16 @@ export function LoginPage() {
   });
   const session = useSession();
   const returnTo = safeReturnTo(searchParams.get("returnTo"));
+
+  /**
+   * BFF 가 `success` 로 돌려보냈는데 세션이 없으면 그건 실패다. "확인 중" 으로 영원히 두지 않는다.
+   *
+   * <p>렌더에서 정한다. effect 로 상태를 바꾸면 렌더가 한 번 더 도는데, 이 값은 이미 손에 있는
+   * 두 값에서 바로 나온다.
+   */
+  const confirmedSignedOut =
+    loginResult === "success" && session.isSuccess && session.data === null;
+  const status: LoginStatus = confirmedSignedOut ? "failed" : requested;
   const copy = COPY[status];
   const processing = status === "processing";
 
@@ -132,14 +142,8 @@ export function LoginPage() {
     if (session.data) router.replace(returnTo ?? "/projects");
   }, [session.data, returnTo, router]);
 
-  // 성공이라고 돌아왔는데 세션이 없으면 그건 실패다. "확인 중" 으로 영원히 두지 않는다.
-  useEffect(() => {
-    if (loginResult === "success" && session.isSuccess && session.data === null)
-      setStatus("failed");
-  }, [loginResult, session.isSuccess, session.data]);
-
   const start = async () => {
-    setStatus("processing");
+    setRequested("processing");
     try {
       // 실제 로그인은 BFF 로의 페이지 이동이므로 여기서 돌아오지 않는다. mock 은 즉시
       // 돌아오므로 아래 두 줄이 그때의 흐름을 유지한다.
@@ -147,7 +151,7 @@ export function LoginPage() {
       await queryClient.invalidateQueries({ queryKey: queryKeys.session });
       router.replace(returnTo ?? "/projects");
     } catch {
-      setStatus("failed");
+      setRequested("failed");
     }
   };
 
