@@ -31,7 +31,8 @@ export function parseRuntimeConfig(value: unknown): RuntimeConfig {
   const raw = value as Record<string, unknown>;
   return {
     apiBaseUrl: absoluteHttpUrl(raw.apiBaseUrl),
-    // 백엔드 API가 준비되기 전까지 기본값은 mock이다. api로 바꾸려면 services/api 어댑터가 필요하다.
+    // 배포된 config.json 은 `api` 다. 값이 없거나 이상하면 mock 으로 떨어진다 — 설정을 못 읽었을 때
+    // 실제 데이터를 건드리는 쪽으로 기울면 안 된다.
     dataSource: raw.dataSource === "api" ? "api" : "mock",
     feedbackUrl: absoluteHttpUrl(raw.feedbackUrl),
     privacyPolicyUrl: absoluteHttpUrl(raw.privacyPolicyUrl),
