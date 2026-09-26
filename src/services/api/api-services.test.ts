@@ -10,15 +10,14 @@ import { isServiceError } from "../errors";
 import { ConflictError } from "../ports";
 
 import { createApiServices } from ".";
-import { setDevUserId } from "./identity";
 
-const USER = "0199a3f2-8c41-7c2a-9f3d-2b7e1c4a5d60";
 const BASE = "https://api.test.invalid";
 
 interface Call {
   url: string;
   method: string;
   headers: Record<string, string>;
+  credentials?: RequestCredentials;
   body: unknown;
 }
 
@@ -32,7 +31,6 @@ function reply(status: number, body?: unknown) {
 beforeEach(() => {
   calls = [];
   responses = [];
-  setDevUserId(USER);
   window.localStorage.clear();
 
   vi.stubGlobal("fetch", (input: string, init: RequestInit = {}) => {
@@ -40,6 +38,7 @@ beforeEach(() => {
       url: String(input),
       method: init.method ?? "GET",
       headers: (init.headers ?? {}) as Record<string, string>,
+      credentials: init.credentials,
       body: init.body ? JSON.parse(String(init.body)) : undefined,
     });
     const next = responses.shift();
@@ -72,12 +71,28 @@ const apiProject = {
 };
 
 describe("identity and transport", () => {
-  it("sends the user id on every request", async () => {
+  it("sends cookies instead of an identity header", async () => {
     reply(200, { projects: [apiProject] });
     await services().projects!.list();
 
     expect(calls[0].url).toBe(`${BASE}/projects`);
-    expect(calls[0].headers["X-User-Id"]).toBe(USER);
+    // 토큰은 HttpOnly 쿠키로만 오간다. 개발 신원 헤더는 더 이상 없다.
+    expect(calls[0].credentials).toBe("include");
+    expect(calls[0].headers["X-User-Id"]).toBeUndefined();
+  });
+
+  it("marks state-changing requests for CSRF but leaves reads alone", async () => {
+    reply(200, { projects: [] });
+    await services().projects!.list();
+    expect(calls[0].headers["X-LS-CSRF"]).toBeUndefined();
+
+    reply(201, apiProject);
+    await services().projects!.create({ title: "x", description: "" });
+    expect(calls[1].headers["X-LS-CSRF"]).toBe("1");
+
+    reply(204);
+    await services().projects!.moveToTrash("p-1");
+    expect(calls[2].headers["X-LS-CSRF"]).toBe("1");
   });
 
   it("turns a failed fetch into a network error rather than letting it escape", async () => {
@@ -97,6 +112,9 @@ describe("identity and transport", () => {
       [400, "INVALID_PROJECT_NAME", "validation"],
       [409, "DOCUMENT_LOCKED", "locked"],
       [502, "UPSTREAM_UNAVAILABLE", "network"],
+      [503, "CONTENT_UNAVAILABLE", "network"],
+      [401, "ACCESS_TOKEN_EXPIRED", "unauthenticated"],
+      [401, "SESSION_INVALID", "unauthenticated"],
     ];
 
     for (const [status, code, expected] of cases) {
@@ -325,17 +343,22 @@ describe("files", () => {
     expect(calls[1].body).not.toHaveProperty("rank");
   });
 
-  it("keeps favorites in the browser, because the server has no table for them", async () => {
+  it("keeps favorites on the server now that a table exists", async () => {
     const files = services().files!;
 
+    reply(200, { file_ids: [] });
     expect(await files.favorites("p-1")).toEqual([]);
-    expect(await files.setFavorite("p-1", "d-2", true)).toEqual(["d-2"]);
-    // 서버로 요청이 나가지 않는다.
-    expect(calls).toHaveLength(0);
+    expect(calls[0].url).toBe(`${BASE}/projects/p-1/favorites`);
 
-    // 새 어댑터에서도 살아 있어야 한다. 원본은 서버에 있으므로 자료가 사라지는 것은 아니다.
-    expect(await services().files!.favorites("p-1")).toEqual(["d-2"]);
+    // 추가·제거가 본문 없는 PUT·DELETE 이고 둘 다 전체 목록을 돌려준다.
+    reply(200, { file_ids: ["d-2"] });
+    expect(await files.setFavorite("p-1", "d-2", true)).toEqual(["d-2"]);
+    expect(calls[1].method).toBe("PUT");
+    expect(calls[1].body).toBeUndefined();
+
+    reply(200, { file_ids: [] });
     expect(await files.setFavorite("p-1", "d-2", false)).toEqual([]);
+    expect(calls[2].method).toBe("DELETE");
   });
 
   it("refuses user sections instead of pretending to store them", async () => {
@@ -554,11 +577,15 @@ describe("wiring", () => {
     expect(wired.documents).not.toBe(mock.documents);
     expect(wired.search).not.toBe(mock.search);
     // 아직 서버에 없는 포트는 mock 그대로다. 그래서 화면 전체가 계속 동작한다.
+    expect(wired.memos).not.toBe(mock.memos);
+    expect(wired.workspaceState).not.toBe(mock.workspaceState);
+    expect(wired.auth).not.toBe(mock.auth);
+    expect(wired.account).not.toBe(mock.account);
+    // 아직 서버에 없는 포트는 mock 그대로다. 그래서 화면 전체가 계속 동작한다.
     expect(wired.chat).toBe(mock.chat);
     expect(wired.graph).toBe(mock.graph);
-    expect(wired.memos).toBe(mock.memos);
-    expect(wired.workspaceState).toBe(mock.workspaceState);
-    expect(wired.auth).toBe(mock.auth);
+    expect(wired.refresh).toBe(mock.refresh);
+    expect(wired.help).toBe(mock.help);
   });
 
   it("stays on mock when the base url is missing, rather than requesting nowhere", () => {
@@ -573,6 +600,132 @@ describe("wiring", () => {
     );
     expect(warn).toHaveBeenCalled();
     warn.mockRestore();
+  });
+});
+
+describe("memos", () => {
+  const apiMemo = {
+    id: "m-1",
+    project_id: "p-1",
+    scope: "project" as const,
+    document_id: null,
+    title: null,
+    body: "작품 메모",
+    created_at: "2026-09-26T00:00:00Z",
+    updated_at: "2026-09-26T00:00:00Z",
+  };
+
+  it("asks for the scope and fills the title the server may omit", async () => {
+    reply(200, { memos: [apiMemo] });
+    const [memo] = await services().memos!.list("p-1", "project");
+
+    expect(calls[0].url).toBe(`${BASE}/projects/p-1/memos?scope=project`);
+    // 화면 모델의 title 은 문자열이다. 서버가 비워 둔 값을 여기서 메운다.
+    expect(memo).toMatchObject({ title: "", body: "작품 메모", fileId: null });
+  });
+
+  it("carries the document only for file memos", async () => {
+    reply(200, { memos: [] });
+    await services().memos!.list("p-1", "file", "d-2");
+    expect(calls[0].url).toBe(
+      `${BASE}/projects/p-1/memos?scope=file&document_id=d-2`,
+    );
+
+    reply(200, { memos: [] });
+    await services().memos!.list("p-1", "project", "d-2");
+    // scope=project 에 document_id 를 실으면 서버가 무엇을 달라는지 알 수 없다.
+    expect(calls[1].url).toBe(`${BASE}/projects/p-1/memos?scope=project`);
+  });
+
+  it("sends null for the document when the memo belongs to the project", async () => {
+    reply(201, apiMemo);
+    await services().memos!.create({
+      projectId: "p-1",
+      scope: "project",
+      fileId: "d-2",
+      body: "새 메모",
+    });
+
+    expect(calls[0].body).toEqual({
+      scope: "project",
+      document_id: null,
+      body: "새 메모",
+    });
+  });
+
+  it("updates and removes by memo id", async () => {
+    reply(200, { ...apiMemo, body: "고침" });
+    await services().memos!.update("m-1", "고침");
+    expect(calls[0].url).toBe(`${BASE}/memos/m-1`);
+    expect(calls[0].method).toBe("PATCH");
+
+    reply(204);
+    await services().memos!.remove("m-1");
+    expect(calls[1].method).toBe("DELETE");
+  });
+});
+
+describe("workspace state", () => {
+  it("treats a first visit as nothing to restore rather than an error", async () => {
+    reply(200, { layout: null });
+    expect(await services().workspaceState!.load("p-1")).toBeNull();
+  });
+
+  it("round-trips the layout without reshaping it", async () => {
+    const layout = { sidebarOpen: true, panes: [{ activeTabId: "t1" }] };
+
+    reply(200, { layout });
+    expect(await services().workspaceState!.load("p-1")).toEqual(layout);
+
+    reply(204);
+    await services().workspaceState!.save("p-1", layout as never);
+    expect(calls[1].method).toBe("PUT");
+    expect(calls[1].body).toEqual({ layout });
+  });
+});
+
+describe("auth", () => {
+  const profile = { id: "u-1", display_name: "서윤", email: "a@b.c" };
+
+  it("asks the server who is signed in, because the cookie cannot be read", async () => {
+    reply(200, profile);
+    const user = await services().auth!.getSession();
+
+    expect(calls[0].url).toBe(`${BASE}/auth/users/me`);
+    expect(user).toMatchObject({ displayName: "서윤" });
+  });
+
+  it("reports nobody signed in rather than failing", async () => {
+    // 로그인하지 않은 상태는 오류가 아니다. 화면은 null 을 받아 로그인 화면을 보여 준다.
+    reply(401, { code: "ACCESS_TOKEN_MISSING" });
+    expect(await services().auth!.getSession()).toBeNull();
+  });
+
+  it("still reports a real failure", async () => {
+    reply(503, { code: "CONTENT_UNAVAILABLE" });
+    const error = await services()
+      .auth!.getSession()
+      .catch((cause: unknown) => cause);
+    expect(isServiceError(error) && error.code).toBe("network");
+  });
+
+  it("navigates for login instead of fetching it", async () => {
+    const assign = vi.fn();
+    vi.stubGlobal("location", { ...window.location, assign });
+
+    await services().auth!.startGoogleLogin("/workspace");
+
+    // fetch 로 부르면 302 를 브라우저가 따라가지 않아 Google 로 가지 못한다.
+    expect(assign).toHaveBeenCalledWith(`${BASE}/auth/oauth/google/prepare`);
+    expect(calls).toHaveLength(0);
+  });
+
+  it("changes only the display name on the account", async () => {
+    reply(200, { ...profile, display_name: "새 이름" });
+    await services().account!.updateDisplayName("새 이름");
+
+    expect(calls[0].method).toBe("PATCH");
+    expect(calls[0].body).toEqual({ display_name: "새 이름" });
   });
 });
 
