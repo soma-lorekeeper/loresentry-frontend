@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { SidebarButton, useToast } from "@/design-system/primitives";
 import { GraphDiffModal } from "@/features/graph-refresh/graph-diff-modal";
+import { isUnavailable } from "@/features/common/preparing-state";
 import {
   useRefreshActions,
   useRefreshRun,
@@ -19,6 +20,13 @@ export function GraphRefreshItem() {
   const { start } = useRefreshActions(projectId);
   const [reviewing, setReviewing] = useState(false);
   const status = run.data?.status ?? "IDLE";
+
+  // 서버에 최신화가 아직 없다. 누르면 실패할 버튼을 누를 수 있게 두지 않는다.
+  if (isUnavailable(run.error)) {
+    return (
+      <SidebarButton icon="clock-3" label="그래프 최신화 (준비 중)" disabled />
+    );
+  }
 
   if (status === "RUNNING" || start.isPending) {
     return (

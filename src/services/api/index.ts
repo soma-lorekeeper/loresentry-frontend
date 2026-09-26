@@ -8,10 +8,11 @@ import { ApiClient } from "./http";
 import { createApiMemos } from "./memos";
 import { createApiProjects } from "./projects";
 import { createApiSearch } from "./search";
+import { unavailableServices } from "./unavailable";
 import { createApiWorkspaceState } from "./workspace-state";
 
 /**
- * 서버에 있는 포트만 돌려준다. 나머지는 호출자가 mock 구현 위에 이것을 겹쳐 채운다.
+ * 서버에 있는 포트는 HTTP 어댑터로, **서버에 없는 포트는 거절하는 구현으로** 돌려준다.
  *
  * <p><b>왜 부분 구현인가.</b> 서버가 한 번에 완성되지 않는다. 전체를 구현해야만 전환할 수 있다면
  * 마지막 엔드포인트가 끝날 때까지 프론트엔드는 계속 mock 으로 돈다. 포트 단위로 옮기면 끝난 것부터
@@ -33,7 +34,8 @@ export function createApiServices(baseUrl: string): Partial<Services> {
     search: createApiSearch(client),
     memos: createApiMemos(client),
     workspaceState: createApiWorkspaceState(client),
-    // 아직 서버에 없다: graph, refresh, chat, help.
-    // 각각 graph-rag, AI 최신화, LLM, 가이드 출처 결정을 기다린다.
+    // 아직 서버에 없다: graph, refresh, chat, help. 각각 graph-rag, AI 최신화, LLM,
+    // 가이드 출처 결정을 기다린다. mock 으로 덮어 두면 가짜 자료를 진짜처럼 보여 준다.
+    ...unavailableServices(),
   };
 }

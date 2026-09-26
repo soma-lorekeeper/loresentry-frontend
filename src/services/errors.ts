@@ -7,6 +7,8 @@ export type ServiceErrorCode =
   | "duplicate"
   | "locked"
   | "busy"
+  // 서버에 그 기능이 아직 없다. 재시도해도 달라지지 않는다.
+  | "unavailable"
   | "unknown";
 
 export class ServiceError extends Error {

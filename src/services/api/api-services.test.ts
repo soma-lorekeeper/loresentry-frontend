@@ -784,7 +784,30 @@ describe("search", () => {
 });
 
 describe("wiring", () => {
-  it("keeps mock ports for everything the server does not serve yet", () => {
+  it("refuses the ports the server does not serve, rather than faking them", async () => {
+    const wired = createServices({
+      ...DEFAULT_RUNTIME_CONFIG,
+      dataSource: "api",
+      apiBaseUrl: BASE,
+    });
+
+    // mock 을 그대로 두면 그럴듯한 가짜 그래프·대화·가이드를 진짜처럼 보여 준다.
+    const asked = [
+      wired.graph.getProjectGraph("p-1"),
+      wired.refresh.current("p-1"),
+      wired.chat.sessions("p-1"),
+      wired.help.guides(),
+    ];
+
+    for (const promise of asked) {
+      const error = await promise.catch((cause: unknown) => cause);
+      expect(isServiceError(error) && error.code).toBe("unavailable");
+    }
+    // 요청을 보내지도 않는다. 서버에 그 경로가 없다.
+    expect(calls).toHaveLength(0);
+  });
+
+  it("moves the ports the server does serve onto HTTP", () => {
     const wired = createServices({
       ...DEFAULT_RUNTIME_CONFIG,
       dataSource: "api",
@@ -802,11 +825,11 @@ describe("wiring", () => {
     expect(wired.workspaceState).not.toBe(mock.workspaceState);
     expect(wired.auth).not.toBe(mock.auth);
     expect(wired.account).not.toBe(mock.account);
-    // 아직 서버에 없는 포트는 mock 그대로다. 그래서 화면 전체가 계속 동작한다.
-    expect(wired.chat).toBe(mock.chat);
-    expect(wired.graph).toBe(mock.graph);
-    expect(wired.refresh).toBe(mock.refresh);
-    expect(wired.help).toBe(mock.help);
+    // 서버에 없는 포트는 mock 이 아니다. 거절하는 구현으로 바뀐다.
+    expect(wired.chat).not.toBe(mock.chat);
+    expect(wired.graph).not.toBe(mock.graph);
+    expect(wired.refresh).not.toBe(mock.refresh);
+    expect(wired.help).not.toBe(mock.help);
   });
 
   it("stays on mock when the base url is missing, rather than requesting nowhere", () => {

@@ -1,6 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import {
+  isUnavailable,
+  PreparingState,
+} from "@/features/common/preparing-state";
 import { useMemo, useRef, useState } from "react";
 
 import {
@@ -189,6 +193,8 @@ export function GraphView() {
         <div className={styles.canvas}>
           {graph.isPending ? (
             <div className={styles.canvasLoading} aria-busy="true" />
+          ) : isUnavailable(graph.error) ? (
+            <PreparingState what="관계 그래프" />
           ) : !data || !renderGraph ? (
             <EmptyState
               role="alert"
