@@ -124,6 +124,10 @@ describe("identity and transport", () => {
         message: "diagnostic english",
         next_action: "NONE",
       });
+      // 재발급 대상 코드는 클라이언트가 재발급을 한 번 시도한다. 그 시도가 실패해야
+      // 원래 오류가 화면까지 온다.
+      if (code === "ACCESS_TOKEN_EXPIRED")
+        reply(401, { code: "INVALID_REFRESH_TOKEN" });
       const error = await services()
         .projects!.get("p-1")
         .catch((cause: unknown) => cause);
@@ -142,6 +146,70 @@ describe("identity and transport", () => {
       .catch((cause: unknown) => cause);
 
     expect(isServiceError(error) && error.code).toBe("duplicate");
+  });
+});
+
+describe("token refresh", () => {
+  it("refreshes once and replays the rejected request", async () => {
+    // AT 는 15분이다. 그것만으로 사용자를 로그아웃시키면 글을 쓰는 중에 저장이 실패한다.
+    reply(401, { code: "ACCESS_TOKEN_EXPIRED", next_action: "REFRESH" });
+    reply(204);
+    reply(200, { projects: [] });
+
+    await expect(services().projects!.list()).resolves.toEqual([]);
+
+    expect(calls.map((call) => `${call.method} ${call.url}`)).toEqual([
+      `GET ${BASE}/projects`,
+      `POST ${BASE}/auth/tokens/refresh`,
+      `GET ${BASE}/projects`,
+    ]);
+    // 재발급도 상태를 바꾸는 요청이다.
+    expect(calls[1].headers["X-LS-CSRF"]).toBe("1");
+  });
+
+  it("gives up after one refresh instead of looping", async () => {
+    reply(401, { code: "ACCESS_TOKEN_EXPIRED" });
+    reply(204);
+    reply(401, { code: "ACCESS_TOKEN_EXPIRED" });
+
+    const error = await services()
+      .projects!.list()
+      .catch((cause: unknown) => cause);
+
+    expect(isServiceError(error) && error.code).toBe("unauthenticated");
+    expect(calls.filter((call) => call.url.endsWith("/refresh"))).toHaveLength(
+      1,
+    );
+  });
+
+  it("leaves a dead session alone", async () => {
+    // SESSION_INVALID 는 재로그인이다. 재발급을 시도하면 끝난 세션을 두고 계속 두드린다.
+    reply(401, { code: "SESSION_INVALID" });
+
+    const error = await services()
+      .projects!.list()
+      .catch((cause: unknown) => cause);
+
+    expect(isServiceError(error) && error.code).toBe("unauthenticated");
+    expect(calls).toHaveLength(1);
+  });
+
+  it("makes concurrent failures share a single refresh", async () => {
+    // 탭 하나에서 동시에 거절된 요청들이 각자 재발급하면 RT 를 회전시키는 서버에서 서로를 망친다.
+    responses.push(
+      { status: 401, body: { code: "ACCESS_TOKEN_EXPIRED" } },
+      { status: 401, body: { code: "ACCESS_TOKEN_EXPIRED" } },
+      { status: 204 },
+      { status: 200, body: { projects: [] } },
+      { status: 200, body: { projects: [] } },
+    );
+
+    const wired = services();
+    await Promise.all([wired.projects!.list(), wired.projects!.list()]);
+
+    expect(calls.filter((call) => call.url.endsWith("/refresh"))).toHaveLength(
+      1,
+    );
   });
 });
 
@@ -851,6 +919,8 @@ describe("auth", () => {
   it("reports nobody signed in rather than failing", async () => {
     // 로그인하지 않은 상태는 오류가 아니다. 화면은 null 을 받아 로그인 화면을 보여 준다.
     reply(401, { code: "ACCESS_TOKEN_MISSING" });
+    // 토큰이 아예 없는 것과 만료된 것을 401 코드로 구별할 수 없으므로 재발급을 한 번 시도한다.
+    reply(401, { code: "INVALID_REFRESH_TOKEN" });
     expect(await services().auth!.getSession()).toBeNull();
   });
 
