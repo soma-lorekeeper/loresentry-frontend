@@ -343,16 +343,29 @@
 
   console.log("관계를 잇는다");
 
+  /**
+   * 관계는 양방향이다. 서버가 한쪽 저장에서 반대쪽 문서에도 행을 넣으므로, 여기서 관계를 그냥
+   * 덮어쓰면 **먼저 만든 관계가 지워진다.** 지금 있는 것에 더한다.
+   */
   const link = async (title, relations) => {
     const fileId = created.get(title);
     const current = await call("GET", `/files/${fileId}/content`);
+    const merged = [...current.relations];
+    for (const relation of relations) {
+      const already = merged.some(
+        (existing) =>
+          existing.relation_key === relation.relation_key &&
+          existing.target_document_id === relation.target_document_id,
+      );
+      if (!already) merged.push(relation);
+    }
     await saveContent(fileId, current.revision_no, {
       title: current.title,
       body_md: current.body_md,
       properties: current.properties,
-      relations,
+      relations: merged,
     });
-    console.log(`  · ${title} → ${relations.length}개`);
+    console.log(`  · ${title} → ${merged.length}개`);
   };
 
   await link("서리한", [
