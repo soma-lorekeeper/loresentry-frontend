@@ -1,5 +1,7 @@
 {
   "apiBaseUrl": "https://api.loresentry.com",
+  "dataSource": "api",
+  "feedbackUrl": "",
   "privacyPolicyUrl": "",
   "termsOfServiceUrl": ""
 }

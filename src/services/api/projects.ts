@@ -28,7 +28,7 @@ function toProject(api: ApiProject): Project {
     icon: projectIconOf(api.id),
     createdAt: api.created_at,
     lastWorkedAt: api.last_worked_at,
-    // 서버가 아직 채우지 않는다. 문서 CRUD 가 붙으면 값이 오고 이 어댑터는 바뀌지 않는다.
+    // 가장 최근에 수정된 활성 문서. 서버가 채운다(`ProjectResponse.last_file`).
     lastFile: api.last_file,
     trashedAt: api.trashed_at,
   };
