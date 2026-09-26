@@ -32,6 +32,7 @@ beforeEach(() => {
   calls = [];
   responses = [];
   window.localStorage.clear();
+  window.sessionStorage.clear();
 
   vi.stubGlobal("fetch", (input: string, init: RequestInit = {}) => {
     calls.push({
@@ -796,9 +797,36 @@ describe("data source override", () => {
     ).toBe("mock");
 
     // 모르는 값은 무시한다. 오타가 조용히 출처를 바꾸면 안 된다.
+    window.sessionStorage.clear();
     window.history.replaceState({}, "", "/workspace/?data=nonsense");
     expect(applyDataSourceOverride(base).dataSource).toBe("mock");
 
     window.history.replaceState({}, "", "/workspace/");
+  });
+
+  it("survives the Google login round trip, which returns without the query", () => {
+    const base = { ...DEFAULT_RUNTIME_CONFIG, apiBaseUrl: BASE };
+
+    window.history.replaceState({}, "", "/workspace/?data=api");
+    expect(applyDataSourceOverride(base).dataSource).toBe("api");
+
+    // BFF 는 고정된 /login?result=success 로 돌려보낸다. 쿼리만 믿으면 여기서 mock 으로 떨어지고,
+    // 실제 계정으로 로그인했는데 화면은 mock 씨앗 사용자를 보여 준다.
+    window.history.replaceState({}, "", "/login/?result=success");
+    expect(applyDataSourceOverride(base).dataSource).toBe("api");
+
+    window.history.replaceState({}, "", "/workspace/");
+  });
+
+  it("goes back to mock when asked, and forgets the override", () => {
+    const base = { ...DEFAULT_RUNTIME_CONFIG, apiBaseUrl: BASE };
+
+    window.history.replaceState({}, "", "/workspace/?data=api");
+    applyDataSourceOverride(base);
+    window.history.replaceState({}, "", "/workspace/?data=mock");
+    expect(applyDataSourceOverride(base).dataSource).toBe("mock");
+
+    window.history.replaceState({}, "", "/workspace/");
+    expect(applyDataSourceOverride(base).dataSource).toBe("mock");
   });
 });
