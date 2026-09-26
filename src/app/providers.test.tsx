@@ -24,10 +24,10 @@ beforeEach(() => {
     requested.push(url);
     if (url.endsWith("/config.json")) {
       return Promise.resolve(
-        new Response(
-          JSON.stringify({ apiBaseUrl: BASE, dataSource: "api" }),
-          { status: 200, headers: { "Content-Type": "application/json" } },
-        ),
+        new Response(JSON.stringify({ apiBaseUrl: BASE, dataSource: "api" }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }),
       );
     }
     return Promise.resolve(
