@@ -1,6 +1,8 @@
+import { DOCUMENT_TYPE_META } from "@/domain/document-types";
 import type {
   DocumentContent,
   DocumentVersion,
+  ExportFormat,
   VersionKind,
 } from "@/domain/models";
 
@@ -111,13 +113,15 @@ function toVersion(
 }
 
 export function createApiDocuments(client: ApiClient): DocumentService {
+  const get = async (fileId: string) =>
+    toContent(
+      await client.request<ApiContent>(`/files/${fileId}/content`, {
+        operation: "documents.get",
+      }),
+    );
+
   return {
-    get: async (fileId) =>
-      toContent(
-        await client.request<ApiContent>(`/files/${fileId}/content`, {
-          operation: "documents.get",
-        }),
-      ),
+    get,
 
     save: async (fileId, { draft, ifMatchRevision, saveId }) => {
       const { properties, relations } = fromProperties(draft.properties);
@@ -161,15 +165,88 @@ export function createApiDocuments(client: ApiClient): DocumentService {
         }),
       ),
 
-    // 서버 내보내기는 아직 없다(§"Not implemented yet"). PDF 는 화면이 인쇄로 만든다.
-    export: () =>
-      Promise.reject(
-        new ServiceError(
-          "validation",
-          "이 형식의 내보내기는 아직 준비되지 않았어요.",
-        ),
-      ),
+    /**
+     * `md`·`txt` 는 서버가 필요 없다 — 문서 자체가 Markdown 이므로 브라우저에서 만든다.
+     * `docx`·`hwp` 는 서버가 파일을 만들어야 하고 아직 없다(`CONTENT_PROJECT_API.md` §12-30).
+     *
+     * <p>그때는 **거절하지 않고 빈 `url` 을 준다.** 포트 계약에서 빈 `url` 은 "이 형식은 아직
+     * 준비되지 않았다"는 뜻이고, 화면은 그걸 안내 토스트로 바꾼다. 거절하면 화면이 같은 실패를
+     * 일시적 오류로 보고 "잠시 후 다시 시도해 주세요" 를 띄운다 — 영원히 성공하지 않는 재시도다.
+     */
+    export: async (fileId, format) => {
+      const content = await get(fileId);
+      const fileName = `${content.title.replace(/[\\/:*?"<>|]/g, "_")}.${format}`;
+      if (!isTextFormat(format)) return { fileName, url: "" };
+
+      const text =
+        format === "md"
+          ? await toMarkdown(client, content)
+          : `${content.title}\n\n${content.bodyMd}\n`;
+      return { fileName, url: blobUrl(text) };
+    },
   };
+}
+
+function isTextFormat(format: ExportFormat): format is "md" | "txt" {
+  return format === "md" || format === "txt";
+}
+
+function blobUrl(text: string): string {
+  // 인쇄 미리보기나 테스트 환경처럼 Blob URL 을 만들 수 없는 곳이 있다. 그때는 빈 값을 준다.
+  if (typeof URL.createObjectURL !== "function") return "";
+  return URL.createObjectURL(
+    new Blob([text], { type: "text/plain;charset=utf-8" }),
+  );
+}
+
+/**
+ * 머리말에 분류와 속성을 적고 본문을 잇는다. 관계 속성은 대상 문서의 **제목**으로 적어야 읽을 수
+ * 있는데, 문서 응답에는 대상 id 만 온다. 그래서 관계가 하나라도 있을 때만 파일 목록을 한 번 더
+ * 불러 id→제목 대응을 만든다. 관계가 없으면 추가 요청도 없다.
+ */
+async function toMarkdown(
+  client: ApiClient,
+  content: DocumentContent,
+): Promise<string> {
+  const hasRelation = content.properties.some(
+    (property) => property.kind === "relation" && property.targetIds.length > 0,
+  );
+  const titles = hasRelation
+    ? await documentTitles(client, content.projectId)
+    : new Map<string, string>();
+
+  const lines = [
+    `# ${content.title}`,
+    "",
+    `- 분류: ${DOCUMENT_TYPE_META[content.docType].label}`,
+  ];
+  for (const property of content.properties) {
+    const value =
+      property.kind === "text"
+        ? property.value
+        : property.targetIds
+            .map((id) => titles.get(id))
+            .filter((title): title is string => Boolean(title))
+            .join(", ");
+    lines.push(`- ${property.label}: ${value}`);
+  }
+  lines.push("", content.bodyMd, "");
+  return lines.join("\n");
+}
+
+async function documentTitles(
+  client: ApiClient,
+  projectId: string,
+): Promise<Map<string, string>> {
+  try {
+    const tree = await client.request<{
+      documents: { id: string; title: string }[];
+    }>(`/projects/${projectId}/files`, { operation: "documents.export" });
+    return new Map(tree.documents.map((doc) => [doc.id, doc.title]));
+  } catch {
+    // 제목을 못 얻어도 내보내기 자체는 성공해야 한다. 관계 줄만 비어 나간다.
+    return new Map();
+  }
 }
 
 function toSaveError(code: string | undefined): ServiceError {
