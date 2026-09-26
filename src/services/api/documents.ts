@@ -18,6 +18,7 @@ import {
   documentTypeOf,
   fromProperties,
   toProperties,
+  unknownRelations,
   type ApiRelation,
   type ApiTextProperty,
 } from "./mapping";
@@ -112,15 +113,50 @@ function toVersion(
   };
 }
 
-export function createApiDocuments(client: ApiClient): DocumentService {
+/**
+ * 응답에서 화면이 쓰는 값들을 갈무리한다.
+ *
+ * <p><b>모르는 관계</b>는 화면 모델에 자리가 없어 {@link toProperties} 가 버린다. 저장은 화면이 든
+ * 목록을 그대로 서버에 쓰므로, 여기서 붙들어 두고 저장할 때 다시 실어 보내지 않으면 **다음 저장이
+ * 그 관계를 지운다.** 화면이 모르는 것을 지우게 두면 안 된다.
+ *
+ * <p><b>문서 종류</b>는 버전 목록이 화면 모델을 만들 때 필요하다. 이것 때문에 문서 전체를 다시
+ * 받아오는 건 낭비다 — 버전을 보려면 그 문서를 먼저 열었으므로 값은 이미 지나갔다.
+ */
+class ContentMemory {
+  private readonly relations = new Map<string, ApiRelation[]>();
+  private readonly docTypes = new Map<string, DocumentContent["docType"]>();
+
+  record(api: ApiContent): ApiContent {
+    this.relations.set(api.id, unknownRelations(api.relations));
+    this.docTypes.set(api.id, documentTypeOf(api.folder_code));
+    return api;
+  }
+
+  carriedRelations(fileId: string): ApiRelation[] {
+    return this.relations.get(fileId) ?? [];
+  }
+
+  docTypeOf(fileId: string): DocumentContent["docType"] | undefined {
+    return this.docTypes.get(fileId);
+  }
+}
+
+export function createApiDocuments(
+  client: ApiClient,
+  memory = new ContentMemory(),
+): DocumentService & { memory: ContentMemory } {
   const get = async (fileId: string) =>
     toContent(
-      await client.request<ApiContent>(`/files/${fileId}/content`, {
-        operation: "documents.get",
-      }),
+      memory.record(
+        await client.request<ApiContent>(`/files/${fileId}/content`, {
+          operation: "documents.get",
+        }),
+      ),
     );
 
   return {
+    memory,
     get,
 
     save: async (fileId, { draft, ifMatchRevision, saveId }) => {
@@ -136,13 +172,14 @@ export function createApiDocuments(client: ApiClient): DocumentService {
             title: draft.title,
             body_md: draft.bodyMd,
             properties,
-            relations,
+            // 화면이 모르는 관계는 화면이 지울 수 없다. 읽을 때 본 것을 그대로 돌려보낸다.
+            relations: [...relations, ...memory.carriedRelations(fileId)],
           },
           operation: "documents.save",
         },
       );
 
-      if (result.ok) return toContent(result.data);
+      if (result.ok) return toContent(memory.record(result.data));
 
       const body = result.failure.body;
       // 409 는 충돌일 수도, 잠김이나 이름 중복일 수도 있다. 코드로 갈라야 화면이 맞는 안내를 낸다.
@@ -158,11 +195,13 @@ export function createApiDocuments(client: ApiClient): DocumentService {
 
     setLocked: async (fileId, locked) =>
       toContent(
-        await client.request<ApiContent>(`/files/${fileId}/lock`, {
-          method: "PUT",
-          body: { locked },
-          operation: "documents.lock",
-        }),
+        memory.record(
+          await client.request<ApiContent>(`/files/${fileId}/lock`, {
+            method: "PUT",
+            body: { locked },
+            operation: "documents.lock",
+          }),
+        ),
       ),
 
     /**
@@ -269,10 +308,14 @@ function toSaveError(code: string | undefined): ServiceError {
 
 export function createApiVersions(
   client: ApiClient,
-  documents: DocumentService,
+  documents: DocumentService & { memory: ContentMemory },
 ): VersionService {
+  /**
+   * 버전 스냅샷에는 종류가 없으므로 문서에서 가져온다. 대개 그 문서를 이미 열어 봤으니 기억에
+   * 있다 — 없을 때만 한 번 받아온다. 매번 받아오면 버전 목록을 열 때마다 본문 전체를 또 내린다.
+   */
   const docTypeOf = async (fileId: string) =>
-    (await documents.get(fileId)).docType;
+    documents.memory.docTypeOf(fileId) ?? (await documents.get(fileId)).docType;
 
   return {
     list: async (fileId) => {
@@ -307,7 +350,7 @@ export function createApiVersions(
           operation: "versions.restore",
         },
       );
-      if (result.ok) return toContent(result.data);
+      if (result.ok) return toContent(documents.memory.record(result.data));
 
       const body = result.failure.body;
       if (body?.code !== "DOCUMENT_CONFLICT" || !body.current)

@@ -80,13 +80,16 @@ export function WorkspaceProvider({
   const pending = useRef<WorkspaceLayout | null>(null);
 
   useEffect(() => {
+    // 적재한 배치를 그대로 다시 써 보낼 이유가 없다. 리듀서는 동작마다 새 객체를 주므로
+    // 아직 같은 객체라는 것은 사용자가 아무것도 바꾸지 않았다는 뜻이다.
+    if (layout === initialLayout) return;
     pending.current = layout;
     const timer = window.setTimeout(() => {
       pending.current = null;
       void services.workspaceState.save(project.id, layout);
     }, SAVE_DELAY_MS);
     return () => window.clearTimeout(timer);
-  }, [layout, project.id, services]);
+  }, [layout, initialLayout, project.id, services]);
 
   useEffect(
     () => () => {

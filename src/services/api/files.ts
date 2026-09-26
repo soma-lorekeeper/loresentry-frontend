@@ -195,6 +195,9 @@ export function createApiFiles(
         { operation: "files.listTrash" },
       );
       return body.files.map((entry) => {
+        // 휴지통 항목은 트리에 없다. 여기서 기억해 두지 않으면 복원·영구 삭제가
+        // 어느 프로젝트의 파일인지 몰라 실패한다 — 새로 고침 직후가 바로 그 상황이다.
+        projectOfFile.set(entry.id, projectId);
         const docType = documentTypeOf(entry.folder_code);
         const path = [DOCUMENT_TYPE_META[docType].label];
         if (entry.episode_name) path.push(entry.episode_name);

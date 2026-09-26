@@ -88,6 +88,17 @@ export function relationKeyOf(type: DocumentType): string {
 }
 
 /**
+ * 화면이 모르는 관계 키의 행들. {@link toProperties} 가 이것들을 버리므로, 저장할 때 다시 실어
+ * 보내지 않으면 **다음 저장이 서버에서 그 관계를 지운다.** 화면은 자기가 모르는 관계를 지울
+ * 권한이 없다 — AI 최신화처럼 다른 곳이 쓴 것일 수 있다.
+ */
+export function unknownRelations(relations: ApiRelation[]): ApiRelation[] {
+  return relations.filter(
+    (relation) => !TYPE_BY_RELATION_KEY[relation.relation_key],
+  );
+}
+
+/**
  * 서버의 두 목록(텍스트 속성, 관계)을 화면의 속성 한 목록으로 합친다.
  * `label` 은 저장하지 않는 값이므로 키에서 되살린다.
  */

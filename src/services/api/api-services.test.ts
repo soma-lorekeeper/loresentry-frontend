@@ -387,6 +387,31 @@ const apiContent = {
   updated_at: "2026-09-24T00:00:00Z",
 };
 
+describe("trash", () => {
+  it("can restore a file it only ever saw in the trash list", async () => {
+    // 휴지통 항목은 트리에 없다. 새로 고침 직후 휴지통에서 바로 복원하는 것이 그 경로다.
+    const wired = services();
+    reply(200, {
+      files: [
+        {
+          id: "d-5",
+          title: "버린 문서",
+          folder_code: "CHARACTER",
+          episode_name: null,
+          trashed_at: "2026-09-25T00:00:00Z",
+        },
+      ],
+    });
+    await wired.files!.listTrash("p-1");
+
+    reply(200, { ...apiContent, id: "d-5", title: "버린 문서" });
+    const restored = await wired.files!.restore("d-5");
+
+    expect(restored.projectId).toBe("p-1");
+    expect(calls[1].url).toBe(`${BASE}/files/d-5/restore`);
+  });
+});
+
 describe("documents", () => {
   it("merges the server's two property lists into one the editor understands", async () => {
     reply(200, apiContent);
@@ -546,6 +571,38 @@ describe("documents", () => {
     expect(calls).toHaveLength(1);
   });
 
+  it("carries relation keys it does not understand back on save", async () => {
+    // 화면 모델에는 자리가 없어 버려지는 관계다. 저장할 때 다시 실어 보내지 않으면
+    // 그 저장이 서버에서 그 관계를 지운다 — 화면은 자기가 모르는 것을 지울 권한이 없다.
+    reply(200, {
+      ...apiContent,
+      relations: [
+        { relation_key: "related_character", target_document_id: "d-9" },
+        { relation_key: "related_episode", target_document_id: "d-7" },
+      ],
+    });
+    const documents = services().documents!;
+    const content = await documents.get("d-2");
+
+    expect(content.properties.some((p) => p.kind === "relation")).toBe(true);
+
+    reply(200, apiContent);
+    await documents.save("d-2", {
+      draft: {
+        title: content.title,
+        bodyMd: content.bodyMd,
+        properties: content.properties,
+      },
+      ifMatchRevision: 4,
+      saveId: "save-5",
+    });
+
+    expect((calls[1].body as { relations: unknown[] }).relations).toEqual([
+      { relation_key: "related_character", target_document_id: "d-9" },
+      { relation_key: "related_episode", target_document_id: "d-7" },
+    ]);
+  });
+
   it("reports an unbuilt format as pending, not as a failure", async () => {
     // 거절하면 화면이 "잠시 후 다시 시도해 주세요" 를 띄운다. 영원히 성공하지 않는 재시도다.
     reply(200, apiContent);
@@ -589,6 +646,47 @@ describe("versions", () => {
     await services().versions!.restore("d-2", "v-1", 4);
 
     expect(calls[0].headers["If-Match"]).toBe('"4"');
+  });
+});
+
+describe("versions and the document memory", () => {
+  const apiVersion = {
+    id: "v-1",
+    file_id: "d-2",
+    kind: "AUTO",
+    label: null,
+    source_revision_no: 3,
+    created_at: "2026-09-24T00:00:00Z",
+    snapshot: {
+      title: "유중혁",
+      body_md: "옛 본문",
+      properties: [],
+      relations: [],
+    },
+  };
+
+  it("does not refetch the document just to learn its kind", async () => {
+    const wired = services();
+    reply(200, apiContent);
+    await wired.documents!.get("d-2");
+
+    // 버전 목록만 요청해야 한다. 종류는 방금 읽은 문서에서 이미 안다.
+    reply(200, { versions: [apiVersion] });
+    const versions = await wired.versions!.list("d-2");
+
+    expect(versions[0].snapshot.docType).toBe("character");
+    expect(calls).toHaveLength(2);
+    expect(calls[1].url).toBe(`${BASE}/files/d-2/versions`);
+  });
+
+  it("falls back to reading the document when it has not seen it", async () => {
+    const wired = services();
+    reply(200, apiContent);
+    reply(200, { versions: [apiVersion] });
+    const versions = await wired.versions!.list("d-2");
+
+    expect(versions[0].snapshot.docType).toBe("character");
+    expect(calls[0].url).toBe(`${BASE}/files/d-2/content`);
   });
 });
 
