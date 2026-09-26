@@ -14,6 +14,7 @@ import { cx } from "@/shared/cx";
 import { GoogleMark } from "./google-mark";
 import styles from "./login-page.module.css";
 import { safeReturnTo } from "./return-to";
+import { useSession } from "./session-gate";
 
 type LoginStatus = "idle" | "processing" | AuthFailure;
 
@@ -108,16 +109,34 @@ export function LoginPage() {
     if (loginResult === "success") return "processing";
     return resultStatus(loginResult) ?? initialStatus(searchParams.get("auth"));
   });
+  const session = useSession();
   const returnTo = safeReturnTo(searchParams.get("returnTo"));
   const copy = COPY[status];
   const processing = status === "processing";
 
-  // `result=success` 는 안내일 뿐이므로 서버에 물어 확인한다. 확인되면 세션 게이트가
-  // 작업공간으로 보내고, 아니면 이 화면에 남는다.
+  // `result=success` 는 안내일 뿐이므로 서버에 물어 확인한다. 쿼리는 무한 staleTime 이라
+  // 로그인 전에 받아 둔 "비어 있음" 이 그대로 남아 있을 수 있다.
   useEffect(() => {
     if (loginResult !== "success") return;
     void queryClient.invalidateQueries({ queryKey: queryKeys.session });
   }, [loginResult, queryClient]);
+
+  /**
+   * 확인되면 **여기서** 보낸다.
+   *
+   * <p>세션 게이트는 로그인하지 **않은** 사람을 이 화면으로 보내는 일만 한다. 로그인 화면은 그
+   * 게이트 뒤에 없으므로, 로그인된 사람을 앞으로 보내 주는 코드는 이 화면 말고 아무 데도 없다.
+   * 그것이 없어서 `/login?result=success` 에 그대로 머물렀다 — 세션은 살아 있는데 화면만 남았다.
+   */
+  useEffect(() => {
+    if (session.data) router.replace(returnTo ?? "/projects");
+  }, [session.data, returnTo, router]);
+
+  // 성공이라고 돌아왔는데 세션이 없으면 그건 실패다. "확인 중" 으로 영원히 두지 않는다.
+  useEffect(() => {
+    if (loginResult === "success" && session.isSuccess && session.data === null)
+      setStatus("failed");
+  }, [loginResult, session.isSuccess, session.data]);
 
   const start = async () => {
     setStatus("processing");
