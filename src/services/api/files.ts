@@ -4,6 +4,7 @@ import type { FileNode, TrashEntry } from "@/domain/models";
 import { ServiceError } from "../errors";
 import type { CreateFileInput, FileService } from "../ports";
 
+import type { FavoriteStore } from "./favorites";
 import type { ApiClient } from "./http";
 import {
   categoryNodeId,
@@ -315,11 +316,9 @@ export function createApiFiles(
         operation: "files.delete",
       }),
 
-    // 즐겨찾기는 서버에 테이블이 없다(결정 미완, §9). 원본을 가리키는 id 목록일 뿐이라
-    // 브라우저에 두어도 자료가 사라지지 않는다 — 원본은 서버에 있다.
-    favorites: (projectId) => Promise.resolve(favorites.read(projectId)),
+    favorites: (projectId) => favorites.read(projectId),
     setFavorite: (projectId, fileId, favorite) =>
-      Promise.resolve(favorites.write(projectId, fileId, favorite)),
+      favorites.write(projectId, fileId, favorite),
 
     // 사용자 섹션은 폴더 모델 결정이 끝나지 않아 서버에 없다(§9-1).
     createSection: () => unsupportedPromise("사용자 섹션"),
@@ -349,10 +348,4 @@ export function createApiFiles(
       return { folder_code: folderCodeOf(docType), episode_id: null };
     unsupported("이 위치");
   }
-}
-
-/** 즐겨찾기 보관소. 서버 테이블이 생기면 이 인터페이스만 다른 구현으로 바꾼다. */
-export interface FavoriteStore {
-  read(projectId: string): string[];
-  write(projectId: string, fileId: string, favorite: boolean): string[];
 }

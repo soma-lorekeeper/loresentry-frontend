@@ -2,7 +2,7 @@
 
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useRuntimeConfig } from "@/app/providers";
 import { Icon, StatusNotice } from "@/design-system/primitives";
@@ -54,6 +54,27 @@ function initialStatus(value: string | null): LoginStatus {
     : "idle";
 }
 
+/**
+ * BFF 가 로그인 결과를 `?result=` 로 돌려보낸다. 그 값은 **안내일 뿐이고 증거가 아니다** —
+ * 사용자가 URL 을 바꿀 수 있고, 그 직후 다른 로그인이 세션을 교체했을 수도 있다
+ * (`loresentry-gateway/docs/FRONTEND_AUTH_CONTRACT.md`).
+ *
+ * 그래서 `success` 는 상태로 옮기지 않고, 아래에서 세션을 다시 물어 확인한다.
+ */
+function resultStatus(value: string | null): LoginStatus | null {
+  switch (value) {
+    case "cancelled":
+      return "canceled";
+    case "invalid":
+      return "expired";
+    case "unavailable":
+    case "failed":
+      return "failed";
+    default:
+      return null;
+  }
+}
+
 function PolicyLink({ href, label }: { href: string; label: string }) {
   if (!href) {
     return (
@@ -80,16 +101,29 @@ export function LoginPage() {
   const services = useServices();
   const queryClient = useQueryClient();
   const config = useRuntimeConfig();
-  const [status, setStatus] = useState<LoginStatus>(() =>
-    initialStatus(searchParams.get("auth")),
-  );
+  const loginResult = searchParams.get("result");
+  const [status, setStatus] = useState<LoginStatus>(() => {
+    // `result=success` 는 아직 증거가 아니므로 "확인 중"으로 시작한다. 아래 effect 가
+    // 세션을 다시 물어 확정한다.
+    if (loginResult === "success") return "processing";
+    return resultStatus(loginResult) ?? initialStatus(searchParams.get("auth"));
+  });
   const returnTo = safeReturnTo(searchParams.get("returnTo"));
   const copy = COPY[status];
   const processing = status === "processing";
 
+  // `result=success` 는 안내일 뿐이므로 서버에 물어 확인한다. 확인되면 세션 게이트가
+  // 작업공간으로 보내고, 아니면 이 화면에 남는다.
+  useEffect(() => {
+    if (loginResult !== "success") return;
+    void queryClient.invalidateQueries({ queryKey: queryKeys.session });
+  }, [loginResult, queryClient]);
+
   const start = async () => {
     setStatus("processing");
     try {
+      // 실제 로그인은 BFF 로의 페이지 이동이므로 여기서 돌아오지 않는다. mock 은 즉시
+      // 돌아오므로 아래 두 줄이 그때의 흐름을 유지한다.
       await services.auth.startGoogleLogin(returnTo ?? "/projects");
       await queryClient.invalidateQueries({ queryKey: queryKeys.session });
       router.replace(returnTo ?? "/projects");

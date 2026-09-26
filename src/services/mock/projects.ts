@@ -9,6 +9,8 @@ import { getDb, nextId, persistDb } from "./db";
 
 export const PROJECT_TITLE_MAX = 255;
 
+export const PROJECT_DESCRIPTION_MAX = 500;
+
 const NEW_PROJECT_ICONS = [
   "book-open",
   "sparkles",
@@ -45,6 +47,18 @@ function validateTitle(title: string, ignoreId?: string) {
   return trimmed;
 }
 
+/** 서버가 500자를 넘으면 400 을 준다. mock 만 통과하면 화면이 서버와 어긋난다. */
+function validateDescription(description: string) {
+  const trimmed = description.trim();
+  if (trimmed.length > PROJECT_DESCRIPTION_MAX) {
+    throw new ServiceError(
+      "validation",
+      `설명은 ${PROJECT_DESCRIPTION_MAX}자 이하로 입력해 주세요.`,
+    );
+  }
+  return trimmed;
+}
+
 const byRecent = (a: Project, b: Project) =>
   b.lastWorkedAt.localeCompare(a.lastWorkedAt);
 
@@ -73,7 +87,7 @@ export const mockProjects: ProjectService = {
       const project: Project = {
         id: nextId("project"),
         title: validateTitle(title),
-        description: description.trim(),
+        description: validateDescription(description),
         icon: NEW_PROJECT_ICONS[db.projects.length % NEW_PROJECT_ICONS.length],
         createdAt: now,
         lastWorkedAt: now,
@@ -149,7 +163,7 @@ export const mockProjects: ProjectService = {
     simulate("projects.saveSettings", () => {
       const project = requireProject(projectId);
       project.title = validateTitle(settings.title, projectId);
-      project.description = settings.description.trim();
+      project.description = validateDescription(settings.description);
       persistDb();
       return project;
     }),

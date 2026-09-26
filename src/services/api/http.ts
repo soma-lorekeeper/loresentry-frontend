@@ -1,7 +1,6 @@
 import { ServiceError } from "../errors";
 
 import { toServiceError, type ApiErrorBody } from "./errors";
-import { devUserId } from "./identity";
 
 export interface RequestOptions {
   method?: "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
@@ -27,7 +26,7 @@ export interface ApiFailure {
  * 받는다. 확장은 `services/api/<port>.ts` 파일 하나를 더하는 것으로 끝난다.
  */
 export class ApiClient {
-  constructor(private readonly baseUrl: string) {}
+  constructor(readonly baseUrl: string) {}
 
   async request<T>(path: string, options: RequestOptions = {}): Promise<T> {
     const response = await this.send(path, options);
@@ -72,9 +71,13 @@ export class ApiClient {
   }
 
   private async send(path: string, options: RequestOptions): Promise<Response> {
-    const headers: Record<string, string> = { "X-User-Id": devUserId() };
+    const method = options.method ?? "GET";
+    const headers: Record<string, string> = {};
     if (options.body !== undefined)
       headers["Content-Type"] = "application/json";
+    // BFF 계약: 상태를 바꾸는 요청에만 붙는다. 폼 제출·본문·쿼리 값으로 대신할 수 없으므로
+    // 이 헤더의 존재 자체가 CSRF 방어가 된다.
+    if (method !== "GET") headers["X-LS-CSRF"] = "1";
     // 서버는 따옴표 있는 형태와 없는 형태를 모두 받는다. ETag 관례를 따른다.
     if (options.ifMatch !== undefined)
       headers["If-Match"] = `"${options.ifMatch}"`;
@@ -82,7 +85,9 @@ export class ApiClient {
 
     try {
       return await fetch(`${this.baseUrl}${path}`, {
-        method: options.method ?? "GET",
+        method,
+        // 토큰은 HttpOnly 쿠키로만 오간다. 본문이나 URL 에서 AT·RT 를 읽지 않는다.
+        credentials: "include",
         headers,
         body:
           options.body === undefined ? undefined : JSON.stringify(options.body),

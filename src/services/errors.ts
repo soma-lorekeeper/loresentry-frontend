@@ -1,5 +1,7 @@
 export type ServiceErrorCode =
   | "network"
+  // BFF 가 신원을 확인하지 못했다. 재발급이나 재로그인이 필요하다.
+  | "unauthenticated"
   | "not-found"
   | "validation"
   | "duplicate"

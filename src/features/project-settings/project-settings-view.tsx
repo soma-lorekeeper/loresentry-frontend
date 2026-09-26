@@ -25,8 +25,10 @@ import { isServiceError } from "@/services/errors";
 import styles from "./project-settings-view.module.css";
 import { useProjectSettings, useSaveProjectSettings } from "./queries";
 
-const TITLE_MAX = 40;
-const DESCRIPTION_MAX = 200;
+// 요구사항 §2.2 와 생성 다이얼로그·서버 검증에 맞춘다. 40 이던 값은 40자가 넘는
+// 기존 제목을 설정 화면에서 잘라 버렸다.
+const TITLE_MAX = 255;
+const DESCRIPTION_MAX = 500;
 
 const COPY = {
   saved: {

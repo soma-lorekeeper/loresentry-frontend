@@ -1,11 +1,14 @@
 import type { Services } from "../ports";
 
+import { createApiAccount, createApiAuth } from "./auth";
 import { createApiDocuments, createApiVersions } from "./documents";
-import { LocalFavoriteStore } from "./favorites";
+import { ApiFavoriteStore } from "./favorites";
 import { createApiFiles } from "./files";
 import { ApiClient } from "./http";
+import { createApiMemos } from "./memos";
 import { createApiProjects } from "./projects";
 import { createApiSearch } from "./search";
+import { createApiWorkspaceState } from "./workspace-state";
 
 /**
  * 서버에 있는 포트만 돌려준다. 나머지는 호출자가 mock 구현 위에 이것을 겹쳐 채운다.
@@ -21,12 +24,16 @@ export function createApiServices(baseUrl: string): Partial<Services> {
   const documents = createApiDocuments(client);
 
   return {
+    auth: createApiAuth(client),
+    account: createApiAccount(client),
     projects: createApiProjects(client),
-    files: createApiFiles(client, new LocalFavoriteStore()),
+    files: createApiFiles(client, new ApiFavoriteStore(client)),
     documents,
     versions: createApiVersions(client, documents),
     search: createApiSearch(client),
-    // 아직 서버에 없다: auth, account, memos, graph, refresh, chat, workspaceState, help.
-    // 각각 authentication 서비스 연동, 테이블 결정, graph-rag, LLM 을 기다린다.
+    memos: createApiMemos(client),
+    workspaceState: createApiWorkspaceState(client),
+    // 아직 서버에 없다: graph, refresh, chat, help.
+    // 각각 graph-rag, AI 최신화, LLM, 가이드 출처 결정을 기다린다.
   };
 }

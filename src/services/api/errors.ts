@@ -33,10 +33,32 @@ const CODE_TO_SERVICE_ERROR: Record<string, ServiceErrorCode> = {
   VERSION_NOT_FOUND: "not-found",
   NOT_FOUND: "not-found",
   DOCUMENT_LOCKED: "locked",
+  MEMO_NOT_FOUND: "not-found",
+  INVALID_MEMO: "validation",
+  IMAGE_NOT_FOUND: "not-found",
+  INVALID_UPLOAD_REQUEST: "validation",
+  OBJECT_NOT_UPLOADED: "validation",
   USER_CONTEXT_REQUIRED: "network",
   UPSTREAM_UNAVAILABLE: "network",
+  // BFF 가 Content 에 닿지 못했거나 알 수 없는 응답을 받았다. 둘 다 재시도로 다룬다.
+  CONTENT_UNAVAILABLE: "network",
+  UPSTREAM_INVALID_RESPONSE: "unknown",
+  // 인증·세션. 재발급이 필요한 것과 재로그인이 필요한 것을 구분한다 —
+  // 모든 401 을 재발급 조건으로 삼으면 끝없이 재발급을 시도한다.
+  ACCESS_TOKEN_MISSING: "unauthenticated",
+  ACCESS_TOKEN_EXPIRED: "unauthenticated",
+  ACCESS_TOKEN_INVALID: "unauthenticated",
+  SESSION_INVALID: "unauthenticated",
+  SESSION_UNAVAILABLE: "network",
   INTERNAL_ERROR: "unknown",
 };
+
+/** 명시적 재발급을 시도해도 되는 코드. 그 밖의 401 은 재로그인이다. */
+const REFRESHABLE = new Set(["ACCESS_TOKEN_MISSING", "ACCESS_TOKEN_EXPIRED"]);
+
+export function isRefreshable(code: string | undefined): boolean {
+  return code !== undefined && REFRESHABLE.has(code);
+}
 
 const MESSAGES: Partial<Record<ServiceErrorCode, string>> = {
   validation: "입력을 다시 확인해 주세요.",
@@ -45,6 +67,7 @@ const MESSAGES: Partial<Record<ServiceErrorCode, string>> = {
   locked: "잠긴 문서는 편집할 수 없어요.",
   busy: "처리 중이에요. 잠시 뒤 다시 시도해 주세요.",
   network: "서버에 연결할 수 없어요.",
+  unauthenticated: "다시 로그인해 주세요.",
   unknown: "알 수 없는 오류가 발생했어요.",
 };
 
@@ -60,6 +83,14 @@ const CODE_MESSAGES: Record<string, string> = {
   FILE_NOT_TRASHED: "휴지통으로 옮긴 뒤에 삭제할 수 있어요.",
   DOCUMENT_LOCKED: "잠긴 문서는 편집할 수 없어요.",
   USER_CONTEXT_REQUIRED: "로그인이 필요해요.",
+  INVALID_MEMO: "메모를 확인해 주세요.",
+  MEMO_NOT_FOUND: "메모를 찾을 수 없어요.",
+  IMAGE_NOT_FOUND: "이미지를 찾을 수 없어요.",
+  INVALID_UPLOAD_REQUEST: "올릴 수 없는 파일이에요.",
+  OBJECT_NOT_UPLOADED: "업로드가 끝나지 않았어요. 다시 시도해 주세요.",
+  CONTENT_UNAVAILABLE: "잠시 뒤 다시 시도해 주세요.",
+  SESSION_INVALID: "세션이 만료됐어요. 다시 로그인해 주세요.",
+  SESSION_UNAVAILABLE: "잠시 뒤 다시 시도해 주세요.",
 };
 
 export function toServiceError(
@@ -82,7 +113,7 @@ function fallbackFor(status: number): ServiceErrorCode {
   if (status === 404) return "not-found";
   if (status === 409) return "duplicate";
   if (status === 400) return "validation";
-  if (status === 401 || status === 403) return "network";
+  if (status === 401 || status === 403) return "unauthenticated";
   if (status >= 500) return "unknown";
   return "unknown";
 }
