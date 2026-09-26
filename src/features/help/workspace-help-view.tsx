@@ -5,6 +5,10 @@ import { useEffect, useRef, useState } from "react";
 
 import { useRuntimeConfig } from "@/app/providers";
 import { Button, EmptyState, Icon } from "@/design-system/primitives";
+import {
+  isUnavailable,
+  PreparingState,
+} from "@/features/common/preparing-state";
 import type { WorkspaceViewProps } from "@/features/workspace/views/view-types";
 import { useWorkspace } from "@/features/workspace/workspace-context";
 import { queryKeys } from "@/services/query-keys";
@@ -363,7 +367,11 @@ export function WorkspaceHelpView({ tab, paneId }: WorkspaceViewProps) {
       ? guides.data?.find((candidate) => candidate.id === page.id)
       : undefined;
 
-  const loadError = (
+  const loadError = isUnavailable(guides.error) ? (
+    <div className={styles.panel}>
+      <PreparingState what="사용 가이드" />
+    </div>
+  ) : (
     <div className={styles.panel}>
       <EmptyState
         role="alert"

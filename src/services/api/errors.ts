@@ -67,6 +67,7 @@ const MESSAGES: Partial<Record<ServiceErrorCode, string>> = {
   locked: "잠긴 문서는 편집할 수 없어요.",
   busy: "처리 중이에요. 잠시 뒤 다시 시도해 주세요.",
   network: "서버에 연결할 수 없어요.",
+  unavailable: "이 기능은 아직 준비되지 않았어요.",
   unauthenticated: "다시 로그인해 주세요.",
   unknown: "알 수 없는 오류가 발생했어요.",
 };

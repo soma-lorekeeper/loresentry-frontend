@@ -14,6 +14,10 @@ import { DOCUMENT_TYPE_META } from "@/domain/document-types";
 import type { ChatMessage } from "@/domain/models";
 import { indexNodes, isDocument } from "@/features/workspace/model/tree";
 import { useFileTree } from "@/features/workspace/queries";
+import {
+  isUnavailable,
+  PreparingState,
+} from "@/features/common/preparing-state";
 import { useWorkspace } from "@/features/workspace/workspace-context";
 import { cx } from "@/shared/cx";
 
@@ -291,7 +295,9 @@ export function ChatPanel() {
       </header>
 
       <div ref={logRef} className={styles.log} aria-live="polite">
-        {empty ? (
+        {isUnavailable(sessions.error) ? (
+          <PreparingState what="AI 챗" />
+        ) : empty ? (
           <EmptyState
             icon="sparkles"
             title="새 대화를 시작하세요"
