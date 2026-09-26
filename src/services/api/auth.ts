@@ -41,12 +41,20 @@ export function createApiAuth(client: ApiClient): AuthService {
       }
     },
 
-    // 브라우저가 BFF 로 이동해 Google 로 리다이렉트된다. Next 라우터로는 갈 수 없는
-    // 외부 주소이고, fetch 로 부르면 302 를 브라우저가 따라가지 않아 Google 에 닿지 못한다.
-    startGoogleLogin: async (returnTo) => {
+    /**
+     * 브라우저가 BFF 로 이동해 Google 로 리다이렉트된다. Next 라우터로는 갈 수 없는 외부 주소이고,
+     * fetch 로 부르면 302 를 브라우저가 따라가지 않아 Google 에 닿지 못한다.
+     *
+     * <p><b>끝나지 않는 프로미스를 돌려준다.</b> `assign` 은 이동을 예약할 뿐 즉시 떠나지 않는다.
+     * 여기서 값을 돌려주면 호출자가 다음 줄을 실행하는데, 그 다음 줄이 클라이언트 라우팅이면
+     * **예약된 외부 이동을 취소해 버린다** — 화면은 "Google 로그인으로 이동 중" 에서 멈추고
+     * 사용자는 Google 에 닿지 못한다. mock 은 즉시 돌아오므로 그 흐름은 그대로 둔다.
+     */
+    startGoogleLogin: (returnTo) => {
       void returnTo;
       // eslint-disable-next-line @next/next/no-location-assign-relative-destination
       window.location.assign(`${client.baseUrl}/auth/oauth/google/prepare`);
+      return new Promise<void>(() => {});
     },
 
     logout: () =>

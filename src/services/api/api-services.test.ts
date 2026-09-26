@@ -955,15 +955,22 @@ describe("auth", () => {
     expect(isServiceError(error) && error.code).toBe("network");
   });
 
-  it("navigates for login instead of fetching it", async () => {
+  it("navigates for login and never finishes, so the caller cannot cancel it", async () => {
     const assign = vi.fn();
     vi.stubGlobal("location", { ...window.location, assign });
 
-    await services().auth!.startGoogleLogin("/workspace");
+    const started = services().auth!.startGoogleLogin("/workspace");
+    // `assign` 은 이동을 예약할 뿐이다. 이 프로미스가 풀리면 호출자가 다음 줄에서 클라이언트
+    // 라우팅을 해 **그 이동을 취소한다** — 화면이 "Google 로그인으로 이동 중" 에서 멈춘다.
+    const settled = await Promise.race([
+      started.then(() => "settled"),
+      new Promise((resolve) => setTimeout(() => resolve("still going"), 20)),
+    ]);
 
     // fetch 로 부르면 302 를 브라우저가 따라가지 않아 Google 로 가지 못한다.
     expect(assign).toHaveBeenCalledWith(`${BASE}/auth/oauth/google/prepare`);
     expect(calls).toHaveLength(0);
+    expect(settled).toBe("still going");
   });
 
   it("changes only the display name on the account", async () => {
