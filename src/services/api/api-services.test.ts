@@ -498,6 +498,60 @@ describe("documents", () => {
     expect(error).not.toBeInstanceOf(ConflictError);
     expect(isServiceError(error) && error.code).toBe("locked");
   });
+
+  it("writes markdown in the browser, naming relation targets", async () => {
+    reply(200, apiContent);
+    reply(200, {
+      folders: [],
+      episodes: [],
+      documents: [
+        { id: "d-9", title: "한수영" },
+        { id: "d-2", title: "유중혁" },
+      ],
+    });
+    const captured: string[] = [];
+    vi.stubGlobal("URL", {
+      ...URL,
+      createObjectURL: (blob: Blob) => {
+        captured.push((blob as Blob & { __text?: string }).__text ?? "");
+        return "blob:md";
+      },
+    });
+    vi.stubGlobal(
+      "Blob",
+      class {
+        __text: string;
+        constructor(parts: string[]) {
+          this.__text = parts.join("");
+        }
+      },
+    );
+
+    const result = await services().documents!.export("d-2", "md");
+
+    expect(result).toEqual({ fileName: "유중혁.md", url: "blob:md" });
+    expect(captured[0]).toContain("# 유중혁");
+    expect(captured[0]).toContain("- 설명: 세 번째 등장인물");
+    // 서버는 대상 id 만 준다. 제목으로 적으려면 파일 목록을 한 번 더 불러야 한다.
+    expect(captured[0]).toContain("한수영");
+    expect(calls[1].url).toBe(`${BASE}/projects/p-1/files`);
+  });
+
+  it("asks for no file list when the document has no relations", async () => {
+    reply(200, { ...apiContent, relations: [] });
+    const result = await services().documents!.export("d-2", "txt");
+
+    expect(result.fileName).toBe("유중혁.txt");
+    expect(calls).toHaveLength(1);
+  });
+
+  it("reports an unbuilt format as pending, not as a failure", async () => {
+    // 거절하면 화면이 "잠시 후 다시 시도해 주세요" 를 띄운다. 영원히 성공하지 않는 재시도다.
+    reply(200, apiContent);
+    const result = await services().documents!.export("d-2", "docx");
+
+    expect(result).toEqual({ fileName: "유중혁.docx", url: "" });
+  });
 });
 
 describe("versions", () => {
