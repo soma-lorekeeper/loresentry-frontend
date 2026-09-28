@@ -57,11 +57,28 @@ export function createApiAuth(client: ApiClient): AuthService {
       return new Promise<void>(() => {});
     },
 
-    logout: () =>
-      client.request<void>("/auth/tokens/revoke", {
-        method: "POST",
-        operation: "auth.logout",
-      }),
+    /**
+     * 세션 폐기는 `/auth/sessions/revoke` 다. 예전 경로(`/auth/tokens/revoke`)는 BFF 가 토큰 대신
+     * 단일 세션 ID 로 옮기면서 사라졌고, 그 경로로 부르면 세션 검사에서 401 로 막혀 **로그아웃이
+     * 항상 실패했다.**
+     *
+     * <p>200 이어도 완전한 성공이 아니다. `session_revocation` 이 `unconfirmed` 면 서버가 폐기를
+     * 확인하지 못한 것이므로 성공으로 표시하지 않는다(`loresentry-gateway/docs/API.md` 로그아웃 응답).
+     * 쿠키는 지워졌으니 이 브라우저는 로그아웃이지만, 다른 곳의 세션이 남았을 수 있다.
+     */
+    logout: async () => {
+      const result = await client.request<{ session_revocation?: string }>(
+        "/auth/sessions/revoke",
+        { method: "POST", operation: "auth.logout" },
+      );
+      if (result?.session_revocation === "unconfirmed") {
+        throw new ServiceError(
+          "network",
+          "로그아웃은 됐지만 서버 확인을 받지 못했어요.",
+          "auth.logout",
+        );
+      }
+    },
   };
 }
 

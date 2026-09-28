@@ -114,7 +114,7 @@ describe("identity and transport", () => {
       [409, "DOCUMENT_LOCKED", "locked"],
       [502, "UPSTREAM_UNAVAILABLE", "network"],
       [503, "CONTENT_UNAVAILABLE", "network"],
-      [401, "ACCESS_TOKEN_EXPIRED", "unauthenticated"],
+      [401, "SESSION_REQUIRED", "unauthenticated"],
       [401, "SESSION_INVALID", "unauthenticated"],
     ];
 
@@ -124,10 +124,6 @@ describe("identity and transport", () => {
         message: "diagnostic english",
         next_action: "NONE",
       });
-      // 재발급 대상 코드는 클라이언트가 재발급을 한 번 시도한다. 그 시도가 실패해야
-      // 원래 오류가 화면까지 온다.
-      if (code === "ACCESS_TOKEN_EXPIRED")
-        reply(401, { code: "INVALID_REFRESH_TOKEN" });
       const error = await services()
         .projects!.get("p-1")
         .catch((cause: unknown) => cause);
@@ -149,67 +145,28 @@ describe("identity and transport", () => {
   });
 });
 
-describe("token refresh", () => {
-  it("refreshes once and replays the rejected request", async () => {
-    // AT 는 15분이다. 그것만으로 사용자를 로그아웃시키면 글을 쓰는 중에 저장이 실패한다.
-    reply(401, { code: "ACCESS_TOKEN_EXPIRED", next_action: "REFRESH" });
-    reply(204);
-    reply(200, { projects: [] });
-
-    await expect(services().projects!.list()).resolves.toEqual([]);
-
-    expect(calls.map((call) => `${call.method} ${call.url}`)).toEqual([
-      `GET ${BASE}/projects`,
-      `POST ${BASE}/auth/tokens/refresh`,
-      `GET ${BASE}/projects`,
-    ]);
-    // 재발급도 상태를 바꾸는 요청이다.
-    expect(calls[1].headers["X-LS-CSRF"]).toBe("1");
-  });
-
-  it("gives up after one refresh instead of looping", async () => {
-    reply(401, { code: "ACCESS_TOKEN_EXPIRED" });
-    reply(204);
-    reply(401, { code: "ACCESS_TOKEN_EXPIRED" });
+describe("session authentication", () => {
+  it("does not retry a rejected request or ask for a renewal", async () => {
+    // BFF 는 보호 요청이 성공할 때마다 세션 수명을 연장하므로 브라우저가 연장을 요청할 일이 없고,
+    // 계약은 401 의 원래 요청을 자동으로 다시 보내는 것을 금한다.
+    reply(401, { code: "SESSION_REQUIRED", next_action: "RELOGIN" });
 
     const error = await services()
       .projects!.list()
-      .catch((cause: unknown) => cause);
-
-    expect(isServiceError(error) && error.code).toBe("unauthenticated");
-    expect(calls.filter((call) => call.url.endsWith("/refresh"))).toHaveLength(
-      1,
-    );
-  });
-
-  it("leaves a dead session alone", async () => {
-    // SESSION_INVALID 는 재로그인이다. 재발급을 시도하면 끝난 세션을 두고 계속 두드린다.
-    reply(401, { code: "SESSION_INVALID" });
-
-    const error = await services()
-      .projects!.list()
-      .catch((cause: unknown) => cause);
+      .catch((cause) => cause);
 
     expect(isServiceError(error) && error.code).toBe("unauthenticated");
     expect(calls).toHaveLength(1);
   });
 
-  it("makes concurrent failures share a single refresh", async () => {
-    // 탭 하나에서 동시에 거절된 요청들이 각자 재발급하면 RT 를 회전시키는 서버에서 서로를 망친다.
-    responses.push(
-      { status: 401, body: { code: "ACCESS_TOKEN_EXPIRED" } },
-      { status: 401, body: { code: "ACCESS_TOKEN_EXPIRED" } },
-      { status: 204 },
-      { status: 200, body: { projects: [] } },
-      { status: 200, body: { projects: [] } },
-    );
+  it("treats a storage failure as transient, not as a logout", async () => {
+    reply(503, { code: "SESSION_UNAVAILABLE", next_action: "RETRY_LATER" });
 
-    const wired = services();
-    await Promise.all([wired.projects!.list(), wired.projects!.list()]);
+    const error = await services()
+      .projects!.list()
+      .catch((cause) => cause);
 
-    expect(calls.filter((call) => call.url.endsWith("/refresh"))).toHaveLength(
-      1,
-    );
+    expect(isServiceError(error) && error.code).toBe("network");
   });
 });
 
@@ -939,11 +896,29 @@ describe("auth", () => {
     expect(user).toMatchObject({ displayName: "서윤" });
   });
 
+  it("revokes the session at the route the BFF serves", async () => {
+    // 예전 /auth/tokens/revoke 는 사라졌고, 그 경로로 부르면 401 로 막혀 로그아웃이 항상 실패한다.
+    reply(200, { session_revocation: "confirmed" });
+    await services().auth!.logout();
+
+    expect(calls[0].url).toBe(`${BASE}/auth/sessions/revoke`);
+    expect(calls[0].method).toBe("POST");
+    expect(calls[0].headers["X-LS-CSRF"]).toBe("1");
+  });
+
+  it("does not call an unconfirmed revocation a full logout", async () => {
+    reply(200, { session_revocation: "unconfirmed" });
+
+    const error = await services()
+      .auth!.logout()
+      .catch((cause: unknown) => cause);
+
+    expect(isServiceError(error) && error.code).toBe("network");
+  });
+
   it("reports nobody signed in rather than failing", async () => {
     // 로그인하지 않은 상태는 오류가 아니다. 화면은 null 을 받아 로그인 화면을 보여 준다.
-    reply(401, { code: "ACCESS_TOKEN_MISSING" });
-    // 토큰이 아예 없는 것과 만료된 것을 401 코드로 구별할 수 없으므로 재발급을 한 번 시도한다.
-    reply(401, { code: "INVALID_REFRESH_TOKEN" });
+    reply(401, { code: "SESSION_REQUIRED" });
     expect(await services().auth!.getSession()).toBeNull();
   });
 
