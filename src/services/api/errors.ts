@@ -43,22 +43,16 @@ const CODE_TO_SERVICE_ERROR: Record<string, ServiceErrorCode> = {
   // BFF 가 Content 에 닿지 못했거나 알 수 없는 응답을 받았다. 둘 다 재시도로 다룬다.
   CONTENT_UNAVAILABLE: "network",
   UPSTREAM_INVALID_RESPONSE: "unknown",
-  // 인증·세션. 재발급이 필요한 것과 재로그인이 필요한 것을 구분한다 —
-  // 모든 401 을 재발급 조건으로 삼으면 끝없이 재발급을 시도한다.
-  ACCESS_TOKEN_MISSING: "unauthenticated",
-  ACCESS_TOKEN_EXPIRED: "unauthenticated",
-  ACCESS_TOKEN_INVALID: "unauthenticated",
+  // 인증. BFF 는 단일 세션 ID 쿠키를 쓰고, 보호 요청이 성공할 때마다 수명을 연장한다
+  // (`loresentry-gateway/docs/auth/SESSION_FLOW.md`). 그래서 프론트가 할 재발급이 없다.
+  SESSION_REQUIRED: "unauthenticated",
   SESSION_INVALID: "unauthenticated",
+  // 저장소 장애·시간 초과다. 세션이 끝난 것이 아니므로 로그아웃시키지 않는다.
   SESSION_UNAVAILABLE: "network",
+  INVALID_SESSION_ID: "unauthenticated",
+  REVOCATION_UNCONFIRMED: "network",
   INTERNAL_ERROR: "unknown",
 };
-
-/** 명시적 재발급을 시도해도 되는 코드. 그 밖의 401 은 재로그인이다. */
-const REFRESHABLE = new Set(["ACCESS_TOKEN_MISSING", "ACCESS_TOKEN_EXPIRED"]);
-
-export function isRefreshable(code: string | undefined): boolean {
-  return code !== undefined && REFRESHABLE.has(code);
-}
 
 const MESSAGES: Partial<Record<ServiceErrorCode, string>> = {
   validation: "입력을 다시 확인해 주세요.",
