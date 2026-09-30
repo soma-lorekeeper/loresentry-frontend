@@ -19,6 +19,10 @@ export interface ApiErrorBody {
  */
 const CODE_TO_SERVICE_ERROR: Record<string, ServiceErrorCode> = {
   INVALID_REQUEST: "validation",
+  CONSENT_REQUEST_INVALID: "consent-invalid",
+  TERMS_VERSION_MISMATCH: "terms-version-mismatch",
+  CSRF_REJECTED: "csrf-rejected",
+  LOGIN_UNAVAILABLE: "network",
   INVALID_PROJECT_NAME: "validation",
   INVALID_PROJECT_DESCRIPTION: "validation",
   INVALID_FILE_TITLE: "validation",
@@ -56,6 +60,9 @@ const CODE_TO_SERVICE_ERROR: Record<string, ServiceErrorCode> = {
 
 const MESSAGES: Partial<Record<ServiceErrorCode, string>> = {
   validation: "입력을 다시 확인해 주세요.",
+  "consent-invalid": "동의 대기가 만료됐어요. 다시 로그인해 주세요.",
+  "terms-version-mismatch": "약관이 변경됐어요. 새 약관을 확인해 주세요.",
+  "csrf-rejected": "요청을 확인할 수 없어요. 로그인부터 다시 시작해 주세요.",
   duplicate: "같은 이름이 이미 있어요.",
   "not-found": "찾을 수 없어요.",
   locked: "잠긴 문서는 편집할 수 없어요.",

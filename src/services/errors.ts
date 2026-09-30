@@ -1,5 +1,8 @@
 export type ServiceErrorCode =
   | "network"
+  | "consent-invalid"
+  | "terms-version-mismatch"
+  | "csrf-rejected"
   // BFF 가 신원을 확인하지 못했다. 재발급이나 재로그인이 필요하다.
   | "unauthenticated"
   | "not-found"
