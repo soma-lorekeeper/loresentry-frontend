@@ -9,6 +9,7 @@ import { cx } from "@/shared/cx";
 
 import { MemoList } from "./memo-list";
 import styles from "./memo-panel.module.css";
+import { useCreateMemo } from "./queries";
 
 export const MEMO_RIGHT_RANGE = { min: 280, max: 560 };
 export const MEMO_BELOW_RANGE = { min: 180, max: 480 };
@@ -98,6 +99,9 @@ export function MemoPanel({
 }) {
   // 이 패널은 문서를 열어 둔 채 쓴다. 지금 쓰는 문서의 메모가 먼저 보여야 한다.
   const [tab, setTab] = useState<PanelTab>("file");
+  // 추가 버튼은 디자인처럼 탭 줄에 있다. 그래서 만들기는 패널이 하고 목록은 결과만 받는다.
+  const create = useCreateMemo(projectId);
+  const [fresh, setFresh] = useState<string | null>(null);
   const typeLabel = DOCUMENT_TYPE_META[docType].label;
 
   return (
@@ -121,6 +125,7 @@ export function MemoPanel({
           onClick={onClose}
         />
         <h2 className={styles.title}>메모</h2>
+        <span className={styles.hint}>메모 버튼을 누르면 닫혀요</span>
         <Segmented
           label="메모 위치"
           options={DOCK_OPTIONS}
@@ -140,6 +145,23 @@ export function MemoPanel({
           value={tab}
           onChange={setTab}
         />
+        <IconButton
+          icon="plus"
+          iconSize={16}
+          label={tab === "file" ? `${typeLabel} 메모 추가` : "작품 메모 추가"}
+          className={styles.add}
+          disabled={create.isPending}
+          onClick={() =>
+            create.mutate(
+              {
+                scope: tab,
+                fileId: tab === "file" ? fileId : null,
+                body: "",
+              },
+              { onSuccess: (memo) => setFresh(memo.id) },
+            )
+          }
+        />
       </div>
       <div className={styles.content}>
         {tab === "file" ? (
@@ -149,6 +171,8 @@ export function MemoPanel({
             scope="file"
             fileId={fileId}
             compact={dock === "below"}
+            canAdd={false}
+            freshId={fresh}
             addLabel="메모 추가"
             emptyTitle={`${fileTitle}에 적은 메모가 없어요`}
             emptyDescription={`이 ${typeLabel}에 대해 기억할 것을 적어 두세요.`}
@@ -158,6 +182,8 @@ export function MemoPanel({
             projectId={projectId}
             scope="project"
             compact={dock === "below"}
+            canAdd={false}
+            freshId={fresh}
             addLabel="메모 추가"
             emptyTitle="작품 메모가 없어요"
             emptyDescription="작품 전체에 걸친 생각을 적어 두세요."

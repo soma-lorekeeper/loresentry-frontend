@@ -98,8 +98,15 @@
   overflow-y: auto;
 }
 
+/* 제목과 배치 토글 사이. 좁은 패널에서는 먼저 줄인다 — 안내이지 조작이 아니다. */
 .hint {
+  flex: none;
+  min-width: 0;
+  overflow: hidden;
   color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .cards {

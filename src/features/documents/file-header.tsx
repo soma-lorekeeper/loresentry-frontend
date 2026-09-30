@@ -23,14 +23,14 @@ const EXPORT_OPTIONS: Array<{
   pending?: boolean;
 }> = [
   { format: "pdf", label: "PDF로 내보내기", icon: "printer" },
-  { format: "md", label: "마크다운 (.md)", icon: "hash" },
-  { format: "txt", label: "텍스트 (.txt)", icon: "type" },
   {
     format: "docx",
     label: "MS Word (.docx) — 준비 중",
     icon: "file-text",
     pending: true,
   },
+  { format: "md", label: "마크다운 (.md)", icon: "hash" },
+  { format: "txt", label: "텍스트 (.txt)", icon: "type" },
   {
     format: "hwp",
     label: "한글 오피스 (.hwp) — 준비 중",

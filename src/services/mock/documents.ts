@@ -217,13 +217,4 @@ export const mockVersions: VersionService = {
       persistDb();
       return readDocument(fileId);
     }),
-
-  remove: (fileId, versionId) =>
-    simulate("versions.remove", () => {
-      const db = getDb();
-      db.versions = db.versions.filter(
-        (v) => !(v.fileId === fileId && v.id === versionId),
-      );
-      persistDb();
-    }),
 };

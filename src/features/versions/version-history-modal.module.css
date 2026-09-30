@@ -86,19 +86,6 @@
   font-size: var(--lk-font-size-label);
 }
 
-.versionDelete {
-  position: absolute;
-  top: 50%;
-  right: var(--lk-space-3);
-  opacity: 0;
-  transform: translateY(-50%);
-}
-
-.version:hover .versionDelete,
-.versionDelete:focus-visible {
-  opacity: 1;
-}
-
 .main {
   display: flex;
   flex: 1;

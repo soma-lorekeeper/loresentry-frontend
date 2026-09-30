@@ -61,8 +61,62 @@
   white-space: nowrap;
 }
 
+/*
+ * 좁은 화면에서는 세로 사이드바를 위쪽 줄로 눕힌다.
+ *
+ * 여기 담긴 것은 넷뿐이라 서랍을 열고 닫게 만들 이유가 없다 — 한 줄에 다 들어가고, 탭 한 번이
+ * 서랍보다 짧다. 편집 화면의 파일 트리는 사정이 달라 그쪽은 서랍으로 연다.
+ */
 @media (max-width: 900px) {
+  .shell {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--lk-space-1);
+    width: auto;
+    height: auto;
+    padding: var(--lk-space-2);
+    overflow-x: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--lk-color-border-default);
+    scrollbar-width: none;
+  }
+
+  .sidebar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* 가로줄에서는 늘어나는 빈칸이 필요 없다. 항목은 왼쪽부터 이어 붙는다. */
+  .spacer {
+    display: none;
+  }
+
+  /* 세로 목록에서 쓰던 전체 너비를 벗긴다. 가로줄에서는 글자 폭만큼만 차지한다. */
+  .sidebar > * {
+    flex: none;
+    width: auto;
+  }
+
   .main {
-    padding: 40px 24px;
+    gap: var(--lk-space-7);
+    padding: var(--lk-space-7) var(--lk-space-4);
+  }
+}
+
+@media (max-width: 600px) {
+  .main {
+    padding: var(--lk-space-6) var(--lk-space-3);
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--lk-space-2);
   }
 }
