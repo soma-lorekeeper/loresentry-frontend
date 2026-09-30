@@ -178,17 +178,27 @@ export function buildTimelineTable(
     }
   });
 
+  /*
+   * **한 번도 나오지 않은 설정 문서도 줄을 갖는다.**
+   *
+   * 등장한 것만 세우면 표가 "이미 쓴 것"의 목록이 된다. 그런데 타임라인에서만 답할 수 있는 질문
+   * 하나가 "이 설정을 깔아놓고 몇 화째 안 건드렸나"이고, 그 답은 **막대가 하나도 없는 줄**이다.
+   * 디자인(`docs/design/timeline-table.js`)도 분류 폴더마다 그 분류의 문서를 늘어놓는다.
+   *
+   * 원고는 줄이 되지 않는다 — 회차가 이미 열이라 행으로 또 세울 것이 없다.
+   */
   const rows: TimelineRow[] = [];
-  for (const [nodeId, columnIndexes] of appearances) {
-    const node = nodeById.get(nodeId) as GraphNode;
+  for (const node of data.nodes) {
+    if (node.docType === "manuscript") continue;
+    const columnIndexes = appearances.get(node.id) ?? [];
     rows.push({
-      nodeId,
+      nodeId: node.id,
       name: node.title,
       kind: node.docType,
       columns: columnIndexes,
       runs: toRuns(columnIndexes),
-      first: columnIndexes[0],
-      last: columnIndexes[columnIndexes.length - 1],
+      first: columnIndexes[0] ?? -1,
+      last: columnIndexes[columnIndexes.length - 1] ?? -1,
     });
   }
 
@@ -201,15 +211,16 @@ export function buildTimelineTable(
    */
   const byAppearance = (a: TimelineRow, b: TimelineRow) =>
     b.columns.length - a.columns.length ||
-    a.first - b.first ||
+    // 한 번도 나오지 않은 줄은 first 가 -1 이라 그대로 두면 맨 위로 온다. 뒤로 보낸다.
+    (a.first < 0 ? 1 : b.first < 0 ? -1 : a.first - b.first) ||
     (a.name < b.name ? -1 : 1);
 
   /*
-   * 즐겨찾기는 맨 앞에 제 폴더로 모이고, **원래 분류 폴더에서는 빠진다.**
+   * 즐겨찾기는 맨 앞에 제 폴더로 모이고, **원래 분류 폴더에도 그대로 남는다.**
    *
-   * 양쪽에 다 두면 같은 막대가 표에 두 줄 그려진다. 표가 길어지는 것보다, 같은 것이
-   * 두 번 보여 등장 횟수를 잘못 읽게 되는 쪽이 문제다. 사이드바는 반대로 원래 폴더에
-   * 남기는데, 거기 폴더는 문서를 찾는 목록이라 성격이 다르다.
+   * 디자인이 그렇다(`docs/design/timeline-table.js`: 즐겨찾기에 든 김독자·유중혁이 캐릭터 폴더에도
+   * 있다). 즐겨찾기는 분류를 가로지르는 **표시**이지 분류를 옮기는 것이 아니므로, 별을 켰다고
+   * 캐릭터 폴더에서 사라지면 그 폴더가 더 이상 캐릭터 전부가 아니게 된다.
    */
   const groups: TimelineGroup[] = [];
   const starred = rows.filter((row) => favorites.has(row.nodeId));
@@ -223,9 +234,7 @@ export function buildTimelineTable(
   }
 
   for (const kind of SETTING_DOCUMENT_TYPES) {
-    const inKind = rows
-      .filter((row) => row.kind === kind && !favorites.has(row.nodeId))
-      .sort(byAppearance);
+    const inKind = rows.filter((row) => row.kind === kind).sort(byAppearance);
     // 빈 폴더는 만들지 않는다. 담긴 것이 없는 줄은 접었다 펼 값어치가 없다.
     if (inKind.length > 0) {
       groups.push({
@@ -258,7 +267,8 @@ export function buildTimelineTable(
     columns,
     groups,
     episodes,
-    rowCount: rows.length,
+    // 그려지는 줄 수다. 즐겨찾기는 제 폴더와 원래 분류에 한 벌씩 있으므로 두 번 센다.
+    rowCount: groups.reduce((total, group) => total + group.rows.length, 0),
   };
 }
 
