@@ -8,11 +8,13 @@ import {
   Icon,
   IconButton,
   useToast,
+  type MenuEntry,
 } from "@/design-system/primitives";
 import type { Memo, MemoScope } from "@/domain/models";
 import { cx } from "@/shared/cx";
 
 import { DeleteMemoDialog } from "./delete-memo-dialog";
+import { MemoMenuButton } from "./memo-menu-button";
 import styles from "./memo-list.module.css";
 import {
   memoHeadline,
@@ -36,6 +38,7 @@ function MemoCard({
   memo,
   startEditing,
   context,
+  extraEntries,
   onDelete,
 }: {
   projectId: string;
@@ -43,6 +46,8 @@ function MemoCard({
   startEditing?: boolean;
   /** 카드 위에 붙일 맥락. 메모 화면의 파일 메모는 어느 문서의 것인지 보여야 한다. */
   context?: ReactNode;
+  /** 카드 메뉴에 더 붙일 항목. 메모 화면의 "파일로 이동" 이 여기로 온다. */
+  extraEntries?: MenuEntry[];
   onDelete: (memo: Memo) => void;
 }) {
   const toast = useToast();
@@ -74,10 +79,26 @@ function MemoCard({
     setEditing(false);
   };
 
+  // 디자인의 카드는 삭제를 더보기 메뉴에 둔다. 목록을 훑을 때 가장 먼저 보일 버튼이 아니다.
+  const menuEntries: MenuEntry[] = [
+    ...(extraEntries ?? []),
+    ...(extraEntries?.length
+      ? [{ type: "separator" as const, id: "sep" }]
+      : []),
+    {
+      id: "delete",
+      label: "삭제",
+      icon: "trash-2" as const,
+      destructive: true,
+      onSelect: () => onDelete(memo),
+    },
+  ];
+
   if (!editing) {
     return (
       <li className={styles.card}>
         {context}
+        <MemoMenuButton label="메모 메뉴" entries={menuEntries} />
         <button
           type="button"
           className={styles.open}
@@ -93,13 +114,6 @@ function MemoCard({
             {memo.body || "눌러서 내용을 적으세요."}
           </span>
         </button>
-        <IconButton
-          icon="trash-2"
-          iconSize={14}
-          label="메모 삭제"
-          className={styles.delete}
-          onClick={() => onDelete(memo)}
-        />
       </li>
     );
   }
@@ -120,12 +134,7 @@ function MemoCard({
         }}
       />
       <div className={styles.actions}>
-        <IconButton
-          icon="trash-2"
-          iconSize={14}
-          label="메모 삭제"
-          onClick={() => onDelete(memo)}
-        />
+        <MemoMenuButton label="메모 메뉴" entries={menuEntries} />
         <span className={styles.spacer} />
         <IconButton icon="x" iconSize={16} label="취소" onClick={cancel} />
         <IconButton
@@ -155,7 +164,9 @@ export function MemoList({
   emptyDescription,
   addLabel,
   canAdd = true,
+  freshId,
   context,
+  entriesFor,
 }: {
   projectId: string;
   scope: MemoScope;
@@ -166,7 +177,11 @@ export function MemoList({
   addLabel: string;
   /** 문서를 고를 수 없는 화면에서는 새 메모를 여기서 만들 수 없다. */
   canAdd?: boolean;
+  /** 바깥에서 만든 메모. 패널은 추가 버튼을 탭 줄에 두므로 그 결과를 여기로 넘긴다. */
+  freshId?: string | null;
   context?: (memo: Memo) => ReactNode;
+  /** 카드 메뉴에 더할 항목을 메모마다 만든다. */
+  entriesFor?: (memo: Memo) => MenuEntry[];
 }) {
   const memos = useMemos(projectId, scope, fileId);
   const create = useCreateMemo(projectId);
@@ -223,8 +238,9 @@ export function MemoList({
               key={memo.id}
               projectId={projectId}
               memo={memo}
-              startEditing={memo.id === fresh}
+              startEditing={memo.id === (freshId ?? fresh)}
               context={context?.(memo)}
+              extraEntries={entriesFor?.(memo)}
               onDelete={setDeleting}
             />
           ))}

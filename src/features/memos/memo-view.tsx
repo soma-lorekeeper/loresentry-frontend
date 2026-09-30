@@ -32,9 +32,11 @@ export function MemoView() {
   const tree = useFileTree(projectId);
   const index = useMemo(() => indexNodes(tree.data ?? []), [tree.data]);
 
+  const fileOf = (memo: Memo) =>
+    memo.fileId ? index.get(memo.fileId) : undefined;
+
   const fileContext = (memo: Memo) => {
-    const file = memo.fileId ? index.get(memo.fileId) : undefined;
-    const title = file?.title ?? "찾을 수 없는 문서";
+    const file = fileOf(memo);
     return (
       <div className={styles.fileHead}>
         <Icon
@@ -45,19 +47,26 @@ export function MemoView() {
           }
           size={15}
         />
-        {file ? (
-          <button
-            type="button"
-            className={styles.fileLink}
-            onClick={() => open({ kind: "file", fileId: file.id })}
-          >
-            {title}
-          </button>
-        ) : (
-          <span className={styles.fileTitle}>{title}</span>
-        )}
+        <span className={styles.fileTitle}>
+          {file?.title ?? "찾을 수 없는 문서"}
+        </span>
       </div>
     );
+  };
+
+  // 디자인의 파일 메모 메뉴는 "파일로 이동" 과 "삭제" 를 담는다.
+  const fileEntries = (memo: Memo) => {
+    const file = fileOf(memo);
+    return file
+      ? [
+          {
+            id: "open",
+            label: "파일로 이동",
+            icon: "external-link" as const,
+            onSelect: () => open({ kind: "file", fileId: file.id }),
+          },
+        ]
+      : [];
   };
 
   return (
@@ -82,6 +91,7 @@ export function MemoView() {
           emptyTitle="문서 메모가 없어요"
           emptyDescription="문서를 열어 메모 패널에서 적으면 여기에 모입니다."
           context={fileContext}
+          entriesFor={fileEntries}
         />
       ) : (
         <MemoList
