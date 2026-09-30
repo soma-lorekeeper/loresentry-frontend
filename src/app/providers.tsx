@@ -18,6 +18,7 @@ import {
 import { ToastProvider } from "@/design-system/primitives";
 import { createServices } from "@/services/create-services";
 import { applyMockParam } from "@/services/mock/control";
+import { subscribeAuthTransition } from "@/services/api/auth-transition";
 import { ServicesProvider } from "@/services/services-context";
 
 const RuntimeConfigContext = createContext<RuntimeConfig>(
@@ -40,6 +41,13 @@ function createQueryClient() {
 export function AppProviders({ children }: { children: ReactNode }) {
   const [queryClient] = useState(createQueryClient);
   const [config, setConfig] = useState<RuntimeConfig | null>(null);
+  useEffect(
+    () =>
+      subscribeAuthTransition(() => {
+        queryClient.clear();
+      }),
+    [queryClient],
+  );
 
   useEffect(() => {
     applyMockParam(new URLSearchParams(window.location.search).get("mock"));

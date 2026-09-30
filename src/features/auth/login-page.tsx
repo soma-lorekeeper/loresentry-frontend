@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 import { useRuntimeConfig } from "@/app/providers";
 import { Icon, StatusNotice } from "@/design-system/primitives";
+import { finishAuthNavigation } from "@/services/api/auth-transition";
 import type { AuthFailure } from "@/services/ports";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
@@ -114,7 +115,9 @@ export function LoginPage() {
   const termsEntry = loginResult === "terms_required";
   const showTerms = termsEntry && !termsClosed;
   const [holdSession, setHoldSession] = useState(termsEntry);
-  const session = useSession(!holdSession && !termsEntry);
+  const session = useSession(
+    !holdSession && !termsEntry && loginResult !== "success",
+  );
   const closeTerms = () => {
     setTermsClosed(true);
     setHoldSession(true);
@@ -124,36 +127,44 @@ export function LoginPage() {
   };
   const returnTo = safeReturnTo(searchParams.get("returnTo"));
 
-  /**
-   * BFF 가 `success` 로 돌려보냈는데 세션이 없으면 그건 실패다. "확인 중" 으로 영원히 두지 않는다.
-   *
-   * <p>렌더에서 정한다. effect 로 상태를 바꾸면 렌더가 한 번 더 도는데, 이 값은 이미 손에 있는
-   * 두 값에서 바로 나온다.
-   */
-  const confirmedSignedOut =
-    loginResult === "success" && session.isSuccess && session.data === null;
-  const status: LoginStatus = confirmedSignedOut ? "failed" : requested;
+  const status = requested;
   const copy = COPY[status];
   const processing = status === "processing";
 
-  // `result=success` 는 안내일 뿐이므로 서버에 물어 확인한다. 쿼리는 무한 staleTime 이라
-  // 로그인 전에 받아 둔 "비어 있음" 이 그대로 남아 있을 수 있다.
   useEffect(() => {
+    if (loginResult) finishAuthNavigation();
     if (loginResult !== "success") return;
-    void queryClient.invalidateQueries({ queryKey: queryKeys.session });
-  }, [loginResult, queryClient]);
+    let active = true;
+    void (async () => {
+      await queryClient.cancelQueries();
+      queryClient.clear();
+      try {
+        const user = await services.auth.getSession();
+        if (!active) return;
+        if (!user) {
+          setRequested("failed");
+          return;
+        }
+        queryClient.setQueryData(queryKeys.session, user);
+        router.replace(returnTo ?? "/projects");
+      } catch {
+        if (active) setRequested("failed");
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, [loginResult, queryClient, services.auth, router, returnTo]);
 
-  /**
-   * 확인되면 **여기서** 보낸다.
-   *
-   * <p>세션 게이트는 로그인하지 **않은** 사람을 이 화면으로 보내는 일만 한다. 로그인 화면은 그
-   * 게이트 뒤에 없으므로, 로그인된 사람을 앞으로 보내 주는 코드는 이 화면 말고 아무 데도 없다.
-   * 그것이 없어서 `/login?result=success` 에 그대로 머물렀다 — 세션은 살아 있는데 화면만 남았다.
-   */
   useEffect(() => {
-    if (!holdSession && !termsEntry && session.data)
+    if (
+      !holdSession &&
+      !termsEntry &&
+      loginResult !== "success" &&
+      session.data
+    )
       router.replace(returnTo ?? "/projects");
-  }, [session.data, returnTo, router, holdSession, termsEntry]);
+  }, [session.data, returnTo, router, holdSession, termsEntry, loginResult]);
 
   const start = async () => {
     setRequested("processing");
