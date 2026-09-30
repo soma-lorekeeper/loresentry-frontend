@@ -26,6 +26,7 @@ import { cx } from "@/shared/cx";
 import { compareBodies, compareProperties, type CompareCell } from "./compare";
 import { useVersionMutations, useVersions } from "./queries";
 import styles from "./version-history-modal.module.css";
+import { bodyToPlainText } from "@/domain/document-body";
 
 const KIND_LABEL: Record<VersionKind, string> = {
   AUTO: "자동 저장",
@@ -85,7 +86,10 @@ function ComparePane({
 }) {
   const [left, right] = side === "left" ? [snapshot, other] : [other, snapshot];
   const properties = compareProperties(left.properties, right.properties);
-  const body = compareBodies(left.bodyMd, right.bodyMd);
+  const body = compareBodies(
+    bodyToPlainText(left.body),
+    bodyToPlainText(right.body),
+  );
   const meta = DOCUMENT_TYPE_META[snapshot.docType];
   return (
     <section className={styles.pane} aria-label={title}>

@@ -1,3 +1,5 @@
+import type { DocumentBody } from "./document-body";
+
 import type { IconName } from "@/design-system/icons/icon";
 
 import type { DocumentType } from "./document-types";
@@ -85,7 +87,7 @@ export interface DocumentContent {
   projectId: string;
   title: string;
   docType: DocumentType;
-  bodyMd: string;
+  body: DocumentBody;
   properties: DocumentProperty[];
   locked: boolean;
   revisionNo: number;
@@ -94,7 +96,7 @@ export interface DocumentContent {
 
 export interface DocumentDraft {
   title: string;
-  bodyMd: string;
+  body: DocumentBody;
   properties: DocumentProperty[];
 }
 

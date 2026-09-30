@@ -10,6 +10,11 @@ import { isServiceError } from "../errors";
 import { ConflictError } from "../ports";
 
 import { createApiServices } from ".";
+import {
+  bodyFromParagraphs,
+  bodyFromPlainText,
+  bodyToPlainText,
+} from "@/domain/document-body";
 
 const BASE = "https://api.test.invalid";
 
@@ -394,7 +399,18 @@ const apiContent = {
   title: "유중혁",
   folder_code: "CHARACTER",
   episode_id: null,
-  body_md: "회귀를 반복한다.",
+  body: {
+    schema_version: 1,
+    doc: {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [{ type: "text", text: "회귀를 반복한다." }],
+        },
+      ],
+    },
+  },
   properties: [{ key: "description", value: "세 번째 등장인물" }],
   relations: [{ relation_key: "related_character", target_document_id: "d-9" }],
   locked: false,
@@ -462,7 +478,7 @@ describe("documents", () => {
     await documents.save("d-2", {
       draft: {
         title: content.title,
-        bodyMd: content.bodyMd,
+        body: content.body,
         properties: content.properties,
       },
       ifMatchRevision: 4,
@@ -485,10 +501,36 @@ describe("documents", () => {
       code: "DOCUMENT_CONFLICT",
       message: "Document was saved elsewhere first.",
       next_action: "NONE",
-      current: { ...apiContent, body_md: "다른 탭이 쓴 본문", revision_no: 5 },
+      current: {
+        ...apiContent,
+        body: {
+          schema_version: 1,
+          doc: {
+            type: "doc",
+            content: [
+              {
+                type: "paragraph",
+                content: [{ type: "text", text: "다른 탭이 쓴 본문" }],
+              },
+            ],
+          },
+        },
+        revision_no: 5,
+      },
       base: {
         title: "유중혁",
-        body_md: "공통 조상",
+        body: {
+          schema_version: 1,
+          doc: {
+            type: "doc",
+            content: [
+              {
+                type: "paragraph",
+                content: [{ type: "text", text: "공통 조상" }],
+              },
+            ],
+          },
+        },
         properties: [],
         relations: [],
       },
@@ -496,7 +538,11 @@ describe("documents", () => {
 
     const error = await services()
       .documents!.save("d-2", {
-        draft: { title: "유중혁", bodyMd: "내 본문", properties: [] },
+        draft: {
+          title: "유중혁",
+          body: bodyFromPlainText("내 본문"),
+          properties: [],
+        },
         ifMatchRevision: 4,
         saveId: "save-2",
       })
@@ -504,8 +550,8 @@ describe("documents", () => {
 
     expect(error).toBeInstanceOf(ConflictError);
     const conflict = error as ConflictError;
-    expect(conflict.current.bodyMd).toBe("다른 탭이 쓴 본문");
-    expect(conflict.base?.bodyMd).toBe("공통 조상");
+    expect(bodyToPlainText(conflict.current.body)).toBe("다른 탭이 쓴 본문");
+    expect(bodyToPlainText(conflict.base!.body)).toBe("공통 조상");
   });
 
   it("leaves base null when no version kept that revision", async () => {
@@ -517,7 +563,11 @@ describe("documents", () => {
 
     const error = await services()
       .documents!.save("d-2", {
-        draft: { title: "유중혁", bodyMd: "내 본문", properties: [] },
+        draft: {
+          title: "유중혁",
+          body: bodyFromPlainText("내 본문"),
+          properties: [],
+        },
         ifMatchRevision: 4,
         saveId: "save-3",
       })
@@ -532,7 +582,11 @@ describe("documents", () => {
 
     const error = await services()
       .documents!.save("d-2", {
-        draft: { title: "유중혁", bodyMd: "x", properties: [] },
+        draft: {
+          title: "유중혁",
+          body: bodyFromPlainText("x"),
+          properties: [],
+        },
         ifMatchRevision: 4,
         saveId: "save-4",
       })
@@ -588,6 +642,38 @@ describe("documents", () => {
     expect(calls).toHaveLength(1);
   });
 
+  it("sends plain text that looks like markdown as a paragraph", async () => {
+    reply(200, apiContent);
+    await services().documents!.save("d-2", {
+      draft: {
+        title: "유중혁",
+        body: bodyFromParagraphs("# 해시로 시작하는 문장"),
+        properties: [],
+      },
+      ifMatchRevision: 4,
+      saveId: "plain-1",
+    });
+
+    const sent = calls[0].body as {
+      body: { schema_version: number; doc: { content: unknown[] } };
+    };
+    expect(sent.body.schema_version).toBe(1);
+    expect(sent.body.doc.content[0]).toMatchObject({
+      type: "paragraph",
+      content: [{ type: "text", text: "# 해시로 시작하는 문장" }],
+    });
+  });
+
+  it("reads a legacy markdown body by converting it here, not on the server", async () => {
+    reply(200, { ...apiContent, body: null, legacy_body_md: "# 옛 제목" });
+    const content = await services().documents!.get("d-2");
+
+    // 서버는 Markdown 을 해석하지 않는다. 화면 모델에는 언제나 DocumentBody 만 올라간다.
+    expect((content.body.doc.content ?? [])[0]).toMatchObject({
+      type: "heading",
+    });
+  });
+
   it("carries relation keys it does not understand back on save", async () => {
     // 화면 모델에는 자리가 없어 버려지는 관계다. 저장할 때 다시 실어 보내지 않으면
     // 그 저장이 서버에서 그 관계를 지운다 — 화면은 자기가 모르는 것을 지울 권한이 없다.
@@ -607,7 +693,7 @@ describe("documents", () => {
     await documents.save("d-2", {
       draft: {
         title: content.title,
-        bodyMd: content.bodyMd,
+        body: content.body,
         properties: content.properties,
       },
       ifMatchRevision: 4,
@@ -643,7 +729,15 @@ describe("versions", () => {
     created_at: "2026-09-24T00:00:00Z",
     snapshot: {
       title: "유중혁",
-      body_md: "옛 본문",
+      body: {
+        schema_version: 1,
+        doc: {
+          type: "doc",
+          content: [
+            { type: "paragraph", content: [{ type: "text", text: "옛 본문" }] },
+          ],
+        },
+      },
       properties: [],
       relations: [],
     },
@@ -657,7 +751,7 @@ describe("versions", () => {
 
     expect(version.kind).toBe("PRE_RESTORE");
     expect(version.snapshot).toMatchObject({
-      bodyMd: "옛 본문",
+      body: bodyFromPlainText("옛 본문"),
       docType: "character",
     });
   });
@@ -680,7 +774,15 @@ describe("versions and the document memory", () => {
     created_at: "2026-09-24T00:00:00Z",
     snapshot: {
       title: "유중혁",
-      body_md: "옛 본문",
+      body: {
+        schema_version: 1,
+        doc: {
+          type: "doc",
+          content: [
+            { type: "paragraph", content: [{ type: "text", text: "옛 본문" }] },
+          ],
+        },
+      },
       properties: [],
       relations: [],
     },

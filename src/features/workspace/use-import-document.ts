@@ -7,6 +7,8 @@ import { useToast } from "@/design-system/primitives";
 import type { DocumentNode } from "@/domain/models";
 import { invalidateProjectContent } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
+import { bodyFromPlainText } from "@/domain/document-body";
+import { markdownToBody } from "@/features/documents/editor/body-markdown";
 
 export const IMPORT_ACCEPT = ".txt,.md,.markdown,text/plain,text/markdown";
 
@@ -31,7 +33,14 @@ export function useImportDocument(projectId: string) {
         });
         const doc = await services.documents.get(node.id);
         await services.documents.save(node.id, {
-          draft: { title: doc.title, bodyMd: text, properties: doc.properties },
+          draft: {
+            title: doc.title,
+            // `.md` 는 서식을 살려 들여오고, `.txt` 는 줄마다 문단이다.
+            body: file.name.endsWith(".md")
+              ? markdownToBody(text)
+              : bodyFromPlainText(text),
+            properties: doc.properties,
+          },
           ifMatchRevision: doc.revisionNo,
           saveId: crypto.randomUUID(),
         });

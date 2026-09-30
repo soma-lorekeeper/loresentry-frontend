@@ -18,6 +18,7 @@ import {
 } from "./db";
 import { readDocument, writeDocument } from "./documents";
 import { mockFiles } from "./files";
+import { bodyFromPlainText, bodyToPlainText } from "@/domain/document-body";
 
 export const EXTRACTION_MS = 3500;
 
@@ -39,7 +40,7 @@ function idle(projectId: string): StoredRun {
 
 function draftOf(fileId: string): DocumentDraft {
   const doc = readDocument(fileId);
-  return { title: doc.title, bodyMd: doc.bodyMd, properties: doc.properties };
+  return { title: doc.title, body: doc.body, properties: doc.properties };
 }
 
 function withDescription(draft: DocumentDraft, value: string): DocumentDraft {
@@ -101,7 +102,9 @@ function buildProposals(projectId: string): RefreshProposal[] {
     }
     proposed = {
       ...proposed,
-      bodyMd: `${current.bodyMd}\n\n13화에서 문 너머의 목소리를 가장 먼저 알아본다.\n그 뒤로 북쪽 온실의 열쇠를 서윤에게 맡긴다.`,
+      body: bodyFromPlainText(
+        `${bodyToPlainText(current.body)}\n\n13화에서 문 너머의 목소리를 가장 먼저 알아본다.\n그 뒤로 북쪽 온실의 열쇠를 서윤에게 맡긴다.`,
+      ),
     };
     proposals.push({
       id: nextId("proposal"),
@@ -132,8 +135,9 @@ function buildProposals(projectId: string): RefreshProposal[] {
       current: null,
       proposed: {
         title: "잿빛 등대",
-        bodyMd:
+        body: bodyFromPlainText(
           "13화에서 처음 언급된 등대. 불이 꺼진 뒤에도 재가 빛을 머금고 있다.",
+        ),
         properties: [
           {
             id: "new:description",
