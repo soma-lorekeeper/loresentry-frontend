@@ -1,18 +1,27 @@
 import type { User } from "@/domain/models";
 
 import { ServiceError } from "../errors";
-import type { AccountService, AuthService } from "../ports";
+import type { AccountService, AuthService, TermsView } from "../ports";
 
 import type { ApiClient } from "./http";
 
 interface ApiProfile {
   id: string;
   display_name: string;
-  email: string;
+  email: string | null;
 }
 
 function toUser(api: ApiProfile): User {
-  return { id: api.id, displayName: api.display_name, email: api.email };
+  if (
+    !api ||
+    typeof api.id !== "string" ||
+    !api.id ||
+    typeof api.display_name !== "string" ||
+    (api.email !== null && typeof api.email !== "string")
+  ) {
+    throw new ServiceError("unknown", "계정 정보를 확인할 수 없어요.");
+  }
+  return { id: api.id, displayName: api.display_name, email: api.email ?? "" };
 }
 
 /**
@@ -23,8 +32,59 @@ function toUser(api: ApiProfile): User {
  * 사용자가 URL 을 바꿀 수 있고, 그 직후 다른 로그인이 세션을 교체했을 수도 있다
  * (`loresentry-gateway/docs/FRONTEND_AUTH_CONTRACT.md`).
  */
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+const validTime = (value: unknown): value is string =>
+  typeof value === "string" &&
+  /^\d{4}-\d{2}-\d{2}T.*(?:Z|[+-]\d{2}:\d{2})$/.test(value) &&
+  Number.isFinite(Date.parse(value));
+
+function toTerms(value: unknown): TermsView {
+  const v = value as Record<string, unknown> | null;
+  if (
+    !v ||
+    typeof v.terms_version_id !== "string" ||
+    !UUID.test(v.terms_version_id) ||
+    ![v.version, v.title, v.content].every(
+      (x) => typeof x === "string" && x.trim().length > 0,
+    ) ||
+    !validTime(v.effective_at) ||
+    !validTime(v.expires_at)
+  ) {
+    throw new ServiceError(
+      "unknown",
+      "약관 정보를 확인할 수 없어요.",
+      "auth.terms",
+    );
+  }
+  return {
+    termsVersionId: v.terms_version_id,
+    version: v.version as string,
+    title: v.title as string,
+    content: v.content as string,
+    effectiveAt: v.effective_at,
+    expiresAt: v.expires_at,
+  };
+}
+
 export function createApiAuth(client: ApiClient): AuthService {
   return {
+    getTerms: async () =>
+      toTerms(
+        await client.request<unknown>("/auth/terms", {
+          operation: "auth.terms",
+          expectedStatus: 200,
+        }),
+      ),
+    acceptTerms: async (termsVersionId) => {
+      if (!UUID.test(termsVersionId))
+        throw new ServiceError("validation", "약관 버전을 확인해 주세요.");
+      await client.request<void>("/auth/terms/accept", {
+        method: "POST",
+        body: { terms_version_id: termsVersionId },
+        operation: "auth.acceptTerms",
+        expectedStatus: 204,
+      });
+    },
     getSession: async () => {
       try {
         return toUser(

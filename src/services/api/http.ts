@@ -12,6 +12,7 @@ export interface RequestOptions {
   /** 오류에 붙일 연산 이름. 화면이 어느 요청이 실패했는지 구분할 때 쓴다. */
   operation?: string;
   signal?: AbortSignal;
+  expectedStatus?: number;
 }
 
 export interface ApiFailure {
@@ -41,6 +42,17 @@ export class ApiClient {
   async request<T>(path: string, options: RequestOptions = {}): Promise<T> {
     const result = await this.send(path, options);
 
+    if (
+      result.ok &&
+      options.expectedStatus !== undefined &&
+      result.status !== options.expectedStatus
+    ) {
+      throw new ServiceError(
+        "unknown",
+        "서버 응답을 확인할 수 없어요.",
+        options.operation,
+      );
+    }
     if (result.status === 204) return undefined as T;
     if (!result.ok) {
       throw toServiceError(
