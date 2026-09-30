@@ -209,3 +209,35 @@
 .findSpacer {
   flex: 1;
 }
+
+/*
+ * 좁은 창: 도구 줄이 저장 상태와 글자 수를 밀어내지 않게 한다.
+ *
+ * 도구 묶음이 줄어들지 않는 폭을 차지해서, 넘친 부분이 잘리는 대신 오른쪽의 상태 표시 위로
+ * 겹쳐 보였다. 도구 쪽이 먼저 줄어들고, 남는 것은 "더보기" 가 이미 받아 준다.
+ */
+@media (max-width: 760px) {
+  .toolbar {
+    padding: 3px var(--lk-space-2);
+  }
+
+  .controls {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .select {
+    max-width: 96px;
+  }
+
+  .select > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* 글자 수는 남기고, 공백 포함·제외 구분은 접는다. */
+  .status {
+    gap: var(--lk-space-2);
+  }
+}

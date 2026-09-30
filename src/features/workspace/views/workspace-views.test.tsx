@@ -179,9 +179,11 @@ describe("workspace views", () => {
     renderInWorkspace("memo", <MemoView />);
     await actor.click(await screen.findByRole("radio", { name: "작품 메모" }));
     const before = getDb().memos.filter((m) => m.scope === "project").length;
+    // 디자인처럼 삭제는 카드의 더보기 메뉴에 있다.
     await actor.click(
-      (await screen.findAllByRole("button", { name: "메모 삭제" }))[0],
+      (await screen.findAllByRole("button", { name: "메모 메뉴" }))[0],
     );
+    await actor.click(await screen.findByRole("menuitem", { name: "삭제" }));
     const dialog = await screen.findByRole("dialog");
     await actor.click(
       within(dialog).getByRole("button", { name: "메모 삭제" }),

@@ -81,17 +81,25 @@
   -webkit-line-clamp: 3;
 }
 
-/* 삭제는 평소에 숨는다. 목록을 훑을 때 가장 먼저 보일 버튼이 아니다. */
-.delete {
+/* 더보기는 평소에 숨는다. 목록을 훑을 때 가장 먼저 보일 버튼이 아니다. */
+.menuButton {
   position: absolute;
   top: 6px;
   right: 6px;
   display: none;
+  width: 26px;
+  height: 26px;
 }
 
-.card:hover .delete,
-.delete:focus-visible {
+.card:hover .menuButton,
+.menuButton:focus-visible,
+.editingCard .menuButton {
   display: inline-flex;
+}
+
+/* 편집 중에는 아래 동작 줄에 놓인다. */
+.editingCard .menuButton {
+  position: static;
 }
 
 .textarea {

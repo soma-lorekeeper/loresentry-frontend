@@ -2,6 +2,7 @@
   "apiBaseUrl": "https://api.loresentry.com",
   "dataSource": "api",
   "feedbackUrl": "",
+  "contactEmail": "contact@loresentry.com",
   "privacyPolicyUrl": "https://loresentry.com/policies/privacy.html",
   "termsOfServiceUrl": "https://loresentry.com/policies/terms.html"
 }
