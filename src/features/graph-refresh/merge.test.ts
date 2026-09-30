@@ -39,6 +39,7 @@ const proposed: DocumentDraft = {
       label: "관련 캐릭터",
       targetType: "character",
       targetIds: ["teo"],
+      descriptions: {},
     },
   ],
 };

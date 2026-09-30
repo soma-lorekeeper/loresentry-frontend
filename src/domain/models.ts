@@ -67,6 +67,13 @@ export interface RelationProperty {
   label: string;
   targetType: DocumentType;
   targetIds: string[];
+  /**
+   * 대상 문서 id → **그 연결**의 설명(요구사항 §10). 대상 문서의 설명이 아니라 "왜 이어져 있는가"
+   * 이므로, 같은 인물이라도 회차마다 다르게 적힌다. 서버의 `document_relations.description` 이다.
+   *
+   * <p>적지 않은 연결은 키가 없다. 빈 문자열과 구분할 이유가 없다.
+   */
+  descriptions: Record<string, string>;
 }
 
 export type DocumentProperty = TextProperty | RelationProperty;

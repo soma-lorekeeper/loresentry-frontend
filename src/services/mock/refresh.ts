@@ -93,6 +93,7 @@ function buildProposals(projectId: string): RefreshProposal[] {
         id: `${harin.id}:related_character`,
         kind: "relation",
         key: "related_character",
+        descriptions: {},
         label: "관련 캐릭터",
         targetType: "character",
         targetIds: [teo.id],

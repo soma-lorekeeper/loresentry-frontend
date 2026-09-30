@@ -60,6 +60,7 @@ export interface ApiTextProperty {
 export interface ApiRelation {
   relation_key: string;
   target_document_id: string;
+  description?: string;
 }
 
 /**
@@ -116,10 +117,16 @@ export function toProperties(
 
   // 같은 관계 키의 칩들을 하나의 관계 속성으로 모은다. 서버는 칩마다 한 행이다.
   const grouped = new Map<string, string[]>();
+  const described = new Map<string, Record<string, string>>();
   for (const relation of relations) {
     const targets = grouped.get(relation.relation_key) ?? [];
     targets.push(relation.target_document_id);
     grouped.set(relation.relation_key, targets);
+    const notes = described.get(relation.relation_key) ?? {};
+    if (relation.description) {
+      notes[relation.target_document_id] = relation.description;
+    }
+    described.set(relation.relation_key, notes);
   }
 
   for (const [key, targetIds] of grouped) {
@@ -132,6 +139,7 @@ export function toProperties(
       label: DOCUMENT_TYPE_META[targetType].relationLabel,
       targetType,
       targetIds,
+      descriptions: described.get(key) ?? {},
     });
   }
 
@@ -155,6 +163,7 @@ export function fromProperties(properties: DocumentProperty[]): {
       relations.push({
         relation_key: property.key,
         target_document_id: targetId,
+        description: property.descriptions[targetId] ?? "",
       });
     }
   }
