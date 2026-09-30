@@ -3,7 +3,10 @@ export type DataSource = "mock" | "api";
 export interface RuntimeConfig {
   apiBaseUrl: string;
   dataSource: DataSource;
+  /** 피드백 폼 주소. 없으면 `contactEmail` 로 메일을 쓴다. */
   feedbackUrl: string;
+  /** 문의·피드백을 받을 주소. 바닥글의 연락처이기도 하다. */
+  contactEmail: string;
   privacyPolicyUrl: string;
   termsOfServiceUrl: string;
 }
@@ -12,6 +15,7 @@ export const DEFAULT_RUNTIME_CONFIG: RuntimeConfig = {
   apiBaseUrl: "",
   dataSource: "mock",
   feedbackUrl: "",
+  contactEmail: "",
   privacyPolicyUrl: "",
   termsOfServiceUrl: "",
 };
@@ -26,6 +30,13 @@ function absoluteHttpUrl(value: unknown) {
   }
 }
 
+/** 주소처럼 보이지 않는 값은 버린다. 링크로 만들면 죽은 링크가 된다. */
+function emailAddress(value: unknown) {
+  if (typeof value !== "string") return "";
+  const trimmed = value.trim();
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed) ? trimmed : "";
+}
+
 export function parseRuntimeConfig(value: unknown): RuntimeConfig {
   if (!value || typeof value !== "object") return DEFAULT_RUNTIME_CONFIG;
   const raw = value as Record<string, unknown>;
@@ -35,6 +46,7 @@ export function parseRuntimeConfig(value: unknown): RuntimeConfig {
     // 실제 데이터를 건드리는 쪽으로 기울면 안 된다.
     dataSource: raw.dataSource === "api" ? "api" : "mock",
     feedbackUrl: absoluteHttpUrl(raw.feedbackUrl),
+    contactEmail: emailAddress(raw.contactEmail),
     privacyPolicyUrl: absoluteHttpUrl(raw.privacyPolicyUrl),
     termsOfServiceUrl: absoluteHttpUrl(raw.termsOfServiceUrl),
   };

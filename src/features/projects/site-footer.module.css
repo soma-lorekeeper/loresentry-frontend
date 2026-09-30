@@ -1,0 +1,56 @@
+/*
+ * 한 줄 바닥글. 왼쪽에 제품 이름, 오른쪽에 문의와 정책.
+ * 좁아지면 두 줄로 내려가며 왼쪽 정렬을 유지한다 — 가운데로 모으면 본문 정렬과 어긋난다.
+ */
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--lk-space-3) var(--lk-space-6);
+  margin-top: auto;
+  /* 위 여백은 main 의 gap 이 만든다. 여기서는 선과 글자 사이만 띄운다. */
+  padding: var(--lk-space-4) 0 0;
+  border-top: 1px solid var(--lk-color-border-default);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}
+
+.product {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--lk-space-2);
+  margin: 0;
+  color: var(--lk-color-text-primary);
+  font-weight: 650;
+}
+
+.tagline {
+  color: var(--lk-color-text-secondary);
+  font-weight: 400;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lk-space-2) var(--lk-space-4);
+  margin-left: auto;
+}
+
+/* 강조색을 쓰지 않는다. 바닥글은 읽히는 곳이지 눌리는 곳이 아니다. */
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.link:hover,
+.link:focus-visible {
+  color: var(--lk-color-text-primary);
+  text-decoration: underline;
+}
+
+@media (max-width: 760px) {
+  .links {
+    margin-left: 0;
+  }
+}

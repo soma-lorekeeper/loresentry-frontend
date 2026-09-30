@@ -76,3 +76,15 @@
 .account .copy {
   gap: 0;
 }
+
+/* 가로줄이 된 사이드바에서는 이름·주소를 접고 아바타만 남긴다. 줄 하나에 다 들어가야 한다. */
+@media (max-width: 900px) {
+  .summary {
+    width: auto;
+    height: 40px;
+  }
+
+  .copy {
+    display: none;
+  }
+}
