@@ -1,7 +1,6 @@
 import { ServiceError } from "../errors";
 import type {
   ChatService,
-  GraphService,
   HelpService,
   RefreshService,
   Services,
@@ -21,10 +20,6 @@ function unavailable<T>(): Promise<T> {
     new ServiceError("unavailable", "이 기능은 아직 준비되지 않았어요."),
   );
 }
-
-const graph: GraphService = {
-  getProjectGraph: () => unavailable(),
-};
 
 const refresh: RefreshService = {
   current: () => unavailable(),
@@ -48,7 +43,7 @@ const help: HelpService = {
 
 export function unavailableServices(): Pick<
   Services,
-  "graph" | "refresh" | "chat" | "help"
+  "refresh" | "chat" | "help"
 > {
-  return { graph, refresh, chat, help };
+  return { refresh, chat, help };
 }

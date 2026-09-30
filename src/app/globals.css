@@ -75,21 +75,81 @@ ol {
   white-space: nowrap;
 }
 
+/**
+ * 인쇄용 지면. 화면에서는 없는 것이고, 인쇄할 때만 이것만 보인다.
+ *
+ * 편집 화면을 그대로 인쇄하면 제목 입력창·속성표·툴바·스크롤 영역이 종이에 찍힌다. 그래서 제목과
+ * 본문만 담은 블록을 따로 두고, 원고를 읽는 지면의 관례(여백, 세리프, 들여쓰기)로 짠다.
+ */
+.lk-print-sheet {
+  display: none;
+}
+
 @media print {
-  body.lk-printing * {
-    visibility: hidden;
+  @page {
+    size: A4;
+    margin: 25mm 20mm;
   }
 
-  body.lk-printing [data-print-root],
-  body.lk-printing [data-print-root] * {
-    visibility: visible;
+  body.lk-printing > *:not(.lk-print-sheet) {
+    display: none !important;
   }
 
-  body.lk-printing [data-print-root] {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+  body.lk-printing {
+    background: #fff;
+    overflow: visible;
+  }
+
+  body.lk-printing .lk-print-sheet {
+    display: block;
+    position: static;
     color: #000;
+    background: #fff;
+    font-family: "Noto Serif KR", "Apple SD Gothic Neo", serif;
+    font-size: 11pt;
+    line-height: 1.9;
+  }
+
+  body.lk-printing .lk-print-sheet h1 {
+    margin: 0 0 14mm;
+    font-size: 17pt;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: center;
+    /* 제목 바로 뒤에서 쪽이 넘어가면 본문 없는 표지가 한 장 생긴다. */
+    break-after: avoid;
+  }
+
+  body.lk-printing .lk-print-sheet p {
+    margin: 0;
+    /* 원고는 단락 사이를 띄우지 않고 첫 줄을 들여쓴다. */
+    text-indent: 1em;
+    orphans: 2;
+    widows: 2;
+  }
+
+  body.lk-printing .lk-print-sheet p:empty {
+    height: 1em;
+  }
+
+  body.lk-printing .lk-print-sheet h2,
+  body.lk-printing .lk-print-sheet h3 {
+    margin: 8mm 0 3mm;
+    font-size: 13pt;
+    break-after: avoid;
+  }
+
+  body.lk-printing .lk-print-sheet blockquote {
+    margin: 4mm 0 4mm 6mm;
+    font-style: italic;
+  }
+
+  body.lk-printing .lk-print-sheet img {
+    max-width: 100%;
+  }
+
+  body.lk-printing .lk-print-sheet a {
+    color: #000;
+    text-decoration: none;
   }
 }

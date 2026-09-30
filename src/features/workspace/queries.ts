@@ -129,15 +129,9 @@ export function useSetFavorite(projectId: string) {
   });
 }
 
-export function useSectionMutations(projectId: string) {
+export function useEpisodeMutations(projectId: string) {
   const services = useServices();
   return {
-    create: useFileMutation(projectId, (title: string) =>
-      services.files.createSection(projectId, title),
-    ),
-    remove: useFileMutation(projectId, (sectionId: string) =>
-      services.files.deleteSection(sectionId),
-    ),
     removeEpisode: useFileMutation(projectId, (episodeId: string) =>
       services.files.deleteEpisode(episodeId),
     ),

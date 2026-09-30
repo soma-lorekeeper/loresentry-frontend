@@ -2,19 +2,13 @@
 
 import { useState, type KeyboardEvent, type PointerEvent } from "react";
 
-import {
-  EmptyState,
-  Icon,
-  IconButton,
-  Segmented,
-} from "@/design-system/primitives";
+import { IconButton, Segmented } from "@/design-system/primitives";
 import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
 import type { MemoDock } from "@/features/workspace/model/layout";
 import { cx } from "@/shared/cx";
 
-import { MemoEditor } from "./memo-editor";
+import { MemoList } from "./memo-list";
 import styles from "./memo-panel.module.css";
-import { memoHeadline, useCreateMemo, useMemos } from "./queries";
 
 export const MEMO_RIGHT_RANGE = { min: 280, max: 560 };
 export const MEMO_BELOW_RANGE = { min: 180, max: 480 };
@@ -81,129 +75,6 @@ function ResizeHandle({
   );
 }
 
-function ProjectMemoList({
-  projectId,
-  dock,
-  expanded,
-  onExpand,
-}: {
-  projectId: string;
-  dock: MemoDock;
-  expanded: string | null;
-  onExpand: (id: string | null) => void;
-}) {
-  const memos = useMemos(projectId, "project");
-  if (memos.isPending) return <p className={styles.hint}>불러오는 중…</p>;
-  if (memos.isError)
-    return (
-      <EmptyState
-        role="alert"
-        icon="triangle-alert"
-        title="메모를 불러오지 못했어요"
-      />
-    );
-  if (memos.data.length === 0)
-    return (
-      <EmptyState
-        icon="notebook-pen"
-        title="작품 메모가 없습니다"
-        description="+ 버튼으로 첫 메모를 추가하세요."
-      />
-    );
-  return (
-    <ul className={cx(styles.cards, dock === "below" && styles.cardsBelow)}>
-      {memos.data.map((memo) => (
-        <li key={memo.id} className={styles.card}>
-          {expanded === memo.id ? (
-            <MemoEditor
-              projectId={projectId}
-              scope="project"
-              fileId={null}
-              memo={memo}
-              variant="plain"
-              autoFocus
-              label="작품 메모"
-              placeholder="새 작품 메모를 작성하세요."
-            >
-              <button
-                type="button"
-                className={styles.cardHead}
-                aria-expanded
-                onClick={() => onExpand(null)}
-              >
-                <Icon name="notebook-pen" size={14} />
-                <span className={styles.cardTitle}>
-                  {memo.title || memoHeadline(memo.body, 16) || "새 메모"}
-                </span>
-                <span className={styles.tag}>작업 메모</span>
-              </button>
-            </MemoEditor>
-          ) : (
-            <button
-              type="button"
-              className={styles.cardButton}
-              aria-expanded={false}
-              onClick={() => onExpand(memo.id)}
-            >
-              <span className={styles.cardHead}>
-                <Icon name="notebook-pen" size={14} />
-                <span className={styles.cardTitle}>
-                  {memo.title || memoHeadline(memo.body, 16) || "새 메모"}
-                </span>
-                <span className={styles.tag}>작업 메모</span>
-              </span>
-              <span className={styles.excerpt}>
-                {memo.body || "내용을 입력하세요."}
-              </span>
-            </button>
-          )}
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function FileMemo({
-  projectId,
-  fileId,
-  fileTitle,
-  typeLabel,
-}: {
-  projectId: string;
-  fileId: string;
-  fileTitle: string;
-  typeLabel: string;
-}) {
-  const memos = useMemos(projectId, "file", fileId);
-  if (memos.isPending) return <p className={styles.hint}>불러오는 중…</p>;
-  if (memos.isError)
-    return (
-      <EmptyState
-        role="alert"
-        icon="triangle-alert"
-        title="메모를 불러오지 못했어요"
-      />
-    );
-  return (
-    <MemoEditor
-      key={fileId}
-      projectId={projectId}
-      scope="file"
-      fileId={fileId}
-      memo={memos.data[0] ?? null}
-      variant="plain"
-      label={`${typeLabel} 메모`}
-      placeholder={`이 ${typeLabel}에 대한 메모를 작성하세요.`}
-      className={styles.fileMemo}
-    >
-      <div className={styles.fileHead}>
-        <strong>{typeLabel} 메모</strong>
-        <span>{fileTitle}</span>
-      </div>
-    </MemoEditor>
-  );
-}
-
 export function MemoPanel({
   projectId,
   fileId,
@@ -225,9 +96,8 @@ export function MemoPanel({
   onDock: (dock: MemoDock) => void;
   onClose: () => void;
 }) {
-  const [tab, setTab] = useState<PanelTab>("project");
-  const [expanded, setExpanded] = useState<string | null>(null);
-  const create = useCreateMemo(projectId);
+  // 이 패널은 문서를 열어 둔 채 쓴다. 지금 쓰는 문서의 메모가 먼저 보여야 한다.
+  const [tab, setTab] = useState<PanelTab>("file");
   const typeLabel = DOCUMENT_TYPE_META[docType].label;
 
   return (
@@ -264,42 +134,33 @@ export function MemoPanel({
           variant="pills"
           label="메모 종류"
           options={[
-            { value: "project" as const, label: "작품 메모" },
             { value: "file" as const, label: `${typeLabel} 메모` },
+            { value: "project" as const, label: "작품 메모" },
           ]}
           value={tab}
           onChange={setTab}
         />
-        {tab === "project" && (
-          <IconButton
-            icon="plus"
-            iconSize={16}
-            label="작품 메모 추가"
-            className={styles.add}
-            disabled={create.isPending}
-            onClick={() =>
-              create.mutate(
-                { scope: "project", fileId: null, body: "" },
-                { onSuccess: (memo) => setExpanded(memo.id) },
-              )
-            }
-          />
-        )}
       </div>
       <div className={styles.content}>
-        {tab === "project" ? (
-          <ProjectMemoList
+        {tab === "file" ? (
+          <MemoList
+            key={fileId}
             projectId={projectId}
-            dock={dock}
-            expanded={expanded}
-            onExpand={setExpanded}
+            scope="file"
+            fileId={fileId}
+            compact={dock === "below"}
+            addLabel="메모 추가"
+            emptyTitle={`${fileTitle}에 적은 메모가 없어요`}
+            emptyDescription={`이 ${typeLabel}에 대해 기억할 것을 적어 두세요.`}
           />
         ) : (
-          <FileMemo
+          <MemoList
             projectId={projectId}
-            fileId={fileId}
-            fileTitle={fileTitle}
-            typeLabel={typeLabel}
+            scope="project"
+            compact={dock === "below"}
+            addLabel="메모 추가"
+            emptyTitle="작품 메모가 없어요"
+            emptyDescription="작품 전체에 걸친 생각을 적어 두세요."
           />
         )}
       </div>

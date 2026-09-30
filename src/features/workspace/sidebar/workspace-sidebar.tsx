@@ -34,14 +34,13 @@ import {
   useFavorites,
   useFileTree,
   useMoveFile,
+  useEpisodeMutations,
   useRenameFile,
-  useSectionMutations,
   useSetFavorite,
   useTrashFile,
 } from "../queries";
-import { IMPORT_ACCEPT, useImportDocument } from "../use-import-document";
 import { useWorkspace } from "../workspace-context";
-import { DRAG_MIME, FileTree, InlineEditRow, type TreeEdit } from "./file-tree";
+import { DRAG_MIME, FileTree, type TreeEdit } from "./file-tree";
 import { GraphRefreshItem } from "./graph-refresh-item";
 import { ProjectSwitcher } from "./project-switcher";
 import styles from "./sidebar.module.css";
@@ -51,7 +50,6 @@ const PRIMARY_NAV: Array<{
   label: string;
   icon: IconName;
 }> = [
-  { kind: "search", label: "검색", icon: "search" },
   { kind: "graph", label: "그래프", icon: "waypoints" },
   { kind: "timeline", label: "타임라인", icon: "chart-no-axes-gantt" },
   { kind: "memo", label: "메모", icon: "notebook-pen" },
@@ -79,7 +77,8 @@ function SectionHeader({
   onDrop,
 }: {
   title: string;
-  entries: () => MenuEntry[];
+  /** 없으면 더보기 버튼을 그리지 않는다. 즐겨찾기처럼 더할 것이 없는 묶음이 그렇다. */
+  entries?: () => MenuEntry[];
   onDrop?: (event: DragEvent<HTMLDivElement>) => void;
 }) {
   const ref = useRef<HTMLButtonElement>(null);
@@ -101,17 +100,19 @@ function SectionHeader({
       }}
     >
       <span className={styles.sectionTitle}>{title}</span>
-      <IconButton
-        ref={ref}
-        icon="ellipsis"
-        iconSize={15}
-        label={`${title} 더보기`}
-        className={styles.sectionMore}
-        aria-haspopup="menu"
-        aria-expanded={open}
-        onClick={() => setOpen((value) => !value)}
-      />
-      {open && (
+      {entries && (
+        <IconButton
+          ref={ref}
+          icon="ellipsis"
+          iconSize={15}
+          label={`${title} 더보기`}
+          className={styles.sectionMore}
+          aria-haspopup="menu"
+          aria-expanded={open}
+          onClick={() => setOpen((value) => !value)}
+        />
+      )}
+      {entries && open && (
         <Menu
           anchorRef={ref}
           open={open}
@@ -136,10 +137,7 @@ export function WorkspaceSidebar() {
   const rename = useRenameFile(projectId);
   const move = useMoveFile(projectId);
   const trash = useTrashFile(projectId);
-  const sections = useSectionMutations(projectId);
-  const importDocument = useImportDocument(projectId);
-  const fileInput = useRef<HTMLInputElement>(null);
-  const importTarget = useRef<string | null>(null);
+  const episodes = useEpisodeMutations(projectId);
 
   const nodes = useMemo(() => tree.data ?? [], [tree.data]);
   const index = useMemo(() => indexNodes(nodes), [nodes]);
@@ -147,17 +145,11 @@ export function WorkspaceSidebar() {
   const fileRoots = roots.filter(
     (item) => item.node.kind === "folder" && item.node.role !== "section",
   );
-  const sectionRoots = roots.filter(
-    (item) => item.node.kind === "folder" && item.node.role === "section",
-  );
 
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [revealed, setRevealed] = useState<string | null>(null);
   const [edit, setEdit] = useState<TreeEdit | null>(null);
   const [dialog, setDialog] = useState<PendingDialog>(null);
-  const [sectionEdit, setSectionEdit] = useState<
-    { mode: "create" } | { mode: "rename"; id: string; title: string } | null
-  >(null);
   const [dialogError, setDialogError] = useState(false);
   const activeKind = activeTabOf(activePane).target.kind;
 
@@ -243,27 +235,6 @@ export function WorkspaceSidebar() {
     );
   };
 
-  const commitSection = (title: string) => {
-    const current = sectionEdit;
-    setSectionEdit(null);
-    if (!current) return;
-    if (current.mode === "create") {
-      sections.create.mutate(title, {
-        onError: (error) => failed(error, "섹션을 만들지 못했어요."),
-      });
-    } else if (title !== current.title) {
-      rename.mutate(
-        { fileId: current.id, title },
-        { onError: (error) => failed(error, "섹션 이름을 바꾸지 못했어요.") },
-      );
-    }
-  };
-
-  const startImport = (parentId: string) => {
-    importTarget.current = parentId;
-    fileInput.current?.click();
-  };
-
   const createEntries = (parentId: string): MenuEntry[] =>
     DOCUMENT_TYPES.map((type) => ({
       id: `create-${type}`,
@@ -295,91 +266,6 @@ export function WorkspaceSidebar() {
 
   const filesMenu = (): MenuEntry[] => [
     ...createEntries(manuscriptRoot?.id ?? ""),
-    { type: "separator", id: "s1" },
-    {
-      id: "folder",
-      label: "새 폴더",
-      icon: "folder-plus",
-      onSelect: () => startCreate(null, "folder"),
-    },
-    {
-      id: "import",
-      label: "가져오기",
-      icon: "download",
-      disabled: !manuscriptRoot,
-      onSelect: () => manuscriptRoot && startImport(manuscriptRoot.id),
-    },
-    { type: "separator", id: "s2" },
-    {
-      id: "section",
-      label: "섹션 추가",
-      icon: "list-plus",
-      onSelect: () => startSection(),
-    },
-  ];
-
-  const favoritesMenu = (): MenuEntry[] => [
-    {
-      id: "section",
-      label: "섹션 추가",
-      icon: "list-plus",
-      onSelect: () => startSection(),
-    },
-  ];
-
-  const startSection = () => setSectionEdit({ mode: "create" });
-
-  const sectionMenu = (section: FolderNode): MenuEntry[] => [
-    ...createEntries(section.id),
-    { type: "separator", id: "s1" },
-    {
-      id: "folder",
-      label: "새 폴더",
-      icon: "folder-plus",
-      onSelect: () => startCreate(section.id, "folder"),
-    },
-    {
-      id: "import",
-      label: "가져오기",
-      icon: "download",
-      onSelect: () => startImport(section.id),
-    },
-    {
-      id: "rename",
-      label: "이름 변경",
-      icon: "pencil",
-      onSelect: () =>
-        setSectionEdit({
-          mode: "rename",
-          id: section.id,
-          title: section.title,
-        }),
-    },
-    { type: "separator", id: "s2" },
-    {
-      id: "section",
-      label: "섹션 추가",
-      icon: "list-plus",
-      onSelect: () => startSection(),
-    },
-    { type: "separator", id: "s3" },
-    {
-      id: "delete",
-      label: "섹션 삭제",
-      icon: "trash-2",
-      onSelect: () => {
-        const inside = descendantIds(index, section.id).map((id) =>
-          index.get(id),
-        );
-        setDialogError(false);
-        setDialog({
-          kind: "section",
-          node: section,
-          files: inside.filter((n) => n?.kind === "document").length,
-          folders: inside.filter((n) => n?.kind === "folder").length,
-        });
-      },
-    },
   ];
 
   const rowMenu = (node: FileNode): MenuEntry[] => {
@@ -403,16 +289,6 @@ export function WorkspaceSidebar() {
           onSelect: () =>
             startCreate(node.id, "document", node.category ?? "manuscript"),
         },
-        ...(node.category === "manuscript"
-          ? [
-              {
-                id: "import",
-                label: "가져오기",
-                icon: "download" as const,
-                onSelect: () => startImport(node.id),
-              },
-            ]
-          : []),
       ];
     }
     if (node.kind === "folder" && node.role === "episode") {
@@ -542,22 +418,14 @@ export function WorkspaceSidebar() {
         onError: () => setDialogError(true),
       });
     } else if (dialog.kind === "episode") {
-      sections.removeEpisode.mutate(dialog.node.id, {
-        onSuccess: done,
-        onError: () => setDialogError(true),
-      });
-    } else {
-      sections.remove.mutate(dialog.node.id, {
+      episodes.removeEpisode.mutate(dialog.node.id, {
         onSuccess: done,
         onError: () => setDialogError(true),
       });
     }
   };
 
-  const busy =
-    trash.isPending ||
-    sections.remove.isPending ||
-    sections.removeEpisode.isPending;
+  const busy = trash.isPending || episodes.removeEpisode.isPending;
   const favoriteNodes = (favorites.data ?? [])
     .map((id) => index.get(id))
     .filter(isDocument);
@@ -601,7 +469,6 @@ export function WorkspaceSidebar() {
         <section className={styles.section} aria-label="즐겨찾기">
           <SectionHeader
             title="즐겨찾기"
-            entries={favoritesMenu}
             onDrop={(event) => {
               const dragId = event.dataTransfer.getData(DRAG_MIME);
               if (dragId && isDocument(index.get(dragId))) {
@@ -630,56 +497,6 @@ export function WorkspaceSidebar() {
           <SectionHeader title="파일" entries={filesMenu} />
           <FileTree items={fileRoots} label="파일" {...treeProps} />
         </section>
-        {sectionEdit?.mode === "create" && (
-          <InlineEditRow
-            icon="list-plus"
-            defaultTitle="새 섹션"
-            depth={0}
-            onCommit={commitSection}
-            onCancel={() => setSectionEdit(null)}
-          />
-        )}
-        {sectionRoots.map((section) => (
-          <section
-            key={section.node.id}
-            className={styles.section}
-            aria-label={section.node.title}
-          >
-            {sectionEdit?.mode === "rename" &&
-            sectionEdit.id === section.node.id ? (
-              <InlineEditRow
-                icon="list-plus"
-                defaultTitle={section.node.title}
-                depth={0}
-                onCommit={commitSection}
-                onCancel={() => setSectionEdit(null)}
-              />
-            ) : (
-              <SectionHeader
-                title={section.node.title}
-                entries={() => sectionMenu(section.node as FolderNode)}
-                onDrop={(event) => {
-                  const dragId = event.dataTransfer.getData(DRAG_MIME);
-                  if (dragId) {
-                    event.preventDefault();
-                    dropNode(dragId, section.node);
-                  }
-                }}
-              />
-            )}
-            <FileTree
-              items={section.children}
-              label={section.node.title}
-              rootDepth={0}
-              {...treeProps}
-              edit={
-                edit?.mode === "create" && edit.parentId === section.node.id
-                  ? { ...edit, parentId: null }
-                  : edit
-              }
-            />
-          </section>
-        ))}
       </div>
       <div className={styles.utility}>
         {UTILITY_NAV.map((item) => (
@@ -692,22 +509,6 @@ export function WorkspaceSidebar() {
           />
         ))}
       </div>
-
-      <input
-        ref={fileInput}
-        type="file"
-        accept={IMPORT_ACCEPT}
-        hidden
-        onChange={async (event) => {
-          const file = event.target.files?.[0];
-          event.target.value = "";
-          const parentId = importTarget.current;
-          if (!file || !parentId) return;
-          toggle(parentId, true);
-          const node = await importDocument(file, parentId);
-          if (node) open({ kind: "file", fileId: node.id });
-        }}
-      />
 
       <DialogCard
         open={dialog?.kind === "trash"}

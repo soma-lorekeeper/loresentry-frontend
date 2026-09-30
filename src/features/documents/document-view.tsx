@@ -136,7 +136,7 @@ export function DocumentView({
   const [editor, setEditor] = useState<Editor | null>(null);
   const [lockPending, setLockPending] = useState(false);
   const [versionsOpen, setVersionsOpen] = useState(false);
-  const printRoot = useRef<HTMLDivElement>(null);
+  const printBody = useRef<HTMLDivElement>(null);
   const [workArea, setWorkArea] = useState<HTMLDivElement | null>(null);
   const workSize = useElementSize(workArea);
 
@@ -233,11 +233,13 @@ export function DocumentView({
   const exportAs = async (format: ExportFormat) => {
     if (format === "pdf") {
       await doc.session.save();
+      // 편집 화면을 그대로 인쇄하면 제목 입력창·속성표·툴바가 종이에 찍힌다. 인쇄용 블록에
+      // 제목과 본문만 담아 그것만 보이게 한다.
+      printBody.current!.innerHTML = editor?.getHTML() ?? "";
       document.body.classList.add("lk-printing");
-      printRoot.current?.setAttribute("data-print-root", "");
       window.print();
       document.body.classList.remove("lk-printing");
-      printRoot.current?.removeAttribute("data-print-root");
+      printBody.current!.innerHTML = "";
       return;
     }
     try {
@@ -302,6 +304,11 @@ export function DocumentView({
 
   return (
     <div className={styles.view} data-document-view>
+      {/* 인쇄에만 보이는 블록. 화면에서는 숨어 있고, PDF 내보내기가 본문을 여기에 넣는다. */}
+      <article className="lk-print-sheet" aria-hidden="true">
+        <h1>{draft.title || "제목 없음"}</h1>
+        <div ref={printBody} />
+      </article>
       <FileHeader
         memoOpen={panels.memoOpen}
         locked={locked}
@@ -367,7 +374,7 @@ export function DocumentView({
           )}
           <div className={styles.body}>
             <div className={styles.canvasScroll}>
-              <div ref={printRoot} className={styles.column} style={editorVars}>
+              <div className={styles.column} style={editorVars}>
                 <div className={styles.titleRow}>
                   <input
                     className={styles.title}

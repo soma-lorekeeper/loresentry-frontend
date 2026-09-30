@@ -144,6 +144,16 @@ function RelationRow({
   const menuRef = useRef<HTMLButtonElement>(null);
   const [picking, setPicking] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  /** 지금 설명을 고치고 있는 대상 문서. 한 번에 하나만 편다. */
+  const [describing, setDescribing] = useState<string | null>(null);
+
+  const describe = (targetId: string, text: string) => {
+    const next = { ...property.descriptions };
+    const trimmed = text.trim();
+    if (trimmed) next[targetId] = trimmed;
+    else delete next[targetId];
+    onChange({ ...property, descriptions: next });
+  };
   const byId = useMemo(
     () => new Map(nodes.map((node) => [node.id, node])),
     [nodes],
@@ -194,36 +204,71 @@ function RelationRow({
         {targets.length === 0 && (
           <span className={styles.emptyValue}>연결한 문서가 없어요</span>
         )}
-        {targets.map((node) => (
-          <span key={node.id} className={styles.chip}>
-            <Icon name={meta.entityIcon} size={14} />
-            <button
-              type="button"
-              className={styles.chipLabel}
-              onClick={() => onOpenFile(node.id)}
-              title={`${node.title} 열기`}
-            >
-              {node.title}
-            </button>
-            {!readOnly && (
+        {targets.map((node) => {
+          const note = property.descriptions[node.id] ?? "";
+          return (
+            <span key={node.id} className={styles.chip}>
+              <Icon name={meta.entityIcon} size={14} />
               <button
                 type="button"
-                className={styles.chipRemove}
-                aria-label={`${node.title} 연결 해제`}
-                onClick={() =>
-                  onChange({
-                    ...property,
-                    targetIds: property.targetIds.filter(
-                      (id) => id !== node.id,
-                    ),
-                  })
-                }
+                className={styles.chipLabel}
+                onClick={() => onOpenFile(node.id)}
+                title={`${node.title} 열기`}
               >
-                <Icon name="x" size={12} />
+                {node.title}
               </button>
-            )}
-          </span>
-        ))}
+              {describing === node.id ? (
+                <input
+                  className={styles.chipNoteInput}
+                  defaultValue={note}
+                  autoFocus
+                  aria-label={`${node.title} 관계 설명`}
+                  placeholder="이 관계는 무엇인가요"
+                  onBlur={(event) => {
+                    describe(node.id, event.target.value);
+                    setDescribing(null);
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") event.currentTarget.blur();
+                    if (event.key === "Escape") setDescribing(null);
+                  }}
+                />
+              ) : (
+                (note || !readOnly) && (
+                  <button
+                    type="button"
+                    className={note ? styles.chipNote : styles.chipNoteAdd}
+                    disabled={readOnly}
+                    aria-label={`${node.title} 관계 설명 ${note ? "고치기" : "적기"}`}
+                    onClick={() => setDescribing(node.id)}
+                  >
+                    {note || "설명"}
+                  </button>
+                )
+              )}
+              {!readOnly && (
+                <button
+                  type="button"
+                  className={styles.chipRemove}
+                  aria-label={`${node.title} 연결 해제`}
+                  onClick={() => {
+                    const descriptions = { ...property.descriptions };
+                    delete descriptions[node.id];
+                    onChange({
+                      ...property,
+                      targetIds: property.targetIds.filter(
+                        (id) => id !== node.id,
+                      ),
+                      descriptions,
+                    });
+                  }}
+                >
+                  <Icon name="x" size={12} />
+                </button>
+              )}
+            </span>
+          );
+        })}
         {!readOnly && (
           <button
             ref={addRef}
@@ -248,6 +293,7 @@ function RelationRow({
             onChange({
               ...property,
               targetIds: [...property.targetIds, node.id],
+              descriptions: {},
             });
             setPicking(false);
           }}
@@ -408,9 +454,11 @@ export function PropertyTable({
         ]),
     },
     { type: "separator", id: "separator" },
+    // 고르는 것은 문서 종류가 아니라 **관계**다. "캐릭터" 라고만 적으면 캐릭터 문서를 만드는
+    // 것처럼 읽힌다.
     ...DOCUMENT_TYPES.map((type) => ({
       id: type,
-      label: DOCUMENT_TYPE_META[type].label,
+      label: DOCUMENT_TYPE_META[type].relationLabel,
       icon: DOCUMENT_TYPE_META[type].entityIcon,
       disabled: properties.some(
         (p) => p.kind === "relation" && p.targetType === type,
@@ -425,6 +473,7 @@ export function PropertyTable({
             label: DOCUMENT_TYPE_META[type].relationLabel,
             targetType: type,
             targetIds: [],
+            descriptions: {},
           },
         ]),
     })),

@@ -109,6 +109,7 @@ function relationProperty(
     label: DOCUMENT_TYPE_META[targetType].relationLabel,
     targetType,
     targetIds,
+    descriptions: {},
   };
 }
 
@@ -392,6 +393,7 @@ function buildGlassGarden(now: number, db: MockDb) {
         return {
           ...property,
           targetIds: property.targetIds.filter((id) => id !== docId("ch-11")),
+          descriptions: {},
         };
       }
       return property;

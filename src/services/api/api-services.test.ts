@@ -386,15 +386,6 @@ describe("files", () => {
     expect(await files.setFavorite("p-1", "d-2", false)).toEqual([]);
     expect(calls[2].method).toBe("DELETE");
   });
-
-  it("refuses user sections instead of pretending to store them", async () => {
-    const error = await services()
-      .files!.createSection("p-1", "내 섹션")
-      .catch((cause: unknown) => cause);
-
-    expect(isServiceError(error) && error.code).toBe("validation");
-    expect(calls).toHaveLength(0);
-  });
 });
 
 const apiContent = {
@@ -454,6 +445,7 @@ describe("documents", () => {
         id: "relation:related_character",
         kind: "relation",
         key: "related_character",
+        descriptions: {},
         label: "관련 캐릭터",
         targetType: "character",
         targetIds: ["d-9"],
@@ -623,7 +615,11 @@ describe("documents", () => {
     });
 
     expect((calls[1].body as { relations: unknown[] }).relations).toEqual([
-      { relation_key: "related_character", target_document_id: "d-9" },
+      {
+        relation_key: "related_character",
+        target_document_id: "d-9",
+        description: "",
+      },
       { relation_key: "related_episode", target_document_id: "d-7" },
     ]);
   });
@@ -715,28 +711,57 @@ describe("versions and the document memory", () => {
   });
 });
 
-describe("search", () => {
-  it("keeps the snippet the server cut and reports where the hit lives", async () => {
+describe("graph", () => {
+  it("builds the project graph from the database projection", async () => {
+    // 타임라인은 이 그래프로 그린다. graph-rag 를 기다리는 동안 화면이 전혀 열리지 않았다.
     reply(200, {
-      hits: [
+      nodes: [
         {
-          file_id: "d-2",
+          id: "d-1",
+          title: "1화",
+          folder_code: "MANUSCRIPT",
+          description: "회귀가 시작된다",
+        },
+        {
+          id: "d-2",
           title: "유중혁",
           folder_code: "CHARACTER",
-          episode_name: null,
-          snippet: { before: "앞", match: "회귀", after: "뒤" },
-          updated_at: "2026-09-24T00:00:00Z",
+          description: "",
+        },
+        {
+          id: "d-3",
+          title: "충무로역",
+          folder_code: "LOCATION",
+          description: "",
         },
       ],
+      edges: [
+        {
+          id: "r-1",
+          source: "d-1",
+          target: "d-2",
+          relation_key: "related_character",
+          description: "첫 등장",
+        },
+      ],
+      episodes: [{ id: "e-1", name: "1부", document_ids: ["d-1"] }],
     });
 
-    const [hit] = await services().search!.search("p-1", "회귀");
+    const graph = await services().graph!.getProjectGraph("p-1");
 
-    expect(calls[0].url).toBe(
-      `${BASE}/projects/p-1/search?q=%ED%9A%8C%EA%B7%80`,
-    );
-    expect(hit).toMatchObject({ docType: "character", path: ["캐릭터"] });
-    expect(hit.snippet).toEqual({ before: "앞", match: "회귀", after: "뒤" });
+    expect(calls[0].url).toBe(`${BASE}/projects/p-1/graph`);
+    // 분류 코드는 화면의 종류로 옮긴다. LOCATION 은 place 다.
+    expect(graph.nodes.map((n) => n.docType)).toEqual([
+      "manuscript",
+      "character",
+      "place",
+    ]);
+    expect(graph.edges[0].key).toBe("related_character");
+    expect(graph.episodes[0]).toEqual({
+      id: "e-1",
+      title: "1부",
+      chapterIds: ["d-1"],
+    });
   });
 });
 
@@ -748,9 +773,8 @@ describe("wiring", () => {
       apiBaseUrl: BASE,
     });
 
-    // mock 을 그대로 두면 그럴듯한 가짜 그래프·대화·가이드를 진짜처럼 보여 준다.
+    // mock 을 그대로 두면 그럴듯한 가짜 최신화·대화·가이드를 진짜처럼 보여 준다.
     const asked = [
-      wired.graph.getProjectGraph("p-1"),
       wired.refresh.current("p-1"),
       wired.chat.sessions("p-1"),
       wired.help.guides(),
@@ -776,7 +800,6 @@ describe("wiring", () => {
     expect(wired.projects).not.toBe(mock.projects);
     expect(wired.files).not.toBe(mock.files);
     expect(wired.documents).not.toBe(mock.documents);
-    expect(wired.search).not.toBe(mock.search);
     // 아직 서버에 없는 포트는 mock 그대로다. 그래서 화면 전체가 계속 동작한다.
     expect(wired.memos).not.toBe(mock.memos);
     expect(wired.workspaceState).not.toBe(mock.workspaceState);
@@ -785,6 +808,7 @@ describe("wiring", () => {
     // 서버에 없는 포트는 mock 이 아니다. 거절하는 구현으로 바뀐다.
     expect(wired.chat).not.toBe(mock.chat);
     expect(wired.graph).not.toBe(mock.graph);
+    expect(wired.refresh).not.toBe(mock.refresh);
     expect(wired.refresh).not.toBe(mock.refresh);
     expect(wired.help).not.toBe(mock.help);
   });
