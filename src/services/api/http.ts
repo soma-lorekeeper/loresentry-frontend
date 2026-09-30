@@ -1,3 +1,4 @@
+import { withSessionRequest } from "./auth-transition";
 import { ServiceError } from "../errors";
 
 import { toServiceError, type ApiErrorBody } from "./errors";
@@ -12,6 +13,9 @@ export interface RequestOptions {
   /** 오류에 붙일 연산 이름. 화면이 어느 요청이 실패했는지 구분할 때 쓴다. */
   operation?: string;
   signal?: AbortSignal;
+  expectedStatus?: number;
+  /** Only for a request already inside the exclusive auth transition. */
+  authTransition?: boolean;
 }
 
 export interface ApiFailure {
@@ -41,6 +45,17 @@ export class ApiClient {
   async request<T>(path: string, options: RequestOptions = {}): Promise<T> {
     const result = await this.send(path, options);
 
+    if (
+      result.ok &&
+      options.expectedStatus !== undefined &&
+      result.status !== options.expectedStatus
+    ) {
+      throw new ServiceError(
+        "unknown",
+        "서버 응답을 확인할 수 없어요.",
+        options.operation,
+      );
+    }
     if (result.status === 204) return undefined as T;
     if (!result.ok) {
       throw toServiceError(
@@ -81,9 +96,14 @@ export class ApiClient {
   }
 
   private async send(path: string, options: RequestOptions): Promise<Exchange> {
-    const response = await this.fetch(path, options);
-    const payload = response.status === 204 ? null : await readJson(response);
-    return { status: response.status, ok: response.ok, payload };
+    const exchange = async () => {
+      const response = await this.fetch(path, options);
+      const payload = response.status === 204 ? null : await readJson(response);
+      return { status: response.status, ok: response.ok, payload };
+    };
+    return options.authTransition || path === "/auth/terms"
+      ? exchange()
+      : withSessionRequest(exchange);
   }
 
   private async fetch(

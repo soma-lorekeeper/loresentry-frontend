@@ -179762,6 +179762,2238 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "k21dz",
+      "x": 7800,
+      "y": 5600,
+      "name": "153 · Login · Terms Consent · Unchecked",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "type": "frame",
+          "id": "a0TBW7",
+          "name": "Login Brand Field",
+          "width": 720,
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "padding": [
+            64,
+            72
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "frame",
+              "id": "x0Bx9J",
+              "name": "Lorekeeper Wordmark",
+              "gap": "$b:space-3",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "o6d7eA",
+                  "name": "Lorekeeper Letter Mark",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "$b:color-accent-primary",
+                  "cornerRadius": "$b:radius-control",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "c5tYZi",
+                      "name": "Lorekeeper Letter",
+                      "fill": "$b:color-text-on-accent",
+                      "content": "L",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "Q0a2p4",
+                  "name": "Lorekeeper Wordmark Text",
+                  "fill": "$b:color-text-primary",
+                  "content": "LOREKEEPER",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-heading",
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "tk6oE",
+              "name": "Login Brand Message",
+              "width": 500,
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "eS6Jb",
+                  "name": "Brand Eyebrow",
+                  "fill": "$b:color-accent-primary",
+                  "content": "WRITING WORKSPACE",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-label",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "RrAk8",
+                  "name": "Brand Headline",
+                  "fill": "$b:color-text-primary",
+                  "content": "이야기를 쓰는 데\n집중하세요.",
+                  "lineHeight": "$b:line-height-manuscript-title",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-manuscript-title",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "Yq188",
+                  "name": "Brand Supporting Copy",
+                  "fill": "$b:color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 420,
+                  "content": "Lorekeeper는 집필, 설정, 메모를 하나의 흐름으로 연결합니다.",
+                  "lineHeight": "$b:line-height-context",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "T6mrEK",
+              "name": "Brand Footer",
+              "fill": "$b:color-text-secondary",
+              "content": "Your story, uninterrupted.",
+              "fontFamily": "$b:font-family-ui",
+              "fontSize": "$b:font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "LjQg2",
+          "name": "Login Authentication Field",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-surface-navigation",
+          "layout": "vertical",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "yZvSK",
+              "name": "Login Authentication Card",
+              "width": 440,
+              "fill": "$b:color-surface-default",
+              "cornerRadius": "$b:radius-card",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 28,
+              "padding": 40,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "R6MP4a",
+                  "name": "Login Card Header",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "GRUpA",
+                      "name": "Login Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "Lorekeeper에 로그인",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "qkLvg",
+                      "name": "Login Description",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Google 계정으로 안전하게 계속하세요.",
+                      "lineHeight": "$b:line-height-context",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-context",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Mow5X",
+                  "name": "Login Primary Action",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "id": "PaGs4",
+                      "type": "ref",
+                      "ref": "b:YuQi0",
+                      "name": "Google Login Default Action",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Y0L7vA",
+                      "name": "Authentication Destination Note",
+                      "width": "fill_container",
+                      "height": 54,
+                      "gap": "$b:space-2",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "a7HAq",
+                          "name": "Destination Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "arrow-right",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Fk6lK",
+                          "name": "Destination Message",
+                          "fill": "$b:color-text-secondary",
+                          "content": "로그인 후 프로젝트 목록으로 이동합니다.",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "oiP5l",
+                  "type": "ref",
+                  "ref": "b:nr8tB",
+                  "name": "Login Policy Notice",
+                  "width": "fill_container",
+                  "descendants": {
+                    "b:yzpeY": {
+                      "content": "서비스 이용약관과 개인정보 처리방침을 확인하세요."
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "dpjU6",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "Terms Modal Overlay",
+          "width": 1440,
+          "height": 900,
+          "fill": "$b:color-scrim-dialog",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "R2G11y",
+              "type": "ref",
+              "ref": "b:ehyXz",
+              "name": "Terms Consent Dialog",
+              "width": 600,
+              "padding": "$b:space-7",
+              "gap": "$b:space-6",
+              "layout": "vertical",
+              "height": "fit_content",
+              "fill": "$b:color-surface-raised",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "cornerRadius": "$b:radius-card",
+              "descendants": {
+                "b:QWOgJ": {
+                  "type": "frame",
+                  "id": "CGsLH",
+                  "name": "Terms Header",
+                  "width": "fill_container",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "hMxlq",
+                      "name": "Terms Heading Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$b:space-2",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "T89ckC",
+                          "name": "Terms Heading",
+                          "fill": "$b:color-text-primary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "서비스 이용약관을 확인해 주세요",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "JbLj1",
+                          "name": "Terms Explanation",
+                          "fill": "$b:color-text-secondary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "약관에 동의해야 로그인을 완료하고 서비스를 이용할 수 있습니다.",
+                          "lineHeight": "$b:line-height-body",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "gOdi5",
+                      "type": "ref",
+                      "ref": "b:hMpn5",
+                      "name": "Close Terms Dialog",
+                      "width": 28,
+                      "height": 28,
+                      "descendants": {
+                        "b:UCRf6": {
+                          "icon": "x"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "b:vVB4i": {
+                  "type": "frame",
+                  "id": "T5qtx",
+                  "name": "Terms Reading Area",
+                  "width": "fill_container",
+                  "fill": "$b:color-bg-canvas",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "padding": "$b:space-6",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "hBvJE",
+                      "name": "Terms Document Title",
+                      "fill": "$b:color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Lore Sentry 서비스 이용약관",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "zi3D5",
+                      "name": "Terms Version And Effective Date",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "초안 0.2  ·  시행일: 공개 시 안내",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "x5xox",
+                      "name": "제1조 목적과 서비스",
+                      "fill": "$b:color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "제1조 목적과 서비스",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "gJUic",
+                      "name": "제1조 목적과 서비스 본문",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "이 약관은 소마 Lore Sentry 팀(이하 “운영자”)이 제공하는 Lore Sentry의 이용 조건과 운영자 및 이용자의 권리·의무를 정합니다. Lore Sentry는 이용자가 소설을 작성·저장·편집하고, 원고의 인물·관계·사건 등을 분석하여 확인할 수 있도록 돕는 서비스입니다.\n운영자는 사업자등록 전의 팀이며 소마 운영기관 자체를 뜻하지 않습니다.",
+                      "lineHeight": "$b:line-height-context",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "r1jzyC",
+                      "name": "제2조 가입과 계정",
+                      "fill": "$b:color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "제2조 가입과 계정",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "eA1df",
+                      "name": "제2조 가입과 계정 본문",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Google 계정 인증 후 서비스 계정을 생성하거나 기존 계정을 확인합니다. 이용자가 이 약관에 동의하여 서비스 이용을 신청하고 서비스가 이를 확인하면 이용계약이 성립합니다. 처음 이용할 때 약관에 동의하지 않고 화면을 닫아도 계정은 유지되지만, 로그인을 완료하거나 서비스를 이용할 수 없습니다.",
+                      "lineHeight": "$b:line-height-context",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "LCggX",
+                      "layoutPosition": "absolute",
+                      "x": 532,
+                      "y": 12,
+                      "name": "Terms Scroll Track",
+                      "width": 4,
+                      "height": 290,
+                      "fill": "$b:color-surface-icon",
+                      "cornerRadius": "$b:radius-control",
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "jN3bY",
+                          "name": "Terms Scroll Thumb At Start",
+                          "width": 4,
+                          "height": 52,
+                          "fill": "$b:color-border-default",
+                          "cornerRadius": "$b:radius-control"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "vBvU8",
+                      "name": "Terms Scroll Hint",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "아래로 내려 약관의 나머지 내용을 확인할 수 있어요.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                "b:D5iknr": {
+                  "type": "frame",
+                  "id": "c9y8T7",
+                  "name": "Terms Consent Controls",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "P4BX7g",
+                      "name": "Required Consent Row",
+                      "width": "fill_container",
+                      "height": 32,
+                      "gap": "$b:space-3",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "ReC6D",
+                          "name": "Consent Checkbox Unchecked",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "square",
+                          "library": "lucide",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "JrwBZ",
+                          "name": "Required Consent Label",
+                          "fill": "$b:color-text-primary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "[필수] Lore Sentry 서비스 이용약관에 동의합니다.",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "jJTKe",
+                      "name": "Privacy Policy Link Row",
+                      "width": "fill_container",
+                      "gap": "$b:space-2",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "aSWmj",
+                          "name": "Privacy Policy Link",
+                          "fill": "$b:color-accent-primary",
+                          "content": "개인정보 처리방침 보기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "FkaWQ",
+                          "name": "Open Privacy Policy",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "arrow-up-right",
+                          "library": "lucide",
+                          "fill": "$b:color-accent-primary"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "Ts2M2",
+                      "type": "ref",
+                      "ref": "b:celDl",
+                      "name": "Continue With Consent Disabled",
+                      "width": "fill_container",
+                      "height": 44,
+                      "justifyContent": "center",
+                      "fill": "$b:color-surface-icon",
+                      "stroke": "$b:color-border-default",
+                      "descendants": {
+                        "b:n0keHY": {
+                          "enabled": false
+                        },
+                        "b:zprJP": {
+                          "content": "동의하고 계속",
+                          "fill": "$b:color-text-secondary"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "jtOig",
+      "x": 9360,
+      "y": 5600,
+      "name": "154 · Login · Terms Consent · Checked",
+      "theme": {
+        "b:mode": "dark"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "type": "frame",
+          "id": "EGYbC",
+          "name": "Login Brand Field",
+          "width": 720,
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "padding": [
+            64,
+            72
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "frame",
+              "id": "co57s",
+              "name": "Lorekeeper Wordmark",
+              "gap": "$b:space-3",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "R5SMM",
+                  "name": "Lorekeeper Letter Mark",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "$b:color-accent-primary",
+                  "cornerRadius": "$b:radius-control",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "lNjgu",
+                      "name": "Lorekeeper Letter",
+                      "fill": "$b:color-text-on-accent",
+                      "content": "L",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "vo15x",
+                  "name": "Lorekeeper Wordmark Text",
+                  "fill": "$b:color-text-primary",
+                  "content": "LOREKEEPER",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-heading",
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Oqsp9",
+              "name": "Login Brand Message",
+              "width": 500,
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "LqeKJ",
+                  "name": "Brand Eyebrow",
+                  "fill": "$b:color-accent-primary",
+                  "content": "WRITING WORKSPACE",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-label",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "sY1rw",
+                  "name": "Brand Headline",
+                  "fill": "$b:color-text-primary",
+                  "content": "이야기를 쓰는 데\n집중하세요.",
+                  "lineHeight": "$b:line-height-manuscript-title",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-manuscript-title",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "HshcF",
+                  "name": "Brand Supporting Copy",
+                  "fill": "$b:color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 420,
+                  "content": "Lorekeeper는 집필, 설정, 메모를 하나의 흐름으로 연결합니다.",
+                  "lineHeight": "$b:line-height-context",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "oZ5JE",
+              "name": "Brand Footer",
+              "fill": "$b:color-text-secondary",
+              "content": "Your story, uninterrupted.",
+              "fontFamily": "$b:font-family-ui",
+              "fontSize": "$b:font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "YYtYH",
+          "name": "Login Authentication Field",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-surface-navigation",
+          "layout": "vertical",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "m6bsmN",
+              "name": "Login Authentication Card",
+              "width": 440,
+              "fill": "$b:color-surface-default",
+              "cornerRadius": "$b:radius-card",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 28,
+              "padding": 40,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "mJ2R6",
+                  "name": "Login Card Header",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "VeYuT",
+                      "name": "Login Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "Lorekeeper에 로그인",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ZqLd6",
+                      "name": "Login Description",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Google 계정으로 안전하게 계속하세요.",
+                      "lineHeight": "$b:line-height-context",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-context",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "f5ekKv",
+                  "name": "Login Primary Action",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "id": "mWTAz",
+                      "type": "ref",
+                      "ref": "b:YuQi0",
+                      "name": "Google Login Default Action",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Vjiwd",
+                      "name": "Authentication Destination Note",
+                      "width": "fill_container",
+                      "height": 54,
+                      "gap": "$b:space-2",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "fbcRX",
+                          "name": "Destination Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "arrow-right",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "vcxi9",
+                          "name": "Destination Message",
+                          "fill": "$b:color-text-secondary",
+                          "content": "로그인 후 프로젝트 목록으로 이동합니다.",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "rWcjg",
+                  "type": "ref",
+                  "ref": "b:nr8tB",
+                  "name": "Login Policy Notice",
+                  "width": "fill_container",
+                  "descendants": {
+                    "b:yzpeY": {
+                      "content": "서비스 이용약관과 개인정보 처리방침을 확인하세요."
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ZMkMA",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "Terms Modal Overlay",
+          "width": 1440,
+          "height": 900,
+          "fill": "$b:color-scrim-dialog",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "prpLX",
+              "type": "ref",
+              "ref": "b:ehyXz",
+              "name": "Terms Consent Dialog",
+              "width": 600,
+              "padding": "$b:space-7",
+              "gap": "$b:space-6",
+              "layout": "vertical",
+              "height": "fit_content",
+              "fill": "$b:color-surface-raised",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "cornerRadius": "$b:radius-card",
+              "descendants": {
+                "b:QWOgJ": {
+                  "type": "frame",
+                  "id": "Q0GZeY",
+                  "name": "Terms Header",
+                  "width": "fill_container",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Uxw54",
+                      "name": "Terms Heading Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$b:space-2",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "h4lGHa",
+                          "name": "Terms Heading",
+                          "fill": "$b:color-text-primary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "서비스 이용약관을 확인해 주세요",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "W8xCq",
+                          "name": "Terms Explanation",
+                          "fill": "$b:color-text-secondary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "약관에 동의해야 로그인을 완료하고 서비스를 이용할 수 있습니다.",
+                          "lineHeight": "$b:line-height-body",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "gq9JL",
+                      "type": "ref",
+                      "ref": "b:hMpn5",
+                      "name": "Close Terms Dialog",
+                      "width": 28,
+                      "height": 28,
+                      "descendants": {
+                        "b:UCRf6": {
+                          "icon": "x"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "b:vVB4i": {
+                  "type": "frame",
+                  "id": "Js2Vs",
+                  "name": "Terms Reading Area",
+                  "width": "fill_container",
+                  "fill": "$b:color-bg-canvas",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "padding": "$b:space-6",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "P9EzQ",
+                      "name": "Terms Document Title",
+                      "fill": "$b:color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Lore Sentry 서비스 이용약관",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "f4Sqlo",
+                      "name": "Terms Version And Effective Date",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "초안 0.2  ·  시행일: 공개 시 안내",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "x67O2P",
+                      "name": "제1조 목적과 서비스",
+                      "fill": "$b:color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "제1조 목적과 서비스",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "uCYOv",
+                      "name": "제1조 목적과 서비스 본문",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "이 약관은 소마 Lore Sentry 팀(이하 “운영자”)이 제공하는 Lore Sentry의 이용 조건과 운영자 및 이용자의 권리·의무를 정합니다. Lore Sentry는 이용자가 소설을 작성·저장·편집하고, 원고의 인물·관계·사건 등을 분석하여 확인할 수 있도록 돕는 서비스입니다.\n운영자는 사업자등록 전의 팀이며 소마 운영기관 자체를 뜻하지 않습니다.",
+                      "lineHeight": "$b:line-height-context",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "uMDgI",
+                      "name": "제2조 가입과 계정",
+                      "fill": "$b:color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "제2조 가입과 계정",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "G991n",
+                      "name": "제2조 가입과 계정 본문",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Google 계정 인증 후 서비스 계정을 생성하거나 기존 계정을 확인합니다. 이용자가 이 약관에 동의하여 서비스 이용을 신청하고 서비스가 이를 확인하면 이용계약이 성립합니다. 처음 이용할 때 약관에 동의하지 않고 화면을 닫아도 계정은 유지되지만, 로그인을 완료하거나 서비스를 이용할 수 없습니다.",
+                      "lineHeight": "$b:line-height-context",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "KgZzv",
+                      "layoutPosition": "absolute",
+                      "x": 532,
+                      "y": 12,
+                      "name": "Terms Scroll Track",
+                      "width": 4,
+                      "height": 290,
+                      "fill": "$b:color-surface-icon",
+                      "cornerRadius": "$b:radius-control",
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "CkYRH",
+                          "name": "Terms Scroll Thumb At Start",
+                          "width": 4,
+                          "height": 52,
+                          "fill": "$b:color-border-default",
+                          "cornerRadius": "$b:radius-control"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "w1yYSV",
+                      "name": "Terms Scroll Hint",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "아래로 내려 약관의 나머지 내용을 확인할 수 있어요.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                "b:D5iknr": {
+                  "type": "frame",
+                  "id": "e5O52W",
+                  "name": "Terms Consent Controls",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ZbMhF",
+                      "name": "Required Consent Row",
+                      "width": "fill_container",
+                      "height": 32,
+                      "gap": "$b:space-3",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "nlb6m",
+                          "name": "Consent Checkbox Checked",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "square-check",
+                          "library": "lucide",
+                          "fill": "$b:color-accent-primary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "F51z6o",
+                          "name": "Required Consent Label",
+                          "fill": "$b:color-text-primary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "[필수] Lore Sentry 서비스 이용약관에 동의합니다.",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Z8NO5A",
+                      "name": "Privacy Policy Link Row",
+                      "width": "fill_container",
+                      "gap": "$b:space-2",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "c1HD6",
+                          "name": "Privacy Policy Link",
+                          "fill": "$b:color-accent-primary",
+                          "content": "개인정보 처리방침 보기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "AXAvK",
+                          "name": "Open Privacy Policy",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "arrow-up-right",
+                          "library": "lucide",
+                          "fill": "$b:color-accent-primary"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "D9FXYU",
+                      "type": "ref",
+                      "ref": "b:celDl",
+                      "name": "Continue With Consent Enabled",
+                      "width": "fill_container",
+                      "height": 44,
+                      "justifyContent": "center",
+                      "fill": "$b:color-accent-primary",
+                      "stroke": "$b:color-accent-primary",
+                      "descendants": {
+                        "b:n0keHY": {
+                          "enabled": false
+                        },
+                        "b:zprJP": {
+                          "content": "동의하고 계속",
+                          "fill": "$b:color-text-on-accent"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "AEX3C",
+      "x": 7800,
+      "y": 51600,
+      "name": "153 · Login · Terms Consent · Unchecked · Light",
+      "theme": {
+        "b:mode": "light"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "type": "frame",
+          "id": "C4ePy",
+          "name": "Login Brand Field",
+          "width": 720,
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "padding": [
+            64,
+            72
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "frame",
+              "id": "IMwDa",
+              "name": "Lorekeeper Wordmark",
+              "gap": "$b:space-3",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "sGKcs",
+                  "name": "Lorekeeper Letter Mark",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "$b:color-accent-primary",
+                  "cornerRadius": "$b:radius-control",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "mdLRT",
+                      "name": "Lorekeeper Letter",
+                      "fill": "$b:color-text-on-accent",
+                      "content": "L",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "hwgXZ",
+                  "name": "Lorekeeper Wordmark Text",
+                  "fill": "$b:color-text-primary",
+                  "content": "LOREKEEPER",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-heading",
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "YwVIx",
+              "name": "Login Brand Message",
+              "width": 500,
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "I8Hgt",
+                  "name": "Brand Eyebrow",
+                  "fill": "$b:color-accent-primary",
+                  "content": "WRITING WORKSPACE",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-label",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "WkQEs",
+                  "name": "Brand Headline",
+                  "fill": "$b:color-text-primary",
+                  "content": "이야기를 쓰는 데\n집중하세요.",
+                  "lineHeight": "$b:line-height-manuscript-title",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-manuscript-title",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "YDhSS",
+                  "name": "Brand Supporting Copy",
+                  "fill": "$b:color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 420,
+                  "content": "Lorekeeper는 집필, 설정, 메모를 하나의 흐름으로 연결합니다.",
+                  "lineHeight": "$b:line-height-context",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "FsKJE",
+              "name": "Brand Footer",
+              "fill": "$b:color-text-secondary",
+              "content": "Your story, uninterrupted.",
+              "fontFamily": "$b:font-family-ui",
+              "fontSize": "$b:font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "DgRww",
+          "name": "Login Authentication Field",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-surface-navigation",
+          "layout": "vertical",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "h3cuXp",
+              "name": "Login Authentication Card",
+              "width": 440,
+              "fill": "$b:color-surface-default",
+              "cornerRadius": "$b:radius-card",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 28,
+              "padding": 40,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "R34ep",
+                  "name": "Login Card Header",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "T1491b",
+                      "name": "Login Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "Lorekeeper에 로그인",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "HRWcf",
+                      "name": "Login Description",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Google 계정으로 안전하게 계속하세요.",
+                      "lineHeight": "$b:line-height-context",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-context",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "SEkOL",
+                  "name": "Login Primary Action",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "id": "yVPPG",
+                      "type": "ref",
+                      "ref": "b:YuQi0",
+                      "name": "Google Login Default Action",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fbMJc",
+                      "name": "Authentication Destination Note",
+                      "width": "fill_container",
+                      "height": 54,
+                      "gap": "$b:space-2",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "k5g0Zc",
+                          "name": "Destination Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "arrow-right",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "M2MUBA",
+                          "name": "Destination Message",
+                          "fill": "$b:color-text-secondary",
+                          "content": "로그인 후 프로젝트 목록으로 이동합니다.",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "QGP6w",
+                  "type": "ref",
+                  "ref": "b:nr8tB",
+                  "name": "Login Policy Notice",
+                  "width": "fill_container",
+                  "descendants": {
+                    "b:yzpeY": {
+                      "content": "서비스 이용약관과 개인정보 처리방침을 확인하세요."
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "TMfdm",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "Terms Modal Overlay",
+          "width": 1440,
+          "height": 900,
+          "fill": "$b:color-scrim-dialog",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "GAwSs",
+              "type": "ref",
+              "ref": "b:ehyXz",
+              "name": "Terms Consent Dialog",
+              "width": 600,
+              "padding": "$b:space-7",
+              "gap": "$b:space-6",
+              "layout": "vertical",
+              "height": "fit_content",
+              "fill": "$b:color-surface-raised",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "cornerRadius": "$b:radius-card",
+              "descendants": {
+                "b:QWOgJ": {
+                  "type": "frame",
+                  "id": "lUcoj",
+                  "name": "Terms Header",
+                  "width": "fill_container",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "JsWVm",
+                      "name": "Terms Heading Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$b:space-2",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "h45U1w",
+                          "name": "Terms Heading",
+                          "fill": "$b:color-text-primary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "서비스 이용약관을 확인해 주세요",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "rE21H",
+                          "name": "Terms Explanation",
+                          "fill": "$b:color-text-secondary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "약관에 동의해야 로그인을 완료하고 서비스를 이용할 수 있습니다.",
+                          "lineHeight": "$b:line-height-body",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "QaZDT",
+                      "type": "ref",
+                      "ref": "b:hMpn5",
+                      "name": "Close Terms Dialog",
+                      "width": 28,
+                      "height": 28,
+                      "descendants": {
+                        "b:UCRf6": {
+                          "icon": "x"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "b:vVB4i": {
+                  "type": "frame",
+                  "id": "kY6RX",
+                  "name": "Terms Reading Area",
+                  "width": "fill_container",
+                  "fill": "$b:color-bg-canvas",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "padding": "$b:space-6",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "uhbH7",
+                      "name": "Terms Document Title",
+                      "fill": "$b:color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Lore Sentry 서비스 이용약관",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "yUCSQ",
+                      "name": "Terms Version And Effective Date",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "초안 0.2  ·  시행일: 공개 시 안내",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "P5vnIG",
+                      "name": "제1조 목적과 서비스",
+                      "fill": "$b:color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "제1조 목적과 서비스",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "vrfXy",
+                      "name": "제1조 목적과 서비스 본문",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "이 약관은 소마 Lore Sentry 팀(이하 “운영자”)이 제공하는 Lore Sentry의 이용 조건과 운영자 및 이용자의 권리·의무를 정합니다. Lore Sentry는 이용자가 소설을 작성·저장·편집하고, 원고의 인물·관계·사건 등을 분석하여 확인할 수 있도록 돕는 서비스입니다.\n운영자는 사업자등록 전의 팀이며 소마 운영기관 자체를 뜻하지 않습니다.",
+                      "lineHeight": "$b:line-height-context",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "uCKfU",
+                      "name": "제2조 가입과 계정",
+                      "fill": "$b:color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "제2조 가입과 계정",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "FfWUp",
+                      "name": "제2조 가입과 계정 본문",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Google 계정 인증 후 서비스 계정을 생성하거나 기존 계정을 확인합니다. 이용자가 이 약관에 동의하여 서비스 이용을 신청하고 서비스가 이를 확인하면 이용계약이 성립합니다. 처음 이용할 때 약관에 동의하지 않고 화면을 닫아도 계정은 유지되지만, 로그인을 완료하거나 서비스를 이용할 수 없습니다.",
+                      "lineHeight": "$b:line-height-context",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ZkzF0",
+                      "layoutPosition": "absolute",
+                      "x": 532,
+                      "y": 12,
+                      "name": "Terms Scroll Track",
+                      "width": 4,
+                      "height": 290,
+                      "fill": "$b:color-surface-icon",
+                      "cornerRadius": "$b:radius-control",
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "h97my",
+                          "name": "Terms Scroll Thumb At Start",
+                          "width": 4,
+                          "height": 52,
+                          "fill": "$b:color-border-default",
+                          "cornerRadius": "$b:radius-control"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "xXo8V",
+                      "name": "Terms Scroll Hint",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "아래로 내려 약관의 나머지 내용을 확인할 수 있어요.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                "b:D5iknr": {
+                  "type": "frame",
+                  "id": "k7Ivi",
+                  "name": "Terms Consent Controls",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Ntgkg",
+                      "name": "Required Consent Row",
+                      "width": "fill_container",
+                      "height": 32,
+                      "gap": "$b:space-3",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "XDdXX",
+                          "name": "Consent Checkbox Unchecked",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "square",
+                          "library": "lucide",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "imT0p",
+                          "name": "Required Consent Label",
+                          "fill": "$b:color-text-primary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "[필수] Lore Sentry 서비스 이용약관에 동의합니다.",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "kOhlK",
+                      "name": "Privacy Policy Link Row",
+                      "width": "fill_container",
+                      "gap": "$b:space-2",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "dHeDn",
+                          "name": "Privacy Policy Link",
+                          "fill": "$b:color-accent-primary",
+                          "content": "개인정보 처리방침 보기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "bCgeJ",
+                          "name": "Open Privacy Policy",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "arrow-up-right",
+                          "library": "lucide",
+                          "fill": "$b:color-accent-primary"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "lq3IV",
+                      "type": "ref",
+                      "ref": "b:celDl",
+                      "name": "Continue With Consent Disabled",
+                      "width": "fill_container",
+                      "height": 44,
+                      "justifyContent": "center",
+                      "fill": "$b:color-surface-icon",
+                      "stroke": "$b:color-border-default",
+                      "descendants": {
+                        "b:n0keHY": {
+                          "enabled": false
+                        },
+                        "b:zprJP": {
+                          "content": "동의하고 계속",
+                          "fill": "$b:color-text-secondary"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "V1dbr",
+      "x": 9360,
+      "y": 51600,
+      "name": "154 · Login · Terms Consent · Checked · Light",
+      "theme": {
+        "b:mode": "light"
+      },
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$b:color-bg-canvas",
+      "children": [
+        {
+          "type": "frame",
+          "id": "n6K1U",
+          "name": "Login Brand Field",
+          "width": 720,
+          "height": "fill_container",
+          "fill": "$b:color-bg-canvas",
+          "layout": "vertical",
+          "padding": [
+            64,
+            72
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "frame",
+              "id": "wZfW6",
+              "name": "Lorekeeper Wordmark",
+              "gap": "$b:space-3",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f9V0T6",
+                  "name": "Lorekeeper Letter Mark",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "$b:color-accent-primary",
+                  "cornerRadius": "$b:radius-control",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "pFspt",
+                      "name": "Lorekeeper Letter",
+                      "fill": "$b:color-text-on-accent",
+                      "content": "L",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "yyeR1",
+                  "name": "Lorekeeper Wordmark Text",
+                  "fill": "$b:color-text-primary",
+                  "content": "LOREKEEPER",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-heading",
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "vHuGZ",
+              "name": "Login Brand Message",
+              "width": 500,
+              "layout": "vertical",
+              "gap": "$b:space-6",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "M4f9G",
+                  "name": "Brand Eyebrow",
+                  "fill": "$b:color-accent-primary",
+                  "content": "WRITING WORKSPACE",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-label",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "bvb4K",
+                  "name": "Brand Headline",
+                  "fill": "$b:color-text-primary",
+                  "content": "이야기를 쓰는 데\n집중하세요.",
+                  "lineHeight": "$b:line-height-manuscript-title",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-manuscript-title",
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "iquQi",
+                  "name": "Brand Supporting Copy",
+                  "fill": "$b:color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 420,
+                  "content": "Lorekeeper는 집필, 설정, 메모를 하나의 흐름으로 연결합니다.",
+                  "lineHeight": "$b:line-height-context",
+                  "fontFamily": "$b:font-family-ui",
+                  "fontSize": "$b:font-size-context",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "UrphV",
+              "name": "Brand Footer",
+              "fill": "$b:color-text-secondary",
+              "content": "Your story, uninterrupted.",
+              "fontFamily": "$b:font-family-ui",
+              "fontSize": "$b:font-size-label",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "aaHQy",
+          "name": "Login Authentication Field",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$b:color-surface-navigation",
+          "layout": "vertical",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "MNI8D",
+              "name": "Login Authentication Card",
+              "width": 440,
+              "fill": "$b:color-surface-default",
+              "cornerRadius": "$b:radius-card",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 28,
+              "padding": 40,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "G85vy",
+                  "name": "Login Card Header",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-3",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "RYacQ",
+                      "name": "Login Title",
+                      "fill": "$b:color-text-primary",
+                      "content": "Lorekeeper에 로그인",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading-lg",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "M5WOd",
+                      "name": "Login Description",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Google 계정으로 안전하게 계속하세요.",
+                      "lineHeight": "$b:line-height-context",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-context",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "S6tLn",
+                  "name": "Login Primary Action",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "id": "w1Ewwt",
+                      "type": "ref",
+                      "ref": "b:YuQi0",
+                      "name": "Google Login Default Action",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "yXVGj",
+                      "name": "Authentication Destination Note",
+                      "width": "fill_container",
+                      "height": 54,
+                      "gap": "$b:space-2",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "zQVix",
+                          "name": "Destination Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "arrow-right",
+                          "library": "lucide",
+                          "weight": "$b:icon-weight-default",
+                          "fill": "$b:color-icon-default"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ii10y",
+                          "name": "Destination Message",
+                          "fill": "$b:color-text-secondary",
+                          "content": "로그인 후 프로젝트 목록으로 이동합니다.",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-label",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "P8Qfba",
+                  "type": "ref",
+                  "ref": "b:nr8tB",
+                  "name": "Login Policy Notice",
+                  "width": "fill_container",
+                  "descendants": {
+                    "b:yzpeY": {
+                      "content": "서비스 이용약관과 개인정보 처리방침을 확인하세요."
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "l8rOmS",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "Terms Modal Overlay",
+          "width": 1440,
+          "height": 900,
+          "fill": "$b:color-scrim-dialog",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "DnLcw",
+              "type": "ref",
+              "ref": "b:ehyXz",
+              "name": "Terms Consent Dialog",
+              "width": 600,
+              "padding": "$b:space-7",
+              "gap": "$b:space-6",
+              "layout": "vertical",
+              "height": "fit_content",
+              "fill": "$b:color-surface-raised",
+              "stroke": "$b:color-border-default",
+              "strokeWidth": 1,
+              "cornerRadius": "$b:radius-card",
+              "descendants": {
+                "b:QWOgJ": {
+                  "type": "frame",
+                  "id": "Pn9TH",
+                  "name": "Terms Header",
+                  "width": "fill_container",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "K69O7",
+                      "name": "Terms Heading Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": "$b:space-2",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "M1LaG",
+                          "name": "Terms Heading",
+                          "fill": "$b:color-text-primary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "서비스 이용약관을 확인해 주세요",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-heading-lg",
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ySKGv",
+                          "name": "Terms Explanation",
+                          "fill": "$b:color-text-secondary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "약관에 동의해야 로그인을 완료하고 서비스를 이용할 수 있습니다.",
+                          "lineHeight": "$b:line-height-body",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "d13gvn",
+                      "type": "ref",
+                      "ref": "b:hMpn5",
+                      "name": "Close Terms Dialog",
+                      "width": 28,
+                      "height": 28,
+                      "descendants": {
+                        "b:UCRf6": {
+                          "icon": "x"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "b:vVB4i": {
+                  "type": "frame",
+                  "id": "uaIX8",
+                  "name": "Terms Reading Area",
+                  "width": "fill_container",
+                  "fill": "$b:color-bg-canvas",
+                  "cornerRadius": "$b:radius-control",
+                  "stroke": "$b:color-border-default",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "padding": "$b:space-6",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "V3gNBS",
+                      "name": "Terms Document Title",
+                      "fill": "$b:color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Lore Sentry 서비스 이용약관",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-heading",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "HXL80",
+                      "name": "Terms Version And Effective Date",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "초안 0.2  ·  시행일: 공개 시 안내",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "W0J4i",
+                      "name": "제1조 목적과 서비스",
+                      "fill": "$b:color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "제1조 목적과 서비스",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "SguPU",
+                      "name": "제1조 목적과 서비스 본문",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "이 약관은 소마 Lore Sentry 팀(이하 “운영자”)이 제공하는 Lore Sentry의 이용 조건과 운영자 및 이용자의 권리·의무를 정합니다. Lore Sentry는 이용자가 소설을 작성·저장·편집하고, 원고의 인물·관계·사건 등을 분석하여 확인할 수 있도록 돕는 서비스입니다.\n운영자는 사업자등록 전의 팀이며 소마 운영기관 자체를 뜻하지 않습니다.",
+                      "lineHeight": "$b:line-height-context",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "PgP2m",
+                      "name": "제2조 가입과 계정",
+                      "fill": "$b:color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "제2조 가입과 계정",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "CPrPl",
+                      "name": "제2조 가입과 계정 본문",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Google 계정 인증 후 서비스 계정을 생성하거나 기존 계정을 확인합니다. 이용자가 이 약관에 동의하여 서비스 이용을 신청하고 서비스가 이를 확인하면 이용계약이 성립합니다. 처음 이용할 때 약관에 동의하지 않고 화면을 닫아도 계정은 유지되지만, 로그인을 완료하거나 서비스를 이용할 수 없습니다.",
+                      "lineHeight": "$b:line-height-context",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-body",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "sw3kQ",
+                      "layoutPosition": "absolute",
+                      "x": 532,
+                      "y": 12,
+                      "name": "Terms Scroll Track",
+                      "width": 4,
+                      "height": 290,
+                      "fill": "$b:color-surface-icon",
+                      "cornerRadius": "$b:radius-control",
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "adaYZ",
+                          "name": "Terms Scroll Thumb At Start",
+                          "width": 4,
+                          "height": 52,
+                          "fill": "$b:color-border-default",
+                          "cornerRadius": "$b:radius-control"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "fwutQ",
+                      "name": "Terms Scroll Hint",
+                      "fill": "$b:color-text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "아래로 내려 약관의 나머지 내용을 확인할 수 있어요.",
+                      "fontFamily": "$b:font-family-ui",
+                      "fontSize": "$b:font-size-label",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                "b:D5iknr": {
+                  "type": "frame",
+                  "id": "uxmwA",
+                  "name": "Terms Consent Controls",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": "$b:space-4",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "YG382",
+                      "name": "Required Consent Row",
+                      "width": "fill_container",
+                      "height": 32,
+                      "gap": "$b:space-3",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "PBfVR",
+                          "name": "Consent Checkbox Checked",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "square-check",
+                          "library": "lucide",
+                          "fill": "$b:color-accent-primary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "uXzz5",
+                          "name": "Required Consent Label",
+                          "fill": "$b:color-text-primary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "[필수] Lore Sentry 서비스 이용약관에 동의합니다.",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "A6POz",
+                      "name": "Privacy Policy Link Row",
+                      "width": "fill_container",
+                      "gap": "$b:space-2",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "sky74",
+                          "name": "Privacy Policy Link",
+                          "fill": "$b:color-accent-primary",
+                          "content": "개인정보 처리방침 보기",
+                          "fontFamily": "$b:font-family-ui",
+                          "fontSize": "$b:font-size-body",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "T9P7W",
+                          "name": "Open Privacy Policy",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "arrow-up-right",
+                          "library": "lucide",
+                          "fill": "$b:color-accent-primary"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "vgLDc",
+                      "type": "ref",
+                      "ref": "b:celDl",
+                      "name": "Continue With Consent Enabled",
+                      "width": "fill_container",
+                      "height": 44,
+                      "justifyContent": "center",
+                      "fill": "$b:color-accent-primary",
+                      "stroke": "$b:color-accent-primary",
+                      "descendants": {
+                        "b:n0keHY": {
+                          "enabled": false
+                        },
+                        "b:zprJP": {
+                          "content": "동의하고 계속",
+                          "fill": "$b:color-text-on-accent"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "imports": {

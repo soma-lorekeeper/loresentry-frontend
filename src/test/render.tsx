@@ -1,3 +1,4 @@
+import type { AuthService } from "@/services/ports";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render } from "@testing-library/react";
 import type { ReactElement } from "react";
@@ -32,19 +33,30 @@ export function setSearchParams(value: string) {
 
 export function renderWithServices(
   ui: ReactElement,
-  options: { before?: () => void } = {},
+  options: {
+    before?: () => void;
+    auth?: Partial<AuthService>;
+    queryClient?: QueryClient;
+  } = {},
 ) {
   resetDb();
   clearMockRules();
   setMockLatency(0);
   options.before?.();
   Object.values(routerMock).forEach((fn) => fn.mockReset());
-  const queryClient = new QueryClient({
-    defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
-  });
+  const queryClient =
+    options.queryClient ??
+    new QueryClient({
+      defaultOptions: {
+        queries: { retry: false },
+        mutations: { retry: false },
+      },
+    });
+  const services = createMockServices();
+  services.auth = { ...services.auth, ...options.auth };
   return render(
     <QueryClientProvider client={queryClient}>
-      <ServicesProvider services={createMockServices()}>
+      <ServicesProvider services={services}>
         <ToastProvider>{ui}</ToastProvider>
       </ServicesProvider>
     </QueryClientProvider>,

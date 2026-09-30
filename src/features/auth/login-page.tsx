@@ -6,11 +6,13 @@ import { useEffect, useState } from "react";
 
 import { useRuntimeConfig } from "@/app/providers";
 import { Icon, StatusNotice } from "@/design-system/primitives";
+import { finishAuthNavigation } from "@/services/api/auth-transition";
 import type { AuthFailure } from "@/services/ports";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 import { cx } from "@/shared/cx";
 
+import { TermsConsent } from "./terms-consent";
 import { GoogleMark } from "./google-mark";
 import styles from "./login-page.module.css";
 import { safeReturnTo } from "./return-to";
@@ -109,38 +111,60 @@ export function LoginPage() {
     if (loginResult === "success") return "processing";
     return resultStatus(loginResult) ?? initialStatus(searchParams.get("auth"));
   });
-  const session = useSession();
+  const [termsClosed, setTermsClosed] = useState(false);
+  const termsEntry = loginResult === "terms_required";
+  const showTerms = termsEntry && !termsClosed;
+  const [holdSession, setHoldSession] = useState(termsEntry);
+  const session = useSession(
+    !holdSession && !termsEntry && loginResult !== "success",
+  );
+  const closeTerms = () => {
+    setTermsClosed(true);
+    setHoldSession(true);
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("result");
+    router.replace(`/login${params.size ? `?${params}` : ""}`);
+  };
   const returnTo = safeReturnTo(searchParams.get("returnTo"));
 
-  /**
-   * BFF 가 `success` 로 돌려보냈는데 세션이 없으면 그건 실패다. "확인 중" 으로 영원히 두지 않는다.
-   *
-   * <p>렌더에서 정한다. effect 로 상태를 바꾸면 렌더가 한 번 더 도는데, 이 값은 이미 손에 있는
-   * 두 값에서 바로 나온다.
-   */
-  const confirmedSignedOut =
-    loginResult === "success" && session.isSuccess && session.data === null;
-  const status: LoginStatus = confirmedSignedOut ? "failed" : requested;
+  const status = requested;
   const copy = COPY[status];
   const processing = status === "processing";
 
-  // `result=success` 는 안내일 뿐이므로 서버에 물어 확인한다. 쿼리는 무한 staleTime 이라
-  // 로그인 전에 받아 둔 "비어 있음" 이 그대로 남아 있을 수 있다.
   useEffect(() => {
+    if (loginResult) finishAuthNavigation();
     if (loginResult !== "success") return;
-    void queryClient.invalidateQueries({ queryKey: queryKeys.session });
-  }, [loginResult, queryClient]);
+    let active = true;
+    void (async () => {
+      await queryClient.cancelQueries();
+      queryClient.clear();
+      try {
+        const user = await services.auth.getSession();
+        if (!active) return;
+        if (!user) {
+          setRequested("failed");
+          return;
+        }
+        queryClient.setQueryData(queryKeys.session, user);
+        router.replace(returnTo ?? "/projects");
+      } catch {
+        if (active) setRequested("failed");
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, [loginResult, queryClient, services.auth, router, returnTo]);
 
-  /**
-   * 확인되면 **여기서** 보낸다.
-   *
-   * <p>세션 게이트는 로그인하지 **않은** 사람을 이 화면으로 보내는 일만 한다. 로그인 화면은 그
-   * 게이트 뒤에 없으므로, 로그인된 사람을 앞으로 보내 주는 코드는 이 화면 말고 아무 데도 없다.
-   * 그것이 없어서 `/login?result=success` 에 그대로 머물렀다 — 세션은 살아 있는데 화면만 남았다.
-   */
   useEffect(() => {
-    if (session.data) router.replace(returnTo ?? "/projects");
-  }, [session.data, returnTo, router]);
+    if (
+      !holdSession &&
+      !termsEntry &&
+      loginResult !== "success" &&
+      session.data
+    )
+      router.replace(returnTo ?? "/projects");
+  }, [session.data, returnTo, router, holdSession, termsEntry, loginResult]);
 
   const start = async () => {
     setRequested("processing");
@@ -186,7 +210,7 @@ export function LoginPage() {
               type="button"
               className={styles.googleButton}
               onClick={start}
-              disabled={processing}
+              disabled={processing || showTerms}
               aria-busy={processing || undefined}
             >
               {processing ? (
@@ -233,12 +257,21 @@ export function LoginPage() {
             )}
           </div>
 
+          {showTerms && (
+            <TermsConsent
+              privacyUrl={config.privacyPolicyUrl || "/policies/privacy.html"}
+              onClose={closeTerms}
+              onComplete={() => router.replace(returnTo ?? "/projects")}
+            />
+          )}
           <div className={styles.policy}>
-            <p>계속하면 Lorekeeper의 정책에 동의하게 됩니다.</p>
             <div className={styles.policyLinks}>
-              <PolicyLink href={config.termsOfServiceUrl} label="이용약관" />
               <PolicyLink
-                href={config.privacyPolicyUrl}
+                href={config.termsOfServiceUrl || "/policies/terms.html"}
+                label="이용약관"
+              />
+              <PolicyLink
+                href={config.privacyPolicyUrl || "/policies/privacy.html"}
                 label="개인정보처리방침"
               />
             </div>

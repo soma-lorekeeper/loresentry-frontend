@@ -16,8 +16,8 @@ export const DEFAULT_RUNTIME_CONFIG: RuntimeConfig = {
   dataSource: "mock",
   feedbackUrl: "",
   contactEmail: "",
-  privacyPolicyUrl: "",
-  termsOfServiceUrl: "",
+  privacyPolicyUrl: "/policies/privacy.html",
+  termsOfServiceUrl: "/policies/terms.html",
 };
 
 function absoluteHttpUrl(value: unknown) {
@@ -47,8 +47,12 @@ export function parseRuntimeConfig(value: unknown): RuntimeConfig {
     dataSource: raw.dataSource === "api" ? "api" : "mock",
     feedbackUrl: absoluteHttpUrl(raw.feedbackUrl),
     contactEmail: emailAddress(raw.contactEmail),
-    privacyPolicyUrl: absoluteHttpUrl(raw.privacyPolicyUrl),
-    termsOfServiceUrl: absoluteHttpUrl(raw.termsOfServiceUrl),
+    privacyPolicyUrl:
+      absoluteHttpUrl(raw.privacyPolicyUrl) ||
+      DEFAULT_RUNTIME_CONFIG.privacyPolicyUrl,
+    termsOfServiceUrl:
+      absoluteHttpUrl(raw.termsOfServiceUrl) ||
+      DEFAULT_RUNTIME_CONFIG.termsOfServiceUrl,
   };
 }
 

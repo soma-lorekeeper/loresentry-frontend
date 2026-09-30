@@ -1,18 +1,28 @@
 import type { User } from "@/domain/models";
 
 import { ServiceError } from "../errors";
-import type { AccountService, AuthService } from "../ports";
+import type { AccountService, AuthService, TermsView } from "../ports";
 
+import { withAuthTransition } from "./auth-transition";
 import type { ApiClient } from "./http";
 
 interface ApiProfile {
   id: string;
   display_name: string;
-  email: string;
+  email: string | null;
 }
 
 function toUser(api: ApiProfile): User {
-  return { id: api.id, displayName: api.display_name, email: api.email };
+  if (
+    !api ||
+    typeof api.id !== "string" ||
+    !api.id ||
+    typeof api.display_name !== "string" ||
+    (api.email !== null && typeof api.email !== "string")
+  ) {
+    throw new ServiceError("unknown", "계정 정보를 확인할 수 없어요.");
+  }
+  return { id: api.id, displayName: api.display_name, email: api.email ?? "" };
 }
 
 /**
@@ -23,8 +33,62 @@ function toUser(api: ApiProfile): User {
  * 사용자가 URL 을 바꿀 수 있고, 그 직후 다른 로그인이 세션을 교체했을 수도 있다
  * (`loresentry-gateway/docs/FRONTEND_AUTH_CONTRACT.md`).
  */
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+const validTime = (value: unknown): value is string =>
+  typeof value === "string" &&
+  /^\d{4}-\d{2}-\d{2}T.*(?:Z|[+-]\d{2}:\d{2})$/.test(value) &&
+  Number.isFinite(Date.parse(value));
+
+function toTerms(value: unknown): TermsView {
+  const v = value as Record<string, unknown> | null;
+  if (
+    !v ||
+    typeof v.terms_version_id !== "string" ||
+    !UUID.test(v.terms_version_id) ||
+    ![v.version, v.title, v.content].every(
+      (x) => typeof x === "string" && x.trim().length > 0,
+    ) ||
+    !validTime(v.effective_at) ||
+    !validTime(v.expires_at)
+  ) {
+    throw new ServiceError(
+      "unknown",
+      "약관 정보를 확인할 수 없어요.",
+      "auth.terms",
+    );
+  }
+  return {
+    termsVersionId: v.terms_version_id,
+    version: v.version as string,
+    title: v.title as string,
+    content: v.content as string,
+    effectiveAt: v.effective_at,
+    expiresAt: v.expires_at,
+  };
+}
+
 export function createApiAuth(client: ApiClient): AuthService {
   return {
+    getTerms: async () =>
+      toTerms(
+        await client.request<unknown>("/auth/terms", {
+          operation: "auth.terms",
+          expectedStatus: 200,
+        }),
+      ),
+    acceptTerms: async (termsVersionId) => {
+      if (!UUID.test(termsVersionId))
+        throw new ServiceError("validation", "약관 버전을 확인해 주세요.");
+      await withAuthTransition(() =>
+        client.request<void>("/auth/terms/accept", {
+          method: "POST",
+          body: { terms_version_id: termsVersionId },
+          operation: "auth.acceptTerms",
+          expectedStatus: 204,
+          authTransition: true,
+        }),
+      );
+    },
     getSession: async () => {
       try {
         return toUser(
@@ -52,9 +116,11 @@ export function createApiAuth(client: ApiClient): AuthService {
      */
     startGoogleLogin: (returnTo) => {
       void returnTo;
-      // eslint-disable-next-line @next/next/no-location-assign-relative-destination
-      window.location.assign(`${client.baseUrl}/auth/oauth/google/prepare`);
-      return new Promise<void>(() => {});
+      return withAuthTransition(() => {
+        // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+        window.location.assign(`${client.baseUrl}/auth/oauth/google/prepare`);
+        return new Promise<void>(() => {});
+      }, true);
     },
 
     /**
@@ -66,19 +132,20 @@ export function createApiAuth(client: ApiClient): AuthService {
      * 확인하지 못한 것이므로 성공으로 표시하지 않는다(`loresentry-gateway/docs/API.md` 로그아웃 응답).
      * 쿠키는 지워졌으니 이 브라우저는 로그아웃이지만, 다른 곳의 세션이 남았을 수 있다.
      */
-    logout: async () => {
-      const result = await client.request<{ session_revocation?: string }>(
-        "/auth/sessions/revoke",
-        { method: "POST", operation: "auth.logout" },
-      );
-      if (result?.session_revocation === "unconfirmed") {
-        throw new ServiceError(
-          "network",
-          "로그아웃은 됐지만 서버 확인을 받지 못했어요.",
-          "auth.logout",
+    logout: () =>
+      withAuthTransition(async () => {
+        const result = await client.request<{ session_revocation?: string }>(
+          "/auth/sessions/revoke",
+          { method: "POST", operation: "auth.logout", authTransition: true },
         );
-      }
-    },
+        if (result?.session_revocation === "unconfirmed") {
+          throw new ServiceError(
+            "network",
+            "로그아웃은 됐지만 서버 확인을 받지 못했어요.",
+            "auth.logout",
+          );
+        }
+      }),
   };
 }
 
