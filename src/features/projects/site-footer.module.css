@@ -37,15 +37,18 @@
   margin-left: auto;
 }
 
-/* 강조색을 쓰지 않는다. 바닥글은 읽히는 곳이지 눌리는 곳이 아니다. */
+/*
+ * 이 제품에서 글자 링크는 강조색이다(로그인의 정책 링크와 같은 관례). 밑줄 없이 색만으로는
+ * 누를 수 있는 줄 모르기 쉬우므로, 바닥글에서도 같은 색을 쓰고 가리키면 밑줄을 준다.
+ * 강조색 자체가 채도가 낮아 바닥글에서도 시끄럽지 않다.
+ */
 .link {
-  color: inherit;
+  color: var(--lk-color-accent-primary);
   text-decoration: none;
 }
 
 .link:hover,
 .link:focus-visible {
-  color: var(--lk-color-text-primary);
   text-decoration: underline;
 }
 
