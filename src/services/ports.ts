@@ -43,12 +43,15 @@ export interface AuthService {
 export interface AccountService {
   getAccount(): Promise<User>;
   updateDisplayName(displayName: string): Promise<User>;
+  completeOnboarding(): Promise<void>;
+  deleteAccount(confirmationEmail: string): Promise<void>;
 }
 
 export interface ProjectService {
   list(): Promise<Project[]>;
   get(projectId: string): Promise<Project>;
   create(input: { title: string; description: string }): Promise<Project>;
+  createSample(): Promise<Project>;
   rename(projectId: string, title: string): Promise<Project>;
   moveToTrash(projectId: string): Promise<void>;
   listTrash(): Promise<Project[]>;

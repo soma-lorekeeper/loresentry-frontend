@@ -5,7 +5,7 @@ import { ServiceError } from "../errors";
 import type { ProjectService } from "../ports";
 
 import { simulate } from "./control";
-import { getDb, nextId, persistDb } from "./db";
+import { addSampleProject, getDb, nextId, persistDb } from "./db";
 
 export const PROJECT_TITLE_MAX = 255;
 
@@ -80,6 +80,23 @@ export const mockProjects: ProjectService = {
       }
       return project;
     }),
+  createSample: () =>
+    simulate(
+      "projects.createSample",
+      () => {
+        const db = getDb();
+        const base = "유리 정원의 기록";
+        const taken = new Set(
+          db.projects.filter((p) => !p.trashedAt).map((p) => p.title),
+        );
+        let title = base;
+        for (let n = 2; taken.has(title); n += 1) title = `${base} (${n})`;
+        const project = addSampleProject(db, nextId("project"), title);
+        persistDb();
+        return project;
+      },
+      { latencyMs: 700 },
+    ),
   create: ({ title, description }) =>
     simulate("projects.create", () => {
       const db = getDb();

@@ -34,7 +34,7 @@ import {
   TRASHED_PROJECTS,
 } from "./seed-world";
 
-export const MOCK_DB_VERSION = 8;
+export const MOCK_DB_VERSION = 9;
 const STORAGE_KEY = "loresentry.mock.db";
 
 export interface StoredDocument {
@@ -135,8 +135,11 @@ function categoryFolders(projectId: string): FolderNode[] {
   }));
 }
 
-function buildGlassGarden(now: number, db: MockDb) {
-  const projectId = GLASS_GARDEN_ID;
+function buildGlassGarden(
+  now: number,
+  db: MockDb,
+  projectId = GLASS_GARDEN_ID,
+) {
   const rand = mulberry32(20260918);
   const folders = categoryFolders(projectId);
   db.files.push(...folders);
@@ -551,7 +554,12 @@ function buildOtherProject(
 export function buildSeedDb(now = Date.now()): MockDb {
   const db: MockDb = {
     version: MOCK_DB_VERSION,
-    user: { id: "user-1", displayName: "서윤주", email: "seoyunju@lore.kr" },
+    user: {
+      id: "user-1",
+      displayName: "서윤주",
+      email: "seoyunju@lore.kr",
+      onboardingCompleted: true,
+    },
     signedIn: false,
     projects: [],
     files: [],
@@ -581,6 +589,39 @@ export function buildSeedDb(now = Date.now()): MockDb {
     });
   }
   return db;
+}
+
+/**
+ * 예시 프로젝트를 새 id 로 한 벌 더 만든다. 서버의 `POST /projects/sample` 처럼 원고·설정·관계·
+ * 메모가 채워진 프로젝트이고, AI 챗 기록은 넣지 않는다.
+ */
+export function addSampleProject(db: MockDb, projectId: string, title: string) {
+  const scratch = buildSeedDb();
+  const staged: MockDb = {
+    ...scratch,
+    projects: [],
+    files: [],
+    documents: {},
+    favorites: {},
+    memos: [],
+    versions: [],
+  };
+  buildGlassGarden(Date.now(), staged, projectId);
+  const project = staged.projects.find((p) => p.id === projectId)!;
+  db.projects.push({ ...project, title });
+  db.files.push(...staged.files);
+  Object.assign(db.documents, staged.documents);
+  db.favorites[projectId] = staged.favorites[projectId] ?? [];
+  db.memos.push(
+    ...staged.memos.map((memo) => ({ ...memo, id: nextId("memo") })),
+  );
+  db.versions.push(
+    ...staged.versions.map((version) => ({
+      ...version,
+      id: nextId("version"),
+    })),
+  );
+  return db.projects[db.projects.length - 1];
 }
 
 function isMockDb(value: unknown): value is MockDb {

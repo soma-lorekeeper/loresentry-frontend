@@ -62,6 +62,14 @@ export function createApiProjects(client: ApiClient): ProjectService {
         }),
       ),
 
+    createSample: async () =>
+      toProject(
+        await client.request<ApiProject>("/projects/sample", {
+          method: "POST",
+          operation: "projects.createSample",
+        }),
+      ),
+
     rename: async (projectId, title) =>
       toProject(
         await client.request<ApiProject>(`/projects/${projectId}`, {

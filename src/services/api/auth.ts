@@ -10,6 +10,7 @@ interface ApiProfile {
   id: string;
   display_name: string;
   email: string | null;
+  onboarding_completed?: boolean;
 }
 
 function toUser(api: ApiProfile): User {
@@ -18,11 +19,19 @@ function toUser(api: ApiProfile): User {
     typeof api.id !== "string" ||
     !api.id ||
     typeof api.display_name !== "string" ||
-    (api.email !== null && typeof api.email !== "string")
+    (api.email !== null && typeof api.email !== "string") ||
+    (api.onboarding_completed !== undefined &&
+      typeof api.onboarding_completed !== "boolean")
   ) {
     throw new ServiceError("unknown", "계정 정보를 확인할 수 없어요.");
   }
-  return { id: api.id, displayName: api.display_name, email: api.email ?? "" };
+  // 필드가 없는 이전 BFF 에서는 온보딩을 이미 마친 것으로 본다. 기존 회원을 안내로 막지 않는다.
+  return {
+    id: api.id,
+    displayName: api.display_name,
+    email: api.email ?? "",
+    onboardingCompleted: api.onboarding_completed ?? true,
+  };
 }
 
 /**
@@ -166,5 +175,29 @@ export function createApiAccount(client: ApiClient): AccountService {
           operation: "account.update",
         }),
       ),
+
+    completeOnboarding: async () => {
+      await client.request<void>("/auth/users/me/onboarding", {
+        method: "PUT",
+        operation: "account.completeOnboarding",
+        expectedStatus: 204,
+      });
+    },
+
+    /**
+     * 탈퇴는 로그인 상태를 끝내는 인증 전환이다. BFF 가 확인 이메일을 대조한 뒤 Content 자료,
+     * 계정·Google 연결·동의 기록을 지우고 세션 쿠키를 삭제한다(`loresentry-gateway/docs/API.md`).
+     * 실패는 아무것도 지우지 않았거나 다시 시도해도 안전한 상태로 돌아온다.
+     */
+    deleteAccount: (confirmationEmail) =>
+      withAuthTransition(async () => {
+        await client.request<void>("/auth/users/me/deletion", {
+          method: "POST",
+          body: { confirmation_email: confirmationEmail },
+          operation: "account.delete",
+          expectedStatus: 204,
+          authTransition: true,
+        });
+      }),
   };
 }

@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import type { Project } from "@/domain/models";
+import type { Project, User } from "@/domain/models";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 
@@ -54,6 +54,11 @@ export function useCreateProject() {
   );
 }
 
+export function useCreateSampleProject() {
+  const services = useServices();
+  return useProjectMutation(() => services.projects.createSample());
+}
+
 export function useRenameProject() {
   const services = useServices();
   const queryClient = useQueryClient();
@@ -102,4 +107,28 @@ export function useUpdateAccount() {
 export function useLogout() {
   const services = useServices();
   return useMutation({ mutationFn: () => services.auth.logout() });
+}
+
+export function useCompleteOnboarding() {
+  const services = useServices();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => services.account.completeOnboarding(),
+    onSuccess: () => {
+      queryClient.setQueryData<User | null>(queryKeys.session, (user) =>
+        user ? { ...user, onboardingCompleted: true } : user,
+      );
+      queryClient.setQueryData<User>(queryKeys.account, (user) =>
+        user ? { ...user, onboardingCompleted: true } : user,
+      );
+    },
+  });
+}
+
+export function useDeleteAccount() {
+  const services = useServices();
+  return useMutation({
+    mutationFn: (confirmationEmail: string) =>
+      services.account.deleteAccount(confirmationEmail),
+  });
 }
