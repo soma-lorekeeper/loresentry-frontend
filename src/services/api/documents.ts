@@ -396,11 +396,5 @@ export function createApiVersions(
         toBaseContent(body.base as ApiSnapshot | null, current),
       );
     },
-
-    remove: (fileId, versionId) =>
-      client.request<void>(`/files/${fileId}/versions/${versionId}`, {
-        method: "DELETE",
-        operation: "versions.remove",
-      }),
   };
 }
