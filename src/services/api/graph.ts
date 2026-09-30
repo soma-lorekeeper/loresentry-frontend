@@ -18,6 +18,7 @@ interface ApiEdge {
   target: string;
   relation_key: string;
   description: string;
+  origin: "USER" | "AI";
 }
 
 interface ApiEpisode {
@@ -58,6 +59,9 @@ export function createApiGraph(client: ApiClient): GraphService {
           source: edge.source,
           target: edge.target,
           key: edge.relation_key,
+          description: edge.description,
+          // 서버가 아직 보내지 않는 판을 만나도 사용자가 이은 관계로 본다.
+          origin: edge.origin ?? "USER",
         })),
         episodes: body.episodes.map((episode) => ({
           id: episode.id,

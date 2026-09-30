@@ -148,6 +148,8 @@ describe("폴더 — 분류별", () => {
       edges: [
         {
           id: "e-1",
+          description: "",
+          origin: "USER" as const,
           source: chapter.id,
           target: seen.id,
           key: "related_character",
