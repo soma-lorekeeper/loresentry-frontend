@@ -37,6 +37,16 @@ export function useCreateMemo(projectId: string) {
   });
 }
 
+export function useUpdateMemo(projectId: string) {
+  const services = useServices();
+  const invalidate = useInvalidateMemos(projectId);
+  return useMutation({
+    mutationFn: (input: { memoId: string; body: string }) =>
+      services.memos.update(input.memoId, input.body),
+    onSuccess: invalidate,
+  });
+}
+
 export function useRemoveMemo(projectId: string) {
   const services = useServices();
   const invalidate = useInvalidateMemos(projectId);

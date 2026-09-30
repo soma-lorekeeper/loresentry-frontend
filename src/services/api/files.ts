@@ -143,10 +143,6 @@ function unsupportedError(what: string): ServiceError {
   );
 }
 
-function unsupportedPromise<T>(what: string): Promise<T> {
-  return Promise.reject(unsupportedError(what));
-}
-
 /**
  * 어느 프로젝트의 노드인지 알아야 응답을 트리 노드로 만들 수 있다. 서버 응답에는 project_id 가
  * 없는 엔드포인트도 있으므로, 화면이 이미 아는 값을 캐시해 둔다.
@@ -322,10 +318,6 @@ export function createApiFiles(
     favorites: (projectId) => favorites.read(projectId),
     setFavorite: (projectId, fileId, favorite) =>
       favorites.write(projectId, fileId, favorite),
-
-    // 사용자 섹션은 폴더 모델 결정이 끝나지 않아 서버에 없다(§9-1).
-    createSection: () => unsupportedPromise("사용자 섹션"),
-    deleteSection: () => unsupportedPromise("사용자 섹션"),
 
     deleteEpisode: async (episodeId) => {
       await client.request<void>(`/episodes/${episodeId}`, {

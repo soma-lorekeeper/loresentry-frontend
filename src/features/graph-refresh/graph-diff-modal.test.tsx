@@ -16,6 +16,7 @@ import { createLayout } from "@/features/workspace/model/layout";
 import { WorkspaceProvider } from "@/features/workspace/workspace-context";
 
 import { GraphDiffModal } from "./graph-diff-modal";
+import { bodyFromPlainText } from "@/domain/document-body";
 
 vi.mock("next/navigation", () => ({
   useRouter: () => routerMock,
@@ -28,9 +29,9 @@ const user = { id: "user-1", displayName: "서윤주", email: "seoyunju@lore.kr"
 describe("GraphDiffModal", () => {
   it("enables confirmation only after every document is resolved", async () => {
     const actor = userEvent.setup();
-    const draft = (bodyMd: string) => ({
+    const draft = (text: string) => ({
       title: "하린",
-      bodyMd,
+      body: bodyFromPlainText(text),
       properties: [],
     });
     const run: RefreshRun = {
@@ -116,7 +117,7 @@ describe("GraphDiffModal", () => {
       within(dialog).getByRole("button", { name: "반영 확정" }),
     );
     await waitFor(() => expect(onClose).toHaveBeenCalled());
-    expect(getDb().documents[harin.fileId].bodyMd).toBe(harin.proposed!.bodyMd);
+    expect(getDb().documents[harin.fileId].body).toEqual(harin.proposed!.body);
     expect(getDb().refreshRuns[GLASS_GARDEN_ID].status).toBe("APPLIED");
   });
 });

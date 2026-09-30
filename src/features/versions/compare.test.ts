@@ -27,6 +27,7 @@ describe("version compare", () => {
           label: "관련 원고",
           targetType: "manuscript",
           targetIds: ["a"],
+          descriptions: {},
         },
       ],
       [
@@ -37,6 +38,7 @@ describe("version compare", () => {
           label: "관련 원고",
           targetType: "manuscript",
           targetIds: ["a", "b"],
+          descriptions: {},
         },
       ],
     );

@@ -48,20 +48,21 @@ import { createDocumentExtensions } from "./editor/extensions";
 import { FileHeader } from "./file-header";
 import { PropertyTable } from "./property-table";
 import { useDocumentSession } from "./use-document-session";
+import { bodyOf, type DocumentBody } from "@/domain/document-body";
 
 const MIN_EDITOR_WIDTH = 640;
 
 function BodyEditor({
-  markdown,
+  body,
   version,
   editable,
   onChange,
   onReady,
 }: {
-  markdown: string;
+  body: DocumentBody;
   version: number;
   editable: boolean;
-  onChange: (markdown: string) => void;
+  onChange: (body: DocumentBody) => void;
   onReady: (editor: Editor | null) => void;
 }) {
   const onChangeRef = useRef(onChange);
@@ -71,8 +72,7 @@ function BodyEditor({
 
   const editor = useEditor({
     extensions: createDocumentExtensions({ placeholder: "내용을 입력하세요" }),
-    content: markdown,
-    contentType: "markdown",
+    content: body.doc,
     immediatelyRender: false,
     editable,
     editorProps: {
@@ -83,7 +83,7 @@ function BodyEditor({
       },
     },
     onUpdate: ({ editor: current }) =>
-      onChangeRef.current(current.getMarkdown()),
+      onChangeRef.current(bodyOf(current.getJSON())),
   });
 
   useEffect(() => {
@@ -99,11 +99,8 @@ function BodyEditor({
   useEffect(() => {
     if (!editor || appliedVersion.current === version) return;
     appliedVersion.current = version;
-    editor.commands.setContent(markdown, {
-      contentType: "markdown",
-      emitUpdate: false,
-    });
-  }, [editor, markdown, version]);
+    editor.commands.setContent(body.doc, { emitUpdate: false });
+  }, [editor, body, version]);
 
   return <EditorContent editor={editor} className={styles.editor} />;
 }
@@ -136,7 +133,7 @@ export function DocumentView({
   const [editor, setEditor] = useState<Editor | null>(null);
   const [lockPending, setLockPending] = useState(false);
   const [versionsOpen, setVersionsOpen] = useState(false);
-  const printRoot = useRef<HTMLDivElement>(null);
+  const printBody = useRef<HTMLDivElement>(null);
   const [workArea, setWorkArea] = useState<HTMLDivElement | null>(null);
   const workSize = useElementSize(workArea);
 
@@ -233,11 +230,13 @@ export function DocumentView({
   const exportAs = async (format: ExportFormat) => {
     if (format === "pdf") {
       await doc.session.save();
+      // 편집 화면을 그대로 인쇄하면 제목 입력창·속성표·툴바가 종이에 찍힌다. 인쇄용 블록에
+      // 제목과 본문만 담아 그것만 보이게 한다.
+      printBody.current!.innerHTML = editor?.getHTML() ?? "";
       document.body.classList.add("lk-printing");
-      printRoot.current?.setAttribute("data-print-root", "");
       window.print();
       document.body.classList.remove("lk-printing");
-      printRoot.current?.removeAttribute("data-print-root");
+      printBody.current!.innerHTML = "";
       return;
     }
     try {
@@ -302,6 +301,11 @@ export function DocumentView({
 
   return (
     <div className={styles.view} data-document-view>
+      {/* 인쇄에만 보이는 블록. 화면에서는 숨어 있고, PDF 내보내기가 본문을 여기에 넣는다. */}
+      <article className="lk-print-sheet" aria-hidden="true">
+        <h1>{draft.title || "제목 없음"}</h1>
+        <div ref={printBody} />
+      </article>
       <FileHeader
         memoOpen={panels.memoOpen}
         locked={locked}
@@ -367,7 +371,7 @@ export function DocumentView({
           )}
           <div className={styles.body}>
             <div className={styles.canvasScroll}>
-              <div ref={printRoot} className={styles.column} style={editorVars}>
+              <div className={styles.column} style={editorVars}>
                 <div className={styles.titleRow}>
                   <input
                     className={styles.title}
@@ -414,10 +418,10 @@ export function DocumentView({
                   }
                 />
                 <BodyEditor
-                  markdown={draft.bodyMd}
+                  body={draft.body}
                   version={doc.contentVersion}
                   editable={!locked}
-                  onChange={(bodyMd) => doc.session.update({ bodyMd })}
+                  onChange={(body) => doc.session.update({ body })}
                   onReady={setEditor}
                 />
               </div>

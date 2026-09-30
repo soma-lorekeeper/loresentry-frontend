@@ -7,8 +7,6 @@ import { ChatPanel } from "@/features/chat/chat-panel";
 import { MemoView } from "@/features/memos/memo-view";
 import { FileTrashView } from "@/features/file-trash/file-trash-view";
 import { ProjectSettingsView } from "@/features/project-settings/project-settings-view";
-import { SearchView } from "@/features/search/search-view";
-import { setMockRule } from "@/services/mock/control";
 import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
 import { renderWithServices, routerMock } from "@/test/render";
 
@@ -66,33 +64,6 @@ function Harness({
 }
 
 describe("workspace views", () => {
-  it("searches the project and lists matching files", async () => {
-    const actor = userEvent.setup();
-    renderInWorkspace("search", <SearchView />);
-    expect(screen.getByText("검색어를 기다리는 중")).toBeInTheDocument();
-    await actor.type(
-      screen.getByRole("searchbox", { name: "현재 프로젝트에서 검색" }),
-      "유리",
-    );
-    const results = await screen.findByRole("list", { name: "검색 결과" });
-    expect(within(results).getAllByRole("button").length).toBeGreaterThan(0);
-    expect(screen.getByText(/개 결과$/)).toBeInTheDocument();
-  });
-
-  it("keeps the query and offers a retry when search fails", async () => {
-    const actor = userEvent.setup();
-    renderInWorkspace("search", <SearchView />, () =>
-      setMockRule("search.query", "fail"),
-    );
-    const input = screen.getByRole("searchbox", {
-      name: "현재 프로젝트에서 검색",
-    });
-    await actor.type(input, "유리");
-    const alert = await screen.findByRole("alert");
-    expect(alert).toHaveTextContent("검색 결과를 불러오지 못했어요");
-    expect(input).toHaveValue("유리");
-  });
-
   it("restores and permanently deletes trashed files", async () => {
     const actor = userEvent.setup();
     renderInWorkspace("trash", <FileTrashView />);
@@ -160,30 +131,52 @@ describe("workspace views", () => {
     );
   });
 
-  it("autosaves an edited project memo", async () => {
+  it("saves a project memo only when the check is pressed", async () => {
+    // 메모는 적다 지우는 곳이다. 자동 저장은 "쓰는 중"과 "남기기로 한 것"을 구분하지 못한다.
     const actor = userEvent.setup();
     renderInWorkspace("memo", <MemoView />);
-    const editors = await screen.findAllByRole("textbox", {
-      name: "프로젝트 메모",
-    });
-    await actor.type(editors[0], " 추가");
-    await waitFor(
-      () =>
-        expect(getDb().memos.some((memo) => memo.body.endsWith(" 추가"))).toBe(
-          true,
-        ),
-      { timeout: 3000 },
+    await actor.click(await screen.findByRole("radio", { name: "작품 메모" }));
+    const cards = await screen.findAllByRole("button", { name: /눌러서|./ });
+    await actor.click(cards[0]);
+    const editor = await screen.findByRole("textbox", { name: "메모 내용" });
+    await actor.type(editor, " 추가");
+
+    // 아직 저장하지 않았다.
+    expect(getDb().memos.some((memo) => memo.body.endsWith(" 추가"))).toBe(
+      false,
+    );
+
+    await actor.click(screen.getByRole("button", { name: "저장" }));
+    await waitFor(() =>
+      expect(getDb().memos.some((memo) => memo.body.endsWith(" 추가"))).toBe(
+        true,
+      ),
+    );
+  });
+
+  it("drops an edit when the cancel is pressed", async () => {
+    const actor = userEvent.setup();
+    renderInWorkspace("memo", <MemoView />);
+    await actor.click(await screen.findByRole("radio", { name: "작품 메모" }));
+    const cards = await screen.findAllByRole("button", { name: /눌러서|./ });
+    await actor.click(cards[0]);
+    const editor = await screen.findByRole("textbox", { name: "메모 내용" });
+    await actor.type(editor, " 버릴 것");
+    await actor.click(screen.getByRole("button", { name: "취소" }));
+
+    expect(getDb().memos.some((memo) => memo.body.endsWith(" 버릴 것"))).toBe(
+      false,
     );
   });
 
   it("deletes a memo after confirmation", async () => {
     const actor = userEvent.setup();
     renderInWorkspace("memo", <MemoView />);
+    await actor.click(await screen.findByRole("radio", { name: "작품 메모" }));
     const before = getDb().memos.filter((m) => m.scope === "project").length;
     await actor.click(
-      (await screen.findAllByRole("button", { name: "메모 메뉴" }))[0],
+      (await screen.findAllByRole("button", { name: "메모 삭제" }))[0],
     );
-    await actor.click(await screen.findByRole("menuitem", { name: "삭제" }));
     const dialog = await screen.findByRole("dialog");
     await actor.click(
       within(dialog).getByRole("button", { name: "메모 삭제" }),

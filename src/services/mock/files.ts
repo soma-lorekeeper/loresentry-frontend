@@ -6,6 +6,7 @@ import type { FileService } from "../ports";
 
 import { simulate } from "./control";
 import { getDb, nextId, persistDb } from "./db";
+import { emptyBody } from "@/domain/document-body";
 import {
   activeFiles,
   descendantsOf,
@@ -125,7 +126,7 @@ export const mockFiles: FileService = {
       };
       db.files.push(document);
       db.documents[document.id] = {
-        bodyMd: "",
+        body: emptyBody(),
         properties: [
           {
             id: `${document.id}:description`,
@@ -304,36 +305,6 @@ export const mockFiles: FileService = {
         : current.filter((id) => id !== fileId);
       persistDb();
       return db.favorites[projectId];
-    }),
-
-  createSection: (projectId, title) =>
-    simulate("files.createSection", () => {
-      const db = getDb();
-      const section: FolderNode = {
-        kind: "folder",
-        id: nextId("section"),
-        projectId,
-        parentId: null,
-        title: validateTitle(title),
-        role: "section",
-        category: null,
-        rank: nextRank(db, null, projectId),
-        trashedAt: null,
-      };
-      db.files.push(section);
-      persistDb();
-      return section;
-    }),
-
-  deleteSection: (sectionId) =>
-    simulate("files.deleteSection", () => {
-      const node = requireNode(sectionId);
-      if (node.kind !== "folder" || node.role !== "section") {
-        throw new ServiceError("validation", "사용자 섹션만 삭제할 수 있어요.");
-      }
-      node.role = "folder";
-      persistDb();
-      return node;
     }),
 
   deleteEpisode: (episodeId) =>

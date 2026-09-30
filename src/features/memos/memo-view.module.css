@@ -51,7 +51,25 @@
   align-items: center;
   gap: var(--lk-space-2);
   min-height: 26px;
+  padding: 8px 12px 0;
   color: var(--lk-color-icon-default);
+}
+
+/* 어느 문서의 메모인지 누르면 그 문서로 간다. */
+.fileLink {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--lk-color-text-primary);
+  font-size: var(--lk-font-size-label);
+  font-weight: 650;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileLink:hover {
+  text-decoration: underline;
 }
 
 .fileTitle {

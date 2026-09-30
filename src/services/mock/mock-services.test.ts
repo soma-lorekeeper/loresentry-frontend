@@ -7,6 +7,11 @@ import { clearMockRules, setMockLatency, setMockRule } from "./control";
 import { GLASS_GARDEN_ID, getDb, resetDb } from "./db";
 import { createMockServices } from "./index";
 import { EXTRACTION_MS } from "./refresh";
+import {
+  bodyFromParagraphs,
+  bodyFromPlainText,
+  bodyToPlainText,
+} from "@/domain/document-body";
 
 const services = createMockServices();
 const chapter12 = `${GLASS_GARDEN_ID}:ch-12`;
@@ -78,12 +83,47 @@ describe("mock projects", () => {
 });
 
 describe("mock documents", () => {
+  /**
+   * Markdown 으로 저장하던 동안 이런 문단은 다시 열 때 제목·목록·밑줄로 바뀌었다. 저장 형식이
+   * JSON 이 된 이유이고, 저장 경로에서 그 일이 다시 일어나지 않는지 본다.
+   */
+  it("keeps plain text that looks like markdown", async () => {
+    const services = createMockServices();
+    const fileId = `${GLASS_GARDEN_ID}:ch-12`;
+    const before = await services.documents.get(fileId);
+
+    const texts = [
+      "# 해시로 시작하는 문장",
+      "1. 번호처럼 보이는 문장",
+      "++더하기로 감싼 문장++",
+      "*별표로 감싼 문장*",
+    ];
+    for (const [index, text] of texts.entries()) {
+      const current = await services.documents.get(fileId);
+      await services.documents.save(fileId, {
+        draft: {
+          title: before.title,
+          body: bodyFromParagraphs(text),
+          properties: current.properties,
+        },
+        ifMatchRevision: current.revisionNo,
+        saveId: `plain-${index}`,
+      });
+
+      const again = await services.documents.get(fileId);
+      expect((again.body.doc.content ?? [])[0]).toMatchObject({
+        type: "paragraph",
+      });
+      expect(bodyToPlainText(again.body)).toBe(text);
+    }
+  });
+
   it("saves with the current revision and rejects a stale one", async () => {
     const doc = await services.documents.get(chapter12);
     const saved = await services.documents.save(chapter12, {
       draft: {
         title: doc.title,
-        bodyMd: "새 본문",
+        body: bodyFromPlainText("새 본문"),
         properties: doc.properties,
       },
       ifMatchRevision: doc.revisionNo,
@@ -94,7 +134,7 @@ describe("mock documents", () => {
       services.documents.save(chapter12, {
         draft: {
           title: doc.title,
-          bodyMd: "다른 탭의 본문",
+          body: bodyFromPlainText("다른 탭의 본문"),
           properties: doc.properties,
         },
         ifMatchRevision: doc.revisionNo,
@@ -102,7 +142,9 @@ describe("mock documents", () => {
       }),
     );
     expect(stale).toBeInstanceOf(ConflictError);
-    expect((stale as ConflictError).current.bodyMd).toBe("새 본문");
+    expect(bodyToPlainText((stale as ConflictError).current.body)).toBe(
+      "새 본문",
+    );
   });
 
   it("treats a retried save id as the same save", async () => {
@@ -110,7 +152,7 @@ describe("mock documents", () => {
     const input = {
       draft: {
         title: doc.title,
-        bodyMd: "한 번만",
+        body: bodyFromPlainText("한 번만"),
         properties: doc.properties,
       },
       ifMatchRevision: doc.revisionNo,
@@ -125,7 +167,11 @@ describe("mock documents", () => {
     const doc = await services.documents.setLocked(chapter12, true);
     const save = await rejection(
       services.documents.save(chapter12, {
-        draft: { title: doc.title, bodyMd: "x", properties: doc.properties },
+        draft: {
+          title: doc.title,
+          body: bodyFromPlainText("x"),
+          properties: doc.properties,
+        },
         ifMatchRevision: doc.revisionNo,
         saveId: "locked",
       }),
@@ -148,7 +194,7 @@ describe("mock documents", () => {
     const kinds = (await services.versions.list(lena)).map((v) => v.kind);
     expect(kinds).toContain("PRE_RESTORE");
     expect(kinds).toContain("RESTORE");
-    expect(restored.bodyMd).toBe(latest.snapshot.bodyMd);
+    expect(restored.body).toEqual(latest.snapshot.body);
   });
 });
 
@@ -186,24 +232,6 @@ describe("mock files", () => {
     const lighthouse = `${GLASS_GARDEN_ID}:trash-lighthouse`;
     const restored = await services.files.restore(lighthouse);
     expect(restored.parentId).toBe(`${GLASS_GARDEN_ID}:folder:place`);
-  });
-
-  it("turns a deleted section into a folder in the files area", async () => {
-    const section = await services.files.createSection(
-      GLASS_GARDEN_ID,
-      "자료 조사",
-    );
-    const note = await services.files.create({
-      projectId: GLASS_GARDEN_ID,
-      parentId: section.id,
-      kind: "document",
-      title: "조사 메모",
-      docType: "worldview",
-    });
-    const converted = await services.files.deleteSection(section.id);
-    expect(converted).toMatchObject({ role: "folder", title: "자료 조사" });
-    const tree = await services.files.tree(GLASS_GARDEN_ID);
-    expect(tree.find((node) => node.id === note.id)?.parentId).toBe(section.id);
   });
 
   it("returns chapters to the manuscript folder when an episode is deleted", async () => {
@@ -253,17 +281,6 @@ describe("mock files", () => {
 });
 
 describe("mock search and graph", () => {
-  it("ranks title matches above body-only matches", async () => {
-    const hits = await services.search.search(GLASS_GARDEN_ID, "유리");
-    const firstBodyOnly = hits.findIndex((hit) => !hit.title.includes("유리"));
-    const lastTitle = hits
-      .map((hit) => hit.title.includes("유리"))
-      .lastIndexOf(true);
-    expect(hits.length).toBeGreaterThan(0);
-    expect(firstBodyOnly === -1 || firstBodyOnly > lastTitle).toBe(true);
-    expect(hits[0].path[0]).toBe("파일");
-  });
-
   it("builds directed edges only between active documents", async () => {
     const graph = await services.graph.getProjectGraph(GLASS_GARDEN_ID);
     const ids = new Set(graph.nodes.map((node) => node.id));
@@ -315,7 +332,7 @@ describe("mock graph refresh", () => {
     );
     expect(isServiceError(partial)).toBe(true);
     const unchanged = await services.documents.get(harin.fileId);
-    expect(unchanged.bodyMd).toBe(harin.current?.bodyMd);
+    expect(unchanged.body).toEqual(harin.current?.body);
   });
 });
 

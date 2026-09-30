@@ -9,7 +9,6 @@ import { mockHelp } from "./help";
 import { mockMemos } from "./memos";
 import { mockProjects } from "./projects";
 import { mockRefresh } from "./refresh";
-import { mockSearch } from "./search";
 
 export function createMockServices(): Services {
   return {
@@ -20,7 +19,6 @@ export function createMockServices(): Services {
     documents: mockDocuments,
     versions: mockVersions,
     memos: mockMemos,
-    search: mockSearch,
     graph: mockGraph,
     refresh: mockRefresh,
     chat: mockChat,

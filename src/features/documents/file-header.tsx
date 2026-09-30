@@ -12,16 +12,31 @@ import type { ExportFormat } from "@/domain/models";
 
 import styles from "./file-header.module.css";
 
+/**
+ * `docx`·`hwp` 는 서버가 파일을 만들어야 하고 아직 없다. 누를 수 있게 두면 "받을 수 있다" 고
+ * 안내한 뒤 아무 일도 일어나지 않는다 — 실제로 그렇게 보였다. 고를 수 없게 하고 이유를 적는다.
+ */
 const EXPORT_OPTIONS: Array<{
   format: ExportFormat;
   label: string;
   icon: IconName;
+  pending?: boolean;
 }> = [
   { format: "pdf", label: "PDF로 내보내기", icon: "printer" },
-  { format: "docx", label: "MS Word (.docx)", icon: "file-text" },
   { format: "md", label: "마크다운 (.md)", icon: "hash" },
   { format: "txt", label: "텍스트 (.txt)", icon: "type" },
-  { format: "hwp", label: "한글 오피스 (.hwp)", icon: "file-type" },
+  {
+    format: "docx",
+    label: "MS Word (.docx) — 준비 중",
+    icon: "file-text",
+    pending: true,
+  },
+  {
+    format: "hwp",
+    label: "한글 오피스 (.hwp) — 준비 중",
+    icon: "file-type",
+    pending: true,
+  },
 ];
 
 interface FileHeaderProps {
@@ -75,6 +90,7 @@ export function FileHeader({
     id: option.format,
     label: option.label,
     icon: option.icon,
+    disabled: option.pending,
     onSelect: () => onExport(option.format),
   }));
 

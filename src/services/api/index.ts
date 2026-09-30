@@ -3,11 +3,11 @@ import type { Services } from "../ports";
 import { createApiAccount, createApiAuth } from "./auth";
 import { createApiDocuments, createApiVersions } from "./documents";
 import { ApiFavoriteStore } from "./favorites";
+import { createApiGraph } from "./graph";
 import { createApiFiles } from "./files";
 import { ApiClient } from "./http";
 import { createApiMemos } from "./memos";
 import { createApiProjects } from "./projects";
-import { createApiSearch } from "./search";
 import { unavailableServices } from "./unavailable";
 import { createApiWorkspaceState } from "./workspace-state";
 
@@ -31,11 +31,11 @@ export function createApiServices(baseUrl: string): Partial<Services> {
     files: createApiFiles(client, new ApiFavoriteStore(client)),
     documents,
     versions: createApiVersions(client, documents),
-    search: createApiSearch(client),
     memos: createApiMemos(client),
     workspaceState: createApiWorkspaceState(client),
-    // 아직 서버에 없다: graph, refresh, chat, help. 각각 graph-rag, AI 최신화, LLM,
-    // 가이드 출처 결정을 기다린다. mock 으로 덮어 두면 가짜 자료를 진짜처럼 보여 준다.
+    graph: createApiGraph(client),
+    // 아직 서버에 없다: refresh, chat, help. 각각 AI 최신화, LLM, 가이드 출처 결정을 기다린다.
+    // mock 으로 덮어 두면 가짜 자료를 진짜처럼 보여 준다.
     ...unavailableServices(),
   };
 }

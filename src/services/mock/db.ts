@@ -20,17 +20,25 @@ import type {
 import type { WorkspaceLayout } from "@/features/workspace/model/layout";
 
 import {
+  bodyFromParagraphs,
+  bodyFromPlainText,
+  bodyToPlainText,
+  emptyBody,
+  type DocumentBody,
+} from "@/domain/document-body";
+
+import {
   GLASS_GARDEN_EPISODES,
   GLASS_GARDEN_SETTINGS,
   OTHER_PROJECTS,
   TRASHED_PROJECTS,
 } from "./seed-world";
 
-export const MOCK_DB_VERSION = 7;
+export const MOCK_DB_VERSION = 8;
 const STORAGE_KEY = "loresentry.mock.db";
 
 export interface StoredDocument {
-  bodyMd: string;
+  body: DocumentBody;
   properties: DocumentProperty[];
 }
 
@@ -109,6 +117,7 @@ function relationProperty(
     label: DOCUMENT_TYPE_META[targetType].relationLabel,
     targetType,
     targetIds,
+    descriptions: {},
   };
 }
 
@@ -272,7 +281,10 @@ function buildGlassGarden(now: number, db: MockDb) {
       if (targets?.size)
         properties.push(relationProperty(id, targetType, [...targets]));
     }
-    db.documents[id] = { bodyMd: bodies.get(key) ?? "", properties };
+    db.documents[id] = {
+      body: bodyFromParagraphs(bodies.get(key) ?? ""),
+      properties,
+    };
   }
 
   const trashFolderId = docId("trash-folder");
@@ -316,13 +328,13 @@ function buildGlassGarden(now: number, db: MockDb) {
     },
   );
   db.documents[docId("trash-prologue")] = {
-    bodyMd: "정원이 생기기 전의 이야기.",
+    body: bodyFromPlainText("정원이 생기기 전의 이야기."),
     properties: [
       descriptionProperty(docId("trash-prologue"), "초기 구상의 프롤로그"),
     ],
   };
   db.documents[docId("trash-lighthouse")] = {
-    bodyMd: "지도에서 지워진 등대.",
+    body: bodyFromPlainText("지도에서 지워진 등대."),
     properties: [
       descriptionProperty(docId("trash-lighthouse"), "초기 설정에만 있던 등대"),
     ],
@@ -380,26 +392,29 @@ function buildGlassGarden(now: number, db: MockDb) {
   const lena = db.documents[lenaId];
   const snapshotOf = (
     description: string,
-    bodyMd: string,
+    body: DocumentBody,
     dropChapter11: boolean,
   ) => ({
     title: "레나 아르벨",
     docType: "character" as const,
-    bodyMd,
+    body,
     properties: lena.properties.map((property) => {
       if (property.kind === "text") return { ...property, value: description };
       if (dropChapter11 && property.targetType === "manuscript") {
         return {
           ...property,
           targetIds: property.targetIds.filter((id) => id !== docId("ch-11")),
+          descriptions: {},
         };
       }
       return property;
     }),
   });
-  const olderBody = lena.bodyMd.replace(
-    "한 번도 길을 잃지 않았다",
-    "길을 잃지 않았다",
+  const olderBody = bodyFromPlainText(
+    bodyToPlainText(lena.body).replace(
+      "한 번도 길을 잃지 않았다",
+      "길을 잃지 않았다",
+    ),
   );
   const at = (minutesAgo: number) => now - minutesAgo * 60_000;
   db.versions.push(
@@ -517,7 +532,7 @@ function buildOtherProject(
     trashedAt: null,
   });
   db.documents[lastFileId] = {
-    bodyMd: "",
+    body: emptyBody(),
     properties: [descriptionProperty(lastFileId, "")],
   };
   db.favorites[seed.id] = [];

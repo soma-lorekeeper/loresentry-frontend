@@ -2,6 +2,8 @@ import type { DocumentContent, DocumentDraft } from "@/domain/models";
 import { isServiceError } from "@/services/errors";
 import { ConflictError, type DocumentService } from "@/services/ports";
 
+import { sameBody } from "@/domain/document-body";
+
 import { mergeParagraphs } from "./merge-text";
 
 // DOCUMENT_EDITING_PROPOSAL §5.1: 0.8초 무입력 또는 첫 입력 후 5초 중 먼저 오는 쪽에 저장한다.
@@ -26,7 +28,7 @@ export interface SaveOutcome {
 function toDraft(content: DocumentContent): DocumentDraft {
   return {
     title: content.title,
-    bodyMd: content.bodyMd,
+    body: content.body,
     properties: content.properties,
   };
 }
@@ -34,7 +36,7 @@ function toDraft(content: DocumentContent): DocumentDraft {
 function sameDraft(a: DocumentDraft, b: DocumentDraft) {
   return (
     a.title === b.title &&
-    a.bodyMd === b.bodyMd &&
+    sameBody(a.body, b.body) &&
     JSON.stringify(a.properties) === JSON.stringify(b.properties)
   );
 }
@@ -207,7 +209,7 @@ export class DocumentSession {
   ) {
     const theirs = toDraft(error.current);
     this.revision = error.current.revisionNo;
-    const merged = mergeParagraphs(saved.bodyMd, pending.bodyMd, theirs.bodyMd);
+    const merged = mergeParagraphs(saved.body, pending.body, theirs.body);
     if (!merged.ok) {
       this.set({ status: "conflict" });
       return;
@@ -218,7 +220,7 @@ export class DocumentSession {
     this.set({
       draft: {
         title: pending.title !== saved.title ? pending.title : theirs.title,
-        bodyMd: merged.text,
+        body: merged.body,
         properties: propertiesChanged ? pending.properties : theirs.properties,
       },
       status: "dirty",
