@@ -7,7 +7,6 @@ import { createApiFiles } from "./files";
 import { ApiClient } from "./http";
 import { createApiMemos } from "./memos";
 import { createApiProjects } from "./projects";
-import { createApiSearch } from "./search";
 import { unavailableServices } from "./unavailable";
 import { createApiWorkspaceState } from "./workspace-state";
 
@@ -31,7 +30,6 @@ export function createApiServices(baseUrl: string): Partial<Services> {
     files: createApiFiles(client, new ApiFavoriteStore(client)),
     documents,
     versions: createApiVersions(client, documents),
-    search: createApiSearch(client),
     memos: createApiMemos(client),
     workspaceState: createApiWorkspaceState(client),
     // 아직 서버에 없다: graph, refresh, chat, help. 각각 graph-rag, AI 최신화, LLM,

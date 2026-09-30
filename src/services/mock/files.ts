@@ -306,36 +306,6 @@ export const mockFiles: FileService = {
       return db.favorites[projectId];
     }),
 
-  createSection: (projectId, title) =>
-    simulate("files.createSection", () => {
-      const db = getDb();
-      const section: FolderNode = {
-        kind: "folder",
-        id: nextId("section"),
-        projectId,
-        parentId: null,
-        title: validateTitle(title),
-        role: "section",
-        category: null,
-        rank: nextRank(db, null, projectId),
-        trashedAt: null,
-      };
-      db.files.push(section);
-      persistDb();
-      return section;
-    }),
-
-  deleteSection: (sectionId) =>
-    simulate("files.deleteSection", () => {
-      const node = requireNode(sectionId);
-      if (node.kind !== "folder" || node.role !== "section") {
-        throw new ServiceError("validation", "사용자 섹션만 삭제할 수 있어요.");
-      }
-      node.role = "folder";
-      persistDb();
-      return node;
-    }),
-
   deleteEpisode: (episodeId) =>
     simulate("files.deleteEpisode", () => {
       const db = getDb();

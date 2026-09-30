@@ -30,11 +30,6 @@ export function useDocumentSession(fileId: string) {
           // 붙들고 있으면 새 관계를 모른 채 저장해 방금 만든 관계를 지운다.
           void queryClient.invalidateQueries({ queryKey: ["document"] });
         }
-        if (!outcome.titleChanged && !outcome.relationsChanged) {
-          void queryClient.invalidateQueries({
-            queryKey: ["search", projectId],
-          });
-        }
       }),
   );
 

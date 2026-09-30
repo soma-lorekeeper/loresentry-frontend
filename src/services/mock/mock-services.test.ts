@@ -188,24 +188,6 @@ describe("mock files", () => {
     expect(restored.parentId).toBe(`${GLASS_GARDEN_ID}:folder:place`);
   });
 
-  it("turns a deleted section into a folder in the files area", async () => {
-    const section = await services.files.createSection(
-      GLASS_GARDEN_ID,
-      "자료 조사",
-    );
-    const note = await services.files.create({
-      projectId: GLASS_GARDEN_ID,
-      parentId: section.id,
-      kind: "document",
-      title: "조사 메모",
-      docType: "worldview",
-    });
-    const converted = await services.files.deleteSection(section.id);
-    expect(converted).toMatchObject({ role: "folder", title: "자료 조사" });
-    const tree = await services.files.tree(GLASS_GARDEN_ID);
-    expect(tree.find((node) => node.id === note.id)?.parentId).toBe(section.id);
-  });
-
   it("returns chapters to the manuscript folder when an episode is deleted", async () => {
     const episodeId = `${GLASS_GARDEN_ID}:ep-4`;
     await services.files.deleteEpisode(episodeId);
@@ -253,17 +235,6 @@ describe("mock files", () => {
 });
 
 describe("mock search and graph", () => {
-  it("ranks title matches above body-only matches", async () => {
-    const hits = await services.search.search(GLASS_GARDEN_ID, "유리");
-    const firstBodyOnly = hits.findIndex((hit) => !hit.title.includes("유리"));
-    const lastTitle = hits
-      .map((hit) => hit.title.includes("유리"))
-      .lastIndexOf(true);
-    expect(hits.length).toBeGreaterThan(0);
-    expect(firstBodyOnly === -1 || firstBodyOnly > lastTitle).toBe(true);
-    expect(hits[0].path[0]).toBe("파일");
-  });
-
   it("builds directed edges only between active documents", async () => {
     const graph = await services.graph.getProjectGraph(GLASS_GARDEN_ID);
     const ids = new Set(graph.nodes.map((node) => node.id));

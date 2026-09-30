@@ -386,15 +386,6 @@ describe("files", () => {
     expect(await files.setFavorite("p-1", "d-2", false)).toEqual([]);
     expect(calls[2].method).toBe("DELETE");
   });
-
-  it("refuses user sections instead of pretending to store them", async () => {
-    const error = await services()
-      .files!.createSection("p-1", "내 섹션")
-      .catch((cause: unknown) => cause);
-
-    expect(isServiceError(error) && error.code).toBe("validation");
-    expect(calls).toHaveLength(0);
-  });
 });
 
 const apiContent = {
@@ -715,31 +706,6 @@ describe("versions and the document memory", () => {
   });
 });
 
-describe("search", () => {
-  it("keeps the snippet the server cut and reports where the hit lives", async () => {
-    reply(200, {
-      hits: [
-        {
-          file_id: "d-2",
-          title: "유중혁",
-          folder_code: "CHARACTER",
-          episode_name: null,
-          snippet: { before: "앞", match: "회귀", after: "뒤" },
-          updated_at: "2026-09-24T00:00:00Z",
-        },
-      ],
-    });
-
-    const [hit] = await services().search!.search("p-1", "회귀");
-
-    expect(calls[0].url).toBe(
-      `${BASE}/projects/p-1/search?q=%ED%9A%8C%EA%B7%80`,
-    );
-    expect(hit).toMatchObject({ docType: "character", path: ["캐릭터"] });
-    expect(hit.snippet).toEqual({ before: "앞", match: "회귀", after: "뒤" });
-  });
-});
-
 describe("wiring", () => {
   it("refuses the ports the server does not serve, rather than faking them", async () => {
     const wired = createServices({
@@ -776,7 +742,6 @@ describe("wiring", () => {
     expect(wired.projects).not.toBe(mock.projects);
     expect(wired.files).not.toBe(mock.files);
     expect(wired.documents).not.toBe(mock.documents);
-    expect(wired.search).not.toBe(mock.search);
     // 아직 서버에 없는 포트는 mock 그대로다. 그래서 화면 전체가 계속 동작한다.
     expect(wired.memos).not.toBe(mock.memos);
     expect(wired.workspaceState).not.toBe(mock.workspaceState);

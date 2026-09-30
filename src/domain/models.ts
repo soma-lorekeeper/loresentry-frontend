@@ -133,15 +133,6 @@ export interface ChatMessage {
   contextFile: { id: string; title: string } | null;
 }
 
-export interface SearchHit {
-  fileId: string;
-  title: string;
-  docType: DocumentType;
-  path: string[];
-  snippet: { before: string; match: string; after: string } | null;
-  updatedAt: IsoDateTime;
-}
-
 export interface Episode {
   id: string;
   title: string;

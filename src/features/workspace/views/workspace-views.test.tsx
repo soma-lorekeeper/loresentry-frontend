@@ -7,8 +7,6 @@ import { ChatPanel } from "@/features/chat/chat-panel";
 import { MemoView } from "@/features/memos/memo-view";
 import { FileTrashView } from "@/features/file-trash/file-trash-view";
 import { ProjectSettingsView } from "@/features/project-settings/project-settings-view";
-import { SearchView } from "@/features/search/search-view";
-import { setMockRule } from "@/services/mock/control";
 import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
 import { renderWithServices, routerMock } from "@/test/render";
 
@@ -66,33 +64,6 @@ function Harness({
 }
 
 describe("workspace views", () => {
-  it("searches the project and lists matching files", async () => {
-    const actor = userEvent.setup();
-    renderInWorkspace("search", <SearchView />);
-    expect(screen.getByText("검색어를 기다리는 중")).toBeInTheDocument();
-    await actor.type(
-      screen.getByRole("searchbox", { name: "현재 프로젝트에서 검색" }),
-      "유리",
-    );
-    const results = await screen.findByRole("list", { name: "검색 결과" });
-    expect(within(results).getAllByRole("button").length).toBeGreaterThan(0);
-    expect(screen.getByText(/개 결과$/)).toBeInTheDocument();
-  });
-
-  it("keeps the query and offers a retry when search fails", async () => {
-    const actor = userEvent.setup();
-    renderInWorkspace("search", <SearchView />, () =>
-      setMockRule("search.query", "fail"),
-    );
-    const input = screen.getByRole("searchbox", {
-      name: "현재 프로젝트에서 검색",
-    });
-    await actor.type(input, "유리");
-    const alert = await screen.findByRole("alert");
-    expect(alert).toHaveTextContent("검색 결과를 불러오지 못했어요");
-    expect(input).toHaveValue("유리");
-  });
-
   it("restores and permanently deletes trashed files", async () => {
     const actor = userEvent.setup();
     renderInWorkspace("trash", <FileTrashView />);

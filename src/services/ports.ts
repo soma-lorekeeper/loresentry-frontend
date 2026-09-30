@@ -13,7 +13,6 @@ import type {
   ProjectGraph,
   ProjectSettings,
   RefreshRun,
-  SearchHit,
   TrashEntry,
   User,
 } from "@/domain/models";
@@ -75,9 +74,6 @@ export interface FileService {
     fileId: string,
     favorite: boolean,
   ): Promise<string[]>;
-  createSection(projectId: string, title: string): Promise<FileNode>;
-  // 요구사항 §4.1·와이어프레임 86: 섹션을 지우면 안의 자료는 같은 이름의 폴더로 파일 영역에 남는다.
-  deleteSection(sectionId: string): Promise<FileNode>;
   // 와이어프레임 166: 에피소드 폴더를 지우면 폴더만 사라지고 회차는 원고 폴더로 돌아간다.
   deleteEpisode(episodeId: string): Promise<void>;
 }
@@ -139,11 +135,6 @@ export interface MemoService {
   remove(memoId: string): Promise<void>;
 }
 
-export interface SearchService {
-  // 요구사항 §7.1: 활성 원고·설정 문서의 제목과 본문만 검색한다. 관련도 순, 동률이면 최근 수정 순.
-  search(projectId: string, query: string): Promise<SearchHit[]>;
-}
-
 export interface GraphService {
   // 서버 가정: graph-rag가 Neptune 투영본을 프로젝트 단위로 돌려준다(GRAPH_INBOX_PATTERN).
   getProjectGraph(projectId: string): Promise<ProjectGraph>;
@@ -200,7 +191,6 @@ export interface Services {
   documents: DocumentService;
   versions: VersionService;
   memos: MemoService;
-  search: SearchService;
   graph: GraphService;
   refresh: RefreshService;
   chat: ChatService;
