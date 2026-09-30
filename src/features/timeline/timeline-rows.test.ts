@@ -118,6 +118,67 @@ describe("줄 — 엔티티", () => {
   });
 });
 
+describe("폴더 — 분류별", () => {
+  /**
+   * 사용자가 본 증상이다. 회차에 연결된 문서만 줄로 세우니, 즐겨찾기한 몇 개만 연결된 프로젝트에서
+   * **즐겨찾기 폴더 하나만** 보였다. 디자인(`docs/design/timeline-table.js`)은 분류마다 폴더를 두고
+   * 그 분류의 문서를 늘어놓는다.
+   */
+  it("회차에 한 번도 나오지 않은 문서도 제 분류 폴더에 줄을 갖는다", () => {
+    const chapter = {
+      id: "ch-1",
+      title: "1화",
+      docType: "manuscript" as const,
+      description: "",
+    };
+    const seen = {
+      id: "c-1",
+      title: "나온 인물",
+      docType: "character" as const,
+      description: "",
+    };
+    const unseen = {
+      id: "p-1",
+      title: "아직 안 나온 장소",
+      docType: "place" as const,
+      description: "",
+    };
+    const small = buildTimelineTable([chapter], {
+      nodes: [chapter, seen, unseen],
+      edges: [
+        {
+          id: "e-1",
+          source: chapter.id,
+          target: seen.id,
+          key: "related_character",
+        },
+      ],
+      episodes: [],
+    });
+
+    const places = small.groups.find((group) => group.id === "place");
+    expect(places?.rows.map((row) => row.nodeId)).toEqual([unseen.id]);
+    // 막대는 없다. 그 빈 줄이 "깔아놓고 안 건드렸다"를 보여 주는 정보다.
+    expect(places?.rows[0].runs).toHaveLength(0);
+  });
+
+  it("막대가 없는 줄은 폴더 아래쪽에 모인다", () => {
+    for (const group of table.groups) {
+      const firstEmpty = group.rows.findIndex((row) => row.runs.length === 0);
+      if (firstEmpty < 0) continue;
+      // 한 번 비면 그 뒤는 모두 비어 있다.
+      for (const row of group.rows.slice(firstEmpty)) {
+        expect(row.runs).toHaveLength(0);
+      }
+    }
+  });
+
+  it("원고는 폴더가 되지 않는다", () => {
+    // 회차가 이미 열이라 행으로 또 세울 것이 없다.
+    expect(table.groups.map((group) => group.id)).not.toContain("manuscript");
+  });
+});
+
 describe("막대", () => {
   it("이어진 등장은 막대 하나로 묶인다", () => {
     const merged = buildTimelineTable(allChapters(), graph);
@@ -218,27 +279,25 @@ describe("즐겨찾기 폴더", () => {
     expect(kinds.size).toBeGreaterThan(1);
   });
 
-  it("원래 분류 폴더에서는 빠진다", () => {
+  it("원래 분류 폴더에도 그대로 남는다", () => {
     /*
-     * 여기가 사이드바와 갈리는 지점이다. 양쪽에 다 두면 같은 막대가 두 줄
-     * 그려져 등장 횟수를 잘못 읽게 된다.
+     * 디자인이 그렇다(`docs/design/timeline-table.js`: 즐겨찾기의 김독자·유중혁이
+     * 캐릭터 폴더에도 있다). 즐겨찾기는 분류를 가로지르는 표시일 뿐이므로, 별을
+     * 켰다고 캐릭터 폴더에서 사라지면 그 폴더가 캐릭터 전부가 아니게 된다.
      */
     const characters = withStars.groups.find(
       (group) => group.id === "character",
     );
-    expect(characters?.rows.some((row) => row.nodeId === DOKJA)).toBe(false);
+    expect(characters?.rows.some((row) => row.nodeId === DOKJA)).toBe(true);
 
     const before =
       table.groups.find((group) => group.id === "character")?.rows.length ?? 0;
-    expect(characters?.rows.length).toBe(before - 2);
+    expect(characters?.rows.length).toBe(before);
   });
 
-  it("줄 수 합계는 그대로다", () => {
-    // 옮겨 담았을 뿐 없어지거나 늘어난 줄은 없다.
-    expect(withStars.rowCount).toBe(table.rowCount);
-    const moved = withStars.groups.flatMap((group) => group.rows);
-    expect(new Set(moved.map((row) => row.nodeId)).size).toBe(moved.length);
-    expect(moved).toHaveLength(rows.length);
+  it("즐겨찾기 폴더만큼 줄이 늘어난다", () => {
+    // 옮기는 것이 아니라 한 벌 더 보여 주는 것이다.
+    expect(withStars.rowCount).toBe(table.rowCount + starred.size);
   });
 
   it("폴더 안에서도 자주 나온 순이다", () => {
