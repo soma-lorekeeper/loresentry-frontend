@@ -6,8 +6,7 @@
 >
 > **관련 기준:** 제공자의 HTTP 규격은 [BFF API](../../loresentry-gateway/docs/API.md), 화면 상태는 [약관 동의 설계](auth/TERMS_CONSENT_DESIGN.md)를 따른다.
 
-로그인과 약관 동의에 필요한 호출을 관리한다. 로그인 시작·본인 계정 조회는 현재 구현이며,
-약관 조회·동의 완료는 **MVP 미구현 계약**이다. 브라우저는 BFF만 호출하고 Auth를 직접 호출하지 않는다.
+현재 구현된 로그인과 약관 동의 호출을 관리한다. 브라우저는 BFF만 호출하고 Auth를 직접 호출하지 않는다.
 
 ## 공통 호출
 
@@ -26,15 +25,15 @@ API 주소는 런타임 설정의 `apiBaseUrl`을 사용한다. JSON 요청은
 | ------------------------------------ | -------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
 | `startGoogleLogin(returnTo)`         | `GET /auth/oauth/google/prepare` | Google 로그인 버튼에서 브라우저 페이지 이동. fetch로 호출하지 않음            | Google 인증 후 BFF의 고정 로그인 주소로 복귀. 현재 어댑터는 `returnTo`를 서버에 보내지 않음 |
 | `getSession()`                       | `GET /auth/users/me`             | 일반 로그인 확인 또는 동의 완료 후. 본문 없음                                 | `id`, `display_name`, `email`을 `User`로 변환. 새 조회 결과로 서비스 진입 판단              |
-| `getTerms()` — 추가                  | `GET /auth/terms`                | `result=terms_required` 진입 또는 버전 불일치 후 재조회. 본문 없음            | 제목·버전·원문·시행일 표시와 제출할 버전 ID 보관                                            |
-| `acceptTerms(termsVersionId)` — 추가 | `POST /auth/terms/accept`        | 사용자가 표시된 원문에 동의할 때 `{ "terms_version_id": "조회한 UUID" }` 전송 | 본문 없는 `204` 확인 후 본인 계정 재조회. Google 콜백을 다시 호출하지 않음                  |
+| `getTerms()`                  | `GET /auth/terms`                | `result=terms_required` 진입 또는 버전 불일치 후 재조회. 본문 없음            | 제목·버전·원문·시행일 표시와 제출할 버전 ID 보관                                            |
+| `acceptTerms(termsVersionId)` | `POST /auth/terms/accept`        | 사용자가 표시된 원문에 동의할 때 `{ "terms_version_id": "조회한 UUID" }` 전송 | 본문 없는 `204` 확인 후 본인 계정 재조회. Google 콜백을 다시 호출하지 않음                  |
 
 `result`는 화면 진입 안내이며 인증 근거가 아니다. 일반 로그인 화면에서는 동의 대기를
 자동 조회하지 않는다. 취소 API는 없으며 모달·탭 닫기는 서버 요청을 만들지 않는다.
 
 ## 약관 응답 사용
 
-필드의 필수 여부·형식·HTTP 상태는 [BFF 약관 API](../../loresentry-gateway/docs/API.md#약관-동의-api-mvp-미구현)를 기준으로 한다.
+필드의 필수 여부·형식·HTTP 상태는 [BFF 약관 API](../../loresentry-gateway/docs/API.md#약관-동의-api)를 기준으로 한다.
 
 | 조회 응답 필드                | 프론트 사용                                                |
 | ----------------------------- | ---------------------------------------------------------- |
@@ -47,15 +46,14 @@ API 주소는 런타임 설정의 `apiBaseUrl`을 사용한다. JSON 요청은
 조회로 대기 수명을 연장하지 않으며 만료의 최종 판정은 서버가 한다. 원문·동의 여부를
 브라우저 영구 저장소에 저장하거나 로컬 동의 플래그로 서버 검사를 대체하지 않는다.
 
-동의 완료는 성공 HTTP 상태를 보존해 `204`인지 확인한다. 현재 `ApiClient.request()`는
-성공 상태를 호출자에게 반환하지 않으므로 어댑터가 다른 2xx 응답을 동의 성공으로
-오인하지 않도록 확장한다. 쿠키 설정·삭제는 BFF 응답을 브라우저가 처리한다.
+동의 완료는 `ApiClient.request()`의 `expectedStatus: 204`로 검사한다.
+다른 2xx 응답은 성공으로 처리하지 않는다. 쿠키 설정·삭제는 BFF 응답을 브라우저가 처리한다.
 
 ## 오류 변환
 
 서버 `code`를 기준으로 화면용 오류를 구분하며 서버의 진단용 `message`를 그대로 표시하지 않는다.
 전체 오류 정의는 BFF API를 따르고, 프론트의 [오류 변환](../src/services/api/errors.ts)과
-[서비스 오류 타입](../src/services/errors.ts)에 다음 구분을 추가한다.
+[서비스 오류 타입](../src/services/errors.ts)에서 다음과 같이 구분한다.
 
 - `CONSENT_REQUEST_INVALID`: 동의 대기 무효. 일반 로그인 세션의 무효와 구분한다.
 - `TERMS_VERSION_MISMATCH`: 원문 재조회가 필요한 상태. 현재의 일반 `409` → `duplicate` 변환에 맡기지 않는다.

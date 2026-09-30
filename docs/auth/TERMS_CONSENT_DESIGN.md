@@ -4,25 +4,26 @@
 >
 > **확인할 때:** 약관 동의를 프론트 코드에 구현하거나 동작을 검증할 때.
 >
-> **관련 기준:** [BFF 동의 UI 계약](../../../loresentry-gateway/docs/FRONTEND_AUTH_CONTRACT.md#약관-동의-mvp-미구현), [호출 API](../API_CALLS.md), [Auth 동의 설계](../../../loresentry-authentication/docs/account/TERMS_CONSENT_DESIGN.md).
+> **관련 기준:** [BFF 동의 UI 계약](../../../loresentry-gateway/docs/FRONTEND_AUTH_CONTRACT.md#약관-동의), [호출 API](../API_CALLS.md), [Auth 동의 설계](../../../loresentry-authentication/docs/account/TERMS_CONSENT_DESIGN.md).
 
-**미구현 목표 설계다.** Google 인증 후 동의가 필요하면 로그인 화면에서 약관 모달을
+현재 구현의 화면·상태 처리 기준이다. Google 인증 후 동의가 필요하면 로그인 화면에서 약관 모달을
 표시하고, 동의 완료 후 서버에서 본인 계정을 확인한 뒤 서비스로 이동한다.
 동의 대상은 서비스 이용약관 하나이며 개인정보 처리방침은 열람 링크로 제공한다.
 별도 연령 확인 입력·선택 동의·동의 취소 API는 추가하지 않는다.
 
 ## 1. 코드별 책임
 
-아래 경로는 기존 파일이다. 새 모달 파일은 구현 시 `src/features/auth/` 안에 추가한다.
+모달은 [TermsConsent](../../src/features/auth/terms-consent.tsx), 인증 요청 조율은
+[auth-transition](../../src/services/api/auth-transition.ts)이 담당한다.
 
-| 위치                                                                                                | 구현할 내용                                                                                           |
+| 위치                                                                                                | 담당 내용                                                                                           |
 | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | [로그인 화면](../../src/features/auth/login-page.tsx)                                               | `terms_required` 분기, 약관 조회·모달 상태·동의 제출, 닫기와 완료 후 이동                             |
-| [세션 게이트](../../src/features/auth/session-gate.tsx)                                             | 동의 흐름에서 로그인 화면의 자동 세션 조회를 제어할 수 있도록 훅 확장. 보호 화면의 로그인 요구는 유지 |
-| [서비스 포트](../../src/services/ports.ts)                                                          | `AuthService`에 약관 조회·동의 메서드와 화면용 응답 타입 추가                                         |
+| [세션 게이트](../../src/features/auth/session-gate.tsx)                                             | 자동 세션 조회 활성화와 인증 전환 중 보호 화면 표시를 제어 |
+| [서비스 포트](../../src/services/ports.ts)                                                          | 약관 조회·동의 메서드와 화면용 응답 타입                                         |
 | [Auth API 어댑터](../../src/services/api/auth.ts)                                                   | BFF 약관 API 연결, 응답 검증과 화면 타입 변환                                                         |
 | [HTTP 클라이언트](../../src/services/api/http.ts)                                                   | 기존 쿠키·CSRF·204 처리 재사용. 동의 성공을 정확히 판정할 수 있도록 HTTP 상태 보존                    |
-| [API 오류 변환](../../src/services/api/errors.ts), [서비스 오류 타입](../../src/services/errors.ts) | 동의 대기 무효·버전 불일치와 CSRF 오류를 화면에서 구분할 수 있도록 확장                               |
+| [API 오류 변환](../../src/services/api/errors.ts), [서비스 오류 타입](../../src/services/errors.ts) | 동의 대기 무효·버전 불일치·CSRF 오류를 화면 타입으로 변환                               |
 | [mock Auth](../../src/services/mock/account.ts)                                                     | 확장한 서비스 포트 구현과 동의·만료·버전 변경 시나리오 지원                                           |
 | [공통 모달](../../src/design-system/primitives/dialog.tsx)                                          | 기존 모달 컴포넌트 재사용. 제목·포커스·닫기 동작 연결                                                 |
 | [런타임 설정](../../src/config/runtime-config.ts), [배포 설정](../../public/config.json)            | 기존 `privacyPolicyUrl`·`termsOfServiceUrl`에 로그인 없이 열람 가능한 공개 주소 연결                  |
@@ -38,10 +39,12 @@
 5. 본인 계정 확인이 실패하거나 비어 있으면 서비스로 이동하지 않는다. 동의 POST를 다시 보내지
    않고 로그인 재시작을 안내한다.
 
-현재 `LoginPage`는 `useSession()`을 항상 실행하고 `session.data`가 있으면 즉시 이동한다.
-동의 흐름에서는 이 조회·이동을 보류한다. `useSession()`의 `staleTime: Infinity` 때문에
-이전 세션 캐시를 동의 완료 후의 인증 결과로 사용할 수 없다. 늦게 도착한 이전 요청도
-새 계정 상태를 덮어쓰지 않도록 [인증 전환 계약](../../../loresentry-gateway/docs/FRONTEND_AUTH_CONTRACT.md#인증-전환과-늦은-응답)을 적용한다.
+`LoginPage`는 동의 대기와 성공 콜백에서 자동 `useSession()` 조회·캐시 기반 이동을 보류한다.
+완료 후 이전 계정 캐시를 비우고 직접 새 계정을 확인한다. API의 공유 Web Locks는 일반 응답을
+마친 뒤 로그인·동의·로그아웃의 배타 잠금을 허용한다. localStorage에는 인증 비밀값 없이
+전환 표식만 공유하고, 다른 탭도 캐시를 비운다. Web Locks가 없는 환경에서는 현재 탭의
+요청만 조율할 수 있으므로 탭 간 보장은 적용되지 않는다. 중단된 전환은 새 로그인으로 복구한다.
+자세한 계약은 [BFF 인증 전환](../../../loresentry-gateway/docs/FRONTEND_AUTH_CONTRACT.md#인증-전환과-늦은-응답)을 따른다.
 
 모달을 닫으면 서버 요청 없이 화면 상태와 URL의 `result`만 정리하고 로그인 화면에 머문다.
 닫힌 조회의 늦은 응답이 모달을 다시 열거나 이동시키지 않도록 무시한다. 탭 종료에도
@@ -54,14 +57,14 @@
 
 ## 3. 모달과 공개 문안
 
-모달의 체크박스·버튼·안내 문구는 [BFF 동의 UI 계약](../../../loresentry-gateway/docs/FRONTEND_AUTH_CONTRACT.md#약관-동의-mvp-미구현)을 따른다.
+모달의 체크박스·버튼·안내 문구는 [BFF 동의 UI 계약](../../../loresentry-gateway/docs/FRONTEND_AUTH_CONTRACT.md#약관-동의)을 따른다.
 API의 제목·버전·원문·시행일을 표시하며 원문은 줄바꿈을 보존한 일반 텍스트로 렌더링한다.
 HTML로 삽입하거나 링크만 보여주는 것으로 대체하지 않는다. 시행일은 한국 시간 기준으로 표시한다.
 
 긴 원문은 모달 내부에서 읽을 수 있게 하고, 체크박스와 버튼은 키보드로 조작할 수 있게 한다.
 스크롤 완료를 추가 동의 조건으로 만들지 않는다. 원문을 새로 받으면 이전 체크 상태를 지운다.
 
-현재 로그인 화면의 “계속하면 Lorekeeper의 정책에 동의하게 됩니다.” 문구는 제거한다.
+로그인 화면은 버튼 클릭을 자동 동의로 안내하지 않는다.
 Google 로그인 버튼을 누른 것을 약관 동의로 처리하지 않는다. 로그인 화면과 모달에서
 개인정보 처리방침을 열람할 수 있게 하되 별도 개인정보 동의 체크박스를 추가하지 않는다.
 공개 페이지는 로그인 세션을 요구하지 않으며, 동의 모달의 원문은 BFF 조회 결과를 사용한다.
@@ -90,5 +93,12 @@ Google 로그인 버튼을 누른 것을 약관 동의로 처리하지 않는다
 - 기존 로그인 성공·실패·로그아웃과 보호 화면 접근을 회귀 검증한다. mock과 실제 API 모드가 같은 서비스 포트를 만족해야 한다.
 
 화면은 [로그인 테스트](../../src/features/auth/login-page.test.tsx), HTTP 연결은
-[API 서비스 테스트](../../src/services/api/api-services.test.ts)를 확장한다. 구현 완료 시
+[약관 API 테스트](../../src/services/api/terms.test.ts)와 [인증 전환 테스트](../../src/services/api/auth-transition.test.ts)에서 확인한다. 변경 후
 `pnpm check:cdn`을 실행하고, 실제 브라우저에서 Google 복귀·동의 쿠키·CSRF 왕복을 확인한다.
+
+공개 열람 페이지는 `public/policies/terms.html`·`privacy.html`이다. 현재는 Auth 공개 문안의
+초안만 담고 내부 확인 목록은 제외한다. 출시 시 확정 원문과 날짜를 반영하고 초안 안내를
+제거한 뒤 [활성화 순서](../../../loresentry-gateway/docs/ROLLOUT.md#약관-동의-활성화)를 따른다.
+
+실제 Auth·BFF와의 Chromium 연결은 [통합 도구](../../../loresentry-gateway/integration/session/README.md#약관-동의-전체-흐름)의
+`--terms-project`로 실행한다. Google 제공자는 fixture이며 운영 검증과 구분한다.

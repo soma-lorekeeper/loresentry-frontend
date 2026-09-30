@@ -8,7 +8,7 @@
 | ---------------------- | -------------------------------------------------------------------------------------- | --------------------------------------- |
 | 약관 동의 화면 구현    | [약관 동의 설계](auth/TERMS_CONSENT_DESIGN.md)                                         | 로그인 분기·모달·캐시 처리·검증         |
 | BFF 호출 구현          | [호출 API](API_CALLS.md)                                                               | 호출 시점·입력 구성·응답 검증·오류 변환 |
-| 브라우저 API 규격 확인 | [BFF 제공 API](../../loresentry-gateway/docs/API.md#약관-동의-api-mvp-미구현)          | 요청·응답·오류 코드                     |
+| 브라우저 API 규격 확인 | [BFF 제공 API](../../loresentry-gateway/docs/API.md#약관-동의-api)          | 요청·응답·오류 코드                     |
 | 인증 연동 규칙 확인    | [BFF 프론트 계약](../../loresentry-gateway/docs/FRONTEND_AUTH_CONTRACT.md)             | 쿠키 기반 인증·동의 UI 계약·인증 전환   |
 | 서버 동의 처리 확인    | [Auth 동의 설계](../../loresentry-authentication/docs/account/TERMS_CONSENT_DESIGN.md) | 원문·버전·동의 기록·대기 수명·세션 발급 |
 
