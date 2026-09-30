@@ -15,8 +15,14 @@
  * 문서별로 모아 apply 에 넘긴다. 왼쪽에서 사라진 문서는 null(삭제)로 보낸다.
  */
 
+import {
+  blockToPlainText,
+  bodyBlocks,
+  bodyFromPlainText,
+  emptyBody,
+  type DocumentBody,
+} from "@/domain/document-body";
 import type { DocumentDraft, DocumentProperty } from "@/domain/models";
-import { paragraphsOf } from "@/features/versions/compare";
 
 import { applyHunk, lineDiff, type Hunk } from "../diff/line-diff";
 
@@ -70,16 +76,17 @@ function replace(
  * 문서와 똑같이 한 줄씩 골라 받을 수 있어야** 하기 때문이다.
  */
 function blank(source: DocumentDraft): DocumentDraft {
-  return { title: source.title, bodyMd: "", properties: [] };
+  return { title: source.title, body: emptyBody(), properties: [] };
 }
 
-/** 본문을 견줄 때의 줄. 문단 하나가 한 줄이다 */
-export function bodyLines(markdown: string) {
-  return paragraphsOf(markdown).join("\n");
+/** 본문을 견줄 때의 줄. 최상위 블록 하나가 한 줄이다 */
+export function bodyLines(body: DocumentBody) {
+  return bodyBlocks(body).map(blockToPlainText).join("\n");
 }
 
-function fromBodyLines(text: string) {
-  return text === "" ? "" : text.split("\n").join("\n\n");
+/** 줄 편집 결과를 다시 본문으로. 한 줄이 문단 하나다 — 서식은 줄 단위 편집에서 살릴 수 없다. */
+function fromBodyLines(text: string): DocumentBody {
+  return bodyFromPlainText(text);
 }
 
 function sameProperty(
@@ -135,8 +142,8 @@ export function bodyHunks(
   right: DocumentDraft | undefined,
 ): Hunk[] {
   return lineDiff(
-    bodyLines(left?.bodyMd ?? ""),
-    bodyLines(right?.bodyMd ?? ""),
+    bodyLines(left?.body ?? emptyBody()),
+    bodyLines(right?.body ?? emptyBody()),
   );
 }
 
@@ -215,8 +222,8 @@ export function pushBodyHunk(
   const docs = new Map(state[to]);
   docs.set(docId, {
     ...target,
-    bodyMd: fromBodyLines(
-      applyHunk(bodyLines(target.bodyMd), start, removed, lines),
+    body: fromBodyLines(
+      applyHunk(bodyLines(target.body), start, removed, lines),
     ),
   });
   return replace(state, to, docs);

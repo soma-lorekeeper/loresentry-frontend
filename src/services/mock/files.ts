@@ -6,6 +6,7 @@ import type { FileService } from "../ports";
 
 import { simulate } from "./control";
 import { getDb, nextId, persistDb } from "./db";
+import { emptyBody } from "@/domain/document-body";
 import {
   activeFiles,
   descendantsOf,
@@ -125,7 +126,7 @@ export const mockFiles: FileService = {
       };
       db.files.push(document);
       db.documents[document.id] = {
-        bodyMd: "",
+        body: emptyBody(),
         properties: [
           {
             id: `${document.id}:description`,

@@ -13,6 +13,7 @@ import {
   resetDocument,
   resolvedDrafts,
 } from "./merge";
+import { bodyFromParagraphs, bodyToPlainText } from "@/domain/document-body";
 
 const description = (value: string) => ({
   id: "d",
@@ -24,12 +25,12 @@ const description = (value: string) => ({
 
 const current: DocumentDraft = {
   title: "하린",
-  bodyMd: "가\n\n나\n\n다",
+  body: bodyFromParagraphs("가\n\n나\n\n다"),
   properties: [description("정원사")],
 };
 const proposed: DocumentDraft = {
   title: "하린",
-  bodyMd: "가\n\n나나\n\n다\n\n라",
+  body: bodyFromParagraphs("가\n\n나나\n\n다\n\n라"),
   properties: [
     description("기록단의 정원사"),
     {
@@ -64,7 +65,7 @@ describe("merge", () => {
     }
     expect(isResolved(state, "a")).toBe(true);
     const result = resolvedDrafts(state, [{ id: "p", fileId: "a" }]).p!;
-    expect(result.bodyMd).toBe("가\n\n나나\n\n다\n\n라");
+    expect(bodyToPlainText(result.body)).toBe("가\n나나\n다\n라");
     expect(result.properties.map((p) => p.key)).toEqual(["description"]);
   });
 

@@ -16,6 +16,8 @@ import {
 
 import { simulate } from "./control";
 import { getDb, isDocumentNode, nextId, persistDb } from "./db";
+import { bodyToPlainText, emptyBody } from "@/domain/document-body";
+import { bodyToMarkdown } from "@/features/documents/editor/body-markdown";
 
 export const AUTO_VERSION_INTERVAL_MS = 5 * 60_000;
 const RECEIPT_LIMIT = 50;
@@ -30,13 +32,16 @@ function requireDocument(fileId: string): DocumentNode {
 
 export function readDocument(fileId: string): DocumentContent {
   const node = requireDocument(fileId);
-  const stored = getDb().documents[fileId] ?? { bodyMd: "", properties: [] };
+  const stored = getDb().documents[fileId] ?? {
+    body: emptyBody(),
+    properties: [],
+  };
   return {
     fileId,
     projectId: node.projectId,
     title: node.title,
     docType: node.docType,
-    bodyMd: stored.bodyMd,
+    body: stored.body,
     properties: stored.properties,
     locked: node.locked,
     revisionNo: node.revisionNo,
@@ -49,7 +54,7 @@ function snapshot(fileId: string): DocumentVersion["snapshot"] {
   return {
     title: current.title,
     docType: current.docType,
-    bodyMd: current.bodyMd,
+    body: current.body,
     properties: current.properties,
   };
 }
@@ -72,7 +77,7 @@ export function writeDocument(fileId: string, draft: DocumentDraft) {
   const node = requireDocument(fileId);
   const title = draft.title.trim();
   if (title) node.title = title;
-  db.documents[fileId] = { bodyMd: draft.bodyMd, properties: draft.properties };
+  db.documents[fileId] = { body: draft.body, properties: draft.properties };
   node.revisionNo += 1;
   node.updatedAt = new Date().toISOString();
   const project = db.projects.find((p) => p.id === node.projectId);
@@ -110,7 +115,7 @@ function toMarkdown(content: DocumentContent) {
       lines.push(`- ${property.label}: ${titles.join(", ")}`);
     }
   }
-  lines.push("", content.bodyMd, "");
+  lines.push("", bodyToMarkdown(content.body), "");
   return lines.join("\n");
 }
 
@@ -159,7 +164,7 @@ export const mockDocuments: DocumentService = {
       const text =
         format === "md"
           ? toMarkdown(content)
-          : `${content.title}\n\n${content.bodyMd}\n`;
+          : `${content.title}\n\n${bodyToPlainText(content.body)}\n`;
       const url =
         typeof URL.createObjectURL === "function"
           ? URL.createObjectURL(

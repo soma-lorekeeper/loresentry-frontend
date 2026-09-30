@@ -1,10 +1,23 @@
 import { DOCUMENT_TYPE_META } from "@/domain/document-types";
+import type { JSONContent } from "@tiptap/core";
+
+import {
+  bodyOf,
+  bodyToPlainText,
+  BODY_SCHEMA_VERSION,
+  emptyBody,
+  type DocumentBody,
+} from "@/domain/document-body";
 import type {
   DocumentContent,
   DocumentVersion,
   ExportFormat,
   VersionKind,
 } from "@/domain/models";
+import {
+  bodyToMarkdown,
+  markdownToBody,
+} from "@/features/documents/editor/body-markdown";
 
 import { ServiceError } from "../errors";
 import {
@@ -23,13 +36,19 @@ import {
   type ApiTextProperty,
 } from "./mapping";
 
+interface ApiBody {
+  schema_version: number;
+  doc: JSONContent;
+}
+
 interface ApiContent {
   id: string;
   project_id: string;
   title: string;
   folder_code: string;
   episode_id: string | null;
-  body_md: string;
+  body: ApiBody | null;
+  legacy_body_md: string | null;
   properties: ApiTextProperty[];
   relations: ApiRelation[];
   locked: boolean;
@@ -40,7 +59,8 @@ interface ApiContent {
 
 interface ApiSnapshot {
   title: string;
-  body_md: string;
+  body: ApiBody | null;
+  legacy_body_md: string | null;
   properties: ApiTextProperty[];
   relations: ApiRelation[];
 }
@@ -55,13 +75,25 @@ interface ApiVersion {
   snapshot: ApiSnapshot;
 }
 
+/**
+ * 서버는 새 본문(`body`)이나 변환 전 Markdown(`legacy_body_md`) 중 하나만 준다.
+ *
+ * <p><b>Markdown 을 해석하는 곳은 여기다.</b> 서버는 그것을 모르고, 화면 모델에는 항상
+ * `DocumentBody` 만 올라간다. 그 문서를 다음에 저장하면 JSON 으로 저장되며 변환이 끝난다.
+ */
+function toBody(body: ApiBody | null, legacy: string | null): DocumentBody {
+  if (body?.doc) return bodyOf(body.doc);
+  if (legacy) return markdownToBody(legacy);
+  return emptyBody();
+}
+
 function toContent(api: ApiContent): DocumentContent {
   return {
     fileId: api.id,
     projectId: api.project_id,
     title: api.title,
     docType: documentTypeOf(api.folder_code),
-    bodyMd: api.body_md,
+    body: toBody(api.body, api.legacy_body_md),
     properties: toProperties(api.properties, api.relations),
     locked: api.locked,
     revisionNo: api.revision_no,
@@ -81,7 +113,7 @@ function toBaseContent(
   return {
     ...current,
     title: snapshot.title,
-    bodyMd: snapshot.body_md,
+    body: toBody(snapshot.body, snapshot.legacy_body_md),
     properties: toProperties(snapshot.properties, snapshot.relations),
   };
 }
@@ -106,7 +138,7 @@ function toVersion(
     createdAt: api.created_at,
     snapshot: {
       title: api.snapshot.title,
-      bodyMd: api.snapshot.body_md,
+      body: toBody(api.snapshot.body, api.snapshot.legacy_body_md),
       properties: toProperties(api.snapshot.properties, api.snapshot.relations),
       docType,
     },
@@ -170,7 +202,10 @@ export function createApiDocuments(
           saveId,
           body: {
             title: draft.title,
-            body_md: draft.bodyMd,
+            body: {
+              schema_version: BODY_SCHEMA_VERSION,
+              doc: draft.body.doc,
+            },
             properties,
             // 화면이 모르는 관계는 화면이 지울 수 없다. 읽을 때 본 것을 그대로 돌려보낸다.
             relations: [...relations, ...memory.carriedRelations(fileId)],
@@ -220,7 +255,7 @@ export function createApiDocuments(
       const text =
         format === "md"
           ? await toMarkdown(client, content)
-          : `${content.title}\n\n${content.bodyMd}\n`;
+          : `${content.title}\n\n${bodyToPlainText(content.body)}\n`;
       return { fileName, url: blobUrl(text) };
     },
   };
@@ -269,7 +304,7 @@ async function toMarkdown(
             .join(", ");
     lines.push(`- ${property.label}: ${value}`);
   }
-  lines.push("", content.bodyMd, "");
+  lines.push("", bodyToMarkdown(content.body), "");
   return lines.join("\n");
 }
 

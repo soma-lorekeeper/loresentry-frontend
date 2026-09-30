@@ -48,20 +48,21 @@ import { createDocumentExtensions } from "./editor/extensions";
 import { FileHeader } from "./file-header";
 import { PropertyTable } from "./property-table";
 import { useDocumentSession } from "./use-document-session";
+import { bodyOf, type DocumentBody } from "@/domain/document-body";
 
 const MIN_EDITOR_WIDTH = 640;
 
 function BodyEditor({
-  markdown,
+  body,
   version,
   editable,
   onChange,
   onReady,
 }: {
-  markdown: string;
+  body: DocumentBody;
   version: number;
   editable: boolean;
-  onChange: (markdown: string) => void;
+  onChange: (body: DocumentBody) => void;
   onReady: (editor: Editor | null) => void;
 }) {
   const onChangeRef = useRef(onChange);
@@ -71,8 +72,7 @@ function BodyEditor({
 
   const editor = useEditor({
     extensions: createDocumentExtensions({ placeholder: "내용을 입력하세요" }),
-    content: markdown,
-    contentType: "markdown",
+    content: body.doc,
     immediatelyRender: false,
     editable,
     editorProps: {
@@ -83,7 +83,7 @@ function BodyEditor({
       },
     },
     onUpdate: ({ editor: current }) =>
-      onChangeRef.current(current.getMarkdown()),
+      onChangeRef.current(bodyOf(current.getJSON())),
   });
 
   useEffect(() => {
@@ -99,11 +99,8 @@ function BodyEditor({
   useEffect(() => {
     if (!editor || appliedVersion.current === version) return;
     appliedVersion.current = version;
-    editor.commands.setContent(markdown, {
-      contentType: "markdown",
-      emitUpdate: false,
-    });
-  }, [editor, markdown, version]);
+    editor.commands.setContent(body.doc, { emitUpdate: false });
+  }, [editor, body, version]);
 
   return <EditorContent editor={editor} className={styles.editor} />;
 }
@@ -421,10 +418,10 @@ export function DocumentView({
                   }
                 />
                 <BodyEditor
-                  markdown={draft.bodyMd}
+                  body={draft.body}
                   version={doc.contentVersion}
                   editable={!locked}
-                  onChange={(bodyMd) => doc.session.update({ bodyMd })}
+                  onChange={(body) => doc.session.update({ body })}
                   onReady={setEditor}
                 />
               </div>
