@@ -37,6 +37,8 @@ export function buildProjectGraph(db: MockDb, projectId: string): ProjectGraph {
           source: doc.id,
           target,
           key: property.key,
+          description: property.descriptions[target] ?? "",
+          origin: "USER",
         });
       }
     }

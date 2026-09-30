@@ -844,6 +844,7 @@ describe("graph", () => {
           target: "d-2",
           relation_key: "related_character",
           description: "첫 등장",
+          origin: "USER",
         },
       ],
       episodes: [{ id: "e-1", name: "1부", document_ids: ["d-1"] }],
@@ -859,6 +860,9 @@ describe("graph", () => {
       "place",
     ]);
     expect(graph.edges[0].key).toBe("related_character");
+    // 연결의 설명과 출처가 화면까지 온다. graph-rag 가 붙어도 이 모양은 그대로다.
+    expect(graph.edges[0].description).toBe("첫 등장");
+    expect(graph.edges[0].origin).toBe("USER");
     expect(graph.episodes[0]).toEqual({
       id: "e-1",
       title: "1부",
