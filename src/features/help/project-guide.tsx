@@ -96,6 +96,21 @@ export function ProjectGuidePage({ user }: { user: User }) {
         />
       ) : (
         <div className={styles.grid}>
+          {!query && (
+            <Link href="/welcome/?replay=1" className={styles.topic}>
+              <span className={styles.topicIcon}>
+                <Icon name="sparkles" size={18} />
+              </span>
+              <span className={styles.topicCopy}>
+                <span className={styles.topicTitle}>처음 안내 다시 보기</span>
+                <span className={styles.topicSummary}>
+                  프로젝트, 원고와 설정, 그래프, AI 최신화를 네 장면으로 다시
+                  훑어봐요.
+                </span>
+              </span>
+              <Icon name="arrow-right" size={16} />
+            </Link>
+          )}
           {topics.map((item) => (
             <Link
               key={item.id}

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
 
 import {
@@ -146,9 +146,13 @@ function SkeletonCard() {
 
 export function ProjectListPage({ user }: { user: User }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const toast = useToast();
   const projects = useProjects();
-  const [creating, setCreating] = useState(false);
+  // 온보딩의 "새 프로젝트 만들기"가 `?create=1` 로 들어온다.
+  const [creating, setCreating] = useState(
+    () => searchParams.get("create") === "1",
+  );
   const [renaming, setRenaming] = useState<Project | null>(null);
   const [trashing, setTrashing] = useState<Project | null>(null);
 
@@ -242,7 +246,10 @@ export function ProjectListPage({ user }: { user: User }) {
 
       <CreateProjectDialog
         open={creating}
-        onClose={() => setCreating(false)}
+        onClose={() => {
+          setCreating(false);
+          if (searchParams.get("create")) router.replace("/projects/");
+        }}
         onCreated={(project) => {
           setCreating(false);
           router.push(workspaceHref(project.id));
