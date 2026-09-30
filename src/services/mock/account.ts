@@ -2,7 +2,7 @@ import type { AccountService, AuthService, TermsView } from "../ports";
 import { ServiceError } from "../errors";
 
 import { simulate } from "./control";
-import { getDb, persistDb } from "./db";
+import { buildSeedDb, getDb, persistDb, resetDb } from "./db";
 
 export const DISPLAY_NAME_MAX = 20;
 
@@ -42,7 +42,10 @@ export const mockAuth: AuthService = {
           "새 약관을 확인해 주세요.",
         );
       pending = false;
-      getDb().signedIn = true;
+      const db = getDb();
+      db.signedIn = true;
+      // 동의로 가입을 마친 새 계정을 흉내 낸다. 첫 화면에서 온보딩을 볼 수 있다.
+      db.user = { ...db.user, onboardingCompleted: false };
       persistDb();
     }),
   getSession: () =>
@@ -86,5 +89,41 @@ export const mockAccount: AccountService = {
       db.user = { ...db.user, displayName: trimmed };
       persistDb();
       return db.user;
+    }),
+  completeOnboarding: () =>
+    simulate("account.completeOnboarding", () => {
+      const db = getDb();
+      db.user = { ...db.user, onboardingCompleted: true };
+      persistDb();
+    }),
+  deleteAccount: (confirmationEmail) =>
+    simulate("account.delete", () => {
+      const db = getDb();
+      if (
+        confirmationEmail.trim().toLowerCase() !== db.user.email.toLowerCase()
+      ) {
+        throw new ServiceError(
+          "confirmation-mismatch",
+          "입력한 이메일이 계정 이메일과 달라요.",
+          "account.delete",
+        );
+      }
+      // 서버처럼 계정과 모든 프로젝트를 지운다. 다음 로그인은 빈 새 계정으로 시작한다.
+      const fresh = buildSeedDb();
+      resetDb({
+        ...fresh,
+        signedIn: false,
+        user: { ...fresh.user, onboardingCompleted: false },
+        projects: [],
+        files: [],
+        documents: {},
+        favorites: {},
+        memos: [],
+        versions: [],
+        chatSessions: [],
+        chatMessages: [],
+        workspaceStates: {},
+        refreshRuns: {},
+      });
     }),
 };

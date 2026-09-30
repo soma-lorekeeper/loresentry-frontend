@@ -10,6 +10,7 @@ export interface User {
   id: string;
   displayName: string;
   email: string;
+  onboardingCompleted: boolean;
 }
 
 export interface Project {

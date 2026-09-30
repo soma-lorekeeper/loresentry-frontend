@@ -24,7 +24,12 @@ vi.mock("next/navigation", () => ({
   usePathname: () => "/",
 }));
 
-const user = { id: "user-1", displayName: "서윤주", email: "seoyunju@lore.kr" };
+const user = {
+  id: "user-1",
+  displayName: "서윤주",
+  email: "seoyunju@lore.kr",
+  onboardingCompleted: true,
+};
 
 describe("GraphDiffModal", () => {
   it("enables confirmation only after every document is resolved", async () => {

@@ -72,6 +72,7 @@ describe("terms login", () => {
       id: "new-user",
       displayName: "새 계정",
       email: "new@example.com",
+      onboardingCompleted: true,
     });
     let finish!: () => void;
     const accept = vi.spyOn(mockAuth, "acceptTerms").mockReturnValue(
@@ -129,6 +130,7 @@ describe("fresh account and recovery", () => {
       id: "new-user",
       displayName: "new",
       email: "new@example.com",
+      onboardingCompleted: true,
     };
     const session = vi.fn().mockResolvedValue(newUser);
     renderWithServices(<LoginPage />, {

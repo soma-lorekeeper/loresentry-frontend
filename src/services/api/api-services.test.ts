@@ -1046,6 +1046,35 @@ describe("auth", () => {
     expect(isServiceError(error) && error.code).toBe("network");
   });
 
+  it("deletes the account with the typed email only", async () => {
+    reply(204);
+    await services().account!.deleteAccount("author@lore.kr");
+
+    expect(calls[0].url).toBe(`${BASE}/auth/users/me/deletion`);
+    expect(calls[0].method).toBe("POST");
+    expect(calls[0].headers["X-LS-CSRF"]).toBe("1");
+    expect(calls[0].body).toEqual({ confirmation_email: "author@lore.kr" });
+  });
+
+  it("tells a wrong email apart from a failed deletion", async () => {
+    reply(400, { code: "ACCOUNT_CONFIRMATION_MISMATCH", next_action: "NONE" });
+    const mismatch = await services()
+      .account!.deleteAccount("other@lore.kr")
+      .catch((e: unknown) => e);
+    expect(isServiceError(mismatch) && mismatch.code).toBe(
+      "confirmation-mismatch",
+    );
+
+    reply(503, {
+      code: "ACCOUNT_DELETION_UNAVAILABLE",
+      next_action: "RETRY_LATER",
+    });
+    const failed = await services()
+      .account!.deleteAccount("author@lore.kr")
+      .catch((e: unknown) => e);
+    expect(isServiceError(failed) && failed.code).toBe("network");
+  });
+
   it("reports nobody signed in rather than failing", async () => {
     // 로그인하지 않은 상태는 오류가 아니다. 화면은 null 을 받아 로그인 화면을 보여 준다.
     reply(401, { code: "SESSION_REQUIRED" });
@@ -1084,6 +1113,38 @@ describe("auth", () => {
 
     expect(calls[0].method).toBe("PATCH");
     expect(calls[0].body).toEqual({ display_name: "새 이름" });
+  });
+
+  it("reads the onboarding flag and treats an older BFF without it as done", async () => {
+    reply(200, { ...profile, onboarding_completed: false });
+    expect(await services().auth!.getSession()).toMatchObject({
+      onboardingCompleted: false,
+    });
+
+    reply(200, profile);
+    expect(await services().auth!.getSession()).toMatchObject({
+      onboardingCompleted: true,
+    });
+  });
+
+  it("marks onboarding complete with a CSRF-protected PUT", async () => {
+    reply(204);
+    await services().account!.completeOnboarding();
+
+    expect(calls[0].url).toBe(`${BASE}/auth/users/me/onboarding`);
+    expect(calls[0].method).toBe("PUT");
+    expect(calls[0].headers["X-LS-CSRF"]).toBe("1");
+    expect(calls[0].body).toBeUndefined();
+  });
+
+  it("asks the server for the sample project", async () => {
+    reply(201, { ...apiProject, id: "p-sample" });
+    const project = await services().projects!.createSample();
+
+    expect(calls[0].url).toBe(`${BASE}/projects/sample`);
+    expect(calls[0].method).toBe("POST");
+    expect(calls[0].body).toBeUndefined();
+    expect(project.id).toBe("p-sample");
   });
 });
 

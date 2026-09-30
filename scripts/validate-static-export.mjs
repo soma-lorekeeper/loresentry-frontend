@@ -6,6 +6,8 @@ const ROUTES = [
   "",
   "login/",
   "logout/",
+  "welcome/",
+  "goodbye/",
   "projects/",
   "projects/trash/",
   "projects/guide/",

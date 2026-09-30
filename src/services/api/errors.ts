@@ -22,6 +22,10 @@ const CODE_TO_SERVICE_ERROR: Record<string, ServiceErrorCode> = {
   CONSENT_REQUEST_INVALID: "consent-invalid",
   TERMS_VERSION_MISMATCH: "terms-version-mismatch",
   CSRF_REJECTED: "csrf-rejected",
+  ACCOUNT_CONFIRMATION_MISMATCH: "confirmation-mismatch",
+  ACCOUNT_DELETION_UNAVAILABLE: "network",
+  ACCOUNT_UNAVAILABLE: "network",
+  USER_NOT_FOUND: "not-found",
   LOGIN_UNAVAILABLE: "network",
   INVALID_PROJECT_NAME: "validation",
   INVALID_PROJECT_DESCRIPTION: "validation",
@@ -63,6 +67,7 @@ const MESSAGES: Partial<Record<ServiceErrorCode, string>> = {
   "consent-invalid": "동의 대기가 만료됐어요. 다시 로그인해 주세요.",
   "terms-version-mismatch": "약관이 변경됐어요. 새 약관을 확인해 주세요.",
   "csrf-rejected": "요청을 확인할 수 없어요. 로그인부터 다시 시작해 주세요.",
+  "confirmation-mismatch": "입력한 이메일이 계정 이메일과 달라요.",
   duplicate: "같은 이름이 이미 있어요.",
   "not-found": "찾을 수 없어요.",
   locked: "잠긴 문서는 편집할 수 없어요.",
@@ -75,6 +80,8 @@ const MESSAGES: Partial<Record<ServiceErrorCode, string>> = {
 
 const CODE_MESSAGES: Record<string, string> = {
   PROJECT_NAME_TAKEN: "같은 이름의 프로젝트가 이미 있어요.",
+  ACCOUNT_DELETION_UNAVAILABLE:
+    "계정을 삭제하지 못했어요. 계정과 작업은 그대로 있어요. 잠시 뒤 다시 시도해 주세요.",
   FILE_TITLE_TAKEN: "같은 위치에 같은 이름이 이미 있어요.",
   INVALID_PROJECT_NAME: "프로젝트 제목을 확인해 주세요.",
   INVALID_PROJECT_DESCRIPTION: "설명이 너무 길어요.",

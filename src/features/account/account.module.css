@@ -127,3 +127,77 @@
 .fullWidth {
   width: 100%;
 }
+
+.danger {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-4);
+  padding: var(--lk-space-4);
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-card);
+}
+
+.dangerIcon {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-icon);
+  color: var(--lk-color-icon-default);
+}
+
+.dangerCopy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dangerTitle {
+  font-weight: 600;
+}
+
+.deleteBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-4);
+}
+
+.deleteScope {
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-default);
+}
+
+.deleteScope > :first-child {
+  border: 0;
+  background: transparent;
+}
+
+.deleteImpact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-2);
+  padding: 12px var(--lk-space-3) 14px;
+  border-top: 1px solid var(--lk-color-border-default);
+}
+
+.deleteImpactTitle {
+  font-weight: 600;
+}
+
+.deleteImpact ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-2);
+}
+
+.deleteImpact li {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+  color: var(--lk-color-text-secondary);
+}

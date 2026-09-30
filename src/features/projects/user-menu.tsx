@@ -6,6 +6,7 @@ import { Icon, Menu } from "@/design-system/primitives";
 import { themeMenuEntries } from "@/design-system/theme/theme-menu";
 import { useTheme } from "@/design-system/theme/theme-store";
 import type { User } from "@/domain/models";
+import { AccountDeleteDialog } from "@/features/account/account-delete-dialog";
 import { AccountSettingsDialog } from "@/features/account/account-settings-dialog";
 import { LogoutDialog } from "@/features/account/logout-dialog";
 import { cx } from "@/shared/cx";
@@ -45,7 +46,9 @@ export function AccountRow({ user }: { user: User }) {
 export function UserMenu({ user }: { user: User }) {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
-  const [dialog, setDialog] = useState<"account" | "logout" | null>(null);
+  const [dialog, setDialog] = useState<"account" | "logout" | "delete" | null>(
+    null,
+  );
   const theme = useTheme();
 
   return (
@@ -98,6 +101,12 @@ export function UserMenu({ user }: { user: User }) {
         open={dialog === "account"}
         user={user}
         onClose={() => setDialog(null)}
+        onDeleteAccount={() => setDialog("delete")}
+      />
+      <AccountDeleteDialog
+        open={dialog === "delete"}
+        user={user}
+        onClose={() => setDialog("account")}
       />
       <LogoutDialog
         open={dialog === "logout"}

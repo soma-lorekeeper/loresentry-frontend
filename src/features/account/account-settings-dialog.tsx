@@ -3,6 +3,8 @@
 import { useId, useState } from "react";
 
 import {
+  Button,
+  Icon,
   IconButton,
   Modal,
   SaveBar,
@@ -42,12 +44,14 @@ interface AccountSettingsDialogProps {
   open: boolean;
   user: User;
   onClose: () => void;
+  onDeleteAccount: () => void;
 }
 
 export function AccountSettingsDialog({
   open,
   user,
   onClose,
+  onDeleteAccount,
 }: AccountSettingsDialogProps) {
   return (
     <Modal
@@ -60,6 +64,7 @@ export function AccountSettingsDialog({
         key={user.displayName}
         user={user}
         onClose={onClose}
+        onDeleteAccount={onDeleteAccount}
       />
     </Modal>
   );
@@ -68,9 +73,11 @@ export function AccountSettingsDialog({
 function AccountSettingsForm({
   user,
   onClose,
+  onDeleteAccount,
 }: {
   user: User;
   onClose: () => void;
+  onDeleteAccount: () => void;
 }) {
   const titleId = useId();
   const update = useUpdateAccount();
@@ -168,6 +175,27 @@ function AccountSettingsForm({
           update.reset();
         }}
       />
+      <section className={styles.danger} aria-labelledby={`${titleId}-delete`}>
+        <span className={styles.dangerIcon}>
+          <Icon name="user-x" size={17} />
+        </span>
+        <div className={styles.dangerCopy}>
+          <h3 id={`${titleId}-delete`} className={styles.dangerTitle}>
+            계정 삭제
+          </h3>
+          <p className={styles.description}>
+            모든 프로젝트와 휴지통 항목이 함께 영구 삭제되며 되돌릴 수 없어요.
+          </p>
+        </div>
+        <Button
+          size="md"
+          icon="trash-2"
+          onClick={onDeleteAccount}
+          disabled={update.isPending}
+        >
+          계정 삭제
+        </Button>
+      </section>
     </div>
   );
 }

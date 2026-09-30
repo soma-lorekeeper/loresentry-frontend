@@ -8,7 +8,12 @@ import { getDb } from "@/services/mock/db";
 
 import { ProjectListPage } from "./project-list";
 
-const user = { id: "user-1", displayName: "서윤주", email: "seoyunju@lore.kr" };
+const user = {
+  id: "user-1",
+  displayName: "서윤주",
+  email: "seoyunju@lore.kr",
+  onboardingCompleted: true,
+};
 
 describe("ProjectListPage", () => {
   it("lists projects by most recent work with a count", async () => {
