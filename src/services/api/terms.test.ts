@@ -16,13 +16,11 @@ const auth = () => createApiAuth(new ApiClient("https://api.test.invalid"));
 function reply(status: number, body?: unknown) {
   return vi.stubGlobal(
     "fetch",
-    vi
-      .fn()
-      .mockResolvedValue(
-        new Response(body === undefined ? null : JSON.stringify(body), {
-          status,
-        }),
-      ),
+    vi.fn().mockResolvedValue(
+      new Response(body === undefined ? null : JSON.stringify(body), {
+        status,
+      }),
+    ),
   );
 }
 afterEach(() => {

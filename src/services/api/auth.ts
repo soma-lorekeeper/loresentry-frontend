@@ -3,6 +3,7 @@ import type { User } from "@/domain/models";
 import { ServiceError } from "../errors";
 import type { AccountService, AuthService, TermsView } from "../ports";
 
+import { withAuthTransition } from "./auth-transition";
 import type { ApiClient } from "./http";
 
 interface ApiProfile {
@@ -78,12 +79,15 @@ export function createApiAuth(client: ApiClient): AuthService {
     acceptTerms: async (termsVersionId) => {
       if (!UUID.test(termsVersionId))
         throw new ServiceError("validation", "약관 버전을 확인해 주세요.");
-      await client.request<void>("/auth/terms/accept", {
-        method: "POST",
-        body: { terms_version_id: termsVersionId },
-        operation: "auth.acceptTerms",
-        expectedStatus: 204,
-      });
+      await withAuthTransition(() =>
+        client.request<void>("/auth/terms/accept", {
+          method: "POST",
+          body: { terms_version_id: termsVersionId },
+          operation: "auth.acceptTerms",
+          expectedStatus: 204,
+          authTransition: true,
+        }),
+      );
     },
     getSession: async () => {
       try {
@@ -112,9 +116,11 @@ export function createApiAuth(client: ApiClient): AuthService {
      */
     startGoogleLogin: (returnTo) => {
       void returnTo;
-      // eslint-disable-next-line @next/next/no-location-assign-relative-destination
-      window.location.assign(`${client.baseUrl}/auth/oauth/google/prepare`);
-      return new Promise<void>(() => {});
+      return withAuthTransition(() => {
+        // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+        window.location.assign(`${client.baseUrl}/auth/oauth/google/prepare`);
+        return new Promise<void>(() => {});
+      }, true);
     },
 
     /**
@@ -126,19 +132,20 @@ export function createApiAuth(client: ApiClient): AuthService {
      * 확인하지 못한 것이므로 성공으로 표시하지 않는다(`loresentry-gateway/docs/API.md` 로그아웃 응답).
      * 쿠키는 지워졌으니 이 브라우저는 로그아웃이지만, 다른 곳의 세션이 남았을 수 있다.
      */
-    logout: async () => {
-      const result = await client.request<{ session_revocation?: string }>(
-        "/auth/sessions/revoke",
-        { method: "POST", operation: "auth.logout" },
-      );
-      if (result?.session_revocation === "unconfirmed") {
-        throw new ServiceError(
-          "network",
-          "로그아웃은 됐지만 서버 확인을 받지 못했어요.",
-          "auth.logout",
+    logout: () =>
+      withAuthTransition(async () => {
+        const result = await client.request<{ session_revocation?: string }>(
+          "/auth/sessions/revoke",
+          { method: "POST", operation: "auth.logout", authTransition: true },
         );
-      }
-    },
+        if (result?.session_revocation === "unconfirmed") {
+          throw new ServiceError(
+            "network",
+            "로그아웃은 됐지만 서버 확인을 받지 못했어요.",
+            "auth.logout",
+          );
+        }
+      }),
   };
 }
 

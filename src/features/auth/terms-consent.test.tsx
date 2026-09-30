@@ -2,6 +2,9 @@ import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mockAuth, resetMockTerms } from "@/services/mock/account";
 import { renderWithServices, routerMock, setSearchParams } from "@/test/render";
+import { QueryClient } from "@tanstack/react-query";
+import { queryKeys } from "@/services/query-keys";
+import { ServiceError } from "@/services/errors";
 import { LoginPage } from "./login-page";
 
 beforeEach(() => {
@@ -103,4 +106,90 @@ describe("terms login", () => {
     expect(submit()).toBeDisabled();
     expect(routerMock.replace).not.toHaveBeenCalled();
   });
+});
+
+describe("fresh account and recovery", () => {
+  it("discards old account caches and pending responses before trusting the new session", async () => {
+    const client = new QueryClient({
+      defaultOptions: { queries: { retry: false } },
+    });
+    client.setQueryData(queryKeys.session, { id: "old-user" });
+    client.setQueryData(queryKeys.projects, [{ id: "old-project" }]);
+    let oldReply!: (value: string) => void;
+    const oldRequest = client
+      .fetchQuery({
+        queryKey: ["old-request"],
+        queryFn: () =>
+          new Promise<string>((resolve) => {
+            oldReply = resolve;
+          }),
+      })
+      .catch(() => {});
+    const newUser = {
+      id: "new-user",
+      displayName: "new",
+      email: "new@example.com",
+    };
+    const session = vi.fn().mockResolvedValue(newUser);
+    renderWithServices(<LoginPage />, {
+      queryClient: client,
+      auth: {
+        getSession: session,
+        acceptTerms: vi.fn().mockResolvedValue(undefined),
+      },
+    });
+    await screen.findByRole("dialog");
+    expect(routerMock.replace).not.toHaveBeenCalled();
+    expect(session).not.toHaveBeenCalled();
+    fireEvent.click(check());
+    fireEvent.click(submit());
+    await waitFor(() =>
+      expect(routerMock.replace).toHaveBeenCalledWith("/projects"),
+    );
+    await act(async () => {
+      oldReply("old data");
+      await oldRequest;
+    });
+    expect(client.getQueryData(queryKeys.session)).toEqual(newUser);
+    expect(client.getQueryData(queryKeys.projects)).toBeUndefined();
+    expect(client.getQueryData(["old-request"])).toBeUndefined();
+    expect(session).toHaveBeenCalledTimes(1);
+  });
+  it.each([null, new ServiceError("network", "temporary")])(
+    "does not navigate if session confirmation fails %#",
+    async (result) => {
+      const accept = vi.fn().mockResolvedValue(undefined);
+      renderWithServices(<LoginPage />, {
+        auth: {
+          acceptTerms: accept,
+          getSession: () =>
+            result instanceof Error
+              ? Promise.reject(result)
+              : Promise.resolve(result),
+        },
+      });
+      await screen.findByRole("dialog");
+      fireEvent.click(check());
+      fireEvent.click(submit());
+      await screen.findByText(/동의 결과를 확인할 수 없어요/);
+      expect(routerMock.replace).not.toHaveBeenCalled();
+      expect(accept).toHaveBeenCalledTimes(1);
+    },
+  );
+  it.each(["network", "consent-invalid", "unknown"] as const)(
+    "requires restart on %s without resending",
+    async (code) => {
+      const accept = vi
+        .fn()
+        .mockRejectedValue(new ServiceError(code, "failed"));
+      renderWithServices(<LoginPage />, { auth: { acceptTerms: accept } });
+      await screen.findByRole("dialog");
+      fireEvent.click(check());
+      fireEvent.click(submit());
+      await screen.findByRole("button", { name: "로그인으로 돌아가기" });
+      expect(screen.queryByRole("checkbox")).toBeNull();
+      expect(accept).toHaveBeenCalledTimes(1);
+      expect(routerMock.replace).not.toHaveBeenCalled();
+    },
+  );
 });

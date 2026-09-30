@@ -1,3 +1,4 @@
+import { withSessionRequest } from "./auth-transition";
 import { ServiceError } from "../errors";
 
 import { toServiceError, type ApiErrorBody } from "./errors";
@@ -13,6 +14,8 @@ export interface RequestOptions {
   operation?: string;
   signal?: AbortSignal;
   expectedStatus?: number;
+  /** Only for a request already inside the exclusive auth transition. */
+  authTransition?: boolean;
 }
 
 export interface ApiFailure {
@@ -93,9 +96,14 @@ export class ApiClient {
   }
 
   private async send(path: string, options: RequestOptions): Promise<Exchange> {
-    const response = await this.fetch(path, options);
-    const payload = response.status === 204 ? null : await readJson(response);
-    return { status: response.status, ok: response.ok, payload };
+    const exchange = async () => {
+      const response = await this.fetch(path, options);
+      const payload = response.status === 204 ? null : await readJson(response);
+      return { status: response.status, ok: response.ok, payload };
+    };
+    return options.authTransition || path === "/auth/terms"
+      ? exchange()
+      : withSessionRequest(exchange);
   }
 
   private async fetch(
