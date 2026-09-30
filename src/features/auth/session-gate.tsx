@@ -8,9 +8,10 @@ import type { User } from "@/domain/models";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 
-export function useSession() {
+export function useSession(enabled = true) {
   const services = useServices();
   return useQuery({
+    enabled,
     queryKey: queryKeys.session,
     queryFn: () => services.auth.getSession(),
     staleTime: Infinity,

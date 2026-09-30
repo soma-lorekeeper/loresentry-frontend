@@ -12,8 +12,8 @@ export const DEFAULT_RUNTIME_CONFIG: RuntimeConfig = {
   apiBaseUrl: "",
   dataSource: "mock",
   feedbackUrl: "",
-  privacyPolicyUrl: "",
-  termsOfServiceUrl: "",
+  privacyPolicyUrl: "/policies/privacy.html",
+  termsOfServiceUrl: "/policies/terms.html",
 };
 
 function absoluteHttpUrl(value: unknown) {
@@ -35,8 +35,12 @@ export function parseRuntimeConfig(value: unknown): RuntimeConfig {
     // 실제 데이터를 건드리는 쪽으로 기울면 안 된다.
     dataSource: raw.dataSource === "api" ? "api" : "mock",
     feedbackUrl: absoluteHttpUrl(raw.feedbackUrl),
-    privacyPolicyUrl: absoluteHttpUrl(raw.privacyPolicyUrl),
-    termsOfServiceUrl: absoluteHttpUrl(raw.termsOfServiceUrl),
+    privacyPolicyUrl:
+      absoluteHttpUrl(raw.privacyPolicyUrl) ||
+      DEFAULT_RUNTIME_CONFIG.privacyPolicyUrl,
+    termsOfServiceUrl:
+      absoluteHttpUrl(raw.termsOfServiceUrl) ||
+      DEFAULT_RUNTIME_CONFIG.termsOfServiceUrl,
   };
 }
 

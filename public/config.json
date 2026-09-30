@@ -2,6 +2,6 @@
   "apiBaseUrl": "https://api.loresentry.com",
   "dataSource": "api",
   "feedbackUrl": "",
-  "privacyPolicyUrl": "",
-  "termsOfServiceUrl": ""
+  "privacyPolicyUrl": "https://loresentry.com/policies/privacy.html",
+  "termsOfServiceUrl": "https://loresentry.com/policies/terms.html"
 }

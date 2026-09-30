@@ -11,6 +11,7 @@ import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 import { cx } from "@/shared/cx";
 
+import { TermsConsent } from "./terms-consent";
 import { GoogleMark } from "./google-mark";
 import styles from "./login-page.module.css";
 import { safeReturnTo } from "./return-to";
@@ -109,7 +110,18 @@ export function LoginPage() {
     if (loginResult === "success") return "processing";
     return resultStatus(loginResult) ?? initialStatus(searchParams.get("auth"));
   });
-  const session = useSession();
+  const [termsClosed, setTermsClosed] = useState(false);
+  const termsEntry = loginResult === "terms_required";
+  const showTerms = termsEntry && !termsClosed;
+  const [holdSession, setHoldSession] = useState(termsEntry);
+  const session = useSession(!holdSession && !termsEntry);
+  const closeTerms = () => {
+    setTermsClosed(true);
+    setHoldSession(true);
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("result");
+    router.replace(`/login${params.size ? `?${params}` : ""}`);
+  };
   const returnTo = safeReturnTo(searchParams.get("returnTo"));
 
   /**
@@ -139,8 +151,9 @@ export function LoginPage() {
    * 그것이 없어서 `/login?result=success` 에 그대로 머물렀다 — 세션은 살아 있는데 화면만 남았다.
    */
   useEffect(() => {
-    if (session.data) router.replace(returnTo ?? "/projects");
-  }, [session.data, returnTo, router]);
+    if (!holdSession && !termsEntry && session.data)
+      router.replace(returnTo ?? "/projects");
+  }, [session.data, returnTo, router, holdSession, termsEntry]);
 
   const start = async () => {
     setRequested("processing");
@@ -186,7 +199,7 @@ export function LoginPage() {
               type="button"
               className={styles.googleButton}
               onClick={start}
-              disabled={processing}
+              disabled={processing || showTerms}
               aria-busy={processing || undefined}
             >
               {processing ? (
@@ -233,12 +246,21 @@ export function LoginPage() {
             )}
           </div>
 
+          {showTerms && (
+            <TermsConsent
+              privacyUrl={config.privacyPolicyUrl || "/policies/privacy.html"}
+              onClose={closeTerms}
+              onComplete={() => router.replace(returnTo ?? "/projects")}
+            />
+          )}
           <div className={styles.policy}>
-            <p>계속하면 Lorekeeper의 정책에 동의하게 됩니다.</p>
             <div className={styles.policyLinks}>
-              <PolicyLink href={config.termsOfServiceUrl} label="이용약관" />
               <PolicyLink
-                href={config.privacyPolicyUrl}
+                href={config.termsOfServiceUrl || "/policies/terms.html"}
+                label="이용약관"
+              />
+              <PolicyLink
+                href={config.privacyPolicyUrl || "/policies/privacy.html"}
                 label="개인정보처리방침"
               />
             </div>
