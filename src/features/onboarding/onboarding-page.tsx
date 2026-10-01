@@ -5,10 +5,8 @@ import {
   useCallback,
   useEffect,
   useLayoutEffect,
-  useRef,
   useState,
   type CSSProperties,
-  type ReactNode,
 } from "react";
 
 import { Button, Icon, InlineNotice } from "@/design-system/primitives";
@@ -21,96 +19,87 @@ import { isServiceError } from "@/services/errors";
 import { cx } from "@/shared/cx";
 import { useElementSize } from "@/shared/use-element-size";
 
-import { GraphScene, ProjectsScene, RefreshScene, WriteScene } from "./scenes";
+import { AppWindow, type Scene } from "./scenes";
 import { ONBOARDING_STEPS, TOUR_LENGTH } from "./steps";
 import styles from "./onboarding.module.css";
 
-const CANVAS = { width: 760, height: 580 };
+const CANVAS = { width: 1000, height: 640 };
 const LEAVE_MS = 260;
-const THREAD_MS = 520;
 const LAST = ONBOARDING_STEPS.length - 1;
+const FOCUS_PAD = 6;
 
-const SCENES: Record<string, () => ReactNode> = {
-  projects: ProjectsScene,
-  write: WriteScene,
-  graph: GraphScene,
-  refresh: RefreshScene,
+/** 단계마다 비출 자리. 최신화는 사이드바 항목을 먼저 비추고, 검토 창이 열리면 옮겨 간다. */
+const FOCUS: Record<Scene, { target: string; at: number }[]> = {
+  workspace: [{ target: "workspace", at: 0 }],
+  relations: [{ target: "relations", at: 0 }],
+  graph: [{ target: "graph", at: 0 }],
+  timeline: [{ target: "timeline", at: 0 }],
+  refresh: [
+    { target: "refresh", at: 0 },
+    { target: "diff", at: 1500 },
+  ],
 };
 
-function prefersReducedMotion() {
-  return (
-    typeof window !== "undefined" &&
-    typeof window.matchMedia === "function" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
+interface Box {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+}
+
+/** 변환(애니메이션·축소)에 흔들리지 않게 offset 으로 창 안의 자리를 잰다. */
+function boxIn(root: HTMLElement, el: HTMLElement): Box {
+  let left = 0;
+  let top = 0;
+  let node: HTMLElement | null = el;
+  while (node && node !== root) {
+    left += node.offsetLeft;
+    top += node.offsetTop;
+    node = node.offsetParent as HTMLElement | null;
+  }
+  return {
+    left: left - FOCUS_PAD,
+    top: top - FOCUS_PAD,
+    width: el.offsetWidth + FOCUS_PAD * 2,
+    height: el.offsetHeight + FOCUS_PAD * 2,
+  };
+}
+
+function useSpotlight(windowEl: HTMLElement | null, scene: Scene) {
+  const [focus, setFocus] = useState<Box | null>(null);
+  useLayoutEffect(() => {
+    if (!windowEl) return;
+    const root = windowEl.querySelector<HTMLElement>("[data-window]");
+    if (!root) return;
+    const place = (target: string) => {
+      const el =
+        root.querySelector<HTMLElement>(
+          `[data-scene-state='current'] [data-focus='${target}']`,
+        ) ?? root.querySelector<HTMLElement>(`[data-focus='${target}']`);
+      if (el) setFocus(boxIn(root, el));
+    };
+    const [first, ...later] = FOCUS[scene];
+    place(first.target);
+    const timers = later.map(({ target, at }) =>
+      window.setTimeout(() => place(target), at),
+    );
+    return () => timers.forEach((timer) => window.clearTimeout(timer));
+  }, [windowEl, scene]);
+  return focus;
 }
 
 /**
- * 한 문서("레나 아르벨")가 단계를 건너 다음 자리로 옮겨 가는 공유 요소다. 떠나는 장면과 들어오는
- * 장면이 잠깐 함께 그려지는 동안 두 자리를 재고, 그 사이를 칩 하나가 날아간다.
+ * 실제 작업공간 창을 줄여 놓고, 단계마다 설명하는 자리를 비춘다. 창은 단계가 바뀌어도 그대로
+ * 있고 내용과 사이드바 선택만 바뀐다. 빛은 다음 자리로 미끄러져 간다.
  */
-function useThread(
-  canvas: HTMLDivElement | null,
-  ghost: HTMLSpanElement | null,
-  step: number,
-  scale: number,
-) {
-  const previous = useRef(step);
-  useLayoutEffect(() => {
-    const from = previous.current;
-    previous.current = step;
-    if (from === step || !canvas || !ghost || prefersReducedMotion()) return;
-    const source = canvas.querySelector<HTMLElement>(
-      "[data-scene-state='leaving'] [data-thread]",
-    );
-    const target = canvas.querySelector<HTMLElement>(
-      "[data-scene-state='current'] [data-thread]",
-    );
-    if (!source || !target || typeof ghost.animate !== "function") return;
-    const box = canvas.getBoundingClientRect();
-    const place = (el: HTMLElement) => {
-      const r = el.getBoundingClientRect();
-      return {
-        x: (r.left - box.left) / scale,
-        y: (r.top - box.top) / scale,
-        h: r.height / scale,
-      };
-    };
-    const a = place(source);
-    const b = place(target);
-    const left = `${b.x}px`;
-    const top = `${b.y + b.h / 2}px`;
-    target.animate(
-      [{ opacity: 0 }, { opacity: 0, offset: 0.8 }, { opacity: 1 }],
-      {
-        duration: THREAD_MS + 80,
-        easing: "linear",
-      },
-    );
-    ghost.animate(
-      [
-        {
-          left,
-          top,
-          transform: `translate(${a.x - b.x}px, calc(${a.y + a.h / 2 - (b.y + b.h / 2)}px - 50%)) scale(0.96)`,
-          opacity: 0,
-        },
-        { left, top, opacity: 1, offset: 0.12 },
-        { left, top, opacity: 1, offset: 0.82 },
-        { left, top, transform: "translate(0, -50%) scale(1)", opacity: 0 },
-      ],
-      { duration: THREAD_MS, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" },
-    );
-  }, [canvas, ghost, step, scale]);
-}
-
-function Stage({ step }: { step: number }) {
+function Stage({ step, userName }: { step: number; userName: string }) {
   const [frame, setFrame] = useState<HTMLDivElement | null>(null);
   const [canvas, setCanvas] = useState<HTMLDivElement | null>(null);
-  const [ghost, setGhost] = useState<HTMLSpanElement | null>(null);
-  const [leaving, setLeaving] = useState<number | null>(null);
-  const [shown, setShown] = useState(step);
+  const scene = ONBOARDING_STEPS[step].id as Scene;
+  const [leaving, setLeaving] = useState<Scene | null>(null);
+  const [shown, setShown] = useState(scene);
   const size = useElementSize(frame);
+  const focus = useSpotlight(canvas, scene);
   const scale = size
     ? Math.min(
         1,
@@ -119,9 +108,9 @@ function Stage({ step }: { step: number }) {
       )
     : 1;
 
-  if (shown !== step) {
+  if (shown !== scene) {
     setLeaving(shown);
-    setShown(step);
+    setShown(scene);
   }
 
   useEffect(() => {
@@ -129,25 +118,6 @@ function Stage({ step }: { step: number }) {
     const timer = window.setTimeout(() => setLeaving(null), LEAVE_MS);
     return () => window.clearTimeout(timer);
   }, [leaving]);
-
-  useThread(canvas, ghost, step, scale);
-
-  const render = (index: number, state: "current" | "leaving") => {
-    const Scene = SCENES[ONBOARDING_STEPS[index].id];
-    if (!Scene) return null;
-    return (
-      <div
-        key={`${index}-${state}`}
-        className={cx(
-          styles.sceneLayer,
-          state === "leaving" && styles.sceneLeaving,
-        )}
-        data-scene-state={state}
-      >
-        <Scene />
-      </div>
-    );
-  };
 
   return (
     <div ref={setFrame} className={styles.stage} aria-hidden="true">
@@ -160,12 +130,21 @@ function Stage({ step }: { step: number }) {
           transform: `scale(${scale})`,
         }}
       >
-        {leaving !== null && render(leaving, "leaving")}
-        {render(step, "current")}
-        <span ref={setGhost} className={styles.threadGhost}>
-          <Icon name="circle-user-round" size={12} />
-          레나 아르벨
-        </span>
+        <div data-window className={styles.windowFrame}>
+          <AppWindow scene={scene} leaving={leaving} userName={userName}>
+            {focus && (
+              <span
+                className={styles.spotlight}
+                style={{
+                  left: focus.left,
+                  top: focus.top,
+                  width: focus.width,
+                  height: focus.height,
+                }}
+              />
+            )}
+          </AppWindow>
+        </div>
       </div>
     </div>
   );
@@ -333,7 +312,7 @@ export function OnboardingPage({
             <span className={styles.letterMark} aria-hidden="true">
               L
             </span>
-            LOREKEEPER
+            LORE SENTRY
           </span>
           {!onStart && (
             <button
@@ -407,7 +386,7 @@ export function OnboardingPage({
           <StartChoices replay={replay} onDone={finish} />
         </section>
       ) : (
-        <Stage step={step} />
+        <Stage step={step} userName={user.displayName} />
       )}
     </main>
   );

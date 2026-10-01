@@ -1,14 +1,26 @@
 import type { CSSProperties, ReactNode } from "react";
 
 import { Icon, type IconName } from "@/design-system/primitives";
+import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
 import { cx } from "@/shared/cx";
 
+import type { OnboardingStep } from "./steps";
 import styles from "./onboarding.module.css";
 
+/*
+ * 온보딩 무대는 실제 작업공간 화면을 줄여 옮긴 것이다. 사이드바·탭 막대·문서·그래프·타임라인·
+ * 최신화 검토의 배치와 이름은 `features/workspace`, `documents`, `graph`, `timeline`,
+ * `graph-refresh` 를 그대로 따른다. 서버를 부르지 않으므로 운영에서도 같은 화면이 나온다.
+ */
+
+export type Scene = Exclude<OnboardingStep["id"], "start">;
+
 const at = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
+const iconOf = (type: DocumentType) => DOCUMENT_TYPE_META[type].entityIcon;
+const nodeColor = (type: DocumentType) =>
+  `var(--lk-${DOCUMENT_TYPE_META[type].nodeColor})`;
 
 function Enter({
-  as: Tag = "div",
   delay,
   kind = "rise",
   className,
@@ -16,591 +28,794 @@ function Enter({
   children,
   ...rest
 }: {
-  as?: "div" | "span" | "li" | "p";
   delay: number;
-  kind?: "rise" | "fade" | "slide" | "lift";
+  kind?: "rise" | "fade" | "pop";
   className?: string;
   style?: CSSProperties;
   children?: ReactNode;
-  "data-thread"?: boolean;
+  "data-focus"?: string;
 }) {
   return (
-    <Tag
+    <div
       className={cx(styles.enter, styles[`enter-${kind}`], className)}
       style={{ ...at(delay), ...style }}
       {...rest}
     >
       {children}
-    </Tag>
+    </div>
   );
 }
 
-function Chip({
+/* 사이드바 ------------------------------------------------------------- */
+
+const FOLDERS: DocumentType[] = [
+  "manuscript",
+  "character",
+  "place",
+  "organization",
+  "item",
+  "event",
+  "worldview",
+];
+const EPISODES = [
+  "Episode 1. 유리의 계절",
+  "Episode 2. 북쪽 문",
+  "Episode 3. 기억 항로",
+];
+const CHARACTERS = ["서윤", "레나 아르벨", "하린"];
+
+function SideItem({
   icon,
+  label,
+  active,
+  depth = 0,
+}: {
+  icon: IconName;
+  label: ReactNode;
+  active?: boolean;
+  depth?: number;
+}) {
+  return (
+    <div
+      className={cx(styles.sideItem, active && styles.sideItemOn)}
+      style={{ paddingLeft: 8 + depth * 16 }}
+    >
+      <Icon name={icon} size={13} />
+      <span className={styles.ellipsis}>{label}</span>
+    </div>
+  );
+}
+
+function RefreshItem({ scene }: { scene: Scene }) {
+  if (scene !== "refresh") {
+    return <SideItem icon="refresh-cw" label="그래프 최신화" />;
+  }
+  return (
+    <div className={styles.refreshItem} data-focus="refresh">
+      <span className={cx(styles.refreshState, styles.refreshIdle)}>
+        <Icon name="refresh-cw" size={13} />
+        그래프 최신화
+      </span>
+      <span className={cx(styles.refreshState, styles.refreshRunning)}>
+        <Icon name="loader-circle" size={13} className={styles.spin} />
+        그래프 추출 중…
+      </span>
+      <span className={cx(styles.refreshState, styles.refreshReady)}>
+        <Icon name="git-compare-arrows" size={13} />
+        변경 사항 반영
+      </span>
+    </div>
+  );
+}
+
+function Sidebar({ scene, userName }: { scene: Scene; userName: string }) {
+  const open: DocumentType | null =
+    scene === "workspace"
+      ? "manuscript"
+      : scene === "relations"
+        ? "character"
+        : null;
+  return (
+    <aside className={styles.sidebar}>
+      <div className={styles.sideUser}>
+        <span className={styles.sideAvatar} />
+        <span className={styles.ellipsis}>{userName}</span>
+      </div>
+      <div className={styles.sideNav} data-focus="workspace">
+        <div className={styles.sideProject}>
+          <Icon name="book-open" size={13} />
+          <span className={styles.ellipsis}>유리 정원의 기록</span>
+          <Icon name="chevron-down" size={13} />
+        </div>
+        <SideItem icon="waypoints" label="그래프" active={scene === "graph"} />
+        <SideItem
+          icon="chart-no-axes-gantt"
+          label="타임라인"
+          active={scene === "timeline"}
+        />
+        <SideItem icon="notebook-pen" label="메모" />
+        <div className={styles.sideDivider} />
+        <RefreshItem scene={scene} />
+        <p className={styles.sideHeading}>즐겨찾기</p>
+        <SideItem icon="file-text" label="12화 · 균열의 밤" />
+        <p className={styles.sideHeading}>파일</p>
+        {FOLDERS.map((type) => (
+          <div key={type}>
+            <SideItem
+              icon={open === type ? "folder-open" : "folder"}
+              label={DOCUMENT_TYPE_META[type].label}
+            />
+            {open === "manuscript" &&
+              type === "manuscript" &&
+              EPISODES.map((name) => (
+                <SideItem key={name} icon="folder" label={name} depth={1} />
+              ))}
+            {open === "character" &&
+              type === "character" &&
+              CHARACTERS.map((name) => (
+                <SideItem
+                  key={name}
+                  icon={iconOf("character")}
+                  label={name}
+                  depth={1}
+                  active={name === "레나 아르벨"}
+                />
+              ))}
+          </div>
+        ))}
+      </div>
+      <div className={styles.sideBottom}>
+        <SideItem icon="trash-2" label="휴지통" />
+        <SideItem icon="settings" label="설정" />
+        <SideItem icon="circle-help" label="도움말" />
+      </div>
+    </aside>
+  );
+}
+
+/* 탭 막대 -------------------------------------------------------------- */
+
+const TABS: Record<Scene, { icon: IconName; label: string }> = {
+  workspace: { icon: "home", label: "새 탭" },
+  relations: { icon: iconOf("character"), label: "레나 아르벨" },
+  graph: { icon: "waypoints", label: "그래프" },
+  timeline: { icon: "chart-no-axes-gantt", label: "타임라인" },
+  refresh: { icon: "waypoints", label: "그래프" },
+};
+
+function TabBar({ scene }: { scene: Scene }) {
+  const tab = TABS[scene];
+  return (
+    <div className={styles.tabBar}>
+      <Icon name="panel-left" size={14} />
+      <span key={tab.label} className={styles.tab}>
+        <Icon name={tab.icon} size={13} />
+        {tab.label}
+        <Icon name="x" size={12} />
+      </span>
+      <Icon name="plus" size={14} />
+      <span className={styles.aiChat}>
+        <Icon name="sparkles" size={13} />
+        AI 챗
+      </span>
+    </div>
+  );
+}
+
+/* 1. 새 탭 ------------------------------------------------------------- */
+
+function NewTabView() {
+  return (
+    <div className={styles.newTab}>
+      <Enter delay={60} kind="fade" className={styles.muted}>
+        유리 정원의 기록
+      </Enter>
+      <Enter delay={120} className={styles.resume}>
+        <div className={styles.resumeCopy}>
+          <span className={styles.mutedSmall}>마지막으로 작업한 파일</span>
+          <span className={styles.resumeTitle}>12화 · 균열의 밤</span>
+          <span className={styles.mutedSmall}>
+            18분 전 · 마지막 편집 위치에서 열기
+          </span>
+        </div>
+        <span className={styles.fakePrimary}>
+          이어서 작업하기
+          <Icon name="arrow-right" size={12} />
+        </span>
+      </Enter>
+      <Enter delay={220} kind="fade" className={styles.blockTitle}>
+        새로 만들기
+      </Enter>
+      <div className={styles.createGrid}>
+        {FOLDERS.map((type, index) => (
+          <Enter
+            key={type}
+            delay={260 + index * 35}
+            className={styles.createCard}
+          >
+            <span className={styles.createIcon}>
+              <Icon name={iconOf(type)} size={14} />
+            </span>
+            {DOCUMENT_TYPE_META[type].label}
+          </Enter>
+        ))}
+      </div>
+      <Enter delay={540} kind="fade" className={styles.blockTitle}>
+        최근에 연 파일
+      </Enter>
+      <Enter delay={580} kind="fade" className={styles.recent}>
+        {["1화 · 첫 번째 온실", "2화 · 빛의 순찰", "3화 · 금 간 렌즈"].map(
+          (name, i) => (
+            <div key={name} className={styles.recentRow}>
+              <Icon name="file-text" size={13} />
+              <span className={styles.ellipsis}>{name}</span>
+              <span className={styles.mutedSmall}>{i + 1}시간 전</span>
+            </div>
+          ),
+        )}
+      </Enter>
+    </div>
+  );
+}
+
+/* 2. 설정 문서와 속성 표 ----------------------------------------------- */
+
+function Chip({
+  type,
   children,
   fresh,
 }: {
-  icon: IconName;
+  type: DocumentType;
   children: ReactNode;
   fresh?: boolean;
 }) {
   return (
-    <span className={cx(styles.chip, fresh && styles.chipFresh)}>
-      <Icon name={icon} size={12} />
+    <span
+      className={cx(styles.chip, fresh && styles.chipFresh)}
+      style={fresh ? at(1000) : undefined}
+    >
+      <Icon name={iconOf(type)} size={12} />
       {children}
     </span>
   );
 }
 
-function WindowBar({ icon, title }: { icon: IconName; title: ReactNode }) {
-  return (
-    <div className={styles.windowBar}>
-      <Icon name={icon} size={13} />
-      {title}
-    </div>
-  );
-}
-
-/* 1. 프로젝트 ---------------------------------------------------------- */
-
-const INTERIOR: [IconName, string][] = [
-  ["file-text", "1화 · 유리의 계절"],
-  ["file-text", "2화 · 북쪽 문"],
-  ["circle-user-round", "레나 아르벨"],
-  ["map-pin", "북쪽 온실"],
-  ["key-round", "낡은 열쇠"],
-  ["sticky-note", "프로젝트 메모 3개"],
-  ["message-square", "AI 챗 세션 2개"],
-];
-
-function ProjectCard({
-  title,
-  focus,
-  style,
-  className,
+function PropertyRow({
+  icon,
+  label,
+  children,
+  delay,
 }: {
-  title: string;
-  focus?: boolean;
-  style?: CSSProperties;
-  className?: string;
+  icon: IconName;
+  label: string;
+  children: ReactNode;
+  delay: number;
 }) {
   return (
-    <div
-      className={cx(
-        styles.projectCard,
-        focus && styles.projectCardFocus,
-        className,
-      )}
-      style={style}
-    >
-      <div className={styles.projectCardHead}>
-        <span className={styles.iconSurface}>
-          <Icon name="book-open" size={16} />
+    <Enter delay={delay} kind="fade" className={styles.propRow}>
+      <span className={styles.propLabel}>
+        <Icon name={icon} size={13} />
+        {label}
+      </span>
+      <span className={styles.propValue}>{children}</span>
+    </Enter>
+  );
+}
+
+function DocumentView() {
+  return (
+    <div className={styles.document}>
+      <div className={styles.toolbar}>
+        <Icon name="undo-2" size={13} />
+        <Icon name="redo-2" size={13} />
+        <span className={styles.toolSelect}>
+          Inter <Icon name="chevron-down" size={11} />
         </span>
-        {focus && (
-          <span className={styles.selectedBadge}>
-            <Icon name="check" size={12} />
-            선택됨
-          </span>
-        )}
+        <span className={styles.toolSelect}>
+          14 <Icon name="chevron-down" size={11} />
+        </span>
+        <Icon name="bold" size={13} />
+        <Icon name="italic" size={13} />
+        <Icon name="underline" size={13} />
+        <Icon name="strikethrough" size={13} />
+        <span className={styles.spacer} />
+        <span className={styles.toolSaved}>
+          <Icon name="cloud-check" size={13} />
+          자동 저장됨
+        </span>
       </div>
-      <p className={styles.projectCardTitle}>{title}</p>
-      <p className={styles.projectCardMeta}>
-        <Icon name="clock-3" size={12} />
-        방금 전 마지막 작업
-      </p>
-      <p className={styles.projectCardMeta}>
-        <Icon name="file-text" size={12} />
-        2화 · 북쪽 문
-      </p>
-    </div>
-  );
-}
-
-export function ProjectsScene() {
-  return (
-    <div className={styles.scene}>
-      <Enter delay={0} kind="slide" className={styles.deckBack2}>
-        <ProjectCard title="달빛 도서관 연대기" />
-      </Enter>
-      <Enter delay={60} kind="slide" className={styles.deckBack1}>
-        <ProjectCard title="주변 궤도의 사람들" />
-      </Enter>
-      <Enter delay={140} kind="lift" className={styles.deckFocus}>
-        <ProjectCard title="유리 정원의 기록" focus />
-      </Enter>
-      <svg
-        className={styles.connector}
-        viewBox="0 0 84 8"
-        width={84}
-        height={8}
-        aria-hidden="true"
-      >
-        <line
-          className={styles.drawLine}
-          style={{ ...at(420), "--len": 78 } as CSSProperties}
-          x1="0"
-          y1="4"
-          x2="78"
-          y2="4"
-          pathLength={78}
-        />
-        <circle
-          className={styles.connectorDot}
-          style={at(600)}
-          cx="80"
-          cy="4"
-          r="3.5"
-        />
-      </svg>
-      <Enter delay={520} kind="fade" className={styles.interior}>
-        <div className={styles.interiorHead}>
-          <p className={styles.interiorTitle}>유리 정원의 기록 안에는</p>
-          <p className={styles.muted}>이 프로젝트의 것만 들어 있어요</p>
-        </div>
-        <ul className={styles.interiorList}>
-          {INTERIOR.map(([icon, label], index) => (
-            <Enter
-              as="li"
-              key={label}
-              delay={580 + index * 40}
-              kind="fade"
-              className={cx(
-                styles.interiorItem,
-                index === 2 && styles.interiorItemOn,
-              )}
-            >
-              <Icon name={icon} size={14} />
-              {index === 2 ? <span data-thread>{label}</span> : label}
-            </Enter>
-          ))}
-        </ul>
-      </Enter>
-    </div>
-  );
-}
-
-/* 2. 원고와 설정 -------------------------------------------------------- */
-
-function Mention({ children, delay }: { children: ReactNode; delay: number }) {
-  return (
-    <span className={styles.mention} style={at(delay)}>
-      {children}
-    </span>
-  );
-}
-
-const RELATIONS: {
-  label: string;
-  icon: IconName;
-  chips: [IconName, string][];
-  fresh?: number;
-}[] = [
-  {
-    label: "자주 가는 장소",
-    icon: "map-pin",
-    chips: [
-      ["map-pin", "북쪽 온실"],
-      ["map-pin", "유리 정원"],
-    ],
-  },
-  {
-    label: "지닌 물건",
-    icon: "key-round",
-    chips: [["key-round", "낡은 열쇠"]],
-    fresh: 0,
-  },
-  {
-    label: "소속",
-    icon: "users-round",
-    chips: [["users-round", "정원 기록단"]],
-  },
-];
-
-export function WriteScene() {
-  return (
-    <div className={styles.scene}>
-      <Enter delay={0} kind="rise" className={styles.manuscript}>
-        <p className={styles.fileCrumb}>
-          <Icon name="file-text" size={13} />
-          1화 · 유리의 계절
-        </p>
-        <div className={styles.prose}>
-          <p className={styles.typed} style={at(200)}>
-            <Mention delay={820}>레나</Mention>는{" "}
-            <Mention delay={900}>낡은 열쇠</Mention>를 돌려{" "}
-            <Mention delay={980}>북쪽 온실</Mention>의 문을 열었다.
-          </p>
-          <Enter as="p" delay={760} kind="fade">
-            유리 벽 너머로, 오래 잠들어 있던 정원이 천천히 숨을 쉬었다.
-          </Enter>
-          <Enter as="p" delay={820} kind="fade">
-            “여기 있었구나.” 레나가 속삭였다.
+      <div className={styles.docBody}>
+        <Enter delay={60} kind="fade" className={styles.docTitle}>
+          레나 아르벨
+          <Icon name="star" size={14} />
+        </Enter>
+        <div className={styles.propTable} data-focus="relations">
+          <PropertyRow icon="tag" label="분류" delay={120}>
+            <span className={styles.propType}>
+              <Icon name={iconOf("character")} size={12} />
+              캐릭터
+            </span>
+          </PropertyRow>
+          <PropertyRow icon="type" label="설명" delay={160}>
+            기억 항로를 읽어 내는 은빛 항해단의 항해사
+          </PropertyRow>
+          <PropertyRow icon="file-text" label="관련 원고" delay={200}>
+            <Chip type="manuscript">12화 · 균열의 밤</Chip>
+            <Chip type="manuscript">11화 · 유리 정원</Chip>
+          </PropertyRow>
+          <PropertyRow icon="map-pin" label="관련 장소" delay={240}>
+            <Chip type="place">유리 산맥</Chip>
+            <Chip type="place" fresh>
+              북쪽 온실
+            </Chip>
+          </PropertyRow>
+          <PropertyRow icon="building-2" label="관련 조직" delay={280}>
+            <Chip type="organization">은빛 항해단</Chip>
+          </PropertyRow>
+          <Enter delay={320} kind="fade" className={styles.propAdd}>
+            <Icon name="plus" size={13} />
+            속성 추가
           </Enter>
         </div>
-      </Enter>
-      <Enter delay={940} kind="lift" className={styles.settingDoc}>
-        <div className={styles.settingHead}>
-          <span className={styles.iconSurface}>
-            <Icon name="circle-user-round" size={15} />
-          </span>
-          <div>
-            <p className={styles.settingTitle} data-thread>
-              레나 아르벨
-            </p>
-            <p className={styles.muted}>캐릭터 설정 문서</p>
-          </div>
-        </div>
-        <div className={styles.relationTable}>
-          {RELATIONS.map((row, index) => (
-            <Enter
-              key={row.label}
-              delay={1100 + index * 60}
-              kind="fade"
-              className={styles.relationRow}
-            >
-              <span className={styles.relationLabel}>
-                <Icon name={row.icon} size={13} />
-                {row.label}
-              </span>
-              <span className={styles.relationValue}>
-                {row.chips.map(([icon, name], chipIndex) => (
-                  <Chip key={name} icon={icon} fresh={row.fresh === chipIndex}>
-                    {name}
-                  </Chip>
-                ))}
-              </span>
-            </Enter>
-          ))}
-        </div>
-      </Enter>
+        <Enter delay={380} kind="fade" className={styles.prose}>
+          <p>레나는 타인의 기억이 남긴 방향을 감각으로 읽는다.</p>
+          <p>짙은 안개 속에서도 그는 한 번도 길을 잃지 않았다.</p>
+          <p>은빛 항해단은 그를 마지막 항해사라 불렀다.</p>
+        </Enter>
+      </div>
     </div>
   );
 }
 
-/* 3. 그래프와 타임라인 -------------------------------------------------- */
+/* 3. 그래프 ------------------------------------------------------------ */
 
-type NodeKind =
-  "character" | "place" | "item" | "organization" | "event" | "manuscript";
-const NODES: Record<string, [number, number, string, NodeKind, 1 | 0 | -1]> = {
-  lena: [379, 160, "레나 아르벨", "character", 1],
-  greenhouse: [210, 82, "북쪽 온실", "place", 0],
-  garden: [560, 77, "유리 정원", "place", 0],
-  key: [606, 202, "낡은 열쇠", "item", 0],
-  keepers: [168, 226, "정원 기록단", "organization", 0],
-  noah: [372, 42, "노아 크레인", "character", 0],
-  mira: [500, 274, "미라 온", "character", 0],
-  night: [262, 284, "균열의 밤", "event", 0],
-  ep1: [96, 142, "1화 · 유리의 계절", "manuscript", 0],
-  ep2: [668, 135, "2화 · 북쪽 문", "manuscript", 0],
-  theo: [622, 284, "테오", "character", -1],
-  lighthouse: [92, 284, "등대의 침묵", "event", -1],
+type GraphNode = [number, number, string, DocumentType, "on" | "near" | "far"];
+const NODES: Record<string, GraphNode> = {
+  lena: [440, 250, "레나 아르벨", "character", "on"],
+  ch12: [300, 140, "12화 · 균열의 밤", "manuscript", "near"],
+  ch11: [590, 132, "11화 · 유리 정원", "manuscript", "near"],
+  range: [246, 332, "유리 산맥", "place", "near"],
+  greenhouse: [628, 322, "북쪽 온실", "place", "near"],
+  crew: [452, 416, "은빛 항해단", "organization", "near"],
+  awake: [318, 452, "각성", "event", "near"],
+  noah: [566, 444, "노아 크레인", "character", "near"],
+  seoyun: [150, 214, "서윤", "character", "far"],
+  harin: [734, 232, "하린", "character", "far"],
+  keepers: [168, 468, "등대 수호회", "organization", "far"],
+  key: [712, 468, "낡은 열쇠", "item", "far"],
+  magic: [96, 352, "유리 마법", "worldview", "far"],
+  route: [790, 352, "기억 항로", "worldview", "far"],
+  log: [436, 530, "6화 · 항해 일지", "manuscript", "far"],
 };
-const NEAR = [
-  "greenhouse",
-  "garden",
-  "key",
-  "keepers",
-  "noah",
-  "mira",
-  "night",
-  "ep1",
-  "ep2",
-];
-const FAR: [string, string][] = [
-  ["mira", "theo"],
-  ["night", "lighthouse"],
-  ["ep1", "keepers"],
-  ["ep2", "key"],
-];
-const TIMELINE: {
-  label: string;
-  icon: IconName;
-  kind: NodeKind;
-  spans: [number, number][];
-  on?: boolean;
-}[] = [
-  {
-    label: "레나 아르벨",
-    icon: "circle-user-round",
-    kind: "character",
-    spans: [[1, 6]],
-    on: true,
-  },
-  {
-    label: "북쪽 온실",
-    icon: "map-pin",
-    kind: "place",
-    spans: [
-      [1, 2],
-      [5, 5],
-    ],
-  },
-  { label: "낡은 열쇠", icon: "key-round", kind: "item", spans: [[1, 3]] },
-  { label: "균열의 밤", icon: "zap", kind: "event", spans: [[4, 4]] },
+/** 그래프 영역(804×556)에 맞춘 배율. 좌표는 원래 884×596 기준으로 적었다. */
+const SX = 804 / 884;
+const SY = 556 / 596;
+const NEAR = Object.keys(NODES).filter((key) => NODES[key][4] === "near");
+const FAR_EDGES: [string, string][] = [
+  ["seoyun", "ch12"],
+  ["seoyun", "magic"],
+  ["harin", "ch11"],
+  ["harin", "route"],
+  ["keepers", "range"],
+  ["keepers", "awake"],
+  ["key", "noah"],
+  ["key", "route"],
+  ["log", "crew"],
+  ["log", "awake"],
+  ["magic", "range"],
+  ["ch12", "range"],
+  ["ch11", "greenhouse"],
+  ["noah", "greenhouse"],
 ];
 
 function Edge({
   a,
   b,
   delay,
-  far,
+  near,
 }: {
   a: string;
   b: string;
   delay: number;
-  far?: boolean;
+  near?: boolean;
 }) {
-  const [x1, y1] = NODES[a];
-  const [x2, y2] = NODES[b];
+  const x1 = NODES[a][0] * SX;
+  const y1 = NODES[a][1] * SY;
+  const x2 = NODES[b][0] * SX;
+  const y2 = NODES[b][1] * SY;
   const len = Math.round(Math.hypot(x2 - x1, y2 - y1));
   return (
     <line
-      className={cx(styles.drawLine, far ? styles.edgeFar : styles.edgeNear)}
+      className={cx(styles.drawLine, near ? styles.edgeNear : styles.edgeFar)}
       style={{ ...at(delay), "--len": len } as CSSProperties}
       x1={x1}
       y1={y1}
       x2={x2}
       y2={y2}
-      pathLength={len}
     />
   );
 }
 
-export function GraphScene() {
+function GraphView({ quiet }: { quiet?: boolean }) {
+  const delay = (ms: number) => (quiet ? 0 : ms);
   return (
-    <div className={styles.scene}>
-      <Enter delay={0} kind="rise" className={styles.graphWindow}>
-        <WindowBar icon="waypoints" title="그래프" />
-        <div className={styles.graphView}>
-          <svg
-            viewBox="0 0 760 326"
-            className={styles.graphSvg}
-            aria-hidden="true"
+    <div className={styles.viewWithBar}>
+      <div className={styles.viewBar}>
+        <span className={styles.mutedSmall}>에피소드</span>
+        <span className={styles.toolSelect}>
+          전체 <Icon name="chevron-down" size={11} />
+        </span>
+        <span className={styles.spacer} />
+        <span className={styles.zoom}>
+          <Icon name="minus" size={12} />
+          98%
+          <Icon name="plus" size={12} />
+        </span>
+        <span className={styles.toolButton}>
+          <Icon name="scan" size={12} />
+          화면 맞춤
+        </span>
+      </div>
+      <div className={styles.graphCanvas} data-focus="graph">
+        <span className={styles.graphTools}>
+          <Icon name="search" size={14} />
+          <Icon name="filter" size={14} />
+        </span>
+        <svg
+          viewBox="0 0 804 556"
+          className={styles.graphSvg}
+          aria-hidden="true"
+        >
+          {FAR_EDGES.map(([a, b], i) => (
+            <Edge key={`${a}-${b}`} a={a} b={b} delay={delay(200 + i * 25)} />
+          ))}
+          {NEAR.map((key, i) => (
+            <Edge key={key} a="lena" b={key} near delay={delay(420 + i * 45)} />
+          ))}
+        </svg>
+        {Object.entries(NODES).map(([key, [x, y, label, type, state]], i) => (
+          <span
+            key={key}
+            className={cx(
+              styles.node,
+              state === "on" && styles.nodeOn,
+              state === "far" && styles.nodeFar,
+            )}
+            style={{ ...at(delay(100 + i * 30)), left: x * SX, top: y * SY }}
           >
-            {FAR.map(([a, b], i) => (
-              <Edge key={`${a}-${b}`} a={a} b={b} far delay={260 + i * 40} />
-            ))}
-            {NEAR.map((key, i) => (
-              <Edge key={key} a="lena" b={key} delay={360 + i * 45} />
-            ))}
-            {Object.entries(NODES).map(([key, [x, y, , kind, state]], i) => (
-              <g
-                key={key}
-                className={cx(styles.node, state < 0 && styles.nodeFar)}
-                style={at(140 + i * 35)}
-              >
-                {state === 1 && (
-                  <circle
-                    className={styles.nodeRing}
-                    cx={x}
-                    cy={y}
-                    r={16}
-                    style={at(760)}
-                  />
-                )}
-                <circle
-                  cx={x}
-                  cy={y}
-                  r={state === 1 ? 10 : 6.5}
-                  fill={`var(--lk-color-node-${kind})`}
-                  stroke="var(--lk-color-bg-canvas)"
-                  strokeWidth={2}
-                />
-              </g>
-            ))}
-          </svg>
-          {Object.entries(NODES).map(([key, [x, y, label, , state]], i) => (
             <span
-              key={key}
-              className={cx(
-                styles.nodeLabel,
-                state === 1 && styles.nodeLabelOn,
-                state < 0 && styles.nodeFar,
-                key === "noah" && styles.nodeLabelAbove,
-              )}
-              style={{ ...at(220 + i * 35), left: x, top: y }}
-              data-thread={state === 1 || undefined}
+              className={styles.nodeDot}
+              style={{ background: nodeColor(type) }}
             >
-              {label}
+              <Icon name={iconOf(type)} size={state === "on" ? 11 : 9} />
             </span>
-          ))}
-        </div>
-      </Enter>
-      <Enter delay={520} kind="rise" className={styles.timeline}>
-        <WindowBar icon="chart-gantt" title="타임라인" />
-        <div className={styles.timelineHead}>
-          <span />
-          {[1, 2, 3, 4, 5, 6].map((n) => (
-            <span key={n} className={cx(n === 2 && styles.timelineColOn)}>
-              {n}화
-            </span>
-          ))}
-        </div>
-        {TIMELINE.map((row, index) => (
-          <div
-            key={row.label}
-            className={cx(styles.timelineRow, row.on && styles.timelineRowOn)}
-          >
-            <span className={styles.timelineLabel}>
-              <Icon
-                name={row.icon}
-                size={13}
-                style={{ color: `var(--lk-color-node-${row.kind})` }}
-              />
-              {row.label}
-            </span>
-            <span className={styles.timelineTrack}>
-              <span className={styles.timelineBand} />
-              {row.spans.map(([a, b]) => (
-                <span
-                  key={a}
-                  className={cx(
-                    styles.timelineBar,
-                    row.on && styles.timelineBarOn,
-                  )}
-                  style={{
-                    ...at(760 + index * 60),
-                    left: `calc(${((a - 1) / 6) * 100}% + 8px)`,
-                    width: `calc(${((b - a + 1) / 6) * 100}% - 16px)`,
-                    background: row.on
-                      ? undefined
-                      : `var(--lk-color-node-${row.kind})`,
-                  }}
-                />
-              ))}
-            </span>
-          </div>
+            <span className={styles.nodeLabel}>{label}</span>
+          </span>
         ))}
-      </Enter>
+        <span className={styles.legend}>
+          {FOLDERS.map((type) => (
+            <span key={type} className={styles.legendItem}>
+              <i style={{ background: nodeColor(type) }} />
+              {DOCUMENT_TYPE_META[type].label}
+            </span>
+          ))}
+          <span className={styles.legendItem}>
+            <Icon name="star" size={11} />
+            즐겨찾기
+          </span>
+        </span>
+      </div>
     </div>
   );
 }
 
-/* 4. AI와 그래프 최신화 ------------------------------------------------- */
+/* 4. 타임라인 ---------------------------------------------------------- */
 
-const ENTRIES: {
-  icon: IconName;
-  kind: string;
-  name: string;
-  mark: "변경" | "추가";
+const COLUMNS = 9;
+const TIMELINE: {
+  type: DocumentType;
+  rows: { name: string; spans: [number, number][]; on?: boolean }[];
 }[] = [
   {
-    icon: "circle-user-round",
-    kind: "캐릭터",
-    name: "레나 아르벨",
-    mark: "변경",
+    type: "character",
+    rows: [
+      {
+        name: "레나 아르벨",
+        spans: [
+          [1, 2],
+          [4, 4],
+          [6, 9],
+        ],
+        on: true,
+      },
+      {
+        name: "서윤",
+        spans: [
+          [1, 3],
+          [7, 8],
+        ],
+      },
+      { name: "하린", spans: [[2, 5]] },
+      {
+        name: "노아 크레인",
+        spans: [
+          [5, 6],
+          [9, 9],
+        ],
+      },
+    ],
   },
-  { icon: "map-pin", kind: "장소", name: "북쪽 온실", mark: "변경" },
-  { icon: "users-round", kind: "조직", name: "등대 수호회", mark: "추가" },
+  {
+    type: "place",
+    rows: [
+      {
+        name: "북쪽 온실",
+        spans: [
+          [1, 1],
+          [4, 6],
+        ],
+      },
+      {
+        name: "유리 산맥",
+        spans: [
+          [3, 3],
+          [8, 9],
+        ],
+      },
+    ],
+  },
+  { type: "item", rows: [{ name: "낡은 열쇠", spans: [[2, 4]] }] },
+  { type: "event", rows: [{ name: "각성", spans: [[6, 6]] }] },
 ];
-const COMPARE: {
-  key: string;
+
+function TimelineView() {
+  let order = 0;
+  return (
+    <div className={styles.viewWithBar}>
+      <div className={styles.viewBar}>
+        <span className={styles.mutedSmall}>에피소드</span>
+        <span className={styles.toolSelect}>
+          전체 <Icon name="chevron-down" size={11} />
+        </span>
+        <span className={styles.stepper}>
+          <Icon name="chevron-left" size={12} />
+          4화
+          <Icon name="chevron-right" size={12} />
+        </span>
+        <span className={styles.spacer} />
+        <Icon name="list-filter" size={14} />
+      </div>
+      <div className={styles.timeline}>
+        <div className={styles.tlHead}>
+          <span />
+          <div className={styles.tlColumns}>
+            {EPISODES.map((name) => (
+              <span key={name} className={styles.tlEpisode}>
+                {name}
+              </span>
+            ))}
+            {Array.from({ length: COLUMNS }, (_, i) => (
+              <span
+                key={i}
+                className={cx(styles.tlCol, i === 3 && styles.tlColOn)}
+              >
+                <Icon name="file-text" size={11} />
+                {i + 1}화
+              </span>
+            ))}
+          </div>
+        </div>
+        {TIMELINE.map((group) => (
+          <div key={group.type}>
+            <div className={styles.tlGroup}>
+              <Icon name="folder-open" size={12} />
+              {DOCUMENT_TYPE_META[group.type].label}
+            </div>
+            {group.rows.map((row) => {
+              const index = order++;
+              return (
+                <div
+                  key={row.name}
+                  className={cx(styles.tlRow, row.on && styles.tlRowOn)}
+                  data-focus={row.on ? "timeline" : undefined}
+                >
+                  <span className={styles.tlLabel}>
+                    <Icon name={iconOf(group.type)} size={12} />
+                    {row.name}
+                  </span>
+                  <span className={styles.tlTrack}>
+                    <i className={styles.tlBand} />
+                    {row.spans.map(([a, b]) => (
+                      <i
+                        key={a}
+                        className={cx(styles.tlBar, row.on && styles.tlBarOn)}
+                        style={{
+                          ...at(260 + index * 50),
+                          left: `calc(${((a - 1) / COLUMNS) * 100}% + 6px)`,
+                          width: `calc(${((b - a + 1) / COLUMNS) * 100}% - 12px)`,
+                        }}
+                      />
+                    ))}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* 5. 그래프 최신화 ----------------------------------------------------- */
+
+const DIFF_ENTRIES: { type: DocumentType; name: string; mark: string }[] = [
+  { type: "character", name: "레나 아르벨", mark: "~" },
+  { type: "place", name: "북쪽 온실", mark: "~" },
+  { type: "organization", name: "등대 수호회", mark: "+" },
+];
+const DIFF_ROWS: {
+  label: string;
   current: string;
   next: string;
-  changed: boolean;
+  changed?: boolean;
 }[] = [
+  { label: "분류", current: "캐릭터", next: "캐릭터" },
   {
-    key: "소속",
-    current: "정원 기록단",
-    next: "정원 기록단, 등대 수호회",
+    label: "설명",
+    current: "기억 항로를 읽어 내는 은빛 항해단의 항해사",
+    next: "북쪽 문 너머에서 돌아온 은빛 항해단의 항해사",
     changed: true,
   },
-  { key: "지닌 물건", current: "낡은 열쇠", next: "낡은 열쇠", changed: false },
-  { key: "메모", current: "—", next: "북쪽 문 너머에서 돌아옴", changed: true },
+  {
+    label: "관련 장소",
+    current: "유리 산맥",
+    next: "유리 산맥, 북쪽 온실",
+    changed: true,
+  },
+  { label: "관련 조직", current: "은빛 항해단", next: "은빛 항해단" },
 ];
 
-export function RefreshScene() {
+function DiffModal() {
   return (
-    <div className={styles.scene}>
-      <Enter delay={0} kind="fade" className={styles.refreshPill}>
-        <span className={styles.pillReading}>
-          <Icon name="loader-circle" size={13} className={styles.spin} />
-          2화를 읽는 중…
-        </span>
-        <span className={styles.pillDone}>
-          <Icon name="sparkles" size={13} />
-          2화를 읽고 설정 문서 3개에 바뀔 점을 찾았어요
-        </span>
-      </Enter>
-      <Enter delay={640} kind="lift" className={styles.review}>
-        <WindowBar
-          icon="sparkles"
-          title={
-            <>
-              변경 사항 검토
-              <span className={styles.muted}>근거 원고: 2화 · 북쪽 문</span>
-            </>
-          }
-        />
-        <div className={styles.reviewBody}>
-          <ul className={styles.reviewEntries}>
-            {ENTRIES.map((entry, index) => (
-              <Enter
-                as="li"
-                key={entry.name}
-                delay={760 + index * 60}
-                kind="fade"
-                className={cx(
-                  styles.reviewEntry,
-                  index === 0 && styles.reviewEntryOn,
-                )}
+    <Enter delay={1500} kind="pop" className={styles.diff} data-focus="diff">
+      <div className={styles.diffHead}>
+        <span className={styles.diffTitle}>변경 사항</span>
+        <span className={styles.mutedSmall}>문서 3개</span>
+        <span className={styles.spacer} />
+        <span className={styles.toolButton}>현재 버전 전체 반영</span>
+        <span className={styles.toolButton}>신규 버전 전체 반영</span>
+        <Icon name="x" size={13} />
+      </div>
+      <div className={styles.diffBody}>
+        <div className={styles.diffList}>
+          <p className={styles.mutedSmall}>
+            <b>변경 3</b> 확정 0
+          </p>
+          {DIFF_ENTRIES.map((entry, i) => (
+            <div
+              key={entry.name}
+              className={cx(styles.diffEntry, i === 0 && styles.diffEntryOn)}
+            >
+              <Icon name={iconOf(entry.type)} size={12} />
+              <span className={styles.mutedSmall}>
+                {DOCUMENT_TYPE_META[entry.type].label}
+              </span>
+              <b className={styles.ellipsis}>{entry.name}</b>
+              <span>{entry.mark}</span>
+            </div>
+          ))}
+        </div>
+        <div className={styles.diffCompare}>
+          <p className={styles.diffDocTitle}>
+            레나 아르벨 <span className={styles.badge}>수정</span>
+          </p>
+          <div className={styles.diffColumns}>
+            {(["현재 버전", "신규 버전"] as const).map((title, column) => (
+              <div
+                key={title}
+                className={styles.diffColumn}
+                style={{ gridColumn: column === 0 ? 1 : 3 }}
               >
-                <Icon name={entry.icon} size={13} />
-                <span className={styles.muted}>{entry.kind}</span>
-                <span
-                  className={styles.reviewName}
-                  data-thread={index === 0 || undefined}
-                >
-                  {entry.name}
-                </span>
-                <span
-                  className={
-                    entry.mark === "추가" ? styles.markAdd : styles.markModify
-                  }
-                >
-                  {entry.mark}
-                </span>
-              </Enter>
-            ))}
-          </ul>
-          <div className={styles.compare}>
-            {(["현재 버전", "AI 제안"] as const).map((title, column) => (
-              <div key={title} className={styles.compareColumn}>
-                <p className={styles.compareTitle}>{title}</p>
-                {COMPARE.map((row, index) => (
-                  <Enter
-                    key={row.key}
-                    delay={880 + index * 80 + column * 40}
-                    kind="fade"
+                <div className={styles.diffColumnHead}>
+                  <b>{title}</b>
+                  <span className={styles.mutedSmall}>
+                    {column === 0
+                      ? "지금 쓰고 있는 문서예요"
+                      : "새로 추출한 결과예요"}
+                  </span>
+                </div>
+                {DIFF_ROWS.map((row) => (
+                  <div
+                    key={row.label}
                     className={cx(
-                      styles.compareRow,
-                      !row.changed && styles.compareSame,
-                      column === 1 && row.changed && styles.compareChanged,
+                      styles.diffRow,
+                      row.changed && styles.diffRowChanged,
                     )}
                   >
-                    <span className={styles.muted}>{row.key}</span>
+                    <span className={styles.mutedSmall}>{row.label}</span>
                     <span>{column === 0 ? row.current : row.next}</span>
-                  </Enter>
+                  </div>
                 ))}
               </div>
             ))}
-            <Enter delay={1200} kind="fade" className={styles.compareActions}>
-              <span className={styles.muted}>
-                고르기 전에는 설정 문서가 바뀌지 않아요.
-              </span>
-              <span className={styles.fakeButton}>
-                <Icon name="undo-2" size={13} />
-                현재 유지
-              </span>
-              <span className={cx(styles.fakeButton, styles.fakePrimary)}>
-                <Icon name="check" size={13} />
-                제안 반영
-              </span>
-            </Enter>
+            <div className={styles.diffArrows}>
+              {DIFF_ROWS.map((row) => (
+                <span key={row.label}>
+                  {row.changed && (
+                    <>
+                      <Icon name="chevrons-right" size={12} />
+                      <Icon name="chevrons-left" size={12} />
+                    </>
+                  )}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
-      </Enter>
+      </div>
+    </Enter>
+  );
+}
+
+/* 창 ------------------------------------------------------------------- */
+
+function Content({ scene }: { scene: Scene }) {
+  switch (scene) {
+    case "workspace":
+      return <NewTabView />;
+    case "relations":
+      return <DocumentView />;
+    case "graph":
+      return <GraphView />;
+    case "timeline":
+      return <TimelineView />;
+    case "refresh":
+      return (
+        <>
+          <GraphView quiet />
+          <span className={styles.diffScrim} style={at(1400)} />
+          <DiffModal />
+        </>
+      );
+  }
+}
+
+export function AppWindow({
+  scene,
+  leaving,
+  userName,
+  children,
+}: {
+  scene: Scene;
+  leaving: Scene | null;
+  userName: string;
+  children?: ReactNode;
+}) {
+  return (
+    <div className={styles.window}>
+      <Sidebar scene={scene} userName={userName} />
+      <div className={styles.appMain}>
+        <TabBar scene={scene} />
+        <div className={styles.contentArea}>
+          {leaving && leaving !== scene && (
+            <div
+              className={cx(styles.contentLayer, styles.contentLeaving)}
+              data-scene-state="leaving"
+            >
+              <Content scene={leaving} />
+            </div>
+          )}
+          <div
+            key={scene}
+            className={styles.contentLayer}
+            data-scene-state="current"
+          >
+            <Content scene={scene} />
+          </div>
+        </div>
+      </div>
+      {children}
     </div>
   );
 }
