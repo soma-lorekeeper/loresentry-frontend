@@ -1,9 +1,11 @@
-import { DOCUMENT_TYPE_META } from "@/domain/document-types";
+import { DOCUMENT_TYPE_META, relationKeyOf } from "@/domain/document-types";
 import type {
   DocumentContent,
   DocumentDraft,
   DocumentNode,
+  DocumentProperty,
   DocumentVersion,
+  RelationProperty,
   VersionKind,
 } from "@/domain/models";
 
@@ -72,12 +74,95 @@ function addVersion(fileId: string, kind: VersionKind) {
   return version;
 }
 
+/**
+ * 이 문서가 가리키는 대상들. 같은 문서를 여러 관계 속성으로 가리켜도 연결은 하나이므로 한 번만
+ * 담고, 설명이 적힌 쪽을 남긴다. 서버의 `replaceRelations` 와 같은 규칙이다.
+ */
+function relationTargets(properties: DocumentProperty[]): Map<string, string> {
+  const targets = new Map<string, string>();
+  for (const property of properties) {
+    if (property.kind !== "relation") continue;
+    for (const targetId of property.targetIds) {
+      if (!targets.get(targetId)) {
+        targets.set(targetId, property.descriptions[targetId] ?? "");
+      }
+    }
+  }
+  return targets;
+}
+
+/**
+ * 관계에는 방향이 없다. A 에서 B 를 이으면 B 에서도 A 가 보여야 한다.
+ *
+ * <p>서버는 한 쌍을 한 행으로 두므로 맞춰 줄 것이 없다. mock 은 문서마다 속성 목록을 따로 들고
+ * 있어서 그렇게 할 수 없고, 대신 저장할 때 반대쪽 목록을 함께 고친다. **보이는 결과가 서버와 같아야
+ * 한다** — mock 에서만 한쪽에서 안 보이면, 고쳐야 할 것이 없는데도 서버를 의심하게 된다.
+ *
+ * <p>반대쪽에서 쓰는 키는 **이 문서의 분류**가 정한다. B 에서 A 를 볼 때 A 는 A 의 종류로 보인다.
+ */
+function mirrorRelations(
+  fileId: string,
+  before: Map<string, string>,
+  after: Map<string, string>,
+) {
+  const db = getDb();
+  const self = requireDocument(fileId);
+  const key = relationKeyOf(self.docType);
+
+  for (const targetId of new Set([...before.keys(), ...after.keys()])) {
+    const target = db.files.find((file) => file.id === targetId);
+    if (!target || !isDocumentNode(target)) continue;
+
+    const stored = (db.documents[targetId] ??= {
+      body: emptyBody(),
+      properties: [],
+    });
+    const row = stored.properties.find(
+      (property): property is RelationProperty =>
+        property.kind === "relation" && property.key === key,
+    );
+    const description = after.get(targetId);
+
+    if (description === undefined) {
+      if (!row) continue;
+      row.targetIds = row.targetIds.filter((id) => id !== fileId);
+      delete row.descriptions[fileId];
+      // 남은 칩이 없으면 빈 줄만 남는다. 사용자가 더하지 않은 줄이므로 지운다.
+      if (row.targetIds.length === 0) {
+        stored.properties = stored.properties.filter(
+          (property) => property !== row,
+        );
+      }
+      continue;
+    }
+
+    if (!row) {
+      stored.properties.push({
+        id: `${targetId}:${key}`,
+        kind: "relation",
+        key,
+        label: DOCUMENT_TYPE_META[self.docType].relationLabel,
+        targetType: self.docType,
+        targetIds: [fileId],
+        descriptions: description ? { [fileId]: description } : {},
+      });
+      continue;
+    }
+    if (!row.targetIds.includes(fileId)) row.targetIds.push(fileId);
+    // 설명은 대상 문서의 것이 아니라 연결의 것이라 양쪽이 같아야 한다.
+    if (description) row.descriptions[fileId] = description;
+    else delete row.descriptions[fileId];
+  }
+}
+
 export function writeDocument(fileId: string, draft: DocumentDraft) {
   const db = getDb();
   const node = requireDocument(fileId);
   const title = draft.title.trim();
   if (title) node.title = title;
+  const before = relationTargets(db.documents[fileId]?.properties ?? []);
   db.documents[fileId] = { body: draft.body, properties: draft.properties };
+  mirrorRelations(fileId, before, relationTargets(draft.properties));
   node.revisionNo += 1;
   node.updatedAt = new Date().toISOString();
   const project = db.projects.find((p) => p.id === node.projectId);

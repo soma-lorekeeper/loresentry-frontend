@@ -1,4 +1,8 @@
-import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
+import {
+  DOCUMENT_TYPE_META,
+  documentTypeOfRelationKey,
+  type DocumentType,
+} from "@/domain/document-types";
 import type { IconName } from "@/design-system/icons/icon";
 import type { DocumentProperty } from "@/domain/models";
 
@@ -64,38 +68,13 @@ export interface ApiRelation {
 }
 
 /**
- * 관계 키와 대상 문서 종류의 대응. 서버는 `relation_key` 문자열만 저장하고 어떤 종류를 가리키는지는
- * 모른다. 화면이 칩을 그리려면 종류를 알아야 하므로 여기서 정한다.
- */
-const RELATION_KEY_BY_TYPE: Record<DocumentType, string> = {
-  manuscript: "related_manuscript",
-  character: "related_character",
-  place: "related_place",
-  organization: "related_organization",
-  item: "related_item",
-  event: "related_event",
-  worldview: "related_worldview",
-};
-
-const TYPE_BY_RELATION_KEY: Record<string, DocumentType> = Object.fromEntries(
-  Object.entries(RELATION_KEY_BY_TYPE).map(([type, key]) => [
-    key,
-    type as DocumentType,
-  ]),
-) as Record<string, DocumentType>;
-
-export function relationKeyOf(type: DocumentType): string {
-  return RELATION_KEY_BY_TYPE[type];
-}
-
-/**
  * 화면이 모르는 관계 키의 행들. {@link toProperties} 가 이것들을 버리므로, 저장할 때 다시 실어
  * 보내지 않으면 **다음 저장이 서버에서 그 관계를 지운다.** 화면은 자기가 모르는 관계를 지울
  * 권한이 없다 — AI 최신화처럼 다른 곳이 쓴 것일 수 있다.
  */
 export function unknownRelations(relations: ApiRelation[]): ApiRelation[] {
   return relations.filter(
-    (relation) => !TYPE_BY_RELATION_KEY[relation.relation_key],
+    (relation) => !documentTypeOfRelationKey(relation.relation_key),
   );
 }
 
@@ -130,7 +109,7 @@ export function toProperties(
   }
 
   for (const [key, targetIds] of grouped) {
-    const targetType = TYPE_BY_RELATION_KEY[key];
+    const targetType = documentTypeOfRelationKey(key);
     if (!targetType) continue;
     properties.push({
       id: `relation:${key}`,

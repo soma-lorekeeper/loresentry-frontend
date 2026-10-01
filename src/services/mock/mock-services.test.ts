@@ -12,9 +12,12 @@ import {
   bodyFromPlainText,
   bodyToPlainText,
 } from "@/domain/document-body";
+import { relationKeyOf } from "@/domain/document-types";
+import type { RelationProperty } from "@/domain/models";
 
 const services = createMockServices();
 const chapter12 = `${GLASS_GARDEN_ID}:ch-12`;
+const seoyun = `${GLASS_GARDEN_ID}:c-seoyun`;
 
 async function rejection(promise: Promise<unknown>) {
   try {
@@ -351,5 +354,59 @@ describe("mock control", () => {
       true,
     );
     expect((await services.projects.list()).length).toBeGreaterThan(0);
+  });
+});
+
+/**
+ * 관계에는 방향이 없다. 서버는 한 쌍을 한 행으로 두고, mock 은 문서마다 속성을 따로 들고 있으므로
+ * 저장할 때 반대쪽을 함께 고친다. 둘의 **보이는 결과가 같아야** QA 가 mock 에서 본 것을 그대로
+ * 서버에 옮겨 말할 수 있다.
+ */
+describe("mock relations have no direction", () => {
+  const relationsOf = async (fileId: string, key: string) =>
+    (await services.documents.get(fileId)).properties.find(
+      (property): property is RelationProperty =>
+        property.kind === "relation" && property.key === key,
+    );
+
+  const saveRelations = async (fileId: string, targetIds: string[]) => {
+    const doc = await services.documents.get(fileId);
+    const key = relationKeyOf("character");
+    const properties = doc.properties.filter(
+      (property) => !(property.kind === "relation" && property.key === key),
+    );
+    if (targetIds.length) {
+      properties.push({
+        id: `${fileId}:${key}`,
+        kind: "relation",
+        key,
+        label: "관련 캐릭터",
+        targetType: "character",
+        targetIds,
+        descriptions: { [targetIds[0]]: "첫 등장" },
+      });
+    }
+    await services.documents.save(fileId, {
+      draft: { title: doc.title, body: doc.body, properties },
+      ifMatchRevision: doc.revisionNo,
+      saveId: `relation-${targetIds.length}`,
+    });
+  };
+
+  it("shows the manuscript on the character it names", async () => {
+    await saveRelations(chapter12, [seoyun]);
+
+    const back = await relationsOf(seoyun, relationKeyOf("manuscript"));
+    expect(back?.targetIds).toContain(chapter12);
+    // 설명은 대상 문서의 것이 아니라 연결의 것이라 양쪽이 같다.
+    expect(back?.descriptions[chapter12]).toBe("첫 등장");
+  });
+
+  it("drops it from the other document when the relation goes away", async () => {
+    await saveRelations(chapter12, [seoyun]);
+    await saveRelations(chapter12, []);
+
+    const back = await relationsOf(seoyun, relationKeyOf("manuscript"));
+    expect(back?.targetIds ?? []).not.toContain(chapter12);
   });
 });
