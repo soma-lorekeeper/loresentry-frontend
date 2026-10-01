@@ -1,6 +1,7 @@
 import {
   DOCUMENT_TYPE_META,
   DOCUMENT_TYPES,
+  relationKeyOf,
   type DocumentType,
   type SettingDocumentType,
 } from "@/domain/document-types";
@@ -101,19 +102,15 @@ function descriptionProperty(fileId: string, value: string): DocumentProperty {
   };
 }
 
-function relationKey(type: DocumentType) {
-  return `related_${type}`;
-}
-
 function relationProperty(
   fileId: string,
   targetType: DocumentType,
   targetIds: string[],
 ): DocumentProperty {
   return {
-    id: `${fileId}:${relationKey(targetType)}`,
+    id: `${fileId}:${relationKeyOf(targetType)}`,
     kind: "relation",
-    key: relationKey(targetType),
+    key: relationKeyOf(targetType),
     label: DOCUMENT_TYPE_META[targetType].relationLabel,
     targetType,
     targetIds,

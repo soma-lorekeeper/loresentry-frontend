@@ -12,6 +12,7 @@ import {
 import {
   DOCUMENT_TYPE_META,
   DOCUMENT_TYPES,
+  relationKeyOf,
   SETTING_DOCUMENT_TYPES,
   type DocumentType,
 } from "@/domain/document-types";
@@ -467,9 +468,9 @@ export function PropertyTable({
         onChange([
           ...properties,
           {
-            id: `${fileId}:related_${type}`,
+            id: `${fileId}:${relationKeyOf(type)}`,
             kind: "relation",
-            key: `related_${type}`,
+            key: relationKeyOf(type),
             label: DOCUMENT_TYPE_META[type].relationLabel,
             targetType: type,
             targetIds: [],
