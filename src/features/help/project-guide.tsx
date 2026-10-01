@@ -104,7 +104,7 @@ export function ProjectGuidePage({ user }: { user: User }) {
               <span className={styles.topicCopy}>
                 <span className={styles.topicTitle}>처음 안내 다시 보기</span>
                 <span className={styles.topicSummary}>
-                  프로젝트, 원고와 설정, 그래프, AI 최신화를 네 장면으로 다시
+                  작업공간, 속성 표, 그래프, 타임라인, 그래프 최신화를 다시
                   훑어봐요.
                 </span>
               </span>
