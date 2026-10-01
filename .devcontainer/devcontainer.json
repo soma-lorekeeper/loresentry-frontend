@@ -1,5 +1,5 @@
 {
-  "name": "Lorekeeper Frontend",
+  "name": "Lore Sentry Frontend",
   "dockerComposeFile": "../compose.local.yml",
   "service": "frontend",
   "workspaceFolder": "/workspace",
@@ -9,7 +9,7 @@
   "forwardPorts": [3000],
   "portsAttributes": {
     "3000": {
-      "label": "Lorekeeper Frontend",
+      "label": "Lore Sentry Frontend",
       "onAutoForward": "openBrowser",
       "requireLocalPort": true
     }

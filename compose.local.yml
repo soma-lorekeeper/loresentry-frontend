@@ -1,4 +1,4 @@
-name: lorekeeper-frontend-local
+name: loresentry-frontend-local
 
 services:
   frontend:

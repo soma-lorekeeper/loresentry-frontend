@@ -22,7 +22,7 @@ export function LogoutComplete() {
 
   return (
     <main className={styles.page}>
-      <p className={styles.brand}>Lorekeeper</p>
+      <p className={styles.brand}>Lore Sentry</p>
       <section className={styles.completion} aria-labelledby="logout-title">
         <p className={styles.announcement} role="status">
           <Icon name="circle-check" size={16} />

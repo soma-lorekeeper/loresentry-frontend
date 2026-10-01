@@ -25,22 +25,22 @@ const COPY: Record<
   { title: string; description: string; action: string }
 > = {
   idle: {
-    title: "Lorekeeper에 로그인",
+    title: "Lore Sentry에 로그인",
     description: "Google 계정으로 안전하게 계속하세요.",
     action: "Google로 계속하기",
   },
   processing: {
-    title: "Lorekeeper에 로그인",
+    title: "Lore Sentry에 로그인",
     description: "Google 계정으로 안전하게 계속하세요.",
     action: "Google 로그인으로 이동 중…",
   },
   canceled: {
-    title: "Lorekeeper에 로그인",
+    title: "Lore Sentry에 로그인",
     description: "Google 인증을 다시 시작할 수 있습니다.",
     action: "다시 Google로 계속하기",
   },
   failed: {
-    title: "Lorekeeper에 로그인",
+    title: "Lore Sentry에 로그인",
     description: "Google 인증을 다시 시작할 수 있습니다.",
     action: "다시 Google로 계속하기",
   },
@@ -181,18 +181,18 @@ export function LoginPage() {
 
   return (
     <main className={styles.page}>
-      <section className={styles.brand} aria-label="Lorekeeper 소개">
+      <section className={styles.brand} aria-label="Lore Sentry 소개">
         <div className={styles.wordmark}>
           <span className={styles.letterMark} aria-hidden="true">
             L
           </span>
-          LOREKEEPER
+          LORE SENTRY
         </div>
         <div className={styles.message}>
           <p className={styles.eyebrow}>WRITING WORKSPACE</p>
           <p className={styles.headline}>{"이야기를 쓰는 데\n집중하세요."}</p>
           <p className={styles.supporting}>
-            Lorekeeper는 집필, 설정, 메모를 하나의 흐름으로 연결합니다.
+            Lore Sentry는 집필, 설정, 메모를 하나의 흐름으로 연결합니다.
           </p>
         </div>
         <p className={styles.footer}>Your story, uninterrupted.</p>

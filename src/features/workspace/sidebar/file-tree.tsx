@@ -22,7 +22,7 @@ import { isDocument, type TreeItem } from "../model/tree";
 import styles from "./file-tree.module.css";
 
 export const TREE_INDENT = [12, 28, 46, 64, 82];
-export const DRAG_MIME = "application/x-lorekeeper-node";
+export const DRAG_MIME = "application/x-loresentry-node";
 
 export function nodeIcon(node: FileNode, expanded: boolean): IconName {
   if (isDocument(node)) return DOCUMENT_TYPE_META[node.docType].entityIcon;

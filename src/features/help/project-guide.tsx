@@ -69,7 +69,7 @@ export function ProjectGuidePage({ user }: { user: User }) {
       user={user}
       section="guide"
       title="사용 가이드"
-      description="Lorekeeper의 주요 기능을 프로젝트 목록에서 바로 살펴보세요."
+      description="Lore Sentry의 주요 기능을 프로젝트 목록에서 바로 살펴보세요."
       headerAction={backButton}
     >
       <label className={styles.search}>

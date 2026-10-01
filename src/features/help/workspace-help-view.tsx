@@ -55,7 +55,7 @@ function HelpHome({
         <div className={styles.homeCopy}>
           <h1 className={styles.pageTitle}>도움말</h1>
           <p className={styles.secondary}>
-            Lorekeeper 사용 방법을 확인하거나 의견을 보내세요.
+            Lore Sentry 사용 방법을 확인하거나 의견을 보내세요.
           </p>
         </div>
         <Button size="md" icon="arrow-left" onClick={onBack}>

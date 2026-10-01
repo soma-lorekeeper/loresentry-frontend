@@ -40,7 +40,7 @@ function Message({
     <div className={styles.assistant}>
       <span className={styles.assistantLabel}>
         <Icon name="sparkles" size={14} />
-        Lorekeeper AI
+        Lore Sentry AI
       </span>
       <p>{message.content}</p>
     </div>
@@ -327,7 +327,7 @@ export function ChatPanel() {
                 <div className={styles.assistant} aria-busy="true">
                   <span className={styles.assistantLabel}>
                     <Icon name="sparkles" size={14} />
-                    Lorekeeper AI
+                    Lore Sentry AI
                   </span>
                   <p>
                     {partial}

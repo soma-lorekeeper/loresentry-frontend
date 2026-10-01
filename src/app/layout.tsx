@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Lorekeeper",
+  title: "Lore Sentry",
   description: "원고와 설정을 하나의 흐름으로 연결하는 집필 작업공간",
 };
 
