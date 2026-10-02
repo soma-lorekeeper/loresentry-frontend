@@ -368,3 +368,17 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
+
+/* 좁은 화면에서는 범례를 한 줄로 두고 옆으로 밀어 본다. 줄바꿈하면 글자가 세로로 쪼개진다. */
+@media (max-width: 600px) {
+  .legend {
+    right: var(--lk-space-3);
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+
+  .legend > li {
+    flex: none;
+  }
+}

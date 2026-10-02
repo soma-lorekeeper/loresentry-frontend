@@ -72,3 +72,20 @@
 .rowError > svg {
   color: var(--lk-color-accent-primary);
 }
+
+/* 좁은 화면에서는 이름을 한 줄 다 쓰고, 복원·영구 삭제를 그 아래 줄에 둔다. */
+@media (max-width: 600px) {
+  .row {
+    flex-wrap: wrap;
+    padding-block: var(--lk-space-3);
+  }
+
+  .copy {
+    flex-basis: calc(100% - 34px - var(--lk-space-3));
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
