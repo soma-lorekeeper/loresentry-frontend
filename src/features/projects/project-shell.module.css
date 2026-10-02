@@ -86,6 +86,8 @@
     border-right: 0;
     border-bottom: 1px solid var(--lk-color-border-default);
     scrollbar-width: none;
+    /* 오른쪽 끝을 흐리게 해 항목이 더 있다는 것을 보인다. */
+    mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
   }
 
   .sidebar::-webkit-scrollbar {

@@ -377,3 +377,10 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+@media (max-width: 600px) {
+  .homeHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

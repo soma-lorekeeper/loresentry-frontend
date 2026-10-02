@@ -103,3 +103,13 @@
   border-radius: var(--lk-radius-card);
   background: var(--lk-color-surface-raised);
 }
+
+@media (max-width: 600px) {
+  .header {
+    flex-wrap: wrap;
+  }
+
+  .title {
+    white-space: nowrap;
+  }
+}
