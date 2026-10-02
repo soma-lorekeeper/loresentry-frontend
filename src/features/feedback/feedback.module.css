@@ -1,0 +1,35 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-4);
+}
+
+.categories {
+  align-self: flex-start;
+}
+
+.context {
+  color: var(--lk-color-text-secondary);
+  word-break: keep-all;
+}
+
+.hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--lk-color-text-secondary);
+}
+
+.hint kbd {
+  padding: 1px 6px;
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-default);
+  font-family: inherit;
+  font-size: var(--lk-font-size-label);
+}
+
+.ghost {
+  background: var(--lk-color-state-hover);
+  border-color: transparent;
+}

@@ -3,12 +3,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
-import { useRuntimeConfig } from "@/app/providers";
 import { Button, EmptyState, Icon } from "@/design-system/primitives";
 import {
   isUnavailable,
   PreparingState,
 } from "@/features/common/preparing-state";
+import { useFeedback } from "@/features/feedback/feedback-provider";
 import type { WorkspaceViewProps } from "@/features/workspace/views/view-types";
 import { useWorkspace } from "@/features/workspace/workspace-context";
 import { queryKeys } from "@/services/query-keys";
@@ -20,7 +20,6 @@ import styles from "./workspace-help-view.module.css";
 
 type HelpPage =
   { kind: "home" } | { kind: "topics" } | { kind: "topic"; id: string };
-type FeedbackState = "opened" | "error" | null;
 
 function useGuides() {
   const services = useServices();
@@ -37,16 +36,12 @@ function longDate(iso: string) {
 }
 
 function HelpHome({
-  feedback,
   onGuide,
   onFeedback,
-  onCopy,
   onBack,
 }: {
-  feedback: FeedbackState;
   onGuide: () => void;
   onFeedback: () => void;
-  onCopy: (() => void) | null;
   onBack: () => void;
 }) {
   return (
@@ -62,44 +57,6 @@ function HelpHome({
           작업공간으로 돌아가기
         </Button>
       </header>
-      {feedback && (
-        <div
-          className={styles.notice}
-          role={feedback === "error" ? "alert" : "status"}
-        >
-          <Icon
-            name={feedback === "error" ? "external-link" : "circle-check"}
-            size={17}
-          />
-          <span className={styles.noticeCopy}>
-            <strong>
-              {feedback === "error"
-                ? "피드백 페이지를 열지 못했습니다"
-                : "피드백 페이지를 새 탭에서 열었습니다"}
-            </strong>
-            <span>
-              {feedback === "error"
-                ? "팝업 차단을 확인하거나 링크를 복사해 직접 열어주세요."
-                : "돌아온 포커스는 피드백 보내기 카드에 있습니다."}
-            </span>
-          </span>
-          {feedback === "error" && (
-            <span className={styles.noticeActions}>
-              <Button size="lg" icon="refresh-cw" onClick={onFeedback}>
-                다시 열기
-              </Button>
-              <Button
-                size="lg"
-                icon="copy"
-                disabled={!onCopy}
-                onClick={() => onCopy?.()}
-              >
-                링크 복사
-              </Button>
-            </span>
-          )}
-        </div>
-      )}
       <div className={styles.cards}>
         <button type="button" className={styles.card} onClick={onGuide}>
           <span className={styles.cardHead}>
@@ -116,20 +73,19 @@ function HelpHome({
         <button
           type="button"
           className={styles.card}
-          data-help-feedback
           onClick={onFeedback}
+          aria-haspopup="dialog"
         >
           <span className={styles.cardHead}>
             <span className={styles.cardIcon}>
               <Icon name="message-square-plus" size={17} />
             </span>
             <span className={styles.cardTitle}>피드백 보내기</span>
-            <Icon name="external-link" size={17} className={styles.cardArrow} />
+            <Icon name="arrow-right" size={17} className={styles.cardArrow} />
           </span>
           <span className={styles.secondary}>
-            문제와 개선 의견을 외부 피드백 폼으로 전달합니다.
+            불편했던 점이나 있었으면 하는 기능을 바로 보내요.
           </span>
-          <span className={styles.cardHint}>새 탭에서 열림</span>
         </button>
       </div>
     </div>
@@ -324,10 +280,9 @@ function GuideArticle({
 
 export function WorkspaceHelpView({ tab, paneId }: WorkspaceViewProps) {
   const { setTabLabel, closeTab } = useWorkspace();
-  const { feedbackUrl } = useRuntimeConfig();
+  const feedback = useFeedback();
   const guides = useGuides();
   const [page, setPage] = useState<HelpPage>({ kind: "home" });
-  const [feedback, setFeedback] = useState<FeedbackState>(null);
   const viewRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -347,20 +302,6 @@ export function WorkspaceHelpView({ tab, paneId }: WorkspaceViewProps) {
     setPage(next);
     viewRef.current?.scrollIntoView({ block: "start" });
   };
-
-  // 서버 가정: 피드백은 외부 폼(runtime config의 feedbackUrl)으로 연결한다. 값이 없으면 여는 데 실패한 것으로 본다.
-  const openFeedback = () => {
-    const opened = feedbackUrl ? window.open(feedbackUrl, "_blank") : null;
-    if (opened) opened.opener = null;
-    setFeedback(opened ? "opened" : "error");
-    viewRef.current
-      ?.querySelector<HTMLElement>("[data-help-feedback]")
-      ?.focus();
-  };
-
-  const copyLink = feedbackUrl
-    ? () => void navigator.clipboard?.writeText(feedbackUrl)
-    : null;
 
   const topic =
     page.kind === "topic"
@@ -405,10 +346,8 @@ export function WorkspaceHelpView({ tab, paneId }: WorkspaceViewProps) {
     <div ref={viewRef} className={styles.view}>
       {page.kind === "home" && (
         <HelpHome
-          feedback={feedback}
           onGuide={() => go({ kind: "topics" })}
-          onFeedback={openFeedback}
-          onCopy={copyLink}
+          onFeedback={feedback.open}
           onBack={() => closeTab(paneId, tab.id)}
         />
       )}

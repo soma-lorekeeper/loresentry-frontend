@@ -5,6 +5,7 @@ import type { ReactElement } from "react";
 import { vi } from "vitest";
 
 import { ToastProvider } from "@/design-system/primitives";
+import { FeedbackProvider } from "@/features/feedback/feedback-provider";
 import { clearMockRules, setMockLatency } from "@/services/mock/control";
 import { resetDb } from "@/services/mock/db";
 import { createMockServices } from "@/services/mock";
@@ -57,7 +58,9 @@ export function renderWithServices(
   return render(
     <QueryClientProvider client={queryClient}>
       <ServicesProvider services={services}>
-        <ToastProvider>{ui}</ToastProvider>
+        <ToastProvider>
+          <FeedbackProvider>{ui}</FeedbackProvider>
+        </ToastProvider>
       </ServicesProvider>
     </QueryClientProvider>,
   );

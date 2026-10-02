@@ -35,6 +35,8 @@ const CODE_TO_SERVICE_ERROR: Record<string, ServiceErrorCode> = {
   PROJECT_NOT_TRASHED: "validation",
   FILE_NOT_TRASHED: "validation",
   PROJECT_NAME_TAKEN: "duplicate",
+  INVALID_FEEDBACK: "validation",
+  FEEDBACK_RATE_LIMITED: "busy",
   FILE_TITLE_TAKEN: "duplicate",
   PROJECT_NOT_FOUND: "not-found",
   FILE_NOT_FOUND: "not-found",
@@ -79,6 +81,9 @@ const MESSAGES: Partial<Record<ServiceErrorCode, string>> = {
 };
 
 const CODE_MESSAGES: Record<string, string> = {
+  INVALID_FEEDBACK: "내용을 1~2,000자로 적어 주세요.",
+  FEEDBACK_RATE_LIMITED:
+    "짧은 시간에 많이 보냈어요. 잠시 뒤에 다시 보내 주세요.",
   PROJECT_NAME_TAKEN: "같은 이름의 프로젝트가 이미 있어요.",
   ACCOUNT_DELETION_UNAVAILABLE:
     "계정을 삭제하지 못했어요. 계정과 작업은 그대로 있어요. 잠시 뒤 다시 시도해 주세요.",
