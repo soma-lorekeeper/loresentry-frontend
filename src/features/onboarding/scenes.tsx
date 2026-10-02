@@ -110,14 +110,14 @@ function RefreshItem({ scene }: { scene: Scene }) {
 
 function Sidebar({ scene, userName }: { scene: Scene; userName: string }) {
   const open: DocumentType | null =
-    scene === "workspace"
+    scene === "workspace" || scene === "name"
       ? "manuscript"
       : scene === "relations"
         ? "character"
         : null;
   return (
     <aside className={styles.sidebar}>
-      <div className={styles.sideUser}>
+      <div className={styles.sideUser} data-focus="name">
         <span className={styles.sideAvatar} />
         <span className={styles.ellipsis}>{userName}</span>
       </div>
@@ -177,6 +177,7 @@ function Sidebar({ scene, userName }: { scene: Scene; userName: string }) {
 
 const TABS: Record<Scene, { icon: IconName; label: string }> = {
   workspace: { icon: "home", label: "새 탭" },
+  name: { icon: "home", label: "새 탭" },
   relations: { icon: iconOf("character"), label: "레나 아르벨" },
   graph: { icon: "waypoints", label: "그래프" },
   timeline: { icon: "chart-no-axes-gantt", label: "타임라인" },
@@ -763,6 +764,7 @@ function DiffModal() {
 function Content({ scene }: { scene: Scene }) {
   switch (scene) {
     case "workspace":
+    case "name":
       return <NewTabView />;
     case "relations":
       return <DocumentView />;

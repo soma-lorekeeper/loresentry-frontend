@@ -52,13 +52,62 @@ describe("OnboardingPage", () => {
     );
   });
 
-  it("skips straight to the start choices with Esc", () => {
+  it("skips the tour with Esc but stops at the author name", () => {
     renderWithServices(<OnboardingPage user={newcomer} replay={false} />);
     fireEvent.keyDown(window, { key: "Escape" });
-    expect(
-      screen.getByRole("button", { name: /예시 프로젝트 둘러보기/ }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: "작가명" })).toHaveValue(
+      "서윤주",
+    );
     expect(screen.queryByRole("button", { name: "건너뛰기" })).toBeNull();
+  });
+
+  it("saves a new author name before the start choices", async () => {
+    const actor = userEvent.setup();
+    renderWithServices(<OnboardingPage user={newcomer} replay={false} />, {
+      before: signIn(false),
+    });
+    fireEvent.keyDown(window, { key: "Escape" });
+    const field = screen.getByRole("textbox", { name: "작가명" });
+    await actor.clear(field);
+    expect(
+      screen.getByRole("button", { name: "이 이름으로 계속" }),
+    ).toBeDisabled();
+    await actor.type(field, "  윤슬  {Enter}");
+
+    expect(
+      await screen.findByRole("button", { name: /예시 프로젝트 둘러보기/ }),
+    ).toBeInTheDocument();
+    expect(getDb().user.displayName).toBe("윤슬");
+  });
+
+  it("keeps the name step when the name is rejected", async () => {
+    const actor = userEvent.setup();
+    renderWithServices(<OnboardingPage user={newcomer} replay={false} />, {
+      before: signIn(false),
+    });
+    fireEvent.keyDown(window, { key: "Escape" });
+    const field = screen.getByRole("textbox", { name: "작가명" });
+    await actor.clear(field);
+    await actor.type(field, "가".repeat(30));
+    await actor.click(screen.getByRole("button", { name: "이 이름으로 계속" }));
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("1~20자");
+    expect(screen.getByRole("textbox", { name: "작가명" })).toBeInTheDocument();
+  });
+
+  it("does not call the server when the name is unchanged", async () => {
+    const actor = userEvent.setup();
+    renderWithServices(<OnboardingPage user={newcomer} replay={false} />, {
+      before: () => {
+        signIn(false)();
+        setMockRule("account.update", "fail");
+      },
+    });
+    fireEvent.keyDown(window, { key: "Escape" });
+    await actor.click(screen.getByRole("button", { name: "이 이름으로 계속" }));
+    expect(
+      await screen.findByRole("button", { name: /예시 프로젝트 둘러보기/ }),
+    ).toBeInTheDocument();
   });
 
   it("records completion and opens the sample project", async () => {
@@ -67,8 +116,9 @@ describe("OnboardingPage", () => {
       before: signIn(false),
     });
     await actor.click(screen.getByRole("button", { name: "건너뛰기" }));
+    await actor.click(screen.getByRole("button", { name: "이 이름으로 계속" }));
     await actor.click(
-      screen.getByRole("button", { name: /예시 프로젝트 둘러보기/ }),
+      await screen.findByRole("button", { name: /예시 프로젝트 둘러보기/ }),
     );
 
     await waitFor(() =>
@@ -90,8 +140,9 @@ describe("OnboardingPage", () => {
       },
     });
     fireEvent.keyDown(window, { key: "Escape" });
+    await actor.click(screen.getByRole("button", { name: "이 이름으로 계속" }));
     await actor.click(
-      screen.getByRole("button", { name: /둘 다 나중에 할게요/ }),
+      await screen.findByRole("button", { name: /둘 다 나중에 할게요/ }),
     );
 
     expect(await screen.findByRole("alert")).toHaveTextContent(
@@ -111,6 +162,7 @@ describe("OnboardingPage", () => {
     );
     expect(screen.queryByText(/환영해요/)).toBeNull();
     fireEvent.keyDown(window, { key: "Escape" });
+    expect(screen.queryByRole("textbox", { name: "작가명" })).toBeNull();
     await actor.click(
       screen.getByRole("button", { name: "사용 가이드로 돌아가기" }),
     );
