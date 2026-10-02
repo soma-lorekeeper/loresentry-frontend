@@ -1,5 +1,12 @@
 export interface OnboardingStep {
-  id: "workspace" | "relations" | "graph" | "timeline" | "refresh" | "start";
+  id:
+    | "workspace"
+    | "relations"
+    | "graph"
+    | "timeline"
+    | "refresh"
+    | "name"
+    | "start";
   title: string;
   body: string;
 }
@@ -31,11 +38,23 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     body: "AI가 새 원고를 읽고 설정 문서에 바뀔 점을 찾아요. 현재 버전과 신규 버전을 나란히 보고 항목마다 고르면 돼요. AI는 원고를 고치지 않아요.",
   },
   {
+    id: "name",
+    title: "작가명을\n정해 주세요",
+    body: "프로젝트 목록과 작업공간에 이 이름이 보여요. Google 계정 이름으로 채워 두었고, 계정 설정에서 언제든 바꿀 수 있어요.",
+  },
+  {
     id: "start",
     title: "어디서\n시작할까요?",
     body: "예시 프로젝트에서 지금 본 화면을 직접 눌러 보거나, 빈 프로젝트에서 첫 원고를 쓸 수 있어요. 이 안내는 사용 가이드에서 언제든 다시 볼 수 있어요.",
   },
 ];
 
-/** 진행 막대가 세는 설명 단계 수. 마지막 "시작 고르기"는 세지 않는다. */
-export const TOUR_LENGTH = ONBOARDING_STEPS.length - 1;
+/**
+ * 다시 보기는 안내만 보여 준다. 작가명은 처음 한 번만 정하고, 그 뒤로는 계정 설정에서 바꾼다.
+ * 진행 막대는 마지막 "시작 고르기"를 세지 않는다.
+ */
+export function stepsFor(replay: boolean) {
+  return replay
+    ? ONBOARDING_STEPS.filter((step) => step.id !== "name")
+    : ONBOARDING_STEPS;
+}

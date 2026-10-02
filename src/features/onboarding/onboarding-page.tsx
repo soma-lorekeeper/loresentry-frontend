@@ -5,27 +5,33 @@ import {
   useCallback,
   useEffect,
   useLayoutEffect,
+  useRef,
   useState,
   type CSSProperties,
 } from "react";
 
-import { Button, Icon, InlineNotice } from "@/design-system/primitives";
+import {
+  Button,
+  Icon,
+  InlineNotice,
+  TextField,
+} from "@/design-system/primitives";
 import type { User } from "@/domain/models";
 import {
   useCompleteOnboarding,
   useCreateSampleProject,
+  useUpdateAccount,
 } from "@/features/projects/queries";
 import { isServiceError } from "@/services/errors";
 import { cx } from "@/shared/cx";
 import { useElementSize } from "@/shared/use-element-size";
 
 import { AppWindow, type Scene } from "./scenes";
-import { ONBOARDING_STEPS, TOUR_LENGTH } from "./steps";
+import { stepsFor } from "./steps";
 import styles from "./onboarding.module.css";
 
 const CANVAS = { width: 1000, height: 640 };
 const LEAVE_MS = 260;
-const LAST = ONBOARDING_STEPS.length - 1;
 const FOCUS_PAD = 6;
 
 /** 단계마다 비출 자리. 최신화는 사이드바 항목을 먼저 비추고, 검토 창이 열리면 옮겨 간다. */
@@ -38,6 +44,7 @@ const FOCUS: Record<Scene, { target: string; at: number }[]> = {
     { target: "refresh", at: 0 },
     { target: "diff", at: 1500 },
   ],
+  name: [{ target: "name", at: 0 }],
 };
 
 interface Box {
@@ -92,10 +99,9 @@ function useSpotlight(windowEl: HTMLElement | null, scene: Scene) {
  * 실제 작업공간 창을 줄여 놓고, 단계마다 설명하는 자리를 비춘다. 창은 단계가 바뀌어도 그대로
  * 있고 내용과 사이드바 선택만 바뀐다. 빛은 다음 자리로 미끄러져 간다.
  */
-function Stage({ step, userName }: { step: number; userName: string }) {
+function Stage({ scene, userName }: { scene: Scene; userName: string }) {
   const [frame, setFrame] = useState<HTMLDivElement | null>(null);
   const [canvas, setCanvas] = useState<HTMLDivElement | null>(null);
-  const scene = ONBOARDING_STEPS[step].id as Scene;
   const [leaving, setLeaving] = useState<Scene | null>(null);
   const [shown, setShown] = useState(scene);
   const size = useElementSize(frame);
@@ -252,15 +258,54 @@ export function OnboardingPage({
   replay: boolean;
 }) {
   const router = useRouter();
+  const steps = stepsFor(replay);
+  const last = steps.length - 1;
+  const nameStep = steps.findIndex((s) => s.id === "name");
   const [step, setStep] = useState(0);
+  const [name, setName] = useState(user.displayName);
   const complete = useCompleteOnboarding();
   const createSample = useCreateSampleProject();
-  const current = ONBOARDING_STEPS[step];
-  const onStart = step === LAST;
+  const rename = useUpdateAccount();
+  const current = steps[step];
+  const onStart = step === last;
+  const onName = current.id === "name";
+  const trimmed = name.trim();
+  const nameError = !trimmed
+    ? "작가명을 입력해 주세요."
+    : rename.error
+      ? isServiceError(rename.error) && rename.error.code === "validation"
+        ? rename.error.message
+        : "작가명을 저장하지 못했어요. 연결을 확인하고 다시 시도해 주세요."
+      : undefined;
 
-  const go = useCallback((next: number) => {
-    setStep(Math.max(0, Math.min(LAST, next)));
-  }, []);
+  const go = useCallback(
+    (next: number) => setStep(Math.max(0, Math.min(last, next))),
+    [last],
+  );
+  // 건너뛰기는 안내만 건너뛴다. 처음 들어온 사람은 작가명을 정하는 자리에서 멈춘다.
+  const skipTo = nameStep >= 0 ? nameStep : last;
+
+  const saveName = async () => {
+    if (!trimmed || rename.isPending) return;
+    if (trimmed !== user.displayName) {
+      try {
+        await rename.mutateAsync(trimmed);
+      } catch {
+        return;
+      }
+    }
+    setName(trimmed);
+    go(step + 1);
+  };
+
+  const next = () => {
+    if (onName) void saveName();
+    else go(step + 1);
+  };
+  const nextRef = useRef(next);
+  useEffect(() => {
+    nextRef.current = next;
+  });
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -279,18 +324,18 @@ export function OnboardingPage({
       if (typing) return;
       if (event.key === "ArrowRight" || (event.key === "Enter" && !onControl)) {
         event.preventDefault();
-        go(step + 1);
+        nextRef.current();
       } else if (event.key === "ArrowLeft") {
         event.preventDefault();
         go(step - 1);
-      } else if (event.key === "Escape") {
+      } else if (event.key === "Escape" && step < skipTo) {
         event.preventDefault();
-        go(LAST);
+        go(skipTo);
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [go, step]);
+  }, [go, step, skipTo]);
 
   const finish = async (destination: "sample" | "new" | "later") => {
     if (!replay && !user.onboardingCompleted) await complete.mutateAsync();
@@ -314,11 +359,11 @@ export function OnboardingPage({
             </span>
             LORE SENTRY
           </span>
-          {!onStart && (
+          {step < skipTo && (
             <button
               type="button"
               className={styles.skip}
-              onClick={() => go(LAST)}
+              onClick={() => go(skipTo)}
             >
               건너뛰기
               <Icon name="chevron-right" size={14} />
@@ -328,9 +373,9 @@ export function OnboardingPage({
 
         <div className={styles.main}>
           <ol className={styles.progress} aria-label="안내 진행">
-            {Array.from({ length: TOUR_LENGTH }, (_, i) => (
+            {steps.slice(0, last).map((item, i) => (
               <li
-                key={i}
+                key={item.id}
                 className={cx(
                   styles.progressSegment,
                   (i <= step || onStart) && styles.progressDone,
@@ -339,7 +384,7 @@ export function OnboardingPage({
                 aria-current={i === step ? "step" : undefined}
               >
                 <span className="lk-visually-hidden">
-                  {i + 1}단계 {ONBOARDING_STEPS[i].title.replace("\n", " ")}
+                  {i + 1}단계 {item.title.replace("\n", " ")}
                 </span>
               </li>
             ))}
@@ -355,13 +400,37 @@ export function OnboardingPage({
             </h1>
             <p className={styles.body}>{current.body}</p>
           </div>
+          {onName && (
+            <form
+              className={styles.nameForm}
+              onSubmit={(event) => {
+                event.preventDefault();
+                void saveName();
+              }}
+            >
+              <TextField
+                label="작가명"
+                value={name}
+                onChange={(event) => {
+                  setName(event.target.value);
+                  rename.reset();
+                }}
+                error={nameError}
+                hint={user.email ? `로그인 계정 ${user.email}` : undefined}
+                readOnly={rename.isPending}
+                autoComplete="nickname"
+                autoFocus
+                spellCheck={false}
+              />
+            </form>
+          )}
           <div className={styles.buttons}>
             <Button
               size="lg"
               icon="arrow-left"
               className={styles.previous}
               onClick={() => go(step - 1)}
-              disabled={step === 0}
+              disabled={step === 0 || rename.isPending}
             >
               이전
             </Button>
@@ -369,16 +438,30 @@ export function OnboardingPage({
               <Button
                 size="lg"
                 variant="primary"
-                icon="arrow-right"
-                onClick={() => go(step + 1)}
+                icon={onName ? "check" : "arrow-right"}
+                onClick={next}
+                busy={onName && rename.isPending}
+                disabled={onName && !trimmed}
               >
-                {step === TOUR_LENGTH - 1 ? "시작하기" : "다음"}
+                {onName
+                  ? rename.isPending
+                    ? "저장 중…"
+                    : "이 이름으로 계속"
+                  : step === last - 1
+                    ? "시작하기"
+                    : "다음"}
               </Button>
             )}
           </div>
         </div>
 
-        <p className={styles.keyHint}>←→로 이동, Esc로 건너뛰기</p>
+        <p className={styles.keyHint}>
+          {onName
+            ? "Enter로 저장하고 계속"
+            : onStart
+              ? "←로 이전 단계"
+              : "←→로 이동, Esc로 건너뛰기"}
+        </p>
       </section>
 
       {onStart ? (
@@ -386,7 +469,12 @@ export function OnboardingPage({
           <StartChoices replay={replay} onDone={finish} />
         </section>
       ) : (
-        <Stage step={step} userName={user.displayName} />
+        <Stage
+          scene={current.id as Scene}
+          userName={
+            onName ? trimmed || "작가명" : name.trim() || user.displayName
+          }
+        />
       )}
     </main>
   );
