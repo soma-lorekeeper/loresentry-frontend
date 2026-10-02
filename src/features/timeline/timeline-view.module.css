@@ -381,3 +381,14 @@
   border-radius: 4px;
   transform: translateY(-50%);
 }
+
+.scroller {
+  --label-width: var(--label-width-base);
+}
+
+/* 휴대폰에서는 이름 열을 좁혀 회차 열을 더 보인다. 긴 이름은 말줄임으로 끝난다. */
+@media (max-width: 600px) {
+  .scroller {
+    --label-width: 112px;
+  }
+}

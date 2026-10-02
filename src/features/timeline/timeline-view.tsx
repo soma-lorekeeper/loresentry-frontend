@@ -341,7 +341,7 @@ export function TimelineView() {
   };
 
   const gridStyle = {
-    "--label-width": `${LABEL_WIDTH}px`,
+    "--label-width-base": `${LABEL_WIDTH}px`,
     "--columns": total,
     "--min-track": `${Math.max(total, 1) * MIN_COLUMN_WIDTH}px`,
     "--selected-left": pct(current, Math.max(total, 1)),

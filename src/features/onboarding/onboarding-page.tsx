@@ -109,7 +109,7 @@ function Stage({ scene, userName }: { scene: Scene; userName: string }) {
   const scale = size
     ? Math.min(
         1,
-        (size.width - 48) / CANVAS.width,
+        (size.width - (size.width < 600 ? 16 : 48)) / CANVAS.width,
         (size.height - 48) / CANVAS.height,
       )
     : 1;
