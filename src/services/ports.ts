@@ -196,12 +196,9 @@ export interface HelpService {
   guides(): Promise<GuideTopic[]>;
 }
 
-export type FeedbackCategory = "bug" | "idea" | "other";
-
 export const FEEDBACK_MAX = 2000;
 
 export interface FeedbackInput {
-  category: FeedbackCategory;
   message: string;
   /** 보낸 화면의 경로. 운영자가 어디서 겪은 일인지 알 수 있게 함께 보낸다. */
   page: string;

@@ -22,14 +22,13 @@ describe("FeedbackProvider", () => {
     sentFeedback.length = 0;
   });
 
-  it("sends the chosen category, text and page", async () => {
+  it("sends the text and the page", async () => {
     const actor = userEvent.setup();
     renderWithServices(<Opener />);
     await actor.click(screen.getByRole("button", { name: "피드백 열기" }));
 
     const send = screen.getByRole("button", { name: "보내기" });
     expect(send).toBeDisabled();
-    await actor.click(screen.getByRole("radio", { name: /개선 제안/ }));
     await actor.type(
       screen.getByRole("textbox"),
       "  타임라인을 인쇄하고 싶어요  ",
@@ -37,8 +36,8 @@ describe("FeedbackProvider", () => {
     await actor.click(send);
 
     await waitFor(() => expect(sentFeedback).toHaveLength(1));
+    expect(screen.queryByRole("radio")).toBeNull();
     expect(sentFeedback[0]).toMatchObject({
-      category: "idea",
       message: "타임라인을 인쇄하고 싶어요",
       page: "/",
     });

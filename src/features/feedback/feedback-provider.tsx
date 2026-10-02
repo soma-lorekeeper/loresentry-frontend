@@ -14,35 +14,17 @@ import {
   Button,
   DialogCard,
   InlineNotice,
-  Segmented,
   TextAreaField,
   useToast,
-  type SegmentedOption,
 } from "@/design-system/primitives";
 import { isServiceError } from "@/services/errors";
-import { FEEDBACK_MAX, type FeedbackCategory } from "@/services/ports";
+import { FEEDBACK_MAX } from "@/services/ports";
 import { useServices } from "@/services/services-context";
 
 import styles from "./feedback.module.css";
 
-const CATEGORIES: SegmentedOption<FeedbackCategory>[] = [
-  { value: "bug", label: "버그 신고", icon: "bug" },
-  { value: "idea", label: "개선 제안", icon: "lightbulb" },
-  { value: "other", label: "기타", icon: "message-square" },
-];
-
-const PLACEHOLDER: Record<FeedbackCategory, string> = {
-  bug: "어느 화면에서 무엇을 했을 때 어떤 일이 일어났는지 적어 주세요.",
-  idea: "어떤 상황에서 무엇이 있으면 좋을지 적어 주세요.",
-  other: "하고 싶은 말을 자유롭게 적어 주세요.",
-};
-
-interface Draft {
-  category: FeedbackCategory;
-  message: string;
-}
-
-const EMPTY: Draft = { category: "bug", message: "" };
+const PLACEHOLDER =
+  "불편했던 점이나 있었으면 하는 기능을 자유롭게 적어 주세요. 어느 화면에서 겪은 일인지 함께 적어 주시면 더 빨리 살펴볼 수 있어요.";
 
 const FeedbackContext = createContext<{ open: () => void } | null>(null);
 
@@ -66,7 +48,7 @@ function currentPage() {
 
 export function FeedbackProvider({ children }: { children: ReactNode }) {
   const [opened, setOpened] = useState(false);
-  const [draft, setDraft] = useState<Draft>(EMPTY);
+  const [draft, setDraft] = useState("");
   const open = useCallback(() => setOpened(true), []);
   const value = useMemo(() => ({ open }), [open]);
 
@@ -79,7 +61,7 @@ export function FeedbackProvider({ children }: { children: ReactNode }) {
           onDraft={setDraft}
           onClose={() => setOpened(false)}
           onSent={() => {
-            setDraft(EMPTY);
+            setDraft("");
             setOpened(false);
           }}
         />
@@ -94,8 +76,8 @@ function FeedbackDialog({
   onClose,
   onSent,
 }: {
-  draft: Draft;
-  onDraft: (draft: Draft) => void;
+  draft: string;
+  onDraft: (draft: string) => void;
   onClose: () => void;
   onSent: () => void;
 }) {
@@ -106,8 +88,7 @@ function FeedbackDialog({
   const send = useMutation({
     mutationFn: () =>
       services.feedback.send({
-        category: draft.category,
-        message: draft.message.trim(),
+        message: draft.trim(),
         page,
       }),
     onSuccess: () => {
@@ -119,8 +100,8 @@ function FeedbackDialog({
       onSent();
     },
   });
-  const empty = draft.message.trim().length === 0;
-  const tooLong = draft.message.trim().length > FEEDBACK_MAX;
+  const empty = draft.trim().length === 0;
+  const tooLong = draft.trim().length > FEEDBACK_MAX;
   const pending = send.isPending;
 
   const submit = () => {
@@ -176,18 +157,11 @@ function FeedbackDialog({
       }
     >
       <div className={styles.body}>
-        <Segmented
-          label="피드백 유형"
-          options={CATEGORIES}
-          value={draft.category}
-          onChange={(category) => onDraft({ ...draft, category })}
-          className={styles.categories}
-        />
         <TextAreaField
           label="내용"
-          value={draft.message}
+          value={draft}
           onChange={(event) => {
-            onDraft({ ...draft, message: event.target.value });
+            onDraft(event.target.value);
             if (send.isError) send.reset();
           }}
           onKeyDown={(event) => {
@@ -196,7 +170,7 @@ function FeedbackDialog({
               submit();
             }
           }}
-          placeholder={PLACEHOLDER[draft.category]}
+          placeholder={PLACEHOLDER}
           maxLength={FEEDBACK_MAX}
           rows={7}
           readOnly={pending}
