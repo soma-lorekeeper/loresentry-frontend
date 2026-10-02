@@ -19,6 +19,7 @@ import {
   type DocumentType,
 } from "@/domain/document-types";
 import type { FileNode, FolderNode } from "@/domain/models";
+import { UserMenu } from "@/features/projects/user-menu";
 import { isServiceError } from "@/services/errors";
 
 import { activeTabOf, type WorkspaceViewKind } from "../model/layout";
@@ -445,10 +446,7 @@ export function WorkspaceSidebar() {
 
   return (
     <nav className={styles.sidebar} aria-label="작업공간">
-      <div className={styles.user}>
-        <span className={styles.avatar} aria-hidden="true" />
-        {user.displayName}
-      </div>
+      <UserMenu user={user} />
       <ProjectSwitcher />
       <div className={styles.nav}>
         {PRIMARY_NAV.map((item) => (
