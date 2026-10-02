@@ -4,10 +4,6 @@
   gap: var(--lk-space-4);
 }
 
-.categories {
-  align-self: flex-start;
-}
-
 .context {
   color: var(--lk-color-text-secondary);
   word-break: keep-all;
