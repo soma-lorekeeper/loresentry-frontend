@@ -16,6 +16,7 @@ import {
   type RuntimeConfig,
 } from "@/config/runtime-config";
 import { ToastProvider } from "@/design-system/primitives";
+import { FeedbackProvider } from "@/features/feedback/feedback-provider";
 import { createServices } from "@/services/create-services";
 import { applyMockParam } from "@/services/mock/control";
 import { subscribeAuthTransition } from "@/services/api/auth-transition";
@@ -82,7 +83,9 @@ export function AppProviders({ children }: { children: ReactNode }) {
     <RuntimeConfigContext.Provider value={config}>
       <QueryClientProvider client={queryClient}>
         <ServicesProvider services={services}>
-          <ToastProvider>{children}</ToastProvider>
+          <ToastProvider>
+            <FeedbackProvider>{children}</FeedbackProvider>
+          </ToastProvider>
         </ServicesProvider>
       </QueryClientProvider>
     </RuntimeConfigContext.Provider>

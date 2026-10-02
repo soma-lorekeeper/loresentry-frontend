@@ -1,8 +1,8 @@
 "use client";
 
 import { useRuntimeConfig } from "@/app/providers";
+import { useFeedback } from "@/features/feedback/feedback-provider";
 
-import { useFeedbackTarget } from "./project-shell";
 import styles from "./site-footer.module.css";
 
 /**
@@ -20,7 +20,7 @@ import styles from "./site-footer.module.css";
 export function SiteFooter() {
   const { contactEmail, privacyPolicyUrl, termsOfServiceUrl } =
     useRuntimeConfig();
-  const feedback = useFeedbackTarget();
+  const feedback = useFeedback();
 
   return (
     <footer className={styles.footer}>
@@ -34,17 +34,14 @@ export function SiteFooter() {
             문의 {contactEmail}
           </a>
         )}
-        {feedback && (
-          <a
-            className={styles.link}
-            href={feedback.href}
-            {...(feedback.kind === "form"
-              ? { target: "_blank", rel: "noreferrer" }
-              : {})}
-          >
-            피드백 보내기
-          </a>
-        )}
+        <button
+          type="button"
+          className={styles.link}
+          onClick={feedback.open}
+          aria-haspopup="dialog"
+        >
+          피드백 보내기
+        </button>
         {termsOfServiceUrl && (
           <a
             className={styles.link}

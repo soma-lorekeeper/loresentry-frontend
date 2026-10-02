@@ -3,6 +3,7 @@ import type { Services } from "../ports";
 import { mockAccount, mockAuth } from "./account";
 import { mockChat } from "./chat";
 import { mockDocuments, mockVersions } from "./documents";
+import { mockFeedback } from "./feedback";
 import { mockFiles } from "./files";
 import { mockGraph, mockWorkspaceState } from "./graph";
 import { mockHelp } from "./help";
@@ -24,5 +25,6 @@ export function createMockServices(): Services {
     chat: mockChat,
     workspaceState: mockWorkspaceState,
     help: mockHelp,
+    feedback: mockFeedback,
   };
 }
