@@ -26,7 +26,7 @@ import { isServiceError } from "@/services/errors";
 import { cx } from "@/shared/cx";
 import { useElementSize } from "@/shared/use-element-size";
 
-import { AppWindow, type Scene } from "./scenes";
+import { AppWindow, type TourScene as Scene } from "./scenes";
 import { stepsFor } from "./steps";
 import styles from "./onboarding.module.css";
 

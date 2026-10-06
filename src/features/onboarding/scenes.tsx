@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 
 import { Icon, type IconName } from "@/design-system/primitives";
 import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
@@ -11,9 +11,11 @@ import styles from "./onboarding.module.css";
  * 온보딩 무대는 실제 작업공간 화면을 줄여 옮긴 것이다. 사이드바·탭 막대·문서·그래프·타임라인·
  * 최신화 검토의 배치와 이름은 `features/workspace`, `documents`, `graph`, `timeline`,
  * `graph-refresh` 를 그대로 따른다. 서버를 부르지 않으므로 운영에서도 같은 화면이 나온다.
+ * 랜딩 페이지도 같은 무대를 쓴다. 에디터·문서 관리 장면은 랜딩에서만 나온다.
  */
 
-export type Scene = Exclude<OnboardingStep["id"], "start">;
+export type TourScene = Exclude<OnboardingStep["id"], "start">;
+export type Scene = TourScene | "editor" | "files";
 
 const at = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 const iconOf = (type: DocumentType) => DOCUMENT_TYPE_META[type].entityIcon;
@@ -63,6 +65,40 @@ const EPISODES = [
   "Episode 3. 기억 항로",
 ];
 const CHARACTERS = ["서윤", "레나 아르벨", "하린"];
+const WORLDVIEWS = ["유리 마법", "기억 항로"];
+
+/** 장면마다 펼쳐 둔 폴더와 그 안의 항목. 회차는 에피소드 폴더 아래에 놓인다. */
+const OPEN_FOLDERS: Partial<Record<Scene, DocumentType[]>> = {
+  workspace: ["manuscript"],
+  name: ["manuscript"],
+  relations: ["character"],
+  editor: ["manuscript"],
+  files: ["manuscript", "character"],
+};
+const OPEN_EPISODE: Partial<
+  Record<Scene, { name: string; chapters: string[]; active: string }>
+> = {
+  editor: {
+    name: "Episode 4. 새 원고",
+    chapters: ["11화 · 유리 정원", "12화 · 균열의 밤"],
+    active: "12화 · 균열의 밤",
+  },
+  files: {
+    name: "Episode 4. 새 원고",
+    chapters: ["11화 · 유리 정원", "12화 · 균열의 밤"],
+    active: "",
+  },
+};
+const FOLDER_ENTRIES: Partial<Record<DocumentType, string[]>> = {
+  character: CHARACTERS,
+  worldview: WORLDVIEWS,
+};
+const ACTIVE_ENTRY: Partial<Record<Scene, string>> = {
+  relations: "레나 아르벨",
+  files: "레나 아르벨",
+};
+/** 랜딩의 실이 따라가는 인물. 창에 실이 닿으면 이 표시가 붙은 자리가 잠깐 강조된다. */
+const FOLLOWED = "레나 아르벨";
 
 function SideItem({
   icon,
@@ -79,6 +115,7 @@ function SideItem({
     <div
       className={cx(styles.sideItem, active && styles.sideItemOn)}
       style={{ paddingLeft: 8 + depth * 16 }}
+      data-followed={(active && label === FOLLOWED) || undefined}
     >
       <Icon name={icon} size={13} />
       <span className={styles.ellipsis}>{label}</span>
@@ -108,13 +145,46 @@ function RefreshItem({ scene }: { scene: Scene }) {
   );
 }
 
+function FolderChildren({ type, scene }: { type: DocumentType; scene: Scene }) {
+  if (type === "manuscript") {
+    const episode = OPEN_EPISODE[scene];
+    const names =
+      episode && !EPISODES.includes(episode.name)
+        ? [...EPISODES, episode.name]
+        : EPISODES;
+    return names.map((name) => (
+      <div key={name}>
+        <SideItem
+          icon={episode?.name === name ? "folder-open" : "folder"}
+          label={name}
+          depth={1}
+        />
+        {episode?.name === name &&
+          episode.chapters.map((chapter) => (
+            <SideItem
+              key={chapter}
+              icon="file-text"
+              label={chapter}
+              depth={2}
+              active={chapter === episode.active}
+            />
+          ))}
+      </div>
+    ));
+  }
+  return (FOLDER_ENTRIES[type] ?? []).map((name) => (
+    <SideItem
+      key={name}
+      icon={iconOf(type)}
+      label={name}
+      depth={1}
+      active={name === ACTIVE_ENTRY[scene]}
+    />
+  ));
+}
+
 function Sidebar({ scene, userName }: { scene: Scene; userName: string }) {
-  const open: DocumentType | null =
-    scene === "workspace" || scene === "name"
-      ? "manuscript"
-      : scene === "relations"
-        ? "character"
-        : null;
+  const open = OPEN_FOLDERS[scene] ?? [];
   return (
     <aside className={styles.sidebar}>
       <div className={styles.sideUser} data-focus="name">
@@ -142,25 +212,12 @@ function Sidebar({ scene, userName }: { scene: Scene; userName: string }) {
         {FOLDERS.map((type) => (
           <div key={type}>
             <SideItem
-              icon={open === type ? "folder-open" : "folder"}
+              icon={open.includes(type) ? "folder-open" : "folder"}
               label={DOCUMENT_TYPE_META[type].label}
             />
-            {open === "manuscript" &&
-              type === "manuscript" &&
-              EPISODES.map((name) => (
-                <SideItem key={name} icon="folder" label={name} depth={1} />
-              ))}
-            {open === "character" &&
-              type === "character" &&
-              CHARACTERS.map((name) => (
-                <SideItem
-                  key={name}
-                  icon={iconOf("character")}
-                  label={name}
-                  depth={1}
-                  active={name === "레나 아르벨"}
-                />
-              ))}
+            {open.includes(type) && (
+              <FolderChildren type={type} scene={scene} />
+            )}
           </div>
         ))}
       </div>
@@ -182,6 +239,8 @@ const TABS: Record<Scene, { icon: IconName; label: string }> = {
   graph: { icon: "waypoints", label: "그래프" },
   timeline: { icon: "chart-no-axes-gantt", label: "타임라인" },
   refresh: { icon: "waypoints", label: "그래프" },
+  editor: { icon: "file-text", label: "12화 · 균열의 밤" },
+  files: { icon: "file-text", label: "12화 · 균열의 밤" },
 };
 
 function TabBar({ scene }: { scene: Scene }) {
@@ -483,6 +542,7 @@ function GraphView({ quiet }: { quiet?: boolean }) {
               state === "far" && styles.nodeFar,
             )}
             style={{ ...at(delay(100 + i * 30)), left: x * SX, top: y * SY }}
+            data-followed={label === FOLLOWED || undefined}
           >
             <span
               className={styles.nodeDot}
@@ -619,6 +679,7 @@ function TimelineView() {
                   key={row.name}
                   className={cx(styles.tlRow, row.on && styles.tlRowOn)}
                   data-focus={row.on ? "timeline" : undefined}
+                  data-followed={row.on || undefined}
                 >
                   <span className={styles.tlLabel}>
                     <Icon name={iconOf(group.type)} size={12} />
@@ -632,6 +693,7 @@ function TimelineView() {
                         className={cx(styles.tlBar, row.on && styles.tlBarOn)}
                         style={{
                           ...at(260 + index * 50),
+                          ["--bar" as string]: nodeColor(group.type),
                           left: `calc(${((a - 1) / COLUMNS) * 100}% + 6px)`,
                           width: `calc(${((b - a + 1) / COLUMNS) * 100}% - 12px)`,
                         }}
@@ -697,6 +759,7 @@ function DiffModal() {
             <div
               key={entry.name}
               className={cx(styles.diffEntry, i === 0 && styles.diffEntryOn)}
+              data-followed={entry.name === FOLLOWED || undefined}
             >
               <Icon name={iconOf(entry.type)} size={12} />
               <span className={styles.mutedSmall}>
@@ -759,10 +822,203 @@ function DiffModal() {
   );
 }
 
+/* 6. 원고 에디터 (랜딩) ------------------------------------------------- */
+
+const TYPED_LINE = {
+  before: "안개가 걷히자 ",
+  name: "레나 아르벨",
+  after: "은 북쪽 온실의 문 앞에 서 있었다.",
+};
+const TYPED_LENGTH =
+  TYPED_LINE.before.length + TYPED_LINE.name.length + TYPED_LINE.after.length;
+
+function useTyped(total: number, delay: number, step: number) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    let timer = 0;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const instant = window.setTimeout(() => setCount(total), 0);
+      return () => window.clearTimeout(instant);
+    }
+    const start = window.setTimeout(() => {
+      timer = window.setInterval(() => {
+        setCount((current) => {
+          if (current + 1 >= total) window.clearInterval(timer);
+          return Math.min(total, current + 1);
+        });
+      }, step);
+    }, delay);
+    return () => {
+      window.clearTimeout(start);
+      window.clearInterval(timer);
+    };
+  }, [total, delay, step]);
+  return count;
+}
+
+function TypedLine({ count }: { count: number }) {
+  const { before, name, after } = TYPED_LINE;
+  const nameShown = Math.max(0, Math.min(name.length, count - before.length));
+  const afterShown = Math.max(0, count - before.length - name.length);
+  const done = count >= TYPED_LENGTH;
+  return (
+    <p>
+      {before.slice(0, count)}
+      {nameShown > 0 && (
+        <span
+          className={cx(styles.typedName, afterShown > 0 && styles.typedNameOn)}
+          data-thread="origin"
+        >
+          {name.slice(0, nameShown)}
+        </span>
+      )}
+      {after.slice(0, afterShown)}
+      {!done && <span className={styles.caret} />}
+    </p>
+  );
+}
+
+function SaveState({ count }: { count: number }) {
+  const saving = count > 0 && count < TYPED_LENGTH;
+  return (
+    <span className={styles.toolSaved} aria-live="polite">
+      <Icon
+        name={saving ? "loader-circle" : "cloud-check"}
+        size={13}
+        className={saving ? styles.spin : undefined}
+      />
+      {saving ? "저장 중…" : "자동 저장됨"}
+    </span>
+  );
+}
+
+function EditorView() {
+  const typed = useTyped(TYPED_LENGTH, 900, 70);
+  return (
+    <div className={styles.editorSplit}>
+      <div className={styles.document}>
+        <div className={styles.toolbar}>
+          <Icon name="undo-2" size={13} />
+          <Icon name="redo-2" size={13} />
+          <span className={styles.toolSelect}>
+            Inter <Icon name="chevron-down" size={11} />
+          </span>
+          <span className={styles.toolSelect}>
+            14 <Icon name="chevron-down" size={11} />
+          </span>
+          <Icon name="bold" size={13} />
+          <Icon name="italic" size={13} />
+          <Icon name="underline" size={13} />
+          <Icon name="strikethrough" size={13} />
+          <Icon name="list-ordered" size={13} />
+          <span className={styles.spacer} />
+          <SaveState count={typed} />
+        </div>
+        <div className={cx(styles.docBody, styles.manuscriptBody)}>
+          <Enter delay={60} kind="fade" className={styles.docTitle}>
+            12화 · 균열의 밤
+            <Icon name="star" size={14} />
+          </Enter>
+          <Enter delay={160} kind="fade" className={styles.manuscriptProse}>
+            <p>
+              유리 정원의 종이 세 번 울렸다. 밤새 금이 간 천장 너머로 별빛이
+              새어 들었고, 하린은 등불을 낮춘 채 북쪽 회랑을 걸었다.
+            </p>
+            <p>
+              기록단의 지도에는 그 문이 없었다. 다만 6화의 항해 일지 끝에 누군가
+              연필로 적어 둔 한 줄이 있었을 뿐이다. 문은 기억하는 사람에게만
+              열린다.
+            </p>
+            <TypedLine count={typed} />
+          </Enter>
+        </div>
+        <span className={styles.charCount}>1,284자</span>
+      </div>
+      <Enter delay={420} kind="fade" className={styles.memoPanel}>
+        <div className={styles.memoHead}>
+          <b>메모</b>
+          <span className={styles.memoTabs}>
+            <span className={styles.memoTabOn}>문서</span>
+            <span>작품</span>
+          </span>
+        </div>
+        <div className={styles.memoCard}>
+          <b>열쇠 복선 회수</b>
+          <span>
+            6화 항해 일지의 낡은 열쇠를 여기서 쓴다. 문장은 은빛 항해단.
+          </span>
+        </div>
+        <div className={styles.memoCard}>
+          <b>13화로 넘길 것</b>
+          <span>온실 안에서 들리는 목소리의 정체는 아직 밝히지 않는다.</span>
+        </div>
+      </Enter>
+    </div>
+  );
+}
+
+/* 7. 원고와 설정 문서 (랜딩) -------------------------------------------- */
+
+function FilesView() {
+  return (
+    <div className={styles.paneSplit}>
+      <div className={styles.document}>
+        <div className={cx(styles.docBody, styles.paneBody)}>
+          <Enter delay={80} kind="fade" className={styles.docTitle}>
+            12화 · 균열의 밤
+          </Enter>
+          <Enter delay={160} kind="fade" className={styles.manuscriptProse}>
+            <p>
+              유리 정원의 종이 세 번 울렸다. 밤새 금이 간 천장 너머로 별빛이
+              새어 들었다.
+            </p>
+            <p>안개가 걷히자 레나 아르벨은 북쪽 온실의 문 앞에 서 있었다.</p>
+          </Enter>
+        </div>
+      </div>
+      <div className={styles.pane}>
+        <div className={styles.paneTabs}>
+          <span className={styles.tab}>
+            <Icon name={iconOf("character")} size={13} />
+            레나 아르벨
+            <Icon name="x" size={12} />
+          </span>
+        </div>
+        <div className={cx(styles.docBody, styles.paneBody)}>
+          <Enter delay={240} kind="fade" className={styles.docTitle}>
+            레나 아르벨
+          </Enter>
+          <div className={styles.propTable}>
+            <PropertyRow icon="tag" label="분류" delay={300}>
+              <span className={styles.propType}>
+                <Icon name={iconOf("character")} size={12} />
+                캐릭터
+              </span>
+            </PropertyRow>
+            <PropertyRow icon="type" label="설명" delay={340}>
+              기억 항로를 읽어 내는 은빛 항해단의 항해사
+            </PropertyRow>
+            <PropertyRow icon="file-text" label="관련 원고" delay={380}>
+              <Chip type="manuscript">12화 · 균열의 밤</Chip>
+            </PropertyRow>
+            <PropertyRow icon="map-pin" label="관련 장소" delay={420}>
+              <Chip type="place">유리 산맥</Chip>
+            </PropertyRow>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* 창 ------------------------------------------------------------------- */
 
 function Content({ scene }: { scene: Scene }) {
   switch (scene) {
+    case "editor":
+      return <EditorView />;
+    case "files":
+      return <FilesView />;
     case "workspace":
     case "name":
       return <NewTabView />;
