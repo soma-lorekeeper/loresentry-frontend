@@ -1,0 +1,1419 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-06T06:10:14.261Z",
+  "title": "Design System: Lore Sentry",
+  "extensions": {
+    "colorMeta": {
+      "accent-primary": {
+        "role": "primary",
+        "displayName": "Sentry Teal",
+        "canonical": "#1c6070",
+        "cssVar": "--lk-color-accent-primary",
+        "mode": "light",
+        "oklch": "oklch(45.5% 0.070 216.9)",
+        "tonalRamp": [
+          "oklch(15.0% 0.025 216.9)",
+          "oklch(26.4% 0.046 216.9)",
+          "oklch(37.9% 0.070 216.9)",
+          "oklch(49.3% 0.070 216.9)",
+          "oklch(60.7% 0.070 216.9)",
+          "oklch(72.1% 0.070 216.9)",
+          "oklch(83.6% 0.046 216.9)",
+          "oklch(95.0% 0.025 216.9)"
+        ]
+      },
+      "accent-primary-dark": {
+        "role": "primary",
+        "displayName": "Mist Teal",
+        "canonical": "#a9c7d0",
+        "cssVar": "--lk-color-accent-primary",
+        "mode": "dark",
+        "oklch": "oklch(81.0% 0.035 217.8)",
+        "tonalRamp": [
+          "oklch(15.0% 0.012 217.8)",
+          "oklch(26.4% 0.023 217.8)",
+          "oklch(37.9% 0.035 217.8)",
+          "oklch(49.3% 0.035 217.8)",
+          "oklch(60.7% 0.035 217.8)",
+          "oklch(72.1% 0.035 217.8)",
+          "oklch(83.6% 0.023 217.8)",
+          "oklch(95.0% 0.012 217.8)"
+        ]
+      },
+      "text-on-accent": {
+        "role": "primary",
+        "displayName": "On-Accent",
+        "canonical": "#ffffff",
+        "cssVar": "--lk-color-text-on-accent",
+        "mode": "light",
+        "oklch": "oklch(100.0% 0.000 0)",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 0)",
+          "oklch(26.4% 0.000 0)",
+          "oklch(37.9% 0.000 0)",
+          "oklch(49.3% 0.000 0)",
+          "oklch(60.7% 0.000 0)",
+          "oklch(72.1% 0.000 0)",
+          "oklch(83.6% 0.000 0)",
+          "oklch(95.0% 0.000 0)"
+        ]
+      },
+      "text-on-accent-dark": {
+        "role": "primary",
+        "displayName": "On-Accent (dark)",
+        "canonical": "#111719",
+        "cssVar": "--lk-color-text-on-accent",
+        "mode": "dark",
+        "oklch": "oklch(19.9% 0.010 220.0)",
+        "tonalRamp": [
+          "oklch(15.0% 0.003 220.0)",
+          "oklch(26.4% 0.007 220.0)",
+          "oklch(37.9% 0.010 220.0)",
+          "oklch(49.3% 0.010 220.0)",
+          "oklch(60.7% 0.010 220.0)",
+          "oklch(72.1% 0.010 220.0)",
+          "oklch(83.6% 0.007 220.0)",
+          "oklch(95.0% 0.003 220.0)"
+        ]
+      },
+      "node-character": {
+        "role": "secondary",
+        "displayName": "Ledger Blue",
+        "canonical": "#2f5892",
+        "cssVar": "--lk-color-node-character",
+        "mode": "light",
+        "oklch": "oklch(46.0% 0.106 257.3)",
+        "tonalRamp": [
+          "oklch(15.0% 0.037 257.3)",
+          "oklch(26.4% 0.069 257.3)",
+          "oklch(37.9% 0.106 257.3)",
+          "oklch(49.3% 0.106 257.3)",
+          "oklch(60.7% 0.106 257.3)",
+          "oklch(72.1% 0.106 257.3)",
+          "oklch(83.6% 0.069 257.3)",
+          "oklch(95.0% 0.037 257.3)"
+        ]
+      },
+      "node-character-dark": {
+        "role": "secondary",
+        "displayName": "Paper White",
+        "canonical": "#edf2f2",
+        "cssVar": "--lk-color-node-character",
+        "mode": "dark",
+        "oklch": "oklch(95.7% 0.005 197.1)",
+        "tonalRamp": [
+          "oklch(15.0% 0.002 0)",
+          "oklch(26.4% 0.004 197.1)",
+          "oklch(37.9% 0.005 197.1)",
+          "oklch(49.3% 0.005 197.1)",
+          "oklch(60.7% 0.005 197.1)",
+          "oklch(72.1% 0.005 197.1)",
+          "oklch(83.6% 0.004 197.1)",
+          "oklch(95.0% 0.002 0)"
+        ]
+      },
+      "node-place": {
+        "role": "secondary",
+        "displayName": "Conservatory Green",
+        "canonical": "#2f6f3c",
+        "cssVar": "--lk-color-node-place",
+        "mode": "light",
+        "oklch": "oklch(48.6% 0.104 148.1)",
+        "tonalRamp": [
+          "oklch(15.0% 0.036 148.1)",
+          "oklch(26.4% 0.068 148.1)",
+          "oklch(37.9% 0.104 148.1)",
+          "oklch(49.3% 0.104 148.1)",
+          "oklch(60.7% 0.104 148.1)",
+          "oklch(72.1% 0.104 148.1)",
+          "oklch(83.6% 0.068 148.1)",
+          "oklch(95.0% 0.036 148.1)"
+        ]
+      },
+      "node-place-dark": {
+        "role": "secondary",
+        "displayName": "Pale Ash",
+        "canonical": "#d6dcdd",
+        "cssVar": "--lk-color-node-place",
+        "mode": "dark",
+        "oklch": "oklch(89.0% 0.007 208.8)",
+        "tonalRamp": [
+          "oklch(15.0% 0.002 208.8)",
+          "oklch(26.4% 0.004 208.8)",
+          "oklch(37.9% 0.007 208.8)",
+          "oklch(49.3% 0.007 208.8)",
+          "oklch(60.7% 0.007 208.8)",
+          "oklch(72.1% 0.007 208.8)",
+          "oklch(83.6% 0.004 208.8)",
+          "oklch(95.0% 0.002 208.8)"
+        ]
+      },
+      "node-organization": {
+        "role": "secondary",
+        "displayName": "Guild Violet",
+        "canonical": "#645ca0",
+        "cssVar": "--lk-color-node-organization",
+        "mode": "light",
+        "oklch": "oklch(51.3% 0.106 287.5)",
+        "tonalRamp": [
+          "oklch(15.0% 0.037 287.5)",
+          "oklch(26.4% 0.069 287.5)",
+          "oklch(37.9% 0.106 287.5)",
+          "oklch(49.3% 0.106 287.5)",
+          "oklch(60.7% 0.106 287.5)",
+          "oklch(72.1% 0.106 287.5)",
+          "oklch(83.6% 0.069 287.5)",
+          "oklch(95.0% 0.037 287.5)"
+        ]
+      },
+      "node-organization-dark": {
+        "role": "secondary",
+        "displayName": "Ash",
+        "canonical": "#bec6c8",
+        "cssVar": "--lk-color-node-organization",
+        "mode": "dark",
+        "oklch": "oklch(82.1% 0.009 214.3)",
+        "tonalRamp": [
+          "oklch(15.0% 0.003 214.3)",
+          "oklch(26.4% 0.006 214.3)",
+          "oklch(37.9% 0.009 214.3)",
+          "oklch(49.3% 0.009 214.3)",
+          "oklch(60.7% 0.009 214.3)",
+          "oklch(72.1% 0.009 214.3)",
+          "oklch(83.6% 0.006 214.3)",
+          "oklch(95.0% 0.003 214.3)"
+        ]
+      },
+      "node-item": {
+        "role": "secondary",
+        "displayName": "Brass Umber",
+        "canonical": "#995f23",
+        "cssVar": "--lk-color-node-item",
+        "mode": "light",
+        "oklch": "oklch(53.9% 0.105 62.6)",
+        "tonalRamp": [
+          "oklch(15.0% 0.037 62.6)",
+          "oklch(26.4% 0.069 62.6)",
+          "oklch(37.9% 0.105 62.6)",
+          "oklch(49.3% 0.105 62.6)",
+          "oklch(60.7% 0.105 62.6)",
+          "oklch(72.1% 0.105 62.6)",
+          "oklch(83.6% 0.069 62.6)",
+          "oklch(95.0% 0.037 62.6)"
+        ]
+      },
+      "node-item-dark": {
+        "role": "secondary",
+        "displayName": "Pewter",
+        "canonical": "#a7b1b3",
+        "cssVar": "--lk-color-node-item",
+        "mode": "dark",
+        "oklch": "oklch(75.3% 0.012 211.0)",
+        "tonalRamp": [
+          "oklch(15.0% 0.004 211.0)",
+          "oklch(26.4% 0.008 211.0)",
+          "oklch(37.9% 0.012 211.0)",
+          "oklch(49.3% 0.012 211.0)",
+          "oklch(60.7% 0.012 211.0)",
+          "oklch(72.1% 0.012 211.0)",
+          "oklch(83.6% 0.008 211.0)",
+          "oklch(95.0% 0.004 211.0)"
+        ]
+      },
+      "node-event": {
+        "role": "secondary",
+        "displayName": "Faded Brick",
+        "canonical": "#ac5c56",
+        "cssVar": "--lk-color-node-event",
+        "mode": "light",
+        "oklch": "oklch(56.7% 0.105 25.4)",
+        "tonalRamp": [
+          "oklch(15.0% 0.037 25.4)",
+          "oklch(26.4% 0.069 25.4)",
+          "oklch(37.9% 0.105 25.4)",
+          "oklch(49.3% 0.105 25.4)",
+          "oklch(60.7% 0.105 25.4)",
+          "oklch(72.1% 0.105 25.4)",
+          "oklch(83.6% 0.069 25.4)",
+          "oklch(95.0% 0.037 25.4)"
+        ]
+      },
+      "node-event-dark": {
+        "role": "secondary",
+        "displayName": "Smoke",
+        "canonical": "#8f9b9d",
+        "cssVar": "--lk-color-node-event",
+        "mode": "dark",
+        "oklch": "oklch(68.0% 0.014 208.8)",
+        "tonalRamp": [
+          "oklch(15.0% 0.005 208.8)",
+          "oklch(26.4% 0.009 208.8)",
+          "oklch(37.9% 0.014 208.8)",
+          "oklch(49.3% 0.014 208.8)",
+          "oklch(60.7% 0.014 208.8)",
+          "oklch(72.1% 0.014 208.8)",
+          "oklch(83.6% 0.009 208.8)",
+          "oklch(95.0% 0.005 208.8)"
+        ]
+      },
+      "node-worldview": {
+        "role": "secondary",
+        "displayName": "Lagoon Teal",
+        "canonical": "#219180",
+        "cssVar": "--lk-color-node-worldview",
+        "mode": "light",
+        "oklch": "oklch(59.2% 0.099 179.9)",
+        "tonalRamp": [
+          "oklch(15.0% 0.035 179.9)",
+          "oklch(26.4% 0.065 179.9)",
+          "oklch(37.9% 0.099 179.9)",
+          "oklch(49.3% 0.099 179.9)",
+          "oklch(60.7% 0.099 179.9)",
+          "oklch(72.1% 0.099 179.9)",
+          "oklch(83.6% 0.065 179.9)",
+          "oklch(95.0% 0.035 179.9)"
+        ]
+      },
+      "node-worldview-dark": {
+        "role": "secondary",
+        "displayName": "Slate Mist",
+        "canonical": "#788588",
+        "cssVar": "--lk-color-node-worldview",
+        "mode": "dark",
+        "oklch": "oklch(60.7% 0.016 213.1)",
+        "tonalRamp": [
+          "oklch(15.0% 0.006 213.1)",
+          "oklch(26.4% 0.010 213.1)",
+          "oklch(37.9% 0.016 213.1)",
+          "oklch(49.3% 0.016 213.1)",
+          "oklch(60.7% 0.016 213.1)",
+          "oklch(72.1% 0.016 213.1)",
+          "oklch(83.6% 0.010 213.1)",
+          "oklch(95.0% 0.006 213.1)"
+        ]
+      },
+      "node-manuscript": {
+        "role": "secondary",
+        "displayName": "Pencil Grey",
+        "canonical": "#81878d",
+        "cssVar": "--lk-color-node-manuscript",
+        "mode": "light",
+        "oklch": "oklch(62.0% 0.011 248.0)",
+        "tonalRamp": [
+          "oklch(15.0% 0.004 248.0)",
+          "oklch(26.4% 0.008 248.0)",
+          "oklch(37.9% 0.011 248.0)",
+          "oklch(49.3% 0.011 248.0)",
+          "oklch(60.7% 0.011 248.0)",
+          "oklch(72.1% 0.011 248.0)",
+          "oklch(83.6% 0.008 248.0)",
+          "oklch(95.0% 0.004 248.0)"
+        ]
+      },
+      "node-manuscript-dark": {
+        "role": "secondary",
+        "displayName": "Slate",
+        "canonical": "#606f73",
+        "cssVar": "--lk-color-node-manuscript",
+        "mode": "dark",
+        "oklch": "oklch(53.1% 0.019 215.6)",
+        "tonalRamp": [
+          "oklch(15.0% 0.007 215.6)",
+          "oklch(26.4% 0.013 215.6)",
+          "oklch(37.9% 0.019 215.6)",
+          "oklch(49.3% 0.019 215.6)",
+          "oklch(60.7% 0.019 215.6)",
+          "oklch(72.1% 0.019 215.6)",
+          "oklch(83.6% 0.013 215.6)",
+          "oklch(95.0% 0.007 215.6)"
+        ]
+      },
+      "diff-add": {
+        "role": "tertiary",
+        "displayName": "Change Blue",
+        "canonical": "#2360d7",
+        "cssVar": "--lk-color-diff-add",
+        "mode": "light",
+        "oklch": "oklch(52.3% 0.194 261.9)",
+        "tonalRamp": [
+          "oklch(15.0% 0.068 261.9)",
+          "oklch(26.4% 0.127 261.9)",
+          "oklch(37.9% 0.194 261.9)",
+          "oklch(49.3% 0.194 261.9)",
+          "oklch(60.7% 0.194 261.9)",
+          "oklch(72.1% 0.194 261.9)",
+          "oklch(83.6% 0.127 261.9)",
+          "oklch(95.0% 0.068 261.9)"
+        ]
+      },
+      "diff-add-dark": {
+        "role": "tertiary",
+        "displayName": "Change Blue (dark)",
+        "canonical": "#84a7eb",
+        "cssVar": "--lk-color-diff-add",
+        "mode": "dark",
+        "oklch": "oklch(72.9% 0.107 263.1)",
+        "tonalRamp": [
+          "oklch(15.0% 0.037 263.1)",
+          "oklch(26.4% 0.070 263.1)",
+          "oklch(37.9% 0.107 263.1)",
+          "oklch(49.3% 0.107 263.1)",
+          "oklch(60.7% 0.107 263.1)",
+          "oklch(72.1% 0.107 263.1)",
+          "oklch(83.6% 0.070 263.1)",
+          "oklch(95.0% 0.037 263.1)"
+        ]
+      },
+      "diff-add-bg": {
+        "role": "tertiary",
+        "displayName": "Change Blue Wash",
+        "canonical": "#e9effb",
+        "cssVar": "--lk-color-diff-add-bg",
+        "mode": "light",
+        "oklch": "oklch(95.1% 0.017 264.5)",
+        "tonalRamp": [
+          "oklch(15.0% 0.006 264.5)",
+          "oklch(26.4% 0.011 264.5)",
+          "oklch(37.9% 0.017 264.5)",
+          "oklch(49.3% 0.017 264.5)",
+          "oklch(60.7% 0.017 264.5)",
+          "oklch(72.1% 0.017 264.5)",
+          "oklch(83.6% 0.011 264.5)",
+          "oklch(95.0% 0.006 264.5)"
+        ]
+      },
+      "diff-add-bg-dark": {
+        "role": "tertiary",
+        "displayName": "Change Blue Wash (dark)",
+        "canonical": "#303944",
+        "cssVar": "--lk-color-diff-add-bg",
+        "mode": "dark",
+        "oklch": "oklch(34.1% 0.023 253.6)",
+        "tonalRamp": [
+          "oklch(15.0% 0.008 253.6)",
+          "oklch(26.4% 0.015 253.6)",
+          "oklch(37.9% 0.023 253.6)",
+          "oklch(49.3% 0.023 253.6)",
+          "oklch(60.7% 0.023 253.6)",
+          "oklch(72.1% 0.023 253.6)",
+          "oklch(83.6% 0.015 253.6)",
+          "oklch(95.0% 0.008 253.6)"
+        ]
+      },
+      "diff-modify": {
+        "role": "tertiary",
+        "displayName": "Change Teal",
+        "canonical": "#2a6e7f",
+        "cssVar": "--lk-color-diff-modify",
+        "mode": "light",
+        "oklch": "oklch(50.3% 0.072 217.2)",
+        "tonalRamp": [
+          "oklch(15.0% 0.025 217.2)",
+          "oklch(26.4% 0.047 217.2)",
+          "oklch(37.9% 0.072 217.2)",
+          "oklch(49.3% 0.072 217.2)",
+          "oklch(60.7% 0.072 217.2)",
+          "oklch(72.1% 0.072 217.2)",
+          "oklch(83.6% 0.047 217.2)",
+          "oklch(95.0% 0.025 217.2)"
+        ]
+      },
+      "diff-modify-dark": {
+        "role": "tertiary",
+        "displayName": "Change Teal (dark)",
+        "canonical": "#5ab3c9",
+        "cssVar": "--lk-color-diff-modify",
+        "mode": "dark",
+        "oklch": "oklch(72.0% 0.091 216.1)",
+        "tonalRamp": [
+          "oklch(15.0% 0.032 216.1)",
+          "oklch(26.4% 0.060 216.1)",
+          "oklch(37.9% 0.091 216.1)",
+          "oklch(49.3% 0.091 216.1)",
+          "oklch(60.7% 0.091 216.1)",
+          "oklch(72.1% 0.091 216.1)",
+          "oklch(83.6% 0.060 216.1)",
+          "oklch(95.0% 0.032 216.1)"
+        ]
+      },
+      "diff-modify-bg": {
+        "role": "tertiary",
+        "displayName": "Change Teal Wash",
+        "canonical": "#eaf0f2",
+        "cssVar": "--lk-color-diff-modify-bg",
+        "mode": "light",
+        "oklch": "oklch(95.1% 0.007 219.6)",
+        "tonalRamp": [
+          "oklch(15.0% 0.002 219.6)",
+          "oklch(26.4% 0.005 219.6)",
+          "oklch(37.9% 0.007 219.6)",
+          "oklch(49.3% 0.007 219.6)",
+          "oklch(60.7% 0.007 219.6)",
+          "oklch(72.1% 0.007 219.6)",
+          "oklch(83.6% 0.005 219.6)",
+          "oklch(95.0% 0.002 219.6)"
+        ]
+      },
+      "diff-modify-bg-dark": {
+        "role": "tertiary",
+        "displayName": "Change Teal Wash (dark)",
+        "canonical": "#2b3a40",
+        "cssVar": "--lk-color-diff-modify-bg",
+        "mode": "dark",
+        "oklch": "oklch(33.8% 0.022 224.4)",
+        "tonalRamp": [
+          "oklch(15.0% 0.008 224.4)",
+          "oklch(26.4% 0.015 224.4)",
+          "oklch(37.9% 0.022 224.4)",
+          "oklch(49.3% 0.022 224.4)",
+          "oklch(60.7% 0.022 224.4)",
+          "oklch(72.1% 0.022 224.4)",
+          "oklch(83.6% 0.015 224.4)",
+          "oklch(95.0% 0.008 224.4)"
+        ]
+      },
+      "diff-remove": {
+        "role": "tertiary",
+        "displayName": "Change Rust",
+        "canonical": "#af4336",
+        "cssVar": "--lk-color-diff-remove",
+        "mode": "light",
+        "oklch": "oklch(52.8% 0.144 29.6)",
+        "tonalRamp": [
+          "oklch(15.0% 0.050 29.6)",
+          "oklch(26.4% 0.095 29.6)",
+          "oklch(37.9% 0.144 29.6)",
+          "oklch(49.3% 0.144 29.6)",
+          "oklch(60.7% 0.144 29.6)",
+          "oklch(72.1% 0.144 29.6)",
+          "oklch(83.6% 0.095 29.6)",
+          "oklch(95.0% 0.050 29.6)"
+        ]
+      },
+      "diff-remove-dark": {
+        "role": "tertiary",
+        "displayName": "Change Rust (dark)",
+        "canonical": "#dc968e",
+        "cssVar": "--lk-color-diff-remove",
+        "mode": "dark",
+        "oklch": "oklch(74.0% 0.086 26.5)",
+        "tonalRamp": [
+          "oklch(15.0% 0.030 26.5)",
+          "oklch(26.4% 0.056 26.5)",
+          "oklch(37.9% 0.086 26.5)",
+          "oklch(49.3% 0.086 26.5)",
+          "oklch(60.7% 0.086 26.5)",
+          "oklch(72.1% 0.086 26.5)",
+          "oklch(83.6% 0.056 26.5)",
+          "oklch(95.0% 0.030 26.5)"
+        ]
+      },
+      "diff-remove-bg": {
+        "role": "tertiary",
+        "displayName": "Change Rust Wash",
+        "canonical": "#f7eceb",
+        "cssVar": "--lk-color-diff-remove-bg",
+        "mode": "light",
+        "oklch": "oklch(95.1% 0.012 23.7)",
+        "tonalRamp": [
+          "oklch(15.0% 0.004 23.7)",
+          "oklch(26.4% 0.008 23.7)",
+          "oklch(37.9% 0.012 23.7)",
+          "oklch(49.3% 0.012 23.7)",
+          "oklch(60.7% 0.012 23.7)",
+          "oklch(72.1% 0.012 23.7)",
+          "oklch(83.6% 0.008 23.7)",
+          "oklch(95.0% 0.004 23.7)"
+        ]
+      },
+      "diff-remove-bg-dark": {
+        "role": "tertiary",
+        "displayName": "Change Rust Wash (dark)",
+        "canonical": "#3b3739",
+        "cssVar": "--lk-color-diff-remove-bg",
+        "mode": "dark",
+        "oklch": "oklch(34.2% 0.007 345.6)",
+        "tonalRamp": [
+          "oklch(15.0% 0.002 345.6)",
+          "oklch(26.4% 0.004 345.6)",
+          "oklch(37.9% 0.007 345.6)",
+          "oklch(49.3% 0.007 345.6)",
+          "oklch(60.7% 0.007 345.6)",
+          "oklch(72.1% 0.007 345.6)",
+          "oklch(83.6% 0.004 345.6)",
+          "oklch(95.0% 0.002 345.6)"
+        ]
+      },
+      "diff-done": {
+        "role": "tertiary",
+        "displayName": "Change Moss",
+        "canonical": "#3c714e",
+        "cssVar": "--lk-color-diff-done",
+        "mode": "light",
+        "oklch": "oklch(50.1% 0.080 153.6)",
+        "tonalRamp": [
+          "oklch(15.0% 0.028 153.6)",
+          "oklch(26.4% 0.053 153.6)",
+          "oklch(37.9% 0.080 153.6)",
+          "oklch(49.3% 0.080 153.6)",
+          "oklch(60.7% 0.080 153.6)",
+          "oklch(72.1% 0.080 153.6)",
+          "oklch(83.6% 0.053 153.6)",
+          "oklch(95.0% 0.028 153.6)"
+        ]
+      },
+      "diff-done-dark": {
+        "role": "tertiary",
+        "displayName": "Change Moss (dark)",
+        "canonical": "#73b589",
+        "cssVar": "--lk-color-diff-done",
+        "mode": "dark",
+        "oklch": "oklch(71.7% 0.093 154.2)",
+        "tonalRamp": [
+          "oklch(15.0% 0.033 154.2)",
+          "oklch(26.4% 0.061 154.2)",
+          "oklch(37.9% 0.093 154.2)",
+          "oklch(49.3% 0.093 154.2)",
+          "oklch(60.7% 0.093 154.2)",
+          "oklch(72.1% 0.093 154.2)",
+          "oklch(83.6% 0.061 154.2)",
+          "oklch(95.0% 0.033 154.2)"
+        ]
+      },
+      "diff-done-bg": {
+        "role": "tertiary",
+        "displayName": "Change Moss Wash",
+        "canonical": "#ecf1ed",
+        "cssVar": "--lk-color-diff-done-bg",
+        "mode": "light",
+        "oklch": "oklch(95.3% 0.007 151.9)",
+        "tonalRamp": [
+          "oklch(15.0% 0.003 151.9)",
+          "oklch(26.4% 0.005 151.9)",
+          "oklch(37.9% 0.007 151.9)",
+          "oklch(49.3% 0.007 151.9)",
+          "oklch(60.7% 0.007 151.9)",
+          "oklch(72.1% 0.007 151.9)",
+          "oklch(83.6% 0.005 151.9)",
+          "oklch(95.0% 0.003 151.9)"
+        ]
+      },
+      "diff-done-bg-dark": {
+        "role": "tertiary",
+        "displayName": "Change Moss Wash (dark)",
+        "canonical": "#2e3b38",
+        "cssVar": "--lk-color-diff-done-bg",
+        "mode": "dark",
+        "oklch": "oklch(34.0% 0.018 179.6)",
+        "tonalRamp": [
+          "oklch(15.0% 0.006 179.6)",
+          "oklch(26.4% 0.012 179.6)",
+          "oklch(37.9% 0.018 179.6)",
+          "oklch(49.3% 0.018 179.6)",
+          "oklch(60.7% 0.018 179.6)",
+          "oklch(72.1% 0.018 179.6)",
+          "oklch(83.6% 0.012 179.6)",
+          "oklch(95.0% 0.006 179.6)"
+        ]
+      },
+      "favorite": {
+        "role": "tertiary",
+        "displayName": "Bookmark Gold",
+        "canonical": "#c8901a",
+        "cssVar": "--lk-color-favorite",
+        "mode": "light",
+        "oklch": "oklch(69.0% 0.137 79.4)",
+        "tonalRamp": [
+          "oklch(15.0% 0.048 79.4)",
+          "oklch(26.4% 0.090 79.4)",
+          "oklch(37.9% 0.137 79.4)",
+          "oklch(49.3% 0.137 79.4)",
+          "oklch(60.7% 0.137 79.4)",
+          "oklch(72.1% 0.137 79.4)",
+          "oklch(83.6% 0.090 79.4)",
+          "oklch(95.0% 0.048 79.4)"
+        ]
+      },
+      "favorite-dark": {
+        "role": "tertiary",
+        "displayName": "Bookmark Gold (dark)",
+        "canonical": "#f7e29a",
+        "cssVar": "--lk-color-favorite",
+        "mode": "dark",
+        "oklch": "oklch(91.4% 0.094 93.8)",
+        "tonalRamp": [
+          "oklch(15.0% 0.033 93.8)",
+          "oklch(26.4% 0.061 93.8)",
+          "oklch(37.9% 0.094 93.8)",
+          "oklch(49.3% 0.094 93.8)",
+          "oklch(60.7% 0.094 93.8)",
+          "oklch(72.1% 0.094 93.8)",
+          "oklch(83.6% 0.061 93.8)",
+          "oklch(95.0% 0.033 93.8)"
+        ]
+      },
+      "bg-canvas": {
+        "role": "neutral",
+        "displayName": "Workbench Grey",
+        "canonical": "#f3f4f6",
+        "cssVar": "--lk-color-bg-canvas",
+        "mode": "light",
+        "oklch": "oklch(96.7% 0.003 264.5)",
+        "tonalRamp": [
+          "oklch(15.0% 0.001 0)",
+          "oklch(26.4% 0.002 0)",
+          "oklch(37.9% 0.003 264.5)",
+          "oklch(49.3% 0.003 264.5)",
+          "oklch(60.7% 0.003 264.5)",
+          "oklch(72.1% 0.003 264.5)",
+          "oklch(83.6% 0.002 0)",
+          "oklch(95.0% 0.001 0)"
+        ]
+      },
+      "bg-canvas-dark": {
+        "role": "neutral",
+        "displayName": "Workbench Grey (dark)",
+        "canonical": "#1a1d1f",
+        "cssVar": "--lk-color-bg-canvas",
+        "mode": "dark",
+        "oklch": "oklch(22.8% 0.006 236.8)",
+        "tonalRamp": [
+          "oklch(15.0% 0.002 236.8)",
+          "oklch(26.4% 0.004 236.8)",
+          "oklch(37.9% 0.006 236.8)",
+          "oklch(49.3% 0.006 236.8)",
+          "oklch(60.7% 0.006 236.8)",
+          "oklch(72.1% 0.006 236.8)",
+          "oklch(83.6% 0.004 236.8)",
+          "oklch(95.0% 0.002 236.8)"
+        ]
+      },
+      "surface-default": {
+        "role": "neutral",
+        "displayName": "Sheet White",
+        "canonical": "#ffffff",
+        "cssVar": "--lk-color-surface-default",
+        "mode": "light",
+        "oklch": "oklch(100.0% 0.000 0)",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 0)",
+          "oklch(26.4% 0.000 0)",
+          "oklch(37.9% 0.000 0)",
+          "oklch(49.3% 0.000 0)",
+          "oklch(60.7% 0.000 0)",
+          "oklch(72.1% 0.000 0)",
+          "oklch(83.6% 0.000 0)",
+          "oklch(95.0% 0.000 0)"
+        ]
+      },
+      "surface-default-dark": {
+        "role": "neutral",
+        "displayName": "Sheet (dark)",
+        "canonical": "#222629",
+        "cssVar": "--lk-color-surface-default",
+        "mode": "dark",
+        "oklch": "oklch(26.6% 0.008 240.2)",
+        "tonalRamp": [
+          "oklch(15.0% 0.003 240.2)",
+          "oklch(26.4% 0.005 240.2)",
+          "oklch(37.9% 0.008 240.2)",
+          "oklch(49.3% 0.008 240.2)",
+          "oklch(60.7% 0.008 240.2)",
+          "oklch(72.1% 0.008 240.2)",
+          "oklch(83.6% 0.005 240.2)",
+          "oklch(95.0% 0.003 240.2)"
+        ]
+      },
+      "surface-raised": {
+        "role": "neutral",
+        "displayName": "Raised Sheet",
+        "canonical": "#ffffff",
+        "cssVar": "--lk-color-surface-raised",
+        "mode": "light",
+        "oklch": "oklch(100.0% 0.000 0)",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 0)",
+          "oklch(26.4% 0.000 0)",
+          "oklch(37.9% 0.000 0)",
+          "oklch(49.3% 0.000 0)",
+          "oklch(60.7% 0.000 0)",
+          "oklch(72.1% 0.000 0)",
+          "oklch(83.6% 0.000 0)",
+          "oklch(95.0% 0.000 0)"
+        ]
+      },
+      "surface-raised-dark": {
+        "role": "neutral",
+        "displayName": "Raised Sheet (dark)",
+        "canonical": "#252a2d",
+        "cssVar": "--lk-color-surface-raised",
+        "mode": "dark",
+        "oklch": "oklch(28.1% 0.009 234.0)",
+        "tonalRamp": [
+          "oklch(15.0% 0.003 234.0)",
+          "oklch(26.4% 0.006 234.0)",
+          "oklch(37.9% 0.009 234.0)",
+          "oklch(49.3% 0.009 234.0)",
+          "oklch(60.7% 0.009 234.0)",
+          "oklch(72.1% 0.009 234.0)",
+          "oklch(83.6% 0.006 234.0)",
+          "oklch(95.0% 0.003 234.0)"
+        ]
+      },
+      "surface-navigation": {
+        "role": "neutral",
+        "displayName": "Rail Grey",
+        "canonical": "#e7e9eb",
+        "cssVar": "--lk-color-surface-navigation",
+        "mode": "light",
+        "oklch": "oklch(93.3% 0.003 247.9)",
+        "tonalRamp": [
+          "oklch(15.0% 0.001 0)",
+          "oklch(26.4% 0.002 247.9)",
+          "oklch(37.9% 0.003 247.9)",
+          "oklch(49.3% 0.003 247.9)",
+          "oklch(60.7% 0.003 247.9)",
+          "oklch(72.1% 0.003 247.9)",
+          "oklch(83.6% 0.002 247.9)",
+          "oklch(95.0% 0.001 0)"
+        ]
+      },
+      "surface-navigation-dark": {
+        "role": "neutral",
+        "displayName": "Rail (dark)",
+        "canonical": "#111416",
+        "cssVar": "--lk-color-surface-navigation",
+        "mode": "dark",
+        "oklch": "oklch(18.9% 0.006 236.9)",
+        "tonalRamp": [
+          "oklch(15.0% 0.002 236.9)",
+          "oklch(26.4% 0.004 236.9)",
+          "oklch(37.9% 0.006 236.9)",
+          "oklch(49.3% 0.006 236.9)",
+          "oklch(60.7% 0.006 236.9)",
+          "oklch(72.1% 0.006 236.9)",
+          "oklch(83.6% 0.004 236.9)",
+          "oklch(95.0% 0.002 236.9)"
+        ]
+      },
+      "surface-topbar": {
+        "role": "neutral",
+        "displayName": "Topbar Grey",
+        "canonical": "#eceef0",
+        "cssVar": "--lk-color-surface-topbar",
+        "mode": "light",
+        "oklch": "oklch(94.8% 0.003 247.9)",
+        "tonalRamp": [
+          "oklch(15.0% 0.001 0)",
+          "oklch(26.4% 0.002 247.9)",
+          "oklch(37.9% 0.003 247.9)",
+          "oklch(49.3% 0.003 247.9)",
+          "oklch(60.7% 0.003 247.9)",
+          "oklch(72.1% 0.003 247.9)",
+          "oklch(83.6% 0.002 247.9)",
+          "oklch(95.0% 0.001 0)"
+        ]
+      },
+      "surface-topbar-dark": {
+        "role": "neutral",
+        "displayName": "Topbar (dark)",
+        "canonical": "#15181a",
+        "cssVar": "--lk-color-surface-topbar",
+        "mode": "dark",
+        "oklch": "oklch(20.7% 0.006 236.9)",
+        "tonalRamp": [
+          "oklch(15.0% 0.002 236.9)",
+          "oklch(26.4% 0.004 236.9)",
+          "oklch(37.9% 0.006 236.9)",
+          "oklch(49.3% 0.006 236.9)",
+          "oklch(60.7% 0.006 236.9)",
+          "oklch(72.1% 0.006 236.9)",
+          "oklch(83.6% 0.004 236.9)",
+          "oklch(95.0% 0.002 236.9)"
+        ]
+      },
+      "surface-icon": {
+        "role": "neutral",
+        "displayName": "Icon Well",
+        "canonical": "#002e590d",
+        "cssVar": "--lk-color-surface-icon",
+        "mode": "light",
+        "oklch": "oklch(30.0% 0.090 252.2 / 5%)",
+        "note": "반투명 상태 막. 단계 램프 대신 불투명도로 쓴다."
+      },
+      "surface-icon-dark": {
+        "role": "neutral",
+        "displayName": "Icon Well (dark)",
+        "canonical": "#30363a",
+        "cssVar": "--lk-color-surface-icon",
+        "mode": "dark",
+        "oklch": "oklch(32.9% 0.011 236.9)",
+        "tonalRamp": [
+          "oklch(15.0% 0.004 236.9)",
+          "oklch(26.4% 0.007 236.9)",
+          "oklch(37.9% 0.011 236.9)",
+          "oklch(49.3% 0.011 236.9)",
+          "oklch(60.7% 0.011 236.9)",
+          "oklch(72.1% 0.011 236.9)",
+          "oklch(83.6% 0.007 236.9)",
+          "oklch(95.0% 0.004 236.9)"
+        ]
+      },
+      "border-default": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#c8ccd0",
+        "cssVar": "--lk-color-border-default",
+        "mode": "light",
+        "oklch": "oklch(84.3% 0.007 247.9)",
+        "tonalRamp": [
+          "oklch(15.0% 0.002 247.9)",
+          "oklch(26.4% 0.005 247.9)",
+          "oklch(37.9% 0.007 247.9)",
+          "oklch(49.3% 0.007 247.9)",
+          "oklch(60.7% 0.007 247.9)",
+          "oklch(72.1% 0.007 247.9)",
+          "oklch(83.6% 0.005 247.9)",
+          "oklch(95.0% 0.002 247.9)"
+        ]
+      },
+      "border-default-dark": {
+        "role": "neutral",
+        "displayName": "Hairline (dark)",
+        "canonical": "#3a4246",
+        "cssVar": "--lk-color-border-default",
+        "mode": "dark",
+        "oklch": "oklch(37.3% 0.013 229.2)",
+        "tonalRamp": [
+          "oklch(15.0% 0.004 229.2)",
+          "oklch(26.4% 0.008 229.2)",
+          "oklch(37.9% 0.013 229.2)",
+          "oklch(49.3% 0.013 229.2)",
+          "oklch(60.7% 0.013 229.2)",
+          "oklch(72.1% 0.013 229.2)",
+          "oklch(83.6% 0.008 229.2)",
+          "oklch(95.0% 0.004 229.2)"
+        ]
+      },
+      "text-primary": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#1c1f23",
+        "cssVar": "--lk-color-text-primary",
+        "mode": "light",
+        "oklch": "oklch(23.8% 0.009 255.6)",
+        "tonalRamp": [
+          "oklch(15.0% 0.003 255.6)",
+          "oklch(26.4% 0.006 255.6)",
+          "oklch(37.9% 0.009 255.6)",
+          "oklch(49.3% 0.009 255.6)",
+          "oklch(60.7% 0.009 255.6)",
+          "oklch(72.1% 0.009 255.6)",
+          "oklch(83.6% 0.006 255.6)",
+          "oklch(95.0% 0.003 255.6)"
+        ]
+      },
+      "text-primary-dark": {
+        "role": "neutral",
+        "displayName": "Ink (dark)",
+        "canonical": "#edf2f2",
+        "cssVar": "--lk-color-text-primary",
+        "mode": "dark",
+        "oklch": "oklch(95.7% 0.005 197.1)",
+        "tonalRamp": [
+          "oklch(15.0% 0.002 0)",
+          "oklch(26.4% 0.004 197.1)",
+          "oklch(37.9% 0.005 197.1)",
+          "oklch(49.3% 0.005 197.1)",
+          "oklch(60.7% 0.005 197.1)",
+          "oklch(72.1% 0.005 197.1)",
+          "oklch(83.6% 0.004 197.1)",
+          "oklch(95.0% 0.002 0)"
+        ]
+      },
+      "text-secondary": {
+        "role": "neutral",
+        "displayName": "Graphite",
+        "canonical": "#51555a",
+        "cssVar": "--lk-color-text-secondary",
+        "mode": "light",
+        "oklch": "oklch(44.8% 0.010 253.9)",
+        "tonalRamp": [
+          "oklch(15.0% 0.003 253.9)",
+          "oklch(26.4% 0.006 253.9)",
+          "oklch(37.9% 0.010 253.9)",
+          "oklch(49.3% 0.010 253.9)",
+          "oklch(60.7% 0.010 253.9)",
+          "oklch(72.1% 0.010 253.9)",
+          "oklch(83.6% 0.006 253.9)",
+          "oklch(95.0% 0.003 253.9)"
+        ]
+      },
+      "text-secondary-dark": {
+        "role": "neutral",
+        "displayName": "Graphite (dark)",
+        "canonical": "#9aa6a8",
+        "cssVar": "--lk-color-text-secondary",
+        "mode": "dark",
+        "oklch": "oklch(71.6% 0.014 208.8)",
+        "tonalRamp": [
+          "oklch(15.0% 0.005 208.8)",
+          "oklch(26.4% 0.009 208.8)",
+          "oklch(37.9% 0.014 208.8)",
+          "oklch(49.3% 0.014 208.8)",
+          "oklch(60.7% 0.014 208.8)",
+          "oklch(72.1% 0.014 208.8)",
+          "oklch(83.6% 0.009 208.8)",
+          "oklch(95.0% 0.005 208.8)"
+        ]
+      },
+      "icon-default": {
+        "role": "neutral",
+        "displayName": "Icon Ink",
+        "canonical": "#3b4146",
+        "cssVar": "--lk-color-icon-default",
+        "mode": "light",
+        "oklch": "oklch(37.2% 0.012 243.1)",
+        "tonalRamp": [
+          "oklch(15.0% 0.004 243.1)",
+          "oklch(26.4% 0.008 243.1)",
+          "oklch(37.9% 0.012 243.1)",
+          "oklch(49.3% 0.012 243.1)",
+          "oklch(60.7% 0.012 243.1)",
+          "oklch(72.1% 0.012 243.1)",
+          "oklch(83.6% 0.008 243.1)",
+          "oklch(95.0% 0.004 243.1)"
+        ]
+      },
+      "icon-default-dark": {
+        "role": "neutral",
+        "displayName": "Icon Ink (dark)",
+        "canonical": "#b8c3c5",
+        "cssVar": "--lk-color-icon-default",
+        "mode": "dark",
+        "oklch": "oklch(80.9% 0.012 209.8)",
+        "tonalRamp": [
+          "oklch(15.0% 0.004 209.8)",
+          "oklch(26.4% 0.008 209.8)",
+          "oklch(37.9% 0.012 209.8)",
+          "oklch(49.3% 0.012 209.8)",
+          "oklch(60.7% 0.012 209.8)",
+          "oklch(72.1% 0.012 209.8)",
+          "oklch(83.6% 0.008 209.8)",
+          "oklch(95.0% 0.004 209.8)"
+        ]
+      },
+      "state-hover": {
+        "role": "neutral",
+        "displayName": "Hover Veil",
+        "canonical": "#002e590f",
+        "cssVar": "--lk-color-state-hover",
+        "mode": "light",
+        "oklch": "oklch(30.0% 0.090 252.2 / 6%)",
+        "note": "반투명 상태 막. 단계 램프 대신 불투명도로 쓴다."
+      },
+      "state-hover-dark": {
+        "role": "neutral",
+        "displayName": "Hover Veil (dark)",
+        "canonical": "#cad9eb0f",
+        "cssVar": "--lk-color-state-hover",
+        "mode": "dark",
+        "oklch": "oklch(88.0% 0.030 253.0 / 6%)",
+        "note": "반투명 상태 막. 단계 램프 대신 불투명도로 쓴다."
+      },
+      "state-selected": {
+        "role": "neutral",
+        "displayName": "Selected Veil",
+        "canonical": "#002e591f",
+        "cssVar": "--lk-color-state-selected",
+        "mode": "light",
+        "oklch": "oklch(30.0% 0.090 252.2 / 12%)",
+        "note": "반투명 상태 막. 단계 램프 대신 불투명도로 쓴다."
+      },
+      "state-selected-dark": {
+        "role": "neutral",
+        "displayName": "Selected Veil (dark)",
+        "canonical": "#cad9eb1f",
+        "cssVar": "--lk-color-state-selected",
+        "mode": "dark",
+        "oklch": "oklch(88.0% 0.030 253.0 / 12%)",
+        "note": "반투명 상태 막. 단계 램프 대신 불투명도로 쓴다."
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "랜딩 첫 화면 h1 하나. Wanted Sans 800, 랜딩 전용."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "랜딩 장마다 h2."
+      },
+      "headline-sm": {
+        "displayName": "Headline SM",
+        "purpose": "랜딩의 작은 묶음 h3."
+      },
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "랜딩 AI 최신화 단계 번호, node-character 색."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "랜딩 첫 화면 설명, 최대 34em."
+      },
+      "landing-body": {
+        "displayName": "Landing Body",
+        "purpose": "랜딩 장 설명, text-secondary, 최대 28–30em."
+      },
+      "landing-point": {
+        "displayName": "Landing Point",
+        "purpose": "랜딩 아이콘 항목 설명. 제목은 16px 700."
+      },
+      "manuscript-title": {
+        "displayName": "Manuscript Title",
+        "purpose": "원고 제목, 로그인 화면 제목.",
+        "cssVar": "--lk-font-size-manuscript-title"
+      },
+      "manuscript-body": {
+        "displayName": "Manuscript Body",
+        "purpose": "원고 본문 기본값. 작가가 툴바에서 바꾼다.",
+        "cssVar": "--lk-font-size-manuscript-body"
+      },
+      "heading-lg": {
+        "displayName": "Heading LG",
+        "purpose": "화면·패널 제목.",
+        "cssVar": "--lk-font-size-heading-lg"
+      },
+      "heading": {
+        "displayName": "Heading",
+        "purpose": "대화상자·빈 상태 제목.",
+        "cssVar": "--lk-font-size-heading"
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "앱 기본 글자. 버튼·메뉴·사이드바·입력칸.",
+        "cssVar": "--lk-font-size-body"
+      },
+      "context": {
+        "displayName": "Context",
+        "purpose": "상태 안내 같은 설명 문단.",
+        "cssVar": "--lk-font-size-context"
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "필드 레이블, 힌트, 그룹 이름, 배지, 세그먼트.",
+        "cssVar": "--lk-font-size-label"
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "코드 블록과 에디터 고정폭 글꼴 선택지.",
+        "cssVar": "--lk-font-stack-mono"
+      }
+    },
+    "shadows": [
+      {
+        "name": "menu-lift",
+        "value": "0 4px 16px var(--lk-color-shadow-menu)",
+        "purpose": "메뉴, 토스트."
+      },
+      {
+        "name": "popover-lift",
+        "value": "0 8px 24px var(--lk-color-shadow-menu)",
+        "purpose": "앵커에 붙는 팝오버류."
+      },
+      {
+        "name": "dialog-lift",
+        "value": "0 16px 48px var(--lk-color-shadow-dialog)",
+        "purpose": "네이티브 <dialog> 모달."
+      },
+      {
+        "name": "stage-window",
+        "value": "0 24px 64px var(--lk-color-shadow-dialog)",
+        "purpose": "온보딩의 축소 작업공간 창."
+      },
+      {
+        "name": "landing-frame",
+        "value": "0 32px 64px -32px var(--lk-color-shadow-dialog), 0 2px 6px -2px var(--lk-color-shadow-menu)",
+        "purpose": "랜딩의 축소 작업공간 창."
+      },
+      {
+        "name": "focus-ring",
+        "value": "outline: 2px solid var(--lk-color-accent-primary); outline-offset: 1px (landing 3px, fields -1px)",
+        "purpose": "모든 키보드 포커스."
+      },
+      {
+        "name": "ring-cue-followed",
+        "value": "0 0 0 3px var(--lk-color-surface-default), 0 0 0 5px var(--lk-color-node-character)",
+        "purpose": "랜딩: 따라가는 인물 자리의 한 번 뜨는 고리(followedCue 키프레임 35%)."
+      },
+      {
+        "name": "ring-cue-selected-node",
+        "value": "0 0 0 3px var(--lk-color-bg-canvas), 0 0 0 4.5px var(--lk-color-accent-primary)",
+        "purpose": "그래프에서 고른 노드."
+      },
+      {
+        "name": "scrim-modal",
+        "value": "var(--lk-color-scrim-modal) + backdrop-filter: blur(2px)",
+        "purpose": "가벼운 모달 뒤."
+      },
+      {
+        "name": "scrim-dialog",
+        "value": "var(--lk-color-scrim-dialog)",
+        "purpose": "기본 대화상자 뒤."
+      },
+      {
+        "name": "scrim-strong",
+        "value": "var(--lk-color-scrim-strong)",
+        "purpose": "강하게 가리는 대화상자 뒤."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "purpose": "랜딩·온보딩의 단일 이징(각 모듈의 --ease). 빠른 출발, 부드러운 정지."
+      },
+      {
+        "name": "color-transition",
+        "value": "160ms var(--ease)",
+        "purpose": "랜딩 버튼·링크 색 전환."
+      },
+      {
+        "name": "header-rule",
+        "value": "200ms var(--ease)",
+        "purpose": "스크롤 8px 이후 머리글 아래 선."
+      },
+      {
+        "name": "frame-reveal",
+        "value": "opacity 0.4→1 520ms, translateY(16px)→0 620ms, var(--ease)",
+        "purpose": "랜딩 축소 창 등장. 아래 30% 선(IntersectionObserver rootMargin -30%)에서 한 번."
+      },
+      {
+        "name": "window-in",
+        "value": "520ms var(--ease), from opacity 0 translateY(14px) scale(0.985)",
+        "purpose": "온보딩·장면 안 창 등장."
+      },
+      {
+        "name": "scene-internals",
+        "value": "320–560ms var(--ease) with per-item delay --d",
+        "purpose": "노드 등장(340), 타임라인 막대 scaleX 자라남(520), 선 그리기(560)."
+      },
+      {
+        "name": "thread-draw",
+        "value": "stroke-dashoffset 90ms linear, scroll-linked to 70% viewport line",
+        "purpose": "랜딩 실. 첫 창 아래까지는 900ms ease-out cubic로 스스로 뻗는다."
+      },
+      {
+        "name": "thread-plug",
+        "value": "opacity 200ms, scale 0.4→1 320ms var(--ease)",
+        "purpose": "실 마디가 나타날 때."
+      },
+      {
+        "name": "followed-cue",
+        "value": "followedCue 1100ms var(--ease) 900ms delay, once",
+        "purpose": "따라가는 인물 자리의 고리."
+      },
+      {
+        "name": "typed-name",
+        "value": "color/background/box-shadow 420ms var(--ease)",
+        "purpose": "원고 속 이름이 캐릭터 색으로 밝아질 때."
+      },
+      {
+        "name": "spin",
+        "value": "900ms linear infinite",
+        "purpose": "busy 스피너."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "@media (prefers-reduced-motion: reduce)",
+        "purpose": "랜딩: 부드러운 스크롤·전환·고리·스피너 끔, 창 즉시 표시, 실은 스크롤 위치만 따름. 온보딩: 등장을 120ms 선형 페이드로 대체."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "960px",
+        "purpose": "랜딩·온보딩 한 열, 머리글 메뉴 숨김, 실이 왼쪽 레일로."
+      },
+      {
+        "name": "phone",
+        "value": "520px",
+        "purpose": "랜딩 CTA 폭 100%, 머리글 로그인 숨김."
+      },
+      {
+        "name": "design-baseline",
+        "value": "1440×900",
+        "purpose": "앱 설계 기준(데스크톱)."
+      }
+    ],
+    "themes": {
+      "modes": [
+        "dark",
+        "light"
+      ],
+      "default": "dark",
+      "selector": {
+        "dark": ":root, :root[data-theme=\"dark\"]",
+        "light": ":root[data-theme=\"light\"]"
+      },
+      "note": "프론트매터의 기본 키는 light 값, -dark 접미사는 dark 값. 런타임에서는 같은 --lk-color-* 변수가 모드에 따라 바뀐다."
+    },
+    "tokenSource": {
+      "pipeline": "docs/design/lorekeeper.lib.pen → scripts/sync-pencil.mjs → src/design-system/tokens/pencil-variables.json → pnpm tokens (scripts/generate-tokens.mjs) → tokens.css / tokens.ts",
+      "handEdit": false
+    },
+    "stage": {
+      "canvas": "1000×640",
+      "minScale": 0.56,
+      "sidebarCrop": 196,
+      "heightFormula": "640 × scale + 2px",
+      "revealLine": "viewport bottom 30% (thread draw line 70%)"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "앱의 주 행동. 28px, 2px 모서리, 청록 면.",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg>새 문서</button>",
+      "css": ".ds-btn-primary { display:inline-flex; align-items:center; gap:8px; height:28px; padding:0 14px; border:1px solid var(--lk-color-accent-primary); border-radius:var(--lk-radius-control); background:var(--lk-color-accent-primary); color:var(--lk-color-text-on-accent); font-family: var(--font-geist-sans, Geist), 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; font-size:12px; font-weight:600; cursor:pointer; transition: background-color 160ms cubic-bezier(0.2,0.8,0.2,1), border-color 160ms cubic-bezier(0.2,0.8,0.2,1), color 160ms cubic-bezier(0.2,0.8,0.2,1); } .ds-btn-primary:hover { background:color-mix(in srgb, var(--lk-color-accent-primary) 88%, var(--lk-color-text-primary)); } .ds-btn-primary:focus-visible { outline: 2px solid var(--lk-color-accent-primary); outline-offset: 1px; } .ds-btn-primary:disabled { opacity:0.45; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "기본 버튼. 투명 면 + 1px 선, hover에서 상태 막.",
+      "html": "<button class=\"ds-btn-outline\">취소</button>",
+      "css": ".ds-btn-outline { display:inline-flex; align-items:center; gap:8px; height:28px; padding:0 14px; border:1px solid var(--lk-color-border-default); border-radius:var(--lk-radius-control); background:transparent; color:var(--lk-color-text-primary); font-family: var(--font-geist-sans, Geist), 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; font-size:12px; font-weight:600; cursor:pointer; transition: background-color 160ms cubic-bezier(0.2,0.8,0.2,1), border-color 160ms cubic-bezier(0.2,0.8,0.2,1), color 160ms cubic-bezier(0.2,0.8,0.2,1); } .ds-btn-outline:hover { background:var(--lk-color-state-hover); } .ds-btn-outline[aria-pressed=\"true\"] { background:var(--lk-color-state-selected); } .ds-btn-outline:focus-visible { outline: 2px solid var(--lk-color-accent-primary); outline-offset: 1px; }"
+    },
+    {
+      "name": "Icon Button",
+      "kind": "button",
+      "refersTo": "icon-button",
+      "description": "28×28 아이콘 버튼. 눌림·펼침은 선택 막.",
+      "html": "<button class=\"ds-icon-btn\" aria-label=\"더 보기\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"1\"/><circle cx=\"19\" cy=\"12\" r=\"1\"/><circle cx=\"5\" cy=\"12\" r=\"1\"/></svg></button>",
+      "css": ".ds-icon-btn { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border:0; border-radius:var(--lk-radius-control); background:transparent; color:var(--lk-color-icon-default); cursor:pointer; } .ds-icon-btn:hover { background:var(--lk-color-state-hover); } .ds-icon-btn[aria-expanded=\"true\"] { background:var(--lk-color-state-selected); } .ds-icon-btn:focus-visible { outline: 2px solid var(--lk-color-accent-primary); outline-offset: 1px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "text-field",
+      "description": "44px 입력칸. 포커스는 안쪽 청록 outline, 오류도 청록(빨강 없음).",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">작품 이름</span><input class=\"ds-field-control\" value=\"유리 정원의 기록\" /></label>",
+      "css": ".ds-field { display:flex; flex-direction:column; gap:8px; font-family: var(--font-geist-sans, Geist), 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; } .ds-field-label { font-size:12px; font-weight:600; color:var(--lk-color-text-primary); } .ds-field-control { width:100%; height:44px; padding:0 10px; border:1px solid var(--lk-color-border-default); border-radius:var(--lk-radius-control); background:var(--lk-color-surface-default); color:var(--lk-color-text-primary); font:inherit; font-size:12px; } .ds-field-control:focus-visible { outline:2px solid var(--lk-color-accent-primary); outline-offset:-1px; } .ds-field-control[aria-invalid=\"true\"] { border-color:var(--lk-color-accent-primary); }"
+    },
+    {
+      "name": "Sidebar Item",
+      "kind": "nav",
+      "refersTo": "sidebar-item",
+      "description": "사이드바 항목. 현재 위치는 색 띠가 아닌 선택 막.",
+      "html": "<nav class=\"ds-side\"><a class=\"ds-side-item\" href=\"#\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"4.5\" r=\"2.5\"/><path d=\"m10.2 6.3-3.9 3.9\"/><circle cx=\"4.5\" cy=\"12\" r=\"2.5\"/><path d=\"M7 12h10\"/><circle cx=\"19.5\" cy=\"12\" r=\"2.5\"/><path d=\"m13.8 17.7 3.9-3.9\"/><circle cx=\"12\" cy=\"19.5\" r=\"2.5\"/></svg><span>그래프</span></a><a class=\"ds-side-item\" href=\"#\" aria-current=\"page\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M18 20a6 6 0 0 0-12 0\"/><circle cx=\"12\" cy=\"10\" r=\"4\"/><circle cx=\"12\" cy=\"12\" r=\"10\"/></svg><span>레나 아르벨</span></a></nav>",
+      "css": ".ds-side { display:flex; flex-direction:column; gap:2px; width:196px; padding:8px; background:var(--lk-color-surface-navigation); font-family: var(--font-geist-sans, Geist), 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; } .ds-side-item { display:flex; align-items:center; gap:8px; height:32px; padding:0 10px; border-radius:var(--lk-radius-control); color:var(--lk-color-text-primary); font-size:12px; text-decoration:none; } .ds-side-item svg { color:var(--lk-color-icon-default); flex:none; } .ds-side-item:hover:not([aria-current=\"page\"]) { background:var(--lk-color-state-hover); } .ds-side-item[aria-current=\"page\"] { background:var(--lk-color-state-selected); font-weight:600; } .ds-side-item:focus-visible { outline: 2px solid var(--lk-color-accent-primary); outline-offset: 1px; }"
+    },
+    {
+      "name": "Menu",
+      "kind": "custom",
+      "refersTo": "menu",
+      "description": "204px 메뉴. hover·체크는 상태 막, 파괴 동작은 청록 600.",
+      "html": "<div class=\"ds-menu\" role=\"menu\"><button class=\"ds-menu-item\" role=\"menuitem\">이름 바꾸기</button><button class=\"ds-menu-item\" role=\"menuitemcheckbox\" aria-checked=\"true\">즐겨찾기</button><hr class=\"ds-menu-sep\" /><button class=\"ds-menu-item ds-menu-danger\" role=\"menuitem\">휴지통으로 이동</button></div>",
+      "css": ".ds-menu { display:flex; flex-direction:column; gap:4px; width:204px; padding:8px; border:1px solid var(--lk-color-border-default); border-radius:var(--lk-radius-control); background:var(--lk-color-surface-raised); box-shadow:0 4px 16px var(--lk-color-shadow-menu); font-family: var(--font-geist-sans, Geist), 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; } .ds-menu-item { display:flex; align-items:center; height:34px; padding:0 10px; border:0; border-radius:var(--lk-radius-control); background:transparent; color:var(--lk-color-text-primary); font:inherit; font-size:12px; text-align:left; cursor:pointer; } .ds-menu-item:hover, .ds-menu-item:focus-visible { background:var(--lk-color-state-hover); outline:none; } .ds-menu-item[aria-checked=\"true\"] { background:var(--lk-color-state-selected); font-weight:600; } .ds-menu-danger { color:var(--lk-color-accent-primary); font-weight:600; } .ds-menu-sep { height:1px; margin:0; border:0; background:var(--lk-color-border-default); }"
+    },
+    {
+      "name": "Document Kind Chip",
+      "kind": "chip",
+      "refersTo": "kind-chip",
+      "description": "문서 종류 칩. 종류 색 점 + 아이콘 + 레이블, 색만으로 말하지 않는다.",
+      "html": "<ul class=\"ds-kinds\"><li class=\"ds-kind\"><i style=\"background:var(--lk-color-node-character)\"></i><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M18 20a6 6 0 0 0-12 0\"/><circle cx=\"12\" cy=\"10\" r=\"4\"/><circle cx=\"12\" cy=\"12\" r=\"10\"/></svg>캐릭터</li><li class=\"ds-kind\"><i style=\"background:var(--lk-color-node-place)\"></i><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/></svg>장소</li></ul>",
+      "css": ".ds-kinds { display:flex; flex-wrap:wrap; gap:6px; margin:0; padding:0; list-style:none; font-family: var(--font-geist-sans, Geist), 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; } .ds-kind { display:inline-flex; align-items:center; gap:6px; height:30px; padding:0 10px 0 8px; border:1px solid var(--lk-color-border-default); border-radius:var(--lk-radius-control); background:var(--lk-color-surface-default); color:var(--lk-color-text-primary); font-size:13px; font-weight:600; } .ds-kind i { width:8px; height:8px; border-radius:50%; } .ds-kind svg { color:var(--lk-color-icon-default); }"
+    },
+    {
+      "name": "Landing Start Button",
+      "kind": "button",
+      "refersTo": "landing-button-primary",
+      "description": "랜딩의 큰 주 버튼(52px). 흰 원 안의 Google 마크.",
+      "html": "<button class=\"ds-landing-cta\"><span class=\"ds-g\">G</span>Google로 시작하기</button>",
+      "css": ".ds-landing-cta { display:inline-flex; align-items:center; gap:10px; height:52px; padding:0 24px; border:1px solid transparent; border-radius:var(--lk-radius-control); background:var(--lk-color-accent-primary); color:var(--lk-color-text-on-accent); font-family: var(--font-geist-sans, Geist), 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; font-size:17px; font-weight:600; cursor:pointer; transition: background-color 160ms cubic-bezier(0.2,0.8,0.2,1), border-color 160ms cubic-bezier(0.2,0.8,0.2,1), color 160ms cubic-bezier(0.2,0.8,0.2,1); } .ds-landing-cta:hover { background:color-mix(in srgb, var(--lk-color-accent-primary) 86%, var(--lk-color-text-primary)); } .ds-landing-cta:focus-visible { outline:2px solid var(--lk-color-accent-primary); outline-offset:3px; } .ds-g { display:inline-grid; place-items:center; width:24px; height:24px; border-radius:50%; background:#fff; color:#1c1f23; font-size:13px; font-weight:700; }"
+    },
+    {
+      "name": "Status Pill",
+      "kind": "chip",
+      "refersTo": "status-pill",
+      "description": "준비 중인 기능을 밝히는 알약. 상태 공개 전용.",
+      "html": "<p class=\"ds-status\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 6v6h4\"/></svg>지금 만들고 있는 기능이에요</p>",
+      "css": ".ds-status { display:inline-flex; align-items:center; gap:6px; margin:0; padding:4px 10px; border:1px solid var(--lk-color-border-default); border-radius:999px; background:var(--lk-color-surface-default); color:var(--lk-color-text-secondary); font-family: var(--font-geist-sans, Geist), 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; font-size:14px; font-weight:500; }"
+    },
+    {
+      "name": "Story Thread + Followed Cue",
+      "kind": "custom",
+      "refersTo": "stage-frame",
+      "description": "랜딩 시그니처: 원고 속 이름에서 내려온 캐릭터 색 실이 축소 창에 닿고, 그 창에서 인물 자리에 고리가 한 번 뜬다.",
+      "html": "<div class=\"ds-thread-demo\"><p class=\"ds-prose\">그날 밤 <span class=\"ds-name\">레나 아르벨</span>은 온실 문을 열었다.</p><svg class=\"ds-thread\" width=\"40\" height=\"56\" viewBox=\"0 0 40 56\" aria-hidden=\"true\"><path d=\"M20 0 C20 28 20 28 20 50\"/><circle cx=\"20\" cy=\"50\" r=\"4\"/></svg><figure class=\"ds-frame\"><div class=\"ds-frame-row\" data-followed><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M18 20a6 6 0 0 0-12 0\"/><circle cx=\"12\" cy=\"10\" r=\"4\"/><circle cx=\"12\" cy=\"12\" r=\"10\"/></svg>레나 아르벨</div><div class=\"ds-frame-row\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/></svg>북쪽 온실</div></figure></div>",
+      "css": ".ds-thread-demo { display:flex; flex-direction:column; align-items:center; padding:16px; background:var(--lk-color-bg-canvas); font-family: var(--font-geist-sans, Geist), 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; } .ds-prose { margin:0; font-size:14px; line-height:1.8; color:var(--lk-color-text-primary); } .ds-name { color:var(--lk-color-node-character); font-weight:600; background:color-mix(in srgb, var(--lk-color-node-character) 12%, transparent); box-shadow:inset 0 -2px 0 var(--lk-color-node-character); border-radius:1px; } .ds-thread path { fill:none; stroke:var(--lk-color-node-character); stroke-width:2.5; stroke-linecap:round; } .ds-thread circle { fill:var(--lk-color-bg-canvas); stroke:var(--lk-color-node-character); stroke-width:2; } .ds-frame { width:240px; margin:0; padding:8px; border:1px solid var(--lk-color-border-default); border-radius:6px; background:var(--lk-color-surface-default); box-shadow:0 32px 64px -32px var(--lk-color-shadow-dialog), 0 2px 6px -2px var(--lk-color-shadow-menu); } .ds-frame-row { display:flex; align-items:center; gap:8px; height:30px; padding:0 8px; border-radius:var(--lk-radius-control); font-size:12px; color:var(--lk-color-text-primary); } .ds-frame-row[data-followed] { background:var(--lk-color-state-selected); font-weight:600; animation:ds-followed 1100ms cubic-bezier(0.2,0.8,0.2,1) 900ms; } .ds-frame-row svg { color:var(--lk-color-icon-default); } @keyframes ds-followed { 35% { box-shadow:0 0 0 3px var(--lk-color-surface-default), 0 0 0 5px var(--lk-color-node-character); } } @media (prefers-reduced-motion: reduce) { .ds-frame-row[data-followed] { animation:none; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "조용한 작업대, 한 올의 실",
+    "overview": "Lore Sentry의 화면은 작가가 오래 앉아 있는 작업대다. 연회색 바닥 위에 흰 창, 머리카락처럼 가는 1px 선, 거의 각진 2px 모서리, 12px 본문의 촘촘한 밀도. 채색을 거의 하지 않고 회색 단계와 반투명 상태 막(hover·selected)으로 위계를 만든다. 색이 나타나면 의미가 있다. 청록 강조색은 지금 누를 것과 포커스를, 문서 종류 색은 그 문서가 무엇인지를 말한다. 그 밖의 색은 없다.\n\n공개 랜딩(`/`)은 이 작업대를 바꾸지 않고 넓힌다. 같은 `--lk-*` 토큰과 같은 바닥·창·모서리 위에, 헤드라인에만 쓰는 디스플레이 서체(Wanted Sans 800)와 한 올의 실을 더했다. 원고 속 인물 이름에서 캐릭터 색 실이 내려와 축소한 실제 작업공간 창들을 차례로 꿰고, 실이 닿은 창에서 그 인물의 자리가 한 번 빛난다. 움직임은 랜딩에서 더 허용되지만, 모두 화면이 실제로 일하는 모습을 재생하는 데만 쓰고 모두 `prefers-reduced-motion`에서 멈춘다.\n\n토큰은 코드가 원천이 아니라 Pencil(`docs/design/lorekeeper.lib.pen`)이 원천이다. `pencil-variables.json` → `scripts/generate-tokens.mjs` → `src/design-system/tokens/tokens.css`·`tokens.ts`로 생성되며 손으로 고치지 않는다. 이 문서의 색·크기 값은 그 생성물을 옮긴 것이다. 테마는 `dark`(기본, `:root`)와 `light`(`[data-theme=\"light\"]`) 두 모드이고, 사용자 선택은 `system | dark | light`다.",
+    "keyCharacteristics": [
+      "연회색 캔버스 + 흰(어두운 모드에서는 짙은 청회색) 창, 1px `border-default` 선으로 나눈 평평한 면",
+      "모서리는 거의 직각(컨트롤·카드 2px), 축소한 작업공간 창만 6px",
+      "앱 본문 12px / 1.5, 레이블 11px 600 — 데스크톱 1440×900 기준의 조밀한 도구 밀도",
+      "색은 두 가지 뜻만 가진다: 청록 = 행동·포커스, 문서 종류 색 = 문서의 정체",
+      "선택·hover는 테두리나 색 띠가 아니라 반투명 상태 막(`state-hover`, `state-selected`)으로 표시",
+      "랜딩만: Wanted Sans 800 헤드라인, 캐릭터 색 2.5px 실, 스크롤에 맞춰 재생되는 축소 창"
+    ],
+    "rules": [
+      {
+        "name": "The Two Meanings Rule",
+        "body": "색은 두 가지 뜻만 가진다. 청록은 행동과 포커스, 문서 종류 색은 문서의 정체. 장식용 색, 그라데이션 강조, 세 번째 브랜드 색을 들이지 않는다.",
+        "section": "colors"
+      },
+      {
+        "name": "The Kind Color Covenant",
+        "body": "`--lk-color-node-*`는 문서 종류(또는 랜딩에서 따라가는 인물의 실)만 뜻한다. 다른 것을 칠하는 데 빌려 쓰지 않고, 색만으로 종류를 말하지 않는다. 언제나 종류 아이콘·레이블과 함께 쓴다.",
+        "section": "colors"
+      },
+      {
+        "name": "The No-Alarm Rule",
+        "body": "앱에는 빨간 오류 색이 없다. 입력 오류는 청록 테두리 + 아이콘 + 굵은 글씨, 상태 오류는 중립 면 + `text-secondary` 테두리로 표시한다. 붉은 계열(`diff-remove`)은 diff의 \"삭제\"만 뜻한다.",
+        "section": "colors"
+      },
+      {
+        "name": "The Display Scope Rule",
+        "body": "Wanted Sans는 랜딩의 h1·h2·h3와 단계 숫자에만 쓴다. 앱 화면, 축소한 작업공간 창 안, 본문·버튼·내비게이션에는 쓰지 않는다. 서체 파일은 `src/features/landing/fonts/wanted-sans/`에 자체 호스팅(OFL, unicode-range 분할, `font-display: swap`)하며 `landing-page.tsx`만 불러온다.",
+        "section": "typography"
+      },
+      {
+        "name": "The Weight Not Size Rule",
+        "body": "앱 안에서 위계는 크기를 키우기보다 굵기(400 → 600 → 650)로 만든다. 앱의 가장 큰 글자는 21px이다.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Sheet Rule",
+        "body": "문서·카드·패널은 그림자 없이 선과 면 색으로만 나눈다. 그림자는 화면 위에 떠서 다른 것을 가리는 요소에만 쓴다.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do 모든 색·간격·모서리를 `var(--lk-*)`로 쓴다. 값이 없으면 Pencil에 변수를 추가하고 `node scripts/sync-pencil.mjs` → `pnpm tokens`로 생성한다.",
+      "Do 두 모드(dark 기본, light)에서 함께 확인한다. 어두운 모드에서는 문서 종류 색이 회색 단계가 되므로 종류 아이콘·레이블이 늘 함께 있어야 한다.",
+      "Do hover·선택·현재 위치를 `state-hover`·`state-selected` 반투명 막으로 표시한다.",
+      "Do 컨트롤과 카드에 2px 모서리, 1px `border-default` 선을 쓴다. 6px은 축소한 작업공간 창의 틀에만.",
+      "Do 기능은 실제 작업공간 창(`AppWindow`)을 축소해 보여 준다. 창을 0.56배보다 작게 줄이지 말고 사이드바 쪽을 잘라 낸다.",
+      "Do 모든 키보드 포커스에 2px 청록 outline을 남긴다.",
+      "Do 움직임마다 `prefers-reduced-motion` 분기를 함께 쓴다. 줄인 상태에서도 내용은 처음부터 모두 보여야 한다.",
+      "Do 아이콘은 lucide 레지스트리(`<Icon name size />`, 기본 14px, 의미가 있으면 `label`)로만 쓴다. 새 아이콘은 `node scripts/add-icons.mjs`로 등록한다."
+    ],
+    "donts": [
+      "Don't `src/design-system/tokens/tokens.css`·`tokens.ts`를 손으로 고친다(`pnpm tokens:check`가 CI에서 막는다).",
+      "Don't 토큰 밖의 hex를 컴포넌트에 쓴다. 예외는 Google 마크의 흰 원과 인쇄 지면(`.lk-print-sheet`)뿐이다.",
+      "Don't Wanted Sans를 앱 화면, 축소 창 안, 본문·버튼·내비게이션에 쓴다(The Display Scope Rule).",
+      "Don't 문서 종류 색을 문서 종류가 아닌 것에 칠하거나, 색만으로 종류·상태를 구분한다.",
+      "Don't 목록 행이나 카드의 선택을 색깔 있는 왼쪽 띠(border-left, inset box-shadow)로 표시한다. 선택은 상태 막으로 한다. 원고 인용문(blockquote)의 2px 왼쪽 선은 글의 관례이므로 해당하지 않는다.",
+      "Don't 빨간 오류 색을 새로 들인다(The No-Alarm Rule). 붉은 계열은 diff의 삭제만 뜻한다.",
+      "Don't 앱 컨트롤·카드의 모서리를 2px보다 둥글게 만든다.",
+      "Don't 반복 재생되는 장식 애니메이션, 바운스·탄성 이징을 쓴다."
+    ]
+  }
+}
