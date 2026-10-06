@@ -42,10 +42,8 @@ export function installGoogleAnalytics(measurementId: string): Gtag {
   };
   window.gtag = gtag;
   gtag("js", new Date());
-  gtag("config", measurementId, {
-    send_page_view: false,
-    page_location: pageLocation(window.location.href),
-  });
+  gtag("set", { page_location: pageLocation(window.location.href) });
+  gtag("config", measurementId, { send_page_view: false });
   const script = document.createElement("script");
   script.async = true;
   script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;

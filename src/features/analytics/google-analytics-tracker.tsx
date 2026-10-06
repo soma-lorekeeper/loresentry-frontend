@@ -18,11 +18,12 @@ export function GoogleAnalyticsTracker({
     const gtag = installGoogleAnalytics(measurementId);
     const location = pageLocation(window.location.href);
     if (location === previous.current) return;
-    gtag("set", {
+    const page = {
       page_location: location,
       ...(previous.current ? { page_referrer: previous.current } : {}),
-    });
-    gtag("event", "page_view");
+    };
+    gtag("set", page);
+    gtag("event", "page_view", page);
     previous.current = location;
   }, [measurementId, pathname, searchParams]);
 

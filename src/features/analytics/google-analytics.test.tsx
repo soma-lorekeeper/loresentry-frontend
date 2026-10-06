@@ -37,12 +37,6 @@ function pageViews() {
   );
 }
 
-function locations() {
-  return calls()
-    .filter(([command]) => command === "set")
-    .map(([, params]) => params as Record<string, string>);
-}
-
 function navigate(path: string, search = "") {
   navigation.pathname = path;
   navigation.search = search;
@@ -112,10 +106,9 @@ describe("installGoogleAnalytics", () => {
     expect(scripts[0].getAttribute("src")).toBe(
       `https://www.googletagmanager.com/gtag/js?id=${ID}`,
     );
-    expect(calls()).toContainEqual([
-      "config",
-      ID,
-      { send_page_view: false, page_location: "http://localhost/workspace/" },
+    expect(calls().slice(1)).toEqual([
+      ["set", { page_location: "http://localhost/workspace/" }],
+      ["config", ID, { send_page_view: false }],
     ]);
   });
 });
@@ -130,8 +123,7 @@ describe("GoogleAnalyticsTracker", () => {
     navigate("/workspace/", "projectId=p-2");
     rerender(<GoogleAnalyticsTracker measurementId={ID} />);
 
-    expect(pageViews()).toHaveLength(2);
-    expect(locations()).toEqual([
+    expect(pageViews().map(([, , params]) => params)).toEqual([
       { page_location: "http://localhost/projects/" },
       {
         page_location: "http://localhost/workspace/",
