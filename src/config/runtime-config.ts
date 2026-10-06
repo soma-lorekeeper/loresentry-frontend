@@ -9,6 +9,7 @@ export interface RuntimeConfig {
   contactEmail: string;
   privacyPolicyUrl: string;
   termsOfServiceUrl: string;
+  gaMeasurementId: string;
 }
 
 export const DEFAULT_RUNTIME_CONFIG: RuntimeConfig = {
@@ -18,6 +19,7 @@ export const DEFAULT_RUNTIME_CONFIG: RuntimeConfig = {
   contactEmail: "",
   privacyPolicyUrl: "/policies/privacy.html",
   termsOfServiceUrl: "/policies/terms.html",
+  gaMeasurementId: "",
 };
 
 function absoluteHttpUrl(value: unknown) {
@@ -37,6 +39,10 @@ function emailAddress(value: unknown) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed) ? trimmed : "";
 }
 
+function measurementId(value: unknown) {
+  return typeof value === "string" && /^G-[A-Z0-9]+$/.test(value) ? value : "";
+}
+
 export function parseRuntimeConfig(value: unknown): RuntimeConfig {
   if (!value || typeof value !== "object") return DEFAULT_RUNTIME_CONFIG;
   const raw = value as Record<string, unknown>;
@@ -53,6 +59,7 @@ export function parseRuntimeConfig(value: unknown): RuntimeConfig {
     termsOfServiceUrl:
       absoluteHttpUrl(raw.termsOfServiceUrl) ||
       DEFAULT_RUNTIME_CONFIG.termsOfServiceUrl,
+    gaMeasurementId: measurementId(raw.gaMeasurementId),
   };
 }
 

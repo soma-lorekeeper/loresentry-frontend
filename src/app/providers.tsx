@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
+  Suspense,
   createContext,
   useContext,
   useEffect,
@@ -16,6 +17,8 @@ import {
   type RuntimeConfig,
 } from "@/config/runtime-config";
 import { ToastProvider } from "@/design-system/primitives";
+import { analyticsEnabled } from "@/features/analytics/google-analytics";
+import { GoogleAnalyticsTracker } from "@/features/analytics/google-analytics-tracker";
 import { FeedbackProvider } from "@/features/feedback/feedback-provider";
 import { createServices } from "@/services/create-services";
 import { applyMockParam } from "@/services/mock/control";
@@ -81,6 +84,11 @@ export function AppProviders({ children }: { children: ReactNode }) {
 
   return (
     <RuntimeConfigContext.Provider value={config}>
+      {analyticsEnabled(config, window.location.hostname) && (
+        <Suspense fallback={null}>
+          <GoogleAnalyticsTracker measurementId={config.gaMeasurementId} />
+        </Suspense>
+      )}
       <QueryClientProvider client={queryClient}>
         <ServicesProvider services={services}>
           <ToastProvider>
