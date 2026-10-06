@@ -145,20 +145,22 @@ function EpisodeMenu({
               </button>
             ))}
             <hr className={styles.rule} />
-            <button
-              type="button"
-              className={styles.action}
-              onClick={() => onChange([])}
-            >
-              모두 선택
-            </button>
-            <button
-              type="button"
-              className={styles.action}
-              onClick={() => onChange([NO_EPISODE])}
-            >
-              선택 해제
-            </button>
+            <div className={styles.actions}>
+              <button
+                type="button"
+                className={styles.action}
+                onClick={() => onChange([])}
+              >
+                모두 선택
+              </button>
+              <button
+                type="button"
+                className={styles.action}
+                onClick={() => onChange([NO_EPISODE])}
+              >
+                선택 해제
+              </button>
+            </div>
           </div>
         </Popover>
       )}
@@ -231,16 +233,13 @@ function RowFilter({
                 type="button"
                 role="menuitemcheckbox"
                 aria-checked={!hidden.has(row.nodeId)}
+                data-kind={row.kind}
                 className={styles.checkItem}
                 onClick={() => toggle(row.nodeId)}
               >
                 <span className={styles.check}>
                   {!hidden.has(row.nodeId) && <Icon name="check" size={14} />}
                 </span>
-                <span
-                  className={styles.dot}
-                  style={{ background: kindColor(row.kind) }}
-                />
                 <Icon
                   name={DOCUMENT_TYPE_META[row.kind].entityIcon}
                   size={15}
@@ -256,20 +255,22 @@ function RowFilter({
             )}
           </div>
           <hr className={styles.rule} />
-          <button
-            type="button"
-            className={styles.action}
-            onClick={() => onChange(new Set())}
-          >
-            모두 선택
-          </button>
-          <button
-            type="button"
-            className={styles.action}
-            onClick={() => onChange(new Set(rows.map((row) => row.nodeId)))}
-          >
-            선택 해제
-          </button>
+          <div className={styles.actions}>
+            <button
+              type="button"
+              className={styles.action}
+              onClick={() => onChange(new Set())}
+            >
+              모두 선택
+            </button>
+            <button
+              type="button"
+              className={styles.action}
+              onClick={() => onChange(new Set(rows.map((row) => row.nodeId)))}
+            >
+              선택 해제
+            </button>
+          </div>
         </Popover>
       )}
     </>
@@ -433,7 +434,6 @@ export function TimelineView() {
                       open({ kind: "file", fileId: chapter.chapterId })
                     }
                   >
-                    <Icon name="file-text" size={14} />
                     {chapter.name}
                   </button>
                 ))}
@@ -487,6 +487,7 @@ export function TimelineView() {
                         <button
                           type="button"
                           role="rowheader"
+                          data-kind={row.kind}
                           className={styles.rowLabel}
                           onClick={() =>
                             open({ kind: "file", fileId: row.nodeId })

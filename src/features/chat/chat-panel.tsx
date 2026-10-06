@@ -38,10 +38,7 @@ function Message({
     return <p className={styles.user}>{message.content}</p>;
   return (
     <div className={styles.assistant}>
-      <span className={styles.assistantLabel}>
-        <Icon name="sparkles" size={14} />
-        Lore Sentry AI
-      </span>
+      <Icon name="sparkles" size={15} label="Lore Sentry AI" />
       <p>{message.content}</p>
     </div>
   );
@@ -325,10 +322,7 @@ export function ChatPanel() {
               <>
                 <Message message={stream.state.pending} />
                 <div className={styles.assistant} aria-busy="true">
-                  <span className={styles.assistantLabel}>
-                    <Icon name="sparkles" size={14} />
-                    Lore Sentry AI
-                  </span>
+                  <Icon name="sparkles" size={15} label="Lore Sentry AI" />
                   <p>
                     {partial}
                     <span className={styles.caret} aria-hidden="true" />

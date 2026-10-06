@@ -30,12 +30,6 @@ function entryIcon({ node }: TrashEntry): IconName {
     : "folder";
 }
 
-function entryKind({ node }: TrashEntry) {
-  return node.kind === "document"
-    ? DOCUMENT_TYPE_META[node.docType].label
-    : "폴더";
-}
-
 function DeleteEntryDialog({
   entry,
   onClose,
@@ -58,7 +52,6 @@ function DeleteEntryDialog({
       open={entry !== null}
       onClose={close}
       dismissible={!busy}
-      icon="trash-2"
       title="이 항목을 영구 삭제할까요?"
       description={
         withChildren
@@ -108,18 +101,14 @@ function DeleteEntryDialog({
 }
 
 export function FileTrashView() {
-  const { project, projectId, open } = useWorkspace();
+  const { projectId, open } = useWorkspace();
   const toast = useToast();
   const trash = useFileTrash(projectId);
   const restore = useRestoreFile(projectId);
   const [failedId, setFailedId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<TrashEntry | null>(null);
 
-  const meta = trash.isPending
-    ? "불러오는 중"
-    : trash.isError
-      ? "불러오지 못했어요"
-      : `${trash.data.length}개 항목`;
+  const meta = trash.isSuccess ? `${trash.data.length}개` : null;
 
   const restoreEntry = (entry: TrashEntry) => {
     setFailedId(null);
@@ -146,12 +135,7 @@ export function FileTrashView() {
   };
 
   return (
-    <ViewPage
-      context={project.title}
-      title="휴지통"
-      description="현재 프로젝트에서 삭제한 파일과 폴더입니다."
-      meta={meta}
-    >
+    <ViewPage title="휴지통" meta={meta}>
       {trash.isPending ? (
         <ViewPanel>
           <EmptyState
@@ -182,8 +166,8 @@ export function FileTrashView() {
         <ViewPanel>
           <EmptyState
             icon="trash-2"
-            title="휴지통이 비어 있습니다"
-            description="삭제한 파일과 폴더는 여기에서 복원하거나 영구 삭제할 수 있습니다."
+            title="휴지통이 비어 있어요"
+            description="삭제한 파일과 폴더는 여기에서 복원하거나 영구 삭제할 수 있어요."
           />
         </ViewPanel>
       ) : (
@@ -192,15 +176,21 @@ export function FileTrashView() {
             const restoring =
               restore.isPending && restore.variables === entry.node.id;
             return (
-              <li key={entry.node.id}>
+              <li key={entry.node.id} className={styles.item}>
                 <div className={styles.row}>
-                  <span className={styles.icon}>
-                    <Icon name={entryIcon(entry)} size={16} />
-                  </span>
+                  <Icon
+                    name={entryIcon(entry)}
+                    size={16}
+                    className={styles.icon}
+                    data-kind={
+                      entry.node.kind === "document"
+                        ? entry.node.docType
+                        : undefined
+                    }
+                  />
                   <span className={styles.copy}>
                     <span className={styles.title}>{entry.node.title}</span>
                     <span className={styles.meta}>
-                      {entryKind(entry)} · 삭제 전 위치:{" "}
                       {entry.originalPath.join("/")}
                       {entry.node.trashedAt &&
                         ` · ${relativeTime(entry.node.trashedAt)}`}
@@ -208,7 +198,7 @@ export function FileTrashView() {
                   </span>
                   <span className={styles.actions}>
                     <Button
-                      size="lg"
+                      size="md"
                       icon="rotate-ccw"
                       busy={restoring}
                       disabled={restore.isPending}
@@ -217,7 +207,7 @@ export function FileTrashView() {
                       {restoring ? "복원 중…" : "복원"}
                     </Button>
                     <Button
-                      size="lg"
+                      size="md"
                       icon="trash-2"
                       disabled={restoring}
                       onClick={() => setDeleting(entry)}

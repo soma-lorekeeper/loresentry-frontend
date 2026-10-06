@@ -184,7 +184,12 @@ export function GraphView() {
             onClick={() => controls.current?.zoomBy(ZOOM_STEP)}
           />
         </div>
-        <Button size="sm" icon="scan" onClick={() => controls.current?.fit()}>
+        <Button
+          size="md"
+          icon="scan"
+          className={styles.fit}
+          onClick={() => controls.current?.fit()}
+        >
           화면 맞춤
         </Button>
       </div>

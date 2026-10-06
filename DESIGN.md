@@ -7,146 +7,200 @@ colors:
   text-on-accent: "#ffffff"
   text-on-accent-dark: "#111719"
   node-character: "#2f5892"
-  node-character-dark: "#edf2f2"
+  node-character-dark: "#80a7de"
   node-place: "#2f6f3c"
-  node-place-dark: "#d6dcdd"
+  node-place-dark: "#77b98a"
   node-organization: "#645ca0"
-  node-organization-dark: "#bec6c8"
+  node-organization-dark: "#a69ee4"
   node-item: "#995f23"
-  node-item-dark: "#a7b1b3"
+  node-item-dark: "#d7a46e"
   node-event: "#ac5c56"
-  node-event-dark: "#8f9b9d"
+  node-event-dark: "#e4948c"
   node-worldview: "#219180"
-  node-worldview-dark: "#788588"
+  node-worldview-dark: "#5fc6b4"
   node-manuscript: "#81878d"
-  node-manuscript-dark: "#606f73"
-  diff-add: "#2360d7"
-  diff-add-dark: "#84a7eb"
-  diff-add-bg: "#e9effb"
-  diff-add-bg-dark: "#303944"
+  node-manuscript-dark: "#9aa1a8"
   diff-modify: "#2a6e7f"
   diff-modify-dark: "#5ab3c9"
   diff-modify-bg: "#eaf0f2"
   diff-modify-bg-dark: "#2b3a40"
-  diff-remove: "#af4336"
-  diff-remove-dark: "#dc968e"
-  diff-remove-bg: "#f7eceb"
-  diff-remove-bg-dark: "#3b3739"
-  diff-done: "#3c714e"
-  diff-done-dark: "#73b589"
-  diff-done-bg: "#ecf1ed"
-  diff-done-bg-dark: "#2e3b38"
   favorite: "#c8901a"
   favorite-dark: "#f7e29a"
-  bg-canvas: "#f3f4f6"
-  bg-canvas-dark: "#1a1d1f"
+  favorite-on: "#c8901a"
+  favorite-on-dark: "#edf2f2"
+  bg-canvas: "#eceef1"
+  bg-canvas-dark: "#121517"
+  surface-navigation: "#eceef1"
+  surface-navigation-dark: "#121517"
   surface-default: "#ffffff"
-  surface-default-dark: "#222629"
+  surface-default-dark: "#1c2023"
+  surface-topbar: "#f7f8f9"
+  surface-topbar-dark: "#191d20"
+  surface-sunken: "#f4f5f7"
+  surface-sunken-dark: "#23282b"
+  surface-track: "#eef0f3"
+  surface-track-dark: "#24292d"
+  surface-pill: "#ffffff"
+  surface-pill-dark: "#2a2f33"
   surface-raised: "#ffffff"
-  surface-raised-dark: "#252a2d"
-  surface-navigation: "#e7e9eb"
-  surface-navigation-dark: "#111416"
-  surface-topbar: "#eceef0"
-  surface-topbar-dark: "#15181a"
-  surface-icon: "#002e590d"
-  surface-icon-dark: "#30363a"
-  border-default: "#c8ccd0"
-  border-default-dark: "#3a4246"
+  surface-raised-dark: "#22272a"
+  surface-icon: "#16202a0b"
+  surface-icon-dark: "#ffffff0d"
+  surface-icon-hover: "#002e591a"
+  surface-icon-hover-dark: "#cad9eb1a"
+  border-subtle: "#edf0f2"
+  border-subtle-dark: "#2a3034"
+  border-default: "#dde1e6"
+  border-default-dark: "#2e3438"
   text-primary: "#1c1f23"
   text-primary-dark: "#edf2f2"
-  text-secondary: "#51555a"
-  text-secondary-dark: "#9aa6a8"
+  text-secondary: "#5a6168"
+  text-secondary-dark: "#9ca6a9"
   icon-default: "#3b4146"
   icon-default-dark: "#b8c3c5"
-  state-hover: "#002e590f"
-  state-hover-dark: "#cad9eb0f"
-  state-selected: "#002e591f"
-  state-selected-dark: "#cad9eb1f"
+  state-hover: "#16202a0a"
+  state-hover-dark: "#ffffff0b"
+  state-selected: "#1c607016"
+  state-selected-dark: "#a9c7d01f"
+  scrim-modal: "#0000004d"
+  scrim-modal-dark: "#00000066"
+  scrim-dialog: "#00000059"
+  scrim-dialog-dark: "#00000088"
+  scrim-strong: "#00000066"
+  scrim-strong-dark: "#00000099"
+  shadow-menu: "#00000026"
+  shadow-menu-dark: "#00000055"
+  shadow-dialog: "#00000033"
+  shadow-dialog-dark: "#00000066"
 typography:
-  display:
-    fontFamily: "Wanted Sans Variable, Geist, Apple SD Gothic Neo, Noto Sans KR, sans-serif"
-    fontSize: "clamp(38px, 4.8vw, 68px)"
+  display-xl:
+    fontFamily: "Wanted Sans Variable, Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "40px"
     fontWeight: 800
-    lineHeight: 1.1
-    letterSpacing: "-0.038em"
-  headline:
-    fontFamily: "Wanted Sans Variable, Geist, Apple SD Gothic Neo, Noto Sans KR, sans-serif"
-    fontSize: "clamp(30px, 3.1vw, 44px)"
-    fontWeight: 800
-    lineHeight: 1.2
-    letterSpacing: "-0.032em"
-  headline-sm:
-    fontFamily: "Wanted Sans Variable, Geist, Apple SD Gothic Neo, Noto Sans KR, sans-serif"
-    fontSize: "clamp(24px, 2.2vw, 30px)"
-    fontWeight: 800
-    lineHeight: 1.3
-    letterSpacing: "-0.025em"
-  numeral:
-    fontFamily: "Wanted Sans Variable, Geist, Apple SD Gothic Neo, Noto Sans KR, sans-serif"
+    lineHeight: 1.15
+    letterSpacing: "-0.035em"
+  document-title:
+    fontFamily: "Wanted Sans Variable, Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
     fontSize: "34px"
     fontWeight: 800
-    lineHeight: 1
-    fontFeature: "tnum"
-  lede:
-    fontFamily: "Geist, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
-    fontSize: "clamp(17px, 1.4vw, 19px)"
-    fontWeight: 450
-    lineHeight: 1.65
-  landing-body:
-    fontFamily: "Geist, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
-    fontSize: "17px"
-    fontWeight: 450
-    lineHeight: 1.7
-  landing-point:
-    fontFamily: "Geist, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
-    fontSize: "15px"
-    fontWeight: 400
-    lineHeight: 1.6
-  manuscript-title:
-    fontFamily: "Geist, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
-    fontSize: "21px"
-    fontWeight: 600
+    lineHeight: 1.2
+    letterSpacing: "-0.03em"
+  display:
+    fontFamily: "Wanted Sans Variable, Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "30px"
+    fontWeight: 800
+    lineHeight: 1.2
+    letterSpacing: "-0.03em"
+  headline:
+    fontFamily: "Wanted Sans Variable, Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "24px"
+    fontWeight: 800
     lineHeight: 1.25
+    letterSpacing: "-0.025em"
+  title-lg:
+    fontFamily: "Wanted Sans Variable, Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "22px"
+    fontWeight: 800
+    letterSpacing: "-0.02em"
+  dialog-title:
+    fontFamily: "Wanted Sans Variable, Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "19px"
+    fontWeight: 800
+    lineHeight: 1.4
+    letterSpacing: "-0.02em"
+  card-title:
+    fontFamily: "Wanted Sans Variable, Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "18px"
+    fontWeight: 700
+    lineHeight: 1.35
+    letterSpacing: "-0.015em"
+  heading-lg:
+    fontFamily: "Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "24px"
+    fontWeight: 600
+  heading:
+    fontFamily: "Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "15px"
+    fontWeight: 650
+    lineHeight: 1.5
   manuscript-body:
-    fontFamily: "Geist, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontFamily: "Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
     fontSize: "14px"
     fontWeight: 400
     lineHeight: 1.5
-  heading-lg:
-    fontFamily: "Geist, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
-    fontSize: "18px"
-    fontWeight: 600
-    lineHeight: 1.4
-  heading:
-    fontFamily: "Geist, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
-    fontSize: "15px"
-    fontWeight: 600
-    lineHeight: 1.4
   body:
-    fontFamily: "Geist, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
-    fontSize: "12px"
+    fontFamily: "Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "13px"
     fontWeight: 400
     lineHeight: 1.5
   context:
-    fontFamily: "Geist, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
-    fontSize: "12px"
+    fontFamily: "Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "13px"
     fontWeight: 400
     lineHeight: 1.55
   label:
-    fontFamily: "Geist, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
-    fontSize: "11px"
+    fontFamily: "Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "12px"
     fontWeight: 600
     lineHeight: 1.5
   mono:
     fontFamily: "Geist Mono, ui-monospace, monospace"
-    fontSize: "12px"
+    fontSize: "0.9em"
     fontWeight: 400
-    lineHeight: 1.5
+  landing-display:
+    fontFamily: "Wanted Sans Variable, Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "clamp(38px, 4.8vw, 68px)"
+    fontWeight: 800
+    lineHeight: 1.1
+    letterSpacing: "-0.038em"
+  landing-headline:
+    fontFamily: "Wanted Sans Variable, Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "clamp(30px, 3.1vw, 44px)"
+    fontWeight: 800
+    lineHeight: 1.2
+    letterSpacing: "-0.032em"
+  landing-headline-sm:
+    fontFamily: "Wanted Sans Variable, Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "clamp(24px, 2.2vw, 30px)"
+    fontWeight: 800
+    lineHeight: 1.3
+    letterSpacing: "-0.025em"
+  landing-numeral:
+    fontFamily: "Wanted Sans Variable, Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "34px"
+    fontWeight: 800
+    lineHeight: 1
+    fontFeature: "tnum"
+  landing-lede:
+    fontFamily: "Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "clamp(17px, 1.4vw, 19px)"
+    fontWeight: 450
+    lineHeight: 1.65
+  landing-body:
+    fontFamily: "Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "17px"
+    fontWeight: 450
+    lineHeight: 1.7
+  landing-base:
+    fontFamily: "Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "16px"
+    fontWeight: 400
+    lineHeight: 1.6
+  landing-point:
+    fontFamily: "Pretendard Variable, Pretendard, -apple-system, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif"
+    fontSize: "15px"
+    fontWeight: 400
+    lineHeight: 1.6
 rounded:
-  control: "2px"
-  card: "2px"
+  bar-sm: "2px"
   bar: "4px"
-  window: "6px"
+  frame: "6px"
+  control: "7px"
+  row: "10px"
+  card: "12px"
+  panel: "14px"
+  surface: "16px"
+  dialog: "18px"
   pill: "999px"
 spacing:
   space-1: "4px"
@@ -155,20 +209,48 @@ spacing:
   space-4: "14px"
   space-6: "20px"
   space-7: "28px"
+  desk-gutter: "10px"
+  block-gap: "24px"
+  page-top: "56px"
+  page-x: "48px"
+  page-bottom: "64px"
+  page-top-mobile: "32px"
+  page-x-mobile: "16px"
+  page-bottom-mobile: "48px"
 components:
+  sheet:
+    backgroundColor: "{colors.surface-default}"
+    textColor: "{colors.text-primary}"
+    rounded: "{rounded.surface}"
+  tab-bar:
+    backgroundColor: "{colors.surface-topbar}"
+    padding: "6px 10px"
+    height: "46px"
+  tab:
+    textColor: "{colors.text-secondary}"
+    typography: "{typography.body}"
+    rounded: "{rounded.control}"
+    padding: "0 10px"
+    height: "32px"
+  tab-hover:
+    backgroundColor: "{colors.state-hover}"
+  tab-selected:
+    backgroundColor: "{colors.surface-pill}"
+    textColor: "{colors.text-primary}"
   button-primary:
     backgroundColor: "{colors.accent-primary}"
     textColor: "{colors.text-on-accent}"
     typography: "{typography.body}"
     rounded: "{rounded.control}"
     padding: "0 14px"
-    height: "28px"
+    height: "30px"
   button-outline:
+    backgroundColor: "{colors.surface-default}"
     textColor: "{colors.text-primary}"
     typography: "{typography.body}"
     rounded: "{rounded.control}"
     padding: "0 14px"
-    height: "28px"
+    height: "30px"
   button-outline-hover:
     backgroundColor: "{colors.state-hover}"
   button-ghost:
@@ -176,25 +258,46 @@ components:
     typography: "{typography.body}"
     rounded: "{rounded.control}"
     padding: "0 10px"
-    height: "28px"
+    height: "30px"
   button-ghost-pressed:
     backgroundColor: "{colors.state-selected}"
   icon-button:
     textColor: "{colors.icon-default}"
     rounded: "{rounded.control}"
-    size: "28px"
-  text-field:
-    backgroundColor: "{colors.surface-default}"
+    size: "30px"
+  sidebar-item:
     textColor: "{colors.text-primary}"
     typography: "{typography.body}"
     rounded: "{rounded.control}"
     padding: "0 10px"
-    height: "44px"
-  text-field-readonly:
-    backgroundColor: "{colors.surface-icon}"
+    height: "34px"
+  sidebar-item-hover:
+    backgroundColor: "{colors.state-hover}"
+  sidebar-item-selected:
+    backgroundColor: "{colors.surface-pill}"
+  project-switcher:
+    backgroundColor: "{colors.surface-pill}"
+    textColor: "{colors.text-primary}"
+    typography: "{typography.body}"
+    rounded: "{rounded.row}"
+    padding: "0 10px"
+    height: "40px"
+  segmented:
+    backgroundColor: "{colors.surface-track}"
+    rounded: "{rounded.pill}"
+    padding: "3px"
+  segmented-option:
+    textColor: "{colors.text-secondary}"
+    typography: "{typography.label}"
+    rounded: "{rounded.pill}"
+    padding: "0 14px"
+    height: "28px"
+  segmented-option-checked:
+    backgroundColor: "{colors.surface-pill}"
+    textColor: "{colors.text-primary}"
   menu:
     backgroundColor: "{colors.surface-raised}"
-    rounded: "{rounded.control}"
+    rounded: "{rounded.card}"
     padding: "8px"
     width: "204px"
   menu-item:
@@ -207,89 +310,152 @@ components:
     backgroundColor: "{colors.state-hover}"
   menu-item-checked:
     backgroundColor: "{colors.state-selected}"
-  sidebar-item:
-    textColor: "{colors.text-primary}"
-    typography: "{typography.body}"
-    rounded: "{rounded.control}"
-    padding: "0 10px"
-    height: "32px"
-  sidebar-item-selected:
-    backgroundColor: "{colors.state-selected}"
-  segmented:
-    backgroundColor: "{colors.surface-navigation}"
-    rounded: "{rounded.control}"
-    padding: "4px"
-  segmented-option-checked:
-    backgroundColor: "{colors.surface-icon}"
-    textColor: "{colors.text-primary}"
-    typography: "{typography.label}"
-    height: "30px"
   dialog-sm:
     backgroundColor: "{colors.surface-raised}"
     textColor: "{colors.text-primary}"
-    rounded: "{rounded.card}"
+    rounded: "{rounded.dialog}"
     padding: "20px"
     width: "440px"
   dialog-md:
     backgroundColor: "{colors.surface-raised}"
-    rounded: "{rounded.card}"
+    rounded: "{rounded.dialog}"
     padding: "20px"
     width: "520px"
   dialog-lg:
     backgroundColor: "{colors.surface-raised}"
-    rounded: "{rounded.card}"
+    rounded: "{rounded.dialog}"
     padding: "20px"
     width: "650px"
-  inline-notice:
+  dialog-target:
+    backgroundColor: "{colors.surface-sunken}"
+    rounded: "{rounded.card}"
+    padding: "0 10px"
+    height: "44px"
+  text-field:
+    backgroundColor: "{colors.surface-sunken}"
+    textColor: "{colors.text-primary}"
+    typography: "{typography.body}"
+    rounded: "{rounded.row}"
+    padding: "0 10px"
+    height: "42px"
+  text-field-focus:
+    backgroundColor: "{colors.surface-default}"
+  text-field-settings:
+    backgroundColor: "{colors.surface-sunken}"
+    rounded: "{rounded.row}"
+    height: "40px"
+  search-field:
+    backgroundColor: "{colors.surface-sunken}"
+    textColor: "{colors.icon-default}"
+    rounded: "{rounded.row}"
+    padding: "0 10px"
+    height: "36px"
+  list-panel:
+    backgroundColor: "{colors.surface-sunken}"
+    rounded: "{rounded.panel}"
+    padding: "4px"
+  list-row:
+    textColor: "{colors.text-primary}"
+    typography: "{typography.body}"
+    rounded: "{rounded.row}"
+    padding: "0 14px"
+    height: "44px"
+  list-row-hover:
+    backgroundColor: "{colors.surface-default}"
+  card:
+    backgroundColor: "{colors.surface-sunken}"
+    rounded: "{rounded.panel}"
+    padding: "18px 20px 20px"
+  card-hover:
+    backgroundColor: "{colors.surface-raised}"
+  create-card:
+    backgroundColor: "{colors.surface-sunken}"
+    typography: "{typography.body}"
+    rounded: "{rounded.card}"
+    padding: "0 18px"
+    height: "56px"
+  banner:
+    backgroundColor: "{colors.surface-sunken}"
+    rounded: "{rounded.panel}"
+    padding: "22px 24px"
+  property-table:
+    rounded: "{rounded.panel}"
+    padding: "8px 6px"
+  property-row:
+    textColor: "{colors.text-secondary}"
+    typography: "{typography.body}"
+    height: "38px"
+  kind-chip:
+    textColor: "{colors.text-primary}"
+    typography: "{typography.label}"
+    rounded: "{rounded.pill}"
+    padding: "0 10px 0 9px"
+    height: "26px"
+  notice-inline:
     backgroundColor: "{colors.state-selected}"
     typography: "{typography.label}"
     rounded: "{rounded.control}"
     padding: "10px"
-  toast:
-    backgroundColor: "{colors.surface-raised}"
+  notice-status:
+    backgroundColor: "{colors.surface-sunken}"
+    typography: "{typography.context}"
     rounded: "{rounded.card}"
     padding: "14px"
+  toast:
+    backgroundColor: "{colors.surface-raised}"
+    typography: "{typography.body}"
+    rounded: "{rounded.panel}"
+    padding: "14px"
+  save-bar:
+    backgroundColor: "{colors.surface-sunken}"
+    rounded: "{rounded.card}"
+    padding: "10px"
+  danger-zone:
+    backgroundColor: "{colors.surface-sunken}"
+    rounded: "{rounded.panel}"
+    padding: "14px 18px"
   empty-state-icon:
-    backgroundColor: "{colors.surface-icon}"
-    textColor: "{colors.icon-default}"
-    rounded: "{rounded.control}"
-    size: "52px"
+    backgroundColor: "{colors.surface-sunken}"
+    textColor: "{colors.text-secondary}"
+    rounded: "{rounded.pill}"
+    size: "44px"
   timeline-bar:
     backgroundColor: "{colors.node-character}"
     rounded: "{rounded.bar}"
     height: "8px"
+  login-card:
+    backgroundColor: "{colors.surface-default}"
+    padding: "40px"
+    width: "420px"
+  onboarding-window:
+    backgroundColor: "{colors.bg-canvas}"
+    rounded: "{rounded.panel}"
+    width: "1000px"
+    height: "640px"
   landing-button-primary:
     backgroundColor: "{colors.accent-primary}"
     textColor: "{colors.text-on-accent}"
+    typography: "{typography.landing-body}"
     rounded: "{rounded.control}"
     padding: "0 24px"
     height: "52px"
   landing-button-secondary:
     backgroundColor: "{colors.surface-default}"
     textColor: "{colors.text-primary}"
+    typography: "{typography.landing-body}"
     rounded: "{rounded.control}"
     padding: "0 24px"
     height: "52px"
   landing-button-sm:
     backgroundColor: "{colors.accent-primary}"
     textColor: "{colors.text-on-accent}"
+    typography: "{typography.landing-point}"
     rounded: "{rounded.control}"
     padding: "0 14px"
     height: "36px"
-  kind-chip:
-    backgroundColor: "{colors.surface-default}"
-    textColor: "{colors.text-primary}"
-    rounded: "{rounded.control}"
-    padding: "0 10px 0 8px"
-    height: "30px"
-  status-pill:
-    backgroundColor: "{colors.surface-default}"
-    textColor: "{colors.text-secondary}"
-    rounded: "{rounded.pill}"
-    padding: "4px 10px"
-  stage-frame:
+  landing-frame:
     backgroundColor: "{colors.bg-canvas}"
-    rounded: "{rounded.window}"
+    rounded: "{rounded.frame}"
     width: "1000px"
     height: "640px"
 ---
@@ -298,234 +464,298 @@ components:
 
 ## Overview
 
-**Creative North Star: "조용한 작업대, 한 올의 실"**
+**Creative North Star: "회색 책상, 종류의 색을 두른 흰 시트"**
 
-Lore Sentry의 화면은 작가가 오래 앉아 있는 작업대다. 연회색 바닥 위에 흰 창, 머리카락처럼 가는 1px 선, 거의 각진 2px 모서리, 12px 본문의 촘촘한 밀도. 채색을 거의 하지 않고 회색 단계와 반투명 상태 막(hover·selected)으로 위계를 만든다. 색이 나타나면 의미가 있다. 청록 강조색은 지금 누를 것과 포커스를, 문서 종류 색은 그 문서가 무엇인지를 말한다. 그 밖의 색은 없다.
+Lore Sentry의 앱은 회색 책상 위에 흰 작업 시트 한 장이 떠 있는 모습이다. 사이드바는 따로 칠한 패널이 아니라 책상 그 자체이고, 원고·설정 문서·그래프·타임라인은 모두 둥근 모서리(16px)의 시트 안에서 열린다. 위계는 선으로 그은 상자가 아니라 높낮이와 간격이 만든다. 시트는 책상 위로 뜨고(그림자), 시트 안의 묶음은 한 단 들어가며(sunken 면), 지금 고른 항목만 알약처럼 살짝 떠오른다(pill 면 + 그림자). 1px 선은 시트 안에서 영역을 가르는 머리카락 구분선과, 외곽선 버튼처럼 실제 가장자리가 필요한 곳에만 남는다. 이 세계의 이름은 사용자가 고른 "A · 종류의 색"이다(2026-10-06).
 
-공개 랜딩(`/`)은 이 작업대를 바꾸지 않고 넓힌다. 같은 `--lk-*` 토큰과 같은 바닥·창·모서리 위에, 헤드라인에만 쓰는 디스플레이 서체(Wanted Sans 800)와 한 올의 실을 더했다. 원고 속 인물 이름에서 캐릭터 색 실이 내려와 축소한 실제 작업공간 창들을 차례로 꿰고, 실이 닿은 창에서 그 인물의 자리가 한 번 빛난다. 움직임은 랜딩에서 더 허용되지만, 모두 화면이 실제로 일하는 모습을 재생하는 데만 쓰고 모두 `prefers-reduced-motion`에서 멈춘다.
+색은 두 목소리뿐이다. 문서 종류 일곱 색은 그 문서가 무엇인지를 말하고, 자기 면을 옅게 물들인다. 문서 제목 앞의 점, 종류 색을 깐 속성 표, 그 안의 관계 칩, 파일 트리와 탭의 아이콘, 그래프 노드와 타임라인 막대가 모두 같은 `--kind` 값에서 나온다. 청록 강조색은 지금 누를 것, 키보드 포커스, 고른 상태의 표시에만 나타난다. 그 밖의 화면은 회색 단계다. 글자는 Pretendard 한 서체가 13px·12px의 조밀한 도구 밀도로 일하고, 화면·보기·문서·대화상자의 제목에만 Wanted Sans 800이 무게를 싣는다. 문구는 해요체로 짧게 쓰고, 제목을 되풀이하는 부제나 쓸 일 없는 안내를 두지 않는다.
 
-토큰은 코드가 원천이 아니라 Pencil(`docs/design/lorekeeper.lib.pen`)이 원천이다. `pencil-variables.json` → `scripts/generate-tokens.mjs` → `src/design-system/tokens/tokens.css`·`tokens.ts`로 생성되며 손으로 고치지 않는다. 이 문서의 색·크기 값은 그 생성물을 옮긴 것이다. 테마는 `dark`(기본, `:root`)와 `light`(`[data-theme="light"]`) 두 모드이고, 사용자 선택은 `system | dark | light`다.
+테마는 `<html data-theme="light|dark">` 두 모드이고 사용자는 시스템·다크·라이트 중에 고른다. 어두운 모드에서도 구조는 같다. 책상이 가장 어둡고, 시트와 들어간 면이 한 단씩 밝으며, 그림자에는 1px 흰 고리가 더해져 윤곽을 잡는다. 공개 랜딩(`/`)은 같은 토큰·서체·이징 위에서 움직임을 더 허용하는 Persuade 화면이고, 온보딩은 실제 작업공간 창을 흰 페이지 위에 줄여 놓고 카메라가 설명하는 자리로 다가가는 짧은 Persuade 장면이다.
 
 **Key Characteristics:**
 
-- 연회색 캔버스 + 흰(어두운 모드에서는 짙은 청회색) 창, 1px `border-default` 선으로 나눈 평평한 면
-- 모서리는 거의 직각(컨트롤·카드 2px), 축소한 작업공간 창만 6px
-- 앱 본문 12px / 1.5, 레이블 11px 600 — 데스크톱 1440×900 기준의 조밀한 도구 밀도
-- 색은 두 가지 뜻만 가진다: 청록 = 행동·포커스, 문서 종류 색 = 문서의 정체
-- 선택·hover는 테두리나 색 띠가 아니라 반투명 상태 막(`state-hover`, `state-selected`)으로 표시
-- 랜딩만: Wanted Sans 800 헤드라인, 캐릭터 색 2.5px 실, 스크롤에 맞춰 재생되는 축소 창
+- 회색 책상(`bg-canvas`) 위에 뜬 흰 시트(`surface-default`, 16px, lift 그림자), 책상과 시트 사이 10px 틈
+- 시트 안의 묶음은 `surface-sunken` 면(14px)으로 들어가고, 고른 항목은 `surface-pill` + pill 그림자로 떠오른다
+- 1px 상자 대신 높낮이와 간격. 선은 시트 안 머리카락 구분선(`border-subtle`)과 실제 가장자리에만
+- 문서 종류 색이 자기 면을 `color-mix`로 옅게 물들인다(속성 표 10%, 칩 12%)
+- 청록은 행동·포커스·선택 신호에만. 빨간 오류색은 없다
+- Pretendard 13/12px 도구 밀도, 제목에만 Wanted Sans 800과 좁힌 자간
+- 모서리는 안에서 밖으로 커진다: 7 → 10 → 12 → 14 → 16 → 18px
+- 움직임은 140–220ms `--lk-ease`, 온보딩 카메라만 900ms. 모두 `prefers-reduced-motion`을 따른다
 
 ## Colors
 
-회색 단계가 화면의 95%를 차지하고, 의미가 있는 곳에만 청록 하나와 문서 종류 일곱 색이 나타나는 절제된 팔레트다. 모든 색은 `var(--lk-color-…)`로만 쓴다. 아래 이름의 `-dark` 짝은 어두운 모드 값이다.
+회색 단계가 화면의 대부분을 차지하고, 문서 종류 일곱 색과 청록 하나가 의미가 있는 자리에만 나타나는 절제된 팔레트다. 모든 색은 `var(--lk-color-…)`로만 쓰고, 값은 Pencil 파일에서 생성된다. 프론트매터의 기본 키는 라이트 값, `-dark` 짝은 다크 값이며 런타임에서는 같은 변수가 테마에 따라 바뀐다.
 
 ### Primary
 
-- **Sentry Teal** (`accent-primary`, 어두운 모드에서는 **Mist Teal**): 로고 사각형, 주 버튼, 포커스 링(2px outline), 체크 표시, 필수 표시, 메뉴의 파괴 동작, 입력 오류. 화면에서 "지금 여기"를 가리키는 유일한 색이다. 주 버튼 hover는 `text-primary`를 12%(랜딩 14%) 섞어 한 단계 가라앉힌다.
-- **On-Accent** (`text-on-accent`): 청록 위의 글자와 아이콘.
+- **Sentry Teal** (`accent-primary`, 다크에서는 **Mist Teal**): 주 버튼 면, 키보드 포커스 고리의 색, 체크 표시, 온보딩 진행 막대, 끌어 놓을 자리 표시, 스포트라이트 테두리, 잠금·저장 완료 같은 상태 아이콘, 입력 오류 문구와 메뉴의 파괴 동작. 주 버튼 hover는 `text-primary`를 12% 섞어 한 단계 가라앉힌다. 로고 사각형도 이 색이다.
+- **On-Accent** (`text-on-accent`): 청록 면 위의 글자와 아이콘.
+- **Selected Veil** (`state-selected`): 청록을 아주 옅게 깐 반투명 막. 메뉴에서 체크된 항목, 눌린 ghost·outline 버튼, 인라인 안내 바탕, 타임라인의 현재 회차 열.
 
 ### Secondary
 
-문서 종류 색. 그래프 노드, 타임라인 막대, 문서 종류 칩의 점, 랜딩의 실에 쓰이는 제품 고유의 색이며 브랜드 약속이다(PRODUCT.md).
+문서 종류 색. 그래프 노드와 타임라인 막대가 쓰는 제품 고유의 색이며 브랜드 약속이다(PRODUCT.md). 다크 모드에서도 색상을 유지한 채 밝기만 올린 값이다.
 
-- **Ledger Blue** (`node-character`): 캐릭터. 랜딩에서는 따라가는 인물 "레나 아르벨"의 실·이름 강조·단계 숫자 색.
+- **Ledger Blue** (`node-character`): 캐릭터.
 - **Conservatory Green** (`node-place`): 장소.
 - **Guild Violet** (`node-organization`): 조직.
 - **Brass Umber** (`node-item`): 아이템.
 - **Faded Brick** (`node-event`): 이벤트.
 - **Lagoon Teal** (`node-worldview`): 세계관.
-- **Pencil Grey** (`node-manuscript`): 원고.
+- **Pencil Grey** (`node-manuscript`): 원고. 종류를 모를 때의 기본값이기도 하다.
 
-어두운 모드에서 일곱 색은 색상 없이 밝기만 다른 회색 단계(Paper White → Slate)로 바뀐다(Pencil 원천 값). 그래서 문서 종류는 어느 모드에서든 색과 함께 아이콘·레이블로 구분한다.
+종류 색은 `data-kind="character|place|organization|item|event|worldview|manuscript"`를 단 요소 아래에서 `--kind` 변수로 내려온다(`src/design-system/theme/kinds.css`). 쓰는 방법은 셋이다.
+
+- **원색:** 아이콘, 문서 제목 앞 10px 점, 그래프 노드, 타임라인 막대.
+- **판 물들임:** `color-mix(in srgb, var(--kind) 10%, var(--lk-color-surface-sunken))`. 속성 표처럼 문서에 딸린 넓은 면. 그래프 노드 패널 카드 hover는 8%.
+- **칩 물들임:** `color-mix(in srgb, var(--kind) 12%, var(--lk-color-surface-default))`, hover 20%. 관계 칩. 고른 노드 카드처럼 흰 면 위의 선택은 14%.
 
 ### Tertiary
 
-변경 상태와 즐겨찾기. 그래프 최신화의 변경 사항(diff) 화면에서만 의미를 가진다.
-
-- **Change Blue** (`diff-add` / `diff-add-bg`): 추가.
-- **Change Teal** (`diff-modify` / `diff-modify-bg`): 수정.
-- **Change Rust** (`diff-remove` / `diff-remove-bg`): 삭제.
-- **Change Moss** (`diff-done` / `diff-done-bg`): 확정됨.
-- **Bookmark Gold** (`favorite`): 즐겨찾기 별.
+- **Change Teal** (`diff-modify` / `diff-modify-bg`): 바뀐 줄. 그래프 최신화 변경 사항과 버전 기록의 바뀐 줄 바탕, 문서 안 찾기 결과 표시. Pencil에는 추가·삭제·확정 diff 색도 있지만 지금 쓰는 화면이 없다.
+- **Bookmark Gold** (`favorite`, 켜짐은 `favorite-on`): 즐겨찾기 별.
 
 ### Neutral
 
-- **Workbench Grey** (`bg-canvas`): 페이지 바닥. 랜딩 전체 바닥도 같다.
-- **Sheet White** (`surface-default`): 문서·입력칸·칩·보조 버튼의 면.
-- **Raised Sheet** (`surface-raised`): 대화상자·메뉴·토스트.
-- **Rail Grey** (`surface-navigation`): 사이드바, 세그먼트 바탕, 랜딩 바닥글.
-- **Topbar Grey** (`surface-topbar`): 앱 상단 막대.
-- **Icon Well** (`surface-icon`): 아이콘 받침, 읽기 전용 입력칸, 선택된 세그먼트.
-- **Hairline** (`border-default`): 모든 1px 구분선과 테두리.
-- **Ink** (`text-primary`) / **Graphite** (`text-secondary`): 본문과 보조 글자.
-- **Icon Ink** (`icon-default`): 기본 아이콘.
-- **Hover Veil** (`state-hover`) / **Selected Veil** (`state-selected`): 남색 계열 반투명 막. 모든 hover·선택·현재 위치 표시.
+- **Desk Grey** (`bg-canvas`): 앱의 책상. 로그인·계정 완료 화면과 랜딩의 바닥도 같다.
+- **Desk Rail** (`surface-navigation`): 사이드바. 책상과 같은 값이라 사이드바는 따로 칠한 패널이 아니다.
+- **Sheet White** (`surface-default`): 작업 시트, 문서 본문, 외곽선 버튼, 들어간 목록 안 hover 행, 포커스된 입력칸. 온보딩 페이지 바탕.
+- **Sheet Strip** (`surface-topbar`): 시트 맨 위 탭 막대. 시트와 한 톤 다른 띠라서 탭 막대가 시트의 머리로 읽힌다.
+- **Inset** (`surface-sunken`): 시트 안에서 한 단 들어간 면. 목록 판, 쉬는 카드, 입력칸, 배너, 위험 영역, 저장 막대. 대화상자 안에서는 `text-primary` 6%를 섞은 값으로 다시 계산되어 떠 있는 면 위에서도 들어가 보인다.
+- **Pill** (`surface-pill`): 책상이나 탭 막대 위에서 고른 항목이 떠오르는 면. 라이트에서는 흰색, 다크에서는 시트보다 밝다.
+- **Track** (`surface-track`): 분할 단추의 홈, 스켈레톤 뼈대, 변경 사항 화면의 보조 면.
+- **Raised Sheet** (`surface-raised`): 메뉴, 대화상자, 토스트, hover로 떠오른 카드.
+- **Icon Well** (`surface-icon` / `surface-icon-hover`): 아바타 바탕, 읽기 전용·비활성 입력칸, 타임라인의 등장 구간 띠, 탭 닫기 hover.
+- **Hairline** (`border-subtle`): 시트 안 구분선. 탭 막대와 편집 도구 막대 아래, 설정 화면 섹션 머리 아래.
+- **Edge** (`border-default`): 실제 가장자리. 외곽선 버튼, 메뉴·도구 막대 안 세로·가로 구분선, 사이드바 구분선(불투명도 0.6).
+- **Ink** (`text-primary`) / **Graphite** (`text-secondary`): 본문과 보조 글자. 보조 글자는 들어간 면과 종류 판 위에서도 4.5:1을 넘는다.
+- **Icon Ink** (`icon-default`): 종류가 없는 기본 아이콘.
+- **Hover Veil** (`state-hover`): 흰 면 위의 hover.
 
-스크림(`scrim-modal`·`scrim-dialog`·`scrim-strong`)과 그림자 색(`shadow-menu`·`shadow-dialog`)은 Elevation & Depth에서 다룬다.
+스크림 세 단계(`scrim-modal`·`scrim-dialog`·`scrim-strong`)와 그림자 색(`shadow-menu`·`shadow-dialog`)은 Elevation & Depth에서 다룬다.
 
 ### Named Rules
 
-**The Two Meanings Rule.** 색은 두 가지 뜻만 가진다. 청록은 행동과 포커스, 문서 종류 색은 문서의 정체. 장식용 색, 그라데이션 강조, 세 번째 브랜드 색을 들이지 않는다.
+**The Two Voices Rule.** 색은 두 가지만 말한다. 문서 종류 색은 그 문서가 무엇인지, 청록은 지금 누를 것과 포커스와 고른 상태. 장식 색, 그라데이션 강조, 세 번째 브랜드 색을 들이지 않는다.
 
-**The Kind Color Covenant.** `--lk-color-node-*`는 문서 종류(또는 랜딩에서 따라가는 인물의 실)만 뜻한다. 다른 것을 칠하는 데 빌려 쓰지 않고, 색만으로 종류를 말하지 않는다. 언제나 종류 아이콘·레이블과 함께 쓴다.
+**The Kind Tint Rule.** 문서 종류 색은 원색으로 칠할 때 점·아이콘·노드·막대처럼 작은 표식에만 쓰고, 면을 칠할 때는 `color-mix`로 8–14%만 섞는다(속성 표 10% into sunken, 칩 12% into default, 칩 hover만 20%). 언제나 종류 아이콘이나 이름이 함께 있어서 색만으로 종류를 말하지 않는다.
 
-**The No-Alarm Rule.** 앱에는 빨간 오류 색이 없다. 입력 오류는 청록 테두리 + 아이콘 + 굵은 글씨, 상태 오류는 중립 면 + `text-secondary` 테두리로 표시한다. 붉은 계열(`diff-remove`)은 diff의 "삭제"만 뜻한다.
+**The No-Alarm Rule.** 앱에는 빨간 오류색이 없다. 입력 오류는 청록 글자 + 경고 아이콘 + 600, 상태 오류는 중립 면 + 아이콘으로 말하고, 위험 영역도 들어간 면 위의 평범한 외곽선 버튼이다.
 
 ## Typography
 
-**Display Font:** Wanted Sans Variable (랜딩 전용, Geist와 한글 시스템 서체로 대체)
-**Body Font:** Geist (`next/font`, 가변 굵기) → Apple SD Gothic Neo → Noto Sans KR → Malgun Gothic
-**Label/Mono Font:** Geist Mono → ui-monospace (에디터의 고정폭 글꼴 선택지와 코드 블록)
+**Display Font:** Wanted Sans Variable (자체 호스팅, `--lk-font-stack-display`, 없으면 UI 서체로 대체)
+**Body Font:** Pretendard Variable (자체 호스팅, `--lk-font-stack-ui`) → Pretendard → -apple-system → Apple SD Gothic Neo → Noto Sans KR → Malgun Gothic
+**Label/Mono Font:** Geist Mono (`next/font`, `--lk-font-stack-mono`): 원고 안 코드와 코드 블록
 
-**Character:** 앱은 Geist 한 서체로 크기보다 굵기(400/600/650)로 위계를 만드는 담담한 도구 서체다. 랜딩 헤드라인만 Wanted Sans 800의 단단한 한글 획으로 목소리를 키운다.
+**Character:** Pretendard가 13px 본문과 12px 레이블로 조밀하고 담담하게 도구 일을 하고, Wanted Sans 800이 제목에서만 단단한 한글 획과 좁힌 자간으로 무게를 싣는다. 제목과 본문의 대비는 크기보다 서체와 굵기가 만든다.
 
 ### Hierarchy
 
-앱(Pencil 토큰 `--lk-font-size-*`, `--lk-line-height-*`):
+앱(`--lk-font-size-*`, `--lk-line-height-*`):
 
-- **Manuscript Title** (600, 21px, 1.25): 원고 제목, 로그인 화면 제목.
-- **Heading LG** (600–650, 18px): 화면·패널 제목(메모, 프로젝트, 버전 기록).
-- **Heading** (600, 15px, 1.4): 대화상자 제목, 빈 상태 제목, diff 문서 제목(650).
-- **Manuscript Body** (400, 14px, 1.5): 원고 본문 기본값. 글꼴·크기·줄 간격은 작가가 툴바에서 바꾸고 기기마다 저장한다. 본문 폭 `--lk-doc-content-width`(672px).
-- **Body** (400, 12px, 1.5): 앱 기본 글자. 버튼·메뉴·사이드바·입력칸. 버튼과 강조 항목은 600.
-- **Context** (400, 12px, 1.55): 상태 안내 같은 설명 문단.
-- **Label** (600, 11px): 필드 레이블(settings 밀도), 힌트, 그룹 이름, 배지, 세그먼트.
+- **Display XL** (Wanted Sans 800, 40px, 1.15, -0.035em): 온보딩 단계 제목. 960px 이하에서 30px.
+- **Document Title** (Wanted Sans 800, 34px, 1.2, -0.03em): 편집 화면의 문서 제목. 앞에 종류 색 점이 붙는다.
+- **Display** (Wanted Sans 800, 30px, 1.2, -0.03em): 화면과 보기의 제목(프로젝트, 새 탭의 작품 이름, 메모, 설정, 사용 가이드, 휴지통). 옆에 붙는 개수 같은 메타는 Pretendard 13px 500 `text-secondary`, 자간 0.
+- **Headline** (Wanted Sans 800, 24px, 1.25, -0.025em): 로그인 카드 제목.
+- **Title LG** (Wanted Sans 800, 22px, -0.02em): 계정 대화상자·완료 화면 제목, 변경 사항 화면의 문서 제목.
+- **Dialog Title** (Wanted Sans 800, 19px, 1.4, -0.02em): 대화상자 제목. 챗 패널 안 확인 카드는 17px.
+- **Card Title** (Wanted Sans 700, 18px, 1.35, -0.015em): 프로젝트 카드 제목. 온보딩의 시작 선택지 제목은 같은 크기에 800.
+- **Heading LG** (Pretendard 600, 24px): 큰 빈 상태 제목.
+- **Heading** (Pretendard 600–700, 15px, 1.5): 시트 안 섹션 제목(새로 만들기, 최근에 연 파일, 일반, 위험 영역), 빈 상태 제목, 이어서 쓰기 배너의 문서 이름.
+- **Manuscript Body** (Pretendard 400, 14px, 1.5): 원고 본문 기본값. 글꼴·크기·줄 간격·정렬은 작가가 도구 막대에서 바꾸고 기기마다 저장한다. 본문 폭 `--lk-doc-content-width`.
+- **Body** (Pretendard 400, 13px, 1.5): 앱 기본 글자. 버튼·탭·메뉴·사이드바·입력칸. 버튼과 강조 항목은 600, 목록 행 이름은 500–600.
+- **Context** (Pretendard 400, 13px, 1.55): 상태 안내 같은 설명 문단.
+- **Label** (Pretendard 600, 12px, 1.5): 사이드바 섹션 이름, 분할 단추, 칩, 메뉴 그룹 이름, 설정 밀도의 필드 레이블. 시간·개수·힌트 같은 메타는 같은 크기에 400 `text-secondary`.
 
-랜딩(`landing.module.css`, 기본 16px / 1.6):
-
-- **Display** (Wanted Sans 800, `clamp(38px, 4.8vw, 68px)`, 1.1, -0.038em): 첫 화면 h1 하나.
-- **Headline** (Wanted Sans 800, `clamp(30px, 3.1vw, 44px)`, 1.2, -0.032em): 장마다 h2.
-- **Headline SM** (Wanted Sans 800, `clamp(24px, 2.2vw, 30px)`, 1.3, -0.025em): 작은 묶음의 h3.
-- **Numeral** (Wanted Sans 800, 34px, 1, tabular-nums, `node-character` 색): AI 최신화 세 단계의 번호.
-- **Lede** (Geist 450, `clamp(17px, 1.4vw, 19px)`, 1.65, 최대 34em): 첫 화면 설명.
-- **Landing Body** (Geist 450, 17px, 1.7, 최대 28–30em): 장 설명. `text-secondary`.
-- **Landing Point** (Geist 400, 15px, 1.6): 아이콘 붙은 항목 설명. 항목 제목은 16px 700 `text-primary`.
-
-헤드라인은 `text-wrap: balance`와 의도한 줄바꿈(`white-space: pre-line`)을 함께 쓰고, 랜딩 전체에 `word-break: keep-all`로 한국어 어절을 끊지 않는다.
+자간은 제목이 클수록 좁힌다(40px -0.035em → 30·34px -0.03em → 19·22px -0.02em → 18px -0.015em). 본문과 레이블은 자간을 건드리지 않는다. 숫자가 줄을 맞춰야 하는 글자 수 표시는 `tabular-nums`.
 
 ### Named Rules
 
-**The Display Scope Rule.** Wanted Sans는 랜딩의 h1·h2·h3와 단계 숫자에만 쓴다. 앱 화면, 축소한 작업공간 창 안, 본문·버튼·내비게이션에는 쓰지 않는다. 서체 파일은 `src/features/landing/fonts/wanted-sans/`에 자체 호스팅(OFL, unicode-range 분할, `font-display: swap`)하며 `landing-page.tsx`만 불러온다.
+**The Title Face Rule.** Wanted Sans는 제목에만 쓴다: 화면·보기·문서·대화상자·카드 제목과 랜딩 헤드라인. 굵기는 700–800, 자간은 음수. 버튼·탭·메뉴·표·본문·내비게이션은 언제나 Pretendard다.
 
-**The Weight Not Size Rule.** 앱 안에서 위계는 크기를 키우기보다 굵기(400 → 600 → 650)로 만든다. 앱의 가장 큰 글자는 21px이다.
+**The Three Steps Rule.** 작업 화면에서 제목 서체가 아닌 글자는 레이블 12px, 본문 13px, 섹션 제목 15px 세 단계로 짓는다(원고 본문 크기는 작가가 고른다). 그 사이의 위계는 크기를 새로 만들지 않고 굵기(400·500·600·650)와 `text-secondary`로 만들고, 더 큰 글자는 제목 서체의 몫이다. 로고 글자와 큰 빈 상태 제목만 예외다.
 
 ## Layout
 
-**앱.** 데스크톱 1440×900이 설계 기준이다. 사이드바(`surface-navigation`) + 상단 막대(`surface-topbar`) + 탭·분할 보기의 작업공간. 간격은 Pencil 스케일 `--lk-space-1…7`(4·8·10·14·20·28px, 5단계 없음)만 쓴다. 고정 치수 토큰: 컨트롤 높이 `--lk-control-height` 28px, 속성 표 행 34px와 레이블 폭 168px, 문서 본문 폭 672px. 대화상자는 sm 440 / md 520 / lg 650px 폭, 안쪽 20px.
+**책상과 시트.** 데스크톱 1440×900이 설계 기준이다. 작업공간은 책상 위 사이드바(232px, 안쪽 16·12px)와, 책상 가장자리에서 10px 떨어진 둥근 시트로 이루어진다. 분할 보기는 시트를 두 장으로 나누고 그 사이도 10px 책상이 보인다. AI 챗은 오른쪽에 320px짜리 두 번째 시트로 선다. 프로젝트 목록 화면도 같은 구조다(사이드바 228px, 시트 안쪽 56·48·28px). 시트 맨 위는 46px 탭 막대, 문서를 열면 그 아래 48px 편집 도구 막대가 한 줄로 붙고, 둘 다 머리카락 구분선으로 시트 본문과 나뉜다.
 
-**랜딩.** 본문 최대 폭 1240px + 좌우 여백 `clamp(16px, 5vw, 100px)`. 머리글은 64px 높이로 붙어 다니고, 8px 넘게 스크롤하면 아래 1px 선이 나타난다. 장 사이는 `clamp(120px, 14vw, 200px)`(AI 최신화 앞은 `clamp(140px, 16vw, 220px)`)로 넉넉히 띄운다. 장마다 창과 설명의 비율과 세로 정렬을 달리한다(7:5 가운데, 4:8 위, 7:5 아래, 창 하나를 1000px로 가운데). 첫 화면 뒤에는 36px 격자 선을 타원 마스크로 흐리게 깐다(첫 화면 전용).
+**내용 폭.** 시트 안 내용은 가운데 한 열이다. 허브·목록 보기(새 탭, 메모, 사용 가이드, 휴지통)는 960px, 양식(프로젝트 설정)은 720px에 좌우 48px을 더한 폭이고 안쪽 여백은 위 56 / 좌우 48 / 아래 64px이다. 문서는 `--lk-doc-content-width`(672px)에 좌우 28px, 위 64px·아래 120px. 속성 표의 이름 칸은 `--lk-property-label-width`(168px), 행은 `--lk-property-row-height`(38px).
 
-**축소한 작업공간 창(Scene Frame).** 실제 앱 창(`AppWindow`, onboarding의 `scenes.tsx`)을 1000×640 캔버스로 그린 뒤 자리 폭에 맞춰 `transform: scale()`로 줄인다. 배율은 `max(자리폭/1000, 0.56, min(1, 초점 배율))`. 0.56보다 작으면 창 안 글자를 읽을 수 없으므로 더 줄이지 않고 왼쪽(사이드바 196px)부터 잘라 낸다. `focus` 범위(예: AI 최신화 창 432–976px)를 주면 그 범위가 자리를 채우도록 키운다. 프레임 높이는 `640 × 배율 + 2px`. 캔버스는 `aria-hidden`이고 화면 낭독기에는 `figcaption`의 장면 설명만 읽힌다.
+**간격.** 간격은 Pencil 스케일 `--lk-space-1…7`(4·8·10·14·20·28px, 5단계 없음)을 쓰고, 화면 블록 사이는 24px, 양식 섹션 안은 16px, 섹션 제목 아래 구분선까지는 12px. 카드 격자는 14px(프로젝트) 또는 10px(새로 만들기) 간격이다. 컨트롤 높이는 `--lk-control-height`(30px)를 기본으로, 탭 32 / 사이드바 행 34 / 메뉴 항목 34 / 입력칸 42(설정 밀도 40) / 프로젝트 전환 40 / 목록 행 44–64px.
 
-**반응형.** 960px 이하에서 랜딩의 장은 한 열로 쌓이고 머리글 메뉴가 숨고, 실은 왼쪽 여백의 레일을 따라 내려가며 창마다 왼쪽 위 모서리로 가지를 낸다. 520px 이하에서 CTA는 폭 100%, 머리글의 "로그인"이 숨는다. 온보딩도 960px에서 한 열로 바뀐다. 앱 자체의 모바일 레이아웃은 범위 밖이다.
+**반응형.** 앱 전용 모바일 레이아웃은 범위 밖이지만 좁은 창에서도 깨지지 않는다.
+
+- 1180px 이하: 프로젝트 격자 2열, 760px 이하 1열. 1100px 이하: 새로 만들기 격자가 줄어든다.
+- 900px 이하: 작업공간 사이드바는 본문을 밀지 않고 덮는 서랍(min(300px, 86vw), modal 그림자 + 스크림)이 되고, AI 챗은 아래에서 올라오는 60vh 시트가 된다. 프로젝트 화면의 사이드바는 위쪽 가로줄로 눕고 오른쪽 끝을 흐려 더 있음을 보인다. 시트 둘레 틈은 8px.
+- 600px 이하: 내용 여백이 위 32 / 좌우 16 / 아래 48px로 줄고, 고르지 않은 탭은 32px 아이콘 탭으로 접힌다.
+- 터치 기기(`pointer: coarse`): 버튼과 아이콘 버튼은 최소 36px.
+
+**로그인·계정 화면.** 책상 가운데에 로고와 흰 카드 한 장(420px, 안쪽 40px)이 뜬다. **온보딩**은 흰 페이지에 440px 설명 칼럼과 무대를 나란히 두고, 960px 이하에서 위아래로 쌓는다.
 
 ## Elevation & Depth
 
-기본은 평평하다. 면의 깊이는 그림자보다 회색 단계(canvas → surface → raised)와 1px 선으로 나눈다. 그림자는 떠 있는 것(메뉴·팝오버·토스트·대화상자)과 축소한 창에만 붙고, 그림자 색은 모드별 토큰(`shadow-menu`, `shadow-dialog`)을 쓴다. 뒤를 가릴 때는 스크림 세 단계를 쓴다: `scrim-modal`(+ `blur(2px)`), `scrim-dialog`, `scrim-strong`.
+이 세계의 위계는 그림자와 면의 높낮이가 맡는다. 책상이 바닥, 시트가 한 단 위, 시트 안의 묶음은 다시 한 단 아래(sunken), 고른 항목은 살짝 위(pill), 메뉴와 대화상자는 가장 위다. 그림자는 여러 겹을 한 값에 담아야 해서 Pencil 변수가 아닌 `src/design-system/theme/elevation.css`에 테마별로 둔다. 라이트 그림자는 남색 기운의 넓고 부드러운 그늘이고, 다크 그림자는 1px 흰 고리(4–7%)로 윤곽을 잡고 짙은 검정 그늘을 깐다.
 
 ### Shadow Vocabulary
 
-- **Menu lift** (`box-shadow: 0 4px 16px var(--lk-color-shadow-menu)`): 메뉴, 토스트.
-- **Popover lift** (`box-shadow: 0 8px 24px var(--lk-color-shadow-menu)`): 앵커에 붙는 팝오버류.
-- **Dialog lift** (`box-shadow: 0 16px 48px var(--lk-color-shadow-dialog)`): 네이티브 `<dialog>` 모달.
-- **Stage window** (`box-shadow: 0 24px 64px var(--lk-color-shadow-dialog)`): 온보딩의 축소 창.
-- **Landing frame** (`box-shadow: 0 32px 64px -32px var(--lk-color-shadow-dialog), 0 2px 6px -2px var(--lk-color-shadow-menu)`): 랜딩의 축소 창. 아래로 길게 떨어지는 그림자와 가까운 접지선.
-- **Focus ring** (`outline: 2px solid var(--lk-color-accent-primary)`, offset 1px; 랜딩 3px; 입력칸 -1px): 모든 키보드 포커스.
-- **Ring cue** (`box-shadow: 0 0 0 3px <바닥색>, 0 0 0 4.5–5px <강조색>`): 바닥색 틈을 둔 이중 고리. 그래프에서 고른 노드(청록), 랜딩에서 따라가는 인물(캐릭터 색).
+- **Lift** (`--lk-shadow-lift`; 라이트 `0 1px 2px rgb(22 32 42 / 5%), 0 14px 34px -18px rgb(22 32 42 / 24%)`): 늘 떠 있는 것. 작업 시트, 챗 시트, 계정 완료 카드, 오류 상태의 저장 막대.
+- **Raise** (`--lk-shadow-raise`; 라이트 `0 2px 4px rgb(22 32 42 / 6%), 0 22px 44px -20px rgb(22 32 42 / 32%)`): 눌러 볼 수 있는 카드를 가리켰을 때, 프로젝트 전환 단추 hover·펼침, 로그인 카드, 온보딩의 축소 창.
+- **Pill** (`--lk-shadow-pill`; 라이트 `0 1px 2px rgb(22 32 42 / 8%), 0 4px 12px -6px rgb(22 32 42 / 22%)`): 책상·탭 막대 위에서 고른 항목. 사이드바 행, 탭, 분할 단추, 프로젝트 전환 단추, 눌린 AI 챗 단추.
+- **Float** (`--lk-shadow-float`; 라이트 `0 0 0 1px rgb(22 32 42 / 7%), 0 18px 40px -14px rgb(22 32 42 / 30%)`): 메뉴, 팝오버, 토스트, 그래프 노드 패널.
+- **Modal** (`--lk-shadow-modal`; 라이트 `0 0 0 1px rgb(22 32 42 / 6%), 0 40px 90px -30px rgb(22 32 42 / 45%)`): 대화상자, 좁은 창의 사이드바 서랍, 챗 확인 카드.
+- **Focus ring** (`--lk-focus-ring`; 라이트 `0 0 0 2px rgb(28 96 112 / 35%)`, 다크는 Mist Teal 45%): 자기 면을 가진 컨트롤의 키보드 포커스. `outline: none`과 함께 쓴다. 따로 처리하지 않은 요소는 전역 `:focus-visible`의 2px 청록 outline(offset 1px)이 받는다.
+- **Scrims:** `scrim-dialog`(기본 대화상자), `scrim-modal` + `blur(2px)`(가벼운 모달, 서랍 뒤), `scrim-strong`(강하게 가릴 때).
 
 ### Named Rules
 
-**The Flat Sheet Rule.** 문서·카드·패널은 그림자 없이 선과 면 색으로만 나눈다. 그림자는 화면 위에 떠서 다른 것을 가리는 요소에만 쓴다.
+**The Elevation Not Lines Rule.** 묶음은 선으로 두르지 않고 높이로 가른다. 떠야 하면 그림자, 들어가야 하면 sunken 면, 시트 안에서 영역만 나누면 `border-subtle` 머리카락 한 줄. 1px 테두리 상자를 새로 만들지 않는다.
+
+**The Shadow Ladder Rule.** 그림자는 역할로 고른다. 낮은 것부터 pill(책상 위에서 고름) < lift(늘 떠 있는 시트) < raise(가리킨 카드) < float(메뉴) < modal(대화상자). 다섯 단 밖의 그림자를 새로 만들지 않는다.
 
 ## Shapes
 
-거의 각진 모서리의 사무적인 형태다. 컨트롤과 카드는 2px(`rounded.control`, `rounded.card`)로, 둥글다기보다 모서리를 살짝 죽인 정도다. 6px(`rounded.window`)은 축소한 작업공간 창의 바깥 틀에만 쓴다. 완전히 둥근 형태는 세 곳뿐이다: 상태 알약(`rounded.pill`, "지금 만들고 있는 기능이에요"와 배지), 그래프 노드와 종류 점(원), 타임라인 막대(높이 8px의 반인 4px 캡슐, `rounded.bar`). 선은 늘 1px `border-default`이고, 랜딩의 실(2.5px)과 실 마디(2px 테두리 원)만 굵다.
+부드럽지만 둥글둥글하지 않은 형태다. 모서리는 안에 든 것일수록 작고 바깥 것일수록 크다: 컨트롤 7px(`rounded.control`) → 목록 행·입력칸 10px(`rounded.row`) → 메뉴·작은 카드·안내 12px(`rounded.card`) → 들어간 판·카드·토스트 14px(`rounded.panel`) → 시트 16px(`rounded.surface`) → 대화상자 18px(`rounded.dialog`). 알약(999px)은 분할 단추, 관계 칩, 빈 상태의 아이콘 원, 온보딩의 이전 단추에 쓰고, 원(50%)은 아바타·종류 점·그래프 노드다. 막대는 높이의 절반을 모서리로 하는 캡슐이다(8px 막대 4px, 4px 띠 2px). 6px(`rounded.frame`)은 랜딩의 축소 창 틀과 스켈레톤 뼈대에만 남아 있다.
+
+선은 1px이고 두 가지뿐이다(`border-subtle`, `border-default`). 굵은 선은 온보딩 스포트라이트의 1.5px 청록 테두리와 랜딩의 2.5px 실뿐이다.
+
+### Named Rules
+
+**The Nested Radius Rule.** 안에 놓이는 것이 감싸는 것보다 둥글면 안 된다. 들어간 판(14px) 안의 행은 10px, 시트(16px) 안의 판은 14px, 행 안의 컨트롤은 7px.
 
 ## Components
 
 ### Buttons
 
-담담하고 낮다. 28px 높이에 2px 모서리, 글자 600.
+낮고 단단하다. 30px 높이, 7px 모서리, 글자 13px 600.
 
-- **Shape:** 거의 직각(2px). 크기 sm 28 / md 32 / lg 40px.
-- **Primary:** 청록 면 + on-accent 글자. hover에서 `text-primary` 12%를 섞어 가라앉는다.
-- **Outline (기본값):** 투명 면 + 1px `border-default`. hover는 `state-hover` 막.
-- **Ghost:** 테두리 없이 좌우 10px, 글자 400. 눌린 상태(`aria-pressed`)는 `state-selected` 막 + 600.
-- **Icon Button:** 28×28, `icon-default` 아이콘, hover `state-hover`, 눌림·펼침 `state-selected`.
-- **Disabled / Busy:** 불투명도 0.45(아이콘 버튼 0.4). busy는 불투명도를 유지하고 스피너(900ms 회전)를 붙인다.
-- **랜딩 버튼:** 같은 모양을 크게 쓴다. lg 52px(좌우 24px, 17px), sm 36px(좌우 14px, 15px). 주 버튼(청록), 보조(흰 면 + 선, hover에서 선이 `text-secondary`로 짙어짐), quiet(투명, `text-secondary` → hover `text-primary`). "Google로 시작하기"에는 흰 원 안의 Google 마크가 붙는다. 색 전환 160ms.
+- **Shape:** 7px. 크기 sm 30 / md 32 / lg 40px, 좌우 14px.
+- **Primary:** 청록 면 + on-accent 글자와 아이콘. hover에서 `text-primary` 12%를 섞는다.
+- **Outline:** 흰 면 + 1px `border-default`. 앱에서 테두리를 가진 몇 안 되는 요소로, 보조 행동과 위험 영역의 실행 단추가 이 모양이다. hover `state-hover`.
+- **Ghost:** 테두리 없이 좌우 10px, 글자 400. 눌림(`aria-pressed`)은 `state-selected` + 600.
+- **Icon Button:** 30×30, `icon-default`, hover `state-hover`, 눌림·펼침 `state-selected`.
+- **Focus:** `--lk-focus-ring`. **Disabled:** 불투명도 0.45(아이콘 버튼 0.4). **Busy:** 불투명도를 유지하고 스피너(900ms 회전, 움직임을 줄이면 2400ms)를 붙인다.
+- **아이콘:** 단추 앞에 lucide 아이콘을 둘 수 있다(새로 만들기의 +, 다음 단계의 화살표). 화살표 문자(→)를 글자에 넣지 않는다.
 
 ### Chips
 
-- **Style (랜딩 문서 종류 칩):** 30px 높이, 흰 면 + 1px 선 + 2px 모서리, 13px 600. 8px 종류 색 점 + 14px 종류 아이콘 + 레이블. 일곱 종류를 모두 나열한다.
-- **상태 알약:** 알약 모양, 흰 면 + 1px 선, `text-secondary` 14px 500 + 시계 아이콘. 준비 중인 기능을 숨기지 않고 밝힐 때만 쓴다.
+- **관계 칩:** 26px 알약, 종류 색 12%를 흰 면에 섞은 바탕(hover 20%), 종류 색 아이콘 + 12px 600 이름. 관계 설명은 칩 안에 이름보다 약하게 붙는다.
+- **분할 단추(Segmented):** `surface-track` 알약 홈(안쪽 3px) 안의 28px 알약 칸, 12px 600 `text-secondary`. 고른 칸은 `surface-pill` + pill 그림자 + `text-primary`. 홈 없이 알약만 늘어놓는 변형은 13px.
 
 ### Cards / Containers
 
-- **Corner Style:** 2px.
-- **Background:** `surface-default`(문서·칸), `surface-raised`(대화상자·메뉴·토스트).
-- **Shadow Strategy:** Flat Sheet Rule. 떠 있는 것만 Shadow Vocabulary를 쓴다.
-- **Border:** 1px `border-default`.
-- **Internal Padding:** 대화상자 20px(간격 20, compact 14), 토스트·상태 안내 14px, 인라인 안내 10px.
-- **Icon surface:** 대화상자 머리의 40px(sm 38px), 빈 상태의 52px(large 64px) `surface-icon` 받침에 아이콘을 놓는다.
+- **시트:** `surface-default`, 16px, lift 그림자, 테두리 없음.
+- **들어간 판:** `surface-sunken`, 14px, 테두리·그림자 없음. 목록, 배너, 위험 영역, 쉬는 카드가 모두 이것이다.
+- **눌러 볼 수 있는 카드:** 쉬는 동안 들어간 판(프로젝트 카드 14px, 안쪽 18·20·20px / 새로 만들기 카드 12px, 56px 높이). 가리키면 `surface-raised` + raise 그림자 + 1–2px 위로 떠오른다(180–220ms). 키보드 포커스는 카드 전체에 focus ring. 더 보기 단추는 가리킬 때만 보인다.
+- **아이콘:** 카드·행·배너의 아이콘은 받침 없이 맨 아이콘이고, 문서면 종류 색, 아니면 `icon-default`다.
+- **Internal Padding:** 대화상자 20px(간격 20, compact 14), 토스트·상태 안내 14px, 인라인 안내·저장 막대 10px.
 
 ### Inputs / Fields
 
-- **Style:** 44px 높이(settings 밀도 40px), 흰 면 + 1px 선 + 2px 모서리, 좌우 10px. 여러 줄은 최소 88px, 세로로만 늘림.
-- **Focus:** 2px 청록 outline을 안쪽(-1px)으로.
-- **Error / Disabled:** 오류는 청록 테두리 + 경고 아이콘 + 600 메시지(The No-Alarm Rule). 읽기 전용·비활성은 `surface-icon` 면. 글자 수는 tabular-nums.
+- **Style:** `surface-sunken` 면, 테두리 없음, 10px 모서리, 42px 높이(설정 밀도 40px), 좌우 10px. 여러 줄은 최소 88px, 세로로만 늘린다. 검색칸도 같은 결이다(그래프·타임라인 36px, 사용 가이드 44px).
+- **Focus:** 면이 `surface-default`로 밝아지고 focus ring이 둘러진다(160ms).
+- **레이블:** 13px 600(설정 밀도 12px). 선택 입력은 레이블 바로 옆에 회색 12px "선택"을 붙이고, 필수 표시는 하지 않는다. 글자 수는 한도의 80%를 넘을 때만 `tabular-nums`로 보인다.
+- **Error / Disabled:** 오류는 1px 청록 테두리 + 청록 경고 아이콘 + 청록 600 문구(The No-Alarm Rule). 읽기 전용·비활성은 `surface-icon` 면.
+
+### Lists
+
+- **판:** 들어간 판(14px, 안쪽 4px, 행 사이 2px).
+- **행:** 10px 모서리, 좌우 14px, 높이 44px(최근 파일) – 64px(휴지통처럼 두 줄). hover는 행이 `surface-default`로 떠오른다(140ms). 흰 면 위의 목록이면 hover는 `state-hover`.
+- **구분:** 행 사이 선을 긋지 않는다. 꼭 필요하면 `border-subtle`.
 
 ### Navigation
 
-- **사이드바 항목:** 32px 높이, 좌우 10px, 아이콘 + 말줄임 레이블. hover `state-hover`, 현재 위치(`aria-current="page"`)는 `state-selected` 막(strong 변형은 600). 선택을 색 띠로 표시하지 않는다.
-- **메뉴:** 204px 폭, 8px 안쪽, 항목 34px. hover·키보드 포커스 `state-hover`, 체크된 항목 `state-selected` + 600 + 청록 체크. 파괴 동작은 청록 600. 방향키·Esc 처리.
-- **세그먼트:** `surface-navigation` 홈 안에서 고른 칸만 `surface-icon` 면으로 떠오른다. 30px, 11px 600.
-- **랜딩 머리글:** 로고(28px 청록 사각형 안 "L" + "Lore Sentry" 17px 700), 메뉴 링크 15px 500 `text-secondary`(hover `text-primary`), 오른쪽에 로그인(quiet)과 시작하기(sm 주 버튼). 건너뛰기 링크가 포커스 때만 나타난다.
+- **사이드바:** 책상 위에 직접 놓인다. 맨 위 사용자 줄, 그 아래 프로젝트 전환 단추(40px, `surface-pill` + pill 그림자, 10px, hover·펼침에서 raise), 보기 항목(그래프·타임라인·메모), 그래프 최신화, 즐겨찾기, 파일 트리, 맨 아래 휴지통·설정·도움말. 섹션 이름은 12px 600 `text-secondary`.
+- **사이드바 항목:** 34px, 좌우 10px, 7px, 아이콘 + 말줄임 이름. hover `state-hover`. 현재 위치(`aria-current="page"`)와 고른 항목은 `surface-pill` + pill 그림자, 주 내비게이션은 600까지.
+- **탭 막대:** 시트 맨 위 46px `surface-topbar` 띠 + 아래 `border-subtle`. 탭은 32px, 7px, 13px `text-secondary`. 고른 탭은 `surface-pill` + pill 그림자 + `text-primary` 600. 닫기 단추는 고른 탭과 hover한 탭에만 보인다. 끌어 옮길 때 놓을 자리는 2px 청록 세로선.
+- **메뉴:** 테두리 없음, `surface-raised`, 12px, float 그림자, 204px 폭, 안쪽 8px, 항목 34px. hover·키보드 포커스 `state-hover`, 체크된 항목 `state-selected` + 600 + 청록 체크, 파괴 동작은 청록 600. 그룹 이름 12px 600 `text-secondary`, 구분선 `border-default`. 방향키·Esc 처리 후 시작 지점으로 포커스를 돌린다.
 
-### Story Thread (signature, 랜딩)
+### Dialogs
 
-원고 속 이름 "레나 아르벨"에서 시작해 축소 창들을 차례로 꿰고 AI 최신화 창에서 끝나는 캐릭터 색 실.
+- **Shape:** 18px, `surface-raised`, modal 그림자, 테두리 없음. 폭 sm 440 / md 520 / lg 650px, 안쪽 20px.
+- **머리:** Dialog Title(19px Wanted Sans 800)과 오른쪽 닫기 단추뿐이다. 머리에 아이콘 타일을 두지 않고, 설명은 제목만으로 부족할 때만 둔다.
+- **대상 줄:** 무엇에 대한 동작인지 보여 줄 때 44px 들어간 줄(12px)에 아이콘 + 이름 600.
+- **행동:** 오른쪽 끝에 외곽선(취소)과 주 버튼. 대화상자 안의 sunken은 떠 있는 면 기준으로 다시 계산된다.
 
-- **선:** SVG 경로, `stroke: var(--lk-color-node-character)`, 2.5px, 둥근 끝. 창 위로 지나가지 않고 창과 창 사이의 빈자리만 지난다. 넓은 화면에서는 한 창의 아래 가운데에서 다음 창의 위 가운데로 세로 S 곡선을 긋고, 좁은 화면에서는 왼쪽 레일에서 창의 왼쪽 위로 가지를 낸다.
-- **마디:** 실이 닿는 자리마다 바닥색 원(r 4px, 마지막 r 6px, 2px 캐릭터 색 테두리)이 커지며(scale 0.4 → 1) 나타난다.
-- **그리는 양:** 화면 높이의 70% 선까지 스크롤로 내려온 만큼 그린다. 이 선은 창이 켜지는 선(아래 30% 여백)과 같아서, 실이 닿는 순간 그 창의 장면이 재생된다.
-- **기원:** 첫 화면 에디터에서 마지막 문단이 타이핑되며 이름이 캐릭터 색으로 밝아진다(글자 600, 12% 캐릭터 색 바탕, 아래 2px 안쪽 선). 그 순간 실이 첫 창 아래 끝까지 900ms에 걸쳐 뻗는다.
+### Feedback
 
-### Scene Frame (signature, 랜딩·온보딩 공용)
+- **인라인 안내:** `state-selected` 막, 7px, 12px 600, 청록 아이콘.
+- **상태 안내:** 들어간 면, 12px, 13px Context. 정보형은 `state-selected` 바탕 + 청록 아이콘, 오류형은 흰 면 + 기본 아이콘.
+- **토스트:** 오른쪽 위, `surface-raised` + float 그림자, 14px, 안쪽 14px, 272–460px. 제목 600 한 줄과 필요할 때만 행동 단추. 제목을 되풀이하는 설명을 붙이지 않는다.
+- **저장 막대:** 바뀐 것이 있을 때만 나타난다(변경 없음이면 그리지 않는다). 들어간 면, 12px, 최소 64px. 저장됨은 청록 아이콘, 오류는 `surface-raised` + lift 그림자로 한 단 떠오른다.
+- **빈 상태:** 가운데 정렬, 44px(큰 것 64px) 둥근 sunken 원 안의 아이콘 + 15px(큰 것 24px) 600 제목 + 필요할 때만 한 줄 설명과 행동. 빈 상태의 이 원이 앱에서 유일한 아이콘 받침이다.
+- **위험 영역:** 들어간 판(14px) 안에 기본 아이콘, 600 제목, 12px 설명, 오른쪽에 평범한 외곽선 버튼. 빨간색도 테두리도 없다.
 
-실제 작업공간 창을 줄여 보여 주는 무대. 6px 모서리 + 1px 선 + `bg-canvas` + Landing frame 그림자. 화면 아래 30% 선을 넘을 때 처음 장면을 마운트하고(첫 화면은 즉시), 불투명도 0.4 → 1(520ms)과 16px 올라옴(620ms)으로 등장한 뒤 온보딩과 같은 장면 내부 동작(창 등장, 노드 등장, 타임라인 막대 자라남, 선 그리기)을 한 번 재생한다. 장면: `editor`, `files`, `relations`, `graph`, `timeline`, `refresh`. 창 안의 타임라인 막대는 문서 종류 색을 쓴다.
+### Kind-Tinted Document Head (signature)
 
-### Followed-Character Cue (랜딩)
+문서를 열면 종류의 색이 그 문서의 머리를 물들인다. 제목(34px Wanted Sans 800) 앞에 10px 종류 색 점이 서고, 바로 아래 속성 표가 종류 색 10%를 sunken에 섞은 판(14px, 안쪽 8·6px) 위에 놓인다. 표 안에는 줄 사이 선이 없다. 행은 38px, 이름 칸 168px에 `text-secondary` 500 아이콘 + 이름, 값 칸은 가리키거나 포커스하면 흰 면 70%가 비친다. 관계 값은 종류 칩으로, 분류 줄이 종류 이름을 글자로 말한다. 같은 `--kind`가 파일 트리·탭·새 탭의 아이콘, 그래프 노드, 타임라인 막대까지 이어져서 한 문서는 어디서 보든 같은 색을 지닌다.
 
-각 장면에서 따라가는 인물의 자리에 `data-followed`가 붙는다(사이드바 항목, 그래프 노드, 타임라인 행, diff 목록 항목). 창이 켜지고 900ms 뒤 그 자리에 바닥색 3px 틈 + 캐릭터 색 2px의 이중 고리가 1100ms 동안 한 번 떠올랐다 사라진다. 그래프 노드는 이름표를 빼고 점에만 고리를 건다. 반복하지 않는다.
+### Graph & Timeline
+
+- **그래프:** 시트 전체가 캔버스다. 노드는 종류 색 원 + 종류 아이콘 + 이름, 선은 토큰 색에 투명도를 얹은 옅은 회색. 고른 노드의 이웃만 밝아진다. 도구 막대의 에피소드 선택과 확대 단추는 들어간 면, 노드 패널은 `surface-raised` + float 그림자 14px 판 안의 10px sunken 카드(hover 종류 색 8%, 고름 14%). 범례는 종류 점 + 이름.
+- **타임라인:** 왼쪽 이름 칸(종류 아이콘 + 이름)과 회차 열. 문서가 등장한 구간은 8px 종류 색 캡슐 막대, 그 사이 등장 범위는 4px `surface-icon` 띠. 에피소드 머리는 22px sunken 띠이고, 띠 사이 틈은 시트 색 3px 좌우 테두리로 낸다. 현재 회차 열은 옅은 선택 막.
+
+### Onboarding Camera (signature)
+
+첫 로그인 뒤 `/welcome/`은 흰 페이지(`surface-default`) 위에 실제 작업공간 창(1000×640 캔버스, 14px, raise 그림자)을 자리에 맞게 줄여 놓고, 단계마다 설명하는 자리를 비춘다. 창은 단계가 바뀌어도 그대로 있고 안의 내용과 사이드바 선택만 바뀐다.
+
+- **카메라:** 창 안쪽이 `data-focus` 자리로 천천히 당겨진다(`transform` 900ms `--lk-ease`). 배율은 자리의 80%가 창을 채우는 값을 데스크톱 1.15–1.45배(좁은 창 1.6–2.2배)로 묶고, 창 가장자리 밖이 드러나지 않게 이동을 막는다.
+- **스포트라이트:** 1.5px 청록 테두리, 10px 모서리, 바깥은 책상색 48% 막으로 눌러 둔다. 다음 자리로 700ms에 미끄러져 간다.
+- **설명 칼럼:** 로고, 건너뛰기, 진행 막대(4px 조각, 지난 단계와 현재 단계는 청록, 현재 단계는 44px로 늘어남), Display XL 제목, 15px/1.65 `text-secondary` 본문(32ch), 둥근 이전 단추(40px sunken 원) + lg 주 버튼.
+- **움직임을 줄이면:** 카메라는 당기지 않고, 스포트라이트는 미끄러지지 않으며, 등장 동작은 120ms 선형 페이드로 바뀐다.
+
+### Landing (Persuade surface)
+
+공개 랜딩(`src/features/landing/`)은 같은 세계를 더 크게, 더 움직이게 쓴다. 같은 `--lk-*` 색, `--lk-font-stack-display`의 Wanted Sans 800 헤드라인, `--lk-ease` 이징을 쓰고, 기능은 실제 작업공간 창(온보딩과 같은 장면)을 줄여 보여 준다.
+
+- **골격:** 책상색 바닥, 본문 최대 1240px + 좌우 `clamp(16px, 5vw, 100px)`, 64px 머리글(8px 넘게 스크롤하면 아래에 `border-default` 선). 장 사이 `clamp(120px, 14vw, 200px)`. 960px 이하 한 열, 520px 이하 CTA 폭 100%.
+- **글자:** landing-display / landing-headline / landing-headline-sm 헤드라인(`text-wrap: balance`, 의도한 줄바꿈), landing-lede와 landing-body 설명(`text-secondary` 450), 기본 16px/1.6, 랜딩 전체 `word-break: keep-all`.
+- **단추:** lg 52px(좌우 24px, 17px), sm 36px(좌우 14px, 15px), 7px. 주(청록, hover 14% 가라앉음), 보조(흰 면 + 선, hover에서 선이 `text-secondary`로 짙어짐), quiet. "Google로 시작하기"에는 흰 원 안의 Google 마크.
+- **Story Thread:** 원고 속 이름 "레나 아르벨"에서 캐릭터 색 2.5px 실이 내려와 창과 창 사이 빈자리를 지나며 창들을 차례로 꿴다. 실은 화면 70% 선까지 스크롤한 만큼 그려지고, 마디(바닥색 원 + 2px 캐릭터 색 테두리)가 커지며 나타난다.
+- **Scene Frame:** 1000×640 캔버스를 자리 폭에 맞춰 `scale()`로 줄인다(최소 0.56배, 그보다 좁으면 사이드바 쪽을 잘라 낸다). 화면 아래 30% 선을 넘으면 불투명도 0.4→1(520ms), 16px 올라옴(620ms)으로 켜지고 장면 동작을 한 번 재생한다. 900ms 뒤 따라가는 인물의 자리에 바닥색 3px 틈 + 캐릭터 색 2px 고리가 1100ms 동안 한 번 떠올랐다 사라진다.
+- **준비 중 표시:** AI 최신화처럼 서버가 없는 기능은 시계 아이콘이 붙은 알약으로 숨기지 않고 밝힌다.
+- 랜딩의 창 틀(6px + 1px 선 + 자체 그림자)과 칩·상태 알약의 1px 테두리는 이전 세계에서 넘어온 랜딩 전용 모양이다. 앱 화면에 옮기지 않는다.
 
 ### Motion
 
-- **이징:** `cubic-bezier(0.2, 0.8, 0.2, 1)` 하나(랜딩·온보딩 각 모듈의 `--ease`). 빠르게 출발해 부드럽게 멈춘다. 선형은 실의 대시 갱신(90ms), 스피너, 페이드 일부에만.
-- **시간:** 색 전환 160ms, 머리글 선 200ms, 마디 200/320ms, 장면 내부 등장 320–560ms, 창 등장 520–620ms, 인물 고리 1100ms. 바운스·탄성 없음.
-- **원칙:** 움직임은 작업공간이 실제로 하는 일(타이핑, 노드가 이어짐, 막대가 자람, 변경 사항이 나란히 놓임)을 재생할 때만 쓴다. 한 번 재생하고 멈춘다.
-- **`prefers-reduced-motion: reduce`:** 랜딩은 부드러운 스크롤을 끄고, 창·마디·실·머리글·버튼의 전환을 없애고, 창을 처음부터 완전히 보이게 하고, 인물 고리와 스피너를 멈춘다. 실은 첫 창 아래 끝까지 즉시 그려진 뒤 스크롤 위치만 따라간다(스스로 움직이지 않음). 온보딩은 등장 동작을 120ms 선형 페이드로 바꾸고 선·막대·스포트라이트·캐럿 움직임을 없앤다.
+- **이징:** `--lk-ease` = `cubic-bezier(0.2, 0.8, 0.2, 1)` 하나. 빠르게 출발해 부드럽게 멈춘다. 선형은 스피너, 실의 대시 갱신, 줄인 움직임의 페이드에만.
+- **시간:** 상태 전환(배경·그림자·색) 120–160ms, 카드 떠오름 180–220ms, 진행 막대 320ms, 창·카드 등장 520ms, 스포트라이트 700ms, 온보딩 카메라 900ms. 바운스·탄성은 없다.
+- **`prefers-reduced-motion: reduce`:** 스켈레톤 맥박과 고리·스피너 장식을 멈추고(버튼 스피너는 2400ms로 늦춘다), 온보딩 카메라와 스포트라이트 이동을 없애고, 등장은 120ms 선형 페이드로 바꾼다. 랜딩은 부드러운 스크롤과 전환을 끄고 창을 처음부터 보이게 한다.
+
+### Named Rules
+
+**The Quiet Copy Rule.** 화면에 남는 글자는 작가가 행동하는 데 필요한 것뿐이다. 제목을 되풀이하는 부제, 뻔한 필드 힌트, 영어 eyebrow·대문자 레이블, "보관 중" 같은 상태 채움말, 변경이 없을 때의 저장 막대를 두지 않는다. 오류에는 회복 방법을 붙인다.
+
+**The Pill Selection Rule.** 고른 것은 떠오른다. 사이드바 행·탭·분할 단추·프로젝트 전환은 모두 `surface-pill` + pill 그림자로 고른 상태를 말하고, 색 띠나 굵은 테두리로 말하지 않는다. 메뉴처럼 떠 있는 면 안의 선택만 `state-selected` 막을 쓴다.
 
 ## Do's and Don'ts
 
 ### Do:
 
-- **Do** 모든 색·간격·모서리를 `var(--lk-*)`로 쓴다. 값이 없으면 Pencil에 변수를 추가하고 `node scripts/sync-pencil.mjs` → `pnpm tokens`로 생성한다.
-- **Do** 두 모드(dark 기본, light)에서 함께 확인한다. 어두운 모드에서는 문서 종류 색이 회색 단계가 되므로 종류 아이콘·레이블이 늘 함께 있어야 한다.
-- **Do** hover·선택·현재 위치를 `state-hover`·`state-selected` 반투명 막으로 표시한다.
-- **Do** 컨트롤과 카드에 2px 모서리, 1px `border-default` 선을 쓴다. 6px은 축소한 작업공간 창의 틀에만.
-- **Do** 기능은 실제 작업공간 창(`AppWindow`)을 축소해 보여 준다. 창을 0.56배보다 작게 줄이지 말고 사이드바 쪽을 잘라 낸다.
-- **Do** 모든 키보드 포커스에 2px 청록 outline을 남긴다.
-- **Do** 움직임마다 `prefers-reduced-motion` 분기를 함께 쓴다. 줄인 상태에서도 내용은 처음부터 모두 보여야 한다.
-- **Do** 아이콘은 lucide 레지스트리(`<Icon name size />`, 기본 14px, 의미가 있으면 `label`)로만 쓴다. 새 아이콘은 `node scripts/add-icons.mjs`로 등록한다.
+- **Do** 모든 색·간격·모서리·글자 크기를 `var(--lk-*)`로 쓴다. 값이 없으면 Pencil(`docs/design/lorekeeper.lib.pen`)에 변수를 추가하고 `node scripts/sync-pencil.mjs` → `pnpm tokens`로 생성한다. 그림자는 `elevation.css`, 종류 색 연결은 `kinds.css`, 서체 스택과 `--lk-ease`는 `globals.css`에 있다.
+- **Do** 새 화면을 책상 위 시트 한 장으로 짓는다: `bg-canvas` 위에 `surface-default` + 16px + lift 그림자, 가장자리 10px 틈.
+- **Do** 시트 안의 묶음은 `surface-sunken` 판(14px)으로 들이고, 목록 행은 그 안에서 10px, hover에서 `surface-default`로 떠오르게 한다.
+- **Do** 고른 항목은 `surface-pill` + `--lk-shadow-pill`로 띄우고, 탭과 주 내비게이션은 600까지 올린다.
+- **Do** 문서에 딸린 것에는 `data-kind`를 달아 `--kind`를 받는다. 넓은 면은 10%(into sunken), 칩은 12%(into default), 점·아이콘·막대는 원색. 종류 아이콘이나 이름을 늘 함께 둔다.
+- **Do** 입력칸은 sunken 면 + 테두리 없음 + 10px로 두고, 포커스에서 `surface-default` + `--lk-focus-ring`으로 밝힌다.
+- **Do** 허브·목록 보기는 960px, 양식은 720px 한 열로 두고 여백 56/48/64px(600px 이하 32/16/48px)을 지킨다.
+- **Do** 화면·보기·대화상자 제목에 Wanted Sans 800과 음수 자간(-0.02 ~ -0.03em)을 쓰고, 그 밖의 글자는 Pretendard 12·13·15px으로 둔다.
+- **Do** 두 테마(`data-theme="light"`, `"dark"`)에서 함께 확인한다.
+- **Do** 상태 전환은 140–220ms `--lk-ease`로, 모든 움직임에 `prefers-reduced-motion` 분기를 함께 쓴다.
+- **Do** 아이콘은 lucide 레지스트리(`<Icon name size />`)로만, 받침 없이 맨 아이콘으로 쓴다. 새 아이콘은 `node scripts/add-icons.mjs`로 등록한다.
+- **Do** 선택 입력에는 레이블 옆 회색 "선택"을 붙이고, 글자 수는 한도의 80%를 넘었을 때만 보인다.
 
 ### Don't:
 
-- **Don't** `src/design-system/tokens/tokens.css`·`tokens.ts`를 손으로 고친다(`pnpm tokens:check`가 CI에서 막는다).
-- **Don't** 토큰 밖의 hex를 컴포넌트에 쓴다. 예외는 Google 마크의 흰 원과 인쇄 지면(`.lk-print-sheet`)뿐이다.
-- **Don't** Wanted Sans를 앱 화면, 축소 창 안, 본문·버튼·내비게이션에 쓴다(The Display Scope Rule).
-- **Don't** 문서 종류 색을 문서 종류가 아닌 것에 칠하거나, 색만으로 종류·상태를 구분한다.
-- **Don't** 목록 행이나 카드의 선택을 색깔 있는 왼쪽 띠(border-left, inset box-shadow)로 표시한다. 선택은 상태 막으로 한다. 원고 인용문(blockquote)의 2px 왼쪽 선은 글의 관례이므로 해당하지 않는다.
-- **Don't** 빨간 오류 색을 새로 들인다(The No-Alarm Rule). 붉은 계열은 diff의 삭제만 뜻한다.
-- **Don't** 앱 컨트롤·카드의 모서리를 2px보다 둥글게 만든다.
-- **Don't** 반복 재생되는 장식 애니메이션, 바운스·탄성 이징을 쓴다.
+- **Don't** 패널·카드·목록·표를 1px 테두리 상자로 감싼다. 선은 시트 안 머리카락 구분선(`border-subtle`)과 외곽선 버튼·메뉴 구분선처럼 실제 가장자리에만 쓴다.
+- **Don't** 아이콘 뒤에 회색 타일을 깐다(카드·목록 행·대화상자 머리). 빈 상태의 둥근 sunken 원만 예외다.
+- **Don't** Wanted Sans를 버튼·탭·메뉴·표·본문·내비게이션에 쓴다(The Title Face Rule).
+- **Don't** 청록을 장식에 쓰거나 문서 종류 색을 종류가 아닌 것에 칠한다. 색만으로 종류·상태를 구분하지 않는다.
+- **Don't** 빨간 오류색을 들인다(The No-Alarm Rule). 위험 영역도 들어간 판 + 평범한 외곽선 버튼이다.
+- **Don't** 선택을 왼쪽 색 띠(border-left, inset box-shadow)나 굵은 테두리로 표시한다(The Pill Selection Rule).
+- **Don't** 제목을 되풀이하는 부제·설명, 뻔한 필드 힌트, 영어 eyebrow, 대문자 레이블, 입력칸의 "필수" 표시, 제목을 되풀이하는 토스트 설명, 변경이 없을 때의 저장 막대를 둔다(The Quiet Copy Rule). 약관 동의의 [필수]처럼 법적으로 밝혀야 하는 표시는 예외다.
+- **Don't** 버튼·링크 글자에 → 같은 화살표 문자를 넣는다. 방향이 필요하면 lucide 아이콘을 단추 앞에 둔다.
+- **Don't** 감싸는 것보다 둥근 안쪽 모서리를 쓴다(The Nested Radius Rule), 다섯 단 밖의 그림자를 새로 만든다(The Shadow Ladder Rule).
+- **Don't** `src/design-system/tokens/tokens.css`·`tokens.ts`·`pencil-variables.json`을 손으로 고친다(`pnpm tokens:check`가 막는다).
+- **Don't** 바운스·탄성 이징이나 반복 재생되는 장식 애니메이션을 쓴다.

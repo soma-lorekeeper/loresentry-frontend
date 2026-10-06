@@ -306,20 +306,6 @@ export function DocumentView({
         <h1>{draft.title || "제목 없음"}</h1>
         <div ref={printBody} />
       </article>
-      <FileHeader
-        memoOpen={panels.memoOpen}
-        locked={locked}
-        lockPending={lockPending}
-        onToggleMemo={() =>
-          dispatch({
-            type: "setPanels",
-            panels: { memoOpen: !panels.memoOpen },
-          })
-        }
-        onOpenVersions={() => setVersionsOpen(true)}
-        onExport={exportAs}
-        onToggleLock={toggleLock}
-      />
       <div
         ref={setWorkArea}
         className={cx(
@@ -350,6 +336,22 @@ export function DocumentView({
             status={doc.status}
             locked={locked}
             onRetry={() => void doc.session.retry()}
+            actions={
+              <FileHeader
+                memoOpen={panels.memoOpen}
+                locked={locked}
+                lockPending={lockPending}
+                onToggleMemo={() =>
+                  dispatch({
+                    type: "setPanels",
+                    panels: { memoOpen: !panels.memoOpen },
+                  })
+                }
+                onOpenVersions={() => setVersionsOpen(true)}
+                onExport={exportAs}
+                onToggleLock={toggleLock}
+              />
+            }
           />
           {doc.status === "conflict" && (
             <InlineNotice
@@ -371,7 +373,11 @@ export function DocumentView({
           )}
           <div className={styles.body}>
             <div className={styles.canvasScroll}>
-              <div className={styles.column} style={editorVars}>
+              <div
+                className={styles.column}
+                style={editorVars}
+                data-kind={docType}
+              >
                 <div className={styles.titleRow}>
                   <input
                     className={styles.title}

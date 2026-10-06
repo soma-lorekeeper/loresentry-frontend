@@ -41,7 +41,7 @@ export function LogoutDialog({
     ? {
         icon: "loader-circle" as const,
         title: "로그아웃하고 있습니다",
-        description: "안전하게 로그아웃하는 중이에요. 잠시만 기다려 주세요.",
+        description: undefined,
       }
     : logout.isError
       ? {
@@ -53,7 +53,7 @@ export function LogoutDialog({
       : {
           icon: "log-out" as const,
           title: "로그아웃할까요?",
-          description: "이 계정의 세션을 종료하고 로그인 화면으로 이동합니다.",
+          description: undefined,
         };
 
   return (
@@ -62,7 +62,6 @@ export function LogoutDialog({
       onClose={close}
       dismissible={!logout.isPending}
       size="sm"
-      icon={copy.icon}
       title={copy.title}
       description={copy.description}
       actions={
@@ -87,7 +86,9 @@ export function LogoutDialog({
         )
       }
     >
-      <AccountRow user={user} />
+      <div className={styles.target}>
+        <AccountRow user={user} />
+      </div>
     </DialogCard>
   );
 }

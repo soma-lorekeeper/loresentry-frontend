@@ -13,6 +13,7 @@ import {
 import {
   Button,
   Icon,
+  IconButton,
   InlineNotice,
   TextField,
 } from "@/design-system/primitives";
@@ -31,27 +32,31 @@ import { stepsFor } from "./steps";
 import styles from "./onboarding.module.css";
 
 const CANVAS = { width: 1000, height: 640 };
+const SIDEBAR_WIDTH = 196;
 const LEAVE_MS = 260;
 const FOCUS_PAD = 6;
 
 /** 단계마다 비출 자리. 최신화는 사이드바 항목을 먼저 비추고, 검토 창이 열리면 옮겨 간다. */
-const FOCUS: Record<Scene, { target: string; at: number }[]> = {
-  workspace: [{ target: "workspace", at: 0 }],
-  relations: [{ target: "relations", at: 0 }],
-  graph: [{ target: "graph", at: 0 }],
-  timeline: [{ target: "timeline", at: 0 }],
-  refresh: [
-    { target: "refresh", at: 0 },
-    { target: "diff", at: 1500 },
-  ],
-  name: [{ target: "name", at: 0 }],
-};
+const FOCUS: Record<Scene, { target: string; at: number; whole?: boolean }[]> =
+  {
+    workspace: [{ target: "workspace", at: 0 }],
+    relations: [{ target: "relations", at: 0 }],
+    graph: [{ target: "graph", at: 0 }],
+    timeline: [{ target: "timeline", at: 0 }],
+    refresh: [
+      { target: "refresh", at: 0 },
+      { target: "diff", at: 1500, whole: true },
+    ],
+    name: [{ target: "name", at: 0 }],
+  };
 
 interface Box {
   left: number;
   top: number;
   width: number;
   height: number;
+  /** 잘리면 뜻이 사라지는 자리(비교 창의 두 칸). 다가가더라도 통째로 보이게 한다. */
+  whole?: boolean;
 }
 
 /** 변환(애니메이션·축소)에 흔들리지 않게 offset 으로 창 안의 자리를 잰다. */
@@ -78,21 +83,78 @@ function useSpotlight(windowEl: HTMLElement | null, scene: Scene) {
     if (!windowEl) return;
     const root = windowEl.querySelector<HTMLElement>("[data-window]");
     if (!root) return;
-    const place = (target: string) => {
+    const place = (target: string, whole?: boolean) => {
       const el =
         root.querySelector<HTMLElement>(
           `[data-scene-state='current'] [data-focus='${target}']`,
         ) ?? root.querySelector<HTMLElement>(`[data-focus='${target}']`);
-      if (el) setFocus(boxIn(root, el));
+      if (el) setFocus({ ...boxIn(root, el), whole });
     };
     const [first, ...later] = FOCUS[scene];
-    place(first.target);
-    const timers = later.map(({ target, at }) =>
-      window.setTimeout(() => place(target), at),
+    place(first.target, first.whole);
+    const timers = later.map(({ target, at, whole }) =>
+      window.setTimeout(() => place(target, whole), at),
     );
     return () => timers.forEach((timer) => window.clearTimeout(timer));
   }, [windowEl, scene]);
   return focus;
+}
+
+/**
+ * 카메라: 설명하는 자리로 창 안을 천천히 당겨 온다. 작은 자리일수록 더 가까이 가되, 큰 자리도
+ * 조금은 다가가서 단계마다 시선이 옮겨 간다. 좁은 화면에서는 창이 작게 줄어 있으니 더 당긴다.
+ * 창 가장자리 밖이 드러나지 않게 이동을 묶고, 움직임을 줄인 환경에서는 당기지 않는다.
+ */
+function useCamera(focus: Box | null, compact: boolean) {
+  const [still] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+  if (!focus || still) return { transform: "none", zoom: 1 };
+  const { width: cw, height: ch } = CANVAS;
+  // 작업 면 안을 비출 때는 사이드바를 통째로 밀어낼 만큼은 다가간다.
+  const inSheet = focus.left >= SIDEBAR_WIDTH - 16;
+  const [base, cap] = compact ? [1.6, 2.2] : [inSheet ? 1.25 : 1.15, 1.45];
+  const floor = focus.whole
+    ? Math.max(1, Math.min(base, (cw - 24) / focus.width))
+    : base;
+  const zoom = Math.min(
+    cap,
+    Math.max(
+      floor,
+      Math.min((cw * 0.8) / focus.width, (ch * 0.8) / focus.height),
+    ),
+  );
+  const minX = cw - zoom * cw;
+  const minY = ch - zoom * ch;
+  const clamp = (value: number, min: number) =>
+    Math.min(0, Math.max(min, value));
+
+  // 자리가 화면보다 넓으면 가운데 대신 왼쪽 끝에 맞춘다. 행 이름과 목록이 먼저 읽혀야 한다.
+  let x =
+    zoom * focus.width > cw - 24
+      ? 12 - zoom * focus.left
+      : cw / 2 - zoom * (focus.left + focus.width / 2);
+  x = clamp(x, minX);
+  // 사이드바가 띠처럼 조금만 걸리면 아예 보이거나 아예 빠지게 한다.
+  const sidebar = zoom * SIDEBAR_WIDTH + x;
+  if (inSheet && sidebar > 0 && sidebar < 160) {
+    const hidden = -zoom * SIDEBAR_WIDTH + 6;
+    x = hidden >= minX ? hidden : 0;
+  }
+
+  // 위아래도 가장자리 가까이에서 글줄이 반쯤 걸리지 않게 끝에 붙인다.
+  let y = clamp(
+    zoom * focus.height > ch - 24
+      ? 12 - zoom * focus.top
+      : ch / 2 - zoom * (focus.top + focus.height / 2),
+    minY,
+  );
+  if (y > -96) y = 0;
+  else if (y - minY < 96) y = minY;
+  return { transform: `translate(${x}px, ${y}px) scale(${zoom})`, zoom };
 }
 
 /**
@@ -106,6 +168,9 @@ function Stage({ scene, userName }: { scene: Scene; userName: string }) {
   const [shown, setShown] = useState(scene);
   const size = useElementSize(frame);
   const focus = useSpotlight(canvas, scene);
+  const camera = useCamera(focus, size !== null && size.width < 600);
+  // 비춘 자리가 창을 거의 채우면 테두리 빛은 창 가장자리에 붙은 띠로만 보인다. 그때는 끈다.
+  const ring = focus !== null && camera.zoom * focus.width < CANVAS.width * 0.9;
   const scale = size
     ? Math.min(
         1,
@@ -137,19 +202,24 @@ function Stage({ scene, userName }: { scene: Scene; userName: string }) {
         }}
       >
         <div data-window className={styles.windowFrame}>
-          <AppWindow scene={scene} leaving={leaving} userName={userName}>
-            {focus && (
-              <span
-                className={styles.spotlight}
-                style={{
-                  left: focus.left,
-                  top: focus.top,
-                  width: focus.width,
-                  height: focus.height,
-                }}
-              />
-            )}
-          </AppWindow>
+          <div
+            className={styles.camera}
+            style={{ transform: camera.transform }}
+          >
+            <AppWindow scene={scene} leaving={leaving} userName={userName}>
+              {focus && ring && (
+                <span
+                  className={styles.spotlight}
+                  style={{
+                    left: focus.left,
+                    top: focus.top,
+                    width: focus.width,
+                    height: focus.height,
+                  }}
+                />
+              )}
+            </AppWindow>
+          </div>
         </div>
       </div>
     </div>
@@ -204,13 +274,14 @@ function StartChoices({
       disabled={pending !== null}
       aria-busy={pending === destination || undefined}
     >
-      <span className={styles.choiceIcon}>
-        <Icon
-          name={pending === destination ? "loader-circle" : icon}
-          size={20}
-          className={pending === destination ? styles.spin : undefined}
-        />
-      </span>
+      <Icon
+        name={pending === destination ? "loader-circle" : icon}
+        size={20}
+        className={cx(
+          styles.choiceIcon,
+          pending === destination && styles.spin,
+        )}
+      />
       <span className={styles.choiceCopy}>
         <span className={styles.choiceTitle}>{title}</span>
         <span className={styles.choiceDescription}>{description}</span>
@@ -225,14 +296,14 @@ function StartChoices({
         "sample",
         "book-open",
         "예시 프로젝트 둘러보기",
-        "‘유리 정원의 기록’을 열어 원고, 관계, 그래프를 직접 눌러 보세요. 필요 없어지면 언제든 지울 수 있어요.",
+        "‘유리 정원의 기록’으로 직접 눌러 봐요.",
         0,
       )}
       {card(
         "new",
         "plus",
         "새 프로젝트 만들기",
-        "제목만 정하면 바로 첫 원고를 쓸 수 있어요.",
+        "제목만 정하면 바로 시작해요.",
         70,
       )}
       {error && <InlineNotice>{error}</InlineNotice>}
@@ -242,9 +313,7 @@ function StartChoices({
         onClick={() => void choose("later")}
         disabled={pending !== null}
       >
-        {replay
-          ? "사용 가이드로 돌아가기"
-          : "둘 다 나중에 할게요. 프로젝트 목록으로 가기"}
+        {replay ? "사용 가이드로 돌아가기" : "나중에 할게요"}
       </button>
     </div>
   );
@@ -357,7 +426,7 @@ export function OnboardingPage({
             <span className={styles.letterMark} aria-hidden="true">
               L
             </span>
-            LORE SENTRY
+            Lore Sentry
           </span>
           {step < skipTo && (
             <button
@@ -390,15 +459,10 @@ export function OnboardingPage({
             ))}
           </ol>
           <div key={step} className={styles.copy} aria-live="polite">
-            {step === 0 && !replay && (
-              <p className={styles.greeting}>
-                {user.displayName} 님, 환영해요.
-              </p>
-            )}
             <h1 id="onboarding-title" className={styles.title}>
               {current.title}
             </h1>
-            <p className={styles.body}>{current.body}</p>
+            {current.body && <p className={styles.body}>{current.body}</p>}
           </div>
           {onName && (
             <form
@@ -410,13 +474,13 @@ export function OnboardingPage({
             >
               <TextField
                 label="작가명"
+                hideLabel
                 value={name}
                 onChange={(event) => {
                   setName(event.target.value);
                   rename.reset();
                 }}
                 error={nameError}
-                hint={user.email ? `로그인 계정 ${user.email}` : undefined}
                 readOnly={rename.isPending}
                 autoComplete="nickname"
                 autoFocus
@@ -424,17 +488,16 @@ export function OnboardingPage({
               />
             </form>
           )}
-          <div className={styles.buttons}>
-            <Button
-              size="lg"
-              icon="arrow-left"
-              className={styles.previous}
-              onClick={() => go(step - 1)}
-              disabled={step === 0 || rename.isPending}
-            >
-              이전
-            </Button>
-            {!onStart && (
+          {!onStart && (
+            <div className={styles.buttons}>
+              <IconButton
+                icon="arrow-left"
+                iconSize={18}
+                label="이전"
+                className={cx(styles.previous, step === 0 && styles.idle)}
+                onClick={() => go(step - 1)}
+                disabled={step === 0 || rename.isPending}
+              />
               <Button
                 size="lg"
                 variant="primary"
@@ -451,17 +514,9 @@ export function OnboardingPage({
                     ? "시작하기"
                     : "다음"}
               </Button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-
-        <p className={styles.keyHint}>
-          {onName
-            ? "Enter로 저장하고 계속"
-            : onStart
-              ? "←로 이전 단계"
-              : "←→로 이동, Esc로 건너뛰기"}
-        </p>
       </section>
 
       {onStart ? (

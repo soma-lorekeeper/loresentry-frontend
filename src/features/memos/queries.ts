@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import type { MemoScope } from "@/domain/models";
+import type { Memo, MemoScope } from "@/domain/models";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 
@@ -59,4 +59,10 @@ export function useRemoveMemo(projectId: string) {
 export function memoHeadline(body: string, max = 24) {
   const first = body.trim().split(/(?<=[.!?。])\s|\n/)[0] ?? "";
   return first.length > max ? `${first.slice(0, max)}…` : first;
+}
+
+export function memoTitle(memo: Pick<Memo, "title" | "body">) {
+  const title = memo.title.trim();
+  if (!title || memo.body.trim().startsWith(title)) return "";
+  return title;
 }

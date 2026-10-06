@@ -1,33 +1,28 @@
 .list {
-  border: 1px solid var(--lk-color-border-default);
-  border-radius: var(--lk-radius-card);
-  background: var(--lk-color-surface-default);
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 14px;
+  background: var(--lk-color-surface-sunken);
 }
 
 .row {
   display: flex;
   align-items: center;
   gap: var(--lk-space-3);
-  min-height: 84px;
+  min-height: 64px;
   padding: 0 var(--lk-space-4);
+  border-radius: 10px;
+  transition: background-color 140ms var(--lk-ease);
 }
 
-.row + .row,
-.row + .rowError,
-.rowError + .row {
-  border-top: 1px solid var(--lk-color-border-default);
+.row:hover {
+  background: var(--lk-color-surface-default);
 }
 
 .icon {
-  display: flex;
   flex: none;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: var(--lk-radius-control);
-  background: var(--lk-color-surface-icon);
   color: var(--lk-color-icon-default);
 }
 
@@ -97,4 +92,21 @@
 
 .cancel {
   background: var(--lk-color-surface-default);
+}
+
+/* 좁은 화면에서는 이름을 한 줄 다 쓰고, 복원·영구 삭제를 그 아래 줄에 둔다. */
+@media (max-width: 600px) {
+  .row {
+    flex-wrap: wrap;
+    padding-block: var(--lk-space-3);
+  }
+
+  .copy {
+    flex-basis: calc(100% - 16px - var(--lk-space-3));
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
 }

@@ -18,12 +18,10 @@ export function neighborsOf(graph: ProjectGraph, id: string): GraphNode[] {
 
 function Card({
   node,
-  tag,
   selected,
   onOpen,
 }: {
   node: GraphNode;
-  tag?: string;
   selected?: boolean;
   onOpen: () => void;
 }) {
@@ -31,6 +29,8 @@ function Card({
     <li>
       <button
         type="button"
+        data-kind={node.docType}
+        aria-current={selected || undefined}
         className={cx(styles.card, selected && styles.cardSelected)}
         onClick={onOpen}
       >
@@ -38,7 +38,6 @@ function Card({
           <Icon name={DOCUMENT_TYPE_META[node.docType].entityIcon} size={15} />
           {node.title}
         </span>
-        {tag && <span className={styles.cardTag}>{tag}</span>}
         {node.description && (
           <span className={styles.cardDescription}>{node.description}</span>
         )}
@@ -78,7 +77,6 @@ export function NodePanel({
           <Card
             key={neighbor.id}
             node={neighbor}
-            tag={node.title}
             onOpen={() => onOpen(neighbor.id)}
           />
         ))}

@@ -3,7 +3,7 @@ import { useSyncExternalStore } from "react";
 // 서버 가정(DOCUMENT_EDITING_PROPOSAL §2.3): 글꼴·크기·줄 간격·정렬은 문서가 아니라
 // user_editor_prefs에 저장한다. 서버 API가 생기기 전까지는 이 브라우저에만 보관한다.
 export const EDITOR_FONTS = [
-  { id: "inter", label: "Inter", stack: "var(--lk-font-stack-ui)" },
+  { id: "inter", label: "Pretendard", stack: "var(--lk-font-stack-ui)" },
   {
     id: "myeongjo",
     label: "명조",

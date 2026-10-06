@@ -2,7 +2,7 @@
 
 import type { Editor } from "@tiptap/react";
 import { useEditorState } from "@tiptap/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import {
   Button,
@@ -34,6 +34,8 @@ interface ToolbarProps {
   status: SaveStatus;
   locked: boolean;
   onRetry: () => void;
+  /** 오른쪽 끝에 붙는 파일 도구(메모·버전·내보내기·잠금). */
+  actions?: ReactNode;
 }
 
 function Tool({
@@ -129,7 +131,7 @@ function SaveState({
     { icon: IconName; label: string }
   > = {
     loading: { icon: "loader-circle", label: "불러오는 중" },
-    saved: { icon: "cloud-check", label: "자동 저장됨" },
+    saved: { icon: "cloud-check", label: "저장됨" },
     dirty: { icon: "loader-circle", label: "저장 대기 중" },
     saving: { icon: "loader-circle", label: "저장 중…" },
     conflict: { icon: "triangle-alert", label: "다른 곳에서 수정됨" },
@@ -144,7 +146,7 @@ function SaveState({
         size={14}
         className={spinning ? styles.spin : undefined}
       />
-      {label}
+      <span className={styles.saveLabel}>{label}</span>
     </span>
   );
 }
@@ -155,6 +157,7 @@ export function EditorToolbar({
   status,
   locked,
   onRetry,
+  actions,
 }: ToolbarProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const moreRef = useRef<HTMLButtonElement>(null);
@@ -432,30 +435,25 @@ export function EditorToolbar({
                 />
               </div>
               <span className={styles.separator} />
-              <button
-                type="button"
-                className={styles.labelTool}
-                aria-pressed={findOpen}
+              <Tool
+                icon="search"
+                label="찾기·바꾸기"
+                pressed={findOpen}
                 onClick={() => setFindOpen((open) => !open)}
-              >
-                <Icon name="search" size={15} />
-                찾기·바꾸기
-              </button>
+              />
             </>
           )}
         </div>
         <div className={styles.status}>
           <SaveState status={status} onRetry={onRetry} />
-          <span className={styles.separator} />
-          {compact ? (
-            <span>{formatNumber(state?.withSpaces ?? 0)}자</span>
-          ) : (
-            <span className={styles.counts}>
-              <span>공백 포함 {formatNumber(state?.withSpaces ?? 0)}</span>
-              <span>제외 {formatNumber(state?.withoutSpaces ?? 0)}</span>
-            </span>
-          )}
+          <span
+            className={styles.counts}
+            title={`공백 포함 ${formatNumber(state?.withSpaces ?? 0)}자 · 공백 제외 ${formatNumber(state?.withoutSpaces ?? 0)}자`}
+          >
+            {formatNumber(state?.withSpaces ?? 0)}자
+          </span>
         </div>
+        {actions && <div className={styles.actions}>{actions}</div>}
       </div>
       {findOpen && editor && (
         <FindBar

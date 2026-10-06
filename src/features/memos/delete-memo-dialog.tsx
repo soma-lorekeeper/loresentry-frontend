@@ -8,7 +8,7 @@ import {
 } from "@/design-system/primitives";
 import type { Memo } from "@/domain/models";
 
-import { memoHeadline, useRemoveMemo } from "./queries";
+import { memoHeadline, memoTitle, useRemoveMemo } from "./queries";
 
 export function DeleteMemoDialog({
   projectId,
@@ -32,7 +32,6 @@ export function DeleteMemoDialog({
       open={memo !== null}
       onClose={close}
       dismissible={!busy}
-      icon="trash-2"
       title="메모를 삭제할까요?"
       description={
         memo?.scope === "file"
@@ -43,7 +42,7 @@ export function DeleteMemoDialog({
         memo
           ? {
               icon: "file",
-              name: memoHeadline(memo.body, 40) || "빈 메모",
+              name: memoTitle(memo) || memoHeadline(memo.body, 40) || "빈 메모",
             }
           : undefined
       }

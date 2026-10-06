@@ -13,7 +13,7 @@
   gap: var(--lk-space-1);
   height: 52px;
   padding: 0 var(--lk-space-2);
-  border-bottom: 1px solid var(--lk-color-border-default);
+  border-bottom: 1px solid var(--lk-color-border-subtle);
 }
 
 .switcher {
@@ -25,12 +25,18 @@
   margin-right: auto;
   padding: 0 var(--lk-space-2);
   border-radius: var(--lk-radius-control);
-  font-weight: 650;
+  font-weight: 600;
+  transition: background-color 140ms var(--lk-ease);
 }
 
 .switcher:hover,
 .switcher[aria-expanded="true"] {
-  background: var(--lk-color-surface-icon);
+  background: var(--lk-color-state-hover);
+}
+
+.switcher:focus-visible {
+  outline: none;
+  box-shadow: var(--lk-focus-ring);
 }
 
 .switcher > svg {
@@ -50,8 +56,9 @@
   min-width: 0;
   height: 36px;
   margin-right: auto;
-  border-radius: var(--lk-radius-control);
-  background: var(--lk-color-surface-icon);
+  border-radius: 10px;
+  background: var(--lk-color-surface-default);
+  box-shadow: var(--lk-focus-ring);
 }
 
 .renameInput {
@@ -63,13 +70,13 @@
   background: transparent;
   color: var(--lk-color-text-primary);
   font: inherit;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .renameConfirm {
-  height: 36px;
-  border-left: 1px solid var(--lk-color-border-default);
-  border-radius: 0 var(--lk-radius-control) var(--lk-radius-control) 0;
+  width: 30px;
+  height: 30px;
+  margin-right: 3px;
 }
 
 .headerButton {
@@ -99,35 +106,29 @@
 .user {
   align-self: flex-end;
   max-width: 88%;
-  padding: var(--lk-space-3) var(--lk-space-3);
-  border-radius: var(--lk-radius-control);
-  background: var(--lk-color-surface-icon);
+  padding: 10px 14px;
+  border-radius: 14px 14px 4px;
+  background: var(--lk-color-surface-sunken);
   line-height: 1.65;
   white-space: pre-wrap;
 }
 
 .assistant {
   display: flex;
-  flex-direction: column;
-  gap: var(--lk-space-2);
+  gap: var(--lk-space-3);
   line-height: 1.65;
 }
 
 .assistant > p {
+  flex: 1;
+  min-width: 0;
   white-space: pre-wrap;
 }
 
-.assistantLabel {
-  display: flex;
-  align-items: center;
-  gap: var(--lk-space-2);
-  color: var(--lk-color-text-secondary);
-  font-size: var(--lk-font-size-label);
-  font-weight: 600;
-}
-
-.assistantLabel > svg {
-  color: var(--lk-color-icon-default);
+.assistant > svg {
+  flex: none;
+  margin-top: 4px;
+  color: var(--lk-color-accent-primary);
 }
 
 .caret {
@@ -149,12 +150,17 @@
   display: flex;
   align-items: center;
   gap: var(--lk-space-2);
-  padding: var(--lk-space-2) var(--lk-space-3);
-  border: 1px solid var(--lk-color-border-default);
-  border-radius: var(--lk-radius-control);
-  background: var(--lk-color-surface-raised);
+  padding: var(--lk-space-2) var(--lk-space-2) var(--lk-space-2)
+    var(--lk-space-3);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-sunken);
   font-size: var(--lk-font-size-label);
   font-weight: 600;
+}
+
+.error > svg {
+  flex: none;
+  color: var(--lk-color-accent-primary);
 }
 
 .error > span {
@@ -164,8 +170,7 @@
 .composer {
   position: relative;
   flex: none;
-  padding: var(--lk-space-2);
-  border-top: 1px solid var(--lk-color-border-default);
+  padding: 0 var(--lk-space-3) var(--lk-space-3);
 }
 
 .input {
@@ -173,17 +178,21 @@
   width: 100%;
   height: 100px;
   padding: var(--lk-space-3) var(--lk-space-3) 44px;
-  border: 1px solid var(--lk-color-border-default);
-  border-radius: var(--lk-radius-control);
+  border: 0;
+  border-radius: 14px;
   outline: none;
-  background: var(--lk-color-surface-raised);
+  background: var(--lk-color-surface-sunken);
   color: var(--lk-color-text-primary);
   font: inherit;
   resize: none;
+  transition:
+    background-color 160ms var(--lk-ease),
+    box-shadow 160ms var(--lk-ease);
 }
 
 .input:focus {
-  border-color: var(--lk-color-icon-default);
+  background: var(--lk-color-surface-default);
+  box-shadow: var(--lk-focus-ring);
 }
 
 .input::placeholder {
@@ -192,16 +201,26 @@
 
 .send {
   position: absolute;
-  right: 18px;
-  bottom: 18px;
-  width: 32px;
-  height: 32px;
-  background: var(--lk-color-surface-icon);
+  right: 22px;
+  bottom: 22px;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
 }
 
+.send:not(:disabled),
 .stop {
   background: var(--lk-color-accent-primary);
   color: var(--lk-color-text-on-accent);
+}
+
+.send:not(:disabled):hover,
+.stop:hover {
+  background: color-mix(
+    in srgb,
+    var(--lk-color-accent-primary) 88%,
+    var(--lk-color-text-primary)
+  );
 }
 
 .scrim {
@@ -220,16 +239,17 @@
   flex-direction: column;
   gap: var(--lk-space-3);
   width: 100%;
-  padding: var(--lk-space-4);
-  border: 1px solid var(--lk-color-border-default);
-  border-radius: var(--lk-radius-card);
+  padding: var(--lk-space-6);
+  border-radius: 18px;
   background: var(--lk-color-surface-raised);
-  box-shadow: 0 12px 32px var(--lk-color-shadow-dialog);
+  box-shadow: var(--lk-shadow-modal);
 }
 
 .confirmTitle {
-  font-size: var(--lk-font-size-heading);
-  font-weight: 650;
+  font-family: var(--lk-font-stack-display);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .confirmText {

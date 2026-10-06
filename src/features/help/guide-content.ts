@@ -1,5 +1,3 @@
-import type { IconName } from "@/design-system/icons/icon";
-
 export interface GuideSection {
   id: string;
   title: string;
@@ -8,7 +6,6 @@ export interface GuideSection {
 
 export interface GuideTopic {
   id: string;
-  icon: IconName;
   title: string;
   summary: string;
   lead: string;
@@ -22,7 +19,6 @@ export interface GuideTopic {
 export const GUIDE_TOPICS: GuideTopic[] = [
   {
     id: "start",
-    icon: "rocket",
     title: "작업공간 시작하기",
     summary: "프로젝트 생성부터 첫 원고까지",
     lead: "프로젝트는 이야기의 원고, 설정, 인물, 메모를 한곳에 모아두는 작업 공간입니다.",
@@ -54,7 +50,6 @@ export const GUIDE_TOPICS: GuideTopic[] = [
   },
   {
     id: "files",
-    icon: "file-text",
     title: "파일과 속성 문서",
     summary: "자료를 구조화하고 연결하기",
     lead: "설정·세계관·장소 같은 문서는 제목, 사용자 정의 속성, 내용으로 구성됩니다.",
@@ -91,7 +86,6 @@ export const GUIDE_TOPICS: GuideTopic[] = [
   },
   {
     id: "writing",
-    icon: "pen-line",
     title: "원고 작성",
     summary: "집중해서 쓰고 저장 상태 확인하기",
     lead: "원고는 제목과 서식 있는 본문으로 구성되며, 저장 버튼 없이 자동으로 저장됩니다.",
@@ -128,7 +122,6 @@ export const GUIDE_TOPICS: GuideTopic[] = [
   },
   {
     id: "explore",
-    icon: "search",
     title: "검색과 그래프",
     summary: "프로젝트 전체를 탐색하기",
     lead: "검색은 제목과 본문을, 그래프는 문서 사이에 명시한 관계를 보여 줍니다.",
@@ -160,7 +153,6 @@ export const GUIDE_TOPICS: GuideTopic[] = [
   },
   {
     id: "memo",
-    icon: "sticky-note",
     title: "메모와 타임라인",
     summary: "아이디어와 사건 순서 관리하기",
     lead: "메모는 프로젝트 전체나 파일 하나에 남기고, 타임라인은 회차별 등장을 한눈에 보여 줍니다.",
@@ -192,7 +184,6 @@ export const GUIDE_TOPICS: GuideTopic[] = [
   },
   {
     id: "trash",
-    icon: "trash-2",
     title: "휴지통과 복원",
     summary: "삭제한 항목을 안전하게 복원하기",
     lead: "삭제한 파일과 프로젝트는 휴지통에 보관되며, 복원하거나 확인 후 영구 삭제할 수 있습니다.",

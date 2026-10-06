@@ -28,7 +28,6 @@ describe("OnboardingPage", () => {
     const actor = userEvent.setup();
     renderWithServices(<OnboardingPage user={newcomer} replay={false} />);
 
-    expect(screen.getByText("서윤주 님, 환영해요.")).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "작업공간 하나",
     );
@@ -36,16 +35,16 @@ describe("OnboardingPage", () => {
 
     await actor.click(screen.getByRole("button", { name: "다음" }));
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "속성 표로 잇기",
+      "문서를 이어요",
     );
 
     fireEvent.keyDown(window, { key: "ArrowRight" });
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "그래프로 보여요",
+      "그래프로",
     );
     fireEvent.keyDown(window, { key: "ArrowLeft" });
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "속성 표로 잇기",
+      "문서를 이어요",
     );
     expect(screen.getByRole("listitem", { current: "step" })).toHaveTextContent(
       "2단계",
@@ -142,7 +141,7 @@ describe("OnboardingPage", () => {
     fireEvent.keyDown(window, { key: "Escape" });
     await actor.click(screen.getByRole("button", { name: "이 이름으로 계속" }));
     await actor.click(
-      await screen.findByRole("button", { name: /둘 다 나중에 할게요/ }),
+      await screen.findByRole("button", { name: /나중에 할게요/ }),
     );
 
     expect(await screen.findByRole("alert")).toHaveTextContent(

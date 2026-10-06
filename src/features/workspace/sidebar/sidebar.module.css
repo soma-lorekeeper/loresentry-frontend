@@ -3,8 +3,7 @@
   flex-direction: column;
   gap: var(--lk-space-4);
   height: 100%;
-  padding: 18px var(--lk-space-2) var(--lk-space-2);
-  border-right: 1px solid var(--lk-color-border-default);
+  padding: 16px 12px 12px;
   background: var(--lk-color-surface-navigation);
 }
 
@@ -35,8 +34,9 @@
 .divider {
   flex: none;
   height: 1px;
-  margin-bottom: var(--lk-space-1);
+  margin: 0 var(--lk-space-2);
   background: var(--lk-color-border-default);
+  opacity: 0.6;
 }
 
 .scroll {
@@ -94,19 +94,19 @@
   flex: none;
   align-items: center;
   gap: var(--lk-space-2);
-  height: 39px;
-  padding: var(--lk-space-3);
-  border-radius: var(--lk-radius-control);
-  background: var(--lk-color-surface-default);
-  font-size: var(--lk-font-size-label);
-  font-weight: 500;
+  height: 40px;
+  padding: 0 var(--lk-space-3);
+  border-radius: 10px;
+  background: var(--lk-color-surface-pill);
+  box-shadow: var(--lk-shadow-pill);
+  font-size: var(--lk-font-size-body);
+  font-weight: 600;
   text-align: left;
 }
 
 .switcher:hover,
 .switcher[aria-expanded="true"] {
-  background: var(--lk-color-surface-default)
-    linear-gradient(var(--lk-color-state-hover), var(--lk-color-state-hover));
+  box-shadow: var(--lk-shadow-raise);
 }
 
 .switcher > svg {
@@ -139,4 +139,12 @@
 .sectionHeader[data-drop-target="true"] {
   border-radius: var(--lk-radius-control);
   background: var(--lk-color-state-selected);
+}
+
+.anchor {
+  display: contents;
+}
+
+.menuTrigger[aria-expanded="true"]:not([data-selected="true"]) {
+  background: var(--lk-color-state-hover);
 }

@@ -3,9 +3,9 @@
   flex: none;
   align-items: center;
   gap: var(--lk-space-1);
-  height: 42px;
-  padding: 3px var(--lk-space-3);
-  border-bottom: 1px solid var(--lk-color-border-default);
+  height: 48px;
+  padding: 0 var(--lk-space-3) 0 var(--lk-space-4);
+  border-bottom: 1px solid var(--lk-color-border-subtle);
   background: var(--lk-color-surface-default);
   overflow: hidden;
 }
@@ -33,7 +33,7 @@
 .separator {
   flex: none;
   width: 1px;
-  height: 24px;
+  height: 16px;
   margin: 0 var(--lk-space-1);
   background: var(--lk-color-border-default);
 }
@@ -67,10 +67,11 @@
   align-items: center;
   gap: var(--lk-space-2);
   height: 32px;
-  padding: 0 var(--lk-space-2);
-  border: 1px solid var(--lk-color-border-default);
+  padding: 0 var(--lk-space-2) 0 var(--lk-space-3);
+  border: 0;
   border-radius: var(--lk-radius-control);
-  color: var(--lk-color-text-secondary);
+  background: var(--lk-color-surface-sunken);
+  color: var(--lk-color-text-primary);
   font-size: var(--lk-font-size-label);
 }
 
@@ -111,10 +112,6 @@
   background: var(--lk-color-state-hover);
 }
 
-.more {
-  border: 1px solid var(--lk-color-border-default);
-}
-
 .status {
   display: flex;
   flex: none;
@@ -141,9 +138,8 @@
   gap: var(--lk-space-2);
   height: 32px;
   padding: 0 var(--lk-space-3);
-  border: 1px solid var(--lk-color-border-default);
   border-radius: var(--lk-radius-control);
-  background: var(--lk-color-surface-raised);
+  background: var(--lk-color-surface-sunken);
   color: var(--lk-color-text-primary);
   font-weight: 500;
 }
@@ -158,8 +154,16 @@
 }
 
 .counts {
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
   display: flex;
-  gap: var(--lk-space-3);
+  flex: none;
+  align-items: center;
+  margin-left: var(--lk-space-3);
+  padding-left: var(--lk-space-3);
+  border-left: 1px solid var(--lk-color-border-subtle);
 }
 
 .spin {
@@ -187,16 +191,16 @@
   width: 200px;
   height: 30px;
   padding: 0 var(--lk-space-3);
-  border: 1px solid var(--lk-color-border-default);
-  border-radius: var(--lk-radius-control);
+  border: 0;
+  border-radius: 8px;
   outline: none;
-  background: var(--lk-color-bg-canvas);
+  background: var(--lk-color-surface-sunken);
   color: var(--lk-color-text-primary);
 }
 
 .findInput:focus-visible {
-  outline: 2px solid var(--lk-color-accent-primary);
-  outline-offset: -1px;
+  background: var(--lk-color-surface-default);
+  box-shadow: var(--lk-focus-ring);
 }
 
 .findCount {
@@ -211,10 +215,8 @@
 }
 
 /*
- * 좁은 창: 도구 줄이 저장 상태와 글자 수를 밀어내지 않게 한다.
- *
- * 도구 묶음이 줄어들지 않는 폭을 차지해서, 넘친 부분이 잘리는 대신 오른쪽의 상태 표시 위로
- * 겹쳐 보였다. 도구 쪽이 먼저 줄어들고, 남는 것은 "더보기" 가 이미 받아 준다.
+ * 좁은 창: 도구 줄이 저장 상태와 글자 수를 밀어내지 않게 한다. 도구 묶음은 가로로 밀어 보고,
+ * 오른쪽 끝을 흐려 더 있다는 것을 알린다.
  */
 @media (max-width: 760px) {
   .toolbar {
@@ -223,7 +225,13 @@
 
   .controls {
     min-width: 0;
-    overflow: hidden;
+    overflow-x: auto;
+    scrollbar-width: none;
+    mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+  }
+
+  .controls::-webkit-scrollbar {
+    display: none;
   }
 
   .select {
@@ -239,5 +247,14 @@
   /* 글자 수는 남기고, 공백 포함·제외 구분은 접는다. */
   .status {
     gap: var(--lk-space-2);
+  }
+
+  .saveLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 }

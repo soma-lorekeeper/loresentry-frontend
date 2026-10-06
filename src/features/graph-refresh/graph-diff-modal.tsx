@@ -12,7 +12,7 @@ import {
   useToast,
   type IconName,
 } from "@/design-system/primitives";
-import { DOCUMENT_TYPE_META } from "@/domain/document-types";
+import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
 import type {
   DocumentDraft,
   DocumentProperty,
@@ -55,7 +55,9 @@ const KIND_MARK: Record<RefreshProposal["kind"], string> = {
   removed: "−",
 };
 
-type Lookup = (id: string) => { title: string; icon: IconName } | null;
+type Lookup = (
+  id: string,
+) => { title: string; icon: IconName; docType: DocumentType } | null;
 
 function Arrows({
   onPush,
@@ -96,7 +98,7 @@ function PropertyValue({
   if (!targetId) return <span className={styles.missing}>—</span>;
   const target = lookup(targetId);
   return (
-    <span className={styles.chip}>
+    <span className={styles.chip} data-kind={target?.docType}>
       <Icon name={target?.icon ?? "file"} size={14} />
       {target?.title ?? "새 문서"}
     </span>
@@ -134,7 +136,6 @@ function DocumentCompare({
     <div className={styles.compare}>
       <div className={cx(styles.cell, styles.left, styles.first)}>
         <strong>현재 버전</strong>
-        <span className={styles.caption}>지금 쓰고 있는 문서예요</span>
       </div>
       <div className={styles.gutter}>
         {(!left || !right) && (
@@ -146,7 +147,6 @@ function DocumentCompare({
       </div>
       <div className={cx(styles.cell, styles.right, styles.first)}>
         <strong>신규 버전</strong>
-        <span className={styles.caption}>새로 추출한 결과예요</span>
       </div>
 
       {(!left || !right) && (
@@ -164,7 +164,7 @@ function DocumentCompare({
       <div className={cx(styles.cell, styles.left, styles.property)}>
         <span className={styles.label}>분류</span>
         {left && (
-          <span className={styles.type}>
+          <span className={styles.type} data-kind={proposal.docType}>
             <Icon name={meta.entityIcon} size={14} />
             {meta.label}
           </span>
@@ -174,7 +174,7 @@ function DocumentCompare({
       <div className={cx(styles.cell, styles.right, styles.property)}>
         <span className={styles.label}>분류</span>
         {right && (
-          <span className={styles.type}>
+          <span className={styles.type} data-kind={proposal.docType}>
             <Icon name={meta.entityIcon} size={14} />
             {meta.label}
           </span>
@@ -349,12 +349,14 @@ export function GraphDiffModal({
       return {
         title: node.title,
         icon: DOCUMENT_TYPE_META[node.docType].entityIcon,
+        docType: node.docType,
       };
     const proposal = proposals.find((p) => p.fileId === id);
     return proposal
       ? {
           title: proposal.title,
           icon: DOCUMENT_TYPE_META[proposal.docType].entityIcon,
+          docType: proposal.docType,
         }
       : null;
   };
@@ -430,6 +432,7 @@ export function GraphDiffModal({
                 <li key={proposal.id}>
                   <button
                     type="button"
+                    data-kind={proposal.docType}
                     className={cx(
                       styles.item,
                       proposal.fileId === selectedId && styles.itemSelected,
@@ -437,8 +440,7 @@ export function GraphDiffModal({
                     aria-current={proposal.fileId === selectedId || undefined}
                     onClick={() => setSelectedId(proposal.fileId)}
                   >
-                    <Icon name={meta.entityIcon} size={14} />
-                    <span className={styles.itemKind}>{meta.label}</span>
+                    <Icon name={meta.entityIcon} size={15} label={meta.label} />
                     <span className={styles.itemTitle}>{proposal.title}</span>
                     {done ? (
                       <Icon name="check" size={15} label="확정" />
@@ -463,13 +465,9 @@ export function GraphDiffModal({
               title={`달라진 문서가 ${proposals.length}개 있어요`}
               description={
                 <>
+                  <span>왼쪽에서 문서를 하나 골라주세요.</span>
                   <span>
-                    왼쪽에서 문서를 하나 골라주세요. 지금 문서와 새로 추출한
-                    결과를 나란히 보여드려요.
-                  </span>
-                  <span>
-                    가운데 화살표로 필요한 부분만 골라 받을 수 있어요. 양쪽이
-                    같아지면 반영이 끝나요.
+                    가운데 화살표로 필요한 부분만 골라 받을 수 있어요.
                   </span>
                 </>
               }

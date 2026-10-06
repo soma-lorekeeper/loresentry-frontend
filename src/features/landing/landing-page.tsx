@@ -14,7 +14,6 @@ import { SceneFrame } from "./scene-frame";
 import { StoryThread } from "./story-thread";
 import { useStartWriting } from "./use-start-writing";
 import styles from "./landing.module.css";
-import "./fonts/wanted-sans/WantedSansVariable.css";
 
 function useScrolled() {
   const [scrolled, setScrolled] = useState(false);

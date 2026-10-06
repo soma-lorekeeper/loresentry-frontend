@@ -43,6 +43,7 @@ import {
 import { useWorkspace } from "../workspace-context";
 import { DRAG_MIME, FileTree, type TreeEdit } from "./file-tree";
 import { GraphRefreshItem } from "./graph-refresh-item";
+import { HelpMenu } from "./help-menu";
 import { ProjectSwitcher } from "./project-switcher";
 import styles from "./sidebar.module.css";
 
@@ -63,7 +64,6 @@ const UTILITY_NAV: Array<{
 }> = [
   { kind: "trash", label: "휴지통", icon: "trash-2" },
   { kind: "settings", label: "설정", icon: "settings" },
-  { kind: "help", label: "도움말", icon: "circle-help" },
 ];
 
 type PendingDialog =
@@ -240,7 +240,7 @@ export function WorkspaceSidebar() {
     DOCUMENT_TYPES.map((type) => ({
       id: `create-${type}`,
       label: DOCUMENT_TYPE_META[type].label,
-      icon: DOCUMENT_TYPE_META[type].createIcon,
+      icon: DOCUMENT_TYPE_META[type].entityIcon,
       onSelect: () => {
         const parent = index.get(parentId);
         const target =
@@ -506,12 +506,12 @@ export function WorkspaceSidebar() {
             onClick={() => open({ kind: item.kind })}
           />
         ))}
+        <HelpMenu selected={activeKind === "help"} />
       </div>
 
       <DialogCard
         open={dialog?.kind === "trash"}
         onClose={() => !busy && setDialog(null)}
-        icon="trash-2"
         title="휴지통으로 옮길까요?"
         description="휴지통에서 원래 위치로 복원할 수 있어요."
         target={
@@ -556,7 +556,6 @@ export function WorkspaceSidebar() {
       <DialogCard
         open={dialog?.kind === "episode"}
         onClose={() => !busy && setDialog(null)}
-        icon="folder-minus"
         title="에피소드 폴더를 삭제할까요?"
         description="폴더만 사라지고 안에 있던 회차는 원고 폴더로 돌아갑니다."
         target={
@@ -596,7 +595,6 @@ export function WorkspaceSidebar() {
       <DialogCard
         open={dialog?.kind === "section"}
         onClose={() => !busy && setDialog(null)}
-        icon={dialogError ? "triangle-alert" : "folder-input"}
         title={
           dialogError
             ? "섹션을 삭제하지 못했습니다"

@@ -19,7 +19,7 @@ describe("ProjectListPage", () => {
   it("lists projects by most recent work with a count", async () => {
     renderWithServices(<ProjectListPage user={user} />);
     expect(await screen.findByText("유리 정원의 기록")).toBeInTheDocument();
-    expect(screen.getByText("6개 프로젝트")).toBeInTheDocument();
+    expect(screen.getByText("6개")).toBeInTheDocument();
     const titles = screen
       .getAllByRole("heading", { level: 3 })
       .map((h) => h.textContent);

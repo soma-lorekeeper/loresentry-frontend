@@ -38,7 +38,10 @@ export function MemoView() {
   const fileContext = (memo: Memo) => {
     const file = fileOf(memo);
     return (
-      <div className={styles.fileHead}>
+      <div
+        className={styles.fileHead}
+        data-kind={isDocument(file) ? file.docType : undefined}
+      >
         <Icon
           name={
             isDocument(file)
@@ -89,7 +92,7 @@ export function MemoView() {
           canAdd={false}
           addLabel="메모 추가"
           emptyTitle="문서 메모가 없어요"
-          emptyDescription="문서를 열어 메모 패널에서 적으면 여기에 모입니다."
+          emptyDescription="문서를 열어 메모 패널에서 적으면 여기에 모여요."
           context={fileContext}
           entriesFor={fileEntries}
         />

@@ -1,7 +1,17 @@
+/*
+ * 속성 표는 문서 종류 색을 옅게 깐 판 위에 놓인다. 줄 사이 선은 두지 않고 간격으로 나눈다.
+ */
 .table {
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid var(--lk-color-border-default);
+  margin: var(--lk-space-3) 0 var(--lk-space-6);
+  padding: var(--lk-space-2) 6px;
+  border-radius: 14px;
+  background: color-mix(
+    in srgb,
+    var(--kind, var(--lk-color-node-manuscript)) 10%,
+    var(--lk-color-surface-sunken)
+  );
 }
 
 .row {
@@ -9,8 +19,7 @@
   align-items: center;
   gap: var(--lk-space-4);
   min-height: var(--lk-property-row-height);
-  padding: 3px 0;
-  border-top: 1px solid var(--lk-color-border-default);
+  padding: 2px var(--lk-space-3);
 }
 
 .identity {
@@ -46,12 +55,17 @@
   min-height: 28px;
   padding: 0 7px;
   border: 1px solid transparent;
-  border-radius: 7px;
+  border-radius: var(--lk-radius-control);
+  transition: background-color 140ms var(--lk-ease);
 }
 
 .value:hover:not([aria-disabled="true"]),
 .value:focus-within {
-  border-color: var(--lk-color-border-default);
+  background: color-mix(
+    in srgb,
+    var(--lk-color-surface-default) 70%,
+    transparent
+  );
 }
 
 .textInput {
@@ -82,7 +96,7 @@
 .fileValue > svg,
 .chip > svg {
   flex: none;
-  color: var(--lk-color-icon-default);
+  color: var(--kind, var(--lk-color-icon-default));
 }
 
 .chip {
@@ -91,16 +105,25 @@
   align-items: center;
   gap: 7px;
   max-width: 220px;
-  height: 28px;
-  padding: 0 7px;
-  border: 1px solid var(--lk-color-border-default);
-  border-radius: 7px;
+  height: 26px;
+  padding: 0 10px 0 9px;
+  border-radius: 999px;
+  background: color-mix(
+    in srgb,
+    var(--kind, var(--lk-color-node-manuscript)) 12%,
+    var(--lk-color-surface-default)
+  );
   font-size: var(--lk-font-size-label);
   font-weight: 600;
+  transition: background-color 140ms var(--lk-ease);
 }
 
 .chip:hover {
-  background: var(--lk-color-state-hover);
+  background: color-mix(
+    in srgb,
+    var(--kind, var(--lk-color-node-manuscript)) 20%,
+    var(--lk-color-surface-default)
+  );
 }
 
 .chipLabel {
@@ -111,7 +134,7 @@
 
 /*
  * 관계 설명. 칩 안에 붙되 이름보다 약하게 보여야 한다 — 이름이 무엇인지가 먼저고 설명은 곁말이다.
- * 적힌 설명은 늘 보이고, 비어 있으면 "설명" 자리만 흐리게 둔다.
+ * 적힌 설명은 늘 보이고, 비어 있으면 칩에 올리거나 포커스했을 때만 "설명" 자리를 보인다.
  */
 .chipNote,
 .chipNoteAdd {
@@ -130,17 +153,18 @@
 
 .chipNote::before {
   margin-right: 4px;
-  color: var(--lk-color-border-default);
-  content: "—";
+  color: var(--lk-color-text-secondary);
+  content: "·";
 }
 
 .chipNoteAdd {
-  color: transparent;
+  display: none;
+  color: var(--lk-color-text-secondary);
 }
 
 .chip:hover .chipNoteAdd,
-.chipNoteAdd:focus-visible {
-  color: var(--lk-color-text-tertiary, var(--lk-color-text-secondary));
+.chip:focus-within .chipNoteAdd {
+  display: inline-block;
 }
 
 .chipNote:hover,
@@ -152,10 +176,11 @@
   width: 140px;
   min-width: 0;
   padding: 0 4px;
-  border: 1px solid
-    var(--lk-color-border-strong, var(--lk-color-border-default));
+  border: 0;
   border-radius: var(--lk-radius-control);
+  outline: none;
   background: var(--lk-color-surface-default);
+  box-shadow: var(--lk-focus-ring);
   color: var(--lk-color-text-primary);
   font: inherit;
   font-weight: 400;
@@ -173,7 +198,7 @@
 }
 
 .chip:hover .chipRemove,
-.chipRemove:focus-visible {
+.chip:focus-within .chipRemove {
   display: inline-flex;
 }
 
@@ -233,21 +258,25 @@
   width: 260px;
   max-height: 320px;
   padding: var(--lk-space-2);
-  border: 1px solid var(--lk-color-border-default);
-  border-radius: var(--lk-radius-control);
+  border-radius: var(--lk-radius-card);
   background: var(--lk-color-surface-raised);
-  box-shadow: 0 4px 16px var(--lk-color-shadow-menu);
+  box-shadow: var(--lk-shadow-float);
 }
 
 .pickerSearch {
   height: 32px;
   margin-bottom: var(--lk-space-1);
   padding: 0 var(--lk-space-3);
-  border: 1px solid var(--lk-color-border-default);
-  border-radius: var(--lk-radius-control);
+  border: 0;
+  border-radius: 8px;
   outline: none;
-  background: var(--lk-color-surface-default);
+  background: var(--lk-color-surface-sunken);
   color: var(--lk-color-text-primary);
+}
+
+.pickerSearch:focus-visible {
+  background: var(--lk-color-surface-default);
+  box-shadow: var(--lk-focus-ring);
 }
 
 .pickerList {
@@ -284,6 +313,20 @@
   padding: var(--lk-space-3);
   color: var(--lk-color-text-secondary);
   font-size: var(--lk-font-size-label);
+}
+
+@media (hover: none) {
+  .chipNoteAdd {
+    display: inline-block;
+  }
+
+  .chipRemove {
+    display: inline-flex;
+  }
+
+  .addChip {
+    opacity: 1;
+  }
 }
 
 /*

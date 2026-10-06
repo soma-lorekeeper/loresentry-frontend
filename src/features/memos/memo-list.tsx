@@ -5,7 +5,6 @@ import { useState, type ReactNode } from "react";
 import {
   Button,
   EmptyState,
-  Icon,
   IconButton,
   useToast,
   type MenuEntry,
@@ -16,12 +15,7 @@ import { cx } from "@/shared/cx";
 import { DeleteMemoDialog } from "./delete-memo-dialog";
 import { MemoMenuButton } from "./memo-menu-button";
 import styles from "./memo-list.module.css";
-import {
-  memoHeadline,
-  useCreateMemo,
-  useMemos,
-  useUpdateMemo,
-} from "./queries";
+import { memoTitle, useCreateMemo, useMemos, useUpdateMemo } from "./queries";
 
 /**
  * 메모 한 장.
@@ -95,6 +89,7 @@ function MemoCard({
   ];
 
   if (!editing) {
+    const title = memoTitle(memo);
     return (
       <li className={styles.card}>
         {context}
@@ -104,12 +99,7 @@ function MemoCard({
           className={styles.open}
           onClick={() => setEditing(true)}
         >
-          <span className={styles.head}>
-            <Icon name="notebook-pen" size={14} />
-            <span className={styles.title}>
-              {memoHeadline(memo.body, 20) || "빈 메모"}
-            </span>
-          </span>
+          {title && <span className={styles.title}>{title}</span>}
           <span className={styles.excerpt}>
             {memo.body || "눌러서 내용을 적으세요."}
           </span>

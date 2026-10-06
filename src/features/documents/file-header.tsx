@@ -67,10 +67,11 @@ function Action({
       type="button"
       className={styles.action}
       aria-pressed={pressed}
+      aria-label={label}
+      title={label}
       {...rest}
     >
-      <Icon name={icon} size={14} />
-      {label}
+      <Icon name={icon} size={16} />
     </button>
   );
 }
@@ -95,7 +96,7 @@ export function FileHeader({
   }));
 
   return (
-    <div className={styles.header} role="toolbar" aria-label="파일 도구">
+    <div className={styles.header} role="group" aria-label="파일 도구">
       <Action
         icon="notebook-pen"
         label="메모"

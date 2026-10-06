@@ -183,6 +183,7 @@ function Row({
       data-node-id={item.node.id}
       data-drop-target={dropTarget || undefined}
       data-menu-open={menuOpen || undefined}
+      data-kind={isDocument(item.node) ? item.node.docType : undefined}
       className={styles.row}
       style={{ paddingLeft: indent(item.depth) }}
       draggable={draggable}

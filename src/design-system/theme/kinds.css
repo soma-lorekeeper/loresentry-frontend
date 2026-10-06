@@ -1,0 +1,33 @@
+/*
+ * 문서 종류 색. `data-kind` 를 단 요소 아래에서 --kind 가 그 종류의 노드 색이 된다. 칩·파일
+ * 트리·탭 아이콘과, 문서 제목 앞 점·속성 표 바탕이 이 값을 쓴다. 색만으로 종류를 말하지 않도록
+ * 쓰는 곳마다 아이콘이나 이름이 함께 있다.
+ */
+
+[data-kind="manuscript"] {
+  --kind: var(--lk-color-node-manuscript);
+}
+
+[data-kind="character"] {
+  --kind: var(--lk-color-node-character);
+}
+
+[data-kind="place"] {
+  --kind: var(--lk-color-node-place);
+}
+
+[data-kind="organization"] {
+  --kind: var(--lk-color-node-organization);
+}
+
+[data-kind="item"] {
+  --kind: var(--lk-color-node-item);
+}
+
+[data-kind="event"] {
+  --kind: var(--lk-color-node-event);
+}
+
+[data-kind="worldview"] {
+  --kind: var(--lk-color-node-worldview);
+}

@@ -1,28 +1,24 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: var(--lk-space-6);
+  gap: 24px;
   width: 100%;
-  max-width: 840px;
+  max-width: calc(720px + 2 * 48px);
   margin: 0 auto;
-  padding: 32px 40px 64px;
+  padding: 56px 48px 64px;
 }
 
-.header,
-.sectionHeader {
+.header {
   display: flex;
   flex-direction: column;
-  gap: var(--lk-space-1);
 }
 
 .title {
-  font-size: 24px;
-  font-weight: 700;
-}
-
-.description,
-.sectionDescription {
-  color: var(--lk-color-text-secondary);
+  font-family: var(--lk-font-stack-display);
+  font-size: var(--lk-font-size-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: var(--lk-line-height-display);
 }
 
 .section {
@@ -32,8 +28,10 @@
 }
 
 .sectionHeader {
-  padding-bottom: 16px;
-  border-bottom: 2px solid var(--lk-color-border-default);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--lk-color-border-subtle);
 }
 
 .sectionTitle {
@@ -47,34 +45,18 @@
   gap: 16px;
 }
 
-.idleActions {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--lk-space-2);
-  min-height: 64px;
-  align-items: center;
-}
-
 .danger {
   display: flex;
   align-items: center;
   gap: var(--lk-space-4);
-  min-height: 112px;
-  padding: 0 var(--lk-space-4);
-  border: 1px solid var(--lk-color-border-default);
-  border-radius: var(--lk-radius-card);
-  background: var(--lk-color-surface-raised);
+  min-height: 88px;
+  padding: var(--lk-space-4) 18px;
+  border-radius: 14px;
+  background: var(--lk-color-surface-sunken);
 }
 
 .dangerIcon {
-  display: flex;
   flex: none;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--lk-radius-control);
-  background: var(--lk-color-surface-icon);
   color: var(--lk-color-icon-default);
 }
 
@@ -86,6 +68,10 @@
   min-width: 0;
 }
 
+.dangerCopy > strong {
+  font-weight: 600;
+}
+
 .dangerCopy > span {
   color: var(--lk-color-text-secondary);
   font-size: var(--lk-font-size-label);
@@ -95,8 +81,26 @@
   display: flex;
   flex-direction: column;
   gap: var(--lk-space-1);
-  padding: var(--lk-space-3) var(--lk-space-3);
-  border: 1px solid var(--lk-color-border-default);
-  border-radius: var(--lk-radius-control);
+  padding: var(--lk-space-3);
+  border-radius: 10px;
+  background: var(--lk-color-surface-sunken);
   font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 32px 16px 48px;
+  }
+
+  .danger {
+    flex-wrap: wrap;
+  }
+
+  .dangerCopy {
+    flex-basis: calc(100% - 30px);
+  }
+
+  .danger > :last-child {
+    margin-left: 30px;
+  }
 }

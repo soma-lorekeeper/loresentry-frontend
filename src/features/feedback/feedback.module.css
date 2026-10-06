@@ -6,6 +6,8 @@
 
 .context {
   color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  line-height: var(--lk-line-height-body);
   word-break: keep-all;
 }
 
@@ -18,9 +20,8 @@
 
 .hint kbd {
   padding: 1px 6px;
-  border: 1px solid var(--lk-color-border-default);
-  border-radius: var(--lk-radius-control);
-  background: var(--lk-color-surface-default);
+  border-radius: 5px;
+  background: var(--lk-color-surface-track);
   font-family: inherit;
   font-size: var(--lk-font-size-label);
 }

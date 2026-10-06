@@ -42,9 +42,7 @@ function ProjectCard({
   return (
     <article className={styles.card} data-selected={menuOpen || undefined}>
       <div className={styles.cardHeader}>
-        <span className={styles.iconSurface}>
-          <Icon name={project.icon} size={18} />
-        </span>
+        <Icon name={project.icon} size={18} className={styles.projectIcon} />
         <span className={styles.spacer} />
         <IconButton
           ref={moreRef}
@@ -62,18 +60,10 @@ function ProjectCard({
         </Link>
       </h3>
       <div className={styles.metadata}>
-        <p className={styles.metaRow}>
-          <Icon name="clock-3" size={14} />
-          <span className={styles.metaText}>
-            {relativeTime(project.lastWorkedAt)} 마지막 작업
-          </span>
-        </p>
-        <p className={styles.metaRow}>
-          <Icon name="file-text" size={14} />
-          <span className={styles.metaText}>
-            {project.lastFile?.title ?? "아직 연 파일이 없어요"}
-          </span>
-        </p>
+        {project.lastFile && (
+          <p className={styles.lastFile}>{project.lastFile.title}</p>
+        )}
+        <p className={styles.time}>{relativeTime(project.lastWorkedAt)}</p>
       </div>
       <Menu
         anchorRef={moreRef}
@@ -103,33 +93,6 @@ function ProjectCard({
   );
 }
 
-function NewProjectCard({
-  disabled,
-  onCreate,
-}: {
-  disabled?: boolean;
-  onCreate: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      className={styles.newCard}
-      disabled={disabled}
-      onClick={onCreate}
-    >
-      <span className={styles.newIcon}>
-        <Icon name="plus" size={20} />
-      </span>
-      <span className={styles.newLabel}>새 프로젝트</span>
-      <span className={styles.newHint}>
-        {disabled
-          ? "프로젝트를 불러온 뒤에 만들 수 있어요"
-          : "새 이야기를 시작하세요"}
-      </span>
-    </button>
-  );
-}
-
 function SkeletonCard() {
   return (
     <div className={styles.skeleton} aria-hidden="true">
@@ -156,19 +119,25 @@ export function ProjectListPage({ user }: { user: User }) {
   const [renaming, setRenaming] = useState<Project | null>(null);
   const [trashing, setTrashing] = useState<Project | null>(null);
 
-  const meta = projects.isPending
-    ? "불러오는 중"
-    : projects.isError
-      ? "불러오지 못했어요"
-      : `${projects.data.length}개 프로젝트`;
+  const meta = projects.isSuccess ? `${projects.data.length}개` : null;
 
   return (
     <ProjectShell
       user={user}
       section="list"
       title="프로젝트"
-      description="작업을 이어갈 프로젝트를 선택하거나 새 이야기를 시작하세요."
       meta={meta}
+      headerAction={
+        <Button
+          size="md"
+          variant="primary"
+          icon="plus"
+          disabled={projects.isPending}
+          onClick={() => setCreating(true)}
+        >
+          새 프로젝트
+        </Button>
+      }
     >
       {projects.isError ? (
         <EmptyState
@@ -176,12 +145,7 @@ export function ProjectListPage({ user }: { user: User }) {
           role="alert"
           icon="cloud-off"
           title="프로젝트를 불러오지 못했어요"
-          description={
-            <>
-              <p>네트워크 연결을 확인한 뒤 다시 시도해 주세요.</p>
-              <p>작성 중인 로컬 데이터에는 영향이 없어요.</p>
-            </>
-          }
+          description="네트워크 연결을 확인한 뒤 다시 시도해 주세요."
           action={
             <Button
               size="md"
@@ -214,22 +178,10 @@ export function ProjectListPage({ user }: { user: User }) {
           className={styles.section}
           aria-busy={projects.isPending || undefined}
         >
-          <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>최근 프로젝트</h2>
-            {projects.isSuccess && (
-              <span className={styles.sort}>
-                <Icon name="arrow-down-wide-narrow" size={15} />
-                마지막 작업순
-              </span>
-            )}
-          </div>
+          <h2 className={styles.srOnly}>최근 작업순 프로젝트</h2>
           <div className={styles.grid}>
-            <NewProjectCard
-              disabled={projects.isPending}
-              onCreate={() => setCreating(true)}
-            />
             {projects.isPending
-              ? Array.from({ length: 5 }, (_, index) => (
+              ? Array.from({ length: 6 }, (_, index) => (
                   <SkeletonCard key={index} />
                 ))
               : projects.data.map((project) => (
@@ -263,7 +215,6 @@ export function ProjectListPage({ user }: { user: User }) {
           toast({
             icon: "check",
             title: "프로젝트 이름을 변경했어요.",
-            description: "새 이름이 목록과 작업공간에 바로 반영됐어요.",
           });
         }}
       />
@@ -275,7 +226,6 @@ export function ProjectListPage({ user }: { user: User }) {
           toast({
             icon: "trash-2",
             title: "프로젝트를 휴지통으로 이동했어요.",
-            description: "프로젝트 휴지통에서 다시 복원할 수 있어요.",
             action: {
               label: "휴지통 보기",
               icon: "arrow-right",

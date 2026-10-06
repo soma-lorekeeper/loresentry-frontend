@@ -1,10 +1,24 @@
 @import "../design-system/tokens/tokens.css";
+@import "../design-system/theme/elevation.css";
+@import "../design-system/theme/kinds.css";
+@import "../design-system/fonts/pretendard/PretendardVariable.css";
+@import "../design-system/fonts/wanted-sans/WantedSansVariable.css";
 
 :root {
   --lk-font-stack-ui:
-    var(--font-geist-sans), "Apple SD Gothic Neo", "Noto Sans KR",
-    "Malgun Gothic", sans-serif;
+    "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --lk-font-stack-display: "Wanted Sans Variable", var(--lk-font-stack-ui);
   --lk-font-stack-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --lk-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+::selection {
+  background: color-mix(
+    in srgb,
+    var(--lk-color-accent-primary) 22%,
+    transparent
+  );
 }
 
 *,

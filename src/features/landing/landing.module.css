@@ -1,6 +1,6 @@
 .page {
-  --display: "Wanted Sans Variable", "Wanted Sans", var(--lk-font-stack-ui);
-  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --display: var(--lk-font-stack-display);
+  --ease: var(--lk-ease);
   --measure: 1240px;
   --gutter: clamp(16px, 5vw, 100px);
 

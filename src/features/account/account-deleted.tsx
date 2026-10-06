@@ -12,11 +12,7 @@ export function AccountDeleted() {
     <main className={styles.page}>
       <p className={styles.brand}>Lore Sentry</p>
       <section className={styles.completion} aria-labelledby="deleted-title">
-        <p className={styles.announcement} role="status">
-          <Icon name="circle-check" size={16} />
-          계정과 모든 작업을 삭제했어요.
-        </p>
-        <div className={styles.completionHeading}>
+        <div className={styles.completionHeading} role="status">
           <span className={styles.completionIcon}>
             <Icon name="user-x" size={24} />
           </span>

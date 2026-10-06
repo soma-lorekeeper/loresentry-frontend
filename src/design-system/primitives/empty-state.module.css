@@ -13,12 +13,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 52px;
-  height: 52px;
+  width: 44px;
+  height: 44px;
   margin-bottom: var(--lk-space-1);
-  border-radius: var(--lk-radius-control);
-  background: var(--lk-color-surface-icon);
-  color: var(--lk-color-icon-default);
+  border-radius: 999px;
+  background: var(--lk-color-surface-sunken);
+  color: var(--lk-color-text-secondary);
 }
 
 .large .iconSurface {

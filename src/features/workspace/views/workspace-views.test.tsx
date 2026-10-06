@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { ChatPanel } from "@/features/chat/chat-panel";
+import { WorkspaceHelpView } from "@/features/help/workspace-help-view";
 import { MemoView } from "@/features/memos/memo-view";
 import { FileTrashView } from "@/features/file-trash/file-trash-view";
 import { ProjectSettingsView } from "@/features/project-settings/project-settings-view";
@@ -69,13 +70,43 @@ function Harness({
 }
 
 describe("workspace views", () => {
+  it("opens the guide on its topic list and comes back from a topic", async () => {
+    const actor = userEvent.setup();
+    const scroll = Element.prototype.scrollIntoView;
+    Element.prototype.scrollIntoView = vi.fn();
+    renderInWorkspace("help", <WorkspaceHelpView />);
+    expect(
+      screen.getByRole("heading", { level: 1, name: "사용 가이드" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "도움말로 돌아가기" }),
+    ).not.toBeInTheDocument();
+
+    const list = await screen.findByRole("list", { name: "가이드 주제" });
+    await actor.click(
+      within(list).getByRole("button", { name: /작업공간 시작하기/ }),
+    );
+    expect(
+      await screen.findByRole("heading", {
+        level: 1,
+        name: "작업공간 시작하기",
+      }),
+    ).toBeInTheDocument();
+
+    await actor.click(screen.getByRole("button", { name: "주제 목록" }));
+    expect(
+      await screen.findByRole("list", { name: "가이드 주제" }),
+    ).toBeInTheDocument();
+    Element.prototype.scrollIntoView = scroll;
+  });
+
   it("restores and permanently deletes trashed files", async () => {
     const actor = userEvent.setup();
     renderInWorkspace("trash", <FileTrashView />);
-    expect(await screen.findByText("3개 항목")).toBeInTheDocument();
+    expect(await screen.findByText("3개")).toBeInTheDocument();
     const list = screen.getByRole("list", { name: "삭제한 항목" });
     await actor.click(within(list).getAllByRole("button", { name: "복원" })[0]);
-    expect(await screen.findByText("2개 항목")).toBeInTheDocument();
+    expect(await screen.findByText("2개")).toBeInTheDocument();
 
     await actor.click(
       within(list).getAllByRole("button", { name: "영구 삭제" })[0],
@@ -85,7 +116,7 @@ describe("workspace views", () => {
       within(dialog).getByRole("button", { name: "영구 삭제" }),
     );
     await waitFor(() =>
-      expect(screen.queryByText("2개 항목")).not.toBeInTheDocument(),
+      expect(screen.queryByText("2개")).not.toBeInTheDocument(),
     );
   });
 
