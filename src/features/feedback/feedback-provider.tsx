@@ -35,13 +35,6 @@ export function useFeedback() {
   return context;
 }
 
-function isMac() {
-  return (
-    typeof navigator !== "undefined" &&
-    /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)
-  );
-}
-
 function currentPage() {
   return typeof window === "undefined" ? "" : window.location.pathname;
 }
@@ -84,7 +77,6 @@ function FeedbackDialog({
   const services = useServices();
   const toast = useToast();
   const [page] = useState(currentPage);
-  const [mac] = useState(isMac);
   const send = useMutation({
     mutationFn: () =>
       services.feedback.send({
@@ -123,12 +115,6 @@ function FeedbackDialog({
       dismissible={!pending}
       size="md"
       title="피드백 보내기"
-      footerHint={
-        <span className={styles.hint}>
-          <kbd>{mac ? "⌘" : "Ctrl"}</kbd>
-          <kbd>Enter</kbd>로 보내기
-        </span>
-      }
       actions={
         <>
           <Button

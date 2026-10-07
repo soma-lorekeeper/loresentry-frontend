@@ -17,7 +17,7 @@ import { relativeTime } from "@/shared/format";
 
 import {
   CreateProjectDialog,
-  RenameProjectDialog,
+  EditProjectDialog,
   TrashProjectDialog,
 } from "./project-dialogs";
 import styles from "./project-list.module.css";
@@ -30,11 +30,11 @@ export function workspaceHref(projectId: string) {
 
 function ProjectCard({
   project,
-  onRename,
+  onEdit,
   onTrash,
 }: {
   project: Project;
-  onRename: (project: Project) => void;
+  onEdit: (project: Project) => void;
   onTrash: (project: Project) => void;
 }) {
   const moreRef = useRef<HTMLButtonElement>(null);
@@ -59,6 +59,11 @@ function ProjectCard({
           {project.title}
         </Link>
       </h3>
+      {project.description && (
+        <p className={styles.description} title={project.description}>
+          {project.description}
+        </p>
+      )}
       <div className={styles.metadata}>
         {project.lastFile && (
           <p className={styles.lastFile}>{project.lastFile.title}</p>
@@ -75,10 +80,10 @@ function ProjectCard({
         itemHeight={36}
         entries={[
           {
-            id: "rename",
-            label: "이름 변경",
+            id: "edit",
+            label: "수정",
             icon: "pencil",
-            onSelect: () => onRename(project),
+            onSelect: () => onEdit(project),
           },
           {
             id: "trash",
@@ -116,7 +121,7 @@ export function ProjectListPage({ user }: { user: User }) {
   const [creating, setCreating] = useState(
     () => searchParams.get("create") === "1",
   );
-  const [renaming, setRenaming] = useState<Project | null>(null);
+  const [editing, setEditing] = useState<Project | null>(null);
   const [trashing, setTrashing] = useState<Project | null>(null);
 
   const meta = projects.isSuccess ? `${projects.data.length}개` : null;
@@ -188,7 +193,7 @@ export function ProjectListPage({ user }: { user: User }) {
                   <ProjectCard
                     key={project.id}
                     project={project}
-                    onRename={setRenaming}
+                    onEdit={setEditing}
                     onTrash={setTrashing}
                   />
                 ))}
@@ -207,15 +212,12 @@ export function ProjectListPage({ user }: { user: User }) {
           router.push(workspaceHref(project.id));
         }}
       />
-      <RenameProjectDialog
-        project={renaming}
-        onClose={() => setRenaming(null)}
-        onRenamed={() => {
-          setRenaming(null);
-          toast({
-            icon: "check",
-            title: "프로젝트 이름을 변경했어요.",
-          });
+      <EditProjectDialog
+        project={editing}
+        onClose={() => setEditing(null)}
+        onSaved={() => {
+          setEditing(null);
+          toast({ icon: "check", title: "프로젝트를 수정했어요." });
         }}
       />
       <TrashProjectDialog

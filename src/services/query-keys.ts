@@ -21,9 +21,7 @@ export const queryKeys = {
     ["memos", projectId, scope, fileId] as const,
   graph: (projectId: string) => ["graph", projectId] as const,
   refresh: (projectId: string) => ["refresh", projectId] as const,
-  chatSessions: (projectId: string) => ["chat", projectId] as const,
   guides: ["help", "guides"] as const,
-  chatMessages: (sessionId: string) => ["chat", "messages", sessionId] as const,
 };
 
 export async function invalidateProjectContent(

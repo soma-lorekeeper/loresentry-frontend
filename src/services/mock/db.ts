@@ -35,7 +35,7 @@ import {
   TRASHED_PROJECTS,
 } from "./seed-world";
 
-export const MOCK_DB_VERSION = 9;
+export const MOCK_DB_VERSION = 10;
 const STORAGE_KEY = "loresentry.mock.db";
 
 export interface StoredDocument {
@@ -539,7 +539,7 @@ function buildOtherProject(
   db.projects.push({
     id: seed.id,
     title: seed.title,
-    description: "",
+    description: seed.description,
     icon: seed.icon,
     createdAt: minutes(now, seed.lastWorkedMinutesAgo + 60 * 24 * 30),
     lastWorkedAt: minutes(now, seed.lastWorkedMinutesAgo),

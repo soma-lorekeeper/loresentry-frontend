@@ -44,9 +44,14 @@ export default function GraphCanvas({
   // 테마가 바뀌면 토큰 값을 다시 읽는다. mode 는 읽기 시점을 가르는 열쇠로만 쓴다.
   const palette = useMemo(() => (void mode, readPalette()), [mode]);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  // 강조는 마우스를 올린 동안이 아니라 누른 노드에 고정된다. 필터로 그 노드가 빠지면 푼다.
+  const activeId =
+    selectedId && graph.nodes.some((node) => node.id === selectedId)
+      ? selectedId
+      : null;
   const highlight = useMemo(
-    () => computeHighlight(graph, hoveredId),
-    [graph, hoveredId],
+    () => computeHighlight(graph, activeId),
+    [graph, activeId],
   );
   const noop = useCallback(() => {}, []);
 
@@ -55,6 +60,7 @@ export default function GraphCanvas({
       graph={graph}
       palette={palette}
       highlight={highlight}
+      activeId={activeId}
       hoveredId={hoveredId}
       focusId={null}
       centerIds={NO_CENTERS}

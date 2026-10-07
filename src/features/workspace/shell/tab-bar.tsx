@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 
-import { Button, Icon, IconButton } from "@/design-system/primitives";
+import { Icon, IconButton } from "@/design-system/primitives";
 
 import { type WorkspacePane } from "../model/layout";
 import { useWorkspace } from "../workspace-context";
@@ -141,20 +141,6 @@ export function TabBar({ pane }: { pane: WorkspacePane }) {
           dispatch({ type: "open", target: { kind: "new" }, paneId: pane.id })
         }
       />
-      <span className={styles.spacer} />
-      <Button
-        icon="sparkles"
-        className={styles.chat}
-        aria-pressed={layout.panels.aiChatOpen}
-        onClick={() =>
-          dispatch({
-            type: "setPanels",
-            panels: { aiChatOpen: !layout.panels.aiChatOpen },
-          })
-        }
-      >
-        AI 챗
-      </Button>
     </div>
   );
 }

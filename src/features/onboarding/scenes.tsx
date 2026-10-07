@@ -256,10 +256,6 @@ function TabBar({ scene }: { scene: Scene }) {
         <Icon name="x" size={12} />
       </span>
       <Icon name="plus" size={14} />
-      <span className={styles.aiChat}>
-        <Icon name="sparkles" size={13} />
-        AI 챗
-      </span>
     </div>
   );
 }

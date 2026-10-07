@@ -107,4 +107,40 @@ describe("ProjectListPage", () => {
       await screen.findByText("프로젝트를 휴지통으로 이동했어요."),
     ).toBeInTheDocument();
   });
+
+  it("shows each project's description on its card", async () => {
+    renderWithServices(<ProjectListPage user={user} />);
+    expect(
+      await screen.findByText(
+        "빛이 지난 자리에 남는 기억을 기록하는 사람들의 이야기",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("edits the title and description from the card menu", async () => {
+    const actor = userEvent.setup();
+    renderWithServices(<ProjectListPage user={user} />);
+    await actor.click(
+      await screen.findByRole("button", { name: "달빛 도서관 연대기 더보기" }),
+    );
+    await actor.click(await screen.findByRole("menuitem", { name: "수정" }));
+    const dialog = await screen.findByRole("dialog", { name: "프로젝트 수정" });
+    const save = within(dialog).getByRole("button", { name: "저장" });
+    expect(save).toBeDisabled();
+    const description = within(dialog).getByRole("textbox", { name: /설명/ });
+    await actor.clear(description);
+    await actor.type(description, "  금지된 서가를 지키는 사서들  ");
+    await actor.click(save);
+    await waitFor(() =>
+      expect(
+        getDb().projects.find((p) => p.id === "moonlight-library")?.description,
+      ).toBe("금지된 서가를 지키는 사서들"),
+    );
+    expect(
+      await screen.findByText("금지된 서가를 지키는 사서들"),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("프로젝트를 수정했어요."),
+    ).toBeInTheDocument();
+  });
 });

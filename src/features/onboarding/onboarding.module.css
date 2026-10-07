@@ -386,19 +386,6 @@
   animation: fadeIn 220ms var(--ease) both;
 }
 
-.aiChat {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 28px;
-  margin-left: auto;
-  padding: 0 10px;
-  background: var(--lk-color-surface-sunken);
-  border-radius: var(--lk-radius-control);
-  color: var(--lk-color-text-primary);
-  font-weight: 600;
-}
-
 .contentArea {
   position: relative;
   flex: 1;

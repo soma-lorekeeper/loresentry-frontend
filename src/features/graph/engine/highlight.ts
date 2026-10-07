@@ -1,5 +1,5 @@
 /**
- * hover 1-hop 강조에 쓰는 집합 계산.
+ * 누른 노드의 1-hop 강조에 쓰는 집합 계산.
  *
  * 증폭된 그래프에서는 원본 인접 인덱스를 그대로 못 쓴다(복제본 id 가 다르다).
  * 그래서 렌더 페이로드의 링크에서 직접 뽑는다. 링크는 force-graph 가 첫 렌더에서
@@ -17,10 +17,10 @@ export function endpointId(end: string | { id: string }): string {
 }
 
 export interface Highlight {
-  /** hover 한 노드 + 1-hop 이웃 */
+  /** 누른 노드 + 1-hop 이웃 */
   nodes: ReadonlySet<string>;
   /**
-   * hover 한 노드에 붙은 엣지. 넘겨받은 링크 객체를 그대로 담는다.
+   * 누른 노드에 붙은 엣지. 넘겨받은 링크 객체를 그대로 담는다.
    *
    * 담기는 타입이 뷰마다 달라(RenderLink / TimelineLink) unknown 으로 둔다.
    * 쓰는 쪽은 has() 로 "이 링크가 강조 대상인가"만 물으므로 이걸로 충분하다.
@@ -35,20 +35,20 @@ export const EMPTY_HIGHLIGHT: Highlight = {
 
 export function computeHighlight(
   graph: { links: readonly HighlightLink[] },
-  hoveredId: string | null,
+  activeId: string | null,
 ): Highlight {
-  if (!hoveredId) return EMPTY_HIGHLIGHT;
+  if (!activeId) return EMPTY_HIGHLIGHT;
 
-  const nodes = new Set<string>([hoveredId]);
+  const nodes = new Set<string>([activeId]);
   const links = new Set<unknown>();
 
   for (const link of graph.links) {
     const source = endpointId(link.source);
     const target = endpointId(link.target);
-    if (source === hoveredId) {
+    if (source === activeId) {
       nodes.add(target);
       links.add(link);
-    } else if (target === hoveredId) {
+    } else if (target === activeId) {
       nodes.add(source);
       links.add(link);
     }

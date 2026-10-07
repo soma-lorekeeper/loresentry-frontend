@@ -14,7 +14,7 @@ import { isServiceError } from "@/services/errors";
 import { PROJECT_TITLE_MAX } from "@/services/mock/projects";
 
 import styles from "./project-dialogs.module.css";
-import { useCreateProject, useRenameProject, useTrashProject } from "./queries";
+import { useCreateProject, useTrashProject, useUpdateProject } from "./queries";
 
 const DESCRIPTION_MAX = 500;
 
@@ -158,44 +158,54 @@ function CreateProjectForm({
   );
 }
 
-export function RenameProjectDialog({
+export function EditProjectDialog({
   project,
   onClose,
-  onRenamed,
+  onSaved,
 }: {
   project: Project | null;
   onClose: () => void;
-  onRenamed: (project: Project) => void;
+  onSaved: (project: Project) => void;
 }) {
   return (
-    <RenameProjectForm
+    <EditProjectForm
       key={project?.id ?? "none"}
       project={project}
       onClose={onClose}
-      onRenamed={onRenamed}
+      onSaved={onSaved}
     />
   );
 }
 
-function RenameProjectForm({
+function EditProjectForm({
   project,
   onClose,
-  onRenamed,
+  onSaved,
 }: {
   project: Project | null;
   onClose: () => void;
-  onRenamed: (project: Project) => void;
+  onSaved: (project: Project) => void;
 }) {
-  const rename = useRenameProject();
+  const update = useUpdateProject();
   const [title, setTitle] = useState(project?.title ?? "");
-  const busy = rename.isPending;
+  const [description, setDescription] = useState(project?.description ?? "");
+  const busy = update.isPending;
   const trimmed = title.trim();
-  const unchanged = trimmed === project?.title;
+  const unchanged =
+    trimmed === project?.title &&
+    description.trim() === (project?.description ?? "");
   const empty = trimmed.length === 0;
 
   const submit = () => {
     if (!project || empty || unchanged || busy) return;
-    rename.mutate({ projectId: project.id, title }, { onSuccess: onRenamed });
+    update.mutate(
+      {
+        projectId: project.id,
+        title: trimmed,
+        description: description.trim(),
+      },
+      { onSuccess: onSaved },
+    );
   };
 
   return (
@@ -204,10 +214,9 @@ function RenameProjectForm({
       onClose={() => !busy && onClose()}
       dismissible={!busy}
       size="md"
-      title="프로젝트 이름 변경"
-      closeLabel="프로젝트 이름 변경 닫기"
+      title="프로젝트 수정"
+      closeLabel="프로젝트 수정 닫기"
       closeDisabled={busy}
-      target={project ? { icon: project.icon, name: project.title } : undefined}
       actions={
         <>
           <Button
@@ -221,14 +230,14 @@ function RenameProjectForm({
           <Button
             size="md"
             variant="primary"
-            icon={serverErrorOf(rename.error) ? "rotate-cw" : "check"}
+            icon={serverErrorOf(update.error) ? "rotate-cw" : "check"}
             busy={busy}
             disabled={empty || unchanged}
             onClick={submit}
           >
             {busy
               ? "저장 중…"
-              : serverErrorOf(rename.error)
+              : serverErrorOf(update.error)
                 ? "다시 시도"
                 : "저장"}
           </Button>
@@ -243,27 +252,40 @@ function RenameProjectForm({
         }}
       >
         <TextField
-          label="새 프로젝트 이름"
+          label="프로젝트 이름"
           required
           autoFocus
-          placeholder="새 프로젝트 이름을 입력하세요"
+          placeholder="프로젝트 이름을 입력하세요"
           value={title}
           maxLength={PROJECT_TITLE_MAX}
           onChange={(event) => {
             setTitle(event.target.value.slice(0, PROJECT_TITLE_MAX));
-            if (rename.error) rename.reset();
+            if (update.error) update.reset();
           }}
           readOnly={busy}
           error={
             empty
               ? "프로젝트 이름을 입력해 주세요."
-              : fieldErrorOf(rename.error)
+              : fieldErrorOf(update.error)
           }
         />
+        <TextAreaField
+          label="설명"
+          labelHint="선택"
+          placeholder="어떤 이야기인지 짧게 적어 두세요"
+          value={description}
+          rows={3}
+          maxLength={DESCRIPTION_MAX}
+          onChange={(event) => {
+            setDescription(event.target.value.slice(0, DESCRIPTION_MAX));
+            if (update.error) update.reset();
+          }}
+          readOnly={busy}
+        />
       </form>
-      {serverErrorOf(rename.error) && (
+      {serverErrorOf(update.error) && (
         <InlineNotice>
-          이름을 저장하지 못했어요. 변경한 입력을 유지했어요.
+          변경한 내용을 저장하지 못했어요. 입력은 그대로 두었어요.
         </InlineNotice>
       )}
     </DialogCard>

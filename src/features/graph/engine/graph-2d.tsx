@@ -104,6 +104,8 @@ interface Props {
   onZoom?: (scale: number) => void;
   palette: Palette;
   highlight: Highlight;
+  /** 1-hop 강조를 고정한 노드. 누르면 켜지고 다시 누르면 꺼진다 */
+  activeId: string | null;
   hoveredId: string | null;
   /** 문서에서 돌아왔을 때 중앙에 둘 노드 */
   focusId: string | null;
@@ -152,6 +154,7 @@ export function Graph2D({
   onZoom,
   palette,
   highlight,
+  activeId,
   hoveredId,
   focusId,
   centerIds,
@@ -169,7 +172,7 @@ export function Graph2D({
 
   /** halo 를 켤지. 규모가 커지면 끈다 */
   const rich = graph.nodes.length <= RICH_NODE_LIMIT;
-  const dimming = hoveredId !== null;
+  const dimming = activeId !== null;
 
   /*
    * 즐겨찾기는 여기서 **읽기만** 한다 — 켜고 끄는 것은 문서에서만 할 수 있다.
@@ -271,7 +274,7 @@ export function Graph2D({
    * 엣지는 두 노드가 이어져 있다는 것만 알려준다. 그게 어떤 관계인지는 사용자가
    * 문서에서 붙인 이름에만 있는데, 그 이름을 보려고 매번 문서로 나가야 했다.
    *
-   * 언제 그리는가 — 마우스를 올렸으면 그 노드에 붙은 엣지만, 포커스 중이면 화면에
+   * 언제 그리는가 — 노드를 눌러 강조 중이면 그 노드에 붙은 엣지만, 포커스 중이면 화면에
    * 남은 엣지 전부다. 포커스는 이미 몇십 개로 좁혀진 화면이라 전부 그려도 읽힌다.
    *
    * 이름이 없는 엣지는 건너뛴다. 지금 데이터는 대부분이 그래서, 실제로 글자가
@@ -285,7 +288,7 @@ export function Graph2D({
       if (!dimming && centerIds.length === 0) return;
 
       const view = viewport.current;
-      // 마우스를 올렸을 때는 굵게. 그 순간 화면에 남는 관계는 몇 개뿐이고, 그것이
+      // 강조 중에는 굵게. 그 순간 화면에 남는 관계는 몇 개뿐이고, 그것이
       // 지금 무엇을 보고 있는지를 말해주는 글자다.
       const fontSize = Math.max(9 / globalScale, 1.4);
       ctx.font = `${dimming ? 600 : 400} ${fontSize}px ${fontFamily}`;
@@ -293,7 +296,7 @@ export function Graph2D({
       ctx.textBaseline = "middle";
 
       for (const link of graph.links) {
-        // 마우스를 올리고 있으면 그 노드에 붙은 엣지만 대상이다.
+        // 강조 중이면 누른 노드에 붙은 엣지만 대상이다.
         if (dimming && !highlight.links.has(link)) continue;
 
         // force-graph 가 첫 렌더에서 문자열을 노드 객체로 바꿔 넣는다.
@@ -360,7 +363,7 @@ export function Graph2D({
       labelPacker.reset();
       const view = viewport.current;
 
-      // 마우스를 올리고 있으면 그 노드와 1-hop 이웃만 후보다. 나머지 이름은 끈다 —
+      // 노드를 눌러 강조 중이면 그 노드와 1-hop 이웃만 후보다. 나머지 이름은 끈다 —
       // 강조된 몇 개만 남아야 읽히기 때문이다.
       // 평상시에는 화면 안에 있고 충분히 큰 노드만 후보다.
       const candidates = graph.nodes.filter((node) => {
@@ -382,7 +385,7 @@ export function Graph2D({
       for (const node of candidates) {
         const x = node.x ?? 0;
         const y = node.y ?? 0;
-        const hovered = node.id === hoveredId;
+        const hovered = node.id === hoveredId || node.id === activeId;
         const fontSize = Math.max((hovered ? 11 : 10) / globalScale, 1.6);
         ctx.font = `${hovered ? 600 : 400} ${fontSize}px ${fontFamily}`;
 
@@ -443,6 +446,7 @@ export function Graph2D({
       drawRelationNames,
       fontFamily,
       graph,
+      activeId,
       hoveredId,
       isLit,
       labelPacker,

@@ -108,18 +108,8 @@
   background: var(--lk-color-surface-icon-hover);
 }
 
-.spacer {
-  flex: 1;
-}
-
 .toggle {
   flex: none;
-}
-
-.chat[aria-pressed="true"] {
-  background: var(--lk-color-surface-pill);
-  box-shadow: var(--lk-shadow-pill);
-  font-weight: 600;
 }
 
 @media (max-width: 600px) {

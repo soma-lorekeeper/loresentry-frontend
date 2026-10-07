@@ -11,21 +11,6 @@
   word-break: keep-all;
 }
 
-.hint {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--lk-color-text-secondary);
-}
-
-.hint kbd {
-  padding: 1px 6px;
-  border-radius: 5px;
-  background: var(--lk-color-surface-track);
-  font-family: inherit;
-  font-size: var(--lk-font-size-label);
-}
-
 .ghost {
   background: var(--lk-color-state-hover);
   border-color: transparent;

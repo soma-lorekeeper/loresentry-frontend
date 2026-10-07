@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import type { WorkspacePane } from "../model/layout";
 import { DocumentViewHost } from "../views/document-view-host";
@@ -59,7 +59,7 @@ function Pane({ pane }: { pane: WorkspacePane }) {
 /** 사이드바가 본문을 밀지 않고 덮는 폭. 여기서부터 창이 좁다고 본다. */
 const NARROW = 900;
 
-export function WorkspaceShell({ chat }: { chat?: ReactNode }) {
+export function WorkspaceShell() {
   const { layout, dispatch, activePane } = useWorkspace();
   const [narrow, setNarrow] = useState(false);
   const collapsed = useRef(false);
@@ -115,9 +115,6 @@ export function WorkspaceShell({ chat }: { chat?: ReactNode }) {
           <Pane key={pane.id} pane={pane} />
         ))}
       </main>
-      {layout.panels.aiChatOpen && chat && (
-        <aside className={styles.chat}>{chat}</aside>
-      )}
     </div>
   );
 }

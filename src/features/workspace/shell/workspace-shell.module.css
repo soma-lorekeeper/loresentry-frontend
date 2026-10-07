@@ -50,17 +50,6 @@
   display: none;
 }
 
-.chat {
-  flex: none;
-  width: 320px;
-  height: calc(100% - 20px);
-  margin: 10px 10px 10px 0;
-  overflow: hidden;
-  border-radius: var(--lk-radius-surface);
-  background: var(--lk-color-surface-default);
-  box-shadow: var(--lk-shadow-lift);
-}
-
 /*
  * 좁은 창: 사이드바가 본문을 밀지 않고 덮는다.
  *
@@ -84,19 +73,7 @@
     background: var(--lk-color-scrim-modal);
   }
 
-  /* AI 챗도 옆에 설 자리가 없다. 본문 위에 올린다. */
   .panes {
     padding: 8px;
-  }
-
-  .chat {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    z-index: 20;
-    width: 100%;
-    height: 60vh;
-    margin: 0;
-    border-radius: var(--lk-radius-surface) var(--lk-radius-surface) 0 0;
   }
 }
