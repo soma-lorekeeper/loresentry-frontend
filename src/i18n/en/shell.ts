@@ -276,4 +276,14 @@ export default {
   "잠시 뒤 다시 시도해 주세요.": "Try again in a moment.",
   "세션이 만료됐어요. 다시 로그인해 주세요.":
     "Your session expired. Log in again.",
+  "서비스 이용약관": "Terms of Service",
+  "개인정보 처리방침": "Privacy Policy",
+  "서비스 이용약관 · Lore Sentry": "Terms of Service · Lore Sentry",
+  "개인정보 처리방침 · Lore Sentry": "Privacy Policy · Lore Sentry",
+  "초안 0.3": "Draft 0.3",
+  목차: "Contents",
+  "정책 문서": "Policies",
+  "{date} 시행": "Effective {date}",
+  "게시 전 초안입니다. 최초 공개·시행일은 운영 원문 등록 시 확정합니다.":
+    "This is a draft before publication. The first publication and effective date will be set when the official text is registered.",
 } satisfies Messages;

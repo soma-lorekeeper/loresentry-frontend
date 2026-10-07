@@ -3,7 +3,7 @@
   "dataSource": "api",
   "feedbackUrl": "",
   "contactEmail": "contact@loresentry.com",
-  "privacyPolicyUrl": "https://loresentry.com/policies/privacy.html",
-  "termsOfServiceUrl": "https://loresentry.com/policies/terms.html",
+  "privacyPolicyUrl": "https://loresentry.com/policies/privacy/",
+  "termsOfServiceUrl": "https://loresentry.com/policies/terms/",
   "gaMeasurementId": "G-FV1Y05NZQW"
 }

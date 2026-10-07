@@ -15,6 +15,8 @@ const ROUTES = [
   "projects/trash/",
   "projects/guide/",
   "workspace/",
+  "policies/terms/",
+  "policies/privacy/",
 ];
 const MAX_ASSET_BYTES = 2_500_000;
 

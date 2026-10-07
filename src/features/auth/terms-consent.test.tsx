@@ -29,7 +29,7 @@ describe("terms login", () => {
     ).toHaveTextContent("<script>secret()</script>");
     expect(
       screen.getByRole("link", { name: "개인정보 처리방침" }),
-    ).toHaveAttribute("href", "/policies/privacy.html");
+    ).toHaveAttribute("href", "/policies/privacy/");
     expect(screen.getByText(/시행일 2026년 9월 30일/)).toBeVisible();
     expect(check()).not.toBeChecked();
     expect(submit()).toBeDisabled();

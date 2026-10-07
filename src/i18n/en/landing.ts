@@ -117,7 +117,7 @@ export default {
   "문의하기 닫기": "Close contact",
   복사했어요: "Copied",
   "주소 복사": "Copy address",
-  "메일 쓰기": "Write an email",
+  "Gmail로 쓰기": "Write in Gmail",
 
   "랜딩::서윤주": "Yunju Seo",
 } satisfies Messages;
