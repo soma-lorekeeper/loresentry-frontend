@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { LandingPage } from "@/features/landing/landing-page";
 
 export const metadata: Metadata = {
-  title: "Lore Sentry · 웹소설 집필 작업공간",
+  title: "Lore Sentry · 작가를 위한 집필 에디터와 AI 에이전트",
   description:
-    "웹소설 회차와 인물·장소·세계관 문서를 한 작업공간에 두고 써요. 속성 표로 이어 둔 관계가 그래프와 타임라인으로 바로 보여요.",
+    "웹소설 작가를 위한 집필 에디터이자 AI 에이전트예요. 회차를 쓰면 설정 문서에 바뀔 점을 AI가 찾아 두고, 반영은 작가가 골라요.",
 };
 
 export default function Page() {
