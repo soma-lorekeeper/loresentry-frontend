@@ -31,6 +31,9 @@ CI 역할은 버킷 동기화와 캐시 무효화만 할 수 있다. 아래 두 
    - Query strings, Cookies: 기존과 같게.
 2. 배포 `E3L6QXQGVEJTYQ` → Behaviors → Default(*) → Origin request policy 를 새 정책으로 바꾼다.
 
+`/config.json` 은 캐시를 끈 별도 동작이다. CI 가 버킷 맨 위와 `/ko/`, `/en/` 에 모두 올리므로 그 동작에 함수가
+붙어 있든 없든 같은 파일을 받는다.
+
 이 단계를 빼먹어도 동작은 한다. 함수가 나라를 몰라 `Accept-Language` 로 고를 뿐이다.
 
 ### 2. 함수 바꾸기
@@ -38,7 +41,7 @@ CI 역할은 버킷 동기화와 캐시 무효화만 할 수 있다. 아래 두 
 **`/ko/` 와 `/en/` 이 버킷에 올라간 뒤에** 한다. 먼저 하면 언어 경로에 파일이 없어 404 가 난다.
 
 ```bash
-FN=<함수 이름>   # 배포의 Viewer request 에 연결된 CloudFront Function
+FN=loresentry-web-rewrite   # 배포의 Viewer request 에 연결된 CloudFront Function
 ETAG=$(aws cloudfront describe-function --name "$FN" --query ETag --output text)
 aws cloudfront update-function --name "$FN" --if-match "$ETAG" \
   --function-config Comment="locale routing",Runtime=cloudfront-js-2.0 \
