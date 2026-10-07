@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { AppWindow, type Scene } from "@/features/onboarding/scenes";
+import { t } from "@/i18n";
 import { cx } from "@/shared/cx";
 import { useElementSize } from "@/shared/use-element-size";
 
@@ -79,7 +80,13 @@ export function SceneFrame({
         }}
         aria-hidden="true"
       >
-        {shown && <AppWindow scene={scene} leaving={null} userName="서윤주" />}
+        {shown && (
+          <AppWindow
+            scene={scene}
+            leaving={null}
+            userName={t("랜딩::서윤주")}
+          />
+        )}
       </div>
     </figure>
   );
