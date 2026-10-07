@@ -50,8 +50,6 @@ export default {
 
   "프로젝트 수::{count}개": "{count}",
   "새 프로젝트": "New project",
-  "{title} 더보기": "More actions for {title}",
-  "{title} 메뉴": "{title} menu",
   "휴지통으로 이동": "Move to trash",
   "프로젝트를 불러오지 못했어요": "Couldn't load your projects",
   "네트워크 연결을 확인한 뒤 다시 시도해 주세요.":

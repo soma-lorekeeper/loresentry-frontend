@@ -31,4 +31,6 @@ export default {
   더보기: "More",
   선택: "Optional",
   "언어 바꾸기": "Change language",
+  "{title} 더보기": "More actions for {title}",
+  "{title} 메뉴": "{title} menu",
 } satisfies Messages;

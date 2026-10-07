@@ -46,8 +46,6 @@ export default {
   "작업공간::파일": "Files",
   "문서의 별을 눌러 즐겨찾기에 추가하세요.":
     "Click a document's star to add it to favorites.",
-  "{title} 더보기": "More actions for {title}",
-  "{title} 메뉴": "{title} menu",
   "작업공간::이름": "Name",
   "작업공간::잠시 후 다시 시도해 주세요.": "Please try again in a moment.",
   "새 {kind}": (p) => `New ${kindNoun(p)}`,
