@@ -27,6 +27,7 @@ import { invalidateProjectContent, queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 import { cx } from "@/shared/cx";
 import { useElementSize } from "@/shared/use-element-size";
+import { t } from "@/i18n";
 
 import {
   categoryFolderOf,
@@ -71,13 +72,15 @@ function BodyEditor({
   }, [onChange]);
 
   const editor = useEditor({
-    extensions: createDocumentExtensions({ placeholder: "내용을 입력하세요" }),
+    extensions: createDocumentExtensions({
+      placeholder: t("내용을 입력하세요"),
+    }),
     content: body.doc,
     immediatelyRender: false,
     editable,
     editorProps: {
       attributes: {
-        "aria-label": "본문",
+        "aria-label": t("본문"),
         role: "textbox",
         "aria-multiline": "true",
       },
@@ -161,11 +164,13 @@ export function DocumentView({
       <div className={styles.state}>
         <EmptyState
           icon={missing ? "file-x" : "cloud-off"}
-          title={missing ? "문서를 찾을 수 없어요" : "문서를 불러오지 못했어요"}
+          title={
+            missing ? t("문서를 찾을 수 없어요") : t("문서를 불러오지 못했어요")
+          }
           description={
             missing
-              ? "휴지통으로 옮겨졌거나 삭제된 문서예요."
-              : "잠시 후 다시 시도해 주세요."
+              ? t("휴지통으로 옮겨졌거나 삭제된 문서예요.")
+              : t("잠시 후 다시 시도해 주세요.")
           }
           action={
             missing ? undefined : (
@@ -174,7 +179,7 @@ export function DocumentView({
                 icon="refresh-cw"
                 onClick={() => doc.query.refetch()}
               >
-                다시 시도
+                {t("다시 시도")}
               </Button>
             )
           }
@@ -213,20 +218,20 @@ export function DocumentView({
         next.locked
           ? {
               icon: "lock",
-              title: "파일을 잠갔어요.",
-              description: "잠금을 풀기 전까지는 편집할 수 없어요.",
+              title: t("파일을 잠갔어요."),
+              description: t("잠금을 풀기 전까지는 편집할 수 없어요."),
             }
           : {
               icon: "lock-open",
-              title: "잠금을 해제했어요.",
-              description: "이제 다시 편집할 수 있어요.",
+              title: t("잠금을 해제했어요."),
+              description: t("이제 다시 편집할 수 있어요."),
             },
       );
     } catch {
       toast({
         icon: "triangle-alert",
-        title: "잠금 상태를 바꾸지 못했어요.",
-        description: "잠시 후 다시 시도해 주세요.",
+        title: t("잠금 상태를 바꾸지 못했어요."),
+        description: t("잠시 후 다시 시도해 주세요."),
       });
     } finally {
       setLockPending(false);
@@ -252,21 +257,23 @@ export function DocumentView({
         download(result.url, result.fileName);
         toast({
           icon: "download",
-          title: "내보내기 파일을 만들었어요.",
+          title: t("내보내기 파일을 만들었어요."),
           description: result.fileName,
         });
       } else {
         toast({
           icon: "info",
-          title: `${format.toUpperCase()} 내보내기를 준비하고 있어요.`,
-          description: "이 형식은 서버가 연결되면 내려받을 수 있어요.",
+          title: t("{format} 내보내기를 준비하고 있어요.", {
+            format: format.toUpperCase(),
+          }),
+          description: t("이 형식은 서버가 연결되면 내려받을 수 있어요."),
         });
       }
     } catch {
       toast({
         icon: "triangle-alert",
-        title: "내보내지 못했어요.",
-        description: "잠시 후 다시 시도해 주세요.",
+        title: t("내보내지 못했어요."),
+        description: t("잠시 후 다시 시도해 주세요."),
       });
     }
   };
@@ -309,7 +316,7 @@ export function DocumentView({
     <div className={styles.view} data-document-view>
       {/* 인쇄에만 보이는 블록. 화면에서는 숨어 있고, PDF 내보내기가 본문을 여기에 넣는다. */}
       <article className="lk-print-sheet" aria-hidden="true">
-        <h1>{draft.title || "제목 없음"}</h1>
+        <h1>{draft.title || t("제목 없음")}</h1>
         <div ref={printBody} />
       </article>
       <div
@@ -322,7 +329,7 @@ export function DocumentView({
         {memoCollapsed && (
           <div className={styles.collapsedNotice} role="status">
             <Icon name="panel-right-close" size={15} />
-            <span>작업 영역이 좁아 메모를 접었습니다</span>
+            <span>{t("작업 영역이 좁아 메모를 접었습니다")}</span>
             <Button
               size="md"
               icon="panel-bottom"
@@ -330,7 +337,7 @@ export function DocumentView({
                 dispatch({ type: "setPanels", panels: { memoDock: "below" } })
               }
             >
-              다시 열기
+              {t("다시 열기")}
             </Button>
           </div>
         )}
@@ -365,16 +372,17 @@ export function DocumentView({
               action={
                 <>
                   <Button onClick={() => void doc.session.keepMine()}>
-                    내 변경 유지
+                    {t("내 변경 유지")}
                   </Button>
                   <Button onClick={() => void doc.session.takeTheirs()}>
-                    최신 버전 불러오기
+                    {t("최신 버전 불러오기")}
                   </Button>
                 </>
               }
             >
-              다른 곳에서 같은 문단을 먼저 고쳤어요. 어느 쪽을 남길지 골라
-              주세요.
+              {t(
+                "다른 곳에서 같은 문단을 먼저 고쳤어요. 어느 쪽을 남길지 골라 주세요.",
+              )}
             </InlineNotice>
           )}
           <div className={styles.body}>
@@ -389,8 +397,8 @@ export function DocumentView({
                     className={styles.title}
                     value={draft.title}
                     readOnly={locked}
-                    placeholder="제목 없음"
-                    aria-label="제목"
+                    placeholder={t("제목 없음")}
+                    aria-label={t("제목")}
                     onChange={(event) =>
                       doc.session.update({ title: event.target.value })
                     }
@@ -404,7 +412,9 @@ export function DocumentView({
                   <IconButton
                     icon="star"
                     iconSize={15}
-                    label={favorite ? "즐겨찾기에서 제거" : "즐겨찾기에 추가"}
+                    label={
+                      favorite ? t("즐겨찾기에서 제거") : t("즐겨찾기에 추가")
+                    }
                     aria-pressed={favorite}
                     className={styles.favorite}
                     onClick={() =>
@@ -444,7 +454,7 @@ export function DocumentView({
           <MemoPanel
             projectId={projectId}
             fileId={fileId}
-            fileTitle={draft.title || "제목 없음"}
+            fileTitle={draft.title || t("제목 없음")}
             docType={docType}
             dock={panels.memoDock}
             size={memoSize}
@@ -467,7 +477,7 @@ export function DocumentView({
       <VersionHistoryModal
         open={versionsOpen}
         fileId={fileId}
-        title={draft.title || "제목 없음"}
+        title={draft.title || t("제목 없음")}
         current={{ ...draft, docType }}
         locked={locked}
         unsaved={doc.status === "error" || doc.status === "conflict"}
@@ -481,8 +491,8 @@ export function DocumentView({
           void invalidateProjectContent(queryClient, projectId);
           toast({
             icon: "rotate-ccw",
-            title: "선택한 버전으로 복원했어요.",
-            description: "복원 직전 상태도 버전 기록에 남겨 두었어요.",
+            title: t("선택한 버전으로 복원했어요."),
+            description: t("복원 직전 상태도 버전 기록에 남겨 두었어요."),
           });
         }}
       />

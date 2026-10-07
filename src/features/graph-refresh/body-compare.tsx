@@ -18,6 +18,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 
 import { IconButton } from "@/design-system/primitives";
+import { t } from "@/i18n";
 
 import { lineDiff, type Hunk } from "../diff/line-diff";
 import type { Direction, SideName } from "./merge";
@@ -228,7 +229,7 @@ function Pane({
       spellCheck={false}
       role="textbox"
       aria-multiline="true"
-      aria-label={`${side === "left" ? "현재" : "신규"} 버전 본문`}
+      aria-label={side === "left" ? t("현재 버전 본문") : t("신규 버전 본문")}
       // 조합 중에는 손대지 않는다. 도중에 화면을 다시 세우면 한글 조합이 끊긴다.
       onInput={(event) => {
         if (
@@ -320,7 +321,7 @@ function Marks({
 
   if (hunk.same) return null;
   const height = Math.max(size.left, size.right, 1);
-  const label = `본문 ${hunk.leftStart + 1}번째 줄`;
+  const label = t("본문 {line}번째 줄", { line: hunk.leftStart + 1 });
 
   return (
     <>
@@ -368,7 +369,7 @@ function Marks({
             <IconButton
               icon="chevrons-right"
               iconSize={14}
-              label={`${label}: 현재 버전 값을 신규 버전에 넣기`}
+              label={t("{label}: 현재 버전 값을 신규 버전에 넣기", { label })}
               onClick={() => onPush(hunk, ">>")}
             />
           )}
@@ -376,7 +377,7 @@ function Marks({
             <IconButton
               icon="chevrons-left"
               iconSize={14}
-              label={`${label}: 신규 버전 값을 현재 버전에 넣기`}
+              label={t("{label}: 신규 버전 값을 현재 버전에 넣기", { label })}
               onClick={() => onPush(hunk, "<<")}
             />
           )}

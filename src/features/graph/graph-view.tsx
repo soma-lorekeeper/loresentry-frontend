@@ -18,6 +18,7 @@ import {
 import { DOCUMENT_TYPES } from "@/domain/document-types";
 import { useFavorites } from "@/features/workspace/queries";
 import { useWorkspace } from "@/features/workspace/workspace-context";
+import { t } from "@/i18n";
 
 import type { GraphControls } from "./engine/graph-2d";
 import { getEpisodeGraph } from "./engine/episode-filter";
@@ -105,15 +106,16 @@ export function GraphView() {
 
   const episodeLabel =
     episodeIds.length === 0
-      ? "전체"
+      ? t("전체")
       : episodeIds.length === 1
-        ? (data?.episodes.find((e) => e.id === episodeIds[0])?.title ?? "전체")
-        : `${episodeIds.length}개 선택`;
+        ? (data?.episodes.find((e) => e.id === episodeIds[0])?.title ??
+          t("전체"))
+        : t("{count}개 선택", { count: episodeIds.length });
 
   const episodeEntries: MenuEntry[] = [
     {
       id: "all",
-      label: "전체",
+      label: t("전체"),
       checked: episodeIds.length === 0,
       onSelect: () => saveView({ episodeIds: [] }),
     },
@@ -138,7 +140,11 @@ export function GraphView() {
 
   return (
     <div className={styles.view}>
-      <div className={styles.toolbar} role="toolbar" aria-label="그래프 도구">
+      <div
+        className={styles.toolbar}
+        role="toolbar"
+        aria-label={t("그래프 도구")}
+      >
         <button
           ref={episodeRef}
           type="button"
@@ -147,7 +153,7 @@ export function GraphView() {
           aria-expanded={episodeOpen}
           onClick={() => setEpisodeOpen((value) => !value)}
         >
-          <span className={styles.episodeLabel}>에피소드</span>
+          <span className={styles.episodeLabel}>{t("에피소드")}</span>
           <strong>{episodeLabel}</strong>
           <Icon name="chevron-down" size={14} />
         </button>
@@ -156,23 +162,23 @@ export function GraphView() {
             anchorRef={episodeRef}
             open={episodeOpen}
             onOpenChange={setEpisodeOpen}
-            label="에피소드 선택"
+            label={t("에피소드 선택")}
             placement="bottom-start"
             width={240}
             entries={episodeEntries}
           />
         )}
-        <div className={styles.zoom} role="group" aria-label="확대/축소">
+        <div className={styles.zoom} role="group" aria-label={t("확대/축소")}>
           <IconButton
             icon="minus"
             iconSize={14}
-            label="축소"
+            label={t("축소")}
             onClick={() => controls.current?.zoomBy(1 / ZOOM_STEP)}
           />
           <button
             type="button"
             className={styles.zoomValue}
-            aria-label="100%로 보기"
+            aria-label={t("100%로 보기")}
             onClick={() => controls.current?.zoomTo(1)}
           >
             {Math.round(zoom * 100)}%
@@ -180,7 +186,7 @@ export function GraphView() {
           <IconButton
             icon="plus"
             iconSize={14}
-            label="확대"
+            label={t("확대")}
             onClick={() => controls.current?.zoomBy(ZOOM_STEP)}
           />
         </div>
@@ -190,7 +196,7 @@ export function GraphView() {
           className={styles.fit}
           onClick={() => controls.current?.fit()}
         >
-          화면 맞춤
+          {t("화면 맞춤")}
         </Button>
       </div>
 
@@ -199,20 +205,20 @@ export function GraphView() {
           {graph.isPending ? (
             <div className={styles.canvasLoading} aria-busy="true" />
           ) : isUnavailable(graph.error) ? (
-            <PreparingState what="관계 그래프" />
+            <PreparingState what={t("관계 그래프")} />
           ) : !data || !renderGraph ? (
             <EmptyState
               role="alert"
               icon="triangle-alert"
-              title="그래프를 불러오지 못했어요"
-              description="연결을 확인한 뒤 다시 시도해 주세요."
+              title={t("그래프를 불러오지 못했어요")}
+              description={t("연결을 확인한 뒤 다시 시도해 주세요.")}
               action={
                 <Button
                   size="md"
                   icon="refresh-cw"
                   onClick={() => graph.refetch()}
                 >
-                  다시 시도
+                  {t("다시 시도")}
                 </Button>
               }
             />
@@ -233,8 +239,8 @@ export function GraphView() {
               {renderGraph.nodes.length === 0 && (
                 <EmptyState
                   icon="waypoints"
-                  title="표시할 노드가 없어요"
-                  description="분류 필터나 에피소드 선택을 바꿔 보세요."
+                  title={t("표시할 노드가 없어요")}
+                  description={t("분류 필터나 에피소드 선택을 바꿔 보세요.")}
                   className={styles.canvasEmpty}
                 />
               )}
@@ -242,19 +248,21 @@ export function GraphView() {
                 <div className={styles.notice} role="status">
                   <Icon name="info" size={15} />
                   <span>
-                    노드가 {data.nodes.length}개라 원고·캐릭터·이벤트만 먼저
-                    보여 주고 있어요.
+                    {t(
+                      "노드가 {count}개라 원고·캐릭터·이벤트만 먼저 보여 주고 있어요.",
+                      { count: data.nodes.length },
+                    )}
                   </span>
                   <Button
                     size="sm"
                     onClick={() => saveView({ kinds: [...NODE_KINDS] })}
                   >
-                    모두 보기
+                    {t("모두 보기")}
                   </Button>
                   <IconButton
                     icon="x"
                     iconSize={14}
-                    label="안내 닫기"
+                    label={t("안내 닫기")}
                     onClick={() => setNoticeDismissed(true)}
                   />
                 </div>

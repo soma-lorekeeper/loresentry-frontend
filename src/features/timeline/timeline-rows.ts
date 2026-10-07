@@ -22,9 +22,10 @@ import {
 import type { GraphNode, ProjectGraph } from "@/domain/models";
 import { buildAdjacency } from "@/features/graph/engine/adjacency";
 import type { NodeKind } from "@/features/graph/engine/types";
+import { t } from "@/i18n";
 
 /** 에피소드가 배정되지 않은 회차 구간에 붙이는 이름 */
-export const UNASSIGNED_EPISODE = "(에피소드 없음)";
+export const UNASSIGNED_EPISODE = t("(에피소드 없음)");
 
 /** 회차 하나 = 표의 열 하나 */
 export interface TimelineColumn {
@@ -115,7 +116,9 @@ function toRuns(columns: readonly number[]): Run[] {
 
 /** "12화 · 균열의 밤" → "12화" */
 export function chapterLabel(title: string) {
-  return title.split(" · ")[0]?.trim() || title;
+  const head = title.split(" · ")[0]?.trim() || title;
+  const number = /^(\d+)화$/.exec(head)?.[1];
+  return number ? t("{number}화", { number }) : head;
 }
 
 /**
@@ -228,7 +231,7 @@ export function buildTimelineTable(
     groups.push({
       id: FAVORITES_GROUP,
       kind: null,
-      label: "즐겨찾기",
+      label: t("즐겨찾기"),
       rows: starred.sort(byAppearance),
     });
   }

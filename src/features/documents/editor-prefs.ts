@@ -1,15 +1,17 @@
 import { useSyncExternalStore } from "react";
 
+import { t } from "@/i18n";
+
 // 서버 가정(DOCUMENT_EDITING_PROPOSAL §2.3): 글꼴·크기·줄 간격·정렬은 문서가 아니라
 // user_editor_prefs에 저장한다. 서버 API가 생기기 전까지는 이 브라우저에만 보관한다.
 export const EDITOR_FONTS = [
   { id: "inter", label: "Pretendard", stack: "var(--lk-font-stack-ui)" },
   {
     id: "myeongjo",
-    label: "명조",
+    label: t("명조"),
     stack: '"AppleMyungjo", "Nanum Myeongjo", "Noto Serif KR", serif',
   },
-  { id: "mono", label: "고정폭", stack: "var(--lk-font-stack-mono)" },
+  { id: "mono", label: t("고정폭"), stack: "var(--lk-font-stack-mono)" },
 ] as const;
 
 export const EDITOR_FONT_SIZES = [13, 14, 15, 16, 18, 20] as const;
@@ -17,8 +19,8 @@ export const EDITOR_LINE_HEIGHTS = [1.5, 1.65, 1.78, 2] as const;
 
 // 기본값은 디자인 토큰(font-size-manuscript-body, line-height-manuscript-body)과 같다.
 export const EDITOR_ALIGNMENTS = [
-  { id: "left", label: "왼쪽" },
-  { id: "justify", label: "양쪽" },
+  { id: "left", label: t("왼쪽") },
+  { id: "justify", label: t("양쪽") },
 ] as const;
 
 export interface EditorPrefs {

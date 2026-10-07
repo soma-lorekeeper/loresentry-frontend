@@ -4,6 +4,7 @@ import { useMemo, useRef, useState, type KeyboardEvent } from "react";
 
 import { Icon, IconButton, Popover } from "@/design-system/primitives";
 import { DOCUMENT_TYPE_META } from "@/domain/document-types";
+import { t } from "@/i18n";
 import { cx } from "@/shared/cx";
 
 import type { RenderNode } from "./engine/render-graph";
@@ -67,8 +68,8 @@ function SearchPanel({
           aria-activedescendant={
             results[active] ? `graph-search-${results[active].id}` : undefined
           }
-          aria-label="노드 이름으로 찾기"
-          placeholder="노드 이름으로 찾기"
+          aria-label={t("노드 이름으로 찾기")}
+          placeholder={t("노드 이름으로 찾기")}
           value={query}
           onChange={(event) => {
             setQuery(event.target.value);
@@ -80,7 +81,7 @@ function SearchPanel({
       {needle && (
         <ul id="graph-search-results" role="listbox" className={styles.results}>
           {results.length === 0 ? (
-            <li className={styles.noResult}>일치하는 노드가 없어요</li>
+            <li className={styles.noResult}>{t("일치하는 노드가 없어요")}</li>
           ) : (
             results.map((node, index) => (
               <li
@@ -124,7 +125,11 @@ function FilterPanel({
     onChange(next);
   };
   return (
-    <div className={styles.filterPanel} role="group" aria-label="분류 필터">
+    <div
+      className={styles.filterPanel}
+      role="group"
+      aria-label={t("분류 필터")}
+    >
       {NODE_KINDS.map((kind) => {
         const on = kinds.has(kind);
         return (
@@ -152,14 +157,14 @@ function FilterPanel({
           className={styles.filterAction}
           onClick={() => onChange(new Set(NODE_KINDS))}
         >
-          모두 선택
+          {t("모두 선택")}
         </button>
         <button
           type="button"
           className={styles.filterAction}
           onClick={() => onChange(new Set())}
         >
-          선택 해제
+          {t("체크 목록::선택 해제")}
         </button>
       </div>
     </div>
@@ -187,7 +192,7 @@ export function GraphTools({
         ref={searchRef}
         icon="search"
         iconSize={15}
-        label="노드 찾기"
+        label={t("노드 찾기")}
         aria-expanded={open === "search"}
         className={styles.toolButton}
         onClick={() => setOpen(open === "search" ? null : "search")}
@@ -196,7 +201,7 @@ export function GraphTools({
         ref={filterRef}
         icon="filter"
         iconSize={15}
-        label="분류 필터"
+        label={t("분류 필터")}
         aria-expanded={open === "filter"}
         className={cx(styles.toolButton, filtered && styles.toolActive)}
         onClick={() => setOpen(open === "filter" ? null : "filter")}
@@ -247,7 +252,7 @@ export function GraphLegend({
   hasFavorites: boolean;
 }) {
   return (
-    <ul className={styles.legend} aria-label="범례">
+    <ul className={styles.legend} aria-label={t("범례")}>
       {NODE_KINDS.map((kind) => (
         <li key={kind} className={cx(!kinds.has(kind) && styles.legendOff)}>
           <span
@@ -260,7 +265,7 @@ export function GraphLegend({
       {hasFavorites && (
         <li className={styles.legendFavorite}>
           <Icon name="star" size={13} />
-          즐겨찾기
+          {t("즐겨찾기")}
         </li>
       )}
     </ul>

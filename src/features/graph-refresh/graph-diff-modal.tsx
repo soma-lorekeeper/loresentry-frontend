@@ -16,6 +16,7 @@ import type { RefreshProposal, RefreshRun } from "@/domain/models";
 import { indexNodes, isDocument } from "@/features/workspace/model/tree";
 import { useFileTree } from "@/features/workspace/queries";
 import { useWorkspace } from "@/features/workspace/workspace-context";
+import { t } from "@/i18n";
 import { isServiceError } from "@/services/errors";
 import { cx } from "@/shared/cx";
 
@@ -32,9 +33,9 @@ import {
 import { useRefreshActions } from "./queries";
 
 const KIND_BADGE: Record<RefreshProposal["kind"], string> = {
-  modified: "수정",
-  added: "추가",
-  removed: "삭제",
+  modified: t("변경 종류::수정"),
+  added: t("변경 종류::추가"),
+  removed: t("변경 종류::삭제"),
 };
 
 const KIND_MARK: Record<RefreshProposal["kind"], string> = {
@@ -115,8 +116,8 @@ export function GraphDiffModal({
           onClose();
           toast({
             icon: "circle-check",
-            title: "변경 사항을 반영했어요.",
-            description: "반영 전 상태는 각 문서의 버전 기록에 남아 있어요.",
+            title: t("변경 사항을 반영했어요."),
+            description: t("반영 전 상태는 각 문서의 버전 기록에 남아 있어요."),
           });
         },
       },
@@ -134,7 +135,8 @@ export function GraphDiffModal({
     >
       <header className={styles.header}>
         <h2 id={titleId} className={styles.title}>
-          변경 사항 <span>문서 {proposals.length}개</span>
+          {t("변경 사항")}{" "}
+          <span>{t("문서 {count}개", { count: proposals.length })}</span>
         </h2>
         <Button
           size="sm"
@@ -143,29 +145,31 @@ export function GraphDiffModal({
           busy={actions.apply.isPending}
           onClick={confirm}
         >
-          반영 확정
+          {t("반영 확정")}
         </Button>
         <Button size="sm" onClick={() => adoptAll("left")}>
-          현재 버전 전체 반영
+          {t("현재 버전 전체 반영")}
         </Button>
         <Button size="sm" onClick={() => adoptAll("right")}>
-          신규 버전 전체 반영
+          {t("신규 버전 전체 반영")}
         </Button>
         <Button size="sm" onClick={() => setState(start)}>
-          되돌리기
+          {t("변경 사항::되돌리기")}
         </Button>
         <IconButton
           icon="x"
           iconSize={16}
-          label="변경 사항 닫기"
+          label={t("변경 사항 닫기")}
           onClick={onClose}
         />
       </header>
       <div className={styles.layout}>
-        <nav className={styles.list} aria-label="달라진 문서">
+        <nav className={styles.list} aria-label={t("달라진 문서")}>
           <span className={styles.listLabel}>
-            <strong>변경 {proposals.length - resolvedCount}</strong>
-            <span>확정 {resolvedCount}</span>
+            <strong>
+              {t("변경 {count}", { count: proposals.length - resolvedCount })}
+            </strong>
+            <span>{t("확정 {count}", { count: resolvedCount })}</span>
           </span>
           <ul>
             {proposals.map((proposal) => {
@@ -186,7 +190,7 @@ export function GraphDiffModal({
                     <Icon name={meta.entityIcon} size={15} label={meta.label} />
                     <span className={styles.itemTitle}>{proposal.title}</span>
                     {done ? (
-                      <Icon name="check" size={15} label="확정" />
+                      <Icon name="check" size={15} label={t("확정")} />
                     ) : (
                       <span
                         className={styles.mark}
@@ -205,12 +209,14 @@ export function GraphDiffModal({
           {!selected ? (
             <EmptyState
               icon="git-compare-arrows"
-              title={`달라진 문서가 ${proposals.length}개 있어요`}
+              title={t("달라진 문서가 {count}개 있어요", {
+                count: proposals.length,
+              })}
               description={
                 <>
-                  <span>왼쪽에서 문서를 하나 골라주세요.</span>
+                  <span>{t("왼쪽에서 문서를 하나 골라주세요.")}</span>
                   <span>
-                    가운데 화살표로 옮기거나 양쪽을 직접 고칠 수 있어요.
+                    {t("가운데 화살표로 옮기거나 양쪽을 직접 고칠 수 있어요.")}
                   </span>
                 </>
               }
@@ -226,8 +232,10 @@ export function GraphDiffModal({
               <div className={styles.status} role="status">
                 <span>
                   {remaining === 0
-                    ? "✓ 두 버전이 같아져서 반영이 끝났어요"
-                    : `아직 다른 곳이 ${remaining}군데 있어요`}
+                    ? t("✓ 두 버전이 같아져서 반영이 끝났어요")
+                    : t("아직 다른 곳이 {count}군데 있어요", {
+                        count: remaining,
+                      })}
                 </span>
                 <Button
                   size="sm"
@@ -235,7 +243,7 @@ export function GraphDiffModal({
                     setState(adoptDocument(state, selected.fileId, "left"))
                   }
                 >
-                  현재 버전 반영
+                  {t("현재 버전 반영")}
                 </Button>
                 <Button
                   size="sm"
@@ -243,7 +251,7 @@ export function GraphDiffModal({
                     setState(adoptDocument(state, selected.fileId, "right"))
                   }
                 >
-                  신규 버전 반영
+                  {t("신규 버전 반영")}
                 </Button>
                 <Button
                   size="sm"
@@ -251,7 +259,7 @@ export function GraphDiffModal({
                     setState(resetDocument(state, selected.fileId, start))
                   }
                 >
-                  되돌리기
+                  {t("변경 사항::되돌리기")}
                 </Button>
               </div>
               <DocumentCompare
@@ -269,8 +277,8 @@ export function GraphDiffModal({
               {isServiceError(actions.apply.error) &&
               actions.apply.error.code === "validation"
                 ? actions.apply.error.message
-                : "변경 사항을 반영하지 못했어요."}{" "}
-              고른 내용은 그대로 남아 있어요.
+                : t("변경 사항을 반영하지 못했어요.")}{" "}
+              {t("고른 내용은 그대로 남아 있어요.")}
             </InlineNotice>
           )}
         </div>

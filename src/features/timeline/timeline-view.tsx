@@ -20,6 +20,7 @@ import { kindColor } from "@/features/graph/graph-tools";
 import { useProjectGraph } from "@/features/graph/queries";
 import { useFavorites } from "@/features/workspace/queries";
 import { useWorkspace } from "@/features/workspace/workspace-context";
+import { t } from "@/i18n";
 import { cx } from "@/shared/cx";
 
 import { getTimeline } from "./timeline-data";
@@ -77,12 +78,12 @@ function EpisodeMenu({
   const [open, setOpen] = useState(false);
   const all = selected.length === 0;
   const label = all
-    ? "전체"
+    ? t("전체")
     : selected[0] === NO_EPISODE
-      ? "없음"
+      ? t("없음")
       : selected.length === 1
-        ? (episodes.find((e) => e.id === selected[0])?.title ?? "전체")
-        : `${selected.length}개 선택`;
+        ? (episodes.find((e) => e.id === selected[0])?.title ?? t("전체"))
+        : t("{count}개 선택", { count: selected.length });
   const isOn = (id: string) => all || selected.includes(id);
   const toggle = (id: string) => {
     const current = all
@@ -109,7 +110,7 @@ function EpisodeMenu({
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
       >
-        <span className={styles.muted}>에피소드</span>
+        <span className={styles.muted}>{t("에피소드")}</span>
         <strong>{label}</strong>
         <Icon name="chevron-down" size={14} />
       </button>
@@ -126,7 +127,7 @@ function EpisodeMenu({
         >
           <div
             role="group"
-            aria-label="에피소드 선택"
+            aria-label={t("에피소드 선택")}
             className={styles.checklist}
           >
             {episodes.map((episode) => (
@@ -151,14 +152,14 @@ function EpisodeMenu({
                 className={styles.action}
                 onClick={() => onChange([])}
               >
-                모두 선택
+                {t("모두 선택")}
               </button>
               <button
                 type="button"
                 className={styles.action}
                 onClick={() => onChange([NO_EPISODE])}
               >
-                선택 해제
+                {t("체크 목록::선택 해제")}
               </button>
             </div>
           </div>
@@ -197,7 +198,7 @@ function RowFilter({
         ref={ref}
         icon="list-filter"
         iconSize={16}
-        label="표시할 항목"
+        label={t("표시할 항목")}
         aria-expanded={open}
         className={cx(
           styles.filterButton,
@@ -220,13 +221,17 @@ function RowFilter({
             <Icon name="search" size={15} />
             <input
               autoFocus
-              aria-label="이름으로 찾기"
-              placeholder="이름으로 찾기"
+              aria-label={t("이름으로 찾기")}
+              placeholder={t("이름으로 찾기")}
               value={query}
               onChange={(event) => setQuery(event.target.value)}
             />
           </div>
-          <div role="group" aria-label="표시할 항목" className={styles.rowList}>
+          <div
+            role="group"
+            aria-label={t("표시할 항목")}
+            className={styles.rowList}
+          >
             {matches.map((row) => (
               <button
                 key={row.nodeId}
@@ -251,7 +256,7 @@ function RowFilter({
               </button>
             ))}
             {matches.length === 0 && (
-              <p className={styles.noMatch}>일치하는 항목이 없어요</p>
+              <p className={styles.noMatch}>{t("일치하는 항목이 없어요")}</p>
             )}
           </div>
           <hr className={styles.rule} />
@@ -261,14 +266,14 @@ function RowFilter({
               className={styles.action}
               onClick={() => onChange(new Set())}
             >
-              모두 선택
+              {t("모두 선택")}
             </button>
             <button
               type="button"
               className={styles.action}
               onClick={() => onChange(new Set(rows.map((row) => row.nodeId)))}
             >
-              선택 해제
+              {t("체크 목록::선택 해제")}
             </button>
           </div>
         </Popover>
@@ -308,10 +313,10 @@ export function TimelineView() {
       <EmptyState
         role="alert"
         icon="triangle-alert"
-        title="타임라인을 불러오지 못했어요"
+        title={t("타임라인을 불러오지 못했어요")}
         action={
           <Button size="md" icon="refresh-cw" onClick={() => graph.refetch()}>
-            다시 시도
+            {t("다시 시도")}
           </Button>
         }
       />
@@ -351,7 +356,11 @@ export function TimelineView() {
 
   return (
     <div className={styles.view}>
-      <div className={styles.toolbar} role="toolbar" aria-label="타임라인 도구">
+      <div
+        className={styles.toolbar}
+        role="toolbar"
+        aria-label={t("타임라인 도구")}
+      >
         <EpisodeMenu
           episodes={graph.data.episodes.map((e) => ({
             id: e.id,
@@ -368,7 +377,7 @@ export function TimelineView() {
             <IconButton
               icon="chevron-left"
               iconSize={14}
-              label="이전 회차"
+              label={t("이전 회차")}
               disabled={current === 0}
               onClick={() => move(-1, 0)}
             />
@@ -376,7 +385,7 @@ export function TimelineView() {
             <IconButton
               icon="chevron-right"
               iconSize={14}
-              label="다음 회차"
+              label={t("다음 회차")}
               disabled={current === total - 1}
               onClick={() => move(1, 0)}
             />
@@ -389,15 +398,17 @@ export function TimelineView() {
       {total === 0 ? (
         <EmptyState
           icon="chart-no-axes-gantt"
-          title="표시할 회차가 없어요"
-          description="에피소드를 고르거나 원고를 추가하면 회차가 열이 됩니다."
+          title={t("표시할 회차가 없어요")}
+          description={t(
+            "에피소드를 고르거나 원고를 추가하면 회차가 열이 됩니다.",
+          )}
         />
       ) : (
         <div
           className={styles.scroller}
           tabIndex={0}
           role="grid"
-          aria-label="타임라인"
+          aria-label={t("타임라인")}
           aria-rowcount={table.rowCount}
           onKeyDown={onKeyDown}
           style={gridStyle}
@@ -474,7 +485,7 @@ export function TimelineView() {
                       name={isCollapsed ? "folder" : "folder-open"}
                       size={15}
                     />
-                    {group.id === FAVORITES_GROUP ? "즐겨찾기" : group.label}
+                    {group.id === FAVORITES_GROUP ? t("즐겨찾기") : group.label}
                   </button>
                   {!isCollapsed &&
                     rows.map((row) => (
@@ -482,7 +493,10 @@ export function TimelineView() {
                         key={`${group.id}-${row.nodeId}`}
                         role="row"
                         className={styles.row}
-                        title={`${row.name} · ${row.columns.length}회 등장`}
+                        title={t("{name} · {count}회 등장", {
+                          name: row.name,
+                          count: row.columns.length,
+                        })}
                       >
                         <button
                           type="button"
