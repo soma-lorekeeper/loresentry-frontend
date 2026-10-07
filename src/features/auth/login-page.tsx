@@ -217,7 +217,7 @@ export function LoginPage() {
 
         {showTerms && (
           <TermsConsent
-            privacyUrl={config.privacyPolicyUrl || "/policies/privacy.html"}
+            privacyUrl={config.privacyPolicyUrl || "/policies/privacy/"}
             onClose={closeTerms}
             onComplete={() => router.replace(returnTo ?? "/projects")}
           />
@@ -227,11 +227,11 @@ export function LoginPage() {
       <div className={styles.footer}>
         <nav className={styles.policyLinks} aria-label={t("정책")}>
           <PolicyLink
-            href={config.termsOfServiceUrl || "/policies/terms.html"}
+            href={config.termsOfServiceUrl || "/policies/terms/"}
             label={t("이용약관")}
           />
           <PolicyLink
-            href={config.privacyPolicyUrl || "/policies/privacy.html"}
+            href={config.privacyPolicyUrl || "/policies/privacy/"}
             label={t("개인정보처리방침")}
           />
         </nav>

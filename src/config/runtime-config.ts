@@ -17,8 +17,8 @@ export const DEFAULT_RUNTIME_CONFIG: RuntimeConfig = {
   dataSource: "mock",
   feedbackUrl: "",
   contactEmail: "",
-  privacyPolicyUrl: "/policies/privacy.html",
-  termsOfServiceUrl: "/policies/terms.html",
+  privacyPolicyUrl: "/policies/privacy/",
+  termsOfServiceUrl: "/policies/terms/",
   gaMeasurementId: "",
 };
 

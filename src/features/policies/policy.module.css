@@ -1,0 +1,378 @@
+/*
+ * 약관·처리방침. 앱과 같은 회색 책상 위에 흰 문서 한 장을 놓는다. 오래 읽는 글이라 본문은 앱보다
+ * 크고 줄 간격이 넓다. 목차는 책상 위에 둔다.
+ */
+.page {
+  min-height: 100vh;
+  padding: 20px 24px 72px;
+  background: var(--lk-color-bg-canvas);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-4);
+  max-width: 1080px;
+  margin: 0 auto 28px;
+}
+
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-3);
+  margin-right: auto;
+  color: var(--lk-color-text-primary);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.letterMark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-accent-primary);
+  color: var(--lk-color-text-on-accent);
+  font-weight: 700;
+}
+
+.switcher {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--lk-color-surface-track);
+}
+
+.switch {
+  padding: 6px 14px;
+  border-radius: 999px;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    background-color 160ms var(--lk-ease),
+    color 160ms var(--lk-ease);
+}
+
+.switch:hover {
+  color: var(--lk-color-text-primary);
+}
+
+.switch[aria-current="page"] {
+  background: var(--lk-color-surface-pill);
+  box-shadow: var(--lk-shadow-pill);
+  color: var(--lk-color-text-primary);
+  font-weight: 600;
+}
+
+.wordmark:focus-visible,
+.switch:focus-visible,
+.tocLink:focus-visible,
+.heading a:focus-visible,
+.article a:focus-visible {
+  outline: none;
+  border-radius: var(--lk-radius-control);
+  box-shadow: var(--lk-focus-ring);
+}
+
+.language {
+  margin-left: var(--lk-space-2);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 760px);
+  justify-content: center;
+  gap: 40px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* 목차 ------------------------------------------------------------------ */
+
+.toc {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+  max-height: calc(100vh - 48px);
+  padding-top: 56px;
+  overflow-y: auto;
+}
+
+.toc ol {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tocLink {
+  display: block;
+  padding: 7px 12px;
+  border-radius: 10px;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  line-height: 1.45;
+  transition:
+    background-color 160ms var(--lk-ease),
+    color 160ms var(--lk-ease);
+}
+
+.tocLink:hover {
+  color: var(--lk-color-text-primary);
+}
+
+.tocActive {
+  background: var(--lk-color-surface-pill);
+  box-shadow: var(--lk-shadow-pill);
+  color: var(--lk-color-text-primary);
+  font-weight: 600;
+}
+
+/* 문서 ------------------------------------------------------------------ */
+
+.sheet {
+  min-width: 0;
+  padding: 56px 64px 72px;
+  border-radius: var(--lk-radius-surface);
+  background: var(--lk-color-surface-default);
+  box-shadow: var(--lk-shadow-lift);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-3);
+  padding-bottom: 28px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--lk-color-border-subtle);
+}
+
+.title {
+  font-family: var(--lk-font-stack-display);
+  font-size: var(--lk-font-size-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  word-break: keep-all;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--lk-space-2) var(--lk-space-3);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+.version {
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--lk-color-surface-sunken);
+  color: var(--lk-color-text-primary);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.article {
+  color: var(--lk-color-text-primary);
+  font-size: 15px;
+  line-height: 1.8;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.article p {
+  margin: 0 0 14px;
+}
+
+.heading {
+  margin: 40px 0 12px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.4;
+  scroll-margin-top: 24px;
+}
+
+.heading a {
+  color: inherit;
+}
+
+.heading a:hover {
+  color: var(--lk-color-accent-primary);
+}
+
+.article ul {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0 0 14px;
+  padding-left: 20px;
+}
+
+.article li::marker {
+  color: var(--lk-color-text-secondary);
+}
+
+.article p a,
+.article li a,
+.article td a {
+  color: var(--lk-color-accent-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.article code {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--lk-color-surface-sunken);
+  font-family: var(--lk-font-stack-mono);
+  font-size: 0.86em;
+  word-break: break-all;
+}
+
+/* 표 -------------------------------------------------------------------- */
+
+.tableWrap {
+  margin: 6px 0 18px;
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px var(--lk-color-border-subtle);
+}
+
+.tableWrap table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.tableWrap thead th {
+  padding: 10px 14px;
+  background: var(--lk-color-surface-sunken);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.tableWrap thead th:first-child {
+  border-top-left-radius: 12px;
+}
+
+.tableWrap thead th:last-child {
+  border-top-right-radius: 12px;
+}
+
+.tableWrap tbody th,
+.tableWrap tbody td {
+  padding: 12px 14px;
+  border-top: 1px solid var(--lk-color-border-subtle);
+  text-align: left;
+  vertical-align: top;
+}
+
+/* 쿠키 이름 같은 식별자는 중간에서 끊지 않는다. 좁으면 표가 옆으로 밀린다. */
+.tableWrap code {
+  white-space: nowrap;
+  word-break: normal;
+}
+
+.tableWrap tbody th {
+  width: 28%;
+  min-width: 140px;
+  font-weight: 600;
+}
+
+/* 좁은 화면: 목차를 접고, 문서를 화면에 붙인다. 표는 옆으로 밀어 본다. */
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .toc {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 14px 10px 40px;
+  }
+
+  .bar {
+    flex-wrap: wrap;
+    row-gap: var(--lk-space-3);
+    margin-bottom: 14px;
+    padding: 0 6px;
+  }
+
+  .switcher {
+    order: 3;
+    width: 100%;
+  }
+
+  .switch {
+    flex: 1;
+    text-align: center;
+  }
+
+  .sheet {
+    padding: 32px 20px 40px;
+    border-radius: 14px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .article {
+    font-size: 14.5px;
+  }
+
+  .tableWrap table {
+    min-width: 520px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switch,
+  .tocLink {
+    transition: none;
+  }
+}
+
+@media print {
+  .page {
+    padding: 0;
+    background: none;
+  }
+
+  .bar,
+  .toc {
+    display: none;
+  }
+
+  .layout {
+    display: block;
+  }
+
+  .sheet {
+    padding: 0;
+    box-shadow: none;
+  }
+}
