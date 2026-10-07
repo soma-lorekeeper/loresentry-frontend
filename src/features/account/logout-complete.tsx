@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 import { Button, Icon } from "@/design-system/primitives";
+import { t } from "@/i18n";
 
 import styles from "./account.module.css";
 
@@ -29,9 +30,9 @@ export function LogoutComplete() {
             <Icon name="log-out" size={24} />
           </span>
           <h1 id="logout-title" className={styles.completionTitle}>
-            로그아웃되었습니다
+            {t("로그아웃되었습니다")}
           </h1>
-          <p>잠시 후 로그인 화면으로 이동합니다.</p>
+          <p>{t("잠시 후 로그인 화면으로 이동합니다.")}</p>
         </div>
         <Button
           size="lg"
@@ -40,7 +41,7 @@ export function LogoutComplete() {
           className={styles.fullWidth}
           onClick={() => router.replace("/login")}
         >
-          로그인 화면으로 이동
+          {t("로그인 화면으로 이동")}
         </Button>
       </section>
     </main>

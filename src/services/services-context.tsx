@@ -22,6 +22,6 @@ export function ServicesProvider({
 
 export function useServices(): Services {
   const services = useContext(ServicesContext);
-  if (!services) throw new Error("ServicesProvider가 필요합니다.");
+  if (!services) throw new Error("ServicesProvider is missing");
   return services;
 }

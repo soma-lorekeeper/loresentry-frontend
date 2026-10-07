@@ -1,4 +1,5 @@
 import { EmptyState } from "@/design-system/primitives";
+import { t } from "@/i18n";
 import { isServiceError } from "@/services/errors";
 
 /** 서버에 그 기능이 아직 없어서 거절된 요청인가. 재시도해도 달라지지 않는다. */
@@ -23,8 +24,10 @@ export function PreparingState({
     <EmptyState
       role="status"
       icon="clock-3"
-      title={`${what}은 아직 준비 중이에요`}
-      description="서버가 연결되면 여기에서 바로 쓸 수 있어요. 지금은 보여 드릴 것이 없어요."
+      title={t("{what}은 아직 준비 중이에요", { what })}
+      description={t(
+        "서버가 연결되면 여기에서 바로 쓸 수 있어요. 지금은 보여 드릴 것이 없어요.",
+      )}
       className={className}
     />
   );

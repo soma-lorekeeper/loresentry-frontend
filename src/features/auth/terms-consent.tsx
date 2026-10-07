@@ -3,11 +3,19 @@
 import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button, DialogCard, StatusNotice } from "@/design-system/primitives";
+import { INTL_LOCALE, LOCALE, t, tRich } from "@/i18n";
 import { useServices } from "@/services/services-context";
 import { ServiceError } from "@/services/errors";
 import type { TermsView } from "@/services/ports";
 import { queryKeys } from "@/services/query-keys";
 import styles from "./terms-consent.module.css";
+
+const EFFECTIVE_DATE = new Intl.DateTimeFormat(INTL_LOCALE[LOCALE], {
+  timeZone: "Asia/Seoul",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
 
 export function TermsConsent({
   privacyUrl,
@@ -39,7 +47,7 @@ export function TermsConsent({
       .catch(() => {
         if (active) {
           setError(
-            "약관을 불러올 수 없어요. Google 로그인부터 다시 시작해 주세요.",
+            t("약관을 불러올 수 없어요. Google 로그인부터 다시 시작해 주세요."),
           );
           setRestart(true);
         }
@@ -72,14 +80,16 @@ export function TermsConsent({
         cause.code === "terms-version-mismatch"
       ) {
         setTerms(null);
-        setError("약관이 변경됐어요. 새 원문을 확인하고 다시 동의해 주세요.");
+        setError(
+          t("약관이 변경됐어요. 새 원문을 확인하고 다시 동의해 주세요."),
+        );
         try {
           const latest = await auth.getTerms();
           if (alive.current) setTerms(latest);
         } catch {
           if (alive.current) {
             setRestart(true);
-            setError("약관을 확인할 수 없어요. 다시 로그인해 주세요.");
+            setError(t("약관을 확인할 수 없어요. 다시 로그인해 주세요."));
           }
         }
       } else if (
@@ -92,8 +102,10 @@ export function TermsConsent({
         setTerms(null);
         setError(
           cause instanceof ServiceError && cause.code === "consent-invalid"
-            ? "동의 대기가 만료됐어요. Google 로그인부터 다시 시작해 주세요."
-            : "동의 결과를 확인할 수 없어요. Google 로그인부터 다시 시작해 주세요.",
+            ? t("동의 대기가 만료됐어요. Google 로그인부터 다시 시작해 주세요.")
+            : t(
+                "동의 결과를 확인할 수 없어요. Google 로그인부터 다시 시작해 주세요.",
+              ),
         );
       }
     } finally {
@@ -106,10 +118,10 @@ export function TermsConsent({
     return (
       <div className={styles.notice}>
         <StatusNotice tone={error ? "error" : "info"}>
-          {error || "서비스 이용약관을 불러오고 있어요."}
+          {error || t("서비스 이용약관을 불러오고 있어요.")}
         </StatusNotice>
         <Button onClick={onClose}>
-          {restart ? "로그인으로 돌아가기" : "닫기"}
+          {restart ? t("로그인으로 돌아가기") : t("닫기")}
         </Button>
       </div>
     );
@@ -119,14 +131,14 @@ export function TermsConsent({
       open
       onClose={onClose}
       size="lg"
-      title="서비스 이용약관 동의"
-      closeLabel="약관 닫기"
+      title={t("서비스 이용약관 동의")}
+      closeLabel={t("약관 닫기")}
       closeDisabled={submitting}
       dismissible={!submitting}
       actions={
         <>
           <Button onClick={onClose} disabled={submitting}>
-            나중에
+            {t("나중에")}
           </Button>
           <Button
             variant="primary"
@@ -134,7 +146,7 @@ export function TermsConsent({
             disabled={!checked}
             busy={submitting}
           >
-            동의하고 계속
+            {t("동의하고 계속")}
           </Button>
         </>
       }
@@ -142,20 +154,17 @@ export function TermsConsent({
       <div className={styles.meta}>
         <strong>{terms.title}</strong>
         <span>
-          버전 {terms.version} · 시행일{" "}
-          {new Intl.DateTimeFormat("ko-KR", {
-            timeZone: "Asia/Seoul",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }).format(new Date(terms.effectiveAt))}
+          {t("버전 {version} · 시행일 {date}", {
+            version: terms.version,
+            date: EFFECTIVE_DATE.format(new Date(terms.effectiveAt)),
+          })}
         </span>
       </div>
       <div
         className={styles.original}
         tabIndex={0}
         role="region"
-        aria-label="서비스 이용약관 전문"
+        aria-label={t("서비스 이용약관 전문")}
       >
         {terms.content}
       </div>
@@ -166,14 +175,19 @@ export function TermsConsent({
           onChange={(event) => setChecked(event.target.checked)}
           disabled={submitting}
         />
-        [필수] Lore Sentry 서비스 이용약관에 동의합니다.
+        {t("[필수] Lore Sentry 서비스 이용약관에 동의합니다.")}
       </label>
       <p className={styles.privacy}>
-        개인정보 처리에 관한 안내는{" "}
-        <a href={privacyUrl} target="_blank" rel="noreferrer">
-          개인정보 처리방침
-        </a>
-        에서 확인할 수 있습니다.
+        {tRich(
+          "개인정보 처리에 관한 안내는 <link>개인정보 처리방침</link>에서 확인할 수 있습니다.",
+          {
+            link: (chunks) => (
+              <a href={privacyUrl} target="_blank" rel="noreferrer">
+                {chunks}
+              </a>
+            ),
+          },
+        )}
       </p>
       {error && <StatusNotice tone="error">{error}</StatusNotice>}
     </DialogCard>

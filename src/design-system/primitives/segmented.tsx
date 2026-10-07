@@ -11,6 +11,7 @@ export interface SegmentedOption<T extends string> {
   value: T;
   label: string;
   icon?: IconName;
+  lang?: string;
 }
 
 export function Segmented<T extends string>({
@@ -65,6 +66,7 @@ export function Segmented<T extends string>({
             aria-checked={checked}
             tabIndex={checked ? 0 : -1}
             data-value={option.value}
+            lang={option.lang}
             className={styles.option}
             onClick={() => onChange(option.value)}
           >

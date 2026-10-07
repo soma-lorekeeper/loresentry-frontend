@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 
 import { Button, Icon } from "@/design-system/primitives";
+import { t } from "@/i18n";
 
 import styles from "./account.module.css";
 
@@ -17,9 +18,11 @@ export function AccountDeleted() {
             <Icon name="user-x" size={24} />
           </span>
           <h1 id="deleted-title" className={styles.completionTitle}>
-            계정이 삭제되었어요
+            {t("계정이 삭제되었어요")}
           </h1>
-          <p>같은 Google 계정으로 다시 로그인하면 새 계정으로 시작해요.</p>
+          <p>
+            {t("같은 Google 계정으로 다시 로그인하면 새 계정으로 시작해요.")}
+          </p>
         </div>
         <Button
           size="lg"
@@ -28,7 +31,7 @@ export function AccountDeleted() {
           className={styles.fullWidth}
           onClick={() => router.replace("/login")}
         >
-          로그인 화면으로 이동
+          {t("로그인 화면으로 이동")}
         </Button>
       </section>
     </main>

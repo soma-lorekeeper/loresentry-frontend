@@ -6,6 +6,7 @@ import { Icon, Menu } from "@/design-system/primitives";
 import { themeMenuEntries } from "@/design-system/theme/theme-menu";
 import { useTheme } from "@/design-system/theme/theme-store";
 import type { User } from "@/domain/models";
+import { t } from "@/i18n";
 import { AccountDeleteDialog } from "@/features/account/account-delete-dialog";
 import { AccountSettingsDialog } from "@/features/account/account-settings-dialog";
 import { LogoutDialog } from "@/features/account/logout-dialog";
@@ -75,13 +76,13 @@ export function UserMenu({ user }: { user: User }) {
         anchorRef={triggerRef}
         open={open}
         onOpenChange={setOpen}
-        label="계정 메뉴"
+        label={t("계정 메뉴")}
         placement="bottom-start"
         itemHeight={38}
         entries={[
           {
             id: "account",
-            label: "계정 설정",
+            label: t("계정 설정"),
             icon: "user-cog",
             onSelect: () => setDialog("account"),
           },
@@ -90,7 +91,7 @@ export function UserMenu({ user }: { user: User }) {
           { type: "separator", id: "separator-theme" },
           {
             id: "logout",
-            label: "로그아웃",
+            label: t("로그아웃"),
             icon: "log-out",
             onSelect: () => setDialog("logout"),
           },

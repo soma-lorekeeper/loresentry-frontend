@@ -1,5 +1,6 @@
 import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
 import type { FileNode, TrashEntry } from "@/domain/models";
+import { t } from "@/i18n";
 
 import { ServiceError } from "../errors";
 import type { CreateFileInput, FileService } from "../ports";
@@ -139,7 +140,7 @@ function unsupported(what: string): never {
 function unsupportedError(what: string): ServiceError {
   return new ServiceError(
     "validation",
-    `${what}는 아직 서버에 저장할 수 없어요.`,
+    t("{what}는 아직 서버에 저장할 수 없어요.", { what }),
   );
 }
 
@@ -169,7 +170,7 @@ export function createApiFiles(
     if (!projectId) {
       // 트리를 한 번도 읽지 않은 파일이다. 화면 흐름상 일어나지 않지만, 조용히 틀린 트리를
       // 만드는 것보다 실패하는 편이 낫다.
-      throw new ServiceError("not-found", "파일을 찾을 수 없어요.");
+      throw new ServiceError("not-found", t("파일을 찾을 수 없어요."));
     }
     return projectId;
   };
@@ -224,7 +225,7 @@ export function createApiFiles(
       if (kind === "folder") {
         // 사용자가 만들 수 있는 폴더는 에피소드뿐이다(요구사항 §4.1). 원고 분류 아래가 아니면 거절한다.
         if (folderCodeOfNodeId(parentId) !== "MANUSCRIPT") {
-          unsupported("이 위치의 폴더");
+          unsupported(t("이 위치의 폴더"));
         }
         const episode = await client.request<ApiEpisode>(
           `/projects/${projectId}/files`,
@@ -275,7 +276,7 @@ export function createApiFiles(
 
     move: async (fileId, parentId, beforeId) => {
       const projectId = projectOf(fileId);
-      if (episodeIds.has(fileId)) unsupported("에피소드 순서 바꾸기");
+      if (episodeIds.has(fileId)) unsupported(t("에피소드 순서 바꾸기"));
 
       const document = await client.request<ApiDocument>(
         `/files/${fileId}/position`,
@@ -341,6 +342,6 @@ export function createApiFiles(
     }
     if (docType)
       return { folder_code: folderCodeOf(docType), episode_id: null };
-    unsupported("이 위치");
+    unsupported(t("이 위치"));
   }
 }

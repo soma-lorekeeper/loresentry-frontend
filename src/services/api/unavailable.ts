@@ -1,3 +1,5 @@
+import { t } from "@/i18n";
+
 import { ServiceError } from "../errors";
 import type {
   ChatService,
@@ -17,7 +19,7 @@ import type {
  */
 function unavailable<T>(): Promise<T> {
   return Promise.reject(
-    new ServiceError("unavailable", "이 기능은 아직 준비되지 않았어요."),
+    new ServiceError("unavailable", t("이 기능은 아직 준비되지 않았어요.")),
   );
 }
 
