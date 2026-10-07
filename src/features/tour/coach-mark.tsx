@@ -12,6 +12,7 @@ import {
 import { createPortal } from "react-dom";
 
 import { Button, IconButton } from "@/design-system/primitives";
+import { t } from "@/i18n";
 import { cx } from "@/shared/cx";
 
 import { placeCard, type Placement, type Rect } from "./place-card";
@@ -157,7 +158,10 @@ export function CoachMark({
         >
           <ol
             className={styles.progress}
-            aria-label={`${total}단계 중 ${step + 1}단계`}
+            aria-label={t("투어::{total}단계 중 {step}단계", {
+              total,
+              step: step + 1,
+            })}
           >
             {Array.from({ length: total }, (_, index) => (
               <li
@@ -178,14 +182,14 @@ export function CoachMark({
           <div className={styles.footer}>
             {!last && (
               <button type="button" className={styles.skip} onClick={onSkip}>
-                건너뛰기
+                {t("투어::건너뛰기")}
               </button>
             )}
             <div className={styles.actions}>
               {step > 0 && (
                 <IconButton
                   icon="arrow-left"
-                  label="이전"
+                  label={t("이전")}
                   iconSize={15}
                   className={styles.back}
                   onClick={onBack}
@@ -197,7 +201,7 @@ export function CoachMark({
                 variant="primary"
                 onClick={onNext}
               >
-                {last ? "완료" : "다음"}
+                {last ? t("투어::완료") : t("다음")}
               </Button>
             </div>
           </div>
