@@ -24,6 +24,7 @@ import {
   useUpdateAccount,
 } from "@/features/projects/queries";
 import { writeTour } from "@/features/tour/tour-state";
+import { t } from "@/i18n";
 import { isServiceError } from "@/services/errors";
 import { cx } from "@/shared/cx";
 import { useElementSize } from "@/shared/use-element-size";
@@ -248,10 +249,14 @@ function StartChoices({
       setPending(null);
       setError(
         destination === "sample"
-          ? "예시 프로젝트를 만들지 못했어요. 잠시 뒤 다시 시도하거나 새 프로젝트로 시작해 주세요."
+          ? t(
+              "예시 프로젝트를 만들지 못했어요. 잠시 뒤 다시 시도하거나 새 프로젝트로 시작해 주세요.",
+            )
           : isServiceError(cause) && cause.code === "network"
-            ? "서버에 연결하지 못했어요. 연결을 확인하고 다시 시도해 주세요."
-            : "안내를 마치지 못했어요. 다시 시도해 주세요.",
+            ? t(
+                "온보딩::서버에 연결하지 못했어요. 연결을 확인하고 다시 시도해 주세요.",
+              )
+            : t("안내를 마치지 못했어요. 다시 시도해 주세요."),
       );
     }
   };
@@ -295,15 +300,15 @@ function StartChoices({
       {card(
         "sample",
         "book-open",
-        "예시 프로젝트 둘러보기",
-        "‘유리 정원의 기록’으로 직접 눌러 봐요.",
+        t("예시 프로젝트 둘러보기"),
+        t("‘유리 정원의 기록’으로 직접 눌러 봐요."),
         0,
       )}
       {card(
         "new",
         "plus",
-        "새 프로젝트 만들기",
-        "제목만 정하면 바로 시작해요.",
+        t("온보딩::새 프로젝트 만들기"),
+        t("제목만 정하면 바로 시작해요."),
         70,
       )}
       {error && <InlineNotice>{error}</InlineNotice>}
@@ -313,7 +318,7 @@ function StartChoices({
         onClick={() => void choose("later")}
         disabled={pending !== null}
       >
-        {replay ? "사용 가이드로 돌아가기" : "나중에 할게요"}
+        {replay ? t("사용 가이드로 돌아가기") : t("나중에 할게요")}
       </button>
     </div>
   );
@@ -340,11 +345,11 @@ export function OnboardingPage({
   const onName = current.id === "name";
   const trimmed = name.trim();
   const nameError = !trimmed
-    ? "작가명을 입력해 주세요."
+    ? t("작가명을 입력해 주세요.")
     : rename.error
       ? isServiceError(rename.error) && rename.error.code === "validation"
         ? rename.error.message
-        : "작가명을 저장하지 못했어요. 연결을 확인하고 다시 시도해 주세요."
+        : t("작가명을 저장하지 못했어요. 연결을 확인하고 다시 시도해 주세요.")
       : undefined;
 
   const go = useCallback(
@@ -435,14 +440,14 @@ export function OnboardingPage({
               className={styles.skip}
               onClick={() => go(skipTo)}
             >
-              건너뛰기
+              {t("온보딩::건너뛰기")}
               <Icon name="chevron-right" size={14} />
             </button>
           )}
         </div>
 
         <div className={styles.main}>
-          <ol className={styles.progress} aria-label="안내 진행">
+          <ol className={styles.progress} aria-label={t("안내 진행")}>
             {steps.slice(0, last).map((item, i) => (
               <li
                 key={item.id}
@@ -454,7 +459,10 @@ export function OnboardingPage({
                 aria-current={i === step ? "step" : undefined}
               >
                 <span className="lk-visually-hidden">
-                  {i + 1}단계 {item.title.replace("\n", " ")}
+                  {t("온보딩::{step}단계 {title}", {
+                    step: i + 1,
+                    title: item.title.replace("\n", " "),
+                  })}
                 </span>
               </li>
             ))}
@@ -474,7 +482,7 @@ export function OnboardingPage({
               }}
             >
               <TextField
-                label="작가명"
+                label={t("온보딩::작가명")}
                 hideLabel
                 value={name}
                 onChange={(event) => {
@@ -494,7 +502,7 @@ export function OnboardingPage({
               <IconButton
                 icon="arrow-left"
                 iconSize={18}
-                label="이전"
+                label={t("이전")}
                 className={cx(styles.previous, step === 0 && styles.idle)}
                 onClick={() => go(step - 1)}
                 disabled={step === 0 || rename.isPending}
@@ -509,11 +517,11 @@ export function OnboardingPage({
               >
                 {onName
                   ? rename.isPending
-                    ? "저장 중…"
-                    : "이 이름으로 계속"
+                    ? t("저장 중…")
+                    : t("이 이름으로 계속")
                   : step === last - 1
-                    ? "시작하기"
-                    : "다음"}
+                    ? t("온보딩::시작하기")
+                    : t("다음")}
               </Button>
             </div>
           )}
@@ -521,14 +529,19 @@ export function OnboardingPage({
       </section>
 
       {onStart ? (
-        <section className={styles.startStage} aria-label="시작 방법 고르기">
+        <section
+          className={styles.startStage}
+          aria-label={t("시작 방법 고르기")}
+        >
           <StartChoices replay={replay} onDone={finish} />
         </section>
       ) : (
         <Stage
           scene={current.id as Scene}
           userName={
-            onName ? trimmed || "작가명" : name.trim() || user.displayName
+            onName
+              ? trimmed || t("온보딩::작가명")
+              : name.trim() || user.displayName
           }
         />
       )}
