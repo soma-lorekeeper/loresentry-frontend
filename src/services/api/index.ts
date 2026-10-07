@@ -5,6 +5,7 @@ import { createApiDocuments, createApiVersions } from "./documents";
 import { ApiFavoriteStore } from "./favorites";
 import { createApiFeedback } from "./feedback";
 import { createApiGraph } from "./graph";
+import { createApiHelp } from "./help";
 import { createApiFiles } from "./files";
 import { ApiClient } from "./http";
 import { createApiMemos } from "./memos";
@@ -36,7 +37,8 @@ export function createApiServices(baseUrl: string): Partial<Services> {
     workspaceState: createApiWorkspaceState(client),
     graph: createApiGraph(client),
     feedback: createApiFeedback(client),
-    // 아직 서버에 없다: refresh, chat, help. 각각 AI 최신화, LLM, 가이드 출처 결정을 기다린다.
+    help: createApiHelp(),
+    // 아직 서버에 없다: refresh, chat. 각각 AI 최신화, LLM 을 기다린다.
     // mock 으로 덮어 두면 가짜 자료를 진짜처럼 보여 준다.
     ...unavailableServices(),
   };

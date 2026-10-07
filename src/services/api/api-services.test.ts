@@ -879,18 +879,27 @@ describe("wiring", () => {
       apiBaseUrl: BASE,
     });
 
-    // mock 을 그대로 두면 그럴듯한 가짜 최신화·대화·가이드를 진짜처럼 보여 준다.
-    const asked = [
-      wired.refresh.current("p-1"),
-      wired.chat.sessions("p-1"),
-      wired.help.guides(),
-    ];
+    // mock 을 그대로 두면 그럴듯한 가짜 최신화·대화를 진짜처럼 보여 준다.
+    const asked = [wired.refresh.current("p-1"), wired.chat.sessions("p-1")];
 
     for (const promise of asked) {
       const error = await promise.catch((cause: unknown) => cause);
       expect(isServiceError(error) && error.code).toBe("unavailable");
     }
     // 요청을 보내지도 않는다. 서버에 그 경로가 없다.
+    expect(calls).toHaveLength(0);
+  });
+
+  it("serves the user guide from the bundled articles without a request", async () => {
+    const wired = createServices({
+      ...DEFAULT_RUNTIME_CONFIG,
+      dataSource: "api",
+      apiBaseUrl: BASE,
+    });
+
+    const topics = await wired.help.guides();
+
+    expect(topics.length).toBeGreaterThan(0);
     expect(calls).toHaveLength(0);
   });
 

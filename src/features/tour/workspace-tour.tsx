@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import type { FileNode } from "@/domain/models";
+import { isUnavailable } from "@/features/common/preparing-state";
+import { useRefreshRun } from "@/features/graph-refresh/queries";
 import type { WorkspaceTarget } from "@/features/workspace/model/layout";
 import { isDocument } from "@/features/workspace/model/tree";
 import { useFileTree } from "@/features/workspace/queries";
@@ -24,7 +26,14 @@ interface TourStep {
 
 const FIND_TIMEOUT_MS = 2500;
 
-function buildSteps(nodes: readonly FileNode[]): TourStep[] {
+/**
+ * 그래프 최신화가 아직 서버에 없으면 그 단계를 뺀다. 사이드바의 버튼이 "준비 중"으로 꺼져 있는데
+ * "누르면 AI가 찾아요"라고 가리키면 안내가 거짓이 된다.
+ */
+function buildSteps(
+  nodes: readonly FileNode[],
+  refreshAvailable: boolean,
+): TourStep[] {
   const documents = nodes.filter(isDocument);
   const manuscript = documents
     .filter((node) => node.docType === "manuscript")
@@ -32,7 +41,7 @@ function buildSteps(nodes: readonly FileNode[]): TourStep[] {
   const setting =
     documents.find((node) => node.docType === "character") ??
     documents.find((node) => node.docType !== "manuscript");
-  return [
+  const steps: (TourStep | false)[] = [
     manuscript
       ? {
           title: t("원고는 여기서 써요"),
@@ -69,7 +78,7 @@ function buildSteps(nodes: readonly FileNode[]): TourStep[] {
           open: { kind: "new" },
           placement: ["bottom", "right", "top"],
         },
-    {
+    refreshAvailable && {
       title: t("새 회차를 쓴 다음엔"),
       body: t(
         "그래프 최신화를 누르면 AI가 설정 문서에 바뀔 점을 찾아요. 받을지는 작가가 골라요.",
@@ -86,6 +95,7 @@ function buildSteps(nodes: readonly FileNode[]): TourStep[] {
       placement: ["right", "bottom"],
     },
   ];
+  return steps.filter((step): step is TourStep => step !== false);
 }
 
 function findTarget(name: string) {
@@ -179,8 +189,13 @@ function useTargetRect(name: string | null) {
 export function WorkspaceTour() {
   const { projectId, open, layout, dispatch } = useWorkspace();
   const tree = useFileTree(projectId);
+  const refresh = useRefreshRun(projectId);
+  const refreshAvailable = !isUnavailable(refresh.error);
   const [index, setIndex] = useState<number | null>(null);
-  const steps = useMemo(() => buildSteps(tree.data ?? []), [tree.data]);
+  const steps = useMemo(
+    () => buildSteps(tree.data ?? [], refreshAvailable),
+    [tree.data, refreshAvailable],
+  );
   const openedSidebar = useRef(false);
   const latest = useRef({ open, dispatch, sidebarOpen: layout.sidebarOpen });
 
@@ -189,10 +204,12 @@ export function WorkspaceTour() {
   });
 
   useEffect(() => {
-    if (!tree.isSuccess || readTour() !== "pending") return;
+    // 단계 수가 투어 도중에 바뀌지 않게 최신화 여부까지 알고 나서 시작한다.
+    if (!tree.isSuccess || refresh.isPending || readTour() !== "pending")
+      return;
     const timer = window.setTimeout(() => setIndex(0), 500);
     return () => window.clearTimeout(timer);
-  }, [tree.isSuccess]);
+  }, [tree.isSuccess, refresh.isPending]);
 
   useEffect(() => onTourRequest(() => setIndex(0)), []);
 
