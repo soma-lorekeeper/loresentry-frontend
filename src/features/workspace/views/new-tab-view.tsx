@@ -9,6 +9,7 @@ import {
   type DocumentType,
 } from "@/domain/document-types";
 import type { DocumentNode } from "@/domain/models";
+import { t } from "@/i18n";
 import { relativeTime } from "@/shared/format";
 
 import { categoryFolderOf, documentsOf } from "../model/tree";
@@ -45,7 +46,10 @@ export function NewTabView() {
         parentId: parent.id,
         kind: "document",
         docType: type,
-        title: `제목 없는 ${DOCUMENT_TYPE_META[type].label}`,
+        title: t("제목 없는 {kind}", {
+          kind: DOCUMENT_TYPE_META[type].label,
+          type,
+        }),
       },
       { onSuccess: (node) => open({ kind: "file", fileId: node.id }) },
     );
@@ -62,7 +66,10 @@ export function NewTabView() {
     <div className={styles.view}>
       <h1 className={styles.title}>{project.title}</h1>
 
-      <section className={styles.banner} aria-label="이어서 작업하기">
+      <section
+        className={styles.banner}
+        aria-label={t("작업공간::이어서 작업하기")}
+      >
         <div className={styles.bannerCopy}>
           {last ? (
             <>
@@ -79,7 +86,7 @@ export function NewTabView() {
             </>
           ) : (
             <span className={styles.bannerTitle}>
-              첫 파일을 만들어 시작하세요
+              {t("첫 파일을 만들어 시작하세요")}
             </span>
           )}
         </div>
@@ -89,7 +96,7 @@ export function NewTabView() {
             variant="primary"
             onClick={() => open({ kind: "file", fileId: last.id })}
           >
-            이어서 작업하기
+            {t("작업공간::이어서 작업하기")}
           </Button>
         ) : (
           <Button
@@ -99,7 +106,7 @@ export function NewTabView() {
             iconSize={15}
             onClick={() => createDocument("manuscript")}
           >
-            원고 만들기
+            {t("원고 만들기")}
           </Button>
         )}
       </section>
@@ -107,7 +114,7 @@ export function NewTabView() {
       <section className={styles.section} aria-labelledby="new-tab-create">
         <div className={styles.sectionHeader}>
           <h2 id="new-tab-create" className={styles.sectionTitle}>
-            새로 만들기
+            {t("작업공간::새로 만들기")}
           </h2>
           <button
             type="button"
@@ -115,7 +122,7 @@ export function NewTabView() {
             onClick={() => fileInput.current?.click()}
           >
             <Icon name="upload" size={14} />
-            가져오기
+            {t("가져오기")}
           </button>
           <input
             ref={fileInput}
@@ -149,13 +156,13 @@ export function NewTabView() {
 
       <section className={styles.section} aria-labelledby="new-tab-recent">
         <h2 id="new-tab-recent" className={styles.sectionTitle}>
-          최근에 연 파일
+          {t("작업공간::최근에 연 파일")}
         </h2>
         <div className={styles.recent}>
           {others.length === 0 ? (
             <div className={styles.emptyRecent}>
               <Icon name="clock-3" size={16} />
-              최근에 연 파일이 없어요
+              {t("최근에 연 파일이 없어요")}
             </div>
           ) : (
             others.map((doc) => (

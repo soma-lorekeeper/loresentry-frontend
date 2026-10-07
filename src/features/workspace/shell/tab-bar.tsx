@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 
 import { Icon, IconButton } from "@/design-system/primitives";
+import { t } from "@/i18n";
 
 import { type WorkspacePane } from "../model/layout";
 import { useWorkspace } from "../workspace-context";
@@ -50,7 +51,7 @@ export function TabBar({ pane }: { pane: WorkspacePane }) {
       <IconButton
         icon="panel-left"
         iconSize={17}
-        label={layout.sidebarOpen ? "사이드바 닫기" : "사이드바 열기"}
+        label={layout.sidebarOpen ? t("사이드바 닫기") : t("사이드바 열기")}
         aria-pressed={!layout.sidebarOpen || undefined}
         className={styles.toggle}
         onClick={() => dispatch({ type: "toggleSidebar" })}
@@ -59,7 +60,7 @@ export function TabBar({ pane }: { pane: WorkspacePane }) {
         ref={listRef}
         className={styles.tabs}
         role="tablist"
-        aria-label="열린 탭"
+        aria-label={t("열린 탭")}
       >
         {pane.tabs.map((tab, index) => {
           const selected = tab.id === pane.activeTabId;
@@ -120,7 +121,7 @@ export function TabBar({ pane }: { pane: WorkspacePane }) {
                 <button
                   type="button"
                   className={styles.close}
-                  aria-label={`${title} 탭 닫기`}
+                  aria-label={t("{title} 탭 닫기", { title })}
                   tabIndex={-1}
                   onClick={(event) => {
                     event.stopPropagation();
@@ -136,7 +137,7 @@ export function TabBar({ pane }: { pane: WorkspacePane }) {
       </div>
       <IconButton
         icon="plus"
-        label="새 탭"
+        label={t("작업공간::새 탭")}
         onClick={() =>
           dispatch({ type: "open", target: { kind: "new" }, paneId: pane.id })
         }

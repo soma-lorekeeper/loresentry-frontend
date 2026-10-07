@@ -20,6 +20,7 @@ import {
 } from "@/domain/document-types";
 import type { FileNode, FolderNode } from "@/domain/models";
 import { UserMenu } from "@/features/projects/user-menu";
+import { t } from "@/i18n";
 import { isServiceError } from "@/services/errors";
 
 import { activeTabOf, type WorkspaceViewKind } from "../model/layout";
@@ -52,9 +53,13 @@ const PRIMARY_NAV: Array<{
   label: string;
   icon: IconName;
 }> = [
-  { kind: "graph", label: "그래프", icon: "waypoints" },
-  { kind: "timeline", label: "타임라인", icon: "chart-no-axes-gantt" },
-  { kind: "memo", label: "메모", icon: "notebook-pen" },
+  { kind: "graph", label: t("작업공간::그래프"), icon: "waypoints" },
+  {
+    kind: "timeline",
+    label: t("작업공간::타임라인"),
+    icon: "chart-no-axes-gantt",
+  },
+  { kind: "memo", label: t("작업공간::메모"), icon: "notebook-pen" },
 ];
 
 const UTILITY_NAV: Array<{
@@ -62,8 +67,8 @@ const UTILITY_NAV: Array<{
   label: string;
   icon: IconName;
 }> = [
-  { kind: "trash", label: "휴지통", icon: "trash-2" },
-  { kind: "settings", label: "설정", icon: "settings" },
+  { kind: "trash", label: t("작업공간::휴지통"), icon: "trash-2" },
+  { kind: "settings", label: t("작업공간::설정"), icon: "settings" },
 ];
 
 type PendingDialog =
@@ -106,7 +111,7 @@ function SectionHeader({
           ref={ref}
           icon="ellipsis"
           iconSize={15}
-          label={`${title} 더보기`}
+          label={t("{title} 더보기", { title })}
           className={styles.sectionMore}
           aria-haspopup="menu"
           aria-expanded={open}
@@ -118,7 +123,7 @@ function SectionHeader({
           anchorRef={ref}
           open={open}
           onOpenChange={setOpen}
-          label={`${title} 메뉴`}
+          label={t("{title} 메뉴", { title })}
           placement="right-start"
           entries={entries()}
         />
@@ -176,7 +181,7 @@ export function WorkspaceSidebar() {
       title: fallback,
       description: isServiceError(error)
         ? error.message
-        : "잠시 후 다시 시도해 주세요.",
+        : t("작업공간::잠시 후 다시 시도해 주세요."),
     });
 
   const startCreate = (
@@ -194,7 +199,10 @@ export function WorkspaceSidebar() {
         kind,
         docType,
         icon: meta.entityIcon,
-        defaultTitle: `새 ${meta.label}`,
+        defaultTitle: t("새 {kind}", {
+          kind: meta.label,
+          type: docType ?? "manuscript",
+        }),
       });
       return;
     }
@@ -204,7 +212,7 @@ export function WorkspaceSidebar() {
       parentId,
       kind,
       icon: "folder",
-      defaultTitle: episode ? "새 에피소드" : "새 폴더",
+      defaultTitle: episode ? t("새 에피소드") : t("새 폴더"),
     });
   };
 
@@ -216,7 +224,7 @@ export function WorkspaceSidebar() {
       if (title === current.defaultTitle) return;
       rename.mutate(
         { fileId: current.nodeId, title },
-        { onError: (error) => failed(error, "이름을 바꾸지 못했어요.") },
+        { onError: (error) => failed(error, t("이름을 바꾸지 못했어요.")) },
       );
       return;
     }
@@ -231,7 +239,7 @@ export function WorkspaceSidebar() {
         onSuccess: (node) => {
           if (isDocument(node)) open({ kind: "file", fileId: node.id });
         },
-        onError: (error) => failed(error, "만들지 못했어요."),
+        onError: (error) => failed(error, t("만들지 못했어요.")),
       },
     );
   };
@@ -277,7 +285,7 @@ export function WorkspaceSidebar() {
           ? [
               {
                 id: "episode",
-                label: "에피소드 추가",
+                label: t("에피소드 추가"),
                 icon: "folder-plus" as const,
                 onSelect: () => startCreate(node.id, "folder"),
               },
@@ -285,7 +293,10 @@ export function WorkspaceSidebar() {
           : []),
         {
           id: "create",
-          label: `${DOCUMENT_TYPE_META[node.category ?? "manuscript"].label} 추가`,
+          label: t("{kind} 추가", {
+            kind: DOCUMENT_TYPE_META[node.category ?? "manuscript"].label,
+            type: node.category ?? "manuscript",
+          }),
           icon: "file-plus",
           onSelect: () =>
             startCreate(node.id, "document", node.category ?? "manuscript"),
@@ -296,14 +307,14 @@ export function WorkspaceSidebar() {
       return [
         {
           id: "create",
-          label: "원고 추가",
+          label: t("원고 추가"),
           icon: "file-plus",
           onSelect: () => startCreate(node.id, "document", "manuscript"),
         },
         { type: "separator", id: "s1" },
         {
           id: "rename",
-          label: "이름 변경",
+          label: t("이름 변경"),
           icon: "pencil",
           onSelect: () =>
             setEdit({
@@ -315,7 +326,7 @@ export function WorkspaceSidebar() {
         },
         {
           id: "delete",
-          label: "에피소드 폴더 삭제",
+          label: t("에피소드 폴더 삭제"),
           icon: "trash-2",
           onSelect: () => {
             setDialogError(false);
@@ -330,7 +341,7 @@ export function WorkspaceSidebar() {
         { type: "separator", id: "s1" },
         {
           id: "rename",
-          label: "이름 변경",
+          label: t("이름 변경"),
           icon: "pencil",
           onSelect: () =>
             setEdit({
@@ -343,7 +354,7 @@ export function WorkspaceSidebar() {
         { type: "separator", id: "s2" },
         {
           id: "trash",
-          label: "휴지통으로 이동",
+          label: t("작업공간::휴지통으로 이동"),
           icon: "trash-2",
           onSelect: () => setDialog({ kind: "trash", node }),
         },
@@ -352,21 +363,23 @@ export function WorkspaceSidebar() {
     return [
       {
         id: "side",
-        label: "옆에 열기",
+        label: t("옆에 열기"),
         icon: "panels-top-left",
         onSelect: () =>
           open({ kind: "file", fileId: node.id }, { toSide: true }),
       },
       {
         id: "favorite",
-        label: favorite ? "즐겨찾기에서 제거" : "즐겨찾기에 추가",
+        label: favorite
+          ? t("작업공간::즐겨찾기에서 제거")
+          : t("작업공간::즐겨찾기에 추가"),
         icon: "star",
         onSelect: () =>
           setFavorite.mutate({ fileId: node.id, favorite: !favorite }),
       },
       {
         id: "rename",
-        label: "이름 변경",
+        label: t("이름 변경"),
         icon: "pencil",
         onSelect: () =>
           setEdit({
@@ -379,7 +392,7 @@ export function WorkspaceSidebar() {
       { type: "separator", id: "s1" },
       {
         id: "trash",
-        label: "휴지통으로 이동",
+        label: t("작업공간::휴지통으로 이동"),
         icon: "trash-2",
         onSelect: () => setDialog({ kind: "trash", node }),
       },
@@ -395,7 +408,7 @@ export function WorkspaceSidebar() {
   const dropNode = (dragId: string, target: FileNode) =>
     move.mutate(
       { fileId: dragId, parentId: target.id, beforeId: null },
-      { onError: (error) => failed(error, "옮기지 못했어요.") },
+      { onError: (error) => failed(error, t("옮기지 못했어요.")) },
     );
 
   const confirmDialog = () => {
@@ -411,8 +424,10 @@ export function WorkspaceSidebar() {
           dispatch({ type: "closeFiles", fileIds: ids });
           toast({
             icon: "trash-2",
-            title: "휴지통으로 옮겼어요.",
-            description: `‘${dialog.node.title}’은 휴지통에서 복원할 수 있어요.`,
+            title: t("휴지통으로 옮겼어요."),
+            description: t("‘{title}’은 휴지통에서 복원할 수 있어요.", {
+              title: dialog.node.title,
+            }),
           });
           done();
         },
@@ -445,7 +460,7 @@ export function WorkspaceSidebar() {
   };
 
   return (
-    <nav className={styles.sidebar} aria-label="작업공간">
+    <nav className={styles.sidebar} aria-label={t("작업공간")}>
       <UserMenu user={user} />
       <ProjectSwitcher />
       <div className={styles.nav}>
@@ -467,9 +482,12 @@ export function WorkspaceSidebar() {
         </div>
       </div>
       <div className={styles.scroll}>
-        <section className={styles.section} aria-label="즐겨찾기">
+        <section
+          className={styles.section}
+          aria-label={t("작업공간::즐겨찾기")}
+        >
           <SectionHeader
-            title="즐겨찾기"
+            title={t("작업공간::즐겨찾기")}
             onDrop={(event) => {
               const dragId = event.dataTransfer.getData(DRAG_MIME);
               if (dragId && isDocument(index.get(dragId))) {
@@ -480,7 +498,7 @@ export function WorkspaceSidebar() {
           />
           {favoriteNodes.length === 0 ? (
             <p className={styles.empty}>
-              문서의 별을 눌러 즐겨찾기에 추가하세요.
+              {t("문서의 별을 눌러 즐겨찾기에 추가하세요.")}
             </p>
           ) : (
             favoriteNodes.map((node) => (
@@ -494,9 +512,13 @@ export function WorkspaceSidebar() {
             ))
           )}
         </section>
-        <section className={styles.section} aria-label="파일">
-          <SectionHeader title="파일" entries={filesMenu} />
-          <FileTree items={fileRoots} label="파일" {...treeProps} />
+        <section className={styles.section} aria-label={t("작업공간::파일")}>
+          <SectionHeader title={t("작업공간::파일")} entries={filesMenu} />
+          <FileTree
+            items={fileRoots}
+            label={t("작업공간::파일")}
+            {...treeProps}
+          />
         </section>
       </div>
       <div className={styles.utility}>
@@ -515,8 +537,8 @@ export function WorkspaceSidebar() {
       <DialogCard
         open={dialog?.kind === "trash"}
         onClose={() => !busy && setDialog(null)}
-        title="휴지통으로 옮길까요?"
-        description="휴지통에서 원래 위치로 복원할 수 있어요."
+        title={t("휴지통으로 옮길까요?")}
+        description={t("휴지통에서 원래 위치로 복원할 수 있어요.")}
         target={
           dialog?.kind === "trash"
             ? {
@@ -535,7 +557,7 @@ export function WorkspaceSidebar() {
               onClick={() => setDialog(null)}
               disabled={busy}
             >
-              취소
+              {t("취소")}
             </Button>
             <Button
               size="md"
@@ -544,14 +566,14 @@ export function WorkspaceSidebar() {
               busy={busy}
               onClick={confirmDialog}
             >
-              휴지통으로 이동
+              {t("작업공간::휴지통으로 이동")}
             </Button>
           </>
         }
       >
         {dialogError && (
           <InlineNotice icon="circle-alert">
-            휴지통으로 옮기지 못했어요. 다시 시도해 주세요.
+            {t("휴지통으로 옮기지 못했어요. 다시 시도해 주세요.")}
           </InlineNotice>
         )}
       </DialogCard>
@@ -559,8 +581,10 @@ export function WorkspaceSidebar() {
       <DialogCard
         open={dialog?.kind === "episode"}
         onClose={() => !busy && setDialog(null)}
-        title="에피소드 폴더를 삭제할까요?"
-        description="폴더만 사라지고 안에 있던 회차는 원고 폴더로 돌아갑니다."
+        title={t("에피소드 폴더를 삭제할까요?")}
+        description={t(
+          "폴더만 사라지고 안에 있던 회차는 원고 폴더로 돌아갑니다.",
+        )}
         target={
           dialog?.kind === "episode"
             ? { icon: "folder", name: dialog.node.title }
@@ -574,7 +598,7 @@ export function WorkspaceSidebar() {
               onClick={() => setDialog(null)}
               disabled={busy}
             >
-              취소
+              {t("취소")}
             </Button>
             <Button
               size="md"
@@ -583,14 +607,14 @@ export function WorkspaceSidebar() {
               busy={busy}
               onClick={confirmDialog}
             >
-              영구 삭제
+              {t("영구 삭제")}
             </Button>
           </>
         }
       >
         {dialogError && (
           <InlineNotice icon="circle-alert">
-            에피소드 폴더를 삭제하지 못했어요. 다시 시도해 주세요.
+            {t("에피소드 폴더를 삭제하지 못했어요. 다시 시도해 주세요.")}
           </InlineNotice>
         )}
       </DialogCard>
@@ -600,23 +624,42 @@ export function WorkspaceSidebar() {
         onClose={() => !busy && setDialog(null)}
         title={
           dialogError
-            ? "섹션을 삭제하지 못했습니다"
-            : `${dialog?.kind === "section" ? dialog.node.title : ""} 섹션을 삭제할까요?`
+            ? t("섹션을 삭제하지 못했습니다")
+            : t("{title} 섹션을 삭제할까요?", {
+                title: dialog?.kind === "section" ? dialog.node.title : "",
+              })
         }
         description={
           dialog?.kind !== "section"
             ? undefined
             : dialogError
-              ? `${dialog.node.title}와 내부 항목은 변경되지 않았습니다. 잠시 후 다시 시도해 주세요.`
-              : `파일 ${dialog.files}개와 폴더 ${dialog.folders}개는 파일 > ${dialog.node.title}로 이동합니다.`
+              ? t(
+                  "{title}와 내부 항목은 변경되지 않았습니다. 잠시 후 다시 시도해 주세요.",
+                  { title: dialog.node.title },
+                )
+              : t(
+                  "파일 {files}개와 폴더 {folders}개는 파일 > {title}로 이동합니다.",
+                  {
+                    files: dialog.files,
+                    folders: dialog.folders,
+                    title: dialog.node.title,
+                  },
+                )
         }
         target={
           dialog?.kind === "section"
             ? {
                 icon: "folder",
                 name: dialogError
-                  ? `${dialog.node.title} · 파일 ${dialog.files}개 · 폴더 ${dialog.folders}개`
-                  : `파일 / ${dialog.node.title} · 총 ${dialog.files + dialog.folders}개 항목`,
+                  ? t("{title} · 파일 {files}개 · 폴더 {folders}개", {
+                      title: dialog.node.title,
+                      files: dialog.files,
+                      folders: dialog.folders,
+                    })
+                  : t("파일 / {title} · 총 {count}개 항목", {
+                      title: dialog.node.title,
+                      count: dialog.files + dialog.folders,
+                    }),
               }
             : undefined
         }
@@ -628,7 +671,7 @@ export function WorkspaceSidebar() {
               onClick={() => setDialog(null)}
               disabled={busy}
             >
-              취소
+              {t("취소")}
             </Button>
             <Button
               size="md"
@@ -637,7 +680,7 @@ export function WorkspaceSidebar() {
               busy={busy}
               onClick={confirmDialog}
             >
-              {dialogError ? "다시 시도" : "섹션 삭제"}
+              {dialogError ? t("다시 시도") : t("섹션 삭제")}
             </Button>
           </>
         }

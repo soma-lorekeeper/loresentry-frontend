@@ -20,6 +20,7 @@ import {
 } from "@/features/workspace/queries";
 import { ViewPage, ViewPanel } from "@/features/workspace/views/view-page";
 import { useWorkspace } from "@/features/workspace/workspace-context";
+import { t } from "@/i18n";
 import { relativeTime } from "@/shared/format";
 
 import styles from "./file-trash-view.module.css";
@@ -52,11 +53,14 @@ function DeleteEntryDialog({
       open={entry !== null}
       onClose={close}
       dismissible={!busy}
-      title="이 항목을 영구 삭제할까요?"
+      title={t("이 항목을 영구 삭제할까요?")}
       description={
         withChildren
-          ? `안에 있는 ${entry.childCount}개 항목도 함께 완전히 삭제되고 복원할 수 없어요.`
-          : "이 항목은 프로젝트에서 완전히 삭제되고 복원할 수 없어요."
+          ? t(
+              "안에 있는 {count}개 항목도 함께 완전히 삭제되고 복원할 수 없어요.",
+              { count: entry.childCount },
+            )
+          : t("이 항목은 프로젝트에서 완전히 삭제되고 복원할 수 없어요.")
       }
       target={
         entry ? { icon: entryIcon(entry), name: entry.node.title } : undefined
@@ -64,7 +68,7 @@ function DeleteEntryDialog({
       actions={
         <>
           <Button size="md" icon="x" onClick={close} disabled={busy}>
-            취소
+            {t("취소")}
           </Button>
           <Button
             size="md"
@@ -79,21 +83,23 @@ function DeleteEntryDialog({
                   onClose();
                   toast({
                     icon: "circle-check",
-                    title: "영구 삭제했어요.",
-                    description: `‘${entry.node.title}’을 휴지통에서 지웠어요.`,
+                    title: t("영구 삭제했어요."),
+                    description: t("‘{title}’을 휴지통에서 지웠어요.", {
+                      title: entry.node.title,
+                    }),
                   });
                 },
               })
             }
           >
-            {busy ? "삭제 중…" : "영구 삭제"}
+            {busy ? t("작업공간::삭제 중…") : t("영구 삭제")}
           </Button>
         </>
       }
     >
       {remove.isError && (
         <InlineNotice icon="circle-alert">
-          영구 삭제하지 못했어요. 다시 시도해 주세요.
+          {t("영구 삭제하지 못했어요. 다시 시도해 주세요.")}
         </InlineNotice>
       )}
     </DialogCard>
@@ -108,7 +114,9 @@ export function FileTrashView() {
   const [failedId, setFailedId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<TrashEntry | null>(null);
 
-  const meta = trash.isSuccess ? `${trash.data.length}개` : null;
+  const meta = trash.isSuccess
+    ? t("휴지통::{count}개", { count: trash.data.length })
+    : null;
 
   const restoreEntry = (entry: TrashEntry) => {
     setFailedId(null);
@@ -116,15 +124,17 @@ export function FileTrashView() {
       onSuccess: (node) =>
         toast({
           icon: "circle-check",
-          title: "원래 위치로 복원했어요.",
+          title: t("원래 위치로 복원했어요."),
           description:
             node.kind === "document"
-              ? `‘${node.title}’을 다시 열 수 있어요.`
-              : `‘${node.title}’ 폴더를 파일 목록에 되돌렸어요.`,
+              ? t("‘{title}’을 다시 열 수 있어요.", { title: node.title })
+              : t("‘{title}’ 폴더를 파일 목록에 되돌렸어요.", {
+                  title: node.title,
+                }),
           action:
             node.kind === "document"
               ? {
-                  label: "열기",
+                  label: t("열기"),
                   icon: "arrow-right",
                   onSelect: () => open({ kind: "file", fileId: node.id }),
                 }
@@ -135,13 +145,13 @@ export function FileTrashView() {
   };
 
   return (
-    <ViewPage title="휴지통" meta={meta}>
+    <ViewPage title={t("작업공간::휴지통")} meta={meta}>
       {trash.isPending ? (
         <ViewPanel>
           <EmptyState
             role="status"
             icon="loader-circle"
-            title="휴지통을 불러오는 중이에요"
+            title={t("휴지통을 불러오는 중이에요")}
           />
         </ViewPanel>
       ) : trash.isError ? (
@@ -149,15 +159,15 @@ export function FileTrashView() {
           <EmptyState
             role="alert"
             icon="triangle-alert"
-            title="휴지통을 불러오지 못했어요"
-            description="연결을 확인한 뒤 다시 시도해 주세요."
+            title={t("작업공간::휴지통을 불러오지 못했어요")}
+            description={t("작업공간::연결을 확인한 뒤 다시 시도해 주세요.")}
             action={
               <Button
                 size="md"
                 icon="refresh-cw"
                 onClick={() => trash.refetch()}
               >
-                다시 시도
+                {t("다시 시도")}
               </Button>
             }
           />
@@ -166,12 +176,14 @@ export function FileTrashView() {
         <ViewPanel>
           <EmptyState
             icon="trash-2"
-            title="휴지통이 비어 있어요"
-            description="삭제한 파일과 폴더는 여기에서 복원하거나 영구 삭제할 수 있어요."
+            title={t("작업공간::휴지통이 비어 있어요")}
+            description={t(
+              "삭제한 파일과 폴더는 여기에서 복원하거나 영구 삭제할 수 있어요.",
+            )}
           />
         </ViewPanel>
       ) : (
-        <ul className={styles.list} aria-label="삭제한 항목">
+        <ul className={styles.list} aria-label={t("삭제한 항목")}>
           {trash.data.map((entry) => {
             const restoring =
               restore.isPending && restore.variables === entry.node.id;
@@ -204,7 +216,7 @@ export function FileTrashView() {
                       disabled={restore.isPending}
                       onClick={() => restoreEntry(entry)}
                     >
-                      {restoring ? "복원 중…" : "복원"}
+                      {restoring ? t("복원 중…") : t("복원")}
                     </Button>
                     <Button
                       size="md"
@@ -212,14 +224,14 @@ export function FileTrashView() {
                       disabled={restoring}
                       onClick={() => setDeleting(entry)}
                     >
-                      영구 삭제
+                      {t("영구 삭제")}
                     </Button>
                   </span>
                 </div>
                 {failedId === entry.node.id && (
                   <p className={styles.rowError} role="alert">
                     <Icon name="circle-alert" size={14} />
-                    복원하지 못했어요. 다시 시도해 주세요.
+                    {t("복원하지 못했어요. 다시 시도해 주세요.")}
                   </p>
                 )}
               </li>
