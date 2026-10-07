@@ -10,6 +10,7 @@ import {
   type MenuEntry,
 } from "@/design-system/primitives";
 import type { Memo, MemoScope } from "@/domain/models";
+import { t } from "@/i18n";
 import { cx } from "@/shared/cx";
 
 import { DeleteMemoDialog } from "./delete-memo-dialog";
@@ -61,8 +62,8 @@ function MemoCard({
         onError: () =>
           toast({
             icon: "triangle-alert",
-            title: "메모를 저장하지 못했어요.",
-            description: "연결을 확인한 뒤 다시 시도해 주세요.",
+            title: t("메모를 저장하지 못했어요."),
+            description: t("작업공간::연결을 확인한 뒤 다시 시도해 주세요."),
           }),
       },
     );
@@ -81,7 +82,7 @@ function MemoCard({
       : []),
     {
       id: "delete",
-      label: "삭제",
+      label: t("삭제"),
       icon: "trash-2" as const,
       destructive: true,
       onSelect: () => onDelete(memo),
@@ -93,7 +94,7 @@ function MemoCard({
     return (
       <li className={styles.card}>
         {context}
-        <MemoMenuButton label="메모 메뉴" entries={menuEntries} />
+        <MemoMenuButton label={t("메모 메뉴")} entries={menuEntries} />
         <button
           type="button"
           className={styles.open}
@@ -101,7 +102,7 @@ function MemoCard({
         >
           {title && <span className={styles.title}>{title}</span>}
           <span className={styles.excerpt}>
-            {memo.body || "눌러서 내용을 적으세요."}
+            {memo.body || t("눌러서 내용을 적으세요.")}
           </span>
         </button>
       </li>
@@ -115,8 +116,8 @@ function MemoCard({
         className={styles.textarea}
         value={draft}
         autoFocus
-        aria-label="메모 내용"
-        placeholder="메모를 적으세요."
+        aria-label={t("메모 내용")}
+        placeholder={t("메모를 적으세요.")}
         onChange={(event) => setDraft(event.target.value)}
         onKeyDown={(event) => {
           if (event.key === "Escape") cancel();
@@ -124,13 +125,13 @@ function MemoCard({
         }}
       />
       <div className={styles.actions}>
-        <MemoMenuButton label="메모 메뉴" entries={menuEntries} />
+        <MemoMenuButton label={t("메모 메뉴")} entries={menuEntries} />
         <span className={styles.spacer} />
-        <IconButton icon="x" iconSize={16} label="취소" onClick={cancel} />
+        <IconButton icon="x" iconSize={16} label={t("취소")} onClick={cancel} />
         <IconButton
           icon="check"
           iconSize={16}
-          label="저장"
+          label={t("저장")}
           disabled={update.isPending}
           onClick={save}
         />
@@ -184,17 +185,18 @@ export function MemoList({
       { onSuccess: (memo) => setFresh(memo.id) },
     );
 
-  if (memos.isPending) return <p className={styles.hint}>불러오는 중…</p>;
+  if (memos.isPending)
+    return <p className={styles.hint}>{t("불러오는 중…")}</p>;
   if (memos.isError) {
     return (
       <EmptyState
         role="alert"
         icon="triangle-alert"
-        title="메모를 불러오지 못했어요"
-        description="연결을 확인한 뒤 다시 시도해 주세요."
+        title={t("메모를 불러오지 못했어요")}
+        description={t("작업공간::연결을 확인한 뒤 다시 시도해 주세요.")}
         action={
           <Button size="md" icon="refresh-cw" onClick={() => memos.refetch()}>
-            다시 시도
+            {t("다시 시도")}
           </Button>
         }
       />

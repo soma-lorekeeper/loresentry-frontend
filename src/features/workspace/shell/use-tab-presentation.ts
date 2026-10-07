@@ -4,6 +4,7 @@ import { useCallback, useMemo } from "react";
 
 import type { IconName } from "@/design-system/icons/icon";
 import { DOCUMENT_TYPE_META } from "@/domain/document-types";
+import { t } from "@/i18n";
 
 import type { WorkspaceTarget } from "../model/layout";
 import { indexNodes, isDocument } from "../model/tree";
@@ -30,7 +31,9 @@ export function useTabPresentation() {
       }
       return {
         icon: "file",
-        title: tree.isPending ? "불러오는 중" : "찾을 수 없는 파일",
+        title: tree.isPending
+          ? t("작업공간::불러오는 중")
+          : t("찾을 수 없는 파일"),
       };
     },
     [index, tree.isPending],

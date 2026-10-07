@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 
 import { EmptyState } from "@/design-system/primitives";
 import type { User } from "@/domain/models";
+import { t } from "@/i18n";
 import { useServices } from "@/services/services-context";
 
 import {
@@ -38,9 +39,11 @@ function Unavailable() {
     <main className={styles.shell}>
       <EmptyState
         icon="triangle-alert"
-        title="작업공간을 열 수 없어요"
-        description="프로젝트가 휴지통에 있거나 접근할 수 없어요. 프로젝트 목록에서 다시 선택해 주세요."
-        action={<Link href="/projects">프로젝트 목록으로 이동</Link>}
+        title={t("작업공간을 열 수 없어요")}
+        description={t(
+          "프로젝트가 휴지통에 있거나 접근할 수 없어요. 프로젝트 목록에서 다시 선택해 주세요.",
+        )}
+        action={<Link href="/projects">{t("프로젝트 목록으로 이동")}</Link>}
       />
     </main>
   );

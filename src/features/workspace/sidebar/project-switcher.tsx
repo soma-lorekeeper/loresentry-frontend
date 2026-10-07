@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { Icon, Menu, type MenuEntry } from "@/design-system/primitives";
 import { useProjects } from "@/features/projects/queries";
 import { workspaceHref } from "@/features/projects/project-list";
+import { t } from "@/i18n";
 
 import { useWorkspace } from "../workspace-context";
 import styles from "./sidebar.module.css";
@@ -20,7 +21,7 @@ export function ProjectSwitcher() {
   const entries: MenuEntry[] = [
     {
       id: "list",
-      label: "프로젝트 목록",
+      label: t("작업공간::프로젝트 목록"),
       icon: "list",
       onSelect: () => router.push("/projects"),
     },
@@ -49,7 +50,7 @@ export function ProjectSwitcher() {
         className={styles.switcher}
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-label={`프로젝트 전환, 현재 ${project.title}`}
+        aria-label={t("프로젝트 전환, 현재 {title}", { title: project.title })}
         onClick={() => setOpen((value) => !value)}
       >
         <Icon name={project.icon} size={15} />
@@ -60,7 +61,7 @@ export function ProjectSwitcher() {
         anchorRef={triggerRef}
         open={open}
         onOpenChange={setOpen}
-        label="프로젝트 전환"
+        label={t("프로젝트 전환")}
         entries={entries}
         itemHeight={36}
       />
