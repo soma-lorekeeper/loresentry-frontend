@@ -78,7 +78,9 @@ function Header({ onContact }: { onContact?: () => void }) {
           Lore Sentry
         </Link>
         <nav className={styles.nav} aria-label={t("랜딩 메뉴")}>
-          <a href="#intro">{t("서비스 소개")}</a>
+          <span className={styles.current} aria-current="page">
+            {t("서비스 소개")}
+          </span>
           {onContact && (
             <button type="button" onClick={onContact} aria-haspopup="dialog">
               {t("문의하기")}
