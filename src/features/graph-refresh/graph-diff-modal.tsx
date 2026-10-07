@@ -11,7 +11,11 @@ import {
   Modal,
   useToast,
 } from "@/design-system/primitives";
-import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
+import {
+  DOCUMENT_TYPE_META,
+  DOCUMENT_TYPE_SINGULAR_LABEL,
+  type DocumentType,
+} from "@/domain/document-types";
 import type { RefreshProposal, RefreshRun } from "@/domain/models";
 import { indexNodes, isDocument } from "@/features/workspace/model/tree";
 import { useFileTree } from "@/features/workspace/queries";
@@ -187,7 +191,11 @@ export function GraphDiffModal({
                     aria-current={proposal.fileId === selectedId || undefined}
                     onClick={() => setSelectedId(proposal.fileId)}
                   >
-                    <Icon name={meta.entityIcon} size={15} label={meta.label} />
+                    <Icon
+                      name={meta.entityIcon}
+                      size={15}
+                      label={DOCUMENT_TYPE_SINGULAR_LABEL[proposal.docType]}
+                    />
                     <span className={styles.itemTitle}>{proposal.title}</span>
                     {done ? (
                       <Icon name="check" size={15} label={t("확정")} />

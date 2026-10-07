@@ -10,7 +10,6 @@ export default {
   "문서를 불러오지 못했어요": "Couldn't load the document",
   "휴지통으로 옮겨졌거나 삭제된 문서예요.":
     "This document was moved to the trash or deleted.",
-  "잠시 후 다시 시도해 주세요.": "Try again in a moment.",
   "파일을 잠갔어요.": "File locked.",
   "잠금을 풀기 전까지는 편집할 수 없어요.":
     "You can't edit it until you unlock it.",
@@ -111,7 +110,6 @@ export default {
   "에피소드 없음": "No episode",
   "에피소드 이동": "Move to episode",
   "{label} 입력": (p) => `Add ${lower(p.label)}`,
-  별칭: "Alias",
   속성: "Properties",
   분류: "Category",
   "분류: {kind}": "Category: {kind}",

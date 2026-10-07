@@ -10,7 +10,11 @@ import {
   InlineNotice,
   Modal,
 } from "@/design-system/primitives";
-import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
+import {
+  DOCUMENT_TYPE_META,
+  DOCUMENT_TYPE_SINGULAR_LABEL,
+  type DocumentType,
+} from "@/domain/document-types";
 import type {
   DocumentContent,
   DocumentDraft,
@@ -116,7 +120,7 @@ function ComparePane({
           <dd>
             <span className={styles.type} data-kind={snapshot.docType}>
               <Icon name={meta.entityIcon} size={14} />
-              {meta.label}
+              {DOCUMENT_TYPE_SINGULAR_LABEL[snapshot.docType]}
             </span>
           </dd>
         </div>

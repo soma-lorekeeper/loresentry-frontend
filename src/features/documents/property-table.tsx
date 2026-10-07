@@ -10,10 +10,11 @@ import {
   type MenuEntry,
 } from "@/design-system/primitives";
 import {
-  DOCUMENT_TYPE_META,
   DOCUMENT_TYPES,
-  relationKeyOf,
+  DOCUMENT_TYPE_META,
+  DOCUMENT_TYPE_SINGULAR_LABEL,
   SETTING_DOCUMENT_TYPES,
+  relationKeyOf,
   type DocumentType,
 } from "@/domain/document-types";
 import type {
@@ -551,11 +552,13 @@ export function PropertyTable({
               disabled={readOnly || docType === "manuscript"}
               aria-haspopup="menu"
               aria-expanded={typeOpen}
-              aria-label={t("분류: {kind}", { kind: meta.label })}
+              aria-label={t("분류: {kind}", {
+                kind: DOCUMENT_TYPE_SINGULAR_LABEL[docType],
+              })}
               onClick={() => setTypeOpen(true)}
             >
               <Icon name={meta.entityIcon} size={14} />
-              {meta.label}
+              {DOCUMENT_TYPE_SINGULAR_LABEL[docType]}
             </button>
             <Menu
               anchorRef={typeRef}
@@ -564,7 +567,7 @@ export function PropertyTable({
               label={t("분류 변경")}
               entries={SETTING_DOCUMENT_TYPES.map((type) => ({
                 id: type,
-                label: DOCUMENT_TYPE_META[type].label,
+                label: DOCUMENT_TYPE_SINGULAR_LABEL[type],
                 icon: DOCUMENT_TYPE_META[type].entityIcon,
                 checked: type === docType,
                 onSelect: () => type !== docType && onChangeType(type),

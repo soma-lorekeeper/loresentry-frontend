@@ -33,4 +33,6 @@ export default {
   "언어 바꾸기": "Change language",
   "{title} 더보기": "More actions for {title}",
   "{title} 메뉴": "{title} menu",
+  "잠시 후 다시 시도해 주세요.": "Try again in a moment.",
+  별칭: "Alias",
 } satisfies Messages;

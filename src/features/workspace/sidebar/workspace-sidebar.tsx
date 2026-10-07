@@ -14,8 +14,9 @@ import {
   type MenuEntry,
 } from "@/design-system/primitives";
 import {
-  DOCUMENT_TYPE_META,
   DOCUMENT_TYPES,
+  DOCUMENT_TYPE_META,
+  DOCUMENT_TYPE_SINGULAR_LABEL,
   type DocumentType,
 } from "@/domain/document-types";
 import type { FileNode, FolderNode } from "@/domain/models";
@@ -247,7 +248,7 @@ export function WorkspaceSidebar() {
   const createEntries = (parentId: string): MenuEntry[] =>
     DOCUMENT_TYPES.map((type) => ({
       id: `create-${type}`,
-      label: DOCUMENT_TYPE_META[type].label,
+      label: DOCUMENT_TYPE_SINGULAR_LABEL[type],
       icon: DOCUMENT_TYPE_META[type].entityIcon,
       onSelect: () => {
         const parent = index.get(parentId);

@@ -4,8 +4,9 @@ import { useMemo, useRef } from "react";
 
 import { Button, Icon } from "@/design-system/primitives";
 import {
-  DOCUMENT_TYPE_META,
   DOCUMENT_TYPES,
+  DOCUMENT_TYPE_META,
+  DOCUMENT_TYPE_SINGULAR_LABEL,
   type DocumentType,
 } from "@/domain/document-types";
 import type { DocumentNode } from "@/domain/models";
@@ -148,7 +149,7 @@ export function NewTabView() {
               onClick={() => createDocument(type)}
             >
               <Icon name={DOCUMENT_TYPE_META[type].entityIcon} size={16} />
-              {DOCUMENT_TYPE_META[type].label}
+              {DOCUMENT_TYPE_SINGULAR_LABEL[type]}
             </button>
           ))}
         </div>

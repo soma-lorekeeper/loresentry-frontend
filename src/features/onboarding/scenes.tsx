@@ -1,7 +1,11 @@
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 
 import { Icon, type IconName } from "@/design-system/primitives";
-import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
+import {
+  DOCUMENT_TYPE_META,
+  DOCUMENT_TYPE_SINGULAR_LABEL,
+  type DocumentType,
+} from "@/domain/document-types";
 import { LOCALE, t, tRich } from "@/i18n";
 import { cx } from "@/shared/cx";
 
@@ -23,6 +27,7 @@ const iconOf = (type: DocumentType) => DOCUMENT_TYPE_META[type].entityIcon;
 const nodeColor = (type: DocumentType) =>
   `var(--lk-${DOCUMENT_TYPE_META[type].nodeColor})`;
 const labelOf = (type: DocumentType) => DOCUMENT_TYPE_META[type].label;
+const kindOf = (type: DocumentType) => DOCUMENT_TYPE_SINGULAR_LABEL[type];
 const relationOf = (type: DocumentType) =>
   DOCUMENT_TYPE_META[type].relationLabel;
 
@@ -321,7 +326,7 @@ function NewTabView() {
             <span className={styles.createIcon}>
               <Icon name={iconOf(type)} size={14} />
             </span>
-            {labelOf(type)}
+            {kindOf(type)}
           </Enter>
         ))}
       </div>
@@ -423,7 +428,7 @@ function DocumentView() {
           <PropertyRow icon="tag" label={t("무대::분류")} delay={120}>
             <span className={styles.propType}>
               <Icon name={iconOf("character")} size={12} />
-              {labelOf("character")}
+              {kindOf("character")}
             </span>
           </PropertyRow>
           <PropertyRow icon="type" label={t("무대::설명")} delay={160}>
@@ -776,8 +781,8 @@ const DIFF_ROWS: {
 }[] = [
   {
     label: t("무대::분류"),
-    current: labelOf("character"),
-    next: labelOf("character"),
+    current: kindOf("character"),
+    next: kindOf("character"),
   },
   {
     label: t("무대::설명"),
@@ -1069,7 +1074,7 @@ function FilesView() {
             <PropertyRow icon="tag" label={t("무대::분류")} delay={300}>
               <span className={styles.propType}>
                 <Icon name={iconOf("character")} size={12} />
-                {labelOf("character")}
+                {kindOf("character")}
               </span>
             </PropertyRow>
             <PropertyRow icon="type" label={t("무대::설명")} delay={340}>

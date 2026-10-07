@@ -20,7 +20,11 @@ import {
 } from "react";
 
 import { Icon, IconButton, type IconName } from "@/design-system/primitives";
-import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
+import {
+  DOCUMENT_TYPE_META,
+  DOCUMENT_TYPE_SINGULAR_LABEL,
+  type DocumentType,
+} from "@/domain/document-types";
 import { t } from "@/i18n";
 import type {
   DocumentDraft,
@@ -432,7 +436,7 @@ export function DocumentCompare({
           {row("type", t("분류"), false, () => (
             <span className={styles.type} data-kind={proposal.docType}>
               <Icon name={meta.entityIcon} size={14} />
-              {meta.label}
+              {DOCUMENT_TYPE_SINGULAR_LABEL[proposal.docType]}
             </span>
           ))}
 

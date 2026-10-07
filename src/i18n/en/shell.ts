@@ -97,7 +97,6 @@ export default {
   "프로젝트를 복원했어요.": "Project restored.",
   "목록에서 보기": "View in projects",
   "휴지통을 불러오지 못했어요": "Couldn't load the trash",
-  "잠시 후 다시 시도해 주세요.": "Try again in a moment.",
   "휴지통이 비어 있어요": "The trash is empty",
   "휴지통으로 이동한 프로젝트가 여기에 보관돼요.":
     "Projects you move to the trash are kept here.",
@@ -229,7 +228,6 @@ export default {
     "This document was saved somewhere else first.",
   "내보내기::분류": "Type",
   "저장하지 못했어요.": "Couldn't save.",
-  별칭: "Alias",
   "파일을 찾을 수 없어요.": "Couldn't find the file.",
   "{what}는 아직 서버에 저장할 수 없어요.":
     "{what} isn't supported by the server yet.",

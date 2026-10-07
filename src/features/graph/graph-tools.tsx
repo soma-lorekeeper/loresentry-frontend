@@ -3,7 +3,10 @@
 import { useMemo, useRef, useState, type KeyboardEvent } from "react";
 
 import { Icon, IconButton, Popover } from "@/design-system/primitives";
-import { DOCUMENT_TYPE_META } from "@/domain/document-types";
+import {
+  DOCUMENT_TYPE_META,
+  DOCUMENT_TYPE_SINGULAR_LABEL,
+} from "@/domain/document-types";
 import { t } from "@/i18n";
 import { cx } from "@/shared/cx";
 
@@ -100,7 +103,7 @@ function SearchPanel({
                 />
                 <span className={styles.resultName}>{node.name}</span>
                 <span className={styles.resultKind}>
-                  {DOCUMENT_TYPE_META[node.kind].label}
+                  {DOCUMENT_TYPE_SINGULAR_LABEL[node.kind]}
                 </span>
               </li>
             ))
