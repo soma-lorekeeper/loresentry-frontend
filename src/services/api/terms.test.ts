@@ -24,6 +24,7 @@ function reply(status: number, body?: unknown) {
   );
 }
 afterEach(() => {
+  window.localStorage.removeItem("ls.auth-transition");
   vi.unstubAllGlobals();
   clearMockRules();
   resetMockTerms();
@@ -50,6 +51,12 @@ describe("terms API", () => {
         body: JSON.stringify({ terms_version_id: id }),
       }),
     );
+  });
+  it("reads terms while the Google login navigation is still marked", async () => {
+    window.localStorage.setItem("ls.auth-transition", "login:navigation");
+    reply(200, terms);
+    expect(await auth().getTerms()).toMatchObject({ termsVersionId: id });
+    expect(fetch).toHaveBeenCalledOnce();
   });
   it.each([
     null,

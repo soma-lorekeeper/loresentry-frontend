@@ -103,7 +103,8 @@ export class ApiClient {
       const payload = response.status === 204 ? null : await readJson(response);
       return { status: response.status, ok: response.ok, payload };
     };
-    return options.authTransition || path === "/auth/terms"
+    const route = path.split("?", 1)[0];
+    return options.authTransition || route === "/auth/terms"
       ? exchange()
       : withSessionRequest(exchange);
   }
