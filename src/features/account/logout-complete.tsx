@@ -24,11 +24,7 @@ export function LogoutComplete() {
     <main className={styles.page}>
       <p className={styles.brand}>Lore Sentry</p>
       <section className={styles.completion} aria-labelledby="logout-title">
-        <p className={styles.announcement} role="status">
-          <Icon name="circle-check" size={16} />
-          세션이 안전하게 종료되었습니다.
-        </p>
-        <div className={styles.completionHeading}>
+        <div className={styles.completionHeading} role="status">
           <span className={styles.completionIcon}>
             <Icon name="log-out" size={24} />
           </span>

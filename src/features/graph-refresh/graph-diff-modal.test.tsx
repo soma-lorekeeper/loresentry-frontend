@@ -125,4 +125,64 @@ describe("GraphDiffModal", () => {
     expect(getDb().documents[harin.fileId].body).toEqual(harin.proposed!.body);
     expect(getDb().refreshRuns[GLASS_GARDEN_ID].status).toBe("APPLIED");
   });
+
+  it("resolves a document by editing either side in place", async () => {
+    const actor = userEvent.setup();
+    const draft = (value: string) => ({
+      title: "하린",
+      body: bodyFromPlainText("가"),
+      properties: [
+        {
+          id: "d",
+          kind: "text" as const,
+          key: "description",
+          label: "설명",
+          value,
+        },
+      ],
+    });
+    const run: RefreshRun = {
+      id: "run-edit",
+      projectId: GLASS_GARDEN_ID,
+      status: "READY",
+      startedAt: null,
+      sourceFileIds: [],
+      proposals: [
+        {
+          id: "p1",
+          kind: "modified",
+          fileId: "glass-garden:c-harin",
+          title: "하린",
+          docType: "character",
+          baseRevisionNo: 1,
+          current: draft("정원사"),
+          proposed: draft("기록단의 정원사"),
+        },
+      ],
+    };
+    renderWithServices(
+      <WorkspaceProvider
+        project={getDb().projects.find((p) => p.id === GLASS_GARDEN_ID)!}
+        user={user}
+        initialLayout={createLayout()}
+      >
+        <GraphDiffModal run={run} open onClose={() => {}} />
+      </WorkspaceProvider>,
+    );
+    const dialog = await screen.findByRole("dialog");
+    await actor.click(within(dialog).getByRole("button", { name: /하린/ }));
+    expect(within(dialog).getByRole("status")).toHaveTextContent("1군데");
+
+    const right = within(dialog).getByRole("textbox", {
+      name: "신규 버전 설명",
+    });
+    await actor.clear(right);
+    await actor.type(right, "정원사");
+    expect(within(dialog).getByRole("status")).toHaveTextContent(
+      "두 버전이 같아져서",
+    );
+    expect(
+      within(dialog).getByRole("button", { name: "반영 확정" }),
+    ).toBeEnabled();
+  });
 });

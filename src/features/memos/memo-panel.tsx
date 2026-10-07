@@ -125,7 +125,6 @@ export function MemoPanel({
           onClick={onClose}
         />
         <h2 className={styles.title}>메모</h2>
-        <span className={styles.hint}>메모 버튼을 누르면 닫혀요</span>
         <Segmented
           label="메모 위치"
           options={DOCK_OPTIONS}

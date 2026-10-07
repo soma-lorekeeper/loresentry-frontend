@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 
-import { Button, Icon, IconButton } from "@/design-system/primitives";
+import { Icon, IconButton } from "@/design-system/primitives";
 
 import { type WorkspacePane } from "../model/layout";
 import { useWorkspace } from "../workspace-context";
@@ -15,6 +15,13 @@ export function TabBar({ pane }: { pane: WorkspacePane }) {
   const listRef = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState<string | null>(null);
   const [dropTarget, setDropTarget] = useState<string | null>(null);
+
+  useEffect(() => {
+    const selected = listRef.current?.querySelector<HTMLElement>(
+      '[role="tab"][aria-selected="true"]',
+    );
+    selected?.scrollIntoView?.({ inline: "nearest", block: "nearest" });
+  }, [pane.activeTabId, pane.tabs.length]);
 
   const focusTab = (index: number) => {
     const tabs = listRef.current?.querySelectorAll<HTMLElement>('[role="tab"]');
@@ -56,7 +63,7 @@ export function TabBar({ pane }: { pane: WorkspacePane }) {
       >
         {pane.tabs.map((tab, index) => {
           const selected = tab.id === pane.activeTabId;
-          const { icon, title } = present(tab.target, pane.id);
+          const { icon, title } = present(tab.target);
           return (
             <div
               key={tab.id}
@@ -134,20 +141,6 @@ export function TabBar({ pane }: { pane: WorkspacePane }) {
           dispatch({ type: "open", target: { kind: "new" }, paneId: pane.id })
         }
       />
-      <span className={styles.spacer} />
-      <Button
-        icon="sparkles"
-        className={styles.chat}
-        aria-pressed={layout.panels.aiChatOpen}
-        onClick={() =>
-          dispatch({
-            type: "setPanels",
-            panels: { aiChatOpen: !layout.panels.aiChatOpen },
-          })
-        }
-      >
-        AI 챗
-      </Button>
     </div>
   );
 }

@@ -11,4 +11,4 @@ src/design-system/tokens/pencil-variables.json
 src/design-system/screens/pencil-screen-catalog.json
 
 .impeccable/
-src/features/landing/fonts/
+src/design-system/fonts/

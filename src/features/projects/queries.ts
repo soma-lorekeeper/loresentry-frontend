@@ -59,14 +59,26 @@ export function useCreateSampleProject() {
   return useProjectMutation(() => services.projects.createSample());
 }
 
-export function useRenameProject() {
+export function useUpdateProject() {
   const services = useServices();
   const queryClient = useQueryClient();
   return useProjectMutation(
-    ({ projectId, title }: { projectId: string; title: string }) =>
-      services.projects.rename(projectId, title),
-    (project: Project) =>
-      queryClient.setQueryData(queryKeys.project(project.id), project),
+    ({
+      projectId,
+      title,
+      description,
+    }: {
+      projectId: string;
+      title: string;
+      description: string;
+    }) => services.projects.saveSettings(projectId, { title, description }),
+    (project: Project) => {
+      queryClient.setQueryData(queryKeys.project(project.id), project);
+      queryClient.setQueryData(queryKeys.projectSettings(project.id), {
+        title: project.title,
+        description: project.description,
+      });
+    },
   );
 }
 

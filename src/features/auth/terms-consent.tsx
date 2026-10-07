@@ -119,9 +119,7 @@ export function TermsConsent({
       open
       onClose={onClose}
       size="lg"
-      icon="file-text"
       title="서비스 이용약관 동의"
-      description="Lore Sentry를 이용하려면 아래 약관을 확인하고 동의해 주세요."
       closeLabel="약관 닫기"
       closeDisabled={submitting}
       dismissible={!submitting}

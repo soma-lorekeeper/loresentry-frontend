@@ -8,9 +8,6 @@ import {
   isUnavailable,
   PreparingState,
 } from "@/features/common/preparing-state";
-import { useFeedback } from "@/features/feedback/feedback-provider";
-import type { WorkspaceViewProps } from "@/features/workspace/views/view-types";
-import { useWorkspace } from "@/features/workspace/workspace-context";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 import { cx } from "@/shared/cx";
@@ -18,8 +15,7 @@ import { cx } from "@/shared/cx";
 import { searchTopics, type GuideTopic } from "./guide-content";
 import styles from "./workspace-help-view.module.css";
 
-type HelpPage =
-  { kind: "home" } | { kind: "topics" } | { kind: "topic"; id: string };
+type HelpPage = { kind: "topics" } | { kind: "topic"; id: string };
 
 function useGuides() {
   const services = useServices();
@@ -35,83 +31,18 @@ function longDate(iso: string) {
   return `${year}년 ${month}월 ${day}일`;
 }
 
-function HelpHome({
-  onGuide,
-  onFeedback,
-  onBack,
-}: {
-  onGuide: () => void;
-  onFeedback: () => void;
-  onBack: () => void;
-}) {
-  return (
-    <div className={styles.home}>
-      <header className={styles.homeHeader}>
-        <div className={styles.homeCopy}>
-          <h1 className={styles.pageTitle}>도움말</h1>
-          <p className={styles.secondary}>
-            Lore Sentry 사용 방법을 확인하거나 의견을 보내세요.
-          </p>
-        </div>
-        <Button size="md" icon="arrow-left" onClick={onBack}>
-          작업공간으로 돌아가기
-        </Button>
-      </header>
-      <div className={styles.cards}>
-        <button type="button" className={styles.card} onClick={onGuide}>
-          <span className={styles.cardHead}>
-            <span className={styles.cardIcon}>
-              <Icon name="book-open" size={17} />
-            </span>
-            <span className={styles.cardTitle}>사용 가이드</span>
-            <Icon name="arrow-right" size={17} className={styles.cardArrow} />
-          </span>
-          <span className={styles.secondary}>
-            작업공간과 파일 편집 방법을 단계별로 확인합니다.
-          </span>
-        </button>
-        <button
-          type="button"
-          className={styles.card}
-          onClick={onFeedback}
-          aria-haspopup="dialog"
-        >
-          <span className={styles.cardHead}>
-            <span className={styles.cardIcon}>
-              <Icon name="message-square-plus" size={17} />
-            </span>
-            <span className={styles.cardTitle}>피드백 보내기</span>
-            <Icon name="arrow-right" size={17} className={styles.cardArrow} />
-          </span>
-          <span className={styles.secondary}>
-            불편했던 점이나 있었으면 하는 기능을 바로 보내요.
-          </span>
-        </button>
-      </div>
-    </div>
-  );
-}
-
 function GuideTopics({
   topics,
   onOpen,
-  onBack,
 }: {
   topics: GuideTopic[];
   onOpen: (id: string) => void;
-  onBack: () => void;
 }) {
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const matches = searchTopics(query, topics);
   return (
-    <div className={styles.home}>
-      <header className={styles.inlineHeader}>
-        <Button size="md" icon="arrow-left" onClick={onBack}>
-          도움말로 돌아가기
-        </Button>
-        <h1 className={styles.pageTitle}>사용 가이드</h1>
-      </header>
+    <div className={styles.listBody}>
       <div className={styles.search} role="search">
         <Icon name="search" size={17} />
         <input
@@ -140,11 +71,7 @@ function GuideTopics({
       </div>
       {matches.length === 0 ? (
         <div className={styles.panel}>
-          <EmptyState
-            icon="search-x"
-            title="일치하는 가이드가 없습니다"
-            description="다른 검색어를 입력하거나 주제 목록으로 돌아가세요."
-          />
+          <EmptyState icon="search-x" title="검색 결과가 없어요" />
         </div>
       ) : (
         <ul className={styles.topics} aria-label="가이드 주제">
@@ -155,9 +82,8 @@ function GuideTopics({
                 className={styles.topic}
                 onClick={() => onOpen(topic.id)}
               >
-                <Icon name={topic.icon} size={17} />
                 <span className={styles.topicTitle}>{topic.title}</span>
-                <Icon name="chevron-right" size={16} />
+                <span className={styles.topicSummary}>{topic.summary}</span>
               </button>
             </li>
           ))}
@@ -229,7 +155,6 @@ function GuideArticle({
             className={styles.articleSection}
           >
             <h2 className={styles.sectionTitle}>
-              <span aria-hidden="true">#</span>
               {index + 1}. {section.title}
             </h2>
             <p className={styles.secondary}>{section.body}</p>
@@ -278,25 +203,10 @@ function GuideArticle({
   );
 }
 
-export function WorkspaceHelpView({ tab, paneId }: WorkspaceViewProps) {
-  const { setTabLabel, closeTab } = useWorkspace();
-  const feedback = useFeedback();
+export function WorkspaceHelpView() {
   const guides = useGuides();
-  const [page, setPage] = useState<HelpPage>({ kind: "home" });
+  const [page, setPage] = useState<HelpPage>({ kind: "topics" });
   const viewRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setTabLabel(
-      paneId,
-      tab.id,
-      page.kind === "home" ? null : { icon: "book-open", title: "사용 가이드" },
-    );
-  }, [page.kind, paneId, setTabLabel, tab.id]);
-
-  useEffect(
-    () => () => setTabLabel(paneId, tab.id, null),
-    [paneId, setTabLabel, tab.id],
-  );
 
   const go = (next: HelpPage) => {
     setPage(next);
@@ -344,35 +254,21 @@ export function WorkspaceHelpView({ tab, paneId }: WorkspaceViewProps) {
 
   return (
     <div ref={viewRef} className={styles.view}>
-      {page.kind === "home" && (
-        <HelpHome
-          onGuide={() => go({ kind: "topics" })}
-          onFeedback={feedback.open}
-          onBack={() => closeTab(paneId, tab.id)}
-        />
+      {page.kind === "topics" && (
+        <div className={styles.home}>
+          <h1 className={styles.pageTitle}>사용 가이드</h1>
+          {guides.isPending ? (
+            loading
+          ) : guides.isError ? (
+            loadError
+          ) : (
+            <GuideTopics
+              topics={guides.data}
+              onOpen={(id) => go({ kind: "topic", id })}
+            />
+          )}
+        </div>
       )}
-      {page.kind === "topics" &&
-        (guides.isPending || guides.isError ? (
-          <div className={styles.home}>
-            <header className={styles.inlineHeader}>
-              <Button
-                size="md"
-                icon="arrow-left"
-                onClick={() => go({ kind: "home" })}
-              >
-                도움말로 돌아가기
-              </Button>
-              <h1 className={styles.pageTitle}>사용 가이드</h1>
-            </header>
-            {guides.isPending ? loading : loadError}
-          </div>
-        ) : (
-          <GuideTopics
-            topics={guides.data}
-            onOpen={(id) => go({ kind: "topic", id })}
-            onBack={() => go({ kind: "home" })}
-          />
-        ))}
       {page.kind === "topic" && (
         <div className={styles.home}>
           <nav className={styles.inlineHeader} aria-label="위치">

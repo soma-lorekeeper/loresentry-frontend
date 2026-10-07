@@ -4,7 +4,6 @@ import { useId, useState } from "react";
 
 import {
   Button,
-  Icon,
   IconButton,
   Modal,
   SaveBar,
@@ -18,21 +17,17 @@ import { isServiceError } from "@/services/errors";
 import styles from "./account.module.css";
 
 const COPY = {
-  unchanged: {
-    message: "변경한 내용이 없어요",
-    detail: "이름을 바꾸면 저장할 수 있어요.",
-  },
   changed: {
     message: "저장되지 않은 이름 변경",
-    detail: "저장하거나 마지막 이름으로 되돌리세요.",
+    detail: "",
   },
   saving: {
     message: "계정 정보를 저장하고 있습니다",
-    detail: "잠시만 기다려 주세요.",
+    detail: "",
   },
   saved: {
     message: "계정 정보가 저장되었습니다",
-    detail: "이제 창을 닫아도 안전합니다.",
+    detail: "",
   },
   error: {
     message: "계정 정보를 저장하지 못했어요",
@@ -92,7 +87,7 @@ function AccountSettingsForm({
     ? "saving"
     : update.isError
       ? "error"
-      : changed && !invalid
+      : changed
         ? "changed"
         : justSaved
           ? "saved"
@@ -119,15 +114,9 @@ function AccountSettingsForm({
   return (
     <div className={styles.body} aria-labelledby={titleId}>
       <div className={styles.header}>
-        <div className={styles.headerCopy}>
-          <h2 id={titleId} className={styles.title}>
-            계정 설정
-          </h2>
-          <p className={styles.description}>
-            표시 이름을 관리해요. 로그인에 쓰는 Google 계정 이메일은 바꿀 수
-            없어요.
-          </p>
-        </div>
+        <h2 id={titleId} className={styles.title}>
+          계정 설정
+        </h2>
         <IconButton
           icon="x"
           label="계정 설정 닫기"
@@ -152,7 +141,6 @@ function AccountSettingsForm({
             setJustSaved(false);
             update.reset();
           }}
-          hint="프로젝트 목록과 협업 화면에 표시됩니다."
           error={invalid ? "이름을 입력해 주세요." : validationMessage}
           readOnly={update.isPending}
           autoComplete="name"
@@ -163,12 +151,12 @@ function AccountSettingsForm({
           labelHint="Google 계정"
           value={user.email}
           readOnly
-          hint="로그인 계정 이메일 · 변경할 수 없습니다."
         />
       </form>
       <SaveBar
         state={state}
         copy={COPY}
+        saveDisabled={invalid}
         onSave={save}
         onCancel={() => {
           setName(savedName);
@@ -176,9 +164,6 @@ function AccountSettingsForm({
         }}
       />
       <section className={styles.danger} aria-labelledby={`${titleId}-delete`}>
-        <span className={styles.dangerIcon}>
-          <Icon name="user-x" size={17} />
-        </span>
         <div className={styles.dangerCopy}>
           <h3 id={`${titleId}-delete`} className={styles.dangerTitle}>
             계정 삭제

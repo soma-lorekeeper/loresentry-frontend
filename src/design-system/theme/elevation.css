@@ -1,0 +1,40 @@
+/*
+ * 높낮이. 회색 책상(--lk-color-bg-canvas) 위에 흰 작업 면이 뜨는 구조라, 선 대신 그림자가 위계를
+ * 맡는다. 그림자는 여러 겹을 한 값에 담아야 해서 Pencil 변수(문자열은 따옴표로 감싸 내보낸다)로
+ * 옮기지 못하고 여기에 둔다.
+ *
+ * lift   작업 면·카드처럼 늘 떠 있는 것
+ * raise  눌러 볼 수 있는 카드를 가리켰을 때
+ * pill   책상 위에서 고른 항목(사이드바 줄, 탭, 분할 단추)
+ * float  메뉴·팝오버
+ * modal  대화상자
+ */
+
+:root,
+:root[data-theme="dark"] {
+  --lk-shadow-lift:
+    0 0 0 1px rgb(255 255 255 / 4%), 0 18px 40px -22px rgb(0 0 0 / 80%);
+  --lk-shadow-raise:
+    0 0 0 1px rgb(255 255 255 / 7%), 0 26px 50px -22px rgb(0 0 0 / 85%);
+  --lk-shadow-pill:
+    0 0 0 1px rgb(255 255 255 / 7%), 0 4px 12px -6px rgb(0 0 0 / 70%);
+  --lk-shadow-float:
+    0 0 0 1px rgb(255 255 255 / 6%), 0 20px 44px -14px rgb(0 0 0 / 75%);
+  --lk-shadow-modal:
+    0 0 0 1px rgb(255 255 255 / 6%), 0 40px 90px -30px rgb(0 0 0 / 85%);
+  --lk-focus-ring: 0 0 0 2px rgb(169 199 208 / 45%);
+}
+
+:root[data-theme="light"] {
+  --lk-shadow-lift:
+    0 1px 2px rgb(22 32 42 / 5%), 0 14px 34px -18px rgb(22 32 42 / 24%);
+  --lk-shadow-raise:
+    0 2px 4px rgb(22 32 42 / 6%), 0 22px 44px -20px rgb(22 32 42 / 32%);
+  --lk-shadow-pill:
+    0 1px 2px rgb(22 32 42 / 8%), 0 4px 12px -6px rgb(22 32 42 / 22%);
+  --lk-shadow-float:
+    0 0 0 1px rgb(22 32 42 / 7%), 0 18px 40px -14px rgb(22 32 42 / 30%);
+  --lk-shadow-modal:
+    0 0 0 1px rgb(22 32 42 / 6%), 0 40px 90px -30px rgb(22 32 42 / 45%);
+  --lk-focus-ring: 0 0 0 2px rgb(28 96 112 / 35%);
+}

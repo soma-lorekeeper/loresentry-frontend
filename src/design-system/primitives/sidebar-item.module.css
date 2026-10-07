@@ -3,9 +3,12 @@
   align-items: center;
   gap: var(--lk-space-2);
   width: 100%;
-  height: 32px;
+  height: 34px;
   padding: 0 var(--lk-space-3);
   border-radius: var(--lk-radius-control);
+  transition:
+    background-color 140ms var(--lk-ease),
+    box-shadow 140ms var(--lk-ease);
   color: var(--lk-color-text-primary);
   font-size: var(--lk-font-size-body);
   text-align: left;
@@ -22,7 +25,13 @@
 
 .item[aria-current="page"],
 .item[data-selected="true"] {
-  background: var(--lk-color-state-selected);
+  background: var(--lk-color-surface-pill);
+  box-shadow: var(--lk-shadow-pill);
+}
+
+.item:focus-visible {
+  outline: none;
+  box-shadow: var(--lk-focus-ring);
 }
 
 .strong[aria-current="page"],

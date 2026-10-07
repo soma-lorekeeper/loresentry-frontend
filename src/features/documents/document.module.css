@@ -30,13 +30,24 @@
   width: 100%;
   max-width: calc(var(--lk-doc-content-width) + var(--lk-space-7) * 2);
   margin: 0 auto;
-  padding: 56px var(--lk-space-7) 120px;
+  padding: 64px var(--lk-space-7) 120px;
 }
 
 .titleRow {
   display: flex;
   align-items: center;
   gap: var(--lk-space-1);
+}
+
+/* 제목 앞의 점은 문서 종류 색이다. 종류 이름은 바로 아래 속성 표의 분류 줄이 말한다. */
+.titleRow::before {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  margin-right: var(--lk-space-3);
+  border-radius: 50%;
+  background: var(--kind, var(--lk-color-border-default));
+  content: "";
 }
 
 .title {
@@ -47,9 +58,11 @@
   outline: none;
   background: transparent;
   color: var(--lk-color-text-primary);
-  font-size: var(--lk-font-size-manuscript-title);
-  font-weight: 700;
-  line-height: var(--lk-line-height-manuscript-title);
+  font-family: var(--lk-font-stack-display);
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: var(--lk-line-height-display);
   field-sizing: content;
 }
 
@@ -226,10 +239,9 @@
   width: min(680px, calc(100% - 32px));
   height: 44px;
   padding: 0 var(--lk-space-1) 0 var(--lk-space-3);
-  border: 1px solid var(--lk-color-border-default);
-  border-radius: var(--lk-radius-control);
+  border-radius: var(--lk-radius-card);
   background: var(--lk-color-surface-raised);
-  box-shadow: 0 8px 24px var(--lk-color-shadow-menu);
+  box-shadow: var(--lk-shadow-float);
   transform: translateX(-50%);
 }
 

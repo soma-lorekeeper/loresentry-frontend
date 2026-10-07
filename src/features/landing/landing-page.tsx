@@ -10,11 +10,11 @@ import { GoogleMark } from "@/features/auth/google-mark";
 import { useSession } from "@/features/auth/session-gate";
 import { cx } from "@/shared/cx";
 
+import { ContactDialog } from "./contact-dialog";
 import { SceneFrame } from "./scene-frame";
 import { StoryThread } from "./story-thread";
 import { useStartWriting } from "./use-start-writing";
 import styles from "./landing.module.css";
-import "./fonts/wanted-sans/WantedSansVariable.css";
 
 function useScrolled() {
   const [scrolled, setScrolled] = useState(false);
@@ -63,10 +63,9 @@ function StartButton({ size = "lg" }: { size?: "sm" | "lg" }) {
   );
 }
 
-function Header() {
+function Header({ onContact }: { onContact?: () => void }) {
   const scrolled = useScrolled();
   const session = useSession();
-  const { contactEmail } = useRuntimeConfig();
   return (
     <header className={styles.header} data-scrolled={scrolled || undefined}>
       <div className={styles.headerInner}>
@@ -78,9 +77,11 @@ function Header() {
         </Link>
         <nav className={styles.nav} aria-label="랜딩 메뉴">
           <a href="#intro">서비스 소개</a>
-          <a href="#organize">기능</a>
-          <a href="#refresh">AI 최신화</a>
-          {contactEmail && <a href={`mailto:${contactEmail}`}>문의하기</a>}
+          {onContact && (
+            <button type="button" onClick={onContact} aria-haspopup="dialog">
+              문의하기
+            </button>
+          )}
         </nav>
         <div className={styles.headerActions}>
           {!session.data && (
@@ -154,9 +155,14 @@ function Chapter({
   );
 }
 
-function Footer() {
-  const { contactEmail, termsOfServiceUrl, privacyPolicyUrl } =
-    useRuntimeConfig();
+function Footer({
+  contactEmail,
+  onContact,
+}: {
+  contactEmail?: string;
+  onContact?: () => void;
+}) {
+  const { termsOfServiceUrl, privacyPolicyUrl } = useRuntimeConfig();
   return (
     <footer className={styles.footer}>
       <div className={styles.footerInner}>
@@ -170,8 +176,10 @@ function Footer() {
           <p>SW마에스트로 프로젝트로 만들고 있어요.</p>
         </div>
         <nav className={styles.footerLinks} aria-label="바닥글">
-          {contactEmail && (
-            <a href={`mailto:${contactEmail}`}>문의하기 · {contactEmail}</a>
+          {contactEmail && onContact && (
+            <button type="button" onClick={onContact} aria-haspopup="dialog">
+              문의하기 · {contactEmail}
+            </button>
           )}
           <a href={termsOfServiceUrl} target="_blank" rel="noreferrer">
             이용약관
@@ -188,35 +196,34 @@ function Footer() {
 
 export function LandingPage() {
   const [story, setStory] = useState<HTMLElement | null>(null);
+  const { contactEmail } = useRuntimeConfig();
+  const [contactOpen, setContactOpen] = useState(false);
+  const openContact = contactEmail ? () => setContactOpen(true) : undefined;
 
   return (
     <div className={styles.page}>
       <a className={styles.skip} href="#main">
         본문으로 건너뛰기
       </a>
-      <Header />
+      <Header onContact={openContact} />
 
       <main id="main" ref={setStory} className={styles.story}>
         <StoryThread root={story} />
 
         <section className={styles.hero} aria-labelledby="hero-title">
           <h1 id="hero-title" className={styles.h1}>
-            원고 한 줄에서
+            이야기는 작가가 쓰고,
             <br />
-            작품 전체가 이어져요
+            세계관은 AI가 지켜요
           </h1>
           <p className={styles.lede}>
-            웹소설 회차와 인물·장소·세계관 문서를 한 작업공간에 두고 써요. 속성
-            표로 이어 둔 관계가 그래프와 타임라인으로 바로 보여요.
+            웹소설 작가를 위한 집필 에디터이자 AI 에이전트예요.
+            <br />
+            회차를 쓰면 설정 문서에 바뀔 점을 AI가 찾아 두고, 반영은 작가가
+            골라요.
           </p>
           <div className={styles.ctaRow}>
             <StartButton />
-            <a
-              className={cx(styles.button, styles.secondary, styles.lg)}
-              href="#intro"
-            >
-              둘러보기
-            </a>
           </div>
           <SceneFrame
             scene="editor"
@@ -436,7 +443,14 @@ export function LandingPage() {
         </section>
       </main>
 
-      <Footer />
+      <Footer contactEmail={contactEmail} onContact={openContact} />
+      {contactEmail && (
+        <ContactDialog
+          email={contactEmail}
+          open={contactOpen}
+          onClose={() => setContactOpen(false)}
+        />
+      )}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { SidebarButton, SidebarLink } from "@/design-system/primitives";
 import type { User } from "@/domain/models";
 import { useFeedback } from "@/features/feedback/feedback-provider";
+import { cx } from "@/shared/cx";
 
 import { SiteFooter } from "./site-footer";
 import styles from "./project-shell.module.css";
@@ -16,7 +17,7 @@ interface ProjectShellProps {
   user: User;
   section: ProjectSection;
   title: string;
-  description: string;
+  description?: string;
   meta?: ReactNode;
   headerAction?: ReactNode;
   children: ReactNode;
@@ -39,14 +40,14 @@ export function ProjectShell({
         <SidebarLink
           href="/projects"
           icon="layout-grid"
-          label="프로젝트 목록"
+          label="프로젝트"
           selected={section === "list"}
           strong
         />
         <SidebarLink
           href="/projects/trash"
           icon="trash-2"
-          label="프로젝트 휴지통"
+          label="휴지통"
           selected={section === "trash"}
           strong
         />
@@ -65,13 +66,15 @@ export function ProjectShell({
           aria-haspopup="dialog"
         />
       </nav>
-      <main className={styles.main}>
+      <main className={cx(styles.main, section !== "list" && styles.narrow)}>
         <header className={styles.header}>
           <div className={styles.headerCopy}>
-            <h1 className={styles.title}>{title}</h1>
-            <p className={styles.description}>{description}</p>
+            <h1 className={styles.title}>
+              {title}
+              {meta && <span className={styles.meta}>{meta}</span>}
+            </h1>
+            {description && <p className={styles.description}>{description}</p>}
           </div>
-          {meta && <span className={styles.meta}>{meta}</span>}
           {headerAction}
         </header>
         {children}

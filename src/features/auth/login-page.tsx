@@ -1,6 +1,7 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -10,7 +11,6 @@ import { finishAuthNavigation } from "@/services/api/auth-transition";
 import type { AuthFailure } from "@/services/ports";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
-import { cx } from "@/shared/cx";
 
 import { TermsConsent } from "./terms-consent";
 import { GoogleMark } from "./google-mark";
@@ -20,35 +20,15 @@ import { useSession } from "./session-gate";
 
 type LoginStatus = "idle" | "processing" | AuthFailure;
 
-const COPY: Record<
-  LoginStatus,
-  { title: string; description: string; action: string }
-> = {
-  idle: {
-    title: "Lore Sentry에 로그인",
-    description: "Google 계정으로 안전하게 계속하세요.",
-    action: "Google로 계속하기",
-  },
+const COPY: Record<LoginStatus, { title: string; action: string }> = {
+  idle: { title: "로그인", action: "Google로 계속하기" },
   processing: {
-    title: "Lore Sentry에 로그인",
-    description: "Google 계정으로 안전하게 계속하세요.",
+    title: "로그인",
     action: "Google 로그인으로 이동 중…",
   },
-  canceled: {
-    title: "Lore Sentry에 로그인",
-    description: "Google 인증을 다시 시작할 수 있습니다.",
-    action: "다시 Google로 계속하기",
-  },
-  failed: {
-    title: "Lore Sentry에 로그인",
-    description: "Google 인증을 다시 시작할 수 있습니다.",
-    action: "다시 Google로 계속하기",
-  },
-  expired: {
-    title: "다시 로그인해 주세요",
-    description: "작업을 안전하게 이어가려면 인증이 필요합니다.",
-    action: "Google로 다시 로그인",
-  },
+  canceled: { title: "로그인", action: "Google로 다시 계속하기" },
+  failed: { title: "로그인", action: "Google로 다시 계속하기" },
+  expired: { title: "다시 로그인해 주세요", action: "Google로 다시 로그인" },
 };
 
 function initialStatus(value: string | null): LoginStatus {
@@ -181,103 +161,67 @@ export function LoginPage() {
 
   return (
     <main className={styles.page}>
-      <section className={styles.brand} aria-label="Lore Sentry 소개">
-        <div className={styles.wordmark}>
-          <span className={styles.letterMark} aria-hidden="true">
-            L
-          </span>
-          LORE SENTRY
-        </div>
-        <div className={styles.message}>
-          <p className={styles.eyebrow}>WRITING WORKSPACE</p>
-          <p className={styles.headline}>{"이야기를 쓰는 데\n집중하세요."}</p>
-          <p className={styles.supporting}>
-            Lore Sentry는 집필, 설정, 메모를 하나의 흐름으로 연결합니다.
-          </p>
-        </div>
-        <p className={styles.footer}>Your story, uninterrupted.</p>
-      </section>
+      <Link href="/" className={styles.wordmark} aria-label="Lore Sentry 소개">
+        <span className={styles.letterMark} aria-hidden="true">
+          L
+        </span>
+        Lore Sentry
+      </Link>
 
-      <section className={styles.authField}>
-        <div className={cx(styles.card, status === "idle" && styles.cardIdle)}>
-          <div className={styles.header}>
-            <h1 className={styles.title}>{copy.title}</h1>
-            <p className={styles.description}>{copy.description}</p>
-          </div>
+      <div className={styles.card}>
+        <h1 className={styles.title}>{copy.title}</h1>
 
-          <div className={styles.actions}>
-            <button
-              type="button"
-              className={styles.googleButton}
-              onClick={start}
-              disabled={processing || showTerms}
-              aria-busy={processing || undefined}
-            >
-              {processing ? (
-                <Icon name="loader-circle" size={16} className={styles.spin} />
-              ) : (
-                <GoogleMark />
-              )}
-              {copy.action}
-            </button>
+        <div className={styles.actions}>
+          <button
+            type="button"
+            className={styles.googleButton}
+            onClick={start}
+            disabled={processing || showTerms}
+            aria-busy={processing || undefined}
+          >
+            {processing ? (
+              <Icon name="loader-circle" size={16} className={styles.spin} />
+            ) : (
+              <GoogleMark />
+            )}
+            {copy.action}
+          </button>
 
-            {status === "idle" && (
-              <p className={styles.destination}>
-                <Icon name="arrow-right" size={14} />
-                로그인 후 프로젝트 목록으로 이동합니다.
-              </p>
-            )}
-            {status === "processing" && (
-              <StatusNotice tone="info">
-                인증 요청을 시작했습니다. 잠시만 기다려 주세요.
-              </StatusNotice>
-            )}
-            {status === "canceled" && (
-              <StatusNotice tone="info">
-                Google 로그인이 취소됐어요.
-              </StatusNotice>
-            )}
-            {status === "failed" && (
-              <StatusNotice tone="error">
-                로그인을 완료하지 못했어요. 다시 시도해 주세요.
-              </StatusNotice>
-            )}
-            {status === "expired" && (
-              <>
-                <StatusNotice tone="info">
-                  세션이 만료됐어요. 계속하려면 다시 로그인해 주세요.
-                </StatusNotice>
-                {returnTo && (
-                  <p className={styles.recoveryNote}>
-                    <Icon name="history" size={14} />
-                    인증 후 확인된 이전 작업공간으로 돌아갑니다.
-                  </p>
-                )}
-              </>
-            )}
-          </div>
-
-          {showTerms && (
-            <TermsConsent
-              privacyUrl={config.privacyPolicyUrl || "/policies/privacy.html"}
-              onClose={closeTerms}
-              onComplete={() => router.replace(returnTo ?? "/projects")}
-            />
+          {status === "canceled" && (
+            <StatusNotice tone="info">Google 로그인이 취소됐어요.</StatusNotice>
           )}
-          <div className={styles.policy}>
-            <div className={styles.policyLinks}>
-              <PolicyLink
-                href={config.termsOfServiceUrl || "/policies/terms.html"}
-                label="이용약관"
-              />
-              <PolicyLink
-                href={config.privacyPolicyUrl || "/policies/privacy.html"}
-                label="개인정보처리방침"
-              />
-            </div>
-          </div>
+          {status === "failed" && (
+            <StatusNotice tone="error">
+              로그인을 완료하지 못했어요. 다시 시도해 주세요.
+            </StatusNotice>
+          )}
+          {status === "expired" && (
+            <StatusNotice tone="info">
+              세션이 만료됐어요.
+              {returnTo && " 로그인하면 하던 작업으로 돌아가요."}
+            </StatusNotice>
+          )}
         </div>
-      </section>
+
+        {showTerms && (
+          <TermsConsent
+            privacyUrl={config.privacyPolicyUrl || "/policies/privacy.html"}
+            onClose={closeTerms}
+            onComplete={() => router.replace(returnTo ?? "/projects")}
+          />
+        )}
+      </div>
+
+      <nav className={styles.policyLinks} aria-label="정책">
+        <PolicyLink
+          href={config.termsOfServiceUrl || "/policies/terms.html"}
+          label="이용약관"
+        />
+        <PolicyLink
+          href={config.privacyPolicyUrl || "/policies/privacy.html"}
+          label="개인정보처리방침"
+        />
+      </nav>
     </main>
   );
 }

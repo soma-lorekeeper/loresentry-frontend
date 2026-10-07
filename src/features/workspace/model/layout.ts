@@ -31,7 +31,6 @@ export interface WorkspacePanels {
   memoDock: MemoDock;
   memoRightWidth: number;
   memoBelowHeight: number;
-  aiChatOpen: boolean;
 }
 
 // 요구사항 §3: 프로젝트를 다시 열면 그래프 보기(분류 필터·에피소드)도 복원한다.
@@ -57,7 +56,6 @@ export const DEFAULT_PANELS: WorkspacePanels = {
   memoDock: "right",
   memoRightWidth: 320,
   memoBelowHeight: 240,
-  aiChatOpen: false,
 };
 
 export function tabIdFor(target: WorkspaceTarget): string {

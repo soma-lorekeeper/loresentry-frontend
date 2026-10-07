@@ -15,7 +15,6 @@ import {
   parseTabId,
 } from "./model/layout";
 import { useProject } from "./queries";
-import { ChatPanel } from "@/features/chat/chat-panel";
 
 import { WorkspaceShell } from "./shell/workspace-shell";
 import { WorkspaceProvider } from "./workspace-context";
@@ -73,7 +72,7 @@ function WorkspaceLoader({
       user={user}
       initialLayout={initialLayout}
     >
-      <WorkspaceShell chat={<ChatPanel />} />
+      <WorkspaceShell />
     </WorkspaceProvider>
   );
 }

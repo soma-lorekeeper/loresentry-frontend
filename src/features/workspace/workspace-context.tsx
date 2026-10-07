@@ -8,12 +8,10 @@ import {
   useMemo,
   useReducer,
   useRef,
-  useState,
   type Dispatch,
   type ReactNode,
 } from "react";
 
-import type { IconName } from "@/design-system/icons/icon";
 import type { Project, User } from "@/domain/models";
 import { useServices } from "@/services/services-context";
 
@@ -46,13 +44,6 @@ interface WorkspaceContextValue {
     tabId: string,
     guard: CloseGuard,
   ) => () => void;
-  tabLabels: ReadonlyMap<string, TabLabel>;
-  setTabLabel: (paneId: string, tabId: string, label: TabLabel | null) => void;
-}
-
-export interface TabLabel {
-  icon: IconName;
-  title: string;
 }
 
 export type CloseGuard = (proceed: () => void) => boolean;
@@ -109,26 +100,6 @@ export function WorkspaceProvider({
     [],
   );
 
-  const [tabLabels, setTabLabels] = useState<ReadonlyMap<string, TabLabel>>(
-    () => new Map(),
-  );
-
-  const setTabLabel = useCallback(
-    (paneId: string, tabId: string, label: TabLabel | null) => {
-      const key = tabKey(paneId, tabId);
-      setTabLabels((current) => {
-        const existing = current.get(key);
-        if (existing?.icon === label?.icon && existing?.title === label?.title)
-          return current;
-        const next = new Map(current);
-        if (label) next.set(key, label);
-        else next.delete(key);
-        return next;
-      });
-    },
-    [],
-  );
-
   const guards = useRef(new Map<string, CloseGuard>());
 
   const registerCloseGuard = useCallback(
@@ -171,8 +142,6 @@ export function WorkspaceProvider({
       open,
       closeTab,
       registerCloseGuard,
-      tabLabels,
-      setTabLabel,
     }),
     [
       project,
@@ -183,8 +152,6 @@ export function WorkspaceProvider({
       open,
       closeTab,
       registerCloseGuard,
-      tabLabels,
-      setTabLabel,
     ],
   );
 

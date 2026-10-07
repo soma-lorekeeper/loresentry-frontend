@@ -208,7 +208,11 @@ function RelationRow({
         {targets.map((node) => {
           const note = property.descriptions[node.id] ?? "";
           return (
-            <span key={node.id} className={styles.chip}>
+            <span
+              key={node.id}
+              className={styles.chip}
+              data-kind={property.targetType}
+            >
               <Icon name={meta.entityIcon} size={14} />
               <button
                 type="button"
@@ -511,7 +515,12 @@ export function PropertyTable({
 
   return (
     <>
-      <div className={styles.table} role="group" aria-label="속성">
+      <div
+        className={styles.table}
+        role="group"
+        aria-label="속성"
+        data-tour="properties"
+      >
         <div className={styles.row}>
           <div className={styles.identity}>
             <IconButton

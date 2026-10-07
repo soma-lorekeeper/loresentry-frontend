@@ -12,6 +12,16 @@
   font-size: var(--lk-font-size-body);
   font-weight: 600;
   white-space: nowrap;
+  transition:
+    background-color 140ms var(--lk-ease),
+    border-color 140ms var(--lk-ease),
+    box-shadow 140ms var(--lk-ease);
+}
+
+.button:focus-visible,
+.iconButton:focus-visible {
+  outline: none;
+  box-shadow: var(--lk-focus-ring);
 }
 
 .button > svg {
@@ -29,6 +39,7 @@
 
 .outline {
   border-color: var(--lk-color-border-default);
+  background: var(--lk-color-surface-default);
 }
 
 .ghost {
@@ -82,6 +93,7 @@
   height: var(--lk-control-height);
   border-radius: var(--lk-radius-control);
   color: var(--lk-color-icon-default);
+  transition: background-color 140ms var(--lk-ease);
 }
 
 .iconButton:hover:not(:disabled):not([aria-pressed="true"]) {

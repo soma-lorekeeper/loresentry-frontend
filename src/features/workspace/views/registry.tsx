@@ -51,8 +51,8 @@ export const WORKSPACE_VIEWS: Record<
   },
   help: {
     kind: "help",
-    icon: "circle-help",
-    title: "도움말",
-    render: (props) => <WorkspaceHelpView {...props} />,
+    icon: "book-open",
+    title: "사용 가이드",
+    render: () => <WorkspaceHelpView />,
   },
 };

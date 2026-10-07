@@ -60,38 +60,33 @@ export function NewTabView() {
 
   return (
     <div className={styles.view}>
-      <p className={styles.context}>{project.title}</p>
+      <h1 className={styles.title}>{project.title}</h1>
 
       <section className={styles.banner} aria-label="이어서 작업하기">
         <div className={styles.bannerCopy}>
           {last ? (
             <>
-              <span className={styles.eyebrow}>마지막으로 작업한 파일</span>
-              <span className={styles.bannerTitle}>{last.title}</span>
+              <span className={styles.bannerTitle} data-kind={last.docType}>
+                <Icon
+                  name={DOCUMENT_TYPE_META[last.docType].entityIcon}
+                  size={18}
+                />
+                <span className={styles.bannerName}>{last.title}</span>
+              </span>
               <span className={styles.bannerMeta}>
-                {relativeTime(last.updatedAt)} · 마지막 편집 위치에서 열기
+                {relativeTime(last.updatedAt)}
               </span>
             </>
           ) : (
-            <>
-              <span className={styles.eyebrow}>
-                아직 작업한 파일이 없습니다
-              </span>
-              <span className={styles.bannerTitle}>
-                첫 파일을 만들어 시작하세요
-              </span>
-              <span className={styles.bannerMeta}>
-                원고나 설정 파일을 만들면 마지막 작업 위치가 여기에 표시됩니다.
-              </span>
-            </>
+            <span className={styles.bannerTitle}>
+              첫 파일을 만들어 시작하세요
+            </span>
           )}
         </div>
         {last ? (
           <Button
             size="lg"
             variant="primary"
-            trailingIcon="arrow-right"
-            iconSize={15}
             onClick={() => open({ kind: "file", fileId: last.id })}
           >
             이어서 작업하기
@@ -140,12 +135,12 @@ export function NewTabView() {
               key={type}
               type="button"
               className={styles.create}
+              data-kind={type}
+              data-tour={`create-${type}`}
               disabled={create.isPending}
               onClick={() => createDocument(type)}
             >
-              <span className={styles.createIcon}>
-                <Icon name={DOCUMENT_TYPE_META[type].createIcon} size={15} />
-              </span>
+              <Icon name={DOCUMENT_TYPE_META[type].entityIcon} size={16} />
               {DOCUMENT_TYPE_META[type].label}
             </button>
           ))}
@@ -160,8 +155,7 @@ export function NewTabView() {
           {others.length === 0 ? (
             <div className={styles.emptyRecent}>
               <Icon name="clock-3" size={16} />
-              <strong>최근에 연 파일이 없습니다</strong>
-              <span>파일을 열면 최근 순서대로 여기에 표시됩니다.</span>
+              최근에 연 파일이 없어요
             </div>
           ) : (
             others.map((doc) => (
@@ -169,6 +163,7 @@ export function NewTabView() {
                 key={doc.id}
                 type="button"
                 className={styles.recentRow}
+                data-kind={doc.docType}
                 onClick={() => open({ kind: "file", fileId: doc.id })}
               >
                 <Icon

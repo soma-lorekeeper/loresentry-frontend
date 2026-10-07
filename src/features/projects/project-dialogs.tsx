@@ -4,9 +4,7 @@ import { useState } from "react";
 
 import {
   Button,
-  DialogBullets,
   DialogCard,
-  DialogDetail,
   InlineNotice,
   TextAreaField,
   TextField,
@@ -16,7 +14,7 @@ import { isServiceError } from "@/services/errors";
 import { PROJECT_TITLE_MAX } from "@/services/mock/projects";
 
 import styles from "./project-dialogs.module.css";
-import { useCreateProject, useRenameProject, useTrashProject } from "./queries";
+import { useCreateProject, useTrashProject, useUpdateProject } from "./queries";
 
 const DESCRIPTION_MAX = 500;
 
@@ -86,12 +84,9 @@ function CreateProjectForm({
       onClose={() => !busy && onClose()}
       dismissible={!busy}
       size="md"
-      icon="folder-plus"
       title="새 프로젝트 만들기"
-      description="프로젝트 제목만 입력하면 바로 시작할 수 있어요."
       closeLabel="새 프로젝트 만들기 닫기"
       closeDisabled={busy}
-      footerHint="완료하면 새 프로젝트의 작업공간 시작 안내로 이동합니다."
       actions={
         <>
           <Button
@@ -140,11 +135,6 @@ function CreateProjectForm({
           onBlur={() => setTouched(true)}
           readOnly={busy}
           error={fieldError}
-          hint={
-            busy
-              ? "제목을 확인하고 프로젝트를 만들고 있어요."
-              : "앞뒤 공백은 자동으로 정리됩니다."
-          }
         />
         <TextAreaField
           label="설명"
@@ -168,51 +158,55 @@ function CreateProjectForm({
   );
 }
 
-export function RenameProjectDialog({
+export function EditProjectDialog({
   project,
   onClose,
-  onRenamed,
+  onSaved,
 }: {
   project: Project | null;
   onClose: () => void;
-  onRenamed: (project: Project) => void;
+  onSaved: (project: Project) => void;
 }) {
   return (
-    <RenameProjectForm
+    <EditProjectForm
       key={project?.id ?? "none"}
       project={project}
       onClose={onClose}
-      onRenamed={onRenamed}
+      onSaved={onSaved}
     />
   );
 }
 
-function RenameProjectForm({
+function EditProjectForm({
   project,
   onClose,
-  onRenamed,
+  onSaved,
 }: {
   project: Project | null;
   onClose: () => void;
-  onRenamed: (project: Project) => void;
+  onSaved: (project: Project) => void;
 }) {
-  const rename = useRenameProject();
+  const update = useUpdateProject();
   const [title, setTitle] = useState(project?.title ?? "");
-  const busy = rename.isPending;
+  const [description, setDescription] = useState(project?.description ?? "");
+  const busy = update.isPending;
   const trimmed = title.trim();
-  const unchanged = trimmed === project?.title;
+  const unchanged =
+    trimmed === project?.title &&
+    description.trim() === (project?.description ?? "");
   const empty = trimmed.length === 0;
 
   const submit = () => {
     if (!project || empty || unchanged || busy) return;
-    rename.mutate({ projectId: project.id, title }, { onSuccess: onRenamed });
+    update.mutate(
+      {
+        projectId: project.id,
+        title: trimmed,
+        description: description.trim(),
+      },
+      { onSuccess: onSaved },
+    );
   };
-
-  const hint = busy
-    ? "새 이름을 저장하고 있어요."
-    : unchanged
-      ? "현재 이름과 다를 때 저장할 수 있습니다."
-      : "앞뒤 공백은 자동으로 정리됩니다.";
 
   return (
     <DialogCard
@@ -220,12 +214,9 @@ function RenameProjectForm({
       onClose={() => !busy && onClose()}
       dismissible={!busy}
       size="md"
-      icon="pencil"
-      title="프로젝트 이름 변경"
-      description="목록과 작업공간에 표시할 프로젝트 이름을 바꿉니다."
-      closeLabel="프로젝트 이름 변경 닫기"
+      title="프로젝트 수정"
+      closeLabel="프로젝트 수정 닫기"
       closeDisabled={busy}
-      footerHint="완료 후 카드 제목을 갱신하고 더보기 버튼으로 돌아갑니다."
       actions={
         <>
           <Button
@@ -239,21 +230,20 @@ function RenameProjectForm({
           <Button
             size="md"
             variant="primary"
-            icon={serverErrorOf(rename.error) ? "rotate-cw" : "check"}
+            icon={serverErrorOf(update.error) ? "rotate-cw" : "check"}
             busy={busy}
             disabled={empty || unchanged}
             onClick={submit}
           >
             {busy
               ? "저장 중…"
-              : serverErrorOf(rename.error)
+              : serverErrorOf(update.error)
                 ? "다시 시도"
                 : "저장"}
           </Button>
         </>
       }
     >
-      <DialogDetail label="현재 이름" value={project?.title} />
       <form
         className={styles.form}
         onSubmit={(event) => {
@@ -262,28 +252,40 @@ function RenameProjectForm({
         }}
       >
         <TextField
-          label="새 프로젝트 이름"
+          label="프로젝트 이름"
           required
           autoFocus
-          placeholder="새 프로젝트 이름을 입력하세요"
+          placeholder="프로젝트 이름을 입력하세요"
           value={title}
           maxLength={PROJECT_TITLE_MAX}
           onChange={(event) => {
             setTitle(event.target.value.slice(0, PROJECT_TITLE_MAX));
-            if (rename.error) rename.reset();
+            if (update.error) update.reset();
           }}
           readOnly={busy}
           error={
             empty
               ? "프로젝트 이름을 입력해 주세요."
-              : fieldErrorOf(rename.error)
+              : fieldErrorOf(update.error)
           }
-          hint={hint}
+        />
+        <TextAreaField
+          label="설명"
+          labelHint="선택"
+          placeholder="어떤 이야기인지 짧게 적어 두세요"
+          value={description}
+          rows={3}
+          maxLength={DESCRIPTION_MAX}
+          onChange={(event) => {
+            setDescription(event.target.value.slice(0, DESCRIPTION_MAX));
+            if (update.error) update.reset();
+          }}
+          readOnly={busy}
         />
       </form>
-      {serverErrorOf(rename.error) && (
+      {serverErrorOf(update.error) && (
         <InlineNotice>
-          이름을 저장하지 못했어요. 변경한 입력을 유지했어요.
+          변경한 내용을 저장하지 못했어요. 입력은 그대로 두었어요.
         </InlineNotice>
       )}
     </DialogCard>
@@ -325,14 +327,9 @@ export function TrashProjectDialog({
       dismissible={!busy}
       size="md"
       compact
-      icon="trash-2"
       title="프로젝트를 휴지통으로 이동할까요?"
-      description="선택한 프로젝트는 목록과 작업공간에서 제거됩니다."
-      footerHint={
-        busy
-          ? "이동이 끝날 때까지 잠시 기다려 주세요."
-          : "Esc를 누르면 이동하지 않고 카드 메뉴로 돌아갑니다."
-      }
+      description="파일과 설정은 그대로 남고, 휴지통에서 다시 복원할 수 있어요."
+      target={project ? { icon: project.icon, name: project.title } : undefined}
       actions={
         <>
           <Button
@@ -359,20 +356,6 @@ export function TrashProjectDialog({
         </>
       }
     >
-      <DialogDetail label="이동할 프로젝트" value={project?.title} />
-      <DialogBullets
-        items={[
-          {
-            icon: "layout-grid",
-            text: "프로젝트 목록과 작업공간에서 제거됩니다.",
-          },
-          {
-            icon: "rotate-ccw",
-            text: "파일과 설정은 그대로 남고, 휴지통에서 다시 복원할 수 있어요.",
-            accent: true,
-          },
-        ]}
-      />
       {trash.isError && (
         <InlineNotice>
           프로젝트를 이동하지 못했어요. 목록은 그대로 유지했어요.

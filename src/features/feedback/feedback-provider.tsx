@@ -24,7 +24,7 @@ import { useServices } from "@/services/services-context";
 import styles from "./feedback.module.css";
 
 const PLACEHOLDER =
-  "불편했던 점이나 있었으면 하는 기능을 자유롭게 적어 주세요. 어느 화면에서 겪은 일인지 함께 적어 주시면 더 빨리 살펴볼 수 있어요.";
+  "불편했던 점이나 있었으면 하는 기능을 자유롭게 적어 주세요.";
 
 const FeedbackContext = createContext<{ open: () => void } | null>(null);
 
@@ -33,13 +33,6 @@ export function useFeedback() {
   const context = useContext(FeedbackContext);
   if (!context) throw new Error("FeedbackProvider is missing");
   return context;
-}
-
-function isMac() {
-  return (
-    typeof navigator !== "undefined" &&
-    /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)
-  );
 }
 
 function currentPage() {
@@ -84,7 +77,6 @@ function FeedbackDialog({
   const services = useServices();
   const toast = useToast();
   const [page] = useState(currentPage);
-  const [mac] = useState(isMac);
   const send = useMutation({
     mutationFn: () =>
       services.feedback.send({
@@ -95,7 +87,6 @@ function FeedbackDialog({
       toast({
         icon: "circle-check",
         title: "피드백을 보냈어요",
-        description: "보내 주셔서 고마워요. 팀이 모두 읽어요.",
       });
       onSent();
     },
@@ -123,15 +114,7 @@ function FeedbackDialog({
       onClose={() => !pending && onClose()}
       dismissible={!pending}
       size="md"
-      icon="message-square-plus"
       title="피드백 보내기"
-      description="불편했던 점이나 있었으면 하는 기능을 알려 주세요. 팀이 모두 읽어요."
-      footerHint={
-        <span className={styles.hint}>
-          <kbd>{mac ? "⌘" : "Ctrl"}</kbd>
-          <kbd>Enter</kbd>로 보내기
-        </span>
-      }
       actions={
         <>
           <Button

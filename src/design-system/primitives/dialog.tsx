@@ -109,7 +109,6 @@ interface DialogCardProps {
   open: boolean;
   onClose: () => void;
   size?: DialogSize;
-  icon?: IconName;
   title: string;
   description?: ReactNode;
   closeLabel?: string;
@@ -126,7 +125,6 @@ export function DialogCard({
   open,
   onClose,
   size = "sm",
-  icon,
   title,
   description,
   closeLabel,
@@ -151,11 +149,6 @@ export function DialogCard({
     >
       <div className={cx(styles.card, compact && styles.compact)}>
         <div className={styles.header}>
-          {icon && (
-            <div className={styles.iconSurface}>
-              <Icon name={icon} size={size === "sm" ? 18 : 20} />
-            </div>
-          )}
           <div className={styles.copy}>
             <h2 id={titleId} className={styles.title}>
               {title}

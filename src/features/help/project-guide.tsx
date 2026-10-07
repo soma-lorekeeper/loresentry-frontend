@@ -18,16 +18,6 @@ export function ProjectGuidePage({ user }: { user: User }) {
   const [query, setQuery] = useState("");
   const topics = searchTopics(query);
 
-  const backButton = (
-    <Button
-      size="md"
-      icon="arrow-left"
-      onClick={() => router.push("/projects")}
-    >
-      프로젝트 목록으로
-    </Button>
-  );
-
   if (topic) {
     return (
       <ProjectShell
@@ -35,7 +25,6 @@ export function ProjectGuidePage({ user }: { user: User }) {
         section="guide"
         title={topic.title}
         description={topic.summary}
-        headerAction={backButton}
       >
         <nav className={styles.breadcrumb} aria-label="위치">
           <Link href="/projects/guide" className={styles.crumbLink}>
@@ -69,66 +58,52 @@ export function ProjectGuidePage({ user }: { user: User }) {
       user={user}
       section="guide"
       title="사용 가이드"
-      description="Lore Sentry의 주요 기능을 프로젝트 목록에서 바로 살펴보세요."
-      headerAction={backButton}
+      headerAction={
+        <Button size="md" onClick={() => router.push("/welcome/?replay=1")}>
+          처음 안내 다시 보기
+        </Button>
+      }
     >
-      <label className={styles.search}>
-        <Icon name="search" size={17} />
-        <span className="lk-visually-hidden">가이드 검색</span>
-        <input
-          type="search"
-          className={styles.searchInput}
-          placeholder="가이드 검색"
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-        />
-      </label>
-      {topics.length === 0 ? (
-        <EmptyState
-          icon="search-x"
-          title="검색 결과가 없어요"
-          description="다른 단어로 검색하거나 전체 주제를 둘러보세요."
-          action={
-            <Button size="md" onClick={() => setQuery("")}>
-              검색어 지우기
-            </Button>
-          }
-        />
-      ) : (
-        <div className={styles.grid}>
-          {!query && (
-            <Link href="/welcome/?replay=1" className={styles.topic}>
-              <span className={styles.topicIcon}>
-                <Icon name="sparkles" size={18} />
-              </span>
-              <span className={styles.topicCopy}>
-                <span className={styles.topicTitle}>처음 안내 다시 보기</span>
-                <span className={styles.topicSummary}>
-                  작업공간, 속성 표, 그래프, 타임라인, 그래프 최신화를 다시
-                  훑어봐요.
-                </span>
-              </span>
-              <Icon name="arrow-right" size={16} />
-            </Link>
-          )}
-          {topics.map((item) => (
-            <Link
-              key={item.id}
-              href={`/projects/guide?topic=${item.id}`}
-              className={styles.topic}
-            >
-              <span className={styles.topicIcon}>
-                <Icon name={item.icon} size={18} />
-              </span>
-              <span className={styles.topicCopy}>
-                <span className={styles.topicTitle}>{item.title}</span>
-                <span className={styles.topicSummary}>{item.summary}</span>
-              </span>
-              <Icon name="arrow-right" size={16} />
-            </Link>
-          ))}
-        </div>
-      )}
+      <div className={styles.listBody}>
+        <label className={styles.search}>
+          <Icon name="search" size={17} />
+          <span className="lk-visually-hidden">가이드 검색</span>
+          <input
+            type="search"
+            className={styles.searchInput}
+            placeholder="가이드 검색"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+        </label>
+        {topics.length === 0 ? (
+          <div className={styles.panel}>
+            <EmptyState
+              icon="search-x"
+              title="검색 결과가 없어요"
+              action={
+                <Button size="md" onClick={() => setQuery("")}>
+                  검색어 지우기
+                </Button>
+              }
+            />
+          </div>
+        ) : (
+          <ul className={styles.list} aria-label="가이드 주제">
+            {topics.map((item) => (
+              <li key={item.id}>
+                <Link
+                  href={`/projects/guide?topic=${item.id}`}
+                  className={styles.topic}
+                >
+                  <span className={styles.topicTitle}>{item.title}</span>
+                  <span className={styles.topicSummary}>{item.summary}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </ProjectShell>
   );
 }

@@ -1,10 +1,11 @@
 .view {
   display: flex;
   flex-direction: column;
-  gap: var(--lk-space-6);
+  gap: 24px;
   width: 100%;
-  max-width: 1220px;
-  padding: 38px 64px 64px;
+  max-width: calc(960px + 2 * 48px);
+  margin: 0 auto;
+  padding: 56px 48px 64px;
 }
 
 .header {
@@ -15,14 +16,11 @@
 }
 
 .title {
-  font-size: var(--lk-font-size-heading-lg);
-  font-weight: 600;
-}
-
-.add {
-  width: 36px;
-  height: 36px;
-  background: var(--lk-color-surface-icon);
+  font-family: var(--lk-font-stack-display);
+  font-size: var(--lk-font-size-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: var(--lk-line-height-display);
 }
 
 .scope {
@@ -34,42 +32,17 @@
   height: 30px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 270px));
-  gap: 18px;
-}
-
-.item {
-  display: flex;
-  flex-direction: column;
-  gap: var(--lk-space-3);
-}
-
 .fileHead {
   display: flex;
   align-items: center;
   gap: var(--lk-space-2);
   min-height: 26px;
-  padding: 8px 12px 0;
-  color: var(--lk-color-icon-default);
+  padding: 12px 40px 0 14px;
+  color: var(--kind, var(--lk-color-icon-default));
 }
 
-/* 어느 문서의 메모인지 누르면 그 문서로 간다. */
-.fileLink {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  color: var(--lk-color-text-primary);
-  font-size: var(--lk-font-size-label);
-  font-weight: 650;
-  text-align: left;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.fileLink:hover {
-  text-decoration: underline;
+.fileHead > svg {
+  flex: none;
 }
 
 .fileTitle {
@@ -77,36 +50,24 @@
   min-width: 0;
   overflow: hidden;
   color: var(--lk-color-text-primary);
-  font-weight: 650;
+  font-weight: 600;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.menuButton {
-  width: 26px;
-  height: 26px;
-}
-
-.cardMenu {
-  position: absolute;
-  top: var(--lk-space-4);
-  right: var(--lk-space-4);
-  width: 26px;
-  height: 26px;
-}
-
-.panel {
-  display: flex;
-  flex-direction: column;
-  min-height: 560px;
-  border: 1px solid var(--lk-color-border-default);
-  border-radius: var(--lk-radius-card);
-  background: var(--lk-color-surface-raised);
-}
-
 @media (max-width: 600px) {
+  .view {
+    padding: 32px 16px 48px;
+  }
+
   .header {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .scope {
+    width: auto;
+    margin-left: 0;
   }
 
   .title {

@@ -100,7 +100,6 @@ function AccountDeleteCard({
       onClose={close}
       dismissible={!pending}
       size="md"
-      icon={pending ? "loader-circle" : "user-x"}
       title={pending ? "계정을 삭제하고 있어요" : "계정을 삭제할까요?"}
       description={
         pending
@@ -161,7 +160,6 @@ function AccountDeleteCard({
             if (mismatch) remove.reset();
           }}
           placeholder={user.email}
-          hint="위 계정 이메일과 똑같이 입력하면 삭제할 수 있어요."
           error={mismatch ? "입력한 이메일이 계정 이메일과 달라요." : undefined}
           readOnly={pending}
           autoComplete="off"

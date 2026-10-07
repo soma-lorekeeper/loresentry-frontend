@@ -64,7 +64,6 @@ export function UserMenu({ user }: { user: User }) {
         <UserAvatar name={user.displayName} />
         <span className={styles.copy}>
           <span className={styles.name}>{user.displayName}</span>
-          <span className={styles.email}>{user.email}</span>
         </span>
         <Icon
           name={open ? "chevron-up" : "chevron-down"}

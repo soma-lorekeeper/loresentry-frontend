@@ -23,7 +23,6 @@ interface DocumentTypeMeta {
   label: string;
   relationLabel: string;
   entityIcon: IconName;
-  createIcon: IconName;
   nodeColor: TokenName;
 }
 
@@ -32,49 +31,42 @@ export const DOCUMENT_TYPE_META: Record<DocumentType, DocumentTypeMeta> = {
     label: "원고",
     relationLabel: "관련 원고",
     entityIcon: "file-text",
-    createIcon: "file-text",
     nodeColor: "color-node-manuscript",
   },
   character: {
     label: "캐릭터",
     relationLabel: "관련 캐릭터",
     entityIcon: "circle-user-round",
-    createIcon: "user-round",
     nodeColor: "color-node-character",
   },
   place: {
     label: "장소",
     relationLabel: "관련 장소",
     entityIcon: "map-pin",
-    createIcon: "map-pin",
     nodeColor: "color-node-place",
   },
   organization: {
     label: "조직",
     relationLabel: "관련 조직",
     entityIcon: "building-2",
-    createIcon: "users-round",
     nodeColor: "color-node-organization",
   },
   item: {
     label: "아이템",
     relationLabel: "관련 아이템",
     entityIcon: "package",
-    createIcon: "gem",
     nodeColor: "color-node-item",
   },
   event: {
     label: "이벤트",
     relationLabel: "관련 이벤트",
     entityIcon: "scroll",
-    createIcon: "calendar-days",
     nodeColor: "color-node-event",
   },
   worldview: {
     label: "세계관",
     relationLabel: "관련 세계관",
     entityIcon: "globe",
-    createIcon: "globe",
     nodeColor: "color-node-worldview",
   },
 };

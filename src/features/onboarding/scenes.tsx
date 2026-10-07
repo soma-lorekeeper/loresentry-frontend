@@ -11,7 +11,7 @@ import styles from "./onboarding.module.css";
  * 온보딩 무대는 실제 작업공간 화면을 줄여 옮긴 것이다. 사이드바·탭 막대·문서·그래프·타임라인·
  * 최신화 검토의 배치와 이름은 `features/workspace`, `documents`, `graph`, `timeline`,
  * `graph-refresh` 를 그대로 따른다. 서버를 부르지 않으므로 운영에서도 같은 화면이 나온다.
- * 랜딩 페이지도 같은 무대를 쓴다. 에디터·문서 관리 장면은 랜딩에서만 나온다.
+ * 랜딩 페이지도 같은 무대를 쓴다. 문서 관리 장면은 랜딩에서만 나온다.
  */
 
 export type TourScene = Exclude<OnboardingStep["id"], "start">;
@@ -191,7 +191,7 @@ function Sidebar({ scene, userName }: { scene: Scene; userName: string }) {
         <span className={styles.sideAvatar} />
         <span className={styles.ellipsis}>{userName}</span>
       </div>
-      <div className={styles.sideNav} data-focus="workspace">
+      <div className={styles.sideNav}>
         <div className={styles.sideProject}>
           <Icon name="book-open" size={13} />
           <span className={styles.ellipsis}>유리 정원의 기록</span>
@@ -208,18 +208,20 @@ function Sidebar({ scene, userName }: { scene: Scene; userName: string }) {
         <RefreshItem scene={scene} />
         <p className={styles.sideHeading}>즐겨찾기</p>
         <SideItem icon="file-text" label="12화 · 균열의 밤" />
-        <p className={styles.sideHeading}>파일</p>
-        {FOLDERS.map((type) => (
-          <div key={type}>
-            <SideItem
-              icon={open.includes(type) ? "folder-open" : "folder"}
-              label={DOCUMENT_TYPE_META[type].label}
-            />
-            {open.includes(type) && (
-              <FolderChildren type={type} scene={scene} />
-            )}
-          </div>
-        ))}
+        <div className={styles.sideNav} data-focus="workspace">
+          <p className={styles.sideHeading}>파일</p>
+          {FOLDERS.map((type) => (
+            <div key={type}>
+              <SideItem
+                icon={open.includes(type) ? "folder-open" : "folder"}
+                label={DOCUMENT_TYPE_META[type].label}
+              />
+              {open.includes(type) && (
+                <FolderChildren type={type} scene={scene} />
+              )}
+            </div>
+          ))}
+        </div>
       </div>
       <div className={styles.sideBottom}>
         <SideItem icon="trash-2" label="휴지통" />
@@ -254,10 +256,6 @@ function TabBar({ scene }: { scene: Scene }) {
         <Icon name="x" size={12} />
       </span>
       <Icon name="plus" size={14} />
-      <span className={styles.aiChat}>
-        <Icon name="sparkles" size={13} />
-        AI 챗
-      </span>
     </div>
   );
 }
@@ -272,16 +270,10 @@ function NewTabView() {
       </Enter>
       <Enter delay={120} className={styles.resume}>
         <div className={styles.resumeCopy}>
-          <span className={styles.mutedSmall}>마지막으로 작업한 파일</span>
           <span className={styles.resumeTitle}>12화 · 균열의 밤</span>
-          <span className={styles.mutedSmall}>
-            18분 전 · 마지막 편집 위치에서 열기
-          </span>
+          <span className={styles.mutedSmall}>18분 전</span>
         </div>
-        <span className={styles.fakePrimary}>
-          이어서 작업하기
-          <Icon name="arrow-right" size={12} />
-        </span>
+        <span className={styles.fakePrimary}>이어서 작업하기</span>
       </Enter>
       <Enter delay={220} kind="fade" className={styles.blockTitle}>
         새로 만들기
@@ -333,6 +325,7 @@ function Chip({
     <span
       className={cx(styles.chip, fresh && styles.chipFresh)}
       style={fresh ? at(1000) : undefined}
+      data-kind={type}
     >
       <Icon name={iconOf(type)} size={12} />
       {children}
@@ -369,7 +362,7 @@ function DocumentView() {
         <Icon name="undo-2" size={13} />
         <Icon name="redo-2" size={13} />
         <span className={styles.toolSelect}>
-          Inter <Icon name="chevron-down" size={11} />
+          Pretendard <Icon name="chevron-down" size={11} />
         </span>
         <span className={styles.toolSelect}>
           14 <Icon name="chevron-down" size={11} />
@@ -389,7 +382,11 @@ function DocumentView() {
           레나 아르벨
           <Icon name="star" size={14} />
         </Enter>
-        <div className={styles.propTable} data-focus="relations">
+        <div
+          className={styles.propTable}
+          data-focus="relations"
+          data-kind="character"
+        >
           <PropertyRow icon="tag" label="분류" delay={120}>
             <span className={styles.propType}>
               <Icon name={iconOf("character")} size={12} />
@@ -451,6 +448,18 @@ const NODES: Record<string, GraphNode> = {
 const SX = 804 / 884;
 const SY = 556 / 596;
 const NEAR = Object.keys(NODES).filter((key) => NODES[key][4] === "near");
+const NEAR_BOX = (() => {
+  const xs = ["lena", ...NEAR].map((key) => NODES[key][0] * SX);
+  const ys = ["lena", ...NEAR].map((key) => NODES[key][1] * SY);
+  const left = Math.min(...xs) - 56;
+  const top = Math.min(...ys) - 24;
+  return {
+    left,
+    top,
+    width: Math.max(...xs) + 56 - left,
+    height: Math.max(...ys) + 40 - top,
+  };
+})();
 const FAR_EDGES: [string, string][] = [
   ["seoyun", "ch12"],
   ["seoyun", "magic"],
@@ -516,7 +525,8 @@ function GraphView({ quiet }: { quiet?: boolean }) {
           화면 맞춤
         </span>
       </div>
-      <div className={styles.graphCanvas} data-focus="graph">
+      <div className={styles.graphCanvas}>
+        <span className={styles.focusBox} style={NEAR_BOX} data-focus="graph" />
         <span className={styles.graphTools}>
           <Icon name="search" size={14} />
           <Icon name="filter" size={14} />
@@ -760,11 +770,9 @@ function DiffModal() {
               key={entry.name}
               className={cx(styles.diffEntry, i === 0 && styles.diffEntryOn)}
               data-followed={entry.name === FOLLOWED || undefined}
+              data-kind={entry.type}
             >
               <Icon name={iconOf(entry.type)} size={12} />
-              <span className={styles.mutedSmall}>
-                {DOCUMENT_TYPE_META[entry.type].label}
-              </span>
               <b className={styles.ellipsis}>{entry.name}</b>
               <span>{entry.mark}</span>
             </div>
@@ -783,11 +791,6 @@ function DiffModal() {
               >
                 <div className={styles.diffColumnHead}>
                   <b>{title}</b>
-                  <span className={styles.mutedSmall}>
-                    {column === 0
-                      ? "지금 쓰고 있는 문서예요"
-                      : "새로 추출한 결과예요"}
-                  </span>
                 </div>
                 {DIFF_ROWS.map((row) => (
                   <div
@@ -836,7 +839,10 @@ function useTyped(total: number, delay: number, step: number) {
   const [count, setCount] = useState(0);
   useEffect(() => {
     let timer = 0;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       const instant = window.setTimeout(() => setCount(total), 0);
       return () => window.clearTimeout(instant);
     }
@@ -901,7 +907,7 @@ function EditorView() {
           <Icon name="undo-2" size={13} />
           <Icon name="redo-2" size={13} />
           <span className={styles.toolSelect}>
-            Inter <Icon name="chevron-down" size={11} />
+            Pretendard <Icon name="chevron-down" size={11} />
           </span>
           <span className={styles.toolSelect}>
             14 <Icon name="chevron-down" size={11} />
@@ -914,7 +920,10 @@ function EditorView() {
           <span className={styles.spacer} />
           <SaveState count={typed} />
         </div>
-        <div className={cx(styles.docBody, styles.manuscriptBody)}>
+        <div
+          className={cx(styles.docBody, styles.manuscriptBody)}
+          data-focus="editor"
+        >
           <Enter delay={60} kind="fade" className={styles.docTitle}>
             12화 · 균열의 밤
             <Icon name="star" size={14} />
@@ -988,7 +997,7 @@ function FilesView() {
           <Enter delay={240} kind="fade" className={styles.docTitle}>
             레나 아르벨
           </Enter>
-          <div className={styles.propTable}>
+          <div className={styles.propTable} data-kind="character">
             <PropertyRow icon="tag" label="분류" delay={300}>
               <span className={styles.propType}>
                 <Icon name={iconOf("character")} size={12} />

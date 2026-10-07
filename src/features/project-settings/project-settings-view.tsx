@@ -74,7 +74,6 @@ function TrashDialog({
       open={open}
       onClose={close}
       dismissible={!busy}
-      icon="trash-2"
       title="프로젝트를 휴지통으로 이동할까요?"
       description="프로젝트 안의 파일도 함께 이동합니다."
       actions={
@@ -160,7 +159,7 @@ function SettingsForm({
     ? "saving"
     : save.isError
       ? "error"
-      : dirty && !titleEmpty
+      : dirty
         ? "changed"
         : justSaved
           ? "saved"
@@ -204,9 +203,6 @@ function SettingsForm({
           <h2 id="settings-general" className={styles.sectionTitle}>
             일반
           </h2>
-          <p className={styles.sectionDescription}>
-            현재 프로젝트에만 적용되는 기본 정보를 관리합니다.
-          </p>
         </header>
         <form
           className={styles.form}
@@ -223,7 +219,6 @@ function SettingsForm({
             maxLength={TITLE_MAX}
             readOnly={save.isPending}
             onChange={(event) => edit({ title: event.target.value })}
-            hint="사이드바와 프로젝트 목록에 표시되는 이름입니다."
             error={titleEmpty ? "프로젝트 이름을 입력해 주세요." : serverError}
           />
           <TextAreaField
@@ -235,26 +230,15 @@ function SettingsForm({
             maxLength={DESCRIPTION_MAX}
             readOnly={save.isPending}
             onChange={(event) => edit({ description: event.target.value })}
-            hint="프로젝트의 목적이나 범위를 기록합니다."
           />
         </form>
-        {state === "unchanged" ? (
-          <div className={styles.idleActions}>
-            <Button size="lg" disabled>
-              취소
-            </Button>
-            <Button size="lg" icon="save" disabled>
-              변경사항 저장
-            </Button>
-          </div>
-        ) : (
-          <SaveBar
-            state={state}
-            copy={COPY}
-            onSave={submit}
-            onCancel={discard}
-          />
-        )}
+        <SaveBar
+          state={state}
+          copy={COPY}
+          saveDisabled={titleEmpty}
+          onSave={submit}
+          onCancel={discard}
+        />
       </section>
 
       <section className={styles.section} aria-labelledby="settings-danger">
@@ -262,18 +246,13 @@ function SettingsForm({
           <h2 id="settings-danger" className={styles.sectionTitle}>
             위험 영역
           </h2>
-          <p className={styles.sectionDescription}>
-            프로젝트 전체에 영향을 주는 작업입니다.
-          </p>
         </header>
         <div className={styles.danger}>
-          <span className={styles.dangerIcon}>
-            <Icon name="triangle-alert" size={16} />
-          </span>
+          <Icon name="triangle-alert" size={16} className={styles.dangerIcon} />
           <span className={styles.dangerCopy}>
             <strong>프로젝트를 휴지통으로 이동</strong>
             <span>
-              프로젝트 목록의 휴지통에서 복원하거나 영구 삭제할 수 있습니다.
+              프로젝트 목록의 휴지통에서 복원하거나 영구 삭제할 수 있어요.
             </span>
           </span>
           <Button size="lg" icon="trash-2" onClick={() => setTrashOpen(true)}>
@@ -285,7 +264,6 @@ function SettingsForm({
       <DialogCard
         open={leaving !== null}
         onClose={() => setLeaving(null)}
-        icon="file-x"
         title="변경사항을 저장하지 않고 나갈까요?"
         description="현재 프로젝트 설정의 변경사항이 사라집니다."
         actions={
@@ -332,9 +310,6 @@ export function ProjectSettingsView({ tab, paneId }: WorkspaceViewProps) {
     <div className={styles.page}>
       <header className={styles.header}>
         <h1 className={styles.title}>프로젝트 설정</h1>
-        <p className={styles.description}>
-          현재 프로젝트에만 적용되는 정보를 관리합니다.
-        </p>
       </header>
       {settings.isPending ? (
         <EmptyState

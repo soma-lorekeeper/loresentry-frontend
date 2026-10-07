@@ -54,7 +54,10 @@ function Cell({
     return <span className={styles.text}>{cell.value || "—"}</span>;
   const node = index.get(cell.targetId);
   return (
-    <span className={styles.chip}>
+    <span
+      className={styles.chip}
+      data-kind={isDocument(node) ? node.docType : undefined}
+    >
       <Icon
         name={
           isDocument(node)
@@ -77,7 +80,7 @@ function ComparePane({
   index,
 }: {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   snapshot: Snapshot;
   other: Snapshot;
   side: "left" | "right";
@@ -94,13 +97,13 @@ function ComparePane({
     <section className={styles.pane} aria-label={title}>
       <header className={styles.paneHeader}>
         <h3>{title}</h3>
-        <span>{subtitle}</span>
+        {subtitle && <span>{subtitle}</span>}
       </header>
       <dl className={styles.properties}>
         <div className={styles.property}>
           <dt>분류</dt>
           <dd>
-            <span className={styles.type}>
+            <span className={styles.type} data-kind={snapshot.docType}>
               <Icon name={meta.entityIcon} size={14} />
               {meta.label}
             </span>
@@ -320,7 +323,6 @@ export function VersionHistoryModal({
               />
               <ComparePane
                 title="현재 문서"
-                subtitle="지금"
                 snapshot={current}
                 other={selected.snapshot}
                 side="right"

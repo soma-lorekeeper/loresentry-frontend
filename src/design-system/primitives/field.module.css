@@ -10,41 +10,37 @@
 
 .labelRow {
   display: flex;
-  align-items: center;
-  gap: var(--lk-space-2);
+  align-items: baseline;
+  gap: 6px;
 }
 
 .label {
-  flex: 1;
   font-size: var(--lk-font-size-body);
   font-weight: 600;
 }
 
 .settings .label {
-  flex: none;
   font-size: var(--lk-font-size-label);
   line-height: var(--lk-line-height-body);
 }
 
-.required {
-  color: var(--lk-color-accent-primary);
-  font-size: var(--lk-font-size-label);
-  font-weight: 600;
-}
-
-.settings .required,
 .labelHint {
   color: var(--lk-color-text-secondary);
-  font-weight: normal;
+  font-size: var(--lk-font-size-label);
+  font-weight: 400;
 }
 
 .control {
   width: 100%;
-  height: 44px;
+  height: 42px;
   padding: 0 var(--lk-space-3);
-  border: 1px solid var(--lk-color-border-default);
-  border-radius: var(--lk-radius-control);
-  background: var(--lk-color-surface-default);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: var(--lk-color-surface-sunken);
+  outline: none;
+  transition:
+    background-color 160ms var(--lk-ease),
+    box-shadow 160ms var(--lk-ease);
   color: var(--lk-color-text-primary);
   font-size: var(--lk-font-size-body);
   line-height: var(--lk-line-height-body);
@@ -52,6 +48,12 @@
 
 .settings .control {
   height: 40px;
+}
+
+.control:focus,
+.control:focus-visible {
+  background: var(--lk-color-surface-default);
+  box-shadow: var(--lk-focus-ring);
 }
 
 textarea.control {
@@ -63,11 +65,6 @@ textarea.control {
 
 .control::placeholder {
   color: var(--lk-color-text-secondary);
-}
-
-.control:focus-visible {
-  outline: 2px solid var(--lk-color-accent-primary);
-  outline-offset: -1px;
 }
 
 .control:read-only,

@@ -16,6 +16,7 @@ export type FieldDensity = "dialog" | "settings";
 
 interface FieldChromeProps {
   label: string;
+  hideLabel?: boolean;
   required?: boolean;
   labelHint?: string;
   hint?: string;
@@ -26,9 +27,31 @@ interface FieldChromeProps {
   className?: string;
 }
 
+const COUNTER_THRESHOLD = 0.8;
+
+function showsCounter(length: number | undefined, maxLength?: number) {
+  return (
+    maxLength !== undefined &&
+    length !== undefined &&
+    length >= maxLength * COUNTER_THRESHOLD
+  );
+}
+
+function describedBy(
+  messageId: string,
+  counterId: string,
+  hasMessage: boolean,
+  hasCounter: boolean,
+) {
+  const ids = [hasMessage && messageId, hasCounter && counterId].filter(
+    Boolean,
+  );
+  return ids.length ? ids.join(" ") : undefined;
+}
+
 function FieldChrome({
   label,
-  required,
+  hideLabel,
   labelHint,
   hint,
   error,
@@ -38,13 +61,15 @@ function FieldChrome({
   className,
   controlId,
   messageId,
+  counterId,
   children,
 }: FieldChromeProps & {
   controlId: string;
   messageId: string;
+  counterId: string;
   children: React.ReactNode;
 }) {
-  const showCounter = maxLength !== undefined && length !== undefined;
+  const showCounter = showsCounter(length, maxLength);
   const hasMeta = Boolean(hint || error || showCounter);
   return (
     <div
@@ -54,15 +79,11 @@ function FieldChrome({
         className,
       )}
     >
-      <div className={styles.labelRow}>
+      <div className={cx(styles.labelRow, hideLabel && "lk-visually-hidden")}>
         <label htmlFor={controlId} className={styles.label}>
           {label}
         </label>
-        {(required || labelHint) && (
-          <span className={cx(styles.required, labelHint && styles.labelHint)}>
-            {labelHint ?? "필수"}
-          </span>
-        )}
+        {labelHint && <span className={styles.labelHint}>{labelHint}</span>}
       </div>
       {children}
       {hasMeta && (
@@ -78,7 +99,7 @@ function FieldChrome({
             </span>
           )}
           {showCounter && (
-            <span className={styles.counter}>
+            <span id={counterId} className={styles.counter}>
               {length}/{maxLength}
             </span>
           )}
@@ -97,6 +118,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   function TextField(
     {
       label,
+      hideLabel,
       required,
       labelHint,
       hint,
@@ -113,27 +135,36 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const generatedId = useId();
     const controlId = id ?? generatedId;
     const messageId = `${controlId}-message`;
+    const counterId = `${controlId}-counter`;
+    const length = typeof value === "string" ? value.length : undefined;
     return (
       <FieldChrome
         label={label}
-        required={required}
+        hideLabel={hideLabel}
         labelHint={labelHint}
         hint={hint}
         error={error}
         maxLength={maxLength}
-        length={typeof value === "string" ? value.length : undefined}
+        length={length}
         density={density}
         className={className}
         controlId={controlId}
         messageId={messageId}
+        counterId={counterId}
       >
         <input
           ref={ref}
           id={controlId}
           className={styles.control}
           value={value}
+          maxLength={maxLength}
           aria-invalid={error ? true : undefined}
-          aria-describedby={hint || error ? messageId : undefined}
+          aria-describedby={describedBy(
+            messageId,
+            counterId,
+            Boolean(hint || error),
+            showsCounter(length, maxLength),
+          )}
           aria-required={required || undefined}
           {...rest}
         />
@@ -172,27 +203,36 @@ export const TextAreaField = forwardRef<
   const generatedId = useId();
   const controlId = id ?? generatedId;
   const messageId = `${controlId}-message`;
+  const counterId = `${controlId}-counter`;
+  const length = typeof value === "string" ? value.length : undefined;
   return (
     <FieldChrome
       label={label}
-      required={required}
       labelHint={labelHint}
       hint={hint}
       error={error}
       maxLength={maxLength}
-      length={typeof value === "string" ? value.length : undefined}
+      length={length}
       density={density}
       className={className}
       controlId={controlId}
       messageId={messageId}
+      counterId={counterId}
     >
       <textarea
         ref={ref}
         id={controlId}
         className={styles.control}
         value={value}
+        maxLength={maxLength}
         aria-invalid={error ? true : undefined}
-        aria-describedby={hint || error ? messageId : undefined}
+        aria-describedby={describedBy(
+          messageId,
+          counterId,
+          Boolean(hint || error),
+          showsCounter(length, maxLength),
+        )}
+        aria-required={required || undefined}
         {...rest}
       />
     </FieldChrome>

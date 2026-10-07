@@ -88,6 +88,7 @@ function SearchPanel({
                 id={`graph-search-${node.id}`}
                 role="option"
                 aria-selected={index === active}
+                data-kind={node.kind}
                 className={styles.result}
                 onMouseEnter={() => setActive(index)}
                 onClick={() => onPick(node)}
@@ -132,36 +133,35 @@ function FilterPanel({
             type="button"
             role="menuitemcheckbox"
             aria-checked={on}
+            data-kind={kind}
             className={styles.filterItem}
             onClick={() => toggle(kind)}
           >
             <span className={styles.check}>
               {on && <Icon name="check" size={14} />}
             </span>
-            <span
-              className={styles.dot}
-              style={{ background: kindColor(kind) }}
-            />
             <Icon name={DOCUMENT_TYPE_META[kind].entityIcon} size={15} />
             {DOCUMENT_TYPE_META[kind].label}
           </button>
         );
       })}
       <hr className={styles.filterRule} />
-      <button
-        type="button"
-        className={styles.filterAction}
-        onClick={() => onChange(new Set(NODE_KINDS))}
-      >
-        모두 선택
-      </button>
-      <button
-        type="button"
-        className={styles.filterAction}
-        onClick={() => onChange(new Set())}
-      >
-        선택 해제
-      </button>
+      <div className={styles.filterActions}>
+        <button
+          type="button"
+          className={styles.filterAction}
+          onClick={() => onChange(new Set(NODE_KINDS))}
+        >
+          모두 선택
+        </button>
+        <button
+          type="button"
+          className={styles.filterAction}
+          onClick={() => onChange(new Set())}
+        >
+          선택 해제
+        </button>
+      </div>
     </div>
   );
 }

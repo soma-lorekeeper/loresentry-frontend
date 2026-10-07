@@ -1,12 +1,12 @@
 .bar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--lk-space-3);
   min-height: 64px;
   padding: var(--lk-space-3);
-  border: 1px solid transparent;
-  border-radius: var(--lk-radius-control);
-  background: var(--lk-color-bg-canvas);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-sunken);
 }
 
 .bar > svg {
@@ -19,16 +19,22 @@
 }
 
 .error {
-  border-color: var(--lk-color-border-default);
   background: var(--lk-color-surface-raised);
+  box-shadow: var(--lk-shadow-lift);
 }
 
 .copy {
   display: flex;
-  flex: 1;
+  flex: 1 1 11em;
   flex-direction: column;
   gap: var(--lk-space-1);
   min-width: 0;
+}
+
+.actions {
+  display: flex;
+  gap: var(--lk-space-2);
+  margin-left: auto;
 }
 
 .message {
@@ -42,16 +48,6 @@
 
 .spin {
   animation: spin 900ms linear infinite;
-}
-
-.muted {
-  background: var(--lk-color-surface-navigation);
-  color: var(--lk-color-text-secondary);
-  opacity: 1;
-}
-
-.muted > svg {
-  color: var(--lk-color-text-secondary);
 }
 
 @keyframes spin {
