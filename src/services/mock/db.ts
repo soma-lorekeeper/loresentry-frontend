@@ -28,15 +28,14 @@ import {
   type DocumentBody,
 } from "@/domain/document-body";
 
-import {
-  GLASS_GARDEN_EPISODES,
-  GLASS_GARDEN_SETTINGS,
-  OTHER_PROJECTS,
-  TRASHED_PROJECTS,
-} from "./seed-world";
+import { LOCALE, t } from "@/i18n";
+
+import { SEED } from "./seed-world";
+import type { MockSeed, SeedOtherProject } from "./seed-types";
 
 export const MOCK_DB_VERSION = 10;
-const STORAGE_KEY = "loresentry.mock.db";
+const STORAGE_KEY =
+  LOCALE === "ko" ? "loresentry.mock.db" : `loresentry.mock.db.${LOCALE}`;
 
 export interface StoredDocument {
   body: DocumentBody;
@@ -97,7 +96,7 @@ function descriptionProperty(fileId: string, value: string): DocumentProperty {
     id: `${fileId}:description`,
     kind: "text",
     key: "description",
-    label: "설명",
+    label: t("mock::설명"),
     value,
   };
 }
@@ -135,6 +134,7 @@ function categoryFolders(projectId: string): FolderNode[] {
 function buildGlassGarden(
   now: number,
   db: MockDb,
+  seed: MockSeed,
   projectId = GLASS_GARDEN_ID,
 ) {
   const rand = mulberry32(20260918);
@@ -161,7 +161,7 @@ function buildGlassGarden(
 
   let minuteOffset = 18;
   const chapterKeys: string[] = [];
-  GLASS_GARDEN_EPISODES.forEach((episode, episodeIndex) => {
+  seed.episodes.forEach((episode, episodeIndex) => {
     const episodeId = docId(episode.key);
     db.files.push({
       kind: "folder",
@@ -179,8 +179,7 @@ function buildGlassGarden(
       descriptions.set(chapter.key, chapter.description);
       bodies.set(
         chapter.key,
-        chapter.body ??
-          `${chapter.description}.\n\n이 회차의 초고는 아직 비어 있다. 장면의 순서와 인물의 동선만 메모로 남겨 두었다.`,
+        chapter.body ?? seed.draftBody(chapter.description),
       );
       chapterKeys.push(chapter.key);
       db.files.push({
@@ -210,29 +209,30 @@ function buildGlassGarden(
     event: [],
     worldview: [],
   };
-  (Object.keys(GLASS_GARDEN_SETTINGS) as SettingDocumentType[]).forEach(
-    (type) => {
-      GLASS_GARDEN_SETTINGS[type].forEach((entity, index) => {
-        docTypeByKey.set(entity.key, type);
-        descriptions.set(entity.key, entity.description);
-        bodies.set(entity.key, entity.body ?? `${entity.description}.`);
-        settingKeys[type].push(entity.key);
-        db.files.push({
-          kind: "document",
-          id: docId(entity.key),
-          projectId,
-          parentId: folderOf(type),
-          title: entity.title,
-          docType: type,
-          rank: String((index + 1) * 1024),
-          locked: false,
-          revisionNo: 1 + Math.floor(rand() * 12),
-          updatedAt: minutes(now, (minuteOffset += 131)),
-          trashedAt: null,
-        });
+  (Object.keys(seed.settings) as SettingDocumentType[]).forEach((type) => {
+    seed.settings[type].forEach((entity, index) => {
+      docTypeByKey.set(entity.key, type);
+      descriptions.set(entity.key, entity.description);
+      bodies.set(
+        entity.key,
+        entity.body ?? seed.settingBody(entity.description),
+      );
+      settingKeys[type].push(entity.key);
+      db.files.push({
+        kind: "document",
+        id: docId(entity.key),
+        projectId,
+        parentId: folderOf(type),
+        title: entity.title,
+        docType: type,
+        rank: String((index + 1) * 1024),
+        locked: false,
+        revisionNo: 1 + Math.floor(rand() * 12),
+        updatedAt: minutes(now, (minuteOffset += 131)),
+        trashedAt: null,
       });
-    },
-  );
+    });
+  });
 
   for (const key of chapterKeys) {
     for (const target of pickSome(rand, settingKeys.character, 2, 3))
@@ -294,7 +294,7 @@ function buildGlassGarden(
       id: docId("trash-prologue"),
       projectId,
       parentId: folderOf("manuscript"),
-      title: "옛 프롤로그",
+      title: seed.trash.prologue.title,
       docType: "manuscript",
       rank: "99999",
       locked: false,
@@ -307,7 +307,7 @@ function buildGlassGarden(
       id: trashFolderId,
       projectId,
       parentId: null,
-      title: "보류한 설정",
+      title: seed.trash.folderTitle,
       role: "section",
       category: null,
       rank: "99999",
@@ -318,7 +318,7 @@ function buildGlassGarden(
       id: docId("trash-lighthouse"),
       projectId,
       parentId: trashFolderId,
-      title: "사라진 등대",
+      title: seed.trash.lighthouse.title,
       docType: "place",
       rank: "1024",
       locked: false,
@@ -328,41 +328,33 @@ function buildGlassGarden(
     },
   );
   db.documents[docId("trash-prologue")] = {
-    body: bodyFromPlainText("정원이 생기기 전의 이야기."),
+    body: bodyFromPlainText(seed.trash.prologue.body),
     properties: [
-      descriptionProperty(docId("trash-prologue"), "초기 구상의 프롤로그"),
+      descriptionProperty(
+        docId("trash-prologue"),
+        seed.trash.prologue.description,
+      ),
     ],
   };
   db.documents[docId("trash-lighthouse")] = {
-    body: bodyFromPlainText("지도에서 지워진 등대."),
+    body: bodyFromPlainText(seed.trash.lighthouse.body),
     properties: [
-      descriptionProperty(docId("trash-lighthouse"), "초기 설정에만 있던 등대"),
+      descriptionProperty(
+        docId("trash-lighthouse"),
+        seed.trash.lighthouse.description,
+      ),
     ],
   };
 
   db.favorites[projectId] = [docId("ch-12")];
 
-  const projectMemoTitles = [
-    "균열의 방향",
-    "북쪽 온실",
-    "진향 용어",
-    "사건 순서",
-    "표지 문구",
-  ];
-  const projectMemoBodies = [
-    "균열은 문이 아니라 기억의 방향이다. 다음 장면에서 유리 조각의 의미를 다시 연결한다.",
-    "서윤과 하린이 처음 마주치는 장소는 북쪽 온실. 빛이 유리 벽을 통과하는 시간을 확인한다.",
-    "세계관 용어는 ‘진향’으로 통일한다. 인물마다 잔향을 감지하는 방식이 다르다.",
-    "후반부 사건 순서를 다시 검토한다. 축제 다음 날에 정전이 발생하도록 조정.",
-    "표지 후보 문구: 기억은 언제나 빛이 지난 자리에 남는다.",
-  ];
-  projectMemoBodies.forEach((body, index) => {
+  seed.projectMemos.forEach(({ title, body }, index) => {
     db.memos.push({
       id: `memo-p-${index + 1}`,
       projectId,
       scope: "project",
       fileId: null,
-      title: projectMemoTitles[index] ?? "",
+      title,
       body,
       updatedAt: minutes(now, 60 * (index + 1)),
     });
@@ -374,7 +366,7 @@ function buildGlassGarden(
       scope: "file",
       fileId: docId("ch-12"),
       title: "",
-      body: "손잡이 진동 묘사는 한 번만 사용한다. ‘균열’이라는 단어는 마지막 문장까지 아껴 두기.",
+      body: seed.fileMemos.chapter,
       updatedAt: minutes(now, 40),
     },
     {
@@ -383,7 +375,7 @@ function buildGlassGarden(
       scope: "file",
       fileId: docId("c-lena"),
       title: "",
-      body: "레나의 말투는 항해 용어를 섞되 설명하지 않는다.",
+      body: seed.fileMemos.lena,
       updatedAt: minutes(now, 60 * 20),
     },
   );
@@ -395,7 +387,7 @@ function buildGlassGarden(
     body: DocumentBody,
     dropChapter11: boolean,
   ) => ({
-    title: "레나 아르벨",
+    title: seed.settings.character.find((c) => c.key === "c-lena")!.title,
     docType: "character" as const,
     body,
     properties: lena.properties.map((property) => {
@@ -410,10 +402,11 @@ function buildGlassGarden(
       return property;
     }),
   });
+  const history = seed.lenaHistory;
   const olderBody = bodyFromPlainText(
     bodyToPlainText(lena.body).replace(
-      "한 번도 길을 잃지 않았다",
-      "길을 잃지 않았다",
+      history.earlierPhrase.now,
+      history.earlierPhrase.before,
     ),
   );
   const at = (minutesAgo: number) => now - minutesAgo * 60_000;
@@ -424,11 +417,7 @@ function buildGlassGarden(
       kind: "NAMED",
       label: null,
       createdAt: new Date(at(42)).toISOString(),
-      snapshot: snapshotOf(
-        "타인의 기억이 남긴 방향을 감각으로 읽는 항해사",
-        olderBody,
-        true,
-      ),
+      snapshot: snapshotOf(history.versionDescriptions[0], olderBody, true),
     },
     {
       id: "ver-lena-3",
@@ -436,11 +425,7 @@ function buildGlassGarden(
       kind: "AUTO",
       label: null,
       createdAt: new Date(at(60 * 5 + 20)).toISOString(),
-      snapshot: snapshotOf(
-        "타인의 기억이 남긴 방향을 감각으로 읽는 항해사",
-        olderBody,
-        true,
-      ),
+      snapshot: snapshotOf(history.versionDescriptions[1], olderBody, true),
     },
     {
       id: "ver-lena-2",
@@ -448,7 +433,7 @@ function buildGlassGarden(
       kind: "NAMED",
       label: null,
       createdAt: new Date(at(60 * 27 + 10)).toISOString(),
-      snapshot: snapshotOf("은빛 항해단의 항해사", olderBody, true),
+      snapshot: snapshotOf(history.versionDescriptions[2], olderBody, true),
     },
     {
       id: "ver-lena-1",
@@ -456,20 +441,24 @@ function buildGlassGarden(
       kind: "AUTO",
       label: null,
       createdAt: new Date(at(60 * 24 * 15 + 90)).toISOString(),
-      snapshot: snapshotOf("항해사", olderBody, true),
+      snapshot: snapshotOf(history.versionDescriptions[3], olderBody, true),
     },
   );
   const lenaProps = db.documents[lenaId].properties;
   const description = lenaProps.find((p) => p.kind === "text");
   if (description && description.kind === "text") {
-    description.value = "기억 항로를 읽어 내는 은빛 항해단의 항해사";
+    description.value = history.currentDescription;
   }
 
   const chatSessions: Array<[string, string, number]> = [
-    ["chat-crack", "균열 장면 다듬기", 5],
-    ["chat-lena", "레나 설정 정리", 60 * 26],
-    ["chat-title", "12화 제목 후보", 60 * 24 * 4],
+    ["chat-crack", seed.chat.sessions.crack, 5],
+    ["chat-lena", seed.chat.sessions.lena, 60 * 26],
+    ["chat-title", seed.chat.sessions.title, 60 * 24 * 4],
   ];
+  const chapter12 = {
+    id: docId("ch-12"),
+    title: db.files.find((file) => file.id === docId("ch-12"))!.title,
+  };
   for (const [id, title, ago] of chatSessions) {
     db.chatSessions.push({
       id,
@@ -483,38 +472,33 @@ function buildGlassGarden(
       id: "msg-1",
       sessionId: "chat-crack",
       role: "user",
-      content: "문이 열리기 직전 장면의 긴장감을 더 높일 방법을 알려줘.",
+      content: seed.chat.question,
       createdAt: minutes(now, 6),
-      contextFile: { id: docId("ch-12"), title: "12화 · 균열의 밤" },
+      contextFile: { ...chapter12 },
     },
     {
       id: "msg-2",
       sessionId: "chat-crack",
       role: "assistant",
-      content:
-        "문을 열기 전에 세 가지 감각을 짧게 쌓아 보세요. 손잡이의 진동, 등불이 흔들리는 소리, 그리고 문 너머의 목소리를 한 문장씩 좁혀 가면 독자가 서윤의 망설임을 함께 느낄 수 있습니다.",
+      content: seed.chat.answer,
       createdAt: minutes(now, 5),
-      contextFile: { id: docId("ch-12"), title: "12화 · 균열의 밤" },
+      contextFile: { ...chapter12 },
     },
   );
 
   db.projects.push({
     id: projectId,
-    title: "유리 정원의 기록",
-    description: "빛이 지난 자리에 남는 기억을 기록하는 사람들의 이야기",
+    title: seed.project.title,
+    description: seed.project.description,
     icon: "book-open",
     createdAt: minutes(now, 60 * 24 * 120),
     lastWorkedAt: minutes(now, 3),
-    lastFile: { id: docId("ch-12"), title: "12화 · 균열의 밤" },
+    lastFile: { ...chapter12 },
     trashedAt: null,
   });
 }
 
-function buildOtherProject(
-  now: number,
-  db: MockDb,
-  seed: (typeof OTHER_PROJECTS)[number],
-) {
+function buildOtherProject(now: number, db: MockDb, seed: SeedOtherProject) {
   const folders = categoryFolders(seed.id);
   db.files.push(...folders);
   const lastFileId = `${seed.id}:last`;
@@ -548,12 +532,12 @@ function buildOtherProject(
   });
 }
 
-export function buildSeedDb(now = Date.now()): MockDb {
+export function buildSeedDb(now = Date.now(), seed = SEED): MockDb {
   const db: MockDb = {
     version: MOCK_DB_VERSION,
     user: {
       id: "user-1",
-      displayName: "서윤주",
+      displayName: seed.account.displayName,
       email: "seoyunju@lore.kr",
       onboardingCompleted: true,
     },
@@ -571,9 +555,9 @@ export function buildSeedDb(now = Date.now()): MockDb {
     saveReceipts: {},
     sequence: 1000,
   };
-  buildGlassGarden(now, db);
-  for (const seed of OTHER_PROJECTS) buildOtherProject(now, db, seed);
-  for (const trashed of TRASHED_PROJECTS) {
+  buildGlassGarden(now, db, seed);
+  for (const other of seed.otherProjects) buildOtherProject(now, db, other);
+  for (const trashed of seed.trashedProjects) {
     db.projects.push({
       id: trashed.id,
       title: trashed.title,
@@ -603,7 +587,7 @@ export function addSampleProject(db: MockDb, projectId: string, title: string) {
     memos: [],
     versions: [],
   };
-  buildGlassGarden(Date.now(), staged, projectId);
+  buildGlassGarden(Date.now(), staged, SEED, projectId);
   const project = staged.projects.find((p) => p.id === projectId)!;
   db.projects.push({ ...project, title });
   db.files.push(...staged.files);

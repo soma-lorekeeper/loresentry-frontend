@@ -1,5 +1,6 @@
 import { DOCUMENT_TYPE_META } from "@/domain/document-types";
 import type { DocumentNode, FileNode, FolderNode } from "@/domain/models";
+import { t } from "@/i18n";
 
 import { ServiceError } from "../errors";
 import type { FileService } from "../ports";
@@ -19,17 +20,19 @@ export const FILE_TITLE_MAX = 100;
 
 function requireNode(fileId: string) {
   const node = getDb().files.find((candidate) => candidate.id === fileId);
-  if (!node) throw new ServiceError("not-found", "파일을 찾을 수 없어요.");
+  if (!node)
+    throw new ServiceError("not-found", t("mock::파일을 찾을 수 없어요."));
   return node;
 }
 
 function validateTitle(title: string) {
   const trimmed = title.trim();
-  if (!trimmed) throw new ServiceError("validation", "이름을 입력해 주세요.");
+  if (!trimmed)
+    throw new ServiceError("validation", t("mock::이름을 입력해 주세요."));
   if (trimmed.length > FILE_TITLE_MAX) {
     throw new ServiceError(
       "validation",
-      `이름은 ${FILE_TITLE_MAX}자 이하로 입력해 주세요.`,
+      t("이름은 {max}자 이하로 입력해 주세요.", { max: FILE_TITLE_MAX }),
     );
   }
   return trimmed;
@@ -37,7 +40,7 @@ function validateTitle(title: string) {
 
 function assertEditable(node: FileNode) {
   if (node.kind === "folder" && node.role === "category") {
-    throw new ServiceError("validation", "기본 분류 폴더는 바꿀 수 없어요.");
+    throw new ServiceError("validation", t("기본 분류 폴더는 바꿀 수 없어요."));
   }
 }
 
@@ -68,7 +71,7 @@ export const mockFiles: FileService = {
       const db = getDb();
       const parent = parentId ? requireNode(parentId) : null;
       if (parent && parent.kind !== "folder") {
-        throw new ServiceError("validation", "폴더 안에만 만들 수 있어요.");
+        throw new ServiceError("validation", t("폴더 안에만 만들 수 있어요."));
       }
       const category = parent ? categoryOf(parent) : null;
       const now = new Date().toISOString();
@@ -76,13 +79,13 @@ export const mockFiles: FileService = {
         if (parent?.role === "episode") {
           throw new ServiceError(
             "validation",
-            "에피소드 안에는 폴더를 만들 수 없어요.",
+            t("에피소드 안에는 폴더를 만들 수 없어요."),
           );
         }
         if (parent?.role === "category" && parent.category !== "manuscript") {
           throw new ServiceError(
             "validation",
-            "에피소드 폴더는 원고 아래에만 만들 수 있어요.",
+            t("에피소드 폴더는 원고 아래에만 만들 수 있어요."),
           );
         }
         const role = parent?.role === "category" ? "episode" : "folder";
@@ -102,13 +105,16 @@ export const mockFiles: FileService = {
         return folder;
       }
       if (!parent) {
-        throw new ServiceError("validation", "문서는 폴더 안에 만들어 주세요.");
+        throw new ServiceError(
+          "validation",
+          t("문서는 폴더 안에 만들어 주세요."),
+        );
       }
       const type = docType ?? category?.category ?? "manuscript";
       if (parent.role === "episode" && type !== "manuscript") {
         throw new ServiceError(
           "validation",
-          "에피소드에는 원고만 둘 수 있어요.",
+          t("에피소드에는 원고만 둘 수 있어요."),
         );
       }
       const document: DocumentNode = {
@@ -132,7 +138,7 @@ export const mockFiles: FileService = {
             id: `${document.id}:description`,
             kind: "text",
             key: "description",
-            label: "설명",
+            label: t("mock::설명"),
             value: "",
           },
         ],
@@ -162,7 +168,10 @@ export const mockFiles: FileService = {
       assertEditable(node);
       const parent = requireNode(parentId);
       if (parent.kind !== "folder") {
-        throw new ServiceError("validation", "폴더 안으로만 옮길 수 있어요.");
+        throw new ServiceError(
+          "validation",
+          t("폴더 안으로만 옮길 수 있어요."),
+        );
       }
       if (
         node.kind === "folder" &&
@@ -170,7 +179,7 @@ export const mockFiles: FileService = {
       ) {
         throw new ServiceError(
           "validation",
-          "이 폴더 안에는 폴더를 옮길 수 없어요.",
+          t("이 폴더 안에는 폴더를 옮길 수 없어요."),
         );
       }
       if (
@@ -180,7 +189,7 @@ export const mockFiles: FileService = {
       ) {
         throw new ServiceError(
           "validation",
-          "에피소드에는 원고만 둘 수 있어요.",
+          t("에피소드에는 원고만 둘 수 있어요."),
         );
       }
       if (
@@ -189,7 +198,7 @@ export const mockFiles: FileService = {
       ) {
         throw new ServiceError(
           "validation",
-          "폴더를 자기 안으로 옮길 수 없어요.",
+          t("폴더를 자기 안으로 옮길 수 없어요."),
         );
       }
       const siblings = db.files
@@ -314,7 +323,7 @@ export const mockFiles: FileService = {
       if (node.kind !== "folder" || node.role !== "episode") {
         throw new ServiceError(
           "validation",
-          "에피소드 폴더만 삭제할 수 있어요.",
+          t("에피소드 폴더만 삭제할 수 있어요."),
         );
       }
       const children = db.files
@@ -332,5 +341,5 @@ export const mockFiles: FileService = {
 export function typeLabelOf(node: FileNode) {
   return node.kind === "document"
     ? DOCUMENT_TYPE_META[node.docType].label
-    : "폴더";
+    : t("mock::폴더");
 }
