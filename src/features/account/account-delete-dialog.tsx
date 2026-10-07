@@ -12,6 +12,7 @@ import {
   TextField,
 } from "@/design-system/primitives";
 import type { User } from "@/domain/models";
+import { t } from "@/i18n";
 import { AccountRow } from "@/features/projects/user-menu";
 import {
   useDeleteAccount,
@@ -81,17 +82,19 @@ function AccountDeleteCard({
       icon: "book-open" as const,
       text:
         active === undefined
-          ? "모든 프로젝트와 그 안의 원고, 설정 문서, 메모, 버전"
-          : `프로젝트 ${active}개와 그 안의 원고, 설정 문서, 메모, 버전`,
+          ? t("모든 프로젝트와 그 안의 원고, 설정 문서, 메모, 버전")
+          : t("프로젝트 {count}개와 그 안의 원고, 설정 문서, 메모, 버전", {
+              count: active,
+            }),
     },
     {
       icon: "trash-2" as const,
       text:
         trashed === undefined
-          ? "휴지통에 있는 프로젝트"
-          : `휴지통에 있는 프로젝트 ${trashed}개`,
+          ? t("휴지통에 있는 프로젝트")
+          : t("휴지통에 있는 프로젝트 {count}개", { count: trashed }),
     },
-    { icon: "image" as const, text: "올린 이미지와 AI 분석 결과" },
+    { icon: "image" as const, text: t("올린 이미지와 AI 분석 결과") },
   ];
 
   return (
@@ -100,11 +103,13 @@ function AccountDeleteCard({
       onClose={close}
       dismissible={!pending}
       size="md"
-      title={pending ? "계정을 삭제하고 있어요" : "계정을 삭제할까요?"}
+      title={pending ? t("계정을 삭제하고 있어요") : t("계정을 삭제할까요?")}
       description={
         pending
-          ? "모든 자료를 지우는 중이에요. 창을 닫지 말고 잠시만 기다려 주세요."
-          : "이 계정과 모든 작업이 바로 삭제되며 되돌릴 수 없어요."
+          ? t(
+              "모든 자료를 지우는 중이에요. 창을 닫지 말고 잠시만 기다려 주세요.",
+            )
+          : t("이 계정과 모든 작업이 바로 삭제되며 되돌릴 수 없어요.")
       }
       actions={
         <>
@@ -115,7 +120,7 @@ function AccountDeleteCard({
             onClick={close}
             disabled={pending}
           >
-            취소
+            {t("취소")}
           </Button>
           <Button
             size="md"
@@ -126,7 +131,7 @@ function AccountDeleteCard({
             className={matches ? undefined : styles.muted}
             onClick={confirm}
           >
-            {pending ? "삭제 중…" : failed ? "다시 시도" : "계정 삭제"}
+            {pending ? t("삭제 중…") : failed ? t("다시 시도") : t("계정 삭제")}
           </Button>
         </>
       }
@@ -135,13 +140,15 @@ function AccountDeleteCard({
         {failed && (
           <InlineNotice icon="circle-alert">
             {remove.error?.message ??
-              "계정을 삭제하지 못했어요. 계정과 작업은 그대로 있어요."}
+              t("계정을 삭제하지 못했어요. 계정과 작업은 그대로 있어요.")}
           </InlineNotice>
         )}
         <div className={styles.deleteScope}>
           <AccountRow user={user} />
           <div className={styles.deleteImpact}>
-            <p className={styles.deleteImpactTitle}>함께 영구 삭제돼요</p>
+            <p className={styles.deleteImpactTitle}>
+              {t("함께 영구 삭제돼요")}
+            </p>
             <ul>
               {impact.map((item) => (
                 <li key={item.icon}>
@@ -153,14 +160,16 @@ function AccountDeleteCard({
           </div>
         </div>
         <TextField
-          label="확인을 위해 이메일을 입력하세요"
+          label={t("확인을 위해 이메일을 입력하세요")}
           value={typed}
           onChange={(event) => {
             setTyped(event.target.value);
             if (mismatch) remove.reset();
           }}
           placeholder={user.email}
-          error={mismatch ? "입력한 이메일이 계정 이메일과 달라요." : undefined}
+          error={
+            mismatch ? t("입력한 이메일이 계정 이메일과 달라요.") : undefined
+          }
           readOnly={pending}
           autoComplete="off"
           spellCheck={false}

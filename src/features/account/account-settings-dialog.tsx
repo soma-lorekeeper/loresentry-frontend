@@ -7,33 +7,42 @@ import {
   IconButton,
   Modal,
   SaveBar,
+  Segmented,
   TextField,
   type SaveBarState,
 } from "@/design-system/primitives";
 import type { User } from "@/domain/models";
+import { useLocaleSwitch } from "@/features/locale/use-locale-switch";
 import { useUpdateAccount } from "@/features/projects/queries";
+import { LOCALE, LOCALE_NAMES, LOCALES, t, type Locale } from "@/i18n";
 import { isServiceError } from "@/services/errors";
 
 import styles from "./account.module.css";
 
 const COPY = {
   changed: {
-    message: "저장되지 않은 이름 변경",
+    message: t("저장되지 않은 이름 변경"),
     detail: "",
   },
   saving: {
-    message: "계정 정보를 저장하고 있습니다",
+    message: t("계정 정보를 저장하고 있습니다"),
     detail: "",
   },
   saved: {
-    message: "계정 정보가 저장되었습니다",
+    message: t("계정 정보가 저장되었습니다"),
     detail: "",
   },
   error: {
-    message: "계정 정보를 저장하지 못했어요",
-    detail: "입력한 이름은 유지됩니다.",
+    message: t("계정 정보를 저장하지 못했어요"),
+    detail: t("입력한 이름은 유지됩니다."),
   },
 };
+
+const LANGUAGE_OPTIONS = LOCALES.map((locale) => ({
+  value: locale,
+  label: LOCALE_NAMES[locale],
+  lang: locale,
+}));
 
 interface AccountSettingsDialogProps {
   open: boolean;
@@ -52,7 +61,7 @@ export function AccountSettingsDialog({
     <Modal
       open={open}
       onClose={onClose}
-      label="계정 설정"
+      label={t("계정 설정")}
       className={styles.dialog}
     >
       <AccountSettingsForm
@@ -115,11 +124,11 @@ function AccountSettingsForm({
     <div className={styles.body} aria-labelledby={titleId}>
       <div className={styles.header}>
         <h2 id={titleId} className={styles.title}>
-          계정 설정
+          {t("계정 설정")}
         </h2>
         <IconButton
           icon="x"
-          label="계정 설정 닫기"
+          label={t("계정 설정 닫기")}
           className={styles.close}
           onClick={onClose}
         />
@@ -133,7 +142,7 @@ function AccountSettingsForm({
       >
         <TextField
           density="settings"
-          label="이름"
+          label={t("이름")}
           required
           value={name}
           onChange={(event) => {
@@ -141,17 +150,18 @@ function AccountSettingsForm({
             setJustSaved(false);
             update.reset();
           }}
-          error={invalid ? "이름을 입력해 주세요." : validationMessage}
+          error={invalid ? t("이름을 입력해 주세요.") : validationMessage}
           readOnly={update.isPending}
           autoComplete="name"
         />
         <TextField
           density="settings"
-          label="이메일"
-          labelHint="Google 계정"
+          label={t("이메일")}
+          labelHint={t("Google 계정")}
           value={user.email}
           readOnly
         />
+        <LanguageField />
       </form>
       <SaveBar
         state={state}
@@ -166,10 +176,12 @@ function AccountSettingsForm({
       <section className={styles.danger} aria-labelledby={`${titleId}-delete`}>
         <div className={styles.dangerCopy}>
           <h3 id={`${titleId}-delete`} className={styles.dangerTitle}>
-            계정 삭제
+            {t("계정 삭제")}
           </h3>
           <p className={styles.description}>
-            모든 프로젝트와 휴지통 항목이 함께 영구 삭제되며 되돌릴 수 없어요.
+            {t(
+              "모든 프로젝트와 휴지통 항목이 함께 영구 삭제되며 되돌릴 수 없어요.",
+            )}
           </p>
         </div>
         <Button
@@ -178,9 +190,33 @@ function AccountSettingsForm({
           onClick={onDeleteAccount}
           disabled={update.isPending}
         >
-          계정 삭제
+          {t("계정 삭제")}
         </Button>
       </section>
+    </div>
+  );
+}
+
+function LanguageField() {
+  const { switchTo, pending } = useLocaleSwitch();
+  const [choice, setChoice] = useState<Locale>(LOCALE);
+  const choose = (locale: Locale) => {
+    if (pending || locale === choice) return;
+    setChoice(locale);
+    void switchTo(locale);
+  };
+  return (
+    <div className={styles.field} aria-busy={pending || undefined}>
+      <span className={styles.fieldLabel} aria-hidden="true">
+        {t("언어")}
+      </span>
+      <Segmented
+        label={t("언어")}
+        options={LANGUAGE_OPTIONS}
+        value={choice}
+        onChange={choose}
+        className={styles.language}
+      />
     </div>
   );
 }

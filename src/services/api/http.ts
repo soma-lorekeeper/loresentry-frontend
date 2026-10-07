@@ -1,3 +1,5 @@
+import { t } from "@/i18n";
+
 import { withSessionRequest } from "./auth-transition";
 import { ServiceError } from "../errors";
 
@@ -52,7 +54,7 @@ export class ApiClient {
     ) {
       throw new ServiceError(
         "unknown",
-        "서버 응답을 확인할 수 없어요.",
+        t("서버 응답을 확인할 수 없어요."),
         options.operation,
       );
     }
@@ -138,7 +140,7 @@ export class ApiClient {
         throw cause;
       throw new ServiceError(
         "network",
-        "서버에 연결할 수 없어요.",
+        t("서버에 연결할 수 없어요."),
         options.operation,
       );
     }

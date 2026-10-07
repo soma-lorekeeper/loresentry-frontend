@@ -1,5 +1,6 @@
 import type { IconName } from "@/design-system/icons/icon";
 import type { TokenName } from "@/design-system/tokens/tokens";
+import { t } from "@/i18n";
 
 export const DOCUMENT_TYPES = [
   "manuscript",
@@ -28,47 +29,57 @@ interface DocumentTypeMeta {
 
 export const DOCUMENT_TYPE_META: Record<DocumentType, DocumentTypeMeta> = {
   manuscript: {
-    label: "원고",
-    relationLabel: "관련 원고",
+    label: t("분류::원고"),
+    relationLabel: t("관련 원고"),
     entityIcon: "file-text",
     nodeColor: "color-node-manuscript",
   },
   character: {
-    label: "캐릭터",
-    relationLabel: "관련 캐릭터",
+    label: t("분류::캐릭터"),
+    relationLabel: t("관련 캐릭터"),
     entityIcon: "circle-user-round",
     nodeColor: "color-node-character",
   },
   place: {
-    label: "장소",
-    relationLabel: "관련 장소",
+    label: t("분류::장소"),
+    relationLabel: t("관련 장소"),
     entityIcon: "map-pin",
     nodeColor: "color-node-place",
   },
   organization: {
-    label: "조직",
-    relationLabel: "관련 조직",
+    label: t("분류::조직"),
+    relationLabel: t("관련 조직"),
     entityIcon: "building-2",
     nodeColor: "color-node-organization",
   },
   item: {
-    label: "아이템",
-    relationLabel: "관련 아이템",
+    label: t("분류::아이템"),
+    relationLabel: t("관련 아이템"),
     entityIcon: "package",
     nodeColor: "color-node-item",
   },
   event: {
-    label: "이벤트",
-    relationLabel: "관련 이벤트",
+    label: t("분류::이벤트"),
+    relationLabel: t("관련 이벤트"),
     entityIcon: "scroll",
     nodeColor: "color-node-event",
   },
   worldview: {
-    label: "세계관",
-    relationLabel: "관련 세계관",
+    label: t("분류::세계관"),
+    relationLabel: t("관련 세계관"),
     entityIcon: "globe",
     nodeColor: "color-node-worldview",
   },
+};
+
+export const DOCUMENT_TYPE_SINGULAR_LABEL: Record<DocumentType, string> = {
+  manuscript: t("분류 하나::원고"),
+  character: t("분류 하나::캐릭터"),
+  place: t("분류 하나::장소"),
+  organization: t("분류 하나::조직"),
+  item: t("분류 하나::아이템"),
+  event: t("분류 하나::이벤트"),
+  worldview: t("분류 하나::세계관"),
 };
 
 export function isDocumentType(value: unknown): value is DocumentType {

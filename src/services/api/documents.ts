@@ -1,4 +1,4 @@
-import { DOCUMENT_TYPE_META } from "@/domain/document-types";
+import { DOCUMENT_TYPE_SINGULAR_LABEL } from "@/domain/document-types";
 import type { JSONContent } from "@tiptap/core";
 
 import {
@@ -18,6 +18,7 @@ import {
   bodyToMarkdown,
   markdownToBody,
 } from "@/features/documents/editor/body-markdown";
+import { t } from "@/i18n";
 
 import { ServiceError } from "../errors";
 import {
@@ -289,10 +290,11 @@ async function toMarkdown(
     ? await documentTitles(client, content.projectId)
     : new Map<string, string>();
 
+  const typeLabel = t("내보내기::분류");
   const lines = [
     `# ${content.title}`,
     "",
-    `- 분류: ${DOCUMENT_TYPE_META[content.docType].label}`,
+    `- ${typeLabel}: ${DOCUMENT_TYPE_SINGULAR_LABEL[content.docType]}`,
   ];
   for (const property of content.properties) {
     const value =
@@ -327,18 +329,18 @@ function toSaveError(code: string | undefined): ServiceError {
   if (code === "DOCUMENT_LOCKED") {
     return new ServiceError(
       "locked",
-      "잠긴 문서는 편집할 수 없어요.",
+      t("잠긴 문서는 편집할 수 없어요."),
       "documents.save",
     );
   }
   if (code === "FILE_TITLE_TAKEN") {
     return new ServiceError(
       "duplicate",
-      "같은 위치에 같은 이름이 이미 있어요.",
+      t("같은 위치에 같은 이름이 이미 있어요."),
       "documents.save",
     );
   }
-  return new ServiceError("unknown", "저장하지 못했어요.", "documents.save");
+  return new ServiceError("unknown", t("저장하지 못했어요."), "documents.save");
 }
 
 export function createApiVersions(

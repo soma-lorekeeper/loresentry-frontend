@@ -1,3 +1,5 @@
+import { t } from "@/i18n";
+
 import { ServiceError, type ServiceErrorCode } from "../errors";
 
 /**
@@ -65,46 +67,48 @@ const CODE_TO_SERVICE_ERROR: Record<string, ServiceErrorCode> = {
 };
 
 const MESSAGES: Partial<Record<ServiceErrorCode, string>> = {
-  validation: "입력을 다시 확인해 주세요.",
-  "consent-invalid": "동의 대기가 만료됐어요. 다시 로그인해 주세요.",
-  "terms-version-mismatch": "약관이 변경됐어요. 새 약관을 확인해 주세요.",
-  "csrf-rejected": "요청을 확인할 수 없어요. 로그인부터 다시 시작해 주세요.",
-  "confirmation-mismatch": "입력한 이메일이 계정 이메일과 달라요.",
-  duplicate: "같은 이름이 이미 있어요.",
-  "not-found": "찾을 수 없어요.",
-  locked: "잠긴 문서는 편집할 수 없어요.",
-  busy: "처리 중이에요. 잠시 뒤 다시 시도해 주세요.",
-  network: "서버에 연결할 수 없어요.",
-  unavailable: "이 기능은 아직 준비되지 않았어요.",
-  unauthenticated: "다시 로그인해 주세요.",
-  unknown: "알 수 없는 오류가 발생했어요.",
+  validation: t("입력을 다시 확인해 주세요."),
+  "consent-invalid": t("동의 대기가 만료됐어요. 다시 로그인해 주세요."),
+  "terms-version-mismatch": t("약관이 변경됐어요. 새 약관을 확인해 주세요."),
+  "csrf-rejected": t("요청을 확인할 수 없어요. 로그인부터 다시 시작해 주세요."),
+  "confirmation-mismatch": t("입력한 이메일이 계정 이메일과 달라요."),
+  duplicate: t("같은 이름이 이미 있어요."),
+  "not-found": t("찾을 수 없어요."),
+  locked: t("잠긴 문서는 편집할 수 없어요."),
+  busy: t("처리 중이에요. 잠시 뒤 다시 시도해 주세요."),
+  network: t("서버에 연결할 수 없어요."),
+  unavailable: t("이 기능은 아직 준비되지 않았어요."),
+  unauthenticated: t("다시 로그인해 주세요."),
+  unknown: t("알 수 없는 오류가 발생했어요."),
 };
 
 const CODE_MESSAGES: Record<string, string> = {
-  INVALID_FEEDBACK: "내용을 1~2,000자로 적어 주세요.",
-  FEEDBACK_RATE_LIMITED:
+  INVALID_FEEDBACK: t("내용을 1~2,000자로 적어 주세요."),
+  FEEDBACK_RATE_LIMITED: t(
     "짧은 시간에 많이 보냈어요. 잠시 뒤에 다시 보내 주세요.",
-  PROJECT_NAME_TAKEN: "같은 이름의 프로젝트가 이미 있어요.",
-  ACCOUNT_DELETION_UNAVAILABLE:
+  ),
+  PROJECT_NAME_TAKEN: t("같은 이름의 프로젝트가 이미 있어요."),
+  ACCOUNT_DELETION_UNAVAILABLE: t(
     "계정을 삭제하지 못했어요. 계정과 작업은 그대로 있어요. 잠시 뒤 다시 시도해 주세요.",
-  FILE_TITLE_TAKEN: "같은 위치에 같은 이름이 이미 있어요.",
-  INVALID_PROJECT_NAME: "프로젝트 제목을 확인해 주세요.",
-  INVALID_PROJECT_DESCRIPTION: "설명이 너무 길어요.",
-  INVALID_FILE_TITLE: "이름을 확인해 주세요.",
-  INVALID_FILE_LOCATION: "그 위치에는 둘 수 없어요.",
-  INVALID_RELATION_TARGET: "연결할 수 없는 문서예요.",
-  PROJECT_NOT_TRASHED: "휴지통으로 옮긴 뒤에 삭제할 수 있어요.",
-  FILE_NOT_TRASHED: "휴지통으로 옮긴 뒤에 삭제할 수 있어요.",
-  DOCUMENT_LOCKED: "잠긴 문서는 편집할 수 없어요.",
-  USER_CONTEXT_REQUIRED: "로그인이 필요해요.",
-  INVALID_MEMO: "메모를 확인해 주세요.",
-  MEMO_NOT_FOUND: "메모를 찾을 수 없어요.",
-  IMAGE_NOT_FOUND: "이미지를 찾을 수 없어요.",
-  INVALID_UPLOAD_REQUEST: "올릴 수 없는 파일이에요.",
-  OBJECT_NOT_UPLOADED: "업로드가 끝나지 않았어요. 다시 시도해 주세요.",
-  CONTENT_UNAVAILABLE: "잠시 뒤 다시 시도해 주세요.",
-  SESSION_INVALID: "세션이 만료됐어요. 다시 로그인해 주세요.",
-  SESSION_UNAVAILABLE: "잠시 뒤 다시 시도해 주세요.",
+  ),
+  FILE_TITLE_TAKEN: t("같은 위치에 같은 이름이 이미 있어요."),
+  INVALID_PROJECT_NAME: t("프로젝트 제목을 확인해 주세요."),
+  INVALID_PROJECT_DESCRIPTION: t("설명이 너무 길어요."),
+  INVALID_FILE_TITLE: t("이름을 확인해 주세요."),
+  INVALID_FILE_LOCATION: t("그 위치에는 둘 수 없어요."),
+  INVALID_RELATION_TARGET: t("연결할 수 없는 문서예요."),
+  PROJECT_NOT_TRASHED: t("휴지통으로 옮긴 뒤에 삭제할 수 있어요."),
+  FILE_NOT_TRASHED: t("휴지통으로 옮긴 뒤에 삭제할 수 있어요."),
+  DOCUMENT_LOCKED: t("잠긴 문서는 편집할 수 없어요."),
+  USER_CONTEXT_REQUIRED: t("로그인이 필요해요."),
+  INVALID_MEMO: t("메모를 확인해 주세요."),
+  MEMO_NOT_FOUND: t("메모를 찾을 수 없어요."),
+  IMAGE_NOT_FOUND: t("이미지를 찾을 수 없어요."),
+  INVALID_UPLOAD_REQUEST: t("올릴 수 없는 파일이에요."),
+  OBJECT_NOT_UPLOADED: t("업로드가 끝나지 않았어요. 다시 시도해 주세요."),
+  CONTENT_UNAVAILABLE: t("잠시 뒤 다시 시도해 주세요."),
+  SESSION_INVALID: t("세션이 만료됐어요. 다시 로그인해 주세요."),
+  SESSION_UNAVAILABLE: t("잠시 뒤 다시 시도해 주세요."),
 };
 
 export function toServiceError(
@@ -118,7 +122,7 @@ export function toServiceError(
   const message =
     (code ? CODE_MESSAGES[code] : undefined) ??
     MESSAGES[mapped] ??
-    "알 수 없는 오류가 발생했어요.";
+    t("알 수 없는 오류가 발생했어요.");
   return new ServiceError(mapped, message, operation);
 }
 

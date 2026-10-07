@@ -1,5 +1,5 @@
 import type { User } from "@/domain/models";
-import { isLocale, LOCALE } from "@/i18n/locale";
+import { isLocale, LOCALE, t } from "@/i18n";
 
 import { ServiceError } from "../errors";
 import type { AccountService, AuthService, TermsView } from "../ports";
@@ -25,7 +25,7 @@ function toUser(api: ApiProfile): User {
     (api.onboarding_completed !== undefined &&
       typeof api.onboarding_completed !== "boolean")
   ) {
-    throw new ServiceError("unknown", "계정 정보를 확인할 수 없어요.");
+    throw new ServiceError("unknown", t("계정 정보를 확인할 수 없어요."));
   }
   // 필드가 없는 이전 BFF 에서는 온보딩을 이미 마친 것으로 본다. 기존 회원을 안내로 막지 않는다.
   return {
@@ -65,7 +65,7 @@ function toTerms(value: unknown): TermsView {
   ) {
     throw new ServiceError(
       "unknown",
-      "약관 정보를 확인할 수 없어요.",
+      t("약관 정보를 확인할 수 없어요."),
       "auth.terms",
     );
   }
@@ -90,7 +90,7 @@ export function createApiAuth(client: ApiClient): AuthService {
       ),
     acceptTerms: async (termsVersionId) => {
       if (!UUID.test(termsVersionId))
-        throw new ServiceError("validation", "약관 버전을 확인해 주세요.");
+        throw new ServiceError("validation", t("약관 버전을 확인해 주세요."));
       await withAuthTransition(() =>
         client.request<void>("/auth/terms/accept", {
           method: "POST",
@@ -153,7 +153,7 @@ export function createApiAuth(client: ApiClient): AuthService {
         if (result?.session_revocation === "unconfirmed") {
           throw new ServiceError(
             "network",
-            "로그아웃은 됐지만 서버 확인을 받지 못했어요.",
+            t("로그아웃은 됐지만 서버 확인을 받지 못했어요."),
             "auth.logout",
           );
         }

@@ -98,10 +98,23 @@
   color: var(--lk-color-icon-default);
 }
 
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lk-space-3);
+}
+
 .policyLinks {
   display: flex;
   gap: var(--lk-space-3);
   font-size: var(--lk-font-size-label);
+}
+
+.languageSwitch {
+  height: 28px;
+  padding: 0 var(--lk-space-1);
 }
 
 .policyLink {
