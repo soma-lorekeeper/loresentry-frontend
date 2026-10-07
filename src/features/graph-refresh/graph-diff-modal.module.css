@@ -197,7 +197,7 @@
   );
   --diff-word: color-mix(
     in srgb,
-    var(--diff-tone) 44%,
+    var(--diff-tone) 52%,
     var(--lk-color-surface-sunken)
   );
   --diff-chip: color-mix(
@@ -218,7 +218,7 @@
   );
   --diff-word: color-mix(
     in srgb,
-    var(--diff-tone) 30%,
+    var(--diff-tone) 36%,
     var(--lk-color-surface-sunken)
   );
   --diff-chip: color-mix(

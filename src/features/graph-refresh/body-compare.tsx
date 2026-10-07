@@ -179,15 +179,20 @@ export function BodyCompare({ left, right, onPush, onEdit }: Props) {
       className={styles.body}
       style={{ gridTemplateRows: `repeat(${rows}, auto)` }}
     >
-      {/* 띠·리본·화살표가 먼저다. 글자보다 앞에 두어야 그 뒤에 깔린다 */}
-      {blocks.map((block, index) => (
-        <Marks
-          key={`${block.hunk.leftStart}-${block.hunk.rightStart}-${index}`}
-          block={block}
-          present={present}
-          onPush={onPush}
-        />
-      ))}
+      {/*
+        띠·리본·화살표가 먼저다. 글자보다 앞에 두어야 그 뒤에 깔린다.
+        한쪽에만 있는 문서는 문서 전체가 하나의 차이다 — 줄마다 짚지 않고, 위의 문서 화살표로 다룬다.
+      */}
+      {present.left &&
+        present.right &&
+        blocks.map((block, index) => (
+          <Marks
+            key={`${block.hunk.leftStart}-${block.hunk.rightStart}-${index}`}
+            block={block}
+            present={present}
+            onPush={onPush}
+          />
+        ))}
       {(["left", "right"] as const).map((side) =>
         present[side] ? (
           <Pane

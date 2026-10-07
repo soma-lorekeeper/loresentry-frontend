@@ -336,7 +336,6 @@ export function DocumentCompare({
    * 다음 행으로 밀려, 화살표가 엉뚱한 줄 옆에 선다.
    */
   let nextRow = 1;
-  const absentAt = both ? 0 : nextRow++;
 
   /** 한 줄의 세 칸. 가운데 칸은 두 쪽이 다를 때 띠로 이어지고 화살표가 선다 */
   const row = (
@@ -407,20 +406,19 @@ export function DocumentCompare({
         <div className={styles.props}>
           {!both && (
             <>
-              {SIDES.map((side) => (
+              {SIDES.filter((side) => !docs[side]).map((side) => (
                 <p
                   key={side}
                   className={styles.absent}
                   style={{
                     gridColumn: side === "left" ? 1 : 3,
-                    gridRow: absentAt,
+                    // 없는 쪽은 칸이 모두 비어 있다. 첫 줄에 겹쳐 둔다.
+                    gridRow: 1,
                   }}
                 >
-                  {docs[side]
-                    ? ""
-                    : side === "left"
-                      ? "현재 버전에는 없는 문서예요."
-                      : "신규 버전에서 사라진 문서예요."}
+                  {side === "left"
+                    ? "현재 버전에는 없는 문서예요."
+                    : "신규 버전에서 사라진 문서예요."}
                 </p>
               ))}
             </>
@@ -499,7 +497,10 @@ export function DocumentCompare({
                   property={
                     (line[side] ?? emptyLike(sample)) as RelationProperty
                   }
-                  otherIds={ids(side === "left" ? "right" : "left")}
+                  // 한쪽에만 있는 문서는 칩마다 짚지 않는다. 문서 전체가 하나의 차이다.
+                  otherIds={
+                    both ? ids(side === "left" ? "right" : "left") : ids(side)
+                  }
                   label={`${side === "left" ? "현재" : "신규"} 버전 ${line.label}`}
                   lookup={lookup}
                   candidates={candidatesOf(sample.targetType, id)}
