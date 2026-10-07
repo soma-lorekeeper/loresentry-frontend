@@ -36,6 +36,23 @@
   gap: var(--lk-space-4);
 }
 
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-1);
+}
+
+.fieldLabel {
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+  line-height: var(--lk-line-height-body);
+}
+
+.language {
+  align-self: flex-start;
+  min-width: 220px;
+}
+
 .close {
   width: 32px;
   height: 32px;

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Button, EmptyState, Icon } from "@/design-system/primitives";
 import type { User } from "@/domain/models";
 import { ProjectShell } from "@/features/projects/project-shell";
+import { t } from "@/i18n";
 
 import { findTopic, searchTopics } from "./guide-content";
 import styles from "./project-guide.module.css";
@@ -26,9 +27,9 @@ export function ProjectGuidePage({ user }: { user: User }) {
         title={topic.title}
         description={topic.summary}
       >
-        <nav className={styles.breadcrumb} aria-label="위치">
+        <nav className={styles.breadcrumb} aria-label={t("가이드::위치")}>
           <Link href="/projects/guide" className={styles.crumbLink}>
-            사용 가이드
+            {t("가이드::사용 가이드")}
           </Link>
           <Icon name="chevron-right" size={14} />
           <span className={styles.crumbCurrent} aria-current="page">
@@ -57,21 +58,21 @@ export function ProjectGuidePage({ user }: { user: User }) {
     <ProjectShell
       user={user}
       section="guide"
-      title="사용 가이드"
+      title={t("가이드::사용 가이드")}
       headerAction={
         <Button size="md" onClick={() => router.push("/welcome/?replay=1")}>
-          처음 안내 다시 보기
+          {t("처음 안내 다시 보기")}
         </Button>
       }
     >
       <div className={styles.listBody}>
         <label className={styles.search}>
           <Icon name="search" size={17} />
-          <span className="lk-visually-hidden">가이드 검색</span>
+          <span className="lk-visually-hidden">{t("가이드 검색")}</span>
           <input
             type="search"
             className={styles.searchInput}
-            placeholder="가이드 검색"
+            placeholder={t("가이드 검색")}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
@@ -80,16 +81,16 @@ export function ProjectGuidePage({ user }: { user: User }) {
           <div className={styles.panel}>
             <EmptyState
               icon="search-x"
-              title="검색 결과가 없어요"
+              title={t("가이드::검색 결과가 없어요")}
               action={
                 <Button size="md" onClick={() => setQuery("")}>
-                  검색어 지우기
+                  {t("가이드::검색어 지우기")}
                 </Button>
               }
             />
           </div>
         ) : (
-          <ul className={styles.list} aria-label="가이드 주제">
+          <ul className={styles.list} aria-label={t("가이드 주제")}>
             {topics.map((item) => (
               <li key={item.id}>
                 <Link

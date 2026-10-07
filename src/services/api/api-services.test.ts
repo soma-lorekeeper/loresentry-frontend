@@ -879,18 +879,27 @@ describe("wiring", () => {
       apiBaseUrl: BASE,
     });
 
-    // mock 을 그대로 두면 그럴듯한 가짜 최신화·대화·가이드를 진짜처럼 보여 준다.
-    const asked = [
-      wired.refresh.current("p-1"),
-      wired.chat.sessions("p-1"),
-      wired.help.guides(),
-    ];
+    // mock 을 그대로 두면 그럴듯한 가짜 최신화·대화를 진짜처럼 보여 준다.
+    const asked = [wired.refresh.current("p-1"), wired.chat.sessions("p-1")];
 
     for (const promise of asked) {
       const error = await promise.catch((cause: unknown) => cause);
       expect(isServiceError(error) && error.code).toBe("unavailable");
     }
     // 요청을 보내지도 않는다. 서버에 그 경로가 없다.
+    expect(calls).toHaveLength(0);
+  });
+
+  it("serves the user guide from the bundled articles without a request", async () => {
+    const wired = createServices({
+      ...DEFAULT_RUNTIME_CONFIG,
+      dataSource: "api",
+      apiBaseUrl: BASE,
+    });
+
+    const topics = await wired.help.guides();
+
+    expect(topics.length).toBeGreaterThan(0);
     expect(calls).toHaveLength(0);
   });
 
@@ -1127,6 +1136,28 @@ describe("auth", () => {
     });
   });
 
+  it("records the account language with a CSRF-protected PUT", async () => {
+    reply(200, { ...profile, locale: "en" });
+    const user = await services().account!.updateLocale("en");
+
+    expect(calls[0].url).toBe(`${BASE}/auth/users/me/locale`);
+    expect(calls[0].method).toBe("PUT");
+    expect(calls[0].headers["X-LS-CSRF"]).toBe("1");
+    expect(calls[0].body).toEqual({ locale: "en" });
+    expect(user.locale).toBe("en");
+  });
+
+  it("reads the account language and ignores values that are not one", async () => {
+    reply(200, { ...profile, locale: "ko" });
+    expect(await services().auth!.getSession()).toMatchObject({ locale: "ko" });
+
+    reply(200, { ...profile, locale: "fr" });
+    expect(await services().auth!.getSession()).toMatchObject({ locale: null });
+
+    reply(200, profile);
+    expect(await services().auth!.getSession()).toMatchObject({ locale: null });
+  });
+
   it("marks onboarding complete with a CSRF-protected PUT", async () => {
     reply(204);
     await services().account!.completeOnboarding();
@@ -1141,7 +1172,7 @@ describe("auth", () => {
     reply(201, { ...apiProject, id: "p-sample" });
     const project = await services().projects!.createSample();
 
-    expect(calls[0].url).toBe(`${BASE}/projects/sample`);
+    expect(calls[0].url).toBe(`${BASE}/projects/sample?locale=ko`);
     expect(calls[0].method).toBe("POST");
     expect(calls[0].body).toBeUndefined();
     expect(project.id).toBe("p-sample");

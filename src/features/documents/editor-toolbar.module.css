@@ -257,4 +257,13 @@
     clip-path: inset(50%);
     white-space: nowrap;
   }
+
+  :lang(en) .counts {
+    font-size: 0;
+  }
+
+  :lang(en) .counts::after {
+    content: attr(data-short);
+    font-size: var(--lk-font-size-label);
+  }
 }

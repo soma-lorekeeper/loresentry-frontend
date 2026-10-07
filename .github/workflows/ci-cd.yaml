@@ -41,7 +41,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Verify and build the static export
+      - name: Verify and build the Korean and English editions
         run: pnpm check:cdn
 
       - name: Configure AWS credentials
@@ -51,25 +51,40 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           allowed-account-ids: ${{ env.AWS_ACCOUNT_ID }}
 
+      # 한국어판과 영어판은 /ko/, /en/ 아래에 따로 둔다. CloudFront 함수가 보는 사람마다 하나를 고른다
+      # (docs/deploy/cloudfront-rewrite.js, docs/deploy/README.md).
       - name: Upload fingerprinted assets
         run: |
-          aws s3 sync out/_next/ "s3://$S3_BUCKET/_next/" \
-            --cache-control "public,max-age=31536000,immutable" \
-            --only-show-errors
+          for locale in ko en; do
+            aws s3 sync "dist/$locale/_next/" "s3://$S3_BUCKET/$locale/_next/" \
+              --cache-control "public,max-age=31536000,immutable" \
+              --only-show-errors
+          done
 
       - name: Upload HTML and remove stale objects
         run: |
-          aws s3 sync out/ "s3://$S3_BUCKET/" --delete \
+          for locale in ko en; do
+            aws s3 sync "dist/$locale/" "s3://$S3_BUCKET/$locale/" --delete \
+              --exclude "_next/*" --exclude "config.json" \
+              --cache-control "public,max-age=60,must-revalidate" \
+              --only-show-errors
+          done
+          # 버킷 맨 위는 언어를 고르는 함수를 켜기 전까지 쓰이는 자리이자 오류 페이지(/404.html)를 찾는
+          # 자리다. 한국어판을 그대로 둔다. /ko/, /en/ 아래와 예전 자산은 지우지 않는다.
+          aws s3 sync dist/ko/ "s3://$S3_BUCKET/" --delete \
             --exclude "_next/*" --exclude "config.json" \
+            --exclude "ko/*" --exclude "en/*" \
             --cache-control "public,max-age=60,must-revalidate" \
             --only-show-errors
 
       - name: Upload runtime config
         run: |
-          aws s3 cp out/config.json "s3://$S3_BUCKET/config.json" \
-            --cache-control "no-cache,no-store,must-revalidate" \
-            --content-type application/json \
-            --only-show-errors
+          for prefix in "" "ko/" "en/"; do
+            aws s3 cp dist/ko/config.json "s3://$S3_BUCKET/${prefix}config.json" \
+              --cache-control "no-cache,no-store,must-revalidate" \
+              --content-type application/json \
+              --only-show-errors
+          done
 
       - name: Invalidate the CloudFront cache
         run: |

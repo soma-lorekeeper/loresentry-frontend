@@ -10,6 +10,7 @@ import {
   TextField,
 } from "@/design-system/primitives";
 import type { Project } from "@/domain/models";
+import { t } from "@/i18n";
 import { isServiceError } from "@/services/errors";
 import { PROJECT_TITLE_MAX } from "@/services/mock/projects";
 
@@ -75,7 +76,7 @@ function CreateProjectForm({
 
   const fieldError =
     touched && empty
-      ? "프로젝트 제목을 입력해 주세요."
+      ? t("프로젝트 제목을 입력해 주세요.")
       : fieldErrorOf(create.error);
 
   return (
@@ -84,8 +85,8 @@ function CreateProjectForm({
       onClose={() => !busy && onClose()}
       dismissible={!busy}
       size="md"
-      title="새 프로젝트 만들기"
-      closeLabel="새 프로젝트 만들기 닫기"
+      title={t("새 프로젝트 만들기")}
+      closeLabel={t("새 프로젝트 만들기 닫기")}
       closeDisabled={busy}
       actions={
         <>
@@ -95,7 +96,7 @@ function CreateProjectForm({
             onClick={onClose}
             disabled={busy}
           >
-            취소
+            {t("취소")}
           </Button>
           <Button
             size="md"
@@ -106,10 +107,10 @@ function CreateProjectForm({
             onClick={submit}
           >
             {busy
-              ? "프로젝트 만드는 중…"
+              ? t("프로젝트 만드는 중…")
               : serverErrorOf(create.error)
-                ? "다시 시도"
-                : "프로젝트 만들기"}
+                ? t("다시 시도")
+                : t("프로젝트 만들기")}
           </Button>
         </>
       }
@@ -122,10 +123,10 @@ function CreateProjectForm({
         }}
       >
         <TextField
-          label="프로젝트 제목"
+          label={t("프로젝트 제목")}
           required
           autoFocus
-          placeholder="프로젝트 제목을 입력하세요"
+          placeholder={t("프로젝트 제목을 입력하세요")}
           value={title}
           maxLength={PROJECT_TITLE_MAX}
           onChange={(event) => {
@@ -137,9 +138,9 @@ function CreateProjectForm({
           error={fieldError}
         />
         <TextAreaField
-          label="설명"
-          labelHint="선택"
-          placeholder="어떤 이야기인지 짧게 적어 두세요"
+          label={t("설명")}
+          labelHint={t("선택")}
+          placeholder={t("어떤 이야기인지 짧게 적어 두세요")}
           value={description}
           rows={3}
           maxLength={DESCRIPTION_MAX}
@@ -150,7 +151,9 @@ function CreateProjectForm({
         />
         {serverErrorOf(create.error) && (
           <InlineNotice>
-            프로젝트를 만들지 못했어요. 입력을 유지했으니 다시 시도해 주세요.
+            {t(
+              "프로젝트를 만들지 못했어요. 입력을 유지했으니 다시 시도해 주세요.",
+            )}
           </InlineNotice>
         )}
       </form>
@@ -214,8 +217,8 @@ function EditProjectForm({
       onClose={() => !busy && onClose()}
       dismissible={!busy}
       size="md"
-      title="프로젝트 수정"
-      closeLabel="프로젝트 수정 닫기"
+      title={t("프로젝트 수정")}
+      closeLabel={t("프로젝트 수정 닫기")}
       closeDisabled={busy}
       actions={
         <>
@@ -225,7 +228,7 @@ function EditProjectForm({
             onClick={onClose}
             disabled={busy}
           >
-            취소
+            {t("취소")}
           </Button>
           <Button
             size="md"
@@ -236,10 +239,10 @@ function EditProjectForm({
             onClick={submit}
           >
             {busy
-              ? "저장 중…"
+              ? t("저장 중…")
               : serverErrorOf(update.error)
-                ? "다시 시도"
-                : "저장"}
+                ? t("다시 시도")
+                : t("저장")}
           </Button>
         </>
       }
@@ -252,10 +255,10 @@ function EditProjectForm({
         }}
       >
         <TextField
-          label="프로젝트 이름"
+          label={t("프로젝트 이름")}
           required
           autoFocus
-          placeholder="프로젝트 이름을 입력하세요"
+          placeholder={t("프로젝트 이름을 입력하세요")}
           value={title}
           maxLength={PROJECT_TITLE_MAX}
           onChange={(event) => {
@@ -265,14 +268,14 @@ function EditProjectForm({
           readOnly={busy}
           error={
             empty
-              ? "프로젝트 이름을 입력해 주세요."
+              ? t("프로젝트 이름을 입력해 주세요.")
               : fieldErrorOf(update.error)
           }
         />
         <TextAreaField
-          label="설명"
-          labelHint="선택"
-          placeholder="어떤 이야기인지 짧게 적어 두세요"
+          label={t("설명")}
+          labelHint={t("선택")}
+          placeholder={t("어떤 이야기인지 짧게 적어 두세요")}
           value={description}
           rows={3}
           maxLength={DESCRIPTION_MAX}
@@ -285,7 +288,7 @@ function EditProjectForm({
       </form>
       {serverErrorOf(update.error) && (
         <InlineNotice>
-          변경한 내용을 저장하지 못했어요. 입력은 그대로 두었어요.
+          {t("변경한 내용을 저장하지 못했어요. 입력은 그대로 두었어요.")}
         </InlineNotice>
       )}
     </DialogCard>
@@ -327,8 +330,10 @@ export function TrashProjectDialog({
       dismissible={!busy}
       size="md"
       compact
-      title="프로젝트를 휴지통으로 이동할까요?"
-      description="파일과 설정은 그대로 남고, 휴지통에서 다시 복원할 수 있어요."
+      title={t("프로젝트를 휴지통으로 이동할까요?")}
+      description={t(
+        "파일과 설정은 그대로 남고, 휴지통에서 다시 복원할 수 있어요.",
+      )}
       target={project ? { icon: project.icon, name: project.title } : undefined}
       actions={
         <>
@@ -338,7 +343,7 @@ export function TrashProjectDialog({
             onClick={close}
             disabled={busy}
           >
-            취소
+            {t("취소")}
           </Button>
           <Button
             size="md"
@@ -348,17 +353,17 @@ export function TrashProjectDialog({
             onClick={confirm}
           >
             {busy
-              ? "이동 중…"
+              ? t("이동 중…")
               : trash.isError
-                ? "다시 시도"
-                : "휴지통으로 이동"}
+                ? t("다시 시도")
+                : t("휴지통으로 이동")}
           </Button>
         </>
       }
     >
       {trash.isError && (
         <InlineNotice>
-          프로젝트를 이동하지 못했어요. 목록은 그대로 유지했어요.
+          {t("프로젝트를 이동하지 못했어요. 목록은 그대로 유지했어요.")}
         </InlineNotice>
       )}
     </DialogCard>

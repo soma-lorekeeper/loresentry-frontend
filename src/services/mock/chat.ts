@@ -1,4 +1,5 @@
 import type { ChatMessage, ChatSession } from "@/domain/models";
+import { t } from "@/i18n";
 
 import { ServiceError } from "../errors";
 import type { ChatService } from "../ports";
@@ -7,15 +8,23 @@ import { simulate } from "./control";
 import { getDb, nextId, persistDb } from "./db";
 
 const REPLIES = [
-  "장면의 목적을 한 문장으로 먼저 정해 보세요. 그 문장에서 벗어나는 묘사를 덜어 내면 긴장이 한곳에 모입니다.",
-  "인물이 무엇을 원하고 무엇이 그것을 막는지 대사보다 행동으로 먼저 보여 주면 좋겠습니다. 마지막 문장은 다음 장면의 질문으로 남겨 두세요.",
-  "지금 열린 문서의 설정과 겹치는 표현이 있어요. 같은 사물을 부르는 이름을 하나로 맞추면 독자가 덜 헷갈립니다.",
+  t(
+    "장면의 목적을 한 문장으로 먼저 정해 보세요. 그 문장에서 벗어나는 묘사를 덜어 내면 긴장이 한곳에 모입니다.",
+  ),
+  t(
+    "인물이 무엇을 원하고 무엇이 그것을 막는지 대사보다 행동으로 먼저 보여 주면 좋겠습니다. 마지막 문장은 다음 장면의 질문으로 남겨 두세요.",
+  ),
+  t(
+    "지금 열린 문서의 설정과 겹치는 표현이 있어요. 같은 사물을 부르는 이름을 하나로 맞추면 독자가 덜 헷갈립니다.",
+  ),
 ];
+
+const NEW_SESSION_TITLE = t("새 채팅");
 
 const TOKEN_INTERVAL_MS = 45;
 
 function abortError() {
-  return new DOMException("응답 생성을 중단했어요.", "AbortError");
+  return new DOMException(t("응답 생성을 중단했어요."), "AbortError");
 }
 
 export const mockChat: ChatService = {
@@ -30,7 +39,7 @@ export const mockChat: ChatService = {
       const session: ChatSession = {
         id: nextId("chat"),
         projectId,
-        title: "새 채팅",
+        title: NEW_SESSION_TITLE,
         updatedAt: new Date().toISOString(),
       };
       getDb().chatSessions.push(session);
@@ -41,10 +50,10 @@ export const mockChat: ChatService = {
     simulate("chat.rename", () => {
       const trimmed = title.trim();
       if (!trimmed)
-        throw new ServiceError("validation", "세션 이름을 입력해 주세요.");
+        throw new ServiceError("validation", t("세션 이름을 입력해 주세요."));
       const session = getDb().chatSessions.find((s) => s.id === sessionId);
       if (!session)
-        throw new ServiceError("not-found", "대화를 찾을 수 없어요.");
+        throw new ServiceError("not-found", t("대화를 찾을 수 없어요."));
       session.title = trimmed;
       persistDb();
       return session;
@@ -79,7 +88,8 @@ export const mockChat: ChatService = {
       const session = db.chatSessions.find((s) => s.id === sessionId);
       if (session) {
         session.updatedAt = userMessage.createdAt;
-        if (session.title === "새 채팅") session.title = content.slice(0, 18);
+        if (session.title === NEW_SESSION_TITLE)
+          session.title = content.slice(0, 18);
       }
       persistDb();
     });

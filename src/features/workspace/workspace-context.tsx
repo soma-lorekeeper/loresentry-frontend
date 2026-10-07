@@ -164,6 +164,6 @@ export function WorkspaceProvider({
 
 export function useWorkspace() {
   const value = useContext(WorkspaceContext);
-  if (!value) throw new Error("WorkspaceProvider가 필요합니다.");
+  if (!value) throw new Error("WorkspaceProvider is required.");
   return value;
 }

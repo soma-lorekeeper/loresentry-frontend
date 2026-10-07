@@ -1,4 +1,5 @@
 import type { Memo } from "@/domain/models";
+import { t } from "@/i18n";
 
 import { ServiceError } from "../errors";
 import type { MemoService } from "../ports";
@@ -8,7 +9,8 @@ import { getDb, nextId, persistDb } from "./db";
 
 function requireMemo(memoId: string) {
   const memo = getDb().memos.find((m) => m.id === memoId);
-  if (!memo) throw new ServiceError("not-found", "메모를 찾을 수 없어요.");
+  if (!memo)
+    throw new ServiceError("not-found", t("mock::메모를 찾을 수 없어요."));
   return memo;
 }
 

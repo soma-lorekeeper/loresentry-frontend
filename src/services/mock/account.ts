@@ -1,17 +1,19 @@
+import { t } from "@/i18n";
+
 import type { AccountService, AuthService, TermsView } from "../ports";
 import { ServiceError } from "../errors";
 
 import { simulate } from "./control";
 import { buildSeedDb, getDb, persistDb, resetDb } from "./db";
+import { SEED } from "./seed-world";
 
 export const DISPLAY_NAME_MAX = 20;
 
 const initialTerms: TermsView = {
   termsVersionId: "00000000-0000-4000-8000-000000000001",
   version: "mock-1",
-  title: "Lore Sentry 서비스 이용약관",
-  content:
-    "화면 개발용 테스트 약관입니다.\n작성한 소설의 권리는 사용자에게 있습니다.\n운영 동의에는 서버에서 제공하는 확정 원문을 사용합니다.",
+  title: SEED.terms.title,
+  content: SEED.terms.content,
   effectiveAt: "2026-09-30T00:00:00Z",
   expiresAt: "2099-01-01T00:00:00Z",
 };
@@ -23,7 +25,7 @@ export function resetMockTerms(overrides: Partial<TermsView> = {}) {
 }
 function requirePending() {
   if (!pending || Date.parse(mockTerms.expiresAt) <= Date.now()) {
-    throw new ServiceError("consent-invalid", "다시 로그인해 주세요.");
+    throw new ServiceError("consent-invalid", t("mock::다시 로그인해 주세요."));
   }
 }
 
@@ -39,7 +41,7 @@ export const mockAuth: AuthService = {
       if (id !== mockTerms.termsVersionId)
         throw new ServiceError(
           "terms-version-mismatch",
-          "새 약관을 확인해 주세요.",
+          t("새 약관을 확인해 주세요."),
         );
       pending = false;
       const db = getDb();
@@ -76,13 +78,22 @@ export const mockAuth: AuthService = {
 
 export const mockAccount: AccountService = {
   getAccount: () => simulate("account.get", () => getDb().user),
+  updateLocale: (locale) =>
+    simulate("account.updateLocale", () => {
+      const db = getDb();
+      db.user = { ...db.user, locale };
+      persistDb();
+      return db.user;
+    }),
   updateDisplayName: (displayName) =>
     simulate("account.update", () => {
       const trimmed = displayName.trim();
       if (!trimmed || trimmed.length > DISPLAY_NAME_MAX) {
         throw new ServiceError(
           "validation",
-          `표시 이름은 1~${DISPLAY_NAME_MAX}자로 입력해 주세요.`,
+          t("표시 이름은 1~{max}자로 입력해 주세요.", {
+            max: DISPLAY_NAME_MAX,
+          }),
         );
       }
       const db = getDb();
@@ -104,7 +115,7 @@ export const mockAccount: AccountService = {
       ) {
         throw new ServiceError(
           "confirmation-mismatch",
-          "입력한 이메일이 계정 이메일과 달라요.",
+          t("mock::입력한 이메일이 계정 이메일과 달라요."),
           "account.delete",
         );
       }

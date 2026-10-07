@@ -1,4 +1,5 @@
 import type { User } from "@/domain/models";
+import { isLocale, LOCALE, t } from "@/i18n";
 
 import { ServiceError } from "../errors";
 import type { AccountService, AuthService, TermsView } from "../ports";
@@ -11,6 +12,7 @@ interface ApiProfile {
   display_name: string;
   email: string | null;
   onboarding_completed?: boolean;
+  locale?: string | null;
 }
 
 function toUser(api: ApiProfile): User {
@@ -23,7 +25,7 @@ function toUser(api: ApiProfile): User {
     (api.onboarding_completed !== undefined &&
       typeof api.onboarding_completed !== "boolean")
   ) {
-    throw new ServiceError("unknown", "계정 정보를 확인할 수 없어요.");
+    throw new ServiceError("unknown", t("계정 정보를 확인할 수 없어요."));
   }
   // 필드가 없는 이전 BFF 에서는 온보딩을 이미 마친 것으로 본다. 기존 회원을 안내로 막지 않는다.
   return {
@@ -31,6 +33,7 @@ function toUser(api: ApiProfile): User {
     displayName: api.display_name,
     email: api.email ?? "",
     onboardingCompleted: api.onboarding_completed ?? true,
+    locale: isLocale(api.locale) ? api.locale : null,
   };
 }
 
@@ -62,7 +65,7 @@ function toTerms(value: unknown): TermsView {
   ) {
     throw new ServiceError(
       "unknown",
-      "약관 정보를 확인할 수 없어요.",
+      t("약관 정보를 확인할 수 없어요."),
       "auth.terms",
     );
   }
@@ -80,14 +83,14 @@ export function createApiAuth(client: ApiClient): AuthService {
   return {
     getTerms: async () =>
       toTerms(
-        await client.request<unknown>("/auth/terms", {
+        await client.request<unknown>(`/auth/terms?locale=${LOCALE}`, {
           operation: "auth.terms",
           expectedStatus: 200,
         }),
       ),
     acceptTerms: async (termsVersionId) => {
       if (!UUID.test(termsVersionId))
-        throw new ServiceError("validation", "약관 버전을 확인해 주세요.");
+        throw new ServiceError("validation", t("약관 버전을 확인해 주세요."));
       await withAuthTransition(() =>
         client.request<void>("/auth/terms/accept", {
           method: "POST",
@@ -150,7 +153,7 @@ export function createApiAuth(client: ApiClient): AuthService {
         if (result?.session_revocation === "unconfirmed") {
           throw new ServiceError(
             "network",
-            "로그아웃은 됐지만 서버 확인을 받지 못했어요.",
+            t("로그아웃은 됐지만 서버 확인을 받지 못했어요."),
             "auth.logout",
           );
         }
@@ -173,6 +176,15 @@ export function createApiAccount(client: ApiClient): AccountService {
           method: "PATCH",
           body: { display_name: displayName },
           operation: "account.update",
+        }),
+      ),
+
+    updateLocale: async (locale) =>
+      toUser(
+        await client.request<ApiProfile>("/auth/users/me/locale", {
+          method: "PUT",
+          body: { locale },
+          operation: "account.updateLocale",
         }),
       ),
 

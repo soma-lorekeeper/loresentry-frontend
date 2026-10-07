@@ -1,3 +1,5 @@
+import { t } from "@/i18n";
+import type { Locale } from "@/i18n/locale";
 import type { DocumentType } from "@/domain/document-types";
 import type {
   ChatMessage,
@@ -43,6 +45,7 @@ export interface AuthService {
 export interface AccountService {
   getAccount(): Promise<User>;
   updateDisplayName(displayName: string): Promise<User>;
+  updateLocale(locale: Locale): Promise<User>;
   completeOnboarding(): Promise<void>;
   deleteAccount(confirmationEmail: string): Promise<void>;
 }
@@ -97,7 +100,7 @@ export class ConflictError extends Error {
     readonly current: DocumentContent,
     readonly base: DocumentContent | null,
   ) {
-    super("문서가 다른 곳에서 먼저 저장됐어요.");
+    super(t("문서가 다른 곳에서 먼저 저장됐어요."));
     this.name = "ConflictError";
   }
 }

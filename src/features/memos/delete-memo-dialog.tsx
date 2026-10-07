@@ -7,6 +7,7 @@ import {
   useToast,
 } from "@/design-system/primitives";
 import type { Memo } from "@/domain/models";
+import { t } from "@/i18n";
 
 import { memoHeadline, memoTitle, useRemoveMemo } from "./queries";
 
@@ -32,24 +33,27 @@ export function DeleteMemoDialog({
       open={memo !== null}
       onClose={close}
       dismissible={!busy}
-      title="메모를 삭제할까요?"
+      title={t("메모를 삭제할까요?")}
       description={
         memo?.scope === "file"
-          ? "이 메모는 바로 삭제되며 되돌릴 수 없습니다. 파일 메모를 삭제해도 원본 파일은 유지됩니다."
-          : "이 메모는 바로 삭제되며 되돌릴 수 없습니다."
+          ? t(
+              "이 메모는 바로 삭제되며 되돌릴 수 없습니다. 파일 메모를 삭제해도 원본 파일은 유지됩니다.",
+            )
+          : t("이 메모는 바로 삭제되며 되돌릴 수 없습니다.")
       }
       target={
         memo
           ? {
               icon: "file",
-              name: memoTitle(memo) || memoHeadline(memo.body, 40) || "빈 메모",
+              name:
+                memoTitle(memo) || memoHeadline(memo.body, 40) || t("빈 메모"),
             }
           : undefined
       }
       actions={
         <>
           <Button size="md" icon="x" onClick={close} disabled={busy}>
-            취소
+            {t("취소")}
           </Button>
           <Button
             size="md"
@@ -62,19 +66,22 @@ export function DeleteMemoDialog({
                 onSuccess: () => {
                   remove.reset();
                   onClose();
-                  toast({ icon: "circle-check", title: "메모를 삭제했어요." });
+                  toast({
+                    icon: "circle-check",
+                    title: t("메모를 삭제했어요."),
+                  });
                 },
               })
             }
           >
-            {busy ? "삭제 중…" : "메모 삭제"}
+            {busy ? t("작업공간::삭제 중…") : t("메모 삭제")}
           </Button>
         </>
       }
     >
       {remove.isError && (
         <InlineNotice icon="circle-alert">
-          메모를 삭제하지 못했어요. 다시 시도해 주세요.
+          {t("메모를 삭제하지 못했어요. 다시 시도해 주세요.")}
         </InlineNotice>
       )}
     </DialogCard>

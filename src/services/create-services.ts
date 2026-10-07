@@ -16,7 +16,7 @@ export function createServices(config: RuntimeConfig): Services {
 
   if (!config.apiBaseUrl) {
     console.warn(
-      "dataSource=api 인데 apiBaseUrl 이 없어 mock 으로 동작합니다.",
+      "dataSource=api without apiBaseUrl; falling back to mock data.",
     );
     return mock;
   }

@@ -5,6 +5,7 @@ import { useState, type KeyboardEvent, type PointerEvent } from "react";
 import { IconButton, Segmented } from "@/design-system/primitives";
 import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
 import type { MemoDock } from "@/features/workspace/model/layout";
+import { t } from "@/i18n";
 import { cx } from "@/shared/cx";
 
 import { MemoList } from "./memo-list";
@@ -16,8 +17,8 @@ export const MEMO_BELOW_RANGE = { min: 180, max: 480 };
 const KEY_STEP = 16;
 
 const DOCK_OPTIONS = [
-  { value: "below" as const, label: "아래", icon: "panel-bottom" as const },
-  { value: "right" as const, label: "오른쪽", icon: "panel-right" as const },
+  { value: "below" as const, label: t("아래"), icon: "panel-bottom" as const },
+  { value: "right" as const, label: t("오른쪽"), icon: "panel-right" as const },
 ];
 
 type PanelTab = "project" | "file";
@@ -45,7 +46,7 @@ function ResizeHandle({
     <div
       role="separator"
       tabIndex={0}
-      aria-label="메모 패널 크기 조절"
+      aria-label={t("메모 패널 크기 조절")}
       aria-orientation={dock === "right" ? "vertical" : "horizontal"}
       aria-valuemin={range.min}
       aria-valuemax={range.max}
@@ -108,7 +109,7 @@ export function MemoPanel({
     <aside
       className={cx(styles.panel, dock === "below" && styles.below)}
       style={dock === "right" ? { width: size } : { height: size }}
-      aria-label="메모"
+      aria-label={t("작업공간::메모")}
       onKeyDown={(event) => {
         if (event.key === "Escape" && !event.defaultPrevented) {
           event.preventDefault();
@@ -121,12 +122,12 @@ export function MemoPanel({
         <IconButton
           icon="x"
           iconSize={15}
-          label="메모 닫기"
+          label={t("메모 닫기")}
           onClick={onClose}
         />
-        <h2 className={styles.title}>메모</h2>
+        <h2 className={styles.title}>{t("작업공간::메모")}</h2>
         <Segmented
-          label="메모 위치"
+          label={t("메모 위치")}
           options={DOCK_OPTIONS}
           value={dock}
           onChange={onDock}
@@ -136,10 +137,13 @@ export function MemoPanel({
       <div className={styles.tabs}>
         <Segmented
           variant="pills"
-          label="메모 종류"
+          label={t("메모 종류")}
           options={[
-            { value: "file" as const, label: `${typeLabel} 메모` },
-            { value: "project" as const, label: "작품 메모" },
+            {
+              value: "file" as const,
+              label: t("{kind} 메모", { kind: typeLabel, type: docType }),
+            },
+            { value: "project" as const, label: t("작품 메모") },
           ]}
           value={tab}
           onChange={setTab}
@@ -147,7 +151,11 @@ export function MemoPanel({
         <IconButton
           icon="plus"
           iconSize={16}
-          label={tab === "file" ? `${typeLabel} 메모 추가` : "작품 메모 추가"}
+          label={
+            tab === "file"
+              ? t("{kind} 메모 추가", { kind: typeLabel, type: docType })
+              : t("작품 메모 추가")
+          }
           className={styles.add}
           disabled={create.isPending}
           onClick={() =>
@@ -172,9 +180,12 @@ export function MemoPanel({
             compact={dock === "below"}
             canAdd={false}
             freshId={fresh}
-            addLabel="메모 추가"
-            emptyTitle={`${fileTitle}에 적은 메모가 없어요`}
-            emptyDescription={`이 ${typeLabel}에 대해 기억할 것을 적어 두세요.`}
+            addLabel={t("메모 추가")}
+            emptyTitle={t("{title}에 적은 메모가 없어요", { title: fileTitle })}
+            emptyDescription={t("이 {kind}에 대해 기억할 것을 적어 두세요.", {
+              kind: typeLabel,
+              type: docType,
+            })}
           />
         ) : (
           <MemoList
@@ -183,9 +194,9 @@ export function MemoPanel({
             compact={dock === "below"}
             canAdd={false}
             freshId={fresh}
-            addLabel="메모 추가"
-            emptyTitle="작품 메모가 없어요"
-            emptyDescription="작품 전체에 걸친 생각을 적어 두세요."
+            addLabel={t("메모 추가")}
+            emptyTitle={t("작품 메모가 없어요")}
+            emptyDescription={t("작품 전체에 걸친 생각을 적어 두세요.")}
           />
         )}
       </div>

@@ -1,6 +1,8 @@
 "use client";
 
 import { useRuntimeConfig } from "@/app/providers";
+import { LanguageSwitch } from "@/features/locale/language-switch";
+import { t } from "@/i18n";
 
 import styles from "./site-footer.module.css";
 
@@ -12,32 +14,34 @@ import styles from "./site-footer.module.css";
  */
 export function SiteFooter() {
   const { privacyPolicyUrl, termsOfServiceUrl } = useRuntimeConfig();
-  if (!termsOfServiceUrl && !privacyPolicyUrl) return null;
 
   return (
     <footer className={styles.footer}>
-      <nav className={styles.links} aria-label="정책">
-        {termsOfServiceUrl && (
-          <a
-            className={styles.link}
-            href={termsOfServiceUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            이용약관
-          </a>
-        )}
-        {privacyPolicyUrl && (
-          <a
-            className={styles.link}
-            href={privacyPolicyUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            개인정보처리방침
-          </a>
-        )}
-      </nav>
+      {(termsOfServiceUrl || privacyPolicyUrl) && (
+        <nav className={styles.links} aria-label={t("정책")}>
+          {termsOfServiceUrl && (
+            <a
+              className={styles.link}
+              href={termsOfServiceUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t("이용약관")}
+            </a>
+          )}
+          {privacyPolicyUrl && (
+            <a
+              className={styles.link}
+              href={privacyPolicyUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t("개인정보처리방침")}
+            </a>
+          )}
+        </nav>
+      )}
+      <LanguageSwitch />
     </footer>
   );
 }

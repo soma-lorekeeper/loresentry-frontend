@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { cx } from "@/shared/cx";
 
 import { Icon, type IconName } from "../icons/icon";
@@ -16,20 +17,20 @@ type VisibleState = Exclude<SaveBarState, "unchanged">;
 
 const DEFAULT_COPY: Record<VisibleState, SaveBarCopy> = {
   changed: {
-    message: "저장되지 않은 변경사항",
+    message: t("저장되지 않은 변경사항"),
     detail: "",
   },
   saving: {
-    message: "설정을 저장하고 있습니다",
+    message: t("설정을 저장하고 있습니다"),
     detail: "",
   },
   saved: {
-    message: "설정이 저장되었습니다",
+    message: t("설정이 저장되었습니다"),
     detail: "",
   },
   error: {
-    message: "설정을 저장하지 못했어요",
-    detail: "입력한 값은 유지됩니다.",
+    message: t("설정을 저장하지 못했어요"),
+    detail: t("입력한 값은 유지됩니다."),
   },
 };
 
@@ -86,7 +87,7 @@ export function SaveBar({
           {state === "changed" && (
             <>
               <Button size="md" onClick={onCancel}>
-                취소
+                {t("취소")}
               </Button>
               <Button
                 size="md"
@@ -95,18 +96,18 @@ export function SaveBar({
                 disabled={saveDisabled}
                 onClick={onSave}
               >
-                변경사항 저장
+                {t("변경사항 저장")}
               </Button>
             </>
           )}
           {state === "saving" && (
             <Button size="md" busy>
-              저장 중…
+              {t("저장 중…")}
             </Button>
           )}
           {state === "error" && (
             <Button size="md" icon="refresh-cw" onClick={onRetry ?? onSave}>
-              다시 시도
+              {t("다시 시도")}
             </Button>
           )}
         </div>

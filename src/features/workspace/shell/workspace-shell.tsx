@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { WorkspaceTour } from "@/features/tour/workspace-tour";
+import { t } from "@/i18n";
 
 import type { WorkspacePane } from "../model/layout";
 import { DocumentViewHost } from "../views/document-view-host";
@@ -20,7 +21,7 @@ function Pane({ pane }: { pane: WorkspacePane }) {
       className={styles.pane}
       aria-label={
         layout.panes.length > 1
-          ? `창 ${layout.panes.indexOf(pane) + 1}`
+          ? t("창 {number}", { number: layout.panes.indexOf(pane) + 1 })
           : undefined
       }
       data-focused={focused || undefined}
@@ -106,7 +107,7 @@ export function WorkspaceShell() {
             <button
               type="button"
               className={styles.scrim}
-              aria-label="사이드바 닫기"
+              aria-label={t("사이드바 닫기")}
               onClick={() => dispatch({ type: "toggleSidebar" })}
             />
           )}

@@ -17,14 +17,16 @@ import {
   TextAreaField,
   useToast,
 } from "@/design-system/primitives";
+import { t } from "@/i18n";
 import { isServiceError } from "@/services/errors";
 import { FEEDBACK_MAX } from "@/services/ports";
 import { useServices } from "@/services/services-context";
 
 import styles from "./feedback.module.css";
 
-const PLACEHOLDER =
-  "불편했던 점이나 있었으면 하는 기능을 자유롭게 적어 주세요.";
+const PLACEHOLDER = t(
+  "불편했던 점이나 있었으면 하는 기능을 자유롭게 적어 주세요.",
+);
 
 const FeedbackContext = createContext<{ open: () => void } | null>(null);
 
@@ -86,7 +88,7 @@ function FeedbackDialog({
     onSuccess: () => {
       toast({
         icon: "circle-check",
-        title: "피드백을 보냈어요",
+        title: t("피드백을 보냈어요"),
       });
       onSent();
     },
@@ -102,10 +104,12 @@ function FeedbackDialog({
 
   const error = send.error
     ? isServiceError(send.error) && send.error.code === "network"
-      ? "피드백을 보내지 못했어요. 쓴 내용은 그대로 있으니 연결을 확인하고 다시 보내 주세요."
+      ? t(
+          "피드백을 보내지 못했어요. 쓴 내용은 그대로 있으니 연결을 확인하고 다시 보내 주세요.",
+        )
       : isServiceError(send.error)
         ? send.error.message
-        : "피드백을 보내지 못했어요. 다시 보내 주세요."
+        : t("피드백을 보내지 못했어요. 다시 보내 주세요.")
     : null;
 
   return (
@@ -114,7 +118,7 @@ function FeedbackDialog({
       onClose={() => !pending && onClose()}
       dismissible={!pending}
       size="md"
-      title="피드백 보내기"
+      title={t("피드백 보내기")}
       actions={
         <>
           <Button
@@ -124,7 +128,7 @@ function FeedbackDialog({
             onClick={onClose}
             disabled={pending}
           >
-            취소
+            {t("취소")}
           </Button>
           <Button
             size="md"
@@ -134,14 +138,14 @@ function FeedbackDialog({
             disabled={empty || tooLong}
             onClick={submit}
           >
-            {pending ? "보내는 중…" : error ? "다시 보내기" : "보내기"}
+            {pending ? t("보내는 중…") : error ? t("다시 보내기") : t("보내기")}
           </Button>
         </>
       }
     >
       <div className={styles.body}>
         <TextAreaField
-          label="내용"
+          label={t("내용")}
           value={draft}
           onChange={(event) => {
             onDraft(event.target.value);
@@ -161,7 +165,9 @@ function FeedbackDialog({
         />
         {error && <InlineNotice icon="circle-alert">{error}</InlineNotice>}
         <p className={styles.context}>
-          계정 정보와 지금 보고 있던 화면 위치({page || "/"})가 함께 전달돼요.
+          {t("계정 정보와 지금 보고 있던 화면 위치({page})가 함께 전달돼요.", {
+            page: page || "/",
+          })}
         </p>
       </div>
     </DialogCard>

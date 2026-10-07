@@ -13,6 +13,7 @@ import {
   useToast,
 } from "@/design-system/primitives";
 import type { Project, User } from "@/domain/models";
+import { t } from "@/i18n";
 import { relativeTime } from "@/shared/format";
 
 import {
@@ -47,7 +48,7 @@ function ProjectCard({
         <IconButton
           ref={moreRef}
           icon="ellipsis"
-          label={`${project.title} 더보기`}
+          label={t("{title} 더보기", { title: project.title })}
           className={styles.more}
           aria-haspopup="menu"
           aria-expanded={menuOpen}
@@ -74,20 +75,20 @@ function ProjectCard({
         anchorRef={moreRef}
         open={menuOpen}
         onOpenChange={setMenuOpen}
-        label={`${project.title} 메뉴`}
+        label={t("{title} 메뉴", { title: project.title })}
         placement="bottom-end"
         width={220}
         itemHeight={36}
         entries={[
           {
             id: "edit",
-            label: "수정",
+            label: t("수정"),
             icon: "pencil",
             onSelect: () => onEdit(project),
           },
           {
             id: "trash",
-            label: "휴지통으로 이동",
+            label: t("휴지통으로 이동"),
             icon: "trash-2",
             destructive: true,
             onSelect: () => onTrash(project),
@@ -124,13 +125,15 @@ export function ProjectListPage({ user }: { user: User }) {
   const [editing, setEditing] = useState<Project | null>(null);
   const [trashing, setTrashing] = useState<Project | null>(null);
 
-  const meta = projects.isSuccess ? `${projects.data.length}개` : null;
+  const meta = projects.isSuccess
+    ? t("프로젝트 수::{count}개", { count: projects.data.length })
+    : null;
 
   return (
     <ProjectShell
       user={user}
       section="list"
-      title="프로젝트"
+      title={t("프로젝트")}
       meta={meta}
       headerAction={
         <Button
@@ -140,7 +143,7 @@ export function ProjectListPage({ user }: { user: User }) {
           disabled={projects.isPending}
           onClick={() => setCreating(true)}
         >
-          새 프로젝트
+          {t("새 프로젝트")}
         </Button>
       }
     >
@@ -149,15 +152,15 @@ export function ProjectListPage({ user }: { user: User }) {
           size="lg"
           role="alert"
           icon="cloud-off"
-          title="프로젝트를 불러오지 못했어요"
-          description="네트워크 연결을 확인한 뒤 다시 시도해 주세요."
+          title={t("프로젝트를 불러오지 못했어요")}
+          description={t("네트워크 연결을 확인한 뒤 다시 시도해 주세요.")}
           action={
             <Button
               size="md"
               icon="rotate-cw"
               onClick={() => projects.refetch()}
             >
-              다시 시도
+              {t("다시 시도")}
             </Button>
           }
         />
@@ -165,8 +168,10 @@ export function ProjectListPage({ user }: { user: User }) {
         <EmptyState
           size="lg"
           icon="folder-plus"
-          title="아직 프로젝트가 없어요"
-          description="첫 프로젝트를 만들고 세계와 이야기를 한곳에서 정리해 보세요."
+          title={t("아직 프로젝트가 없어요")}
+          description={t(
+            "첫 프로젝트를 만들고 세계와 이야기를 한곳에서 정리해 보세요.",
+          )}
           action={
             <Button
               size="md"
@@ -174,7 +179,7 @@ export function ProjectListPage({ user }: { user: User }) {
               icon="plus"
               onClick={() => setCreating(true)}
             >
-              첫 프로젝트 만들기
+              {t("첫 프로젝트 만들기")}
             </Button>
           }
         />
@@ -183,7 +188,7 @@ export function ProjectListPage({ user }: { user: User }) {
           className={styles.section}
           aria-busy={projects.isPending || undefined}
         >
-          <h2 className={styles.srOnly}>최근 작업순 프로젝트</h2>
+          <h2 className={styles.srOnly}>{t("최근 작업순 프로젝트")}</h2>
           <div className={styles.grid}>
             {projects.isPending
               ? Array.from({ length: 6 }, (_, index) => (
@@ -217,7 +222,7 @@ export function ProjectListPage({ user }: { user: User }) {
         onClose={() => setEditing(null)}
         onSaved={() => {
           setEditing(null);
-          toast({ icon: "check", title: "프로젝트를 수정했어요." });
+          toast({ icon: "check", title: t("프로젝트를 수정했어요.") });
         }}
       />
       <TrashProjectDialog
@@ -227,9 +232,9 @@ export function ProjectListPage({ user }: { user: User }) {
           setTrashing(null);
           toast({
             icon: "trash-2",
-            title: "프로젝트를 휴지통으로 이동했어요.",
+            title: t("프로젝트를 휴지통으로 이동했어요."),
             action: {
-              label: "휴지통 보기",
+              label: t("휴지통 보기"),
               icon: "arrow-right",
               onSelect: () => router.push("/projects/trash"),
             },

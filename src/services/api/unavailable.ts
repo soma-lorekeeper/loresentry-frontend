@@ -1,10 +1,7 @@
+import { t } from "@/i18n";
+
 import { ServiceError } from "../errors";
-import type {
-  ChatService,
-  HelpService,
-  RefreshService,
-  Services,
-} from "../ports";
+import type { ChatService, RefreshService, Services } from "../ports";
 
 /**
  * 서버가 아직 없는 포트들. **mock 으로 채우지 않는다.**
@@ -17,7 +14,7 @@ import type {
  */
 function unavailable<T>(): Promise<T> {
   return Promise.reject(
-    new ServiceError("unavailable", "이 기능은 아직 준비되지 않았어요."),
+    new ServiceError("unavailable", t("이 기능은 아직 준비되지 않았어요.")),
   );
 }
 
@@ -37,13 +34,6 @@ const chat: ChatService = {
   send: () => unavailable(),
 };
 
-const help: HelpService = {
-  guides: () => unavailable(),
-};
-
-export function unavailableServices(): Pick<
-  Services,
-  "refresh" | "chat" | "help"
-> {
-  return { refresh, chat, help };
+export function unavailableServices(): Pick<Services, "refresh" | "chat"> {
+  return { refresh, chat };
 }

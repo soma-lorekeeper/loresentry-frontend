@@ -8,13 +8,14 @@ import type { Memo, MemoScope } from "@/domain/models";
 import { indexNodes, isDocument } from "@/features/workspace/model/tree";
 import { useFileTree } from "@/features/workspace/queries";
 import { useWorkspace } from "@/features/workspace/workspace-context";
+import { t } from "@/i18n";
 
 import { MemoList } from "./memo-list";
 import styles from "./memo-view.module.css";
 
 const SCOPES = [
-  { value: "file" as const, label: "문서 메모" },
-  { value: "project" as const, label: "작품 메모" },
+  { value: "file" as const, label: t("문서 메모") },
+  { value: "project" as const, label: t("작품 메모") },
 ];
 
 /**
@@ -51,7 +52,7 @@ export function MemoView() {
           size={15}
         />
         <span className={styles.fileTitle}>
-          {file?.title ?? "찾을 수 없는 문서"}
+          {file?.title ?? t("찾을 수 없는 문서")}
         </span>
       </div>
     );
@@ -64,7 +65,7 @@ export function MemoView() {
       ? [
           {
             id: "open",
-            label: "파일로 이동",
+            label: t("파일로 이동"),
             icon: "external-link" as const,
             onSelect: () => open({ kind: "file", fileId: file.id }),
           },
@@ -75,9 +76,9 @@ export function MemoView() {
   return (
     <div className={styles.view}>
       <header className={styles.header}>
-        <h1 className={styles.title}>메모</h1>
+        <h1 className={styles.title}>{t("작업공간::메모")}</h1>
         <Segmented
-          label="메모 범위"
+          label={t("작업공간::메모 범위")}
           options={SCOPES}
           value={scope}
           onChange={setScope}
@@ -90,9 +91,11 @@ export function MemoView() {
           projectId={projectId}
           scope="file"
           canAdd={false}
-          addLabel="메모 추가"
-          emptyTitle="문서 메모가 없어요"
-          emptyDescription="문서를 열어 메모 패널에서 적으면 여기에 모여요."
+          addLabel={t("메모 추가")}
+          emptyTitle={t("문서 메모가 없어요")}
+          emptyDescription={t(
+            "문서를 열어 메모 패널에서 적으면 여기에 모여요.",
+          )}
           context={fileContext}
           entriesFor={fileEntries}
         />
@@ -100,9 +103,9 @@ export function MemoView() {
         <MemoList
           projectId={projectId}
           scope="project"
-          addLabel="메모 추가"
-          emptyTitle="작품 메모가 없어요"
-          emptyDescription="작품 전체에 걸친 생각을 적어 두세요."
+          addLabel={t("메모 추가")}
+          emptyTitle={t("작품 메모가 없어요")}
+          emptyDescription={t("작품 전체에 걸친 생각을 적어 두세요.")}
         />
       )}
     </div>

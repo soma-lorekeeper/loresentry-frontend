@@ -636,6 +636,14 @@
   font-weight: 600;
 }
 
+.chip:lang(en) {
+  height: auto;
+  min-height: 26px;
+  padding-block: 4px;
+  border-radius: 13px;
+  line-height: 1.3;
+}
+
 .chipFresh {
   animation:
     chipIn 360ms var(--ease) var(--d) both,
@@ -1075,6 +1083,34 @@
   justify-content: center;
   gap: 4px;
   height: 36px;
+}
+
+.diffColumns:lang(en) {
+  grid-template-rows: auto repeat(4, auto);
+}
+
+.diffColumn:lang(en) {
+  display: grid;
+  grid-row: 1 / -1;
+  grid-template-rows: subgrid;
+}
+
+.diffRow:lang(en) {
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+  gap: 2px;
+  padding-block: 7px;
+}
+
+.diffArrows:lang(en) {
+  display: grid;
+  grid-row: 2 / -1;
+  grid-template-rows: subgrid;
+  padding-top: 0;
+}
+
+.diffArrows:lang(en) > span {
+  height: auto;
 }
 
 /* 시작 고르기 ---------------------------------------------------------- */

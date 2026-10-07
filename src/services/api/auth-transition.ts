@@ -1,3 +1,5 @@
+import { t } from "@/i18n";
+
 import { ServiceError } from "../errors";
 
 // Every protected response may renew Set-Cookie. Drain responses under shared locks
@@ -45,7 +47,7 @@ export function finishAuthNavigation() {
 function changed() {
   return new ServiceError(
     "busy",
-    "로그인 상태가 변경됐어요. 다시 확인해 주세요.",
+    t("로그인 상태가 변경됐어요. 다시 확인해 주세요."),
   );
 }
 

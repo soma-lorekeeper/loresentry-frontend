@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 
 import { SidebarButton, SidebarLink } from "@/design-system/primitives";
 import type { User } from "@/domain/models";
+import { t } from "@/i18n";
 import { useFeedback } from "@/features/feedback/feedback-provider";
 import { cx } from "@/shared/cx";
 
@@ -35,19 +36,19 @@ export function ProjectShell({
   const feedback = useFeedback();
   return (
     <div className={styles.shell}>
-      <nav className={styles.sidebar} aria-label="프로젝트 메뉴">
+      <nav className={styles.sidebar} aria-label={t("프로젝트 메뉴")}>
         <UserMenu user={user} />
         <SidebarLink
           href="/projects"
           icon="layout-grid"
-          label="프로젝트"
+          label={t("프로젝트")}
           selected={section === "list"}
           strong
         />
         <SidebarLink
           href="/projects/trash"
           icon="trash-2"
-          label="휴지통"
+          label={t("휴지통")}
           selected={section === "trash"}
           strong
         />
@@ -55,13 +56,13 @@ export function ProjectShell({
         <SidebarLink
           href="/projects/guide"
           icon="book-open"
-          label="사용 가이드"
+          label={t("사용 가이드")}
           selected={section === "guide"}
           strong
         />
         <SidebarButton
           icon="message-square"
-          label="피드백 보내기"
+          label={t("피드백 보내기")}
           onClick={feedback.open}
           aria-haspopup="dialog"
         />

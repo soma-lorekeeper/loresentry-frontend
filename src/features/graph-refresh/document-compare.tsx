@@ -20,7 +20,12 @@ import {
 } from "react";
 
 import { Icon, IconButton, type IconName } from "@/design-system/primitives";
-import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
+import {
+  DOCUMENT_TYPE_META,
+  DOCUMENT_TYPE_SINGULAR_LABEL,
+  type DocumentType,
+} from "@/domain/document-types";
+import { t } from "@/i18n";
 import type {
   DocumentDraft,
   DocumentNode,
@@ -67,13 +72,13 @@ function Arrows({
       <IconButton
         icon="chevrons-right"
         iconSize={14}
-        label={`${label}: 현재 버전 값을 신규 버전에 넣기`}
+        label={t("{label}: 현재 버전 값을 신규 버전에 넣기", { label })}
         onClick={() => onPush(">>")}
       />
       <IconButton
         icon="chevrons-left"
         iconSize={14}
-        label={`${label}: 신규 버전 값을 현재 버전에 넣기`}
+        label={t("{label}: 신규 버전 값을 현재 버전에 넣기", { label })}
         onClick={() => onPush("<<")}
       />
     </span>
@@ -159,12 +164,16 @@ function TargetPicker({
   };
 
   return (
-    <div className={styles.picker} role="dialog" aria-label="연결할 문서 선택">
+    <div
+      className={styles.picker}
+      role="dialog"
+      aria-label={t("연결할 문서 선택")}
+    >
       <input
         autoFocus
         className={styles.pickerSearch}
-        placeholder="문서 검색"
-        aria-label="연결할 문서 검색"
+        placeholder={t("문서 검색")}
+        aria-label={t("연결할 문서 검색")}
         value={query}
         onChange={(event) => {
           setQuery(event.target.value);
@@ -172,9 +181,9 @@ function TargetPicker({
         }}
         onKeyDown={onKeyDown}
       />
-      <div className={styles.pickerList} role="listbox" aria-label="문서">
+      <div className={styles.pickerList} role="listbox" aria-label={t("문서")}>
         {filtered.length === 0 ? (
-          <p className={styles.pickerEmpty}>연결할 문서가 없어요.</p>
+          <p className={styles.pickerEmpty}>{t("연결할 문서가 없어요.")}</p>
         ) : (
           filtered.map((node, index) => (
             <button
@@ -234,7 +243,7 @@ function RelationCell({
     delete descriptions[id];
     onChange({
       ...property,
-      targetIds: property.targetIds.filter((t) => t !== id),
+      targetIds: property.targetIds.filter((target) => target !== id),
       descriptions,
     });
   };
@@ -243,7 +252,7 @@ function RelationCell({
     <span className={styles.chips}>
       {property.targetIds.map((id) => {
         const target = lookup(id);
-        const title = target?.title ?? "새 문서";
+        const title = target?.title ?? t("새 문서");
         return (
           <span
             key={id}
@@ -258,7 +267,7 @@ function RelationCell({
             <button
               type="button"
               className={styles.chipRemove}
-              aria-label={`${label}에서 ${title} 빼기`}
+              aria-label={t("{label}에서 {title} 빼기", { label, title })}
               onClick={() => remove(id)}
             >
               <Icon name="x" size={12} />
@@ -270,7 +279,7 @@ function RelationCell({
         <IconButton
           icon="plus"
           iconSize={14}
-          label={`${label}에 문서 연결`}
+          label={t("{label}에 문서 연결", { label })}
           className={styles.add}
           aria-expanded={picking}
           onClick={() => setPicking((open) => !open)}
@@ -385,18 +394,18 @@ export function DocumentCompare({
   return (
     <div className={styles.compare}>
       <div className={styles.heads}>
-        <span>현재 버전</span>
+        <span>{t("현재 버전")}</span>
         <span className={styles.headGutter}>
           {!both && (docs.left || docs.right) && (
             <Arrows
-              label="문서 전체"
+              label={t("문서 전체")}
               onPush={(direction) =>
                 onChange(pushDocument(state, id, direction))
               }
             />
           )}
         </span>
-        <span>신규 버전</span>
+        <span>{t("신규 버전")}</span>
       </div>
 
       <div className={styles.sheets}>
@@ -417,30 +426,32 @@ export function DocumentCompare({
                   }}
                 >
                   {side === "left"
-                    ? "현재 버전에는 없는 문서예요."
-                    : "신규 버전에서 사라진 문서예요."}
+                    ? t("현재 버전에는 없는 문서예요.")
+                    : t("신규 버전에서 사라진 문서예요.")}
                 </p>
               ))}
             </>
           )}
 
-          {row("type", "분류", false, () => (
+          {row("type", t("분류"), false, () => (
             <span className={styles.type} data-kind={proposal.docType}>
               <Icon name={meta.entityIcon} size={14} />
-              {meta.label}
+              {DOCUMENT_TYPE_SINGULAR_LABEL[proposal.docType]}
             </span>
           ))}
 
           {showTitle &&
             row(
               "title",
-              "제목",
+              t("제목"),
               docs.left?.title !== docs.right?.title,
               (side, doc) => (
                 <EditableText
                   value={doc.title}
                   segments={titleMarks ? titleMarks[side] : null}
-                  label={`${side === "left" ? "현재" : "신규"} 버전 제목`}
+                  label={
+                    side === "left" ? t("현재 버전 제목") : t("신규 버전 제목")
+                  }
                   onChange={(value) =>
                     onChange(editTitle(state, id, side, value))
                   }
@@ -470,7 +481,11 @@ export function DocumentCompare({
                   <EditableText
                     value={text(side)}
                     segments={marks ? marks[side] : null}
-                    label={`${side === "left" ? "현재" : "신규"} 버전 ${line.label}`}
+                    label={
+                      side === "left"
+                        ? t("현재 버전 {label}", { label: line.label })
+                        : t("신규 버전 {label}", { label: line.label })
+                    }
                     onChange={(value) =>
                       write(side, {
                         ...((line[side] ?? emptyLike(sample)) as TextProperty),
@@ -501,7 +516,11 @@ export function DocumentCompare({
                   otherIds={
                     both ? ids(side === "left" ? "right" : "left") : ids(side)
                   }
-                  label={`${side === "left" ? "현재" : "신규"} 버전 ${line.label}`}
+                  label={
+                    side === "left"
+                      ? t("현재 버전 {label}", { label: line.label })
+                      : t("신규 버전 {label}", { label: line.label })
+                  }
                   lookup={lookup}
                   candidates={candidatesOf(sample.targetType, id)}
                   onChange={(next) => write(side, next)}

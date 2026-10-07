@@ -10,7 +10,11 @@ import {
   InlineNotice,
   Modal,
 } from "@/design-system/primitives";
-import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
+import {
+  DOCUMENT_TYPE_META,
+  DOCUMENT_TYPE_SINGULAR_LABEL,
+  type DocumentType,
+} from "@/domain/document-types";
 import type {
   DocumentContent,
   DocumentDraft,
@@ -19,6 +23,7 @@ import type {
   VersionKind,
 } from "@/domain/models";
 import { isDocument } from "@/features/workspace/model/tree";
+import { INTL_LOCALE, LOCALE, t } from "@/i18n";
 import { clockTime, versionTimeLabel } from "@/shared/format";
 import { cx } from "@/shared/cx";
 
@@ -28,16 +33,26 @@ import styles from "./version-history-modal.module.css";
 import { bodyToPlainText } from "@/domain/document-body";
 
 const KIND_LABEL: Record<VersionKind, string> = {
-  AUTO: "자동 저장",
-  NAMED: "수동 저장",
-  PRE_RESTORE: "복원 전 상태",
-  RESTORE: "복원됨",
-  AI_APPLY: "그래프 반영",
+  AUTO: t("자동 저장"),
+  NAMED: t("수동 저장"),
+  PRE_RESTORE: t("복원 전 상태"),
+  RESTORE: t("복원됨"),
+  AI_APPLY: t("그래프 반영"),
 };
 
+const monthDay = new Intl.DateTimeFormat(INTL_LOCALE[LOCALE], {
+  month: "short",
+  day: "numeric",
+});
+
 function fullTime(iso: string) {
-  const date = new Date(iso);
-  return `${date.getMonth() + 1}월 ${date.getDate()}일 ${clockTime(iso)}`;
+  return `${monthDay.format(new Date(iso))} ${clockTime(iso)}`;
+}
+
+function versionName(version: DocumentVersion) {
+  if (version.kind === "PRE_RESTORE" && version.label !== null)
+    return t("복원 전");
+  return version.label ?? versionTimeLabel(version.createdAt);
 }
 
 type Snapshot = DocumentDraft & { docType: DocumentType };
@@ -66,7 +81,7 @@ function Cell({
         }
         size={14}
       />
-      {node?.title ?? "삭제된 파일"}
+      {node?.title ?? t("삭제된 파일")}
     </span>
   );
 }
@@ -101,11 +116,11 @@ function ComparePane({
       </header>
       <dl className={styles.properties}>
         <div className={styles.property}>
-          <dt>분류</dt>
+          <dt>{t("분류")}</dt>
           <dd>
             <span className={styles.type} data-kind={snapshot.docType}>
               <Icon name={meta.entityIcon} size={14} />
-              {meta.label}
+              {DOCUMENT_TYPE_SINGULAR_LABEL[snapshot.docType]}
             </span>
           </dd>
         </div>
@@ -159,9 +174,7 @@ function VersionRow({
         aria-current={selected || undefined}
         onClick={onSelect}
       >
-        <span className={styles.versionTime}>
-          {version.label ?? versionTimeLabel(version.createdAt)}
-        </span>
+        <span className={styles.versionTime}>{versionName(version)}</span>
         <span className={styles.versionKind}>{KIND_LABEL[version.kind]}</span>
       </button>
     </li>
@@ -244,9 +257,11 @@ export function VersionHistoryModal({
   };
 
   const error = mutations.restore.isError
-    ? "버전을 복원하지 못했어요. 문서가 잠겨 있거나 다른 곳에서 먼저 바뀌었을 수 있어요."
+    ? t(
+        "버전을 복원하지 못했어요. 문서가 잠겨 있거나 다른 곳에서 먼저 바뀌었을 수 있어요.",
+      )
     : mutations.save.isError
-      ? "버전을 저장하지 못했어요. 다시 시도해 주세요."
+      ? t("버전을 저장하지 못했어요. 다시 시도해 주세요.")
       : null;
 
   return (
@@ -264,14 +279,14 @@ export function VersionHistoryModal({
         <IconButton
           icon="x"
           iconSize={16}
-          label="버전 기록 닫기"
+          label={t("버전 기록 닫기")}
           onClick={close}
           disabled={busy}
         />
       </header>
       <div className={styles.layout}>
-        <nav className={styles.list} aria-label="버전 기록">
-          <span className={styles.listLabel}>버전 기록</span>
+        <nav className={styles.list} aria-label={t("버전 기록")}>
+          <span className={styles.listLabel}>{t("버전 기록")}</span>
           <ul>
             {list.map((version) => (
               <VersionRow
@@ -288,33 +303,35 @@ export function VersionHistoryModal({
             <EmptyState
               role="status"
               icon="loader-circle"
-              title="버전 기록을 불러오는 중이에요"
+              title={t("버전 기록을 불러오는 중이에요")}
             />
           ) : versions.isError ? (
             <EmptyState
               role="alert"
               icon="triangle-alert"
-              title="버전 기록을 불러오지 못했어요"
+              title={t("버전 기록을 불러오지 못했어요")}
               action={
                 <Button
                   size="md"
                   icon="refresh-cw"
                   onClick={() => versions.refetch()}
                 >
-                  다시 시도
+                  {t("다시 시도")}
                 </Button>
               }
             />
           ) : !selected ? (
             <EmptyState
               icon="history"
-              title="아직 저장된 버전이 없어요"
-              description="지금 상태를 버전으로 남겨 두면, 나중에 언제든 이 문서를 그때로 되돌릴 수 있어요."
+              title={t("아직 저장된 버전이 없어요")}
+              description={t(
+                "지금 상태를 버전으로 남겨 두면, 나중에 언제든 이 문서를 그때로 되돌릴 수 있어요.",
+              )}
             />
           ) : (
             <div className={styles.compare}>
               <ComparePane
-                title="선택한 버전"
+                title={t("선택한 버전")}
                 subtitle={fullTime(selected.createdAt)}
                 snapshot={selected.snapshot}
                 other={current}
@@ -322,7 +339,7 @@ export function VersionHistoryModal({
                 index={index}
               />
               <ComparePane
-                title="현재 문서"
+                title={t("현재 문서")}
                 snapshot={current}
                 other={selected.snapshot}
                 side="right"
@@ -335,13 +352,15 @@ export function VersionHistoryModal({
             {locked ? (
               <span className={styles.lockedHint}>
                 <Icon name="lock" size={14} />
-                잠긴 문서는 버전을 저장하거나 복원할 수 없어요.
+                {t("잠긴 문서는 버전을 저장하거나 복원할 수 없어요.")}
               </span>
             ) : (
               unsaved && (
                 <span className={styles.lockedHint}>
                   <Icon name="circle-alert" size={14} />
-                  저장하지 못한 편집이 있어요. 먼저 저장해야 복원할 수 있어요.
+                  {t(
+                    "저장하지 못한 편집이 있어요. 먼저 저장해야 복원할 수 있어요.",
+                  )}
                 </span>
               )
             )}
@@ -353,7 +372,7 @@ export function VersionHistoryModal({
               disabled={locked || busy}
               onClick={() => void saveVersion()}
             >
-              버전 저장
+              {t("버전 저장")}
             </Button>
             {selected && (
               <Button
@@ -364,7 +383,7 @@ export function VersionHistoryModal({
                 disabled={locked || unsaved || busy}
                 onClick={() => void restore()}
               >
-                이 버전으로 복원
+                {t("이 버전으로 복원")}
               </Button>
             )}
           </footer>

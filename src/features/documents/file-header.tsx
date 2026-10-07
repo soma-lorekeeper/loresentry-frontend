@@ -9,6 +9,7 @@ import {
   type MenuEntry,
 } from "@/design-system/primitives";
 import type { ExportFormat } from "@/domain/models";
+import { t } from "@/i18n";
 
 import styles from "./file-header.module.css";
 
@@ -22,18 +23,18 @@ const EXPORT_OPTIONS: Array<{
   icon: IconName;
   pending?: boolean;
 }> = [
-  { format: "pdf", label: "PDF로 내보내기", icon: "printer" },
+  { format: "pdf", label: t("PDF로 내보내기"), icon: "printer" },
   {
     format: "docx",
-    label: "MS Word (.docx) — 준비 중",
+    label: t("MS Word (.docx) — 준비 중"),
     icon: "file-text",
     pending: true,
   },
-  { format: "md", label: "마크다운 (.md)", icon: "hash" },
-  { format: "txt", label: "텍스트 (.txt)", icon: "type" },
+  { format: "md", label: t("마크다운 (.md)"), icon: "hash" },
+  { format: "txt", label: t("텍스트 (.txt)"), icon: "type" },
   {
     format: "hwp",
-    label: "한글 오피스 (.hwp) — 준비 중",
+    label: t("한글 오피스 (.hwp) — 준비 중"),
     icon: "file-type",
     pending: true,
   },
@@ -96,19 +97,19 @@ export function FileHeader({
   }));
 
   return (
-    <div className={styles.header} role="group" aria-label="파일 도구">
+    <div className={styles.header} role="group" aria-label={t("파일 도구")}>
       <Action
         icon="notebook-pen"
-        label="메모"
+        label={t("메모")}
         data-memo-toggle
         pressed={memoOpen}
         onClick={onToggleMemo}
       />
-      <Action icon="history" label="버전" onClick={onOpenVersions} />
+      <Action icon="history" label={t("버전")} onClick={onOpenVersions} />
       <Action
         ref={exportRef}
         icon="download"
-        label="내보내기"
+        label={t("내보내기")}
         aria-haspopup="menu"
         aria-expanded={exportOpen}
         onClick={() => setExportOpen((open) => !open)}
@@ -117,7 +118,7 @@ export function FileHeader({
         anchorRef={exportRef}
         open={exportOpen}
         onOpenChange={setExportOpen}
-        label="내보내기 형식"
+        label={t("내보내기 형식")}
         placement="bottom-end"
         width={240}
         itemHeight={38}
@@ -125,9 +126,9 @@ export function FileHeader({
       />
       <Action
         icon={locked ? "lock" : "lock-open"}
-        label="잠금"
+        label={t("잠금")}
         pressed={locked}
-        aria-label={locked ? "잠금 해제" : "잠금"}
+        aria-label={locked ? t("잠금 해제") : t("잠금")}
         disabled={lockPending}
         onClick={onToggleLock}
       />

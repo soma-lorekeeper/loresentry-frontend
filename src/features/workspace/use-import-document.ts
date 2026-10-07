@@ -5,6 +5,7 @@ import { useCallback } from "react";
 
 import { useToast } from "@/design-system/primitives";
 import type { DocumentNode } from "@/domain/models";
+import { t } from "@/i18n";
 import { invalidateProjectContent } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 import { bodyFromPlainText } from "@/domain/document-body";
@@ -23,7 +24,7 @@ export function useImportDocument(projectId: string) {
       try {
         const text = await file.text();
         const title =
-          file.name.replace(/\.(txt|md|markdown)$/i, "") || "가져온 원고";
+          file.name.replace(/\.(txt|md|markdown)$/i, "") || t("가져온 원고");
         const node = await services.files.create({
           projectId,
           parentId,
@@ -47,15 +48,17 @@ export function useImportDocument(projectId: string) {
         await invalidateProjectContent(queryClient, projectId);
         toast({
           icon: "upload",
-          title: "원고를 가져왔어요.",
+          title: t("원고를 가져왔어요."),
           description: title,
         });
         return node as DocumentNode;
       } catch {
         toast({
           icon: "triangle-alert",
-          title: "파일을 가져오지 못했어요.",
-          description: "텍스트(.txt)나 마크다운(.md) 파일인지 확인해 주세요.",
+          title: t("파일을 가져오지 못했어요."),
+          description: t(
+            "텍스트(.txt)나 마크다운(.md) 파일인지 확인해 주세요.",
+          ),
         });
         return null;
       }

@@ -6,6 +6,7 @@ import { createLayout } from "@/features/workspace/model/layout";
 import { WorkspaceProvider } from "@/features/workspace/workspace-context";
 import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
 import { renderWithServices, routerMock } from "@/test/render";
+import { ServiceError } from "@/services/errors";
 
 import { requestTour } from "./tour-state";
 import { WorkspaceTour } from "./workspace-tour";
@@ -23,7 +24,7 @@ const user = {
   onboardingCompleted: true,
 };
 
-function renderTour() {
+function renderTour(options: Parameters<typeof renderWithServices>[1] = {}) {
   const project = getDb().projects.find((p) => p.id === GLASS_GARDEN_ID)!;
   return renderWithServices(
     <WorkspaceProvider
@@ -36,6 +37,7 @@ function renderTour() {
       ))}
       <WorkspaceTour />
     </WorkspaceProvider>,
+    options,
   );
 }
 
@@ -65,6 +67,24 @@ describe("WorkspaceTour", () => {
     expect(window.localStorage.getItem("loresentry.tour.workspace")).toBe(
       "done",
     );
+  });
+
+  it("leaves out the graph refresh step while the server has no refresh", async () => {
+    window.localStorage.setItem("loresentry.tour.workspace", "pending");
+    const actor = userEvent.setup();
+    renderTour({
+      refresh: {
+        current: () =>
+          Promise.reject(new ServiceError("unavailable", "준비 중")),
+      },
+    });
+
+    await screen.findByRole("dialog", { name: "원고는 여기서 써요" });
+    expect(screen.getByRole("list", { name: "3단계 중 1단계" })).toBeVisible();
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await screen.findByRole("dialog", { name: "속성 표로 문서를 이어요" });
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await screen.findByRole("dialog", { name: "회차별 등장은 타임라인에서" });
   });
 
   it("stays away once done, skips with Esc, and replays on request", async () => {

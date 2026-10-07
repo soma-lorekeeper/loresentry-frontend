@@ -1,3 +1,4 @@
+import { LOCALE } from "@/i18n/locale";
 import type { Project, ProjectSettings } from "@/domain/models";
 
 import type { ProjectService } from "../ports";
@@ -64,7 +65,7 @@ export function createApiProjects(client: ApiClient): ProjectService {
 
     createSample: async () =>
       toProject(
-        await client.request<ApiProject>("/projects/sample", {
+        await client.request<ApiProject>(`/projects/sample?locale=${LOCALE}`, {
           method: "POST",
           operation: "projects.createSample",
         }),

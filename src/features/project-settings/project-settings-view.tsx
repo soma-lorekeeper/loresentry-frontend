@@ -20,6 +20,7 @@ import type { ProjectSettings } from "@/domain/models";
 import { useTrashProject } from "@/features/projects/queries";
 import type { WorkspaceViewProps } from "@/features/workspace/views/view-types";
 import { useWorkspace } from "@/features/workspace/workspace-context";
+import { t } from "@/i18n";
 import { isServiceError } from "@/services/errors";
 
 import styles from "./project-settings-view.module.css";
@@ -32,21 +33,21 @@ const DESCRIPTION_MAX = 500;
 
 const COPY = {
   saved: {
-    message: "설정이 저장되었습니다",
-    detail: "사이드바와 프로젝트 목록에 바로 반영됐어요.",
+    message: t("작업공간::설정이 저장되었습니다"),
+    detail: t("사이드바와 프로젝트 목록에 바로 반영됐어요."),
   },
   error: {
-    message: "설정을 저장하지 못했어요",
-    detail: "입력값은 유지됩니다.",
+    message: t("작업공간::설정을 저장하지 못했어요"),
+    detail: t("입력값은 유지됩니다."),
   },
 };
 
 function changedFields(saved: ProjectSettings, draft: ProjectSettings) {
   const fields: string[] = [];
   if (draft.title.trim() !== saved.title)
-    fields.push(`프로젝트 이름 · ${saved.title}`);
+    fields.push(t("프로젝트 이름 · {title}", { title: saved.title }));
   if (draft.description.trim() !== saved.description)
-    fields.push("프로젝트 설명");
+    fields.push(t("프로젝트 설명"));
   return fields;
 }
 
@@ -74,12 +75,12 @@ function TrashDialog({
       open={open}
       onClose={close}
       dismissible={!busy}
-      title="프로젝트를 휴지통으로 이동할까요?"
-      description="프로젝트 안의 파일도 함께 이동합니다."
+      title={t("작업공간::프로젝트를 휴지통으로 이동할까요?")}
+      description={t("프로젝트 안의 파일도 함께 이동합니다.")}
       actions={
         <>
           <Button size="md" onClick={close} disabled={busy}>
-            취소
+            {t("취소")}
           </Button>
           <Button
             size="md"
@@ -91,8 +92,8 @@ function TrashDialog({
                 onSuccess: () => {
                   toast({
                     icon: "circle-check",
-                    title: "프로젝트를 휴지통으로 옮겼어요.",
-                    description: "프로젝트 휴지통에서 복원할 수 있어요.",
+                    title: t("프로젝트를 휴지통으로 옮겼어요."),
+                    description: t("프로젝트 휴지통에서 복원할 수 있어요."),
                   });
                   router.push("/projects");
                 },
@@ -100,18 +101,18 @@ function TrashDialog({
             }
           >
             {busy
-              ? "이동 중…"
+              ? t("작업공간::이동 중…")
               : trash.isError
-                ? "다시 시도"
-                : "휴지통으로 이동"}
+                ? t("다시 시도")
+                : t("작업공간::휴지통으로 이동")}
           </Button>
         </>
       }
     >
-      <DialogDetail label="이동할 프로젝트" value={title} />
+      <DialogDetail label={t("이동할 프로젝트")} value={title} />
       {trash.isError && (
         <InlineNotice>
-          프로젝트를 이동하지 못했어요. 작업공간은 그대로 유지했어요.
+          {t("프로젝트를 이동하지 못했어요. 작업공간은 그대로 유지했어요.")}
         </InlineNotice>
       )}
     </DialogCard>
@@ -201,7 +202,7 @@ function SettingsForm({
       <section className={styles.section} aria-labelledby="settings-general">
         <header className={styles.sectionHeader}>
           <h2 id="settings-general" className={styles.sectionTitle}>
-            일반
+            {t("일반")}
           </h2>
         </header>
         <form
@@ -213,18 +214,22 @@ function SettingsForm({
         >
           <TextField
             density="settings"
-            label="프로젝트 이름"
+            label={t("작업공간::프로젝트 이름")}
             required
             value={draft.title}
             maxLength={TITLE_MAX}
             readOnly={save.isPending}
             onChange={(event) => edit({ title: event.target.value })}
-            error={titleEmpty ? "프로젝트 이름을 입력해 주세요." : serverError}
+            error={
+              titleEmpty
+                ? t("작업공간::프로젝트 이름을 입력해 주세요.")
+                : serverError
+            }
           />
           <TextAreaField
             density="settings"
-            label="프로젝트 설명"
-            labelHint="선택"
+            label={t("프로젝트 설명")}
+            labelHint={t("선택")}
             rows={3}
             value={draft.description}
             maxLength={DESCRIPTION_MAX}
@@ -244,19 +249,21 @@ function SettingsForm({
       <section className={styles.section} aria-labelledby="settings-danger">
         <header className={styles.sectionHeader}>
           <h2 id="settings-danger" className={styles.sectionTitle}>
-            위험 영역
+            {t("위험 영역")}
           </h2>
         </header>
         <div className={styles.danger}>
           <Icon name="triangle-alert" size={16} className={styles.dangerIcon} />
           <span className={styles.dangerCopy}>
-            <strong>프로젝트를 휴지통으로 이동</strong>
+            <strong>{t("프로젝트를 휴지통으로 이동")}</strong>
             <span>
-              프로젝트 목록의 휴지통에서 복원하거나 영구 삭제할 수 있어요.
+              {t(
+                "프로젝트 목록의 휴지통에서 복원하거나 영구 삭제할 수 있어요.",
+              )}
             </span>
           </span>
           <Button size="lg" icon="trash-2" onClick={() => setTrashOpen(true)}>
-            이동
+            {t("이동")}
           </Button>
         </div>
       </section>
@@ -264,12 +271,12 @@ function SettingsForm({
       <DialogCard
         open={leaving !== null}
         onClose={() => setLeaving(null)}
-        title="변경사항을 저장하지 않고 나갈까요?"
-        description="현재 프로젝트 설정의 변경사항이 사라집니다."
+        title={t("변경사항을 저장하지 않고 나갈까요?")}
+        description={t("현재 프로젝트 설정의 변경사항이 사라집니다.")}
         actions={
           <>
             <Button size="md" onClick={() => setLeaving(null)}>
-              계속 편집
+              {t("계속 편집")}
             </Button>
             <Button
               size="md"
@@ -282,7 +289,7 @@ function SettingsForm({
                 proceed?.();
               }}
             >
-              변경사항 버리기
+              {t("변경사항 버리기")}
             </Button>
           </>
         }
@@ -309,27 +316,27 @@ export function ProjectSettingsView({ tab, paneId }: WorkspaceViewProps) {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <h1 className={styles.title}>프로젝트 설정</h1>
+        <h1 className={styles.title}>{t("프로젝트 설정")}</h1>
       </header>
       {settings.isPending ? (
         <EmptyState
           role="status"
           icon="loader-circle"
-          title="설정을 불러오는 중이에요"
+          title={t("설정을 불러오는 중이에요")}
         />
       ) : settings.isError ? (
         <EmptyState
           role="alert"
           icon="triangle-alert"
-          title="설정을 불러오지 못했어요"
-          description="연결을 확인한 뒤 다시 시도해 주세요."
+          title={t("설정을 불러오지 못했어요")}
+          description={t("작업공간::연결을 확인한 뒤 다시 시도해 주세요.")}
           action={
             <Button
               size="md"
               icon="refresh-cw"
               onClick={() => settings.refetch()}
             >
-              다시 시도
+              {t("다시 시도")}
             </Button>
           }
         />

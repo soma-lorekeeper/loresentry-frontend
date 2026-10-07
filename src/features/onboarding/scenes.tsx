@@ -1,7 +1,12 @@
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 
 import { Icon, type IconName } from "@/design-system/primitives";
-import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
+import {
+  DOCUMENT_TYPE_META,
+  DOCUMENT_TYPE_SINGULAR_LABEL,
+  type DocumentType,
+} from "@/domain/document-types";
+import { LOCALE, t, tRich } from "@/i18n";
 import { cx } from "@/shared/cx";
 
 import type { OnboardingStep } from "./steps";
@@ -21,6 +26,10 @@ const at = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 const iconOf = (type: DocumentType) => DOCUMENT_TYPE_META[type].entityIcon;
 const nodeColor = (type: DocumentType) =>
   `var(--lk-${DOCUMENT_TYPE_META[type].nodeColor})`;
+const labelOf = (type: DocumentType) => DOCUMENT_TYPE_META[type].label;
+const kindOf = (type: DocumentType) => DOCUMENT_TYPE_SINGULAR_LABEL[type];
+const relationOf = (type: DocumentType) =>
+  DOCUMENT_TYPE_META[type].relationLabel;
 
 function Enter({
   delay,
@@ -59,13 +68,32 @@ const FOLDERS: DocumentType[] = [
   "event",
   "worldview",
 ];
+
+const PROJECT = t("무대::유리 정원의 기록");
+const LENA = t("무대::레나 아르벨");
+const SEOYUN = t("무대::서윤");
+const HARIN = t("무대::하린");
+const NOAH = t("무대::노아 크레인");
+const GLASS_MAGIC = t("무대::유리 마법");
+const MEMORY_ROUTES = t("무대::기억 항로");
+const NORTH_GREENHOUSE = t("무대::북쪽 온실");
+const GLASS_MOUNTAINS = t("무대::유리 산맥");
+const SILVER_VOYAGERS = t("무대::은빛 항해단");
+const LIGHTHOUSE_KEEPERS = t("무대::등대 수호회");
+const OLD_KEY = t("무대::낡은 열쇠");
+const AWAKENING = t("무대::각성");
+const CH11 = t("무대::11화 · 유리 정원");
+const CH12 = t("무대::12화 · 균열의 밤");
+const NEW_EPISODE = t("무대::Episode 4. 새 원고");
+const LENA_ROLE = t("무대::기억 항로를 읽어 내는 은빛 항해단의 항해사");
+
 const EPISODES = [
-  "Episode 1. 유리의 계절",
-  "Episode 2. 북쪽 문",
-  "Episode 3. 기억 항로",
+  t("무대::Episode 1. 유리의 계절"),
+  t("무대::Episode 2. 북쪽 문"),
+  t("무대::Episode 3. 기억 항로"),
 ];
-const CHARACTERS = ["서윤", "레나 아르벨", "하린"];
-const WORLDVIEWS = ["유리 마법", "기억 항로"];
+const CHARACTERS = [SEOYUN, LENA, HARIN];
+const WORLDVIEWS = [GLASS_MAGIC, MEMORY_ROUTES];
 
 /** 장면마다 펼쳐 둔 폴더와 그 안의 항목. 회차는 에피소드 폴더 아래에 놓인다. */
 const OPEN_FOLDERS: Partial<Record<Scene, DocumentType[]>> = {
@@ -79,13 +107,13 @@ const OPEN_EPISODE: Partial<
   Record<Scene, { name: string; chapters: string[]; active: string }>
 > = {
   editor: {
-    name: "Episode 4. 새 원고",
-    chapters: ["11화 · 유리 정원", "12화 · 균열의 밤"],
-    active: "12화 · 균열의 밤",
+    name: NEW_EPISODE,
+    chapters: [CH11, CH12],
+    active: CH12,
   },
   files: {
-    name: "Episode 4. 새 원고",
-    chapters: ["11화 · 유리 정원", "12화 · 균열의 밤"],
+    name: NEW_EPISODE,
+    chapters: [CH11, CH12],
     active: "",
   },
 };
@@ -94,11 +122,11 @@ const FOLDER_ENTRIES: Partial<Record<DocumentType, string[]>> = {
   worldview: WORLDVIEWS,
 };
 const ACTIVE_ENTRY: Partial<Record<Scene, string>> = {
-  relations: "레나 아르벨",
-  files: "레나 아르벨",
+  relations: LENA,
+  files: LENA,
 };
 /** 랜딩의 실이 따라가는 인물. 창에 실이 닿으면 이 표시가 붙은 자리가 잠깐 강조된다. */
-const FOLLOWED = "레나 아르벨";
+const FOLLOWED = LENA;
 
 function SideItem({
   icon,
@@ -125,21 +153,21 @@ function SideItem({
 
 function RefreshItem({ scene }: { scene: Scene }) {
   if (scene !== "refresh") {
-    return <SideItem icon="refresh-cw" label="그래프 최신화" />;
+    return <SideItem icon="refresh-cw" label={t("무대::그래프 최신화")} />;
   }
   return (
     <div className={styles.refreshItem} data-focus="refresh">
       <span className={cx(styles.refreshState, styles.refreshIdle)}>
         <Icon name="refresh-cw" size={13} />
-        그래프 최신화
+        {t("무대::그래프 최신화")}
       </span>
       <span className={cx(styles.refreshState, styles.refreshRunning)}>
         <Icon name="loader-circle" size={13} className={styles.spin} />
-        그래프 추출 중…
+        {t("무대::그래프 추출 중…")}
       </span>
       <span className={cx(styles.refreshState, styles.refreshReady)}>
         <Icon name="git-compare-arrows" size={13} />
-        변경 사항 반영
+        {t("무대::변경 사항 반영")}
       </span>
     </div>
   );
@@ -194,27 +222,31 @@ function Sidebar({ scene, userName }: { scene: Scene; userName: string }) {
       <div className={styles.sideNav}>
         <div className={styles.sideProject}>
           <Icon name="book-open" size={13} />
-          <span className={styles.ellipsis}>유리 정원의 기록</span>
+          <span className={styles.ellipsis}>{PROJECT}</span>
           <Icon name="chevron-down" size={13} />
         </div>
-        <SideItem icon="waypoints" label="그래프" active={scene === "graph"} />
+        <SideItem
+          icon="waypoints"
+          label={t("무대::그래프")}
+          active={scene === "graph"}
+        />
         <SideItem
           icon="chart-no-axes-gantt"
-          label="타임라인"
+          label={t("무대::타임라인")}
           active={scene === "timeline"}
         />
-        <SideItem icon="notebook-pen" label="메모" />
+        <SideItem icon="notebook-pen" label={t("무대::메모")} />
         <div className={styles.sideDivider} />
         <RefreshItem scene={scene} />
-        <p className={styles.sideHeading}>즐겨찾기</p>
-        <SideItem icon="file-text" label="12화 · 균열의 밤" />
+        <p className={styles.sideHeading}>{t("무대::즐겨찾기")}</p>
+        <SideItem icon="file-text" label={CH12} />
         <div className={styles.sideNav} data-focus="workspace">
-          <p className={styles.sideHeading}>파일</p>
+          <p className={styles.sideHeading}>{t("무대::파일")}</p>
           {FOLDERS.map((type) => (
             <div key={type}>
               <SideItem
                 icon={open.includes(type) ? "folder-open" : "folder"}
-                label={DOCUMENT_TYPE_META[type].label}
+                label={labelOf(type)}
               />
               {open.includes(type) && (
                 <FolderChildren type={type} scene={scene} />
@@ -224,9 +256,9 @@ function Sidebar({ scene, userName }: { scene: Scene; userName: string }) {
         </div>
       </div>
       <div className={styles.sideBottom}>
-        <SideItem icon="trash-2" label="휴지통" />
-        <SideItem icon="settings" label="설정" />
-        <SideItem icon="circle-help" label="도움말" />
+        <SideItem icon="trash-2" label={t("무대::휴지통")} />
+        <SideItem icon="settings" label={t("무대::설정")} />
+        <SideItem icon="circle-help" label={t("무대::도움말")} />
       </div>
     </aside>
   );
@@ -235,14 +267,14 @@ function Sidebar({ scene, userName }: { scene: Scene; userName: string }) {
 /* 탭 막대 -------------------------------------------------------------- */
 
 const TABS: Record<Scene, { icon: IconName; label: string }> = {
-  workspace: { icon: "home", label: "새 탭" },
-  name: { icon: "home", label: "새 탭" },
-  relations: { icon: iconOf("character"), label: "레나 아르벨" },
-  graph: { icon: "waypoints", label: "그래프" },
-  timeline: { icon: "chart-no-axes-gantt", label: "타임라인" },
-  refresh: { icon: "waypoints", label: "그래프" },
-  editor: { icon: "file-text", label: "12화 · 균열의 밤" },
-  files: { icon: "file-text", label: "12화 · 균열의 밤" },
+  workspace: { icon: "home", label: t("무대::새 탭") },
+  name: { icon: "home", label: t("무대::새 탭") },
+  relations: { icon: iconOf("character"), label: LENA },
+  graph: { icon: "waypoints", label: t("무대::그래프") },
+  timeline: { icon: "chart-no-axes-gantt", label: t("무대::타임라인") },
+  refresh: { icon: "waypoints", label: t("무대::그래프") },
+  editor: { icon: "file-text", label: CH12 },
+  files: { icon: "file-text", label: CH12 },
 };
 
 function TabBar({ scene }: { scene: Scene }) {
@@ -262,21 +294,27 @@ function TabBar({ scene }: { scene: Scene }) {
 
 /* 1. 새 탭 ------------------------------------------------------------- */
 
+const RECENT = [
+  t("무대::1화 · 첫 번째 온실"),
+  t("무대::2화 · 빛의 순찰"),
+  t("무대::3화 · 금 간 렌즈"),
+];
+
 function NewTabView() {
   return (
     <div className={styles.newTab}>
       <Enter delay={60} kind="fade" className={styles.muted}>
-        유리 정원의 기록
+        {PROJECT}
       </Enter>
       <Enter delay={120} className={styles.resume}>
         <div className={styles.resumeCopy}>
-          <span className={styles.resumeTitle}>12화 · 균열의 밤</span>
-          <span className={styles.mutedSmall}>18분 전</span>
+          <span className={styles.resumeTitle}>{CH12}</span>
+          <span className={styles.mutedSmall}>{t("무대::18분 전")}</span>
         </div>
-        <span className={styles.fakePrimary}>이어서 작업하기</span>
+        <span className={styles.fakePrimary}>{t("무대::이어서 작업하기")}</span>
       </Enter>
       <Enter delay={220} kind="fade" className={styles.blockTitle}>
-        새로 만들기
+        {t("무대::새로 만들기")}
       </Enter>
       <div className={styles.createGrid}>
         {FOLDERS.map((type, index) => (
@@ -288,23 +326,23 @@ function NewTabView() {
             <span className={styles.createIcon}>
               <Icon name={iconOf(type)} size={14} />
             </span>
-            {DOCUMENT_TYPE_META[type].label}
+            {kindOf(type)}
           </Enter>
         ))}
       </div>
       <Enter delay={540} kind="fade" className={styles.blockTitle}>
-        최근에 연 파일
+        {t("무대::최근에 연 파일")}
       </Enter>
       <Enter delay={580} kind="fade" className={styles.recent}>
-        {["1화 · 첫 번째 온실", "2화 · 빛의 순찰", "3화 · 금 간 렌즈"].map(
-          (name, i) => (
-            <div key={name} className={styles.recentRow}>
-              <Icon name="file-text" size={13} />
-              <span className={styles.ellipsis}>{name}</span>
-              <span className={styles.mutedSmall}>{i + 1}시간 전</span>
-            </div>
-          ),
-        )}
+        {RECENT.map((name, i) => (
+          <div key={name} className={styles.recentRow}>
+            <Icon name="file-text" size={13} />
+            <span className={styles.ellipsis}>{name}</span>
+            <span className={styles.mutedSmall}>
+              {t("무대::{count}시간 전", { count: i + 1 })}
+            </span>
+          </div>
+        ))}
       </Enter>
     </div>
   );
@@ -374,12 +412,12 @@ function DocumentView() {
         <span className={styles.spacer} />
         <span className={styles.toolSaved}>
           <Icon name="cloud-check" size={13} />
-          자동 저장됨
+          {t("무대::자동 저장됨")}
         </span>
       </div>
       <div className={styles.docBody}>
         <Enter delay={60} kind="fade" className={styles.docTitle}>
-          레나 아르벨
+          {LENA}
           <Icon name="star" size={14} />
         </Enter>
         <div
@@ -387,37 +425,45 @@ function DocumentView() {
           data-focus="relations"
           data-kind="character"
         >
-          <PropertyRow icon="tag" label="분류" delay={120}>
+          <PropertyRow icon="tag" label={t("무대::분류")} delay={120}>
             <span className={styles.propType}>
               <Icon name={iconOf("character")} size={12} />
-              캐릭터
+              {kindOf("character")}
             </span>
           </PropertyRow>
-          <PropertyRow icon="type" label="설명" delay={160}>
-            기억 항로를 읽어 내는 은빛 항해단의 항해사
+          <PropertyRow icon="type" label={t("무대::설명")} delay={160}>
+            {LENA_ROLE}
           </PropertyRow>
-          <PropertyRow icon="file-text" label="관련 원고" delay={200}>
-            <Chip type="manuscript">12화 · 균열의 밤</Chip>
-            <Chip type="manuscript">11화 · 유리 정원</Chip>
+          <PropertyRow
+            icon="file-text"
+            label={relationOf("manuscript")}
+            delay={200}
+          >
+            <Chip type="manuscript">{CH12}</Chip>
+            <Chip type="manuscript">{CH11}</Chip>
           </PropertyRow>
-          <PropertyRow icon="map-pin" label="관련 장소" delay={240}>
-            <Chip type="place">유리 산맥</Chip>
+          <PropertyRow icon="map-pin" label={relationOf("place")} delay={240}>
+            <Chip type="place">{GLASS_MOUNTAINS}</Chip>
             <Chip type="place" fresh>
-              북쪽 온실
+              {NORTH_GREENHOUSE}
             </Chip>
           </PropertyRow>
-          <PropertyRow icon="building-2" label="관련 조직" delay={280}>
-            <Chip type="organization">은빛 항해단</Chip>
+          <PropertyRow
+            icon="building-2"
+            label={relationOf("organization")}
+            delay={280}
+          >
+            <Chip type="organization">{SILVER_VOYAGERS}</Chip>
           </PropertyRow>
           <Enter delay={320} kind="fade" className={styles.propAdd}>
             <Icon name="plus" size={13} />
-            속성 추가
+            {t("무대::속성 추가")}
           </Enter>
         </div>
         <Enter delay={380} kind="fade" className={styles.prose}>
-          <p>레나는 타인의 기억이 남긴 방향을 감각으로 읽는다.</p>
-          <p>짙은 안개 속에서도 그는 한 번도 길을 잃지 않았다.</p>
-          <p>은빛 항해단은 그를 마지막 항해사라 불렀다.</p>
+          <p>{t("무대::레나는 타인의 기억이 남긴 방향을 감각으로 읽는다.")}</p>
+          <p>{t("무대::짙은 안개 속에서도 그는 한 번도 길을 잃지 않았다.")}</p>
+          <p>{t("무대::은빛 항해단은 그를 마지막 항해사라 불렀다.")}</p>
         </Enter>
       </div>
     </div>
@@ -428,21 +474,21 @@ function DocumentView() {
 
 type GraphNode = [number, number, string, DocumentType, "on" | "near" | "far"];
 const NODES: Record<string, GraphNode> = {
-  lena: [440, 250, "레나 아르벨", "character", "on"],
-  ch12: [300, 140, "12화 · 균열의 밤", "manuscript", "near"],
-  ch11: [590, 132, "11화 · 유리 정원", "manuscript", "near"],
-  range: [246, 332, "유리 산맥", "place", "near"],
-  greenhouse: [628, 322, "북쪽 온실", "place", "near"],
-  crew: [452, 416, "은빛 항해단", "organization", "near"],
-  awake: [318, 452, "각성", "event", "near"],
-  noah: [566, 444, "노아 크레인", "character", "near"],
-  seoyun: [150, 214, "서윤", "character", "far"],
-  harin: [734, 232, "하린", "character", "far"],
-  keepers: [168, 468, "등대 수호회", "organization", "far"],
-  key: [712, 468, "낡은 열쇠", "item", "far"],
-  magic: [96, 352, "유리 마법", "worldview", "far"],
-  route: [790, 352, "기억 항로", "worldview", "far"],
-  log: [436, 530, "6화 · 항해 일지", "manuscript", "far"],
+  lena: [440, 250, LENA, "character", "on"],
+  ch12: [300, 140, CH12, "manuscript", "near"],
+  ch11: [590, 132, CH11, "manuscript", "near"],
+  range: [246, 332, GLASS_MOUNTAINS, "place", "near"],
+  greenhouse: [628, 322, NORTH_GREENHOUSE, "place", "near"],
+  crew: [452, 416, SILVER_VOYAGERS, "organization", "near"],
+  awake: [318, 452, AWAKENING, "event", "near"],
+  noah: [566, 444, NOAH, "character", "near"],
+  seoyun: [150, 214, SEOYUN, "character", "far"],
+  harin: [734, 232, HARIN, "character", "far"],
+  keepers: [168, 468, LIGHTHOUSE_KEEPERS, "organization", "far"],
+  key: [712, 468, OLD_KEY, "item", "far"],
+  magic: [96, 352, GLASS_MAGIC, "worldview", "far"],
+  route: [790, 352, MEMORY_ROUTES, "worldview", "far"],
+  log: [436, 530, t("무대::6화 · 항해 일지"), "manuscript", "far"],
 };
 /** 그래프 영역(804×556)에 맞춘 배율. 좌표는 원래 884×596 기준으로 적었다. */
 const SX = 804 / 884;
@@ -510,9 +556,9 @@ function GraphView({ quiet }: { quiet?: boolean }) {
   return (
     <div className={styles.viewWithBar}>
       <div className={styles.viewBar}>
-        <span className={styles.mutedSmall}>에피소드</span>
+        <span className={styles.mutedSmall}>{t("무대::에피소드")}</span>
         <span className={styles.toolSelect}>
-          전체 <Icon name="chevron-down" size={11} />
+          {t("무대::전체")} <Icon name="chevron-down" size={11} />
         </span>
         <span className={styles.spacer} />
         <span className={styles.zoom}>
@@ -522,7 +568,7 @@ function GraphView({ quiet }: { quiet?: boolean }) {
         </span>
         <span className={styles.toolButton}>
           <Icon name="scan" size={12} />
-          화면 맞춤
+          {t("무대::화면 맞춤")}
         </span>
       </div>
       <div className={styles.graphCanvas}>
@@ -567,12 +613,12 @@ function GraphView({ quiet }: { quiet?: boolean }) {
           {FOLDERS.map((type) => (
             <span key={type} className={styles.legendItem}>
               <i style={{ background: nodeColor(type) }} />
-              {DOCUMENT_TYPE_META[type].label}
+              {labelOf(type)}
             </span>
           ))}
           <span className={styles.legendItem}>
             <Icon name="star" size={11} />
-            즐겨찾기
+            {t("무대::즐겨찾기")}
           </span>
         </span>
       </div>
@@ -591,7 +637,7 @@ const TIMELINE: {
     type: "character",
     rows: [
       {
-        name: "레나 아르벨",
+        name: LENA,
         spans: [
           [1, 2],
           [4, 4],
@@ -600,15 +646,15 @@ const TIMELINE: {
         on: true,
       },
       {
-        name: "서윤",
+        name: SEOYUN,
         spans: [
           [1, 3],
           [7, 8],
         ],
       },
-      { name: "하린", spans: [[2, 5]] },
+      { name: HARIN, spans: [[2, 5]] },
       {
-        name: "노아 크레인",
+        name: NOAH,
         spans: [
           [5, 6],
           [9, 9],
@@ -620,14 +666,14 @@ const TIMELINE: {
     type: "place",
     rows: [
       {
-        name: "북쪽 온실",
+        name: NORTH_GREENHOUSE,
         spans: [
           [1, 1],
           [4, 6],
         ],
       },
       {
-        name: "유리 산맥",
+        name: GLASS_MOUNTAINS,
         spans: [
           [3, 3],
           [8, 9],
@@ -635,8 +681,8 @@ const TIMELINE: {
       },
     ],
   },
-  { type: "item", rows: [{ name: "낡은 열쇠", spans: [[2, 4]] }] },
-  { type: "event", rows: [{ name: "각성", spans: [[6, 6]] }] },
+  { type: "item", rows: [{ name: OLD_KEY, spans: [[2, 4]] }] },
+  { type: "event", rows: [{ name: AWAKENING, spans: [[6, 6]] }] },
 ];
 
 function TimelineView() {
@@ -644,13 +690,13 @@ function TimelineView() {
   return (
     <div className={styles.viewWithBar}>
       <div className={styles.viewBar}>
-        <span className={styles.mutedSmall}>에피소드</span>
+        <span className={styles.mutedSmall}>{t("무대::에피소드")}</span>
         <span className={styles.toolSelect}>
-          전체 <Icon name="chevron-down" size={11} />
+          {t("무대::전체")} <Icon name="chevron-down" size={11} />
         </span>
         <span className={styles.stepper}>
           <Icon name="chevron-left" size={12} />
-          4화
+          {t("무대::{number}화", { number: 4 })}
           <Icon name="chevron-right" size={12} />
         </span>
         <span className={styles.spacer} />
@@ -671,7 +717,7 @@ function TimelineView() {
                 className={cx(styles.tlCol, i === 3 && styles.tlColOn)}
               >
                 <Icon name="file-text" size={11} />
-                {i + 1}화
+                {t("무대::{number}화", { number: i + 1 })}
               </span>
             ))}
           </div>
@@ -680,7 +726,7 @@ function TimelineView() {
           <div key={group.type}>
             <div className={styles.tlGroup}>
               <Icon name="folder-open" size={12} />
-              {DOCUMENT_TYPE_META[group.type].label}
+              {labelOf(group.type)}
             </div>
             {group.rows.map((row) => {
               const index = order++;
@@ -723,9 +769,9 @@ function TimelineView() {
 /* 5. 그래프 최신화 ----------------------------------------------------- */
 
 const DIFF_ENTRIES: { type: DocumentType; name: string; mark: string }[] = [
-  { type: "character", name: "레나 아르벨", mark: "~" },
-  { type: "place", name: "북쪽 온실", mark: "~" },
-  { type: "organization", name: "등대 수호회", mark: "+" },
+  { type: "character", name: LENA, mark: "~" },
+  { type: "place", name: NORTH_GREENHOUSE, mark: "~" },
+  { type: "organization", name: LIGHTHOUSE_KEEPERS, mark: "+" },
 ];
 const DIFF_ROWS: {
   label: string;
@@ -733,37 +779,55 @@ const DIFF_ROWS: {
   next: string;
   changed?: boolean;
 }[] = [
-  { label: "분류", current: "캐릭터", next: "캐릭터" },
   {
-    label: "설명",
-    current: "기억 항로를 읽어 내는 은빛 항해단의 항해사",
-    next: "북쪽 문 너머에서 돌아온 은빛 항해단의 항해사",
+    label: t("무대::분류"),
+    current: kindOf("character"),
+    next: kindOf("character"),
+  },
+  {
+    label: t("무대::설명"),
+    current: LENA_ROLE,
+    next: t("무대::북쪽 문 너머에서 돌아온 은빛 항해단의 항해사"),
     changed: true,
   },
   {
-    label: "관련 장소",
-    current: "유리 산맥",
-    next: "유리 산맥, 북쪽 온실",
+    label: relationOf("place"),
+    current: GLASS_MOUNTAINS,
+    next: t("무대::유리 산맥, 북쪽 온실"),
     changed: true,
   },
-  { label: "관련 조직", current: "은빛 항해단", next: "은빛 항해단" },
+  {
+    label: relationOf("organization"),
+    current: SILVER_VOYAGERS,
+    next: SILVER_VOYAGERS,
+  },
 ];
 
 function DiffModal() {
   return (
     <Enter delay={1500} kind="pop" className={styles.diff} data-focus="diff">
       <div className={styles.diffHead}>
-        <span className={styles.diffTitle}>변경 사항</span>
-        <span className={styles.mutedSmall}>문서 3개</span>
+        <span className={styles.diffTitle}>{t("무대::변경 사항")}</span>
+        <span className={styles.mutedSmall}>
+          {t("무대::문서 {count}개", { count: DIFF_ENTRIES.length })}
+        </span>
         <span className={styles.spacer} />
-        <span className={styles.toolButton}>현재 버전 전체 반영</span>
-        <span className={styles.toolButton}>신규 버전 전체 반영</span>
+        <span className={styles.toolButton}>
+          {t("무대::현재 버전 전체 반영")}
+        </span>
+        <span className={styles.toolButton}>
+          {t("무대::신규 버전 전체 반영")}
+        </span>
         <Icon name="x" size={13} />
       </div>
       <div className={styles.diffBody}>
         <div className={styles.diffList}>
           <p className={styles.mutedSmall}>
-            <b>변경 3</b> 확정 0
+            {tRich(
+              "무대::<b>변경 {changed}</b> 확정 {resolved}",
+              { b: (chunk) => <b>{chunk}</b> },
+              { changed: DIFF_ENTRIES.length, resolved: 0 },
+            )}
           </p>
           {DIFF_ENTRIES.map((entry, i) => (
             <div
@@ -780,32 +844,34 @@ function DiffModal() {
         </div>
         <div className={styles.diffCompare}>
           <p className={styles.diffDocTitle}>
-            레나 아르벨 <span className={styles.badge}>수정</span>
+            {LENA} <span className={styles.badge}>{t("무대::수정")}</span>
           </p>
           <div className={styles.diffColumns}>
-            {(["현재 버전", "신규 버전"] as const).map((title, column) => (
-              <div
-                key={title}
-                className={styles.diffColumn}
-                style={{ gridColumn: column === 0 ? 1 : 3 }}
-              >
-                <div className={styles.diffColumnHead}>
-                  <b>{title}</b>
-                </div>
-                {DIFF_ROWS.map((row) => (
-                  <div
-                    key={row.label}
-                    className={cx(
-                      styles.diffRow,
-                      row.changed && styles.diffRowChanged,
-                    )}
-                  >
-                    <span className={styles.mutedSmall}>{row.label}</span>
-                    <span>{column === 0 ? row.current : row.next}</span>
+            {[t("무대::현재 버전"), t("무대::신규 버전")].map(
+              (title, column) => (
+                <div
+                  key={title}
+                  className={styles.diffColumn}
+                  style={{ gridColumn: column === 0 ? 1 : 3 }}
+                >
+                  <div className={styles.diffColumnHead}>
+                    <b>{title}</b>
                   </div>
-                ))}
-              </div>
-            ))}
+                  {DIFF_ROWS.map((row) => (
+                    <div
+                      key={row.label}
+                      className={cx(
+                        styles.diffRow,
+                        row.changed && styles.diffRowChanged,
+                      )}
+                    >
+                      <span className={styles.mutedSmall}>{row.label}</span>
+                      <span>{column === 0 ? row.current : row.next}</span>
+                    </div>
+                  ))}
+                </div>
+              ),
+            )}
             <div className={styles.diffArrows}>
               {DIFF_ROWS.map((row) => (
                 <span key={row.label}>
@@ -827,11 +893,12 @@ function DiffModal() {
 
 /* 6. 원고 에디터 (랜딩) ------------------------------------------------- */
 
-const TYPED_LINE = {
-  before: "안개가 걷히자 ",
-  name: "레나 아르벨",
-  after: "은 북쪽 온실의 문 앞에 서 있었다.",
-};
+const ARRIVAL = t(
+  "무대::안개가 걷히자 {name}은 북쪽 온실의 문 앞에 서 있었다.",
+);
+const [typedBefore, typedAfter] = ARRIVAL.split("{name}");
+const TYPED_LINE = { before: typedBefore, name: LENA, after: typedAfter };
+const TYPED_STEP = LOCALE === "en" ? 35 : 70;
 const TYPED_LENGTH =
   TYPED_LINE.before.length + TYPED_LINE.name.length + TYPED_LINE.after.length;
 
@@ -893,13 +960,13 @@ function SaveState({ count }: { count: number }) {
         size={13}
         className={saving ? styles.spin : undefined}
       />
-      {saving ? "저장 중…" : "자동 저장됨"}
+      {saving ? t("저장 중…") : t("무대::자동 저장됨")}
     </span>
   );
 }
 
 function EditorView() {
-  const typed = useTyped(TYPED_LENGTH, 900, 70);
+  const typed = useTyped(TYPED_LENGTH, 900, TYPED_STEP);
   return (
     <div className={styles.editorSplit}>
       <div className={styles.document}>
@@ -925,41 +992,46 @@ function EditorView() {
           data-focus="editor"
         >
           <Enter delay={60} kind="fade" className={styles.docTitle}>
-            12화 · 균열의 밤
+            {CH12}
             <Icon name="star" size={14} />
           </Enter>
           <Enter delay={160} kind="fade" className={styles.manuscriptProse}>
             <p>
-              유리 정원의 종이 세 번 울렸다. 밤새 금이 간 천장 너머로 별빛이
-              새어 들었고, 하린은 등불을 낮춘 채 북쪽 회랑을 걸었다.
+              {t(
+                "무대::유리 정원의 종이 세 번 울렸다. 밤새 금이 간 천장 너머로 별빛이 새어 들었고, 하린은 등불을 낮춘 채 북쪽 회랑을 걸었다.",
+              )}
             </p>
             <p>
-              기록단의 지도에는 그 문이 없었다. 다만 6화의 항해 일지 끝에 누군가
-              연필로 적어 둔 한 줄이 있었을 뿐이다. 문은 기억하는 사람에게만
-              열린다.
+              {t(
+                "무대::기록단의 지도에는 그 문이 없었다. 다만 6화의 항해 일지 끝에 누군가 연필로 적어 둔 한 줄이 있었을 뿐이다. 문은 기억하는 사람에게만 열린다.",
+              )}
             </p>
             <TypedLine count={typed} />
           </Enter>
         </div>
-        <span className={styles.charCount}>1,284자</span>
+        <span className={styles.charCount}>{t("무대::1,284자")}</span>
       </div>
       <Enter delay={420} kind="fade" className={styles.memoPanel}>
         <div className={styles.memoHead}>
-          <b>메모</b>
+          <b>{t("무대::메모")}</b>
           <span className={styles.memoTabs}>
-            <span className={styles.memoTabOn}>문서</span>
-            <span>작품</span>
+            <span className={styles.memoTabOn}>{t("무대::문서")}</span>
+            <span>{t("무대::작품")}</span>
           </span>
         </div>
         <div className={styles.memoCard}>
-          <b>열쇠 복선 회수</b>
+          <b>{t("무대::열쇠 복선 회수")}</b>
           <span>
-            6화 항해 일지의 낡은 열쇠를 여기서 쓴다. 문장은 은빛 항해단.
+            {t(
+              "무대::6화 항해 일지의 낡은 열쇠를 여기서 쓴다. 문장은 은빛 항해단.",
+            )}
           </span>
         </div>
         <div className={styles.memoCard}>
-          <b>13화로 넘길 것</b>
-          <span>온실 안에서 들리는 목소리의 정체는 아직 밝히지 않는다.</span>
+          <b>{t("무대::13화로 넘길 것")}</b>
+          <span>
+            {t("무대::온실 안에서 들리는 목소리의 정체는 아직 밝히지 않는다.")}
+          </span>
         </div>
       </Enter>
     </div>
@@ -974,14 +1046,15 @@ function FilesView() {
       <div className={styles.document}>
         <div className={cx(styles.docBody, styles.paneBody)}>
           <Enter delay={80} kind="fade" className={styles.docTitle}>
-            12화 · 균열의 밤
+            {CH12}
           </Enter>
           <Enter delay={160} kind="fade" className={styles.manuscriptProse}>
             <p>
-              유리 정원의 종이 세 번 울렸다. 밤새 금이 간 천장 너머로 별빛이
-              새어 들었다.
+              {t(
+                "무대::유리 정원의 종이 세 번 울렸다. 밤새 금이 간 천장 너머로 별빛이 새어 들었다.",
+              )}
             </p>
-            <p>안개가 걷히자 레나 아르벨은 북쪽 온실의 문 앞에 서 있었다.</p>
+            <p>{ARRIVAL.replace("{name}", LENA)}</p>
           </Enter>
         </div>
       </div>
@@ -989,29 +1062,33 @@ function FilesView() {
         <div className={styles.paneTabs}>
           <span className={styles.tab}>
             <Icon name={iconOf("character")} size={13} />
-            레나 아르벨
+            {LENA}
             <Icon name="x" size={12} />
           </span>
         </div>
         <div className={cx(styles.docBody, styles.paneBody)}>
           <Enter delay={240} kind="fade" className={styles.docTitle}>
-            레나 아르벨
+            {LENA}
           </Enter>
           <div className={styles.propTable} data-kind="character">
-            <PropertyRow icon="tag" label="분류" delay={300}>
+            <PropertyRow icon="tag" label={t("무대::분류")} delay={300}>
               <span className={styles.propType}>
                 <Icon name={iconOf("character")} size={12} />
-                캐릭터
+                {kindOf("character")}
               </span>
             </PropertyRow>
-            <PropertyRow icon="type" label="설명" delay={340}>
-              기억 항로를 읽어 내는 은빛 항해단의 항해사
+            <PropertyRow icon="type" label={t("무대::설명")} delay={340}>
+              {LENA_ROLE}
             </PropertyRow>
-            <PropertyRow icon="file-text" label="관련 원고" delay={380}>
-              <Chip type="manuscript">12화 · 균열의 밤</Chip>
+            <PropertyRow
+              icon="file-text"
+              label={relationOf("manuscript")}
+              delay={380}
+            >
+              <Chip type="manuscript">{CH12}</Chip>
             </PropertyRow>
-            <PropertyRow icon="map-pin" label="관련 장소" delay={420}>
-              <Chip type="place">유리 산맥</Chip>
+            <PropertyRow icon="map-pin" label={relationOf("place")} delay={420}>
+              <Chip type="place">{GLASS_MOUNTAINS}</Chip>
             </PropertyRow>
           </div>
         </div>

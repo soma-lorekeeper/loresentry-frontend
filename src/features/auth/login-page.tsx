@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 
 import { useRuntimeConfig } from "@/app/providers";
 import { Icon, StatusNotice } from "@/design-system/primitives";
+import { LanguageSwitch } from "@/features/locale/language-switch";
+import { t } from "@/i18n";
 import { finishAuthNavigation } from "@/services/api/auth-transition";
 import type { AuthFailure } from "@/services/ports";
 import { queryKeys } from "@/services/query-keys";
@@ -21,14 +23,17 @@ import { useSession } from "./session-gate";
 type LoginStatus = "idle" | "processing" | AuthFailure;
 
 const COPY: Record<LoginStatus, { title: string; action: string }> = {
-  idle: { title: "로그인", action: "Google로 계속하기" },
+  idle: { title: t("로그인"), action: t("Google로 계속하기") },
   processing: {
-    title: "로그인",
-    action: "Google 로그인으로 이동 중…",
+    title: t("로그인"),
+    action: t("Google 로그인으로 이동 중…"),
   },
-  canceled: { title: "로그인", action: "Google로 다시 계속하기" },
-  failed: { title: "로그인", action: "Google로 다시 계속하기" },
-  expired: { title: "다시 로그인해 주세요", action: "Google로 다시 로그인" },
+  canceled: { title: t("로그인"), action: t("Google로 다시 계속하기") },
+  failed: { title: t("로그인"), action: t("Google로 다시 계속하기") },
+  expired: {
+    title: t("다시 로그인해 주세요"),
+    action: t("Google로 다시 로그인"),
+  },
 };
 
 function initialStatus(value: string | null): LoginStatus {
@@ -161,7 +166,11 @@ export function LoginPage() {
 
   return (
     <main className={styles.page}>
-      <Link href="/" className={styles.wordmark} aria-label="Lore Sentry 소개">
+      <Link
+        href="/"
+        className={styles.wordmark}
+        aria-label={t("Lore Sentry 소개")}
+      >
         <span className={styles.letterMark} aria-hidden="true">
           L
         </span>
@@ -188,17 +197,20 @@ export function LoginPage() {
           </button>
 
           {status === "canceled" && (
-            <StatusNotice tone="info">Google 로그인이 취소됐어요.</StatusNotice>
+            <StatusNotice tone="info">
+              {t("Google 로그인이 취소됐어요.")}
+            </StatusNotice>
           )}
           {status === "failed" && (
             <StatusNotice tone="error">
-              로그인을 완료하지 못했어요. 다시 시도해 주세요.
+              {t("로그인을 완료하지 못했어요. 다시 시도해 주세요.")}
             </StatusNotice>
           )}
           {status === "expired" && (
             <StatusNotice tone="info">
-              세션이 만료됐어요.
-              {returnTo && " 로그인하면 하던 작업으로 돌아가요."}
+              {returnTo
+                ? t("세션이 만료됐어요. 로그인하면 하던 작업으로 돌아가요.")
+                : t("세션이 만료됐어요.")}
             </StatusNotice>
           )}
         </div>
@@ -212,16 +224,19 @@ export function LoginPage() {
         )}
       </div>
 
-      <nav className={styles.policyLinks} aria-label="정책">
-        <PolicyLink
-          href={config.termsOfServiceUrl || "/policies/terms.html"}
-          label="이용약관"
-        />
-        <PolicyLink
-          href={config.privacyPolicyUrl || "/policies/privacy.html"}
-          label="개인정보처리방침"
-        />
-      </nav>
+      <div className={styles.footer}>
+        <nav className={styles.policyLinks} aria-label={t("정책")}>
+          <PolicyLink
+            href={config.termsOfServiceUrl || "/policies/terms.html"}
+            label={t("이용약관")}
+          />
+          <PolicyLink
+            href={config.privacyPolicyUrl || "/policies/privacy.html"}
+            label={t("개인정보처리방침")}
+          />
+        </nav>
+        <LanguageSwitch className={styles.languageSwitch} />
+      </div>
     </main>
   );
 }

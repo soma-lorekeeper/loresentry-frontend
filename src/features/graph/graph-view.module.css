@@ -482,4 +482,29 @@
   .stage:has(.nodePanel) .tools {
     right: var(--lk-space-3);
   }
+
+  .episode {
+    min-width: 0;
+  }
+
+  .episode > strong {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .episode > span,
+  .episode > svg {
+    flex: none;
+  }
+
+  :lang(en) .episodeLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }

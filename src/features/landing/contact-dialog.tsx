@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { Button, DialogCard } from "@/design-system/primitives";
+import { t } from "@/i18n";
 
 /** 랜딩의 문의하기. 페이지를 떠나지 않고 주소를 보여 주고, 메일 앱은 원할 때만 연다. */
 export function ContactDialog({
@@ -34,13 +35,13 @@ export function ContactDialog({
     <DialogCard
       open={open}
       onClose={close}
-      title="문의하기"
-      closeLabel="문의하기 닫기"
+      title={t("문의하기")}
+      closeLabel={t("문의하기 닫기")}
       target={{ icon: "mail", name: email }}
       actions={
         <>
           <Button size="md" icon={copied ? "check" : "copy"} onClick={copy}>
-            {copied ? "복사했어요" : "주소 복사"}
+            {copied ? t("복사했어요") : t("주소 복사")}
           </Button>
           <Button
             size="md"
@@ -50,7 +51,7 @@ export function ContactDialog({
               window.location.href = `mailto:${email}`;
             }}
           >
-            메일 쓰기
+            {t("메일 쓰기")}
           </Button>
         </>
       }

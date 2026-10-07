@@ -36,7 +36,7 @@ describe("terms API", () => {
       content: "원문",
     });
     expect(fetch).toHaveBeenCalledWith(
-      "https://api.test.invalid/auth/terms",
+      "https://api.test.invalid/auth/terms?locale=ko",
       expect.objectContaining({ credentials: "include", headers: {} }),
     );
     reply(204);

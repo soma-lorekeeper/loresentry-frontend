@@ -130,8 +130,17 @@
 
 .headerActions {
   display: flex;
+  align-items: center;
   gap: 8px;
   margin-left: auto;
+}
+
+.headerActions .language {
+  height: 36px;
+  padding: 0 10px;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 /* 단추 ------------------------------------------------------------------ */

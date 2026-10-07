@@ -17,6 +17,7 @@ import {
 } from "@/design-system/primitives";
 import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
 import type { FileNode } from "@/domain/models";
+import { t } from "@/i18n";
 
 import { isDocument, type TreeItem } from "../model/tree";
 import styles from "./file-tree.module.css";
@@ -108,7 +109,7 @@ export function InlineEditRow({
         autoFocus
         className={styles.editInput}
         value={value}
-        aria-label="이름"
+        aria-label={t("작업공간::이름")}
         onFocus={(event) => event.currentTarget.select()}
         onChange={(event) => setValue(event.target.value)}
         onKeyDown={(event) => {
@@ -126,7 +127,7 @@ export function InlineEditRow({
       <button
         type="button"
         className={styles.editConfirm}
-        aria-label="확인"
+        aria-label={t("확인")}
         onMouseDown={(event) => event.preventDefault()}
         onClick={commit}
       >
@@ -217,7 +218,7 @@ function Row({
         type="button"
         className={styles.more}
         tabIndex={-1}
-        aria-label={`${item.node.title} 더보기`}
+        aria-label={t("{title} 더보기", { title: item.node.title })}
         aria-haspopup="menu"
         aria-expanded={menuOpen}
         onClick={(event) => {
@@ -236,7 +237,7 @@ function Row({
             setMenuOpen(next);
             if (!next) rowRef.current?.focus();
           }}
-          label={`${item.node.title} 메뉴`}
+          label={t("{title} 메뉴", { title: item.node.title })}
           placement={anchor === "more" ? "right-start" : "bottom-start"}
           entries={entries}
         />

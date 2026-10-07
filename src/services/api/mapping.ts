@@ -5,6 +5,7 @@ import {
 } from "@/domain/document-types";
 import type { IconName } from "@/design-system/icons/icon";
 import type { DocumentProperty } from "@/domain/models";
+import { t } from "@/i18n";
 
 /**
  * 서버의 기본 분류 코드와 화면의 문서 종류는 이름이 다르다 — `place` 는 `LOCATION` 이다.
@@ -151,8 +152,8 @@ export function fromProperties(properties: DocumentProperty[]): {
 }
 
 const TEXT_PROPERTY_LABELS: Record<string, string> = {
-  description: "설명",
-  alias: "별칭",
+  description: t("설명"),
+  alias: t("별칭"),
 };
 
 function textPropertyLabel(key: string): string {

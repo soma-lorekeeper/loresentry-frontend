@@ -1,7 +1,10 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 
-const OUT = "out";
+// 인자 없이 부르면 pnpm build 결과(out/)를, `dist/ko /ko` 처럼 부르면 언어판 하나를 본다.
+// 언어판은 자산 주소 앞에 언어가 붙는다(next.config.ts 의 assetPrefix).
+const OUT = process.argv[2] ?? "out";
+const PREFIX = process.argv[3] ?? "";
 const ROUTES = [
   "",
   "login/",
@@ -56,7 +59,8 @@ const htmlFiles = files.filter((file) => file.endsWith(".html"));
 
 for (const file of htmlFiles) {
   const html = readFileSync(file, "utf8");
-  for (const [, ref] of html.matchAll(/(?:src|href)="(\/_next\/[^"?#]+)/g)) {
+  const assetRef = new RegExp(`(?:src|href)="${PREFIX}(/_next/[^"?#]+)`, "g");
+  for (const [, ref] of html.matchAll(assetRef)) {
     if (!existsSync(join(OUT, ref)))
       errors.push(`${relative(OUT, file)} 가 없는 자산을 가리킵니다: ${ref}`);
   }
@@ -82,5 +86,5 @@ if (errors.length > 0) {
   process.exit(1);
 }
 console.log(
-  `정적 export 검증 통과: 라우트 ${ROUTES.length}개, HTML ${htmlFiles.length}개, 파일 ${files.length}개`,
+  `정적 export 검증 통과(${OUT}): 라우트 ${ROUTES.length}개, HTML ${htmlFiles.length}개, 파일 ${files.length}개`,
 );
