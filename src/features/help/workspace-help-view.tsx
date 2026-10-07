@@ -8,6 +8,7 @@ import {
   isUnavailable,
   PreparingState,
 } from "@/features/common/preparing-state";
+import { INTL_LOCALE, LOCALE, t } from "@/i18n";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 import { cx } from "@/shared/cx";
@@ -26,9 +27,15 @@ function useGuides() {
   });
 }
 
+const LONG_DATE = new Intl.DateTimeFormat(INTL_LOCALE[LOCALE], {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
 function longDate(iso: string) {
   const [year, month, day] = iso.split("-").map(Number);
-  return `${year}년 ${month}월 ${day}일`;
+  return LONG_DATE.format(new Date(year, month - 1, day));
 }
 
 function GuideTopics({
@@ -49,8 +56,8 @@ function GuideTopics({
           ref={inputRef}
           type="search"
           className={styles.searchInput}
-          placeholder="가이드 검색"
-          aria-label="가이드 검색"
+          placeholder={t("가이드 검색")}
+          aria-label={t("가이드 검색")}
           value={query}
           size={Math.max(query.length, 1)}
           onChange={(event) => setQuery(event.target.value)}
@@ -59,7 +66,7 @@ function GuideTopics({
           <button
             type="button"
             className={styles.clear}
-            aria-label="검색어 지우기"
+            aria-label={t("가이드::검색어 지우기")}
             onClick={() => {
               setQuery("");
               inputRef.current?.focus();
@@ -71,10 +78,10 @@ function GuideTopics({
       </div>
       {matches.length === 0 ? (
         <div className={styles.panel}>
-          <EmptyState icon="search-x" title="검색 결과가 없어요" />
+          <EmptyState icon="search-x" title={t("가이드::검색 결과가 없어요")} />
         </div>
       ) : (
-        <ul className={styles.topics} aria-label="가이드 주제">
+        <ul className={styles.topics} aria-label={t("가이드 주제")}>
           {matches.map((topic) => (
             <li key={topic.id}>
               <button
@@ -134,8 +141,10 @@ function GuideArticle({
         <header className={styles.articleHeader}>
           <h1 className={styles.pageTitle}>{topic.title}</h1>
           <p className={styles.articleMeta}>
-            마지막 업데이트 {longDate(topic.updatedAt)} · 읽는 데{" "}
-            {topic.readMinutes}분
+            {t("마지막 업데이트 {date} · 읽는 데 {minutes}분", {
+              date: longDate(topic.updatedAt),
+              minutes: topic.readMinutes,
+            })}
           </p>
         </header>
         <p className={styles.secondary}>{topic.lead}</p>
@@ -161,8 +170,8 @@ function GuideArticle({
           </section>
         ))}
         {related.length > 0 && (
-          <nav className={styles.related} aria-label="관련 문서">
-            <span>관련 문서</span>
+          <nav className={styles.related} aria-label={t("가이드::관련 문서")}>
+            <span>{t("가이드::관련 문서")}</span>
             {related.map((item) => (
               <button
                 key={item.id}
@@ -176,8 +185,8 @@ function GuideArticle({
           </nav>
         )}
       </article>
-      <nav className={styles.toc} aria-label="이 문서에서">
-        <span className={styles.tocLabel}>이 문서에서</span>
+      <nav className={styles.toc} aria-label={t("이 문서에서")}>
+        <span className={styles.tocLabel}>{t("이 문서에서")}</span>
         {topic.sections.map((section) => (
           <a
             key={section.id}
@@ -220,22 +229,24 @@ export function WorkspaceHelpView() {
 
   const loadError = isUnavailable(guides.error) ? (
     <div className={styles.panel}>
-      <PreparingState what="사용 가이드" />
+      <PreparingState what={t("가이드::사용 가이드")} />
     </div>
   ) : (
     <div className={styles.panel}>
       <EmptyState
         role="alert"
         icon="triangle-alert"
-        title="가이드를 불러오지 못했어요"
+        title={t("가이드를 불러오지 못했어요")}
         description={
           page.kind === "topic"
-            ? "선택한 주제는 그대로 남아 있어요. 연결을 확인한 뒤 다시 시도해 주세요."
-            : "연결을 확인한 뒤 다시 시도해 주세요."
+            ? t(
+                "선택한 주제는 그대로 남아 있어요. 연결을 확인한 뒤 다시 시도해 주세요.",
+              )
+            : t("가이드::연결을 확인한 뒤 다시 시도해 주세요.")
         }
         action={
           <Button size="md" icon="refresh-cw" onClick={() => guides.refetch()}>
-            다시 시도
+            {t("다시 시도")}
           </Button>
         }
       />
@@ -247,7 +258,7 @@ export function WorkspaceHelpView() {
       <EmptyState
         role="status"
         icon="loader-circle"
-        title="가이드를 불러오는 중이에요"
+        title={t("가이드를 불러오는 중이에요")}
       />
     </div>
   );
@@ -256,7 +267,7 @@ export function WorkspaceHelpView() {
     <div ref={viewRef} className={styles.view}>
       {page.kind === "topics" && (
         <div className={styles.home}>
-          <h1 className={styles.pageTitle}>사용 가이드</h1>
+          <h1 className={styles.pageTitle}>{t("가이드::사용 가이드")}</h1>
           {guides.isPending ? (
             loading
           ) : guides.isError ? (
@@ -271,16 +282,16 @@ export function WorkspaceHelpView() {
       )}
       {page.kind === "topic" && (
         <div className={styles.home}>
-          <nav className={styles.inlineHeader} aria-label="위치">
+          <nav className={styles.inlineHeader} aria-label={t("가이드::위치")}>
             <Button
               size="md"
               icon="arrow-left"
               onClick={() => go({ kind: "topics" })}
             >
-              주제 목록
+              {t("주제 목록")}
             </Button>
             <span className={styles.crumbs}>
-              사용 가이드 / {topic?.title ?? "가이드"}
+              {t("가이드::사용 가이드")} / {topic?.title ?? t("가이드::가이드")}
             </span>
           </nav>
           {guides.isPending ? (
