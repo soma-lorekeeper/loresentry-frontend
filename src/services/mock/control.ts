@@ -1,3 +1,5 @@
+import { t } from "@/i18n";
+
 import { ServiceError } from "../errors";
 
 export type FailureMode = "fail" | "hang" | "once";
@@ -95,7 +97,7 @@ export async function simulate<T>(
     if (mode === "once") delete state.rules[operation];
     throw new ServiceError(
       "network",
-      "서버에 연결하지 못했어요. 잠시 후 다시 시도해 주세요.",
+      t("서버에 연결하지 못했어요. 잠시 후 다시 시도해 주세요."),
       operation,
     );
   }

@@ -1,11 +1,13 @@
 import { DOCUMENT_TYPE_META, DOCUMENT_TYPES } from "@/domain/document-types";
 import type { Project } from "@/domain/models";
+import { t } from "@/i18n";
 
 import { ServiceError } from "../errors";
 import type { ProjectService } from "../ports";
 
 import { simulate } from "./control";
 import { addSampleProject, getDb, nextId, persistDb } from "./db";
+import { SEED } from "./seed-world";
 
 export const PROJECT_TITLE_MAX = 255;
 
@@ -22,18 +24,23 @@ const NEW_PROJECT_ICONS = [
 function requireProject(projectId: string) {
   const project = getDb().projects.find((p) => p.id === projectId);
   if (!project)
-    throw new ServiceError("not-found", "프로젝트를 찾을 수 없어요.");
+    throw new ServiceError("not-found", t("프로젝트를 찾을 수 없어요."));
   return project;
 }
 
 function validateTitle(title: string, ignoreId?: string) {
   const trimmed = title.trim();
   if (!trimmed)
-    throw new ServiceError("validation", "프로젝트 제목을 입력해 주세요.");
+    throw new ServiceError(
+      "validation",
+      t("mock::프로젝트 제목을 입력해 주세요."),
+    );
   if (trimmed.length > PROJECT_TITLE_MAX) {
     throw new ServiceError(
       "validation",
-      `프로젝트 제목은 ${PROJECT_TITLE_MAX}자 이하로 입력해 주세요.`,
+      t("프로젝트 제목은 {max}자 이하로 입력해 주세요.", {
+        max: PROJECT_TITLE_MAX,
+      }),
     );
   }
   const duplicate = getDb().projects.some(
@@ -43,7 +50,10 @@ function validateTitle(title: string, ignoreId?: string) {
       p.title.toLocaleLowerCase() === trimmed.toLocaleLowerCase(),
   );
   if (duplicate)
-    throw new ServiceError("duplicate", "같은 이름의 프로젝트가 이미 있어요.");
+    throw new ServiceError(
+      "duplicate",
+      t("mock::같은 이름의 프로젝트가 이미 있어요."),
+    );
   return trimmed;
 }
 
@@ -53,7 +63,9 @@ function validateDescription(description: string) {
   if (trimmed.length > PROJECT_DESCRIPTION_MAX) {
     throw new ServiceError(
       "validation",
-      `설명은 ${PROJECT_DESCRIPTION_MAX}자 이하로 입력해 주세요.`,
+      t("설명은 {max}자 이하로 입력해 주세요.", {
+        max: PROJECT_DESCRIPTION_MAX,
+      }),
     );
   }
   return trimmed;
@@ -75,7 +87,7 @@ export const mockProjects: ProjectService = {
       if (project.trashedAt) {
         throw new ServiceError(
           "not-found",
-          "휴지통에 있는 프로젝트는 열 수 없어요.",
+          t("휴지통에 있는 프로젝트는 열 수 없어요."),
         );
       }
       return project;
@@ -85,7 +97,7 @@ export const mockProjects: ProjectService = {
       "projects.createSample",
       () => {
         const db = getDb();
-        const base = "유리 정원의 기록";
+        const base = SEED.project.title;
         const taken = new Set(
           db.projects.filter((p) => !p.trashedAt).map((p) => p.title),
         );

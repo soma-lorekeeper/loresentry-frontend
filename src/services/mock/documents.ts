@@ -8,6 +8,7 @@ import type {
   RelationProperty,
   VersionKind,
 } from "@/domain/models";
+import { t } from "@/i18n";
 
 import { ServiceError } from "../errors";
 import {
@@ -27,7 +28,7 @@ const RECEIPT_LIMIT = 50;
 function requireDocument(fileId: string): DocumentNode {
   const node = getDb().files.find((candidate) => candidate.id === fileId);
   if (!node || !isDocumentNode(node)) {
-    throw new ServiceError("not-found", "문서를 찾을 수 없어요.");
+    throw new ServiceError("not-found", t("문서를 찾을 수 없어요."));
   }
   return node;
 }
@@ -184,10 +185,11 @@ function maybeAutoVersion(fileId: string) {
 }
 
 function toMarkdown(content: DocumentContent) {
+  const kindLabel = t("mock::분류");
   const lines = [
     `# ${content.title}`,
     "",
-    `- 분류: ${DOCUMENT_TYPE_META[content.docType].label}`,
+    `- ${kindLabel}: ${DOCUMENT_TYPE_META[content.docType].label}`,
   ];
   const db = getDb();
   for (const property of content.properties) {
@@ -213,7 +215,10 @@ export const mockDocuments: DocumentService = {
       if (db.saveReceipts[saveId] !== undefined) return readDocument(fileId);
       const node = requireDocument(fileId);
       if (node.locked) {
-        throw new ServiceError("locked", "잠긴 문서는 편집할 수 없어요.");
+        throw new ServiceError(
+          "locked",
+          t("mock::잠긴 문서는 편집할 수 없어요."),
+        );
       }
       if (node.revisionNo !== ifMatchRevision) {
         throw new ConflictError(readDocument(fileId), null);
@@ -273,7 +278,7 @@ export const mockVersions: VersionService = {
       if (requireDocument(fileId).locked) {
         throw new ServiceError(
           "locked",
-          "잠긴 문서는 새 버전을 저장할 수 없어요.",
+          t("잠긴 문서는 새 버전을 저장할 수 없어요."),
         );
       }
       const version = addVersion(fileId, "NAMED");
@@ -287,7 +292,7 @@ export const mockVersions: VersionService = {
       if (node.locked) {
         throw new ServiceError(
           "locked",
-          "잠긴 문서는 버전을 복원할 수 없어요.",
+          t("잠긴 문서는 버전을 복원할 수 없어요."),
         );
       }
       if (node.revisionNo !== ifMatchRevision) {
@@ -295,7 +300,7 @@ export const mockVersions: VersionService = {
       }
       const version = getDb().versions.find((v) => v.id === versionId);
       if (!version)
-        throw new ServiceError("not-found", "버전을 찾을 수 없어요.");
+        throw new ServiceError("not-found", t("버전을 찾을 수 없어요."));
       addVersion(fileId, "PRE_RESTORE");
       writeDocument(fileId, version.snapshot);
       addVersion(fileId, "RESTORE");

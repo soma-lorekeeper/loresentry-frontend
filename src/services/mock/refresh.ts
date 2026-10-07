@@ -4,6 +4,8 @@ import type {
   RefreshProposal,
   RefreshRun,
 } from "@/domain/models";
+import { DOCUMENT_TYPE_META } from "@/domain/document-types";
+import { t } from "@/i18n";
 
 import { ServiceError } from "../errors";
 import type { RefreshService } from "../ports";
@@ -18,6 +20,7 @@ import {
 } from "./db";
 import { readDocument, writeDocument } from "./documents";
 import { mockFiles } from "./files";
+import { SEED } from "./seed-world";
 import { bodyFromPlainText, bodyToPlainText } from "@/domain/document-body";
 
 export const EXTRACTION_MS = 3500;
@@ -85,17 +88,14 @@ function buildProposals(projectId: string): RefreshProposal[] {
   const teo = find("c-teo");
   if (harin && isDocumentNode(harin)) {
     const current = draftOf(harin.id);
-    let proposed = withDescription(
-      current,
-      "북쪽 온실의 문이 열린 뒤 기록단에 합류한 정원사",
-    );
+    let proposed = withDescription(current, SEED.refresh.harinDescription);
     if (teo) {
       proposed = withRelation(proposed, {
         id: `${harin.id}:related_character`,
         kind: "relation",
         key: "related_character",
         descriptions: {},
-        label: "관련 캐릭터",
+        label: DOCUMENT_TYPE_META.character.relationLabel,
         targetType: "character",
         targetIds: [teo.id],
       });
@@ -103,7 +103,7 @@ function buildProposals(projectId: string): RefreshProposal[] {
     proposed = {
       ...proposed,
       body: bodyFromPlainText(
-        `${bodyToPlainText(current.body)}\n\n13화에서 문 너머의 목소리를 가장 먼저 알아본다.\n그 뒤로 북쪽 온실의 열쇠를 서윤에게 맡긴다.`,
+        `${bodyToPlainText(current.body)}\n\n${SEED.refresh.harinBodyAddition}`,
       ),
     };
     proposals.push({
@@ -129,22 +129,20 @@ function buildProposals(projectId: string): RefreshProposal[] {
       id: nextId("proposal"),
       kind: "added",
       fileId: `new:${placeFolder.id}:ash-lighthouse`,
-      title: "잿빛 등대",
+      title: SEED.refresh.newPlace.title,
       docType: "place",
       baseRevisionNo: null,
       current: null,
       proposed: {
-        title: "잿빛 등대",
-        body: bodyFromPlainText(
-          "13화에서 처음 언급된 등대. 불이 꺼진 뒤에도 재가 빛을 머금고 있다.",
-        ),
+        title: SEED.refresh.newPlace.title,
+        body: bodyFromPlainText(SEED.refresh.newPlace.body),
         properties: [
           {
             id: "new:description",
             kind: "text",
             key: "description",
-            label: "설명",
-            value: "13화에 처음 등장한 꺼진 등대",
+            label: t("mock::설명"),
+            value: SEED.refresh.newPlace.description,
           },
         ],
       },
@@ -174,10 +172,7 @@ function buildProposals(projectId: string): RefreshProposal[] {
       docType: "character",
       baseRevisionNo: seoyun.revisionNo,
       current,
-      proposed: withDescription(
-        current,
-        "정원 기록단의 막내 기록관이자 북쪽 문의 첫 방문자",
-      ),
+      proposed: withDescription(current, SEED.refresh.seoyunDescription),
     });
   }
   return proposals;
@@ -215,7 +210,10 @@ export const mockRefresh: RefreshService = {
     simulate("refresh.start", () => {
       const run = currentRun(projectId);
       if (run.status === "RUNNING") {
-        throw new ServiceError("busy", "이미 그래프 최신화를 진행하고 있어요.");
+        throw new ServiceError(
+          "busy",
+          t("이미 그래프 최신화를 진행하고 있어요."),
+        );
       }
       const db = getDb();
       const manuscripts = db.files
@@ -254,13 +252,13 @@ export const mockRefresh: RefreshService = {
       async () => {
         const run = currentRun(projectId);
         if (run.id !== runId || run.status !== "READY") {
-          throw new ServiceError("validation", "반영할 변경 사항이 없어요.");
+          throw new ServiceError("validation", t("반영할 변경 사항이 없어요."));
         }
         for (const proposal of run.proposals) {
           if (!(proposal.id in resolved)) {
             throw new ServiceError(
               "validation",
-              "아직 결정하지 않은 변경이 있어요.",
+              t("아직 결정하지 않은 변경이 있어요."),
             );
           }
         }
@@ -276,7 +274,10 @@ export const mockRefresh: RefreshService = {
           ) {
             throw new ServiceError(
               "validation",
-              `‘${proposal.title}’이 추출 뒤에 수정됐어요. 그래프를 다시 최신화해 주세요.`,
+              t(
+                "‘{title}’이 추출 뒤에 수정됐어요. 그래프를 다시 최신화해 주세요.",
+                { title: proposal.title },
+              ),
             );
           }
         }

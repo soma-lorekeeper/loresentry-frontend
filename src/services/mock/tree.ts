@@ -1,4 +1,5 @@
 import type { FileNode } from "@/domain/models";
+import { t } from "@/i18n";
 
 import type { MockDb } from "./db";
 
@@ -50,7 +51,7 @@ export function pathOf(db: MockDb, node: FileNode): string[] {
     path.unshift(parent.title);
     parentId = parent.parentId;
   }
-  return ["파일", ...path];
+  return [t("mock::파일"), ...path];
 }
 
 export function descendantsOf(db: MockDb, id: string): FileNode[] {

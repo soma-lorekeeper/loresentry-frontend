@@ -1,3 +1,5 @@
+import { t } from "@/i18n";
+
 import { ServiceError } from "../errors";
 import {
   FEEDBACK_MAX,
@@ -17,7 +19,7 @@ export const mockFeedback: FeedbackService = {
       if (!message || message.length > FEEDBACK_MAX) {
         throw new ServiceError(
           "validation",
-          "내용을 1~2,000자로 적어 주세요.",
+          t("mock::내용을 1~2,000자로 적어 주세요."),
           "feedback.send",
         );
       }
