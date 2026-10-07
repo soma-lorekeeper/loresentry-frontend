@@ -136,7 +136,7 @@ export default {
   "무대::새로 만들기": "Create new",
   "무대::최근에 연 파일": "Recently opened",
   "무대::자동 저장됨": "Saved",
-  "무대::분류": "Type",
+  "무대::분류": "Category",
   "무대::설명": "Description",
   "무대::속성 추가": "Add property",
   "무대::에피소드": "Episode",

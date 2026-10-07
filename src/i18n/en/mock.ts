@@ -28,7 +28,7 @@ export default {
   "mock::파일": "Files",
   "mock::폴더": "Folder",
   "mock::설명": "Description",
-  "mock::분류": "Kind",
+  "mock::분류": "Category",
   "mock::파일을 찾을 수 없어요.": "Couldn't find this file.",
   "mock::이름을 입력해 주세요.": "Enter a name.",
   "이름은 {max}자 이하로 입력해 주세요.":

@@ -226,7 +226,7 @@ export default {
   "서버에 연결할 수 없어요.": "Can't connect to the server.",
   "문서가 다른 곳에서 먼저 저장됐어요.":
     "This document was saved somewhere else first.",
-  "내보내기::분류": "Type",
+  "내보내기::분류": "Category",
   "저장하지 못했어요.": "Couldn't save.",
   "파일을 찾을 수 없어요.": "Couldn't find the file.",
   "{what}는 아직 서버에 저장할 수 없어요.":
