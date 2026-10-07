@@ -1,3 +1,4 @@
+import type { Locale } from "@/i18n/locale";
 import type { DocumentType } from "@/domain/document-types";
 import type {
   ChatMessage,
@@ -43,6 +44,7 @@ export interface AuthService {
 export interface AccountService {
   getAccount(): Promise<User>;
   updateDisplayName(displayName: string): Promise<User>;
+  updateLocale(locale: Locale): Promise<User>;
   completeOnboarding(): Promise<void>;
   deleteAccount(confirmationEmail: string): Promise<void>;
 }

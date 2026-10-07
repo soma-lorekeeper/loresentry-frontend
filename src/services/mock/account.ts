@@ -76,6 +76,13 @@ export const mockAuth: AuthService = {
 
 export const mockAccount: AccountService = {
   getAccount: () => simulate("account.get", () => getDb().user),
+  updateLocale: (locale) =>
+    simulate("account.updateLocale", () => {
+      const db = getDb();
+      db.user = { ...db.user, locale };
+      persistDb();
+      return db.user;
+    }),
   updateDisplayName: (displayName) =>
     simulate("account.update", () => {
       const trimmed = displayName.trim();

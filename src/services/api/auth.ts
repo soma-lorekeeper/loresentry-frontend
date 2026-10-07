@@ -1,4 +1,5 @@
 import type { User } from "@/domain/models";
+import { isLocale, LOCALE } from "@/i18n/locale";
 
 import { ServiceError } from "../errors";
 import type { AccountService, AuthService, TermsView } from "../ports";
@@ -11,6 +12,7 @@ interface ApiProfile {
   display_name: string;
   email: string | null;
   onboarding_completed?: boolean;
+  locale?: string | null;
 }
 
 function toUser(api: ApiProfile): User {
@@ -31,6 +33,7 @@ function toUser(api: ApiProfile): User {
     displayName: api.display_name,
     email: api.email ?? "",
     onboardingCompleted: api.onboarding_completed ?? true,
+    locale: isLocale(api.locale) ? api.locale : null,
   };
 }
 
@@ -80,7 +83,7 @@ export function createApiAuth(client: ApiClient): AuthService {
   return {
     getTerms: async () =>
       toTerms(
-        await client.request<unknown>("/auth/terms", {
+        await client.request<unknown>(`/auth/terms?locale=${LOCALE}`, {
           operation: "auth.terms",
           expectedStatus: 200,
         }),
@@ -173,6 +176,15 @@ export function createApiAccount(client: ApiClient): AccountService {
           method: "PATCH",
           body: { display_name: displayName },
           operation: "account.update",
+        }),
+      ),
+
+    updateLocale: async (locale) =>
+      toUser(
+        await client.request<ApiProfile>("/auth/users/me/locale", {
+          method: "PUT",
+          body: { locale },
+          operation: "account.updateLocale",
         }),
       ),
 

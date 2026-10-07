@@ -3,6 +3,7 @@ import type { DocumentBody } from "./document-body";
 import type { IconName } from "@/design-system/icons/icon";
 
 import type { DocumentType } from "./document-types";
+import type { Locale } from "@/i18n/locale";
 
 export type IsoDateTime = string;
 
@@ -11,6 +12,8 @@ export interface User {
   displayName: string;
   email: string;
   onboardingCompleted: boolean;
+  /** 계정에 적힌 화면 언어. 아직 적힌 적이 없으면 null 이다. */
+  locale?: Locale | null;
 }
 
 export interface Project {

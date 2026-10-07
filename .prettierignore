@@ -3,6 +3,7 @@ coverage/
 docs/
 node_modules/
 out/
+dist/
 next-env.d.ts
 pnpm-lock.yaml
 src/design-system/tokens/tokens.css

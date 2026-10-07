@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build --webpack",
+    "build:locales": "node scripts/build-locales.mjs",
+    "serve:locales": "node scripts/serve-locales.mjs",
     "lint": "eslint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -13,7 +15,8 @@
     "tokens": "node scripts/generate-tokens.mjs",
     "tokens:check": "node scripts/generate-tokens.mjs --check",
     "validate:static": "node scripts/validate-static-export.mjs",
-    "check:cdn": "pnpm format:check && pnpm tokens:check && pnpm test && pnpm lint && pnpm typecheck && pnpm build && pnpm validate:static"
+    "validate:locales": "node scripts/validate-locales.mjs",
+    "check:cdn": "pnpm format:check && pnpm tokens:check && pnpm test && pnpm lint && pnpm typecheck && pnpm build:locales && pnpm validate:locales"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.103.1",

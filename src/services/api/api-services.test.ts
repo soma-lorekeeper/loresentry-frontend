@@ -1127,6 +1127,28 @@ describe("auth", () => {
     });
   });
 
+  it("records the account language with a CSRF-protected PUT", async () => {
+    reply(200, { ...profile, locale: "en" });
+    const user = await services().account!.updateLocale("en");
+
+    expect(calls[0].url).toBe(`${BASE}/auth/users/me/locale`);
+    expect(calls[0].method).toBe("PUT");
+    expect(calls[0].headers["X-LS-CSRF"]).toBe("1");
+    expect(calls[0].body).toEqual({ locale: "en" });
+    expect(user.locale).toBe("en");
+  });
+
+  it("reads the account language and ignores values that are not one", async () => {
+    reply(200, { ...profile, locale: "ko" });
+    expect(await services().auth!.getSession()).toMatchObject({ locale: "ko" });
+
+    reply(200, { ...profile, locale: "fr" });
+    expect(await services().auth!.getSession()).toMatchObject({ locale: null });
+
+    reply(200, profile);
+    expect(await services().auth!.getSession()).toMatchObject({ locale: null });
+  });
+
   it("marks onboarding complete with a CSRF-protected PUT", async () => {
     reply(204);
     await services().account!.completeOnboarding();
@@ -1141,7 +1163,7 @@ describe("auth", () => {
     reply(201, { ...apiProject, id: "p-sample" });
     const project = await services().projects!.createSample();
 
-    expect(calls[0].url).toBe(`${BASE}/projects/sample`);
+    expect(calls[0].url).toBe(`${BASE}/projects/sample?locale=ko`);
     expect(calls[0].method).toBe("POST");
     expect(calls[0].body).toBeUndefined();
     expect(project.id).toBe("p-sample");
