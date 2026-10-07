@@ -3,6 +3,7 @@
 import { Icon, IconButton } from "@/design-system/primitives";
 import { DOCUMENT_TYPE_META } from "@/domain/document-types";
 import type { GraphNode, ProjectGraph } from "@/domain/models";
+import { t } from "@/i18n";
 import { cx } from "@/shared/cx";
 
 import styles from "./graph-view.module.css";
@@ -61,13 +62,13 @@ export function NodePanel({
   if (!node) return null;
   const neighbors = neighborsOf(graph, nodeId);
   return (
-    <aside className={styles.nodePanel} aria-label="선택한 노드">
+    <aside className={styles.nodePanel} aria-label={t("선택한 노드")}>
       <header className={styles.nodePanelHeader}>
-        <h2>선택한 노드</h2>
+        <h2>{t("선택한 노드")}</h2>
         <IconButton
           icon="x"
           iconSize={15}
-          label="선택 해제"
+          label={t("선택 해제")}
           onClick={onClose}
         />
       </header>

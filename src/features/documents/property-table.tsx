@@ -23,6 +23,7 @@ import type {
   FolderNode,
   RelationProperty,
 } from "@/domain/models";
+import { t } from "@/i18n";
 
 import styles from "./property-table.module.css";
 
@@ -81,23 +82,27 @@ function RelationPicker({
       <div
         className={styles.picker}
         role="dialog"
-        aria-label="연결할 문서 선택"
+        aria-label={t("연결할 문서 선택")}
       >
         <input
           autoFocus
           className={styles.pickerSearch}
-          placeholder="문서 검색"
+          placeholder={t("문서 검색")}
           value={query}
           onChange={(event) => {
             setQuery(event.target.value);
             setActive(0);
           }}
           onKeyDown={onKeyDown}
-          aria-label="연결할 문서 검색"
+          aria-label={t("연결할 문서 검색")}
         />
-        <div className={styles.pickerList} role="listbox" aria-label="문서">
+        <div
+          className={styles.pickerList}
+          role="listbox"
+          aria-label={t("문서")}
+        >
           {filtered.length === 0 ? (
-            <p className={styles.pickerEmpty}>연결할 문서가 없어요.</p>
+            <p className={styles.pickerEmpty}>{t("연결할 문서가 없어요.")}</p>
           ) : (
             filtered.map((node, index) => (
               <button
@@ -177,7 +182,7 @@ function RelationRow({
         <IconButton
           ref={menuRef}
           icon={meta.entityIcon}
-          label={`${property.label} 속성 메뉴`}
+          label={t("{label} 속성 메뉴", { label: property.label })}
           className={styles.identityButton}
           disabled={readOnly}
           aria-haspopup="menu"
@@ -189,11 +194,11 @@ function RelationRow({
           anchorRef={menuRef}
           open={menuOpen}
           onOpenChange={setMenuOpen}
-          label={`${property.label} 속성`}
+          label={t("{label} 속성", { label: property.label })}
           entries={[
             {
               id: "remove",
-              label: "속성 삭제",
+              label: t("속성 삭제"),
               icon: "trash-2",
               destructive: true,
               onSelect: onRemoveRow,
@@ -203,7 +208,7 @@ function RelationRow({
       </div>
       <div className={styles.value} aria-disabled={readOnly || undefined}>
         {targets.length === 0 && (
-          <span className={styles.emptyValue}>연결한 문서가 없어요</span>
+          <span className={styles.emptyValue}>{t("연결한 문서가 없어요")}</span>
         )}
         {targets.map((node) => {
           const note = property.descriptions[node.id] ?? "";
@@ -218,7 +223,7 @@ function RelationRow({
                 type="button"
                 className={styles.chipLabel}
                 onClick={() => onOpenFile(node.id)}
-                title={`${node.title} 열기`}
+                title={t("{title} 열기", { title: node.title })}
               >
                 {node.title}
               </button>
@@ -227,8 +232,8 @@ function RelationRow({
                   className={styles.chipNoteInput}
                   defaultValue={note}
                   autoFocus
-                  aria-label={`${node.title} 관계 설명`}
-                  placeholder="이 관계는 무엇인가요"
+                  aria-label={t("{title} 관계 설명", { title: node.title })}
+                  placeholder={t("이 관계는 무엇인가요")}
                   onBlur={(event) => {
                     describe(node.id, event.target.value);
                     setDescribing(null);
@@ -244,10 +249,14 @@ function RelationRow({
                     type="button"
                     className={note ? styles.chipNote : styles.chipNoteAdd}
                     disabled={readOnly}
-                    aria-label={`${node.title} 관계 설명 ${note ? "고치기" : "적기"}`}
+                    aria-label={
+                      note
+                        ? t("{title} 관계 설명 고치기", { title: node.title })
+                        : t("{title} 관계 설명 적기", { title: node.title })
+                    }
                     onClick={() => setDescribing(node.id)}
                   >
-                    {note || "설명"}
+                    {note || t("관계 칩::설명")}
                   </button>
                 )
               )}
@@ -255,7 +264,7 @@ function RelationRow({
                 <button
                   type="button"
                   className={styles.chipRemove}
-                  aria-label={`${node.title} 연결 해제`}
+                  aria-label={t("{title} 연결 해제", { title: node.title })}
                   onClick={() => {
                     const descriptions = { ...property.descriptions };
                     delete descriptions[node.id];
@@ -279,7 +288,7 @@ function RelationRow({
             ref={addRef}
             type="button"
             className={styles.addChip}
-            aria-label={`${property.label} 추가`}
+            aria-label={t("{label} 추가", { label: property.label })}
             aria-haspopup="dialog"
             aria-expanded={picking}
             onClick={() => setPicking(true)}
@@ -326,11 +335,11 @@ function EpisodeRow({
       <div className={styles.identity}>
         <IconButton
           icon="folder"
-          label="에피소드"
+          label={t("에피소드")}
           className={styles.identityButton}
           tabIndex={-1}
         />
-        <span className={styles.identityName}>에피소드</span>
+        <span className={styles.identityName}>{t("에피소드")}</span>
       </div>
       <div className={styles.value} aria-disabled={readOnly || undefined}>
         <button
@@ -344,14 +353,14 @@ function EpisodeRow({
           onClick={() => setOpen(true)}
         >
           {episode?.title ?? (
-            <span className={styles.emptyValue}>에피소드 없음</span>
+            <span className={styles.emptyValue}>{t("에피소드 없음")}</span>
           )}
         </button>
         <Menu
           anchorRef={ref}
           open={open}
           onOpenChange={setOpen}
-          label="에피소드 이동"
+          label={t("에피소드 이동")}
           width={240}
           entries={episodes.map((folder) => ({
             id: folder.id,
@@ -394,7 +403,7 @@ function TextRow({
           className={styles.textInput}
           value={property.value}
           readOnly={readOnly}
-          placeholder={`${property.label} 입력`}
+          placeholder={t("{label} 입력", { label: property.label })}
           aria-label={property.label}
           onChange={(event) =>
             onChange({ ...property, value: event.target.value })
@@ -444,7 +453,7 @@ export function PropertyTable({
   const addEntries: MenuEntry[] = [
     {
       id: "alias",
-      label: "별칭",
+      label: t("별칭"),
       icon: "tag",
       onSelect: () =>
         onChange([
@@ -453,7 +462,7 @@ export function PropertyTable({
             id: `${fileId}:alias:${Date.now().toString(36)}`,
             kind: "text",
             key: "alias",
-            label: "별칭",
+            label: t("별칭"),
             value: "",
           },
         ]),
@@ -518,18 +527,18 @@ export function PropertyTable({
       <div
         className={styles.table}
         role="group"
-        aria-label="속성"
+        aria-label={t("속성")}
         data-tour="properties"
       >
         <div className={styles.row}>
           <div className={styles.identity}>
             <IconButton
               icon="tag"
-              label="분류"
+              label={t("분류")}
               className={styles.identityButton}
               tabIndex={-1}
             />
-            <span className={styles.identityName}>분류</span>
+            <span className={styles.identityName}>{t("분류")}</span>
           </div>
           <div
             className={styles.value}
@@ -542,7 +551,7 @@ export function PropertyTable({
               disabled={readOnly || docType === "manuscript"}
               aria-haspopup="menu"
               aria-expanded={typeOpen}
-              aria-label={`분류: ${meta.label}`}
+              aria-label={t("분류: {kind}", { kind: meta.label })}
               onClick={() => setTypeOpen(true)}
             >
               <Icon name={meta.entityIcon} size={14} />
@@ -552,7 +561,7 @@ export function PropertyTable({
               anchorRef={typeRef}
               open={typeOpen}
               onOpenChange={setTypeOpen}
-              label="분류 변경"
+              label={t("분류 변경")}
               entries={SETTING_DOCUMENT_TYPES.map((type) => ({
                 id: type,
                 label: DOCUMENT_TYPE_META[type].label,
@@ -585,13 +594,13 @@ export function PropertyTable({
             onClick={() => setAddOpen(true)}
           >
             <Icon name="plus" size={14} />
-            속성 추가
+            {t("속성 추가")}
           </button>
           <Menu
             anchorRef={addRef}
             open={addOpen}
             onOpenChange={setAddOpen}
-            label="속성 추가"
+            label={t("속성 추가")}
             width={240}
             entries={addEntries}
           />
