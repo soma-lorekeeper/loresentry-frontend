@@ -136,6 +136,7 @@ export function NewTabView() {
               type="button"
               className={styles.create}
               data-kind={type}
+              data-tour={`create-${type}`}
               disabled={create.isPending}
               onClick={() => createDocument(type)}
             >

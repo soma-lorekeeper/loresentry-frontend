@@ -4,6 +4,7 @@ import { useCallback, useRef, useState } from "react";
 
 import { Menu, SidebarButton } from "@/design-system/primitives";
 import { useFeedback } from "@/features/feedback/feedback-provider";
+import { requestTour } from "@/features/tour/tour-state";
 
 import { useWorkspace } from "../workspace-context";
 import styles from "./sidebar.module.css";
@@ -40,6 +41,12 @@ export function HelpMenu({ selected }: { selected: boolean }) {
             label: "사용 가이드",
             icon: "book-open",
             onSelect: () => open({ kind: "help" }),
+          },
+          {
+            id: "tour",
+            label: "작업공간 둘러보기",
+            icon: "panels-top-left",
+            onSelect: requestTour,
           },
           {
             id: "feedback",

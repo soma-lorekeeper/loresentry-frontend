@@ -8,8 +8,8 @@
  * 않는다. 공통 조상이 없으므로 '충돌'이라는 개념도 없다 — 모든 줄은 그냥 "다른 줄"이고,
  * 사람이 한 줄씩 골라 양쪽을 같게 만들면 그것이 완료다.
  *
- * 와이어프레임 결정: 덩어리 밖을 직접 고쳐 쓰는 편집은 두지 않는다. 실험 레포의
- * editSingle·editList 는 옮기지 않았다.
+ * 양쪽 모두 직접 고칠 수 있다(TABLE_AND_LOGIC §7.5). 우측 AI안이 우선권을 갖지 않는다 —
+ * 고친 쪽 문서 전체가 바뀌고, 화면은 그 값으로 다시 견준다.
  *
  * 서버 가정(DOCUMENT_EDITING_PROPOSAL §4.3, 미확정): 확정하면 왼쪽(현재 버전) 최종값을
  * 문서별로 모아 apply 에 넘긴다. 왼쪽에서 사라진 문서는 null(삭제)로 보낸다.
@@ -18,6 +18,7 @@
 import {
   blockToPlainText,
   bodyBlocks,
+  bodyFromBlocks,
   bodyFromPlainText,
   emptyBody,
   type DocumentBody,
@@ -84,16 +85,69 @@ export function bodyLines(body: DocumentBody) {
   return bodyBlocks(body).map(blockToPlainText).join("\n");
 }
 
-/** 줄 편집 결과를 다시 본문으로. 한 줄이 문단 하나다 — 서식은 줄 단위 편집에서 살릴 수 없다. */
-function fromBodyLines(text: string): DocumentBody {
-  return bodyFromPlainText(text);
+/**
+ * 줄 편집 결과를 다시 본문으로.
+ *
+ * 손대지 않은 블록은 **원래 블록 그대로** 남긴다. 한 문단을 고쳤다고 제목·목록·굵은 글씨까지
+ * 평문으로 풀리면 안 된다. 바뀐 줄만 새 문단이 된다 — 줄 단위 편집으로는 서식을 알 수 없다.
+ * 여러 줄을 차지하는 블록(목록, 줄바꿈이 든 문단)은 그 줄이 모두 그대로일 때만 살아남는다.
+ */
+function fromBodyLines(original: DocumentBody, text: string): DocumentBody {
+  const blocks = bodyBlocks(original);
+  const before = bodyLines(original);
+  if (before === "") return bodyFromPlainText(text);
+
+  /** 원래 글의 줄마다, 그 줄이 시작하는 블록과 블록이 차지하는 줄 수. 블록 첫 줄에만 있다 */
+  const starts = new Map<
+    number,
+    { block: (typeof blocks)[number]; span: number }
+  >();
+  let line = 0;
+  for (const block of blocks) {
+    const span = blockToPlainText(block).split("\n").length;
+    starts.set(line, { block, span });
+    line += span;
+  }
+
+  const out: typeof blocks = [];
+  const paragraph = (value: string) =>
+    value.length === 0
+      ? { type: "paragraph" }
+      : { type: "paragraph", content: [{ type: "text", text: value }] };
+
+  for (const hunk of lineDiff(before, text)) {
+    if (!hunk.same) {
+      out.push(...hunk.rightLines.map(paragraph));
+      continue;
+    }
+    const end = hunk.leftStart + hunk.leftLines.length;
+    for (let at = hunk.leftStart; at < end;) {
+      const start = starts.get(at);
+      if (start && at + start.span <= end) {
+        out.push(start.block);
+        at += start.span;
+      } else {
+        out.push(paragraph(hunk.leftLines[at - hunk.leftStart]));
+        at += 1;
+      }
+    }
+  }
+  return bodyFromBlocks(out);
 }
 
 function sameProperty(
   a: DocumentProperty | undefined,
   b: DocumentProperty | undefined,
 ) {
-  if (!a || !b) return a === b;
+  // 비어 있는 값은 없는 값과 같다. 한쪽에만 있던 관계의 대상을 모두 빼거나 설명을 지우면,
+  // 화면에서는 두 쪽이 똑같이 비어 보이는데 '다르다'가 남아 끝낼 수 없게 된다.
+  if (!a || !b) {
+    const only = a ?? b;
+    return (
+      !only ||
+      (only.kind === "text" ? only.value === "" : only.targetIds.length === 0)
+    );
+  }
   if (a.kind === "text" && b.kind === "text") return a.value === b.value;
   if (a.kind === "relation" && b.kind === "relation")
     return (
@@ -223,10 +277,86 @@ export function pushBodyHunk(
   docs.set(docId, {
     ...target,
     body: fromBodyLines(
+      target.body,
       applyHunk(bodyLines(target.body), start, removed, lines),
     ),
   });
   return replace(state, to, docs);
+}
+
+/** 제목을 반대편으로 민다 */
+export function pushTitle(
+  state: MergeState,
+  docId: string,
+  direction: Direction,
+): MergeState {
+  const { from, to } = ends(direction);
+  const source = state[from].get(docId);
+  const target = state[to].get(docId);
+  if (!source || !target) return state;
+  const docs = new Map(state[to]);
+  docs.set(docId, { ...target, title: source.title });
+  return replace(state, to, docs);
+}
+
+/** 한쪽 문서만 고쳐 쓴다. 그쪽에 문서가 없으면 고칠 것이 없다 */
+function editDoc(
+  state: MergeState,
+  docId: string,
+  side: SideName,
+  change: (doc: DocumentDraft) => DocumentDraft,
+): MergeState {
+  const doc = state[side].get(docId);
+  if (!doc) return state;
+  const docs = new Map(state[side]);
+  docs.set(docId, change(doc));
+  return replace(state, side, docs);
+}
+
+/** 한쪽에서 제목을 그 자리에서 고쳐 쓴다 */
+export function editTitle(
+  state: MergeState,
+  docId: string,
+  side: SideName,
+  title: string,
+): MergeState {
+  return editDoc(state, docId, side, (doc) => ({ ...doc, title }));
+}
+
+/**
+ * 한쪽에서 속성 하나를 그 자리에서 고쳐 쓴다. `undefined` 면 그 속성을 지운다.
+ *
+ * 그쪽에 없던 속성이면 끝에 붙인다 — 반대편에만 있던 관계에 대상을 더하는 경우다.
+ */
+export function editProperty(
+  state: MergeState,
+  docId: string,
+  side: SideName,
+  key: string,
+  value: DocumentProperty | undefined,
+): MergeState {
+  return editDoc(state, docId, side, (doc) => {
+    const has = doc.properties.some((p) => p.key === key);
+    const properties = !value
+      ? doc.properties.filter((p) => p.key !== key)
+      : has
+        ? doc.properties.map((p) => (p.key === key ? value : p))
+        : [...doc.properties, value];
+    return { ...doc, properties };
+  });
+}
+
+/** 한쪽 본문 전체를 고쳐 쓴 글로 바꾼다. 손대지 않은 블록의 서식은 남는다 */
+export function editBody(
+  state: MergeState,
+  docId: string,
+  side: SideName,
+  text: string,
+): MergeState {
+  return editDoc(state, docId, side, (doc) => ({
+    ...doc,
+    body: fromBodyLines(doc.body, text),
+  }));
 }
 
 /** 문서 하나를 한쪽 값으로 통째로 맞춘다. 문서 막대의 "현재/신규 버전 반영" */

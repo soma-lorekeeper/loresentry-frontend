@@ -173,113 +173,502 @@
   font-weight: 600;
 }
 
-.compare {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 96px minmax(0, 1fr);
-}
-
-.cell {
-  padding: 0 var(--lk-space-4);
-  background: var(--lk-color-surface-sunken);
-}
-
-.first {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding-top: var(--lk-space-4);
-  padding-bottom: var(--lk-space-3);
-  border-radius: 14px 14px 0 0;
-}
-
-.first > strong {
-  font-weight: 600;
-}
-
-.last {
-  height: var(--lk-space-3);
-  border-radius: 0 0 14px 14px;
-}
-
-.label,
-.missing {
-  color: var(--lk-color-text-secondary);
-  font-size: var(--lk-font-size-label);
-}
-
-.property {
-  display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
-  align-items: center;
-  min-height: 40px;
-  box-shadow: inset 0 1px 0 var(--lk-color-border-subtle);
-}
-
-.paragraph {
-  min-height: 25px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  line-height: 1.6;
-}
-
-.spacer {
-  height: var(--lk-space-3);
-  box-shadow: inset 0 1px 0 var(--lk-color-border-subtle);
-}
-
-.changed {
-  background: var(--lk-color-diff-modify-bg);
-}
-
-.gutter {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.arrows {
-  display: flex;
-  gap: var(--lk-space-3);
-}
-
-.arrows > button {
-  width: 26px;
-  height: 26px;
-}
-
-.type,
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--lk-space-2);
-}
-
-.type > svg,
-.chip > svg {
-  color: var(--kind, var(--lk-color-icon-default));
-}
-
-.chip {
-  justify-self: start;
-  height: 26px;
-  padding: 0 var(--lk-space-2);
-  border-radius: var(--lk-radius-control);
-  background: color-mix(
-    in srgb,
-    var(--lk-color-surface-default) 70%,
-    transparent
-  );
-  font-weight: 600;
-}
-
-.absent {
-  padding: var(--lk-space-4) 0;
-  color: var(--lk-color-text-secondary);
-}
-
 .mark {
   width: 15px;
   font-size: var(--lk-font-size-heading);
   font-weight: 700;
   text-align: center;
+}
+
+/*
+ * 비교 영역.
+ *
+ * 다른 곳의 색은 채도가 높은 파랑에서 뽑는다. 예전 색(diff-modify-bg)은 회색 판과 거의 같은
+ * 밝기·채도라 띠가 판 속에 묻혔다. 띠는 옅게, 바뀐 낱말은 진하게 두 단계로 짚는다.
+ * 색은 판(sunken) 위에 섞어 불투명하게 만든다 — 가운데 리본이 판 밖(흰 바탕)에 걸쳐도 띠와 같은
+ * 색으로 이어져야 한다.
+ */
+.compare {
+  --diff-tone: var(--lk-color-diff-add);
+  --diff-band: color-mix(
+    in srgb,
+    var(--diff-tone) 20%,
+    var(--lk-color-surface-sunken)
+  );
+  --diff-word: color-mix(
+    in srgb,
+    var(--diff-tone) 44%,
+    var(--lk-color-surface-sunken)
+  );
+  --diff-chip: color-mix(
+    in srgb,
+    var(--diff-tone) 30%,
+    var(--lk-color-surface-default)
+  );
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-2);
+}
+
+:global(:root[data-theme="light"]) .compare {
+  --diff-band: color-mix(
+    in srgb,
+    var(--diff-tone) 13%,
+    var(--lk-color-surface-sunken)
+  );
+  --diff-word: color-mix(
+    in srgb,
+    var(--diff-tone) 30%,
+    var(--lk-color-surface-sunken)
+  );
+  --diff-chip: color-mix(
+    in srgb,
+    var(--diff-tone) 20%,
+    var(--lk-color-surface-default)
+  );
+}
+
+.heads {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px minmax(0, 1fr);
+  align-items: center;
+  min-height: 28px;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+}
+
+.heads > span:first-child,
+.heads > span:last-child {
+  padding: 0 var(--lk-space-4);
+}
+
+.headGutter {
+  display: flex;
+  justify-content: center;
+}
+
+/* 두 버전이 각각 문서 한 장이다. 판은 격자 뒤에 깔린 바탕일 뿐이고, 가운데 칸은 어느 쪽에도
+   속하지 않는다 */
+.sheets {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+}
+
+.sheet {
+  grid-row: 1 / -1;
+  border-radius: 14px;
+  background: var(--lk-color-surface-sunken);
+  transition: box-shadow 160ms var(--lk-ease);
+}
+
+.sheet[data-side="left"] {
+  grid-column: 1;
+}
+
+.sheet[data-side="right"] {
+  grid-column: 3;
+}
+
+/* 본문을 고치는 동안 그 문서 판에 초점 테두리를 두른다. 커서만으로는 어느 쪽인지 놓치기 쉽다 */
+.sheets:has(.pane[data-pane="left"]:focus) .sheet[data-side="left"],
+.sheets:has(.pane[data-pane="right"]:focus) .sheet[data-side="right"] {
+  box-shadow: var(--lk-focus-ring);
+}
+
+.props {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  grid-template-columns: subgrid;
+  padding-top: var(--lk-space-2);
+}
+
+.cell {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  align-items: start;
+  min-width: 0;
+  padding: 0 var(--lk-space-3) 0 var(--lk-space-4);
+}
+
+.cell[data-changed],
+.gutter[data-changed] {
+  background: var(--diff-band);
+}
+
+.label {
+  padding-top: 9px;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  line-height: 20px;
+}
+
+.value {
+  display: flex;
+  min-width: 0;
+  min-height: 40px;
+  align-items: center;
+}
+
+.gutter {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 7px;
+}
+
+.arrows {
+  display: flex;
+  gap: var(--lk-space-1);
+}
+
+/* 띠 위에 얹힌 작은 단추. 바탕을 깔아 띠 색 속에서도 누를 자리로 보인다 */
+.arrows > button {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--lk-color-surface-default);
+  box-shadow: var(--lk-shadow-pill);
+}
+
+.absent {
+  padding: var(--lk-space-3) var(--lk-space-4) 0;
+  color: var(--lk-color-text-secondary);
+}
+
+.type {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+  font-weight: 600;
+}
+
+.type > svg {
+  color: var(--kind, var(--lk-color-icon-default));
+}
+
+/* 고쳐 쓸 수 있는 글. 입력란과 거울이 같은 칸에 겹친다 */
+.editable {
+  position: relative;
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  margin: 4px 0 4px -8px;
+  border-radius: 8px;
+  transition: background-color 140ms var(--lk-ease);
+}
+
+.editable > .mirror,
+.editable > .input {
+  grid-area: 1 / 1;
+  min-width: 0;
+  margin: 0;
+  padding: 5px 8px;
+  border: 0;
+  font: inherit;
+  line-height: 22px;
+  letter-spacing: inherit;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.mirror {
+  color: transparent;
+  pointer-events: none;
+}
+
+.input {
+  height: 100%;
+  resize: none;
+  overflow: hidden;
+  outline: none;
+  background: transparent;
+  color: var(--lk-color-text-primary);
+}
+
+.input::placeholder {
+  color: var(--lk-color-text-secondary);
+}
+
+.editable:hover {
+  background: color-mix(
+    in srgb,
+    var(--lk-color-surface-default) 60%,
+    transparent
+  );
+}
+
+.editable:focus-within {
+  background: var(--lk-color-surface-default);
+  box-shadow: var(--lk-focus-ring);
+}
+
+.word {
+  border-radius: 3px;
+  background: var(--diff-word);
+  color: inherit;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.mirror .word {
+  color: transparent;
+}
+
+/* 고칠 때는 표시를 걷는다. 입력란 바탕이 흰색이 되어 표시가 글자보다 튀어 보인다 */
+.editable:focus-within .word {
+  background: color-mix(
+    in srgb,
+    var(--diff-tone) 16%,
+    var(--lk-color-surface-default)
+  );
+}
+
+/* 관계 칩 */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  height: 26px;
+  padding: 0 10px 0 9px;
+  border-radius: 999px;
+  background: color-mix(
+    in srgb,
+    var(--kind, var(--lk-color-node-manuscript)) 12%,
+    var(--lk-color-surface-default)
+  );
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+}
+
+.chip > svg {
+  flex: none;
+  color: var(--kind, var(--lk-color-icon-default));
+}
+
+/* 반대편에 없는 대상. 낱말 표시와 같은 색이다 */
+.chipChanged {
+  background: var(--diff-chip);
+  box-shadow: inset 0 0 0 1.5px var(--diff-tone);
+}
+
+.chipName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chipRemove {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 0;
+  height: 18px;
+  margin-left: -6px;
+  overflow: hidden;
+  border-radius: 999px;
+  color: var(--lk-color-icon-default);
+  transition:
+    width 120ms var(--lk-ease),
+    margin 120ms var(--lk-ease);
+}
+
+/* 빼기 단추는 가리킬 때만 자리를 차지한다. 늘 두면 칩마다 빈 꼬리가 붙어 보인다. 폭만 0 으로
+   접어 두어 키보드로는 그대로 닿고, 닿으면 펼쳐진다 */
+.chip:hover .chipRemove,
+.chip:focus-within .chipRemove {
+  width: 18px;
+  margin-left: 0;
+}
+
+.chip:hover,
+.chip:focus-within {
+  padding-right: 4px;
+}
+
+.chipRemove:hover {
+  background: var(--lk-color-state-hover);
+}
+
+.chipRemove:focus-visible {
+  outline: none;
+  box-shadow: var(--lk-focus-ring);
+}
+
+.adder {
+  position: relative;
+  display: inline-flex;
+}
+
+.add {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+}
+
+.picker {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 4px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  width: 260px;
+  max-height: 320px;
+  padding: var(--lk-space-2);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-raised);
+  box-shadow: var(--lk-shadow-float);
+}
+
+.pickerSearch {
+  flex: none;
+  height: 32px;
+  margin-bottom: var(--lk-space-1);
+  padding: 0 var(--lk-space-3);
+  border: 0;
+  border-radius: 8px;
+  outline: none;
+  background: var(--lk-color-surface-sunken);
+  color: var(--lk-color-text-primary);
+}
+
+.pickerSearch:focus-visible {
+  background: var(--lk-color-surface-default);
+  box-shadow: var(--lk-focus-ring);
+}
+
+.pickerList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+}
+
+.pickerItem {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--lk-space-2);
+  height: 32px;
+  padding: 0 var(--lk-space-3);
+  border-radius: var(--lk-radius-control);
+  text-align: left;
+}
+
+.pickerItem > svg {
+  flex: none;
+  color: var(--kind, var(--lk-color-icon-default));
+}
+
+.pickerItem:hover,
+.pickerItem[data-active] {
+  background: var(--lk-color-state-hover);
+}
+
+.pickerEmpty {
+  padding: var(--lk-space-3);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}
+
+/* 본문. 줄 하나가 한 행이고, 두 편집 구역이 같은 행을 나눠 쓴다 */
+.body {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-row: 2;
+  grid-template-columns: subgrid;
+  align-items: start;
+  padding: var(--lk-space-3) 0 var(--lk-space-4);
+}
+
+.pane {
+  display: grid;
+  grid-row: 1 / -1;
+  grid-template-rows: subgrid;
+  align-self: stretch;
+  min-width: 0;
+  cursor: text;
+}
+
+.pane[data-pane="left"] {
+  grid-column: 1;
+}
+
+.pane[data-pane="right"] {
+  grid-column: 3;
+}
+
+.pane:focus {
+  outline: none;
+}
+
+.line {
+  min-width: 0;
+  padding: 1px var(--lk-space-4);
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* 띠. 격자가 align-items: start 라 내용 없는 칸은 높이가 0 이 되므로 여기서만 되돌린다 */
+.band {
+  align-self: stretch;
+  background: var(--diff-band);
+  pointer-events: none;
+}
+
+.ribbonCell {
+  position: relative;
+  align-self: stretch;
+  min-height: 0;
+}
+
+.ribbon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: var(--diff-band);
+}
+
+.ribbonCell > .arrows {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@media (hover: none) {
+  .chip {
+    padding-right: 4px;
+  }
+
+  .chipRemove {
+    width: 18px;
+    margin-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editable,
+  .sheet,
+  .chipRemove {
+    transition: none;
+  }
 }

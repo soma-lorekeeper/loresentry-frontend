@@ -35,16 +35,16 @@ describe("OnboardingPage", () => {
 
     await actor.click(screen.getByRole("button", { name: "다음" }));
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "문서를 이어요",
+      "여기서 써요",
     );
 
     fireEvent.keyDown(window, { key: "ArrowRight" });
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "그래프로",
+      "문서를 이어요",
     );
     fireEvent.keyDown(window, { key: "ArrowLeft" });
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "문서를 이어요",
+      "여기서 써요",
     );
     expect(screen.getByRole("listitem", { current: "step" })).toHaveTextContent(
       "2단계",

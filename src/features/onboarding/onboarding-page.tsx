@@ -23,6 +23,7 @@ import {
   useCreateSampleProject,
   useUpdateAccount,
 } from "@/features/projects/queries";
+import { writeTour } from "@/features/tour/tour-state";
 import { isServiceError } from "@/services/errors";
 import { cx } from "@/shared/cx";
 import { useElementSize } from "@/shared/use-element-size";
@@ -40,6 +41,7 @@ const FOCUS_PAD = 6;
 const FOCUS: Record<Scene, { target: string; at: number; whole?: boolean }[]> =
   {
     workspace: [{ target: "workspace", at: 0 }],
+    editor: [{ target: "editor", at: 0 }],
     relations: [{ target: "relations", at: 0 }],
     graph: [{ target: "graph", at: 0 }],
     timeline: [{ target: "timeline", at: 0 }],
@@ -55,7 +57,6 @@ interface Box {
   top: number;
   width: number;
   height: number;
-  /** 잘리면 뜻이 사라지는 자리(비교 창의 두 칸). 다가가더라도 통째로 보이게 한다. */
   whole?: boolean;
 }
 
@@ -114,7 +115,6 @@ function useCamera(focus: Box | null, compact: boolean) {
   );
   if (!focus || still) return { transform: "none", zoom: 1 };
   const { width: cw, height: ch } = CANVAS;
-  // 작업 면 안을 비출 때는 사이드바를 통째로 밀어낼 만큼은 다가간다.
   const inSheet = focus.left >= SIDEBAR_WIDTH - 16;
   const [base, cap] = compact ? [1.6, 2.2] : [inSheet ? 1.25 : 1.15, 1.45];
   const floor = focus.whole
@@ -132,20 +132,17 @@ function useCamera(focus: Box | null, compact: boolean) {
   const clamp = (value: number, min: number) =>
     Math.min(0, Math.max(min, value));
 
-  // 자리가 화면보다 넓으면 가운데 대신 왼쪽 끝에 맞춘다. 행 이름과 목록이 먼저 읽혀야 한다.
   let x =
     zoom * focus.width > cw - 24
       ? 12 - zoom * focus.left
       : cw / 2 - zoom * (focus.left + focus.width / 2);
   x = clamp(x, minX);
-  // 사이드바가 띠처럼 조금만 걸리면 아예 보이거나 아예 빠지게 한다.
   const sidebar = zoom * SIDEBAR_WIDTH + x;
   if (inSheet && sidebar > 0 && sidebar < 160) {
     const hidden = -zoom * SIDEBAR_WIDTH + 6;
     x = hidden >= minX ? hidden : 0;
   }
 
-  // 위아래도 가장자리 가까이에서 글줄이 반쯤 걸리지 않게 끝에 붙인다.
   let y = clamp(
     zoom * focus.height > ch - 24
       ? 12 - zoom * focus.top
@@ -159,7 +156,7 @@ function useCamera(focus: Box | null, compact: boolean) {
 
 /**
  * 실제 작업공간 창을 줄여 놓고, 단계마다 설명하는 자리를 비춘다. 창은 단계가 바뀌어도 그대로
- * 있고 내용과 사이드바 선택만 바뀐다. 빛은 다음 자리로 미끄러져 간다.
+ * 있고 내용과 사이드바 선택만 바뀐다. 카메라가 자리를 잡으면 그 바깥이 옅어진다.
  */
 function Stage({ scene, userName }: { scene: Scene; userName: string }) {
   const [frame, setFrame] = useState<HTMLDivElement | null>(null);
@@ -169,8 +166,8 @@ function Stage({ scene, userName }: { scene: Scene; userName: string }) {
   const size = useElementSize(frame);
   const focus = useSpotlight(canvas, scene);
   const camera = useCamera(focus, size !== null && size.width < 600);
-  // 비춘 자리가 창을 거의 채우면 테두리 빛은 창 가장자리에 붙은 띠로만 보인다. 그때는 끈다.
-  const ring = focus !== null && camera.zoom * focus.width < CANVAS.width * 0.9;
+  const veiled =
+    focus !== null && camera.zoom * focus.width < CANVAS.width * 0.9;
   const scale = size
     ? Math.min(
         1,
@@ -207,15 +204,18 @@ function Stage({ scene, userName }: { scene: Scene; userName: string }) {
             style={{ transform: camera.transform }}
           >
             <AppWindow scene={scene} leaving={leaving} userName={userName}>
-              {focus && ring && (
+              {focus && veiled && (
                 <span
-                  className={styles.spotlight}
-                  style={{
-                    left: focus.left,
-                    top: focus.top,
-                    width: focus.width,
-                    height: focus.height,
-                  }}
+                  key={`${scene}:${focus.left}:${focus.top}`}
+                  className={styles.veil}
+                  style={
+                    {
+                      "--l": `${focus.left}px`,
+                      "--t": `${focus.top}px`,
+                      "--r": `${focus.left + focus.width}px`,
+                      "--b": `${focus.top + focus.height}px`,
+                    } as CSSProperties
+                  }
                 />
               )}
             </AppWindow>
@@ -408,6 +408,7 @@ export function OnboardingPage({
 
   const finish = async (destination: "sample" | "new" | "later") => {
     if (!replay && !user.onboardingCompleted) await complete.mutateAsync();
+    if (!replay) writeTour("pending");
     if (destination === "sample") {
       const project = await createSample.mutateAsync();
       router.push(`/workspace/?projectId=${encodeURIComponent(project.id)}`);

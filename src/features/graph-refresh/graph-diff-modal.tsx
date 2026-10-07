@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useId, useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 
 import {
   Button,
@@ -10,36 +10,24 @@ import {
   InlineNotice,
   Modal,
   useToast,
-  type IconName,
 } from "@/design-system/primitives";
 import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
-import type {
-  DocumentDraft,
-  DocumentProperty,
-  RefreshProposal,
-  RefreshRun,
-} from "@/domain/models";
+import type { RefreshProposal, RefreshRun } from "@/domain/models";
 import { indexNodes, isDocument } from "@/features/workspace/model/tree";
 import { useFileTree } from "@/features/workspace/queries";
 import { useWorkspace } from "@/features/workspace/workspace-context";
 import { isServiceError } from "@/services/errors";
 import { cx } from "@/shared/cx";
 
+import { DocumentCompare, type Lookup } from "./document-compare";
 import styles from "./graph-diff-modal.module.css";
 import {
   adoptDocument,
-  bodyHunks,
   initMerge,
   isResolved,
-  propertyRows,
-  pushBodyHunk,
-  pushDocument,
-  pushProperty,
   remainingOf,
   resetDocument,
   resolvedDrafts,
-  type Direction,
-  type MergeState,
 } from "./merge";
 import { useRefreshActions } from "./queries";
 
@@ -54,258 +42,6 @@ const KIND_MARK: Record<RefreshProposal["kind"], string> = {
   added: "+",
   removed: "−",
 };
-
-type Lookup = (
-  id: string,
-) => { title: string; icon: IconName; docType: DocumentType } | null;
-
-function Arrows({
-  onPush,
-  label,
-}: {
-  onPush: (direction: Direction) => void;
-  label: string;
-}) {
-  return (
-    <span className={styles.arrows}>
-      <IconButton
-        icon="chevrons-right"
-        iconSize={14}
-        label={`${label}: 현재 버전 값을 신규 버전에 넣기`}
-        onClick={() => onPush(">>")}
-      />
-      <IconButton
-        icon="chevrons-left"
-        iconSize={14}
-        label={`${label}: 신규 버전 값을 현재 버전에 넣기`}
-        onClick={() => onPush("<<")}
-      />
-    </span>
-  );
-}
-
-function PropertyValue({
-  property,
-  targetId,
-  lookup,
-}: {
-  property: DocumentProperty | undefined;
-  targetId?: string;
-  lookup: Lookup;
-}) {
-  if (!property) return <span className={styles.missing}>—</span>;
-  if (property.kind === "text") return <span>{property.value || "—"}</span>;
-  if (!targetId) return <span className={styles.missing}>—</span>;
-  const target = lookup(targetId);
-  return (
-    <span className={styles.chip} data-kind={target?.docType}>
-      <Icon name={target?.icon ?? "file"} size={14} />
-      {target?.title ?? "새 문서"}
-    </span>
-  );
-}
-
-function DocumentCompare({
-  proposal,
-  state,
-  lookup,
-  onChange,
-}: {
-  proposal: RefreshProposal;
-  state: MergeState;
-  lookup: Lookup;
-  onChange: (next: MergeState) => void;
-}) {
-  const id = proposal.fileId;
-  const left = state.left.get(id);
-  const right = state.right.get(id);
-  const meta = DOCUMENT_TYPE_META[proposal.docType];
-  const rows = propertyRows(left, right);
-  const hunks = bodyHunks(left, right);
-
-  const pane = (doc: DocumentDraft | undefined, side: "left" | "right") =>
-    !doc ? (
-      <p className={styles.absent}>
-        {side === "left"
-          ? "현재 버전에는 없는 문서예요."
-          : "신규 버전에서 사라진 문서예요."}
-      </p>
-    ) : null;
-
-  return (
-    <div className={styles.compare}>
-      <div className={cx(styles.cell, styles.left, styles.first)}>
-        <strong>현재 버전</strong>
-      </div>
-      <div className={styles.gutter}>
-        {(!left || !right) && (
-          <Arrows
-            label="문서 전체"
-            onPush={(direction) => onChange(pushDocument(state, id, direction))}
-          />
-        )}
-      </div>
-      <div className={cx(styles.cell, styles.right, styles.first)}>
-        <strong>신규 버전</strong>
-      </div>
-
-      {(!left || !right) && (
-        <>
-          <div className={cx(styles.cell, styles.left)}>
-            {pane(left, "left")}
-          </div>
-          <div className={styles.gutter} />
-          <div className={cx(styles.cell, styles.right)}>
-            {pane(right, "right")}
-          </div>
-        </>
-      )}
-
-      <div className={cx(styles.cell, styles.left, styles.property)}>
-        <span className={styles.label}>분류</span>
-        {left && (
-          <span className={styles.type} data-kind={proposal.docType}>
-            <Icon name={meta.entityIcon} size={14} />
-            {meta.label}
-          </span>
-        )}
-      </div>
-      <div className={styles.gutter} />
-      <div className={cx(styles.cell, styles.right, styles.property)}>
-        <span className={styles.label}>분류</span>
-        {right && (
-          <span className={styles.type} data-kind={proposal.docType}>
-            <Icon name={meta.entityIcon} size={14} />
-            {meta.label}
-          </span>
-        )}
-      </div>
-
-      {rows.map((row) => {
-        const relation =
-          row.left?.kind === "relation" || row.right?.kind === "relation";
-        const leftIds = row.left?.kind === "relation" ? row.left.targetIds : [];
-        const rightIds =
-          row.right?.kind === "relation" ? row.right.targetIds : [];
-        const targets = relation
-          ? [...leftIds, ...rightIds.filter((t) => !leftIds.includes(t))]
-          : [undefined];
-        return targets.map((target, index) => {
-          const changed = relation
-            ? leftIds.includes(target!) !== rightIds.includes(target!)
-            : !row.same;
-          const showArrows = !row.same && (relation ? changed : true);
-          const firstChanged =
-            showArrows &&
-            (!relation ||
-              targets.findIndex(
-                (t) => leftIds.includes(t!) !== rightIds.includes(t!),
-              ) === index);
-          return (
-            <Fragment key={`${row.key}:${target ?? ""}`}>
-              <div
-                className={cx(
-                  styles.cell,
-                  styles.left,
-                  styles.property,
-                  changed && styles.changed,
-                )}
-              >
-                <span className={styles.label}>
-                  {index === 0 ? row.label : ""}
-                </span>
-                <PropertyValue
-                  property={
-                    relation && !leftIds.includes(target!)
-                      ? undefined
-                      : row.left
-                  }
-                  targetId={target}
-                  lookup={lookup}
-                />
-              </div>
-              <div className={styles.gutter}>
-                {firstChanged && left && right && (
-                  <Arrows
-                    label={row.label}
-                    onPush={(direction) =>
-                      onChange(pushProperty(state, id, row.key, direction))
-                    }
-                  />
-                )}
-              </div>
-              <div
-                className={cx(
-                  styles.cell,
-                  styles.right,
-                  styles.property,
-                  changed && styles.changed,
-                )}
-              >
-                <span className={styles.label}>
-                  {index === 0 ? row.label : ""}
-                </span>
-                <PropertyValue
-                  property={
-                    relation && !rightIds.includes(target!)
-                      ? undefined
-                      : row.right
-                  }
-                  targetId={target}
-                  lookup={lookup}
-                />
-              </div>
-            </Fragment>
-          );
-        });
-      })}
-
-      <div className={cx(styles.cell, styles.left, styles.spacer)} />
-      <div className={styles.gutter} />
-      <div className={cx(styles.cell, styles.right, styles.spacer)} />
-      {hunks.map((hunk, hunkIndex) => {
-        const length = Math.max(hunk.leftLines.length, hunk.rightLines.length);
-        return Array.from({ length }, (_, line) => (
-          <Fragment key={`${hunkIndex}:${line}`}>
-            <p
-              className={cx(
-                styles.cell,
-                styles.left,
-                styles.paragraph,
-                !hunk.same && styles.changed,
-              )}
-            >
-              {hunk.leftLines[line] ?? " "}
-            </p>
-            <div className={styles.gutter}>
-              {!hunk.same && line === 0 && left && right && (
-                <Arrows
-                  label="본문"
-                  onPush={(direction) =>
-                    onChange(pushBodyHunk(state, id, hunk, direction))
-                  }
-                />
-              )}
-            </div>
-            <p
-              className={cx(
-                styles.cell,
-                styles.right,
-                styles.paragraph,
-                !hunk.same && styles.changed,
-              )}
-            >
-              {hunk.rightLines[line] ?? " "}
-            </p>
-          </Fragment>
-        ));
-      })}
-      <div className={cx(styles.cell, styles.left, styles.last)} />
-      <div className={styles.gutter} />
-      <div className={cx(styles.cell, styles.right, styles.last)} />
-    </div>
-  );
-}
 
 export function GraphDiffModal({
   run,
@@ -360,6 +96,13 @@ export function GraphDiffModal({
         }
       : null;
   };
+
+  const documents = useMemo(
+    () => [...index.values()].filter(isDocument),
+    [index],
+  );
+  const candidatesOf = (type: DocumentType, exceptId: string) =>
+    documents.filter((node) => node.docType === type && node.id !== exceptId);
 
   const adoptAll = (side: "left" | "right") =>
     setState(ids.reduce((acc, id) => adoptDocument(acc, id, side), state));
@@ -467,7 +210,7 @@ export function GraphDiffModal({
                 <>
                   <span>왼쪽에서 문서를 하나 골라주세요.</span>
                   <span>
-                    가운데 화살표로 필요한 부분만 골라 받을 수 있어요.
+                    가운데 화살표로 옮기거나 양쪽을 직접 고칠 수 있어요.
                   </span>
                 </>
               }
@@ -514,7 +257,9 @@ export function GraphDiffModal({
               <DocumentCompare
                 proposal={selected}
                 state={state}
+                start={start}
                 lookup={lookup}
+                candidatesOf={candidatesOf}
                 onChange={setState}
               />
             </>

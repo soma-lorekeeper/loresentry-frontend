@@ -1,6 +1,7 @@
 export interface OnboardingStep {
   id:
     | "workspace"
+    | "editor"
     | "relations"
     | "graph"
     | "timeline"
@@ -16,6 +17,11 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     id: "workspace",
     title: "작품 하나에\n작업공간 하나",
     body: "회차 원고와 설정 문서가 한 프로젝트에 함께 놓여요.",
+  },
+  {
+    id: "editor",
+    title: "원고도\n여기서 써요",
+    body: "회차를 열면 이 창에서 바로 쓰고, 쓰는 대로 저장돼요.",
   },
   {
     id: "relations",

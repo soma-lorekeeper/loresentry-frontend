@@ -121,7 +121,6 @@
   }
 }
 
-/* 목록 화면은 작업공간의 목록과 같은 폭을 쓴다. 프로젝트 격자만 넓게 편다. */
 .narrow > * {
   width: 100%;
   max-width: 960px;
@@ -132,7 +131,6 @@
     padding: 32px 16px 20px;
   }
 
-  /* 가로줄이 넘치지 않게 지금 화면만 이름을 보이고 나머지는 아이콘만 둔다. */
   .sidebar > a:not([aria-current="page"]) > span,
   .sidebar > button[aria-haspopup="dialog"] > span {
     position: absolute;

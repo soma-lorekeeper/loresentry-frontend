@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { WorkspaceTour } from "@/features/tour/workspace-tour";
+
 import type { WorkspacePane } from "../model/layout";
 import { DocumentViewHost } from "../views/document-view-host";
 import { WORKSPACE_VIEWS } from "../views/registry";
@@ -115,6 +117,7 @@ export function WorkspaceShell() {
           <Pane key={pane.id} pane={pane} />
         ))}
       </main>
+      <WorkspaceTour />
     </div>
   );
 }

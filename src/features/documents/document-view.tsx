@@ -102,7 +102,13 @@ function BodyEditor({
     editor.commands.setContent(body.doc, { emitUpdate: false });
   }, [editor, body, version]);
 
-  return <EditorContent editor={editor} className={styles.editor} />;
+  return (
+    <EditorContent
+      editor={editor}
+      className={styles.editor}
+      data-tour="editor"
+    />
+  );
 }
 
 function download(url: string, fileName: string) {

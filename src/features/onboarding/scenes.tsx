@@ -11,7 +11,7 @@ import styles from "./onboarding.module.css";
  * 온보딩 무대는 실제 작업공간 화면을 줄여 옮긴 것이다. 사이드바·탭 막대·문서·그래프·타임라인·
  * 최신화 검토의 배치와 이름은 `features/workspace`, `documents`, `graph`, `timeline`,
  * `graph-refresh` 를 그대로 따른다. 서버를 부르지 않으므로 운영에서도 같은 화면이 나온다.
- * 랜딩 페이지도 같은 무대를 쓴다. 에디터·문서 관리 장면은 랜딩에서만 나온다.
+ * 랜딩 페이지도 같은 무대를 쓴다. 문서 관리 장면은 랜딩에서만 나온다.
  */
 
 export type TourScene = Exclude<OnboardingStep["id"], "start">;
@@ -448,7 +448,6 @@ const NODES: Record<string, GraphNode> = {
 const SX = 804 / 884;
 const SY = 556 / 596;
 const NEAR = Object.keys(NODES).filter((key) => NODES[key][4] === "near");
-/** 레나와 바로 이어진 노드를 감싸는 자리. 카메라가 이곳으로 다가간다. */
 const NEAR_BOX = (() => {
   const xs = ["lena", ...NEAR].map((key) => NODES[key][0] * SX);
   const ys = ["lena", ...NEAR].map((key) => NODES[key][1] * SY);
@@ -840,7 +839,10 @@ function useTyped(total: number, delay: number, step: number) {
   const [count, setCount] = useState(0);
   useEffect(() => {
     let timer = 0;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       const instant = window.setTimeout(() => setCount(total), 0);
       return () => window.clearTimeout(instant);
     }
@@ -918,7 +920,10 @@ function EditorView() {
           <span className={styles.spacer} />
           <SaveState count={typed} />
         </div>
-        <div className={cx(styles.docBody, styles.manuscriptBody)}>
+        <div
+          className={cx(styles.docBody, styles.manuscriptBody)}
+          data-focus="editor"
+        >
           <Enter delay={60} kind="fade" className={styles.docTitle}>
             12화 · 균열의 밤
             <Icon name="star" size={14} />

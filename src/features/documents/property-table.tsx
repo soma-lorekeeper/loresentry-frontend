@@ -515,7 +515,12 @@ export function PropertyTable({
 
   return (
     <>
-      <div className={styles.table} role="group" aria-label="속성">
+      <div
+        className={styles.table}
+        role="group"
+        aria-label="속성"
+        data-tour="properties"
+      >
         <div className={styles.row}>
           <div className={styles.identity}>
             <IconButton

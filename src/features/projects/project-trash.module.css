@@ -94,7 +94,6 @@
   background: var(--lk-color-surface-default);
 }
 
-/* 좁은 화면에서는 이름을 한 줄 다 쓰고, 복원·영구 삭제를 그 아래 줄에 둔다. */
 @media (max-width: 600px) {
   .row {
     flex-wrap: wrap;

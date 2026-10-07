@@ -455,13 +455,16 @@ export function WorkspaceSidebar() {
             icon={item.icon}
             label={item.label}
             selected={activeKind === item.kind}
+            data-tour={item.kind}
             onClick={() => open({ kind: item.kind })}
           />
         ))}
       </div>
       <div className={styles.nav}>
         <div className={styles.divider} />
-        <GraphRefreshItem />
+        <div data-tour="refresh">
+          <GraphRefreshItem />
+        </div>
       </div>
       <div className={styles.scroll}>
         <section className={styles.section} aria-label="즐겨찾기">
