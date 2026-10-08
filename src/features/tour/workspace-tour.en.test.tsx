@@ -6,6 +6,7 @@ import { createLayout } from "@/features/workspace/model/layout";
 import { WorkspaceProvider } from "@/features/workspace/workspace-context";
 import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
 import { renderWithServices, routerMock } from "@/test/render";
+import { TourStage } from "@/test/tour-stage";
 
 import { WorkspaceTour } from "./workspace-tour";
 
@@ -25,7 +26,7 @@ const user = {
 afterEach(() => window.localStorage.clear());
 
 describe("WorkspaceTour (English)", () => {
-  it("walks the four steps in English", async () => {
+  it("walks the tour in English, pressing the controls on Next", async () => {
     window.localStorage.setItem("loresentry.tour.workspace", "pending");
     const actor = userEvent.setup();
     const project = getDb().projects.find((p) => p.id === GLASS_GARDEN_ID)!;
@@ -35,9 +36,7 @@ describe("WorkspaceTour (English)", () => {
         user={user}
         initialLayout={createLayout({ kind: "new" })}
       >
-        {["editor", "properties", "refresh", "timeline"].map((name) => (
-          <div key={name} data-tour={name} />
-        ))}
+        <TourStage refreshDelay={50} />
         <WorkspaceTour />
       </WorkspaceProvider>,
     );
@@ -45,21 +44,32 @@ describe("WorkspaceTour (English)", () => {
     const first = await screen.findByRole("dialog", {
       name: "Write your chapters here",
     });
-    expect(screen.getByRole("list", { name: "Step 1 of 4" })).toBeVisible();
+    expect(screen.getByRole("list", { name: "Step 1 of 14" })).toBeVisible();
     expect(screen.getByRole("button", { name: "Skip" })).toBeInTheDocument();
     expect(first.textContent).not.toMatch(/[가-힣]/);
 
     for (const title of [
       "Link documents in the property table",
-      "After you write a new chapter",
+      "See your links as a graph",
+      "Focus on one document",
       "Track appearances in the timeline",
+      "Rows are documents, columns are chapters",
+      "After you write a new chapter",
+      "Changes found",
+      "Changed documents are listed here",
+      "Current on the left, proposed on the right",
+      "Apply once everything is settled",
     ]) {
-      await actor.click(screen.getByRole("button", { name: "Next" }));
-      const dialog = await screen.findByRole("dialog", { name: title });
+      await actor.click(screen.getByRole("button", { name: /^(Next|Done)$/ }));
+      const dialog = await screen.findByRole(
+        "dialog",
+        { name: title },
+        { timeout: 4000 },
+      );
       expect(dialog.textContent).not.toMatch(/[가-힣]/);
     }
     expect(screen.getByRole("button", { name: "Back" })).toBeInTheDocument();
     await actor.click(screen.getByRole("button", { name: "Done" }));
     await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
-  });
+  }, 15_000);
 });

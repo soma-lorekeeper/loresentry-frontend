@@ -2,6 +2,7 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
+  pointer-events: none;
 }
 
 .backdrop {
@@ -9,6 +10,19 @@
   inset: 0;
   width: 100%;
   height: 100%;
+}
+
+.catcher {
+  fill: transparent;
+  pointer-events: auto;
+}
+
+.ring {
+  fill: none;
+  stroke: var(--lk-color-accent-primary);
+  stroke-width: 2;
+  pointer-events: none;
+  animation: ring 1600ms var(--lk-ease) 320ms infinite both;
 }
 
 .scrim {
@@ -36,6 +50,7 @@
   color: var(--lk-color-text-primary);
   box-shadow: var(--lk-shadow-modal);
   outline: none;
+  pointer-events: auto;
   animation: cardIn 240ms var(--lk-ease) 60ms both;
 }
 
@@ -66,6 +81,10 @@
   background: var(--lk-color-accent-primary);
 }
 
+.chapterStart {
+  margin-left: 6px;
+}
+
 .title {
   font-family: var(--lk-font-stack-display);
   font-size: 17px;
@@ -79,6 +98,35 @@
   font-size: var(--lk-font-size-body);
   line-height: 1.6;
   word-break: keep-all;
+}
+
+.action {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lk-space-2);
+  margin-top: var(--lk-space-1);
+  padding: var(--lk-space-3);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-state-selected);
+  color: var(--lk-color-text-primary);
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.action > svg {
+  flex: none;
+  margin-top: 1px;
+  color: var(--lk-color-accent-primary);
+}
+
+.waiting {
+  background: var(--lk-color-surface-sunken);
+}
+
+.spin {
+  animation: spin 900ms linear infinite;
 }
 
 .footer {
@@ -124,6 +172,27 @@
   }
 }
 
+@keyframes ring {
+  0% {
+    stroke-opacity: 0;
+    stroke-width: 6;
+  }
+  35% {
+    stroke-opacity: 0.9;
+    stroke-width: 2;
+  }
+  100% {
+    stroke-opacity: 0.25;
+    stroke-width: 2;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes cardIn {
   from {
     opacity: 0;
@@ -140,7 +209,9 @@
 @media (prefers-reduced-motion: reduce) {
   .scrim,
   .hole,
-  .card {
+  .card,
+  .ring,
+  .spin {
     animation: none;
   }
 }

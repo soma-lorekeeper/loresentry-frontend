@@ -201,7 +201,7 @@ export function GraphView() {
       </div>
 
       <div className={styles.stage}>
-        <div className={styles.canvas}>
+        <div className={styles.canvas} data-tour="graph-canvas">
           {graph.isPending ? (
             <div className={styles.canvasLoading} aria-busy="true" />
           ) : isUnavailable(graph.error) ? (

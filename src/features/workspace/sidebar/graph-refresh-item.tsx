@@ -50,6 +50,7 @@ export function GraphRefreshItem() {
       <SidebarButton
         icon="loader-circle"
         label={t("작업공간::그래프 추출 중…")}
+        data-tour="refresh-running"
         disabled
         aria-busy="true"
         className={styles.extracting}
@@ -65,6 +66,7 @@ export function GraphRefreshItem() {
         <SidebarButton
           icon="git-compare-arrows"
           label={t("작업공간::변경 사항 반영")}
+          data-tour="refresh-review"
           selected={open}
           onClick={() => setReviewing(runId)}
         />
@@ -82,6 +84,7 @@ export function GraphRefreshItem() {
     <SidebarButton
       icon="refresh-cw"
       label={t("작업공간::그래프 최신화")}
+      data-tour="refresh-start"
       onClick={() =>
         start.mutate(undefined, {
           onError: () =>

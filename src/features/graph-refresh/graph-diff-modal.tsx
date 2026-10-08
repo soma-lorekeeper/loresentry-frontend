@@ -142,22 +142,24 @@ export function GraphDiffModal({
         label={t("새로 반영할 내용이 없어요")}
         className={styles.emptyModal}
       >
-        <EmptyState
-          icon="circle-check"
-          title={t("새로 반영할 내용이 없어요")}
-          description={t(
-            "최근 원고에서 설정 문서에 더할 내용을 찾지 못했어요. 원고를 더 쓴 뒤 다시 최신화해 주세요.",
-          )}
-          action={
-            <Button
-              variant="primary"
-              busy={actions.discard.isPending}
-              onClick={finish}
-            >
-              {t("확인")}
-            </Button>
-          }
-        />
+        <div data-tour="diff-empty">
+          <EmptyState
+            icon="circle-check"
+            title={t("새로 반영할 내용이 없어요")}
+            description={t(
+              "최근 원고에서 설정 문서에 더할 내용을 찾지 못했어요. 원고를 더 쓴 뒤 다시 최신화해 주세요.",
+            )}
+            action={
+              <Button
+                variant="primary"
+                busy={actions.discard.isPending}
+                onClick={finish}
+              >
+                {t("확인")}
+              </Button>
+            }
+          />
+        </div>
       </Modal>
     );
   }
@@ -178,6 +180,7 @@ export function GraphDiffModal({
         <Button
           size="sm"
           variant={allResolved ? "primary" : "outline"}
+          data-tour="diff-confirm"
           disabled={!allResolved}
           busy={actions.apply.isPending}
           onClick={confirm}
@@ -201,7 +204,11 @@ export function GraphDiffModal({
         />
       </header>
       <div className={styles.layout}>
-        <nav className={styles.list} aria-label={t("달라진 문서")}>
+        <nav
+          className={styles.list}
+          aria-label={t("달라진 문서")}
+          data-tour="diff-list"
+        >
           <span className={styles.listLabel}>
             <strong>
               {t("변경 {count}", { count: proposals.length - resolvedCount })}

@@ -11,6 +11,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 
+import { Icon } from "@/design-system/icons/icon";
 import { Button, IconButton } from "@/design-system/primitives";
 import { t } from "@/i18n";
 import { cx } from "@/shared/cx";
@@ -19,27 +20,79 @@ import { placeCard, type Placement, type Rect } from "./place-card";
 import styles from "./coach-mark.module.css";
 
 const HOLE_PAD = 6;
+const HOLE_RADIUS = 12;
 
 export interface CoachMarkProps {
   ready: boolean;
   target: Rect | null;
   step: number;
-  total: number;
+  chapters: readonly number[];
+  last: boolean;
   title: string;
   body: string;
+  action?: string;
+  waiting?: boolean;
   placement: readonly Placement[];
-  onBack: () => void;
+  onBack: (() => void) | null;
   onNext: () => void;
   onSkip: () => void;
+}
+
+function topModal(): HTMLElement | null {
+  const open = Array.from(document.querySelectorAll("dialog[open]"));
+  const modal = open.filter((dialog) => {
+    try {
+      return dialog.matches(":modal");
+    } catch {
+      return true;
+    }
+  });
+  return (modal.at(-1) as HTMLElement | undefined) ?? null;
+}
+
+function useLayerHost() {
+  const [host, setHost] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    const update = () => setHost(topModal());
+    update();
+    const observer = new MutationObserver(update);
+    observer.observe(document.body, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ["open"],
+    });
+    return () => observer.disconnect();
+  }, []);
+  return host ?? document.body;
+}
+
+function roundedRect({ left, top, width, height }: Rect, r: number) {
+  const radius = Math.min(r, width / 2, height / 2);
+  return [
+    `M${left + radius},${top}`,
+    `H${left + width - radius}`,
+    `A${radius},${radius} 0 0 1 ${left + width},${top + radius}`,
+    `V${top + height - radius}`,
+    `A${radius},${radius} 0 0 1 ${left + width - radius},${top + height}`,
+    `H${left + radius}`,
+    `A${radius},${radius} 0 0 1 ${left},${top + height - radius}`,
+    `V${top + radius}`,
+    `A${radius},${radius} 0 0 1 ${left + radius},${top}`,
+    "Z",
+  ].join(" ");
 }
 
 export function CoachMark({
   ready,
   target,
   step,
-  total,
+  chapters,
+  last,
   title,
   body,
+  action,
+  waiting = false,
   placement,
   onBack,
   onNext,
@@ -51,7 +104,17 @@ export function CoachMark({
   const cardRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   const [position, setPosition] = useState<{ left: number; top: number }>();
-  const last = step === total - 1;
+  const [viewport, setViewport] = useState({ width: 0, height: 0 });
+  const host = useLayerHost();
+  const interactive = Boolean(action) && !waiting;
+
+  useEffect(() => {
+    const measure = () =>
+      setViewport({ width: window.innerWidth, height: window.innerHeight });
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
 
   const hole = useMemo<Rect | null>(
     () =>
@@ -77,28 +140,30 @@ export function CoachMark({
         placement,
       ),
     );
-  }, [hole, placement, step]);
+  }, [hole, placement, step, host]);
 
   useEffect(() => {
-    if (ready) nextRef.current?.focus({ preventScroll: true });
-  }, [ready, step]);
+    if (!ready) return;
+    (nextRef.current ?? cardRef.current)?.focus({ preventScroll: true });
+  }, [ready, step, host, waiting]);
 
   useEffect(() => {
     const onKey = (event: globalThis.KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
+        event.stopPropagation();
         onSkip();
-      } else if (event.key === "ArrowRight") {
+      } else if (event.key === "ArrowRight" && !waiting) {
         event.preventDefault();
         onNext();
-      } else if (event.key === "ArrowLeft" && step > 0) {
+      } else if (event.key === "ArrowLeft" && onBack) {
         event.preventDefault();
         onBack();
       }
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onBack, onNext, onSkip, step]);
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
+  }, [onBack, onNext, onSkip, waiting]);
 
   const trapFocus = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key !== "Tab" || !cardRef.current) return;
@@ -117,6 +182,14 @@ export function CoachMark({
     }
   };
 
+  const frame = roundedRect(
+    { left: 0, top: 0, width: viewport.width, height: viewport.height },
+    0,
+  );
+  const catcher =
+    interactive && hole ? `${frame} ${roundedRect(hole, HOLE_RADIUS)}` : frame;
+  const total = chapters.length;
+
   return createPortal(
     <div className={styles.root}>
       <svg className={styles.backdrop} aria-hidden="true">
@@ -131,7 +204,7 @@ export function CoachMark({
                 y={hole.top}
                 width={hole.width}
                 height={hole.height}
-                rx={12}
+                rx={HOLE_RADIUS}
                 fill="black"
               />
             )}
@@ -143,15 +216,28 @@ export function CoachMark({
           className={styles.scrim}
           mask={`url(#${maskId})`}
         />
+        {interactive && hole && (
+          <rect
+            key={`ring-${step}`}
+            className={styles.ring}
+            x={hole.left}
+            y={hole.top}
+            width={hole.width}
+            height={hole.height}
+            rx={HOLE_RADIUS}
+          />
+        )}
+        <path className={styles.catcher} d={catcher} fillRule="evenodd" />
       </svg>
       {ready && (
         <div
           key={step}
           ref={cardRef}
           role="dialog"
-          aria-modal="true"
+          aria-modal={interactive ? undefined : "true"}
           aria-labelledby={titleId}
           aria-describedby={bodyId}
+          tabIndex={-1}
           className={cx(styles.card, !position && styles.measuring)}
           style={position}
           onKeyDown={trapFocus}
@@ -163,11 +249,14 @@ export function CoachMark({
               step: step + 1,
             })}
           >
-            {Array.from({ length: total }, (_, index) => (
+            {chapters.map((chapter, index) => (
               <li
                 key={index}
                 className={cx(
                   styles.segment,
+                  index > 0 &&
+                    chapters[index - 1] !== chapter &&
+                    styles.chapterStart,
                   index <= step && styles.segmentDone,
                 )}
               />
@@ -179,6 +268,19 @@ export function CoachMark({
           <p id={bodyId} className={styles.body}>
             {body}
           </p>
+          {action && (
+            <p
+              className={cx(styles.action, waiting && styles.waiting)}
+              role={waiting ? "status" : undefined}
+            >
+              <Icon
+                name={waiting ? "loader-circle" : "mouse-pointer-click"}
+                size={15}
+                className={cx(waiting && styles.spin)}
+              />
+              <span>{action}</span>
+            </p>
+          )}
           <div className={styles.footer}>
             {!last && (
               <button type="button" className={styles.skip} onClick={onSkip}>
@@ -186,7 +288,7 @@ export function CoachMark({
               </button>
             )}
             <div className={styles.actions}>
-              {step > 0 && (
+              {onBack && (
                 <IconButton
                   icon="arrow-left"
                   label={t("이전")}
@@ -195,19 +297,21 @@ export function CoachMark({
                   onClick={onBack}
                 />
               )}
-              <Button
-                ref={nextRef}
-                size="md"
-                variant="primary"
-                onClick={onNext}
-              >
-                {last ? t("투어::완료") : t("다음")}
-              </Button>
+              {!waiting && (
+                <Button
+                  ref={nextRef}
+                  size="md"
+                  variant="primary"
+                  onClick={onNext}
+                >
+                  {last ? t("투어::완료") : t("다음")}
+                </Button>
+              )}
             </div>
           </div>
         </div>
       )}
     </div>,
-    document.body,
+    host,
   );
 }

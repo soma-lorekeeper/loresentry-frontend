@@ -406,6 +406,7 @@ export function TimelineView() {
       ) : (
         <div
           className={styles.scroller}
+          data-tour="timeline-grid"
           tabIndex={0}
           role="grid"
           aria-label={t("타임라인")}

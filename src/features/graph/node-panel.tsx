@@ -62,7 +62,11 @@ export function NodePanel({
   if (!node) return null;
   const neighbors = neighborsOf(graph, nodeId);
   return (
-    <aside className={styles.nodePanel} aria-label={t("선택한 노드")}>
+    <aside
+      className={styles.nodePanel}
+      aria-label={t("선택한 노드")}
+      data-tour="node-panel"
+    >
       <header className={styles.nodePanelHeader}>
         <h2>{t("선택한 노드")}</h2>
         <IconButton
