@@ -185,4 +185,86 @@ describe("GraphDiffModal", () => {
       within(dialog).getByRole("button", { name: "반영 확정" }),
     ).toBeEnabled();
   });
+
+  it("labels preview proposals as such", async () => {
+    const run: RefreshRun = {
+      id: "run-preview",
+      projectId: GLASS_GARDEN_ID,
+      status: "READY",
+      startedAt: null,
+      sourceFileIds: [],
+      preview: true,
+      proposals: [
+        {
+          id: "p1",
+          kind: "modified",
+          fileId: "glass-garden:c-harin",
+          title: "하린",
+          docType: "character",
+          baseRevisionNo: 1,
+          current: {
+            title: "하린",
+            body: bodyFromPlainText("가"),
+            properties: [],
+          },
+          proposed: {
+            title: "하린",
+            body: bodyFromPlainText("나"),
+            properties: [],
+          },
+        },
+      ],
+    };
+    renderWithServices(
+      <WorkspaceProvider
+        project={getDb().projects.find((p) => p.id === GLASS_GARDEN_ID)!}
+        user={user}
+        initialLayout={createLayout()}
+      >
+        <GraphDiffModal run={run} open onClose={() => {}} />
+      </WorkspaceProvider>,
+    );
+    const dialog = await screen.findByRole("dialog");
+    expect(dialog).toHaveTextContent("미리보기 제안이에요.");
+  });
+
+  it("says there is nothing to apply and clears the run on confirmation", async () => {
+    const discard = vi.fn().mockResolvedValue({
+      id: "run-idle",
+      projectId: GLASS_GARDEN_ID,
+      status: "IDLE",
+      startedAt: null,
+      sourceFileIds: [],
+      proposals: [],
+    });
+    const onClose = vi.fn();
+    const actor = userEvent.setup();
+    const run: RefreshRun = {
+      id: "run-empty",
+      projectId: GLASS_GARDEN_ID,
+      status: "READY",
+      startedAt: null,
+      sourceFileIds: [],
+      proposals: [],
+    };
+    renderWithServices(
+      <WorkspaceProvider
+        project={getDb().projects.find((p) => p.id === GLASS_GARDEN_ID)!}
+        user={user}
+        initialLayout={createLayout()}
+      >
+        <GraphDiffModal run={run} open onClose={onClose} />
+      </WorkspaceProvider>,
+      { refresh: { discard } },
+    );
+    const dialog = await screen.findByRole("dialog", {
+      name: "새로 반영할 내용이 없어요",
+    });
+    expect(
+      within(dialog).queryByRole("button", { name: "반영 확정" }),
+    ).not.toBeInTheDocument();
+    await actor.click(within(dialog).getByRole("button", { name: "확인" }));
+    await waitFor(() => expect(onClose).toHaveBeenCalled());
+    expect(discard).toHaveBeenCalledWith(GLASS_GARDEN_ID, "run-empty");
+  });
 });

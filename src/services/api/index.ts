@@ -10,6 +10,7 @@ import { createApiFiles } from "./files";
 import { ApiClient } from "./http";
 import { createApiMemos } from "./memos";
 import { createApiProjects } from "./projects";
+import { createApiRefresh } from "./refresh";
 import { unavailableServices } from "./unavailable";
 import { createApiWorkspaceState } from "./workspace-state";
 
@@ -25,21 +26,22 @@ import { createApiWorkspaceState } from "./workspace-state";
 export function createApiServices(baseUrl: string): Partial<Services> {
   const client = new ApiClient(baseUrl);
   const documents = createApiDocuments(client);
+  const files = createApiFiles(client, new ApiFavoriteStore(client));
+  const versions = createApiVersions(client, documents);
 
   return {
     auth: createApiAuth(client),
     account: createApiAccount(client),
     projects: createApiProjects(client),
-    files: createApiFiles(client, new ApiFavoriteStore(client)),
+    files,
     documents,
-    versions: createApiVersions(client, documents),
+    versions,
     memos: createApiMemos(client),
     workspaceState: createApiWorkspaceState(client),
     graph: createApiGraph(client),
     feedback: createApiFeedback(client),
     help: createApiHelp(),
-    // 아직 서버에 없다: refresh, chat. 각각 AI 최신화, LLM 을 기다린다.
-    // mock 으로 덮어 두면 가짜 자료를 진짜처럼 보여 준다.
+    refresh: createApiRefresh({ files, documents, versions }),
     ...unavailableServices(),
   };
 }

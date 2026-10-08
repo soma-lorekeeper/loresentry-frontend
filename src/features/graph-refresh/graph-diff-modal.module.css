@@ -80,6 +80,19 @@
   overflow-y: auto;
 }
 
+.previewNote {
+  margin: auto 0 0;
+  padding: var(--lk-space-3) var(--lk-space-4) var(--lk-space-4);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  line-height: 1.5;
+}
+
+.emptyModal {
+  width: min(440px, calc(100vw - 32px));
+  padding: var(--lk-space-7) var(--lk-space-6);
+}
+
 .item {
   display: flex;
   align-items: center;
@@ -652,6 +665,110 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
+}
+
+@media (max-width: 720px) {
+  .modal {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+  }
+
+  .header {
+    flex-wrap: wrap;
+    height: auto;
+    padding: var(--lk-space-3) var(--lk-space-3) var(--lk-space-3)
+      var(--lk-space-4);
+  }
+
+  .title {
+    flex: 1 0 calc(100% - 48px);
+    font-size: 17px;
+    white-space: nowrap;
+  }
+
+  .header > :last-child {
+    order: 1;
+  }
+
+  .header > button:not(:last-child) {
+    order: 2;
+  }
+
+  .layout {
+    flex-direction: column;
+  }
+
+  .list {
+    width: auto;
+    margin: var(--lk-space-2) var(--lk-space-3) 0;
+  }
+
+  .list > ul {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+
+  .list > ul > li {
+    flex: none;
+  }
+
+  .item {
+    width: auto;
+    max-width: 200px;
+  }
+
+  .previewNote {
+    margin: 0;
+    padding: 0 var(--lk-space-4) var(--lk-space-3);
+  }
+
+  .main {
+    padding: var(--lk-space-4) var(--lk-space-3);
+  }
+
+  .main > * {
+    flex: none;
+  }
+
+  .docHeader > h3 {
+    font-size: 19px;
+  }
+
+  .status {
+    flex-wrap: wrap;
+    padding: var(--lk-space-2) var(--lk-space-2) var(--lk-space-2)
+      var(--lk-space-3);
+  }
+
+  .status > span {
+    flex-basis: 100%;
+  }
+
+  .heads,
+  .sheets {
+    grid-template-columns: minmax(0, 1fr) 36px minmax(0, 1fr);
+  }
+
+  .heads > span:first-child,
+  .heads > span:last-child {
+    padding: 0 var(--lk-space-3);
+  }
+
+  .cell {
+    grid-template-columns: minmax(0, 1fr);
+    padding: var(--lk-space-1) var(--lk-space-2) 0 var(--lk-space-3);
+  }
+
+  .label {
+    padding-top: var(--lk-space-1);
+  }
+
+  .arrows {
+    flex-direction: column;
+  }
 }
 
 @media (hover: none) {

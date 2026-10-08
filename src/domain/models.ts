@@ -221,6 +221,7 @@ export interface RefreshRun {
   startedAt: IsoDateTime | null;
   sourceFileIds: string[];
   proposals: RefreshProposal[];
+  preview?: boolean;
 }
 
 export type ExportFormat = "pdf" | "docx" | "md" | "txt" | "hwp";
