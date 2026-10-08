@@ -19,7 +19,7 @@ export function GraphRefreshItem() {
   const toast = useToast();
   const run = useRefreshRun(projectId);
   const { start } = useRefreshActions(projectId);
-  const [reviewing, setReviewing] = useState(false);
+  const [reviewing, setReviewing] = useState<string | null>(null);
   const status = run.data?.status ?? "IDLE";
   const previous = useRef(status);
 
@@ -58,19 +58,21 @@ export function GraphRefreshItem() {
   }
 
   if (status === "READY" && run.data) {
+    const open = reviewing === run.data.id;
+    const runId = run.data.id;
     return (
       <>
         <SidebarButton
           icon="git-compare-arrows"
           label={t("작업공간::변경 사항 반영")}
-          selected={reviewing}
-          onClick={() => setReviewing(true)}
+          selected={open}
+          onClick={() => setReviewing(runId)}
         />
         <GraphDiffModal
-          key={run.data.id}
+          key={runId}
           run={run.data}
-          open={reviewing}
-          onClose={() => setReviewing(false)}
+          open={open}
+          onClose={() => setReviewing(null)}
         />
       </>
     );

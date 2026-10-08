@@ -113,10 +113,13 @@ export function GraphDiffModal({
     setState(ids.reduce((acc, id) => adoptDocument(acc, id, side), state));
 
   const confirm = () =>
-    actions.apply.mutate(
-      { runId: run.id, resolved: resolvedDrafts(state, proposals) },
-      {
-        onSuccess: () => {
+    actions.apply
+      .mutateAsync({
+        runId: run.id,
+        resolved: resolvedDrafts(state, proposals),
+      })
+      .then(
+        () => {
           onClose();
           toast({
             icon: "circle-check",
@@ -124,14 +127,14 @@ export function GraphDiffModal({
             description: t("반영 전 상태는 각 문서의 버전 기록에 남아 있어요."),
           });
         },
-      },
-    );
+        () => {},
+      );
 
   const remaining = selected ? remainingOf(state, selected.fileId) : 0;
 
   if (proposals.length === 0) {
     const finish = () =>
-      actions.discard.mutate(run.id, { onSettled: () => onClose() });
+      actions.discard.mutateAsync(run.id).then(onClose, onClose);
     return (
       <Modal
         open={open}
