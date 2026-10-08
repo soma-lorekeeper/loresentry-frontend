@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { SidebarButton, useToast } from "@/design-system/primitives";
 import { GraphDiffModal } from "@/features/graph-refresh/graph-diff-modal";
@@ -21,6 +21,18 @@ export function GraphRefreshItem() {
   const { start } = useRefreshActions(projectId);
   const [reviewing, setReviewing] = useState(false);
   const status = run.data?.status ?? "IDLE";
+  const previous = useRef(status);
+
+  useEffect(() => {
+    if (previous.current === "RUNNING" && status === "FAILED") {
+      toast({
+        icon: "triangle-alert",
+        title: t("그래프 최신화를 마치지 못했어요."),
+        description: t("작업공간::잠시 후 다시 시도해 주세요."),
+      });
+    }
+    previous.current = status;
+  }, [status, toast]);
 
   // 서버에 최신화가 아직 없다. 누르면 실패할 버튼을 누를 수 있게 두지 않는다.
   if (isUnavailable(run.error)) {

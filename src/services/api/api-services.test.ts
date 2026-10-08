@@ -879,14 +879,26 @@ describe("wiring", () => {
       apiBaseUrl: BASE,
     });
 
-    // mock 을 그대로 두면 그럴듯한 가짜 최신화·대화를 진짜처럼 보여 준다.
-    const asked = [wired.refresh.current("p-1"), wired.chat.sessions("p-1")];
-
-    for (const promise of asked) {
-      const error = await promise.catch((cause: unknown) => cause);
-      expect(isServiceError(error) && error.code).toBe("unavailable");
-    }
+    // mock 을 그대로 두면 그럴듯한 가짜 대화를 진짜처럼 보여 준다.
+    const error = await wired.chat
+      .sessions("p-1")
+      .catch((cause: unknown) => cause);
+    expect(isServiceError(error) && error.code).toBe("unavailable");
     // 요청을 보내지도 않는다. 서버에 그 경로가 없다.
+    expect(calls).toHaveLength(0);
+  });
+
+  it("runs graph refresh in the browser as a preview until the AI server exists", async () => {
+    const wired = createServices({
+      ...DEFAULT_RUNTIME_CONFIG,
+      dataSource: "api",
+      apiBaseUrl: BASE,
+    });
+
+    expect(await wired.refresh.current("p-1")).toMatchObject({
+      status: "IDLE",
+      preview: true,
+    });
     expect(calls).toHaveLength(0);
   });
 
@@ -923,7 +935,6 @@ describe("wiring", () => {
     // 서버에 없는 포트는 mock 이 아니다. 거절하는 구현으로 바뀐다.
     expect(wired.chat).not.toBe(mock.chat);
     expect(wired.graph).not.toBe(mock.graph);
-    expect(wired.refresh).not.toBe(mock.refresh);
     expect(wired.refresh).not.toBe(mock.refresh);
     expect(wired.help).not.toBe(mock.help);
   });

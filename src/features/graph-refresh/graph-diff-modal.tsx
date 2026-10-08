@@ -129,6 +129,36 @@ export function GraphDiffModal({
 
   const remaining = selected ? remainingOf(state, selected.fileId) : 0;
 
+  if (proposals.length === 0) {
+    const finish = () =>
+      actions.discard.mutate(run.id, { onSettled: () => onClose() });
+    return (
+      <Modal
+        open={open}
+        onClose={onClose}
+        label={t("새로 반영할 내용이 없어요")}
+        className={styles.emptyModal}
+      >
+        <EmptyState
+          icon="circle-check"
+          title={t("새로 반영할 내용이 없어요")}
+          description={t(
+            "최근 원고에서 설정 문서에 더할 내용을 찾지 못했어요. 원고를 더 쓴 뒤 다시 최신화해 주세요.",
+          )}
+          action={
+            <Button
+              variant="primary"
+              busy={actions.discard.isPending}
+              onClick={finish}
+            >
+              {t("확인")}
+            </Button>
+          }
+        />
+      </Modal>
+    );
+  }
+
   return (
     <Modal
       open={open}
@@ -212,6 +242,13 @@ export function GraphDiffModal({
               );
             })}
           </ul>
+          {run.preview && (
+            <p className={styles.previewNote}>
+              {t(
+                "미리보기 제안이에요. 지금은 최근 원고에서 문서 이름이 나온 문장을 모아 만들어요.",
+              )}
+            </p>
+          )}
         </nav>
         <div className={styles.main}>
           {!selected ? (

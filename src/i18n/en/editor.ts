@@ -248,4 +248,14 @@ export default {
     "Some edits aren't saved yet. Save them before you restore.",
   "버전 저장": "Save version",
   "이 버전으로 복원": "Restore this version",
+  "‘{chapter}’에서: {sentence}": "In ‘{chapter}’: {sentence}",
+  "{chapter}에서 생긴 일": "What happened in {chapter}",
+  "‘{chapter}’에서 정리했어요.": "Summarized from ‘{chapter}’.",
+  "그래프 최신화 반영 전": "Before graph refresh",
+  "새로 반영할 내용이 없어요": "Nothing new to apply",
+  "최근 원고에서 설정 문서에 더할 내용을 찾지 못했어요. 원고를 더 쓴 뒤 다시 최신화해 주세요.":
+    "Your recent chapters don't add anything to your setting documents yet. Write more, then refresh again.",
+  "미리보기 제안이에요. 지금은 최근 원고에서 문서 이름이 나온 문장을 모아 만들어요.":
+    "These are preview suggestions, built from sentences in your recent chapters that mention a document by name.",
+  "그래프 최신화를 마치지 못했어요.": "Graph refresh didn't finish.",
 } satisfies Messages;

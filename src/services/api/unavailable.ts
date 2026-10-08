@@ -1,7 +1,7 @@
 import { t } from "@/i18n";
 
 import { ServiceError } from "../errors";
-import type { ChatService, RefreshService, Services } from "../ports";
+import type { ChatService, Services } from "../ports";
 
 /**
  * 서버가 아직 없는 포트들. **mock 으로 채우지 않는다.**
@@ -18,13 +18,6 @@ function unavailable<T>(): Promise<T> {
   );
 }
 
-const refresh: RefreshService = {
-  current: () => unavailable(),
-  start: () => unavailable(),
-  apply: () => unavailable(),
-  discard: () => unavailable(),
-};
-
 const chat: ChatService = {
   sessions: () => unavailable(),
   createSession: () => unavailable(),
@@ -34,6 +27,6 @@ const chat: ChatService = {
   send: () => unavailable(),
 };
 
-export function unavailableServices(): Pick<Services, "refresh" | "chat"> {
-  return { refresh, chat };
+export function unavailableServices(): Pick<Services, "chat"> {
+  return { chat };
 }

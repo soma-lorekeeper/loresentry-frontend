@@ -364,13 +364,13 @@ export function createApiVersions(
       return body.versions.map((version) => toVersion(version, docType));
     },
 
-    saveNamed: async (fileId) => {
+    saveNamed: async (fileId, label) => {
       const docType = await docTypeOf(fileId);
       const version = await client.request<ApiVersion>(
         `/files/${fileId}/versions`,
         {
           method: "POST",
-          body: { label: null },
+          body: { label: label ?? null },
           operation: "versions.saveNamed",
         },
       );

@@ -126,7 +126,7 @@ export interface DocumentService {
 
 export interface VersionService {
   list(fileId: string): Promise<DocumentVersion[]>;
-  saveNamed(fileId: string): Promise<DocumentVersion>;
+  saveNamed(fileId: string, label?: string): Promise<DocumentVersion>;
   // 요구사항 §6.2: 복원 전에 현재 상태를 PRE_RESTORE 버전으로 먼저 남긴다.
   restore(
     fileId: string,
