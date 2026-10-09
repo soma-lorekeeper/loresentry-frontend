@@ -3,7 +3,10 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { createLayout } from "@/features/workspace/model/layout";
-import { WorkspaceProvider } from "@/features/workspace/workspace-context";
+import {
+  useWorkspace,
+  WorkspaceProvider,
+} from "@/features/workspace/workspace-context";
 import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
 import { renderWithServices, routerMock } from "@/test/render";
 import { TourStage } from "@/test/tour-stage";
@@ -25,17 +28,24 @@ const user = {
   onboardingCompleted: true,
 };
 
+function SidebarProbe() {
+  const { layout } = useWorkspace();
+  return <output data-testid="sidebar">{String(layout.sidebarOpen)}</output>;
+}
+
 function renderTour(
   options: Parameters<typeof renderWithServices>[1] = {},
   stage: Parameters<typeof TourStage>[0] = {},
+  sidebarOpen = true,
 ) {
   const project = getDb().projects.find((p) => p.id === GLASS_GARDEN_ID)!;
   return renderWithServices(
     <WorkspaceProvider
       project={project}
       user={user}
-      initialLayout={createLayout({ kind: "new" })}
+      initialLayout={{ ...createLayout({ kind: "new" }), sidebarOpen }}
     >
+      <SidebarProbe />
       <TourStage {...stage} />
       <WorkspaceTour />
     </WorkspaceProvider>,
@@ -111,6 +121,29 @@ describe("WorkspaceTour", () => {
     await actor.click(screen.getByRole("button", { name: "이전" }));
     await card("한 문서에 집중해요");
   });
+
+  it("opens a closed sidebar only for the steps that point into it", async () => {
+    window.localStorage.setItem("loresentry.tour.workspace", "pending");
+    const actor = userEvent.setup();
+    renderTour({}, {}, false);
+    const sidebar = () => screen.getByTestId("sidebar").textContent;
+
+    await card("원고는 여기서 써요");
+    expect(sidebar()).toBe("false");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("속성 표로 문서를 이어요");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("이은 관계는 그래프로 봐요");
+    expect(sidebar()).toBe("true");
+    await actor.click(screen.getByRole("button", { name: "stage graph" }));
+    await card("한 문서에 집중해요");
+    await waitFor(() => expect(sidebar()).toBe("false"));
+    await actor.click(screen.getByRole("button", { name: "stage node" }));
+    await card("이어진 문서가 모여요");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("회차별 등장은 타임라인에서");
+    expect(sidebar()).toBe("true");
+  }, 15_000);
 
   it("leaves out graph refresh while the server has no refresh", async () => {
     window.localStorage.setItem("loresentry.tour.workspace", "pending");

@@ -421,6 +421,14 @@ export function WorkspaceTour() {
     if (step.sidebar && !current.sidebarOpen) {
       openedSidebar.current = true;
       current.dispatch({ type: "toggleSidebar" });
+    } else if (
+      !step.sidebar &&
+      openedSidebar.current &&
+      current.sidebarOpen &&
+      !document.querySelector("dialog[open]")
+    ) {
+      openedSidebar.current = false;
+      current.dispatch({ type: "toggleSidebar" });
     }
   }, [step]);
 
