@@ -11,6 +11,8 @@ import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
 import { renderWithServices, routerMock } from "@/test/render";
 import { TourStage } from "@/test/tour-stage";
 import { ServiceError } from "@/services/errors";
+import type { RefreshRun } from "@/domain/models";
+import { useRefreshActions } from "@/features/graph-refresh/queries";
 
 import { requestTour } from "./tour-state";
 import { WorkspaceTour } from "./workspace-tour";
@@ -29,8 +31,20 @@ const user = {
 };
 
 function SidebarProbe() {
-  const { layout } = useWorkspace();
-  return <output data-testid="sidebar">{String(layout.sidebarOpen)}</output>;
+  const { layout, projectId } = useWorkspace();
+  const { start } = useRefreshActions(projectId);
+  const tabs = layout.panes.flatMap((pane) => pane.tabs);
+  return (
+    <>
+      <output data-testid="sidebar">{String(layout.sidebarOpen)}</output>
+      <output data-testid="tabs">
+        {tabs.map((tab) => tab.target.kind).join(",")}
+      </output>
+      <button type="button" onClick={() => start.mutate()}>
+        stage real refresh
+      </button>
+    </>
+  );
 }
 
 function renderTour(
@@ -169,6 +183,68 @@ describe("WorkspaceTour", () => {
       screen.getByRole("button", { name: "stage refresh" }),
     ).toBeInTheDocument();
   }, 15_000);
+
+  it("puts the workspace back as it was and drops the refresh it started", async () => {
+    window.localStorage.setItem("loresentry.tour.workspace", "pending");
+    const actor = userEvent.setup();
+    const idle: RefreshRun = {
+      id: "run-idle",
+      projectId: GLASS_GARDEN_ID,
+      status: "IDLE",
+      startedAt: null,
+      sourceFileIds: [],
+      proposals: [],
+    };
+    let run = idle;
+    const discard = vi.fn(async () => (run = idle));
+    renderTour({
+      refresh: {
+        current: async () => run,
+        start: async () => (run = { ...idle, id: "run-tour", status: "READY" }),
+        discard,
+      },
+    });
+
+    await card("원고는 여기서 써요");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("속성 표로 문서를 이어요");
+    expect(screen.getByTestId("tabs").textContent).toBe("file,file");
+    await actor.click(
+      screen.getByRole("button", { name: "stage real refresh" }),
+    );
+    await waitFor(() => expect(run.id).toBe("run-tour"));
+    await actor.keyboard("{Escape}");
+
+    await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+    await waitFor(() =>
+      expect(discard).toHaveBeenCalledWith(GLASS_GARDEN_ID, "run-tour"),
+    );
+    expect(screen.getByTestId("tabs").textContent).toBe("new");
+  });
+
+  it("keeps a refresh that was there before the tour", async () => {
+    window.localStorage.setItem("loresentry.tour.workspace", "pending");
+    const actor = userEvent.setup();
+    const discard = vi.fn();
+    renderTour({
+      refresh: {
+        current: async () => ({
+          id: "run-earlier",
+          projectId: GLASS_GARDEN_ID,
+          status: "READY",
+          startedAt: null,
+          sourceFileIds: [],
+          proposals: [],
+        }),
+        discard,
+      },
+    });
+
+    await card("원고는 여기서 써요");
+    await actor.keyboard("{Escape}");
+    await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+    expect(discard).not.toHaveBeenCalled();
+  });
 
   it("leaves out graph refresh while the server has no refresh", async () => {
     window.localStorage.setItem("loresentry.tour.workspace", "pending");

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { SidebarButton, useToast } from "@/design-system/primitives";
 import { GraphDiffModal } from "@/features/graph-refresh/graph-diff-modal";
+import { onTourEnd } from "@/features/tour/tour-state";
 import { isUnavailable } from "@/features/common/preparing-state";
 import {
   useRefreshActions,
@@ -22,6 +23,8 @@ export function GraphRefreshItem() {
   const [reviewing, setReviewing] = useState<string | null>(null);
   const status = run.data?.status ?? "IDLE";
   const previous = useRef(status);
+
+  useEffect(() => onTourEnd(() => setReviewing(null)), []);
 
   useEffect(() => {
     if (previous.current === "RUNNING" && status === "FAILED") {

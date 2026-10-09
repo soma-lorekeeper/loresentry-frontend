@@ -4,8 +4,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import type { FileNode } from "@/domain/models";
 import { isUnavailable } from "@/features/common/preparing-state";
-import { useRefreshRun } from "@/features/graph-refresh/queries";
-import type { WorkspaceTarget } from "@/features/workspace/model/layout";
+import {
+  useRefreshActions,
+  useRefreshRun,
+} from "@/features/graph-refresh/queries";
+import type {
+  WorkspaceLayout,
+  WorkspaceTarget,
+} from "@/features/workspace/model/layout";
 import { isDocument } from "@/features/workspace/model/tree";
 import { useFileTree } from "@/features/workspace/queries";
 import { useWorkspace } from "@/features/workspace/workspace-context";
@@ -13,7 +19,12 @@ import { t } from "@/i18n";
 
 import { CoachMark } from "./coach-mark";
 import type { Placement, Rect } from "./place-card";
-import { onTourRequest, readTour, writeTour } from "./tour-state";
+import {
+  announceTourEnd,
+  onTourRequest,
+  readTour,
+  writeTour,
+} from "./tour-state";
 
 interface TourStep {
   title: string;
@@ -200,7 +211,7 @@ function buildSteps(
     refreshAvailable && {
       title: t("다 정하면 반영해요"),
       body: t(
-        "모든 문서를 정하면 ‘반영 확정’이 켜져요. 반영 전 상태는 버전 기록에 남아요. 이 투어는 도움말에서 다시 볼 수 있어요.",
+        "모든 문서를 정하면 ‘반영 확정’이 켜지고, 반영 전 상태는 버전 기록에 남아요. 완료하면 이 창을 닫고 처음 화면으로 돌아가요.",
       ),
       target: "diff-confirm",
       chapter: 2,
@@ -210,7 +221,7 @@ function buildSteps(
     refreshAvailable && {
       title: t("이번엔 바뀔 점이 없어요"),
       body: t(
-        "원고를 더 쓴 뒤 다시 최신화하면 이 창에 제안이 모여요. 이 투어는 도움말에서 다시 볼 수 있어요.",
+        "원고를 더 쓴 뒤 다시 최신화하면 이 창에 제안이 모여요. 완료하면 이 창을 닫고 처음 화면으로 돌아가요.",
       ),
       target: "diff-empty",
       chapter: 2,
@@ -399,6 +410,7 @@ export function WorkspaceTour() {
   const { projectId, open, layout, dispatch } = useWorkspace();
   const tree = useFileTree(projectId);
   const refresh = useRefreshRun(projectId);
+  const { discard } = useRefreshActions(projectId);
   const refreshAvailable = !isUnavailable(refresh.error);
   const [index, setIndex] = useState<number | null>(null);
   const steps = useMemo(
@@ -406,20 +418,39 @@ export function WorkspaceTour() {
     [tree.data, refreshAvailable],
   );
   const openedSidebar = useRef(false);
-  const latest = useRef({ open, dispatch, sidebarOpen: layout.sidebarOpen });
+  const before = useRef<{
+    layout: WorkspaceLayout;
+    runId: string | null;
+  } | null>(null);
+  const snapshot = () => ({
+    open,
+    dispatch,
+    layout,
+    sidebarOpen: layout.sidebarOpen,
+    run: refresh.data ?? null,
+    discard: discard.mutate,
+  });
+  const latest = useRef(snapshot());
 
   useEffect(() => {
-    latest.current = { open, dispatch, sidebarOpen: layout.sidebarOpen };
+    latest.current = snapshot();
   });
+
+  const begin = useCallback(() => {
+    const current = latest.current;
+    before.current = { layout: current.layout, runId: current.run?.id ?? null };
+    openedSidebar.current = false;
+    setIndex(0);
+  }, []);
 
   useEffect(() => {
     if (!tree.isSuccess || refresh.isPending || readTour() !== "pending")
       return;
-    const timer = window.setTimeout(() => setIndex(0), 500);
+    const timer = window.setTimeout(begin, 500);
     return () => window.clearTimeout(timer);
-  }, [tree.isSuccess, refresh.isPending]);
+  }, [tree.isSuccess, refresh.isPending, begin]);
 
-  useEffect(() => onTourRequest(() => setIndex(0)), []);
+  useEffect(() => onTourRequest(begin), [begin]);
 
   const step = index === null ? null : (steps[index] ?? null);
 
@@ -446,13 +477,22 @@ export function WorkspaceTour() {
   const end = useCallback(() => {
     writeTour("done");
     setIndex(null);
+    announceTourEnd();
+    const current = latest.current;
+    const run = current.run;
     if (
-      openedSidebar.current &&
-      latest.current.sidebarOpen &&
-      !document.querySelector("dialog[open]")
+      run &&
+      (run.status === "RUNNING" || run.status === "READY") &&
+      run.id !== before.current?.runId
     ) {
-      latest.current.dispatch({ type: "toggleSidebar" });
+      current.discard(run.id);
     }
+    if (before.current) {
+      current.dispatch({ type: "replace", layout: before.current.layout });
+    } else if (openedSidebar.current && current.sidebarOpen) {
+      current.dispatch({ type: "toggleSidebar" });
+    }
+    before.current = null;
     openedSidebar.current = false;
   }, []);
 
