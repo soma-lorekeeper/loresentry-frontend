@@ -1,12 +1,18 @@
 import { useState } from "react";
 
+import { useWorkspace } from "@/features/workspace/workspace-context";
+
 export function TourStage({
   refreshDelay = 300,
   refresh = true,
+  drawer = false,
 }: {
   refreshDelay?: number;
   refresh?: boolean;
+  drawer?: boolean;
 }) {
+  const { layout } = useWorkspace();
+  const sidebar = !drawer || layout.sidebarOpen;
   const [graph, setGraph] = useState(false);
   const [panel, setPanel] = useState(false);
   const [timeline, setTimeline] = useState(false);
@@ -17,9 +23,11 @@ export function TourStage({
     <>
       <div data-tour="editor" />
       <div data-tour="properties" />
-      <button type="button" data-tour="graph" onClick={() => setGraph(true)}>
-        stage graph
-      </button>
+      {sidebar && (
+        <button type="button" data-tour="graph" onClick={() => setGraph(true)}>
+          stage graph
+        </button>
+      )}
       {graph && (
         <div data-tour="graph-canvas">
           <button type="button" onClick={() => setPanel(true)}>
@@ -28,15 +36,17 @@ export function TourStage({
         </div>
       )}
       {panel && <aside data-tour="node-panel" />}
-      <button
-        type="button"
-        data-tour="timeline"
-        onClick={() => setTimeline(true)}
-      >
-        stage timeline
-      </button>
+      {sidebar && (
+        <button
+          type="button"
+          data-tour="timeline"
+          onClick={() => setTimeline(true)}
+        >
+          stage timeline
+        </button>
+      )}
       {timeline && <div data-tour="timeline-grid" />}
-      {refresh && run === "idle" && (
+      {sidebar && refresh && run === "idle" && (
         <button
           type="button"
           data-tour="refresh-start"
@@ -48,12 +58,12 @@ export function TourStage({
           stage refresh
         </button>
       )}
-      {run === "running" && (
+      {sidebar && run === "running" && (
         <button type="button" data-tour="refresh-running" disabled>
           stage running
         </button>
       )}
-      {run === "ready" && (
+      {sidebar && run === "ready" && (
         <button
           type="button"
           data-tour="refresh-review"

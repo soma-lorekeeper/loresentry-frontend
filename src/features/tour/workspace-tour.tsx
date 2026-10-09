@@ -236,11 +236,20 @@ function nextIndex(steps: readonly TourStep[], from: number) {
   return null;
 }
 
-function hasNext(steps: readonly TourStep[], from: number) {
+function hasNext(
+  steps: readonly TourStep[],
+  from: number,
+  sidebarOpen: boolean,
+) {
   const coming = new Set(steps[from]?.advanceOn ?? []);
   return steps
     .slice(from + 1)
-    .some((step) => eligible(step) || (step.when && coming.has(step.when)));
+    .some(
+      (step) =>
+        eligible(step) ||
+        (step.when && coming.has(step.when)) ||
+        (step.sidebar && !sidebarOpen),
+    );
 }
 
 function previousIndex(steps: readonly TourStep[], from: number) {
@@ -447,12 +456,32 @@ export function WorkspaceTour() {
     openedSidebar.current = false;
   }, []);
 
+  const [resolving, setResolving] = useState<number | null>(null);
+
   const forward = useCallback(() => {
     if (index === null) return;
+    const current = latest.current;
+    if (steps[index + 1]?.sidebar && !current.sidebarOpen) {
+      openedSidebar.current = true;
+      current.dispatch({ type: "toggleSidebar" });
+      setResolving(index);
+      return;
+    }
     const following = nextIndex(steps, index);
     if (following === null) end();
     else setIndex(following);
   }, [end, index, steps]);
+
+  useEffect(() => {
+    if (resolving === null || !layout.sidebarOpen) return;
+    const frame = window.requestAnimationFrame(() => {
+      setResolving(null);
+      const following = nextIndex(steps, resolving);
+      if (following === null) end();
+      else setIndex(following);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [resolving, layout.sidebarOpen, steps, end]);
 
   useAppears(step?.advanceOn, forward);
 
@@ -487,7 +516,7 @@ export function WorkspaceTour() {
       target={rect}
       step={index}
       chapters={steps.map((item) => item.chapter)}
-      last={!hasNext(steps, index)}
+      last={!hasNext(steps, index, layout.sidebarOpen)}
       title={step.title}
       body={step.body}
       action={step.action}
