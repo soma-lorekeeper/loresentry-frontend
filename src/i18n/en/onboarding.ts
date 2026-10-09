@@ -79,11 +79,11 @@ export default {
   "가운데 화살표로 한 줄씩 옮기거나 양쪽을 직접 고쳐요. 두 쪽이 같아지면 그 문서는 정해져요.":
     "Move lines across with the arrows in the middle, or edit either side. A document is settled once both sides match.",
   "다 정하면 반영해요": "Apply once everything is settled",
-  "모든 문서를 정하면 ‘반영 확정’이 켜져요. 반영 전 상태는 버전 기록에 남아요. 이 투어는 도움말에서 다시 볼 수 있어요.":
-    "‘Apply changes’ turns on when every document is settled. Each document keeps its earlier state in its version history. You can replay this tour from Help.",
+  "모든 문서를 정하면 ‘반영 확정’이 켜지고, 반영 전 상태는 버전 기록에 남아요. 완료하면 이 창을 닫고 처음 화면으로 돌아가요.":
+    "‘Apply changes’ turns on once every document is settled, and each document keeps its earlier state in its version history. Done closes this window and takes you back to where you started.",
   "이번엔 바뀔 점이 없어요": "Nothing to change this time",
-  "원고를 더 쓴 뒤 다시 최신화하면 이 창에 제안이 모여요. 이 투어는 도움말에서 다시 볼 수 있어요.":
-    "Write more, refresh again, and suggestions will gather here. You can replay this tour from Help.",
+  "원고를 더 쓴 뒤 다시 최신화하면 이 창에 제안이 모여요. 완료하면 이 창을 닫고 처음 화면으로 돌아가요.":
+    "Write more, refresh again, and suggestions will gather here. Done closes this window and takes you back to where you started.",
   "이은 관계는 그래프로 봐요": "See your links as a graph",
   "속성 표에서 이은 문서가 그래프의 점과 선이 돼요.":
     "Documents you link in property tables become the graph's nodes and lines.",
