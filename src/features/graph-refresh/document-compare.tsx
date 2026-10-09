@@ -392,7 +392,7 @@ export function DocumentCompare({
       : null;
 
   return (
-    <div className={styles.compare}>
+    <div className={styles.compare} data-tour="diff-compare">
       <div className={styles.heads}>
         <span>{t("현재 버전")}</span>
         <span className={styles.headGutter}>
