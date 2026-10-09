@@ -2,7 +2,14 @@
 
 import type { Editor } from "@tiptap/react";
 import { useEditorState } from "@tiptap/react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 import {
   Button,
@@ -11,7 +18,6 @@ import {
   type IconName,
   type MenuEntry,
 } from "@/design-system/primitives";
-import { cx } from "@/shared/cx";
 import { t } from "@/i18n";
 import { formatNumber } from "@/shared/format";
 
@@ -27,7 +33,26 @@ import {
 import { findStateOf } from "./editor/find-replace";
 import styles from "./editor-toolbar.module.css";
 
-const COMPACT_WIDTH = 900;
+type Chunk = "indent" | "lists" | "align" | "lineHeight" | "marks" | "find";
+
+/** 도구 줄이 넘치면 이 순서로 하나씩 더보기에 접는다. 원고에서 덜 쓰는 도구가 먼저 들어간다. */
+const COLLAPSE_ORDER: Chunk[] = [
+  "indent",
+  "lists",
+  "align",
+  "lineHeight",
+  "marks",
+  "find",
+];
+/** 도구를 다 접어도 넘치면 저장 상태를 아이콘으로 줄인다. */
+const TIGHT_LEVEL = COLLAPSE_ORDER.length + 1;
+
+/** 입력하는 동안 오가는 상태. 가장 긴 문구만큼 자리를 잡아 도구 줄이 들썩이지 않게 한다. */
+const ROUTINE_STATUSES: Exclude<SaveStatus, "error">[] = [
+  "dirty",
+  "saving",
+  "saved",
+];
 
 interface ToolbarProps {
   editor: Editor | null;
@@ -140,14 +165,24 @@ function SaveState({
   };
   const { icon, label } = view[status];
   const spinning = status === "saving" || status === "loading";
+  const reserved = ROUTINE_STATUSES.includes(status)
+    ? ROUTINE_STATUSES.filter((other) => other !== status)
+    : [];
   return (
-    <span className={styles.saveState} role="status">
+    <span className={styles.saveState} role="status" title={label}>
       <Icon
         name={icon}
         size={14}
         className={spinning ? styles.spin : undefined}
       />
-      <span className={styles.saveLabel}>{label}</span>
+      <span className={styles.saveLabel}>
+        <span>{label}</span>
+        {reserved.map((other) => (
+          <span key={other} className={styles.saveGhost} aria-hidden="true">
+            {view[other].label}
+          </span>
+        ))}
+      </span>
     </span>
   );
 }
@@ -161,20 +196,57 @@ export function EditorToolbar({
   actions,
 }: ToolbarProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const controlsRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const moreRef = useRef<HTMLButtonElement>(null);
-  const [compact, setCompact] = useState(false);
+  /** 단계마다 도구 줄이 차지하는 너비. 그 단계에 있을 때 잰다. */
+  const trackWidthRef = useRef<number[]>([]);
+  /** 저장 상태 글자를 다시 보이려면 필요한 툴바 너비. */
+  const untightWidthRef = useRef(0);
+  const [level, setLevel] = useState(0);
+  const [scrolls, setScrolls] = useState(false);
+  const [resized, onResize] = useReducer((count: number) => count + 1, 0);
   const [moreOpen, setMoreOpen] = useState(false);
   const [findOpen, setFindOpen] = useState(false);
 
   useEffect(() => {
-    const node = rootRef.current;
-    if (!node || typeof ResizeObserver === "undefined") return;
-    const observer = new ResizeObserver(([entry]) =>
-      setCompact(entry.contentRect.width < COMPACT_WIDTH),
-    );
-    observer.observe(node);
+    const root = rootRef.current;
+    const controls = controlsRef.current;
+    if (!root || !controls || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(() => onResize());
+    observer.observe(root);
+    observer.observe(controls);
     return () => observer.disconnect();
   }, []);
+
+  useLayoutEffect(() => {
+    const root = rootRef.current;
+    const controls = controlsRef.current;
+    const track = trackRef.current;
+    if (!root || !controls || !track || root.clientWidth === 0) return;
+    const space = controls.clientWidth;
+    const needed = track.scrollWidth;
+    trackWidthRef.current[level] = needed;
+    if (needed > space && level < TIGHT_LEVEL) {
+      if (level === TIGHT_LEVEL - 1) {
+        untightWidthRef.current = root.clientWidth + needed - space;
+      }
+      setLevel(level + 1);
+      return;
+    }
+    setScrolls(needed > space);
+    if (level === 0) return;
+    const fitsWider =
+      level === TIGHT_LEVEL
+        ? untightWidthRef.current <= root.clientWidth
+        : (trackWidthRef.current[level - 1] ?? 0) <= space;
+    if (!fitsWider) return;
+    if (level === 1) setMoreOpen(false);
+    setLevel(level - 1);
+  }, [level, resized]);
+
+  const collapsed = new Set(COLLAPSE_ORDER.slice(0, level));
+  const shows = (chunk: Chunk) => !collapsed.has(chunk);
 
   const state = useEditorState({
     editor,
@@ -237,62 +309,84 @@ export function EditorToolbar({
     onSelect: () => setEditorPrefs({ align: a.id }),
   }));
 
-  const moreEntries: MenuEntry[] = [
-    { type: "group", id: "g-env", label: t("줄 간격") },
-    ...lineEntries.map((entry) => ({ ...entry, id: `lh-${entry.id}` })),
-    { type: "group", id: "g-align", label: t("정렬") },
-    ...alignEntries.map((entry) => ({ ...entry, id: `al-${entry.id}` })),
-    { type: "separator", id: "s1" },
-    {
-      id: "outdent",
-      label: t("내어쓰기"),
-      icon: "list-indent-decrease",
-      disabled: !state?.canLift,
-      onSelect: () => run((c) => c.liftListItem("listItem")),
-    },
-    {
-      id: "indent",
-      label: t("들여쓰기"),
-      icon: "list-indent-increase",
-      disabled: !state?.canSink,
-      onSelect: () => run((c) => c.sinkListItem("listItem")),
-    },
-    {
-      id: "underline",
-      label: t("밑줄"),
-      icon: "underline",
-      checked: state?.underline,
-      onSelect: () => run((c) => c.toggleUnderline()),
-    },
-    {
-      id: "strike",
-      label: t("취소선"),
-      icon: "strikethrough",
-      checked: state?.strike,
-      onSelect: () => run((c) => c.toggleStrike()),
-    },
-    {
-      id: "bullet",
-      label: t("글머리 목록"),
-      icon: "list",
-      checked: state?.bulletList,
-      onSelect: () => run((c) => c.toggleBulletList()),
-    },
-    {
-      id: "ordered",
-      label: t("번호 목록"),
-      icon: "list-ordered",
-      checked: state?.orderedList,
-      onSelect: () => run((c) => c.toggleOrderedList()),
-    },
-    { type: "separator", id: "s2" },
-    {
-      id: "find",
-      label: t("찾기·바꾸기"),
-      icon: "search",
-      onSelect: () => setFindOpen(true),
-    },
-  ];
+  const folded = (chunk: Chunk, entries: MenuEntry[]) =>
+    shows(chunk) ? [] : entries;
+  const moreEntries = [
+    [
+      ...folded("lineHeight", [
+        { type: "group", id: "g-line", label: t("줄 간격") },
+        ...lineEntries.map((entry) => ({ ...entry, id: `lh-${entry.id}` })),
+      ]),
+      ...folded("align", [
+        { type: "group", id: "g-align", label: t("정렬") },
+        ...alignEntries.map((entry) => ({ ...entry, id: `al-${entry.id}` })),
+      ]),
+    ],
+    [
+      ...folded("indent", [
+        {
+          id: "outdent",
+          label: t("내어쓰기"),
+          icon: "list-indent-decrease",
+          disabled: !state?.canLift,
+          onSelect: () => run((c) => c.liftListItem("listItem")),
+        },
+        {
+          id: "indent",
+          label: t("들여쓰기"),
+          icon: "list-indent-increase",
+          disabled: !state?.canSink,
+          onSelect: () => run((c) => c.sinkListItem("listItem")),
+        },
+      ]),
+      ...folded("marks", [
+        {
+          id: "underline",
+          label: t("밑줄"),
+          icon: "underline",
+          checked: state?.underline,
+          onSelect: () => run((c) => c.toggleUnderline()),
+        },
+        {
+          id: "strike",
+          label: t("취소선"),
+          icon: "strikethrough",
+          checked: state?.strike,
+          onSelect: () => run((c) => c.toggleStrike()),
+        },
+      ]),
+      ...folded("lists", [
+        {
+          id: "bullet",
+          label: t("글머리 목록"),
+          icon: "list",
+          checked: state?.bulletList,
+          onSelect: () => run((c) => c.toggleBulletList()),
+        },
+        {
+          id: "ordered",
+          label: t("번호 목록"),
+          icon: "list-ordered",
+          checked: state?.orderedList,
+          onSelect: () => run((c) => c.toggleOrderedList()),
+        },
+      ]),
+    ],
+    folded("find", [
+      {
+        id: "find",
+        label: t("찾기·바꾸기"),
+        icon: "search",
+        onSelect: () => setFindOpen(true),
+      },
+    ]),
+  ]
+    .filter((section) => section.length > 0)
+    .flatMap((section, index): MenuEntry[] =>
+      index === 0
+        ? section
+        : [{ type: "separator", id: `s${index}` }, ...section],
+    );
 
   return (
     <>
@@ -302,149 +396,169 @@ export function EditorToolbar({
         role="toolbar"
         aria-label={t("편집 도구")}
         aria-disabled={locked || undefined}
+        data-tight={level === TIGHT_LEVEL || undefined}
       >
-        <div className={styles.controls}>
-          <div className={styles.group}>
-            <Tool
-              icon="undo-2"
-              label={t("되돌리기")}
-              disabled={!state?.canUndo}
-              onClick={() => run((c) => c.undo())}
-            />
-            <Tool
-              icon="redo-2"
-              label={t("다시 실행")}
-              disabled={!state?.canRedo}
-              onClick={() => run((c) => c.redo())}
-            />
-          </div>
-          <span className={styles.separator} />
-          <div className={styles.group}>
-            <Select
-              label={t("글꼴")}
-              value={font.label}
-              width={88}
-              entries={fontEntries}
-            />
-            <Select
-              label={t("글자 크기")}
-              value={String(prefs.fontSize)}
-              width={58}
-              entries={sizeEntries}
-            />
-            {!compact && (
-              <Select
-                label={t("줄 간격")}
-                value={String(prefs.lineHeight)}
-                width={64}
-                entries={lineEntries}
+        <div
+          ref={controlsRef}
+          className={styles.controls}
+          data-scrolls={scrolls || undefined}
+        >
+          <div ref={trackRef} className={styles.track}>
+            <div className={styles.group}>
+              <Tool
+                icon="undo-2"
+                label={t("되돌리기")}
+                disabled={!state?.canUndo}
+                onClick={() => run((c) => c.undo())}
               />
-            )}
-          </div>
-          {!compact && (
-            <>
-              <span className={styles.separator} />
-              <div className={styles.group}>
+              <Tool
+                icon="redo-2"
+                label={t("다시 실행")}
+                disabled={!state?.canRedo}
+                onClick={() => run((c) => c.redo())}
+              />
+            </div>
+            <span className={styles.separator} />
+            <div className={styles.group}>
+              <Select
+                label={t("글꼴")}
+                value={font.label}
+                width={88}
+                entries={fontEntries}
+              />
+              <Select
+                label={t("글자 크기")}
+                value={String(prefs.fontSize)}
+                width={58}
+                entries={sizeEntries}
+              />
+              {shows("lineHeight") && (
                 <Select
-                  label={t("정렬")}
-                  value={align.id === "left" ? t("정렬 값::정렬") : align.label}
-                  width={68}
-                  entries={alignEntries}
+                  label={t("줄 간격")}
+                  value={String(prefs.lineHeight)}
+                  width={64}
+                  entries={lineEntries}
                 />
-                <Tool
-                  icon="list-indent-decrease"
-                  label={t("내어쓰기")}
-                  disabled={!state?.canLift}
-                  onClick={() => run((c) => c.liftListItem("listItem"))}
-                />
-                <Tool
-                  icon="list-indent-increase"
-                  label={t("들여쓰기")}
-                  disabled={!state?.canSink}
-                  onClick={() => run((c) => c.sinkListItem("listItem"))}
-                />
-              </div>
-            </>
-          )}
-          <span className={styles.separator} />
-          <div className={styles.group}>
-            <Tool
-              icon="bold"
-              label={t("굵게")}
-              pressed={state?.bold}
-              onClick={() => run((c) => c.toggleBold())}
-            />
-            <Tool
-              icon="italic"
-              label={t("기울임")}
-              pressed={state?.italic}
-              onClick={() => run((c) => c.toggleItalic())}
-            />
-            {!compact && (
+              )}
+            </div>
+            {(shows("align") || shows("indent")) && (
               <>
+                <span className={styles.separator} />
+                <div className={styles.group}>
+                  {shows("align") && (
+                    <Select
+                      label={t("정렬")}
+                      value={
+                        align.id === "left" ? t("정렬 값::정렬") : align.label
+                      }
+                      width={68}
+                      entries={alignEntries}
+                    />
+                  )}
+                  {shows("indent") && (
+                    <>
+                      <Tool
+                        icon="list-indent-decrease"
+                        label={t("내어쓰기")}
+                        disabled={!state?.canLift}
+                        onClick={() => run((c) => c.liftListItem("listItem"))}
+                      />
+                      <Tool
+                        icon="list-indent-increase"
+                        label={t("들여쓰기")}
+                        disabled={!state?.canSink}
+                        onClick={() => run((c) => c.sinkListItem("listItem"))}
+                      />
+                    </>
+                  )}
+                </div>
+              </>
+            )}
+            <span className={styles.separator} />
+            <div className={styles.group}>
+              <Tool
+                icon="bold"
+                label={t("굵게")}
+                pressed={state?.bold}
+                onClick={() => run((c) => c.toggleBold())}
+              />
+              <Tool
+                icon="italic"
+                label={t("기울임")}
+                pressed={state?.italic}
+                onClick={() => run((c) => c.toggleItalic())}
+              />
+              {shows("marks") && (
+                <>
+                  <Tool
+                    icon="underline"
+                    label={t("밑줄")}
+                    pressed={state?.underline}
+                    onClick={() => run((c) => c.toggleUnderline())}
+                  />
+                  <Tool
+                    icon="strikethrough"
+                    label={t("취소선")}
+                    pressed={state?.strike}
+                    onClick={() => run((c) => c.toggleStrike())}
+                  />
+                </>
+              )}
+            </div>
+            {shows("lists") && (
+              <>
+                <span className={styles.separator} />
+                <div className={styles.group}>
+                  <Tool
+                    icon="list"
+                    label={t("글머리 목록")}
+                    pressed={state?.bulletList}
+                    onClick={() => run((c) => c.toggleBulletList())}
+                  />
+                  <Tool
+                    icon="list-ordered"
+                    label={t("번호 목록")}
+                    pressed={state?.orderedList}
+                    onClick={() => run((c) => c.toggleOrderedList())}
+                  />
+                </div>
+              </>
+            )}
+            {shows("find") && (
+              <>
+                <span className={styles.separator} />
                 <Tool
-                  icon="underline"
-                  label={t("밑줄")}
-                  pressed={state?.underline}
-                  onClick={() => run((c) => c.toggleUnderline())}
+                  icon="search"
+                  label={t("찾기·바꾸기")}
+                  pressed={findOpen}
+                  onClick={() => setFindOpen((open) => !open)}
                 />
-                <Tool
-                  icon="strikethrough"
-                  label={t("취소선")}
-                  pressed={state?.strike}
-                  onClick={() => run((c) => c.toggleStrike())}
+              </>
+            )}
+            {moreEntries.length > 0 && (
+              <>
+                <button
+                  ref={moreRef}
+                  type="button"
+                  className={styles.labelTool}
+                  aria-haspopup="menu"
+                  aria-expanded={moreOpen}
+                  onClick={() => setMoreOpen((open) => !open)}
+                >
+                  <Icon name="ellipsis" size={15} />
+                  {t("더보기")}
+                </button>
+                <Menu
+                  anchorRef={moreRef}
+                  open={moreOpen}
+                  onOpenChange={setMoreOpen}
+                  label={t("더보기")}
+                  width={200}
+                  entries={moreEntries}
                 />
               </>
             )}
           </div>
-          {compact ? (
-            <>
-              <button
-                ref={moreRef}
-                type="button"
-                className={cx(styles.labelTool, styles.more)}
-                aria-haspopup="menu"
-                aria-expanded={moreOpen}
-                onClick={() => setMoreOpen((open) => !open)}
-              >
-                <Icon name="ellipsis" size={15} />
-                {t("더보기")}
-              </button>
-              <Menu
-                anchorRef={moreRef}
-                open={moreOpen}
-                onOpenChange={setMoreOpen}
-                label={t("더보기")}
-                width={200}
-                entries={moreEntries}
-              />
-            </>
-          ) : (
-            <>
-              <span className={styles.separator} />
-              <div className={styles.group}>
-                <Tool
-                  icon="list"
-                  label={t("글머리 목록")}
-                  pressed={state?.bulletList}
-                  onClick={() => run((c) => c.toggleBulletList())}
-                />
-                <Tool
-                  icon="list-ordered"
-                  label={t("번호 목록")}
-                  pressed={state?.orderedList}
-                  onClick={() => run((c) => c.toggleOrderedList())}
-                />
-              </div>
-              <span className={styles.separator} />
-              <Tool
-                icon="search"
-                label={t("찾기·바꾸기")}
-                pressed={findOpen}
-                onClick={() => setFindOpen((open) => !open)}
-              />
-            </>
-          )}
         </div>
         <div className={styles.status}>
           <SaveState status={status} onRetry={onRetry} />

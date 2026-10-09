@@ -326,21 +326,6 @@ export function DocumentView({
           panels.memoDock === "below" && styles.below,
         )}
       >
-        {memoCollapsed && (
-          <div className={styles.collapsedNotice} role="status">
-            <Icon name="panel-right-close" size={15} />
-            <span>{t("작업 영역이 좁아 메모를 접었습니다")}</span>
-            <Button
-              size="md"
-              icon="panel-bottom"
-              onClick={() =>
-                dispatch({ type: "setPanels", panels: { memoDock: "below" } })
-              }
-            >
-              {t("다시 열기")}
-            </Button>
-          </div>
-        )}
         <div className={styles.main}>
           <EditorToolbar
             key={editor ? "ready" : "pending"}
@@ -366,6 +351,21 @@ export function DocumentView({
               />
             }
           />
+          {memoCollapsed && (
+            <div className={styles.collapsedNotice} role="status">
+              <Icon name="panel-right-close" size={15} />
+              <span>{t("작업 영역이 좁아 메모를 접었습니다")}</span>
+              <Button
+                size="md"
+                icon="panel-bottom"
+                onClick={() =>
+                  dispatch({ type: "setPanels", panels: { memoDock: "below" } })
+                }
+              >
+                {t("다시 열기")}
+              </Button>
+            </div>
+          )}
           {doc.status === "conflict" && (
             <InlineNotice
               icon="triangle-alert"
