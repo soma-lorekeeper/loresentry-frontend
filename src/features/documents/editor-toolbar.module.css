@@ -15,12 +15,34 @@
   pointer-events: none;
 }
 
+/*
+ * 도구 줄은 제 칸 밖으로 그려지지 않는다. 넘치면 덜 쓰는 도구부터 더보기에 접히고(editor-toolbar.tsx
+ * COLLAPSE_ORDER), 다 접어도 모자라면 가로로 밀어 보게 하고 오른쪽 끝을 흐린다.
+ */
 .controls {
-  display: flex;
   flex: 1;
+  min-width: 0;
+  margin: 0 calc(var(--lk-space-1) * -1);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.controls::-webkit-scrollbar {
+  display: none;
+}
+
+.controls[data-scrolls] {
+  mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+}
+
+/* 안쪽 여백은 포커스 고리가 잘리지 않을 자리다. */
+.track {
+  display: flex;
   align-items: center;
   gap: var(--lk-space-1);
-  min-width: 0;
+  width: max-content;
+  padding: var(--lk-space-1);
 }
 
 .group {
@@ -117,6 +139,7 @@
   flex: none;
   align-items: center;
   gap: var(--lk-space-4);
+  margin-left: var(--lk-space-3);
   color: var(--lk-color-text-secondary);
   font-size: var(--lk-font-size-label);
   white-space: nowrap;
@@ -129,7 +152,43 @@
 }
 
 .saveState > svg {
+  flex: none;
   color: var(--lk-color-icon-default);
+}
+
+/* 입력하는 동안 오가는 문구를 한 칸에 겹쳐 두어, 가장 긴 문구만큼 폭이 고정된다. */
+.saveLabel {
+  display: inline-grid;
+}
+
+.saveLabel > * {
+  grid-area: 1 / 1;
+}
+
+.saveGhost {
+  visibility: hidden;
+}
+
+.toolbar[data-tight] .status {
+  gap: var(--lk-space-2);
+}
+
+.toolbar[data-tight] .saveLabel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+:lang(en) .toolbar[data-tight] .counts {
+  font-size: 0;
+}
+
+:lang(en) .toolbar[data-tight] .counts::after {
+  content: attr(data-short);
+  font-size: var(--lk-font-size-label);
 }
 
 .saveError {
@@ -214,24 +273,10 @@
   flex: 1;
 }
 
-/*
- * 좁은 창: 도구 줄이 저장 상태와 글자 수를 밀어내지 않게 한다. 도구 묶음은 가로로 밀어 보고,
- * 오른쪽 끝을 흐려 더 있다는 것을 알린다.
- */
+/* 좁은 창: 여백을 줄이고 긴 글꼴 이름은 말줄임한다. 접기와 밀어 보기는 위의 규칙이 맡는다. */
 @media (max-width: 760px) {
   .toolbar {
     padding: 3px var(--lk-space-2);
-  }
-
-  .controls {
-    min-width: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
-    mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
-  }
-
-  .controls::-webkit-scrollbar {
-    display: none;
   }
 
   .select {
@@ -242,28 +287,5 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-
-  /* 글자 수는 남기고, 공백 포함·제외 구분은 접는다. */
-  .status {
-    gap: var(--lk-space-2);
-  }
-
-  .saveLabel {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
-  :lang(en) .counts {
-    font-size: 0;
-  }
-
-  :lang(en) .counts::after {
-    content: attr(data-short);
-    font-size: var(--lk-font-size-label);
   }
 }
