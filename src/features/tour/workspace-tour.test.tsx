@@ -145,6 +145,31 @@ describe("WorkspaceTour", () => {
     expect(sidebar()).toBe("true");
   }, 15_000);
 
+  it("reaches graph refresh when the sidebar is a drawer that unmounts when closed", async () => {
+    window.localStorage.setItem("loresentry.tour.workspace", "pending");
+    const actor = userEvent.setup();
+    renderTour({}, { drawer: true }, false);
+
+    await card("원고는 여기서 써요");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("속성 표로 문서를 이어요");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("이은 관계는 그래프로 봐요");
+    await actor.click(screen.getByRole("button", { name: "stage graph" }));
+    await card("한 문서에 집중해요");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("회차별 등장은 타임라인에서");
+    await actor.click(screen.getByRole("button", { name: "stage timeline" }));
+    await card("줄은 문서, 칸은 회차예요");
+    expect(screen.queryByRole("button", { name: "stage refresh" })).toBeNull();
+    expect(screen.getByRole("button", { name: "다음" })).toBeVisible();
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("새 회차를 쓴 다음엔");
+    expect(
+      screen.getByRole("button", { name: "stage refresh" }),
+    ).toBeInTheDocument();
+  }, 15_000);
+
   it("leaves out graph refresh while the server has no refresh", async () => {
     window.localStorage.setItem("loresentry.tour.workspace", "pending");
     const actor = userEvent.setup();
