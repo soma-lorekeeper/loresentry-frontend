@@ -58,8 +58,8 @@ export default {
     "Upload writing from elsewhere as text (.txt) or Markdown (.md) files and turn it into chapters.",
   "‘가져오기’를 눌러 보세요.": "Click ‘Import’.",
   "올려 두고, 확인하고, 가져와요": "Add files, check the list, then import",
-  "올린 파일은 목록에 먼저 쌓여요. ‘가져오기’를 눌러야 원고 폴더에 원고로 만들어져요. 다음으로 가면 이 창은 닫혀요.":
-    "Files you add wait in the list first. They become chapters in the Manuscripts folder only when you press ‘Import’. This window closes when you go on.",
+  "올린 파일은 목록에 먼저 담겨요. ‘가져오기’를 눌러야 원고 폴더에 원고로 만들어져요.":
+    "Files you add go into the list first. They become chapters in the Manuscripts folder only when you press ‘Import’.",
   "속성 표로 문서를 이어요": "Link documents in the property table",
   "관련 원고와 인물, 장소를 고르면 그 관계가 그래프와 타임라인이 돼요.":
     "Pick related chapters, characters and places, and those links become your graph and timeline.",
