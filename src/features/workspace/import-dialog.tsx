@@ -239,9 +239,11 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
       onClose={() => finish()}
       size="md"
       title={t("원고 가져오기")}
-      description={t("텍스트(.txt)와 마크다운(.md) 파일을 원고로 가져와요.")}
-      closeLabel={t("원고 가져오기 닫기")}
-      closeDisabled={busy}
+      // 이 창의 안내는 문장이 아니라 명사형으로 짧게 적는다("끌어다 놓기"). 무엇을 하라는 설명이
+      // 아니라 자리마다 붙은 이름표에 가깝다. 일어난 일을 알리는 글(알림·오류)만 해요체다.
+      description={t("텍스트(.txt)·마크다운(.md) 파일 지원")}
+      // 머리에 닫기(X) 단추를 두지 않는다. 그만두는 길은 아래의 `취소` 하나다(Esc 와 바깥 누르기도
+      // 같은 일을 한다).
       dismissible={!busy}
       footerHint={
         // 담긴 수와 진행을 읽어 주는 자리. 처음부터 있어야 글자가 바뀔 때 읽힌다(비어 있다가
@@ -312,9 +314,7 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
               {t("파일 선택")}
             </Button>
             <span className={styles.pickerHint}>
-              {receiving
-                ? t("놓으면 목록에 담겨요")
-                : t("여기로 끌어다 놓아도 돼요")}
+              {receiving ? t("여기에 놓기") : t("또는 끌어다 놓기")}
             </span>
             <input
               ref={inputRef}
@@ -336,9 +336,8 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
           */}
           {staged.length === 0 ? (
             <p className={styles.empty}>
-              {t(
-                "올린 파일은 여기에 쌓이고, ‘가져오기’를 눌러야 원고로 만들어져요.",
-              )}
+              <span>{t("올린 파일 없음")}</span>
+              <span>{t("‘가져오기’를 눌러야 원고로 생성")}</span>
             </p>
           ) : (
             <ul
@@ -422,8 +421,8 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
         )}
         <DialogBullets
           items={[
-            { icon: "folder", text: t("원고 폴더에 새 원고로 만들어져요.") },
-            { icon: "file-text", text: t("파일 이름이 원고의 제목이 돼요.") },
+            { icon: "folder", text: t("원고 폴더에 새 원고로 생성") },
+            { icon: "file-text", text: t("파일 이름이 원고 제목") },
           ]}
         />
       </div>

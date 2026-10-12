@@ -137,12 +137,11 @@ export default {
   "원고를 가져왔어요.": "Manuscript imported.",
   "원고 {count}개를 가져왔어요.": "{count} manuscripts imported.",
   "원고 가져오기": "Import manuscripts",
-  "원고 가져오기 닫기": "Close import",
-  "텍스트(.txt)와 마크다운(.md) 파일을 원고로 가져와요.":
-    "Bring in text (.txt) and Markdown (.md) files as manuscripts.",
+  "텍스트(.txt)·마크다운(.md) 파일 지원":
+    "Text (.txt) and Markdown (.md) files",
   "파일 선택": "Choose files",
-  "여기로 끌어다 놓아도 돼요": "or drop them here",
-  "놓으면 목록에 담겨요": "Drop to add them to the list",
+  "또는 끌어다 놓기": "or drag and drop",
+  "여기에 놓기": "Drop here",
   "가져올 파일": "Files to import",
   마크다운: "Markdown",
   텍스트: "Text",
@@ -160,12 +159,12 @@ export default {
     "{count} file wasn't added. Only .txt and .md files can be added.",
     "{count} files weren't added. Only .txt and .md files can be added.",
   ),
-  "올린 파일은 여기에 쌓이고, ‘가져오기’를 눌러야 원고로 만들어져요.":
-    "Files you add wait here and become manuscripts only when you press Import.",
-  "원고 폴더에 새 원고로 만들어져요.":
-    "They're created as new manuscripts in the Manuscripts folder.",
-  "파일 이름이 원고의 제목이 돼요.":
-    "Each file name becomes the manuscript's title.",
+  "올린 파일 없음": "No files added",
+  "‘가져오기’를 눌러야 원고로 생성":
+    "Created as manuscripts when you press Import",
+  "원고 폴더에 새 원고로 생성":
+    "Created as new manuscripts in the Manuscripts folder",
+  "파일 이름이 원고 제목": "File name becomes the manuscript title",
   "파일 {count}개": plural("{count} file", "{count} files"),
   "{total}개 중 {done}번째를 가져오는 중": "Importing {done} of {total}",
 

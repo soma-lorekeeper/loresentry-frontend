@@ -87,11 +87,13 @@ describe("ImportDialog", () => {
     expect(
       await screen.findByRole("button", { name: "가져오기" }),
     ).toBeDisabled();
+    expect(screen.getByText("올린 파일 없음")).toBeInTheDocument();
     expect(
-      screen.getByText(
-        "올린 파일은 여기에 쌓이고, ‘가져오기’를 눌러야 원고로 만들어져요.",
-      ),
+      screen.getByText("‘가져오기’를 눌러야 원고로 생성"),
     ).toBeInTheDocument();
+    // 어디에 무엇으로 생기는지는 늘 적혀 있다.
+    expect(screen.getByText("원고 폴더에 새 원고로 생성")).toBeInTheDocument();
+    expect(screen.getByText("또는 끌어다 놓기")).toBeInTheDocument();
     // 담긴 수를 읽어 주는 자리는 처음부터 있다(글자가 바뀔 때 읽히려면).
     const count = within(screen.getByRole("dialog")).getByRole("status");
     expect(count).toBeEmptyDOMElement();
@@ -119,6 +121,30 @@ describe("ImportDialog", () => {
     expect(
       screen.getByRole("status", { name: "열린 문서" }),
     ).toBeEmptyDOMElement();
+  });
+
+  it("stays open when the file picker is closed without choosing anything", async () => {
+    const actor = userEvent.setup();
+    const { onClose } = renderDialog();
+    await screen.findByRole("button", { name: "가져오기" });
+    await choose(actor, [file("1화.txt", "본문")]);
+
+    // 파일 선택 창을 고르지 않고 닫으면 브라우저는 그 input 에서 `cancel` 을 낸다. 이 사건은 위로
+    // 올라와 대화상자에 닿는데, 대화상자는 같은 이름의 사건(Esc)으로 닫힌다.
+    const input = document.querySelector('input[type="file"]')!;
+    fireEvent(input, new Event("cancel", { bubbles: true }));
+
+    expect(onClose).not.toHaveBeenCalled();
+    // 올려 둔 목록도 그대로다.
+    expect(within(staged()).getAllByRole("listitem")).toHaveLength(1);
+
+    // 대화상자 자신의 `cancel`(Esc)은 여전히 닫는다. 머리에 닫기(X) 단추는 없다.
+    expect(screen.queryByRole("button", { name: /닫기/ })).toBeNull();
+    fireEvent(
+      screen.getByRole("dialog"),
+      new Event("cancel", { cancelable: true }),
+    );
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it("creates the manuscripts in the manuscript folder and opens the first", async () => {

@@ -81,6 +81,10 @@ export function Modal({
   };
 
   const onCancel = (event: SyntheticEvent<HTMLDialogElement>) => {
+    // `cancel` 은 대화상자만 내는 사건이 아니다. 안에 있는 파일 입력도 파일 선택 창을 고르지
+    // 않고 닫으면 같은 이름의 사건을 내고, 그것이 여기까지 올라온다. 대화상자 자신의 것(Esc)만
+    // 닫기로 받는다 — 가리지 않으면 파일을 고르다 그만둔 것만으로 창이 닫힌다.
+    if (event.target !== event.currentTarget) return;
     event.preventDefault();
     if (dismissible) onClose();
   };

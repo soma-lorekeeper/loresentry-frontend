@@ -49,13 +49,11 @@ describe("ImportDialog in English", () => {
     ).toBeInTheDocument();
     expect(
       within(dialog).getByText(
-        "They're created as new manuscripts in the Manuscripts folder.",
+        "Created as new manuscripts in the Manuscripts folder",
       ),
     ).toBeInTheDocument();
     expect(
-      within(dialog).getByText(
-        "Files you add wait here and become manuscripts only when you press Import.",
-      ),
+      within(dialog).getByText("Created as manuscripts when you press Import"),
     ).toBeInTheDocument();
 
     // 수에 따라 낱말이 달라진다(file / files).
