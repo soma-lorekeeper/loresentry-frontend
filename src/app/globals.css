@@ -13,6 +13,19 @@
   --lk-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
+/*
+ * 웹 글꼴은 화면이 동작하기 시작한 뒤부터 쓴다(design-system/theme/web-fonts.ts). 그 전에는 위
+ * 묶음에서 웹 글꼴 이름("Pretendard Variable", "Wanted Sans Variable")만 뺀 값으로 그린다.
+ * 쓰이지 않는 글꼴은 브라우저가 받지 않으므로, 글꼴이 스크립트를 앞질러 화면이 늦게 동작하는 일이
+ * 없다. 위 묶음을 고치면 여기도 같이 고친다 — 테스트가 두 값이 어긋나면 알려 준다.
+ */
+html:not([data-fonts]) {
+  --lk-font-stack-ui:
+    Pretendard, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", sans-serif;
+  --lk-font-stack-display: var(--lk-font-stack-ui);
+}
+
 ::selection {
   background: color-mix(
     in srgb,

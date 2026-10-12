@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
 
 import { createThemeScript } from "@/design-system/theme/theme-script";
+import { createWebFontScript } from "@/design-system/theme/web-fonts";
 import { LOCALE, t } from "@/i18n";
 import { createLocaleScript } from "@/i18n/preference";
 
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: createLocaleScript() }} />
         <script dangerouslySetInnerHTML={{ __html: createThemeScript() }} />
+        <script dangerouslySetInnerHTML={{ __html: createWebFontScript() }} />
       </head>
       <body>
         <AppProviders>{children}</AppProviders>

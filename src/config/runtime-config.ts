@@ -1,3 +1,5 @@
+import deployedConfig from "../../public/config.json";
+
 export type DataSource = "mock" | "api";
 
 export interface RuntimeConfig {
@@ -63,6 +65,27 @@ export function parseRuntimeConfig(value: unknown): RuntimeConfig {
   };
 }
 
+/**
+ * `config.json` 을 읽기 전에 화면을 그릴 때 쓰는 값. 빌드 때 만드는 HTML 과, 브라우저가 설정을
+ * 받기 전에 그리는 첫 화면이 이 값을 쓴다(app/providers.tsx).
+ *
+ * <p>저장소의 `public/config.json` 에서 **화면에 보이는 값만** 가져온다. 기본값으로 먼저 그리면
+ * 문의 이메일이 비어 있어 랜딩의 "문의하기"가 없다가, 설정이 온 뒤에 끼어들며 메뉴가 밀린다. 운영에는
+ * CI 가 이 파일을 그대로 올리므로(.github/workflows/ci-cd.yaml) 첫 화면과 설정이 온 뒤의 화면이 같다.
+ *
+ * <p>**데이터 출처(`dataSource`, `apiBaseUrl`)와 측정 ID 는 가져오지 않는다.** 환경마다 다른 값이고,
+ * 빌드 때의 값으로 요청이 나가면 안 된다. 서비스는 실행 중에 받은 설정으로만 만든다.
+ */
+export const PRERENDER_CONFIG: RuntimeConfig = (() => {
+  const deployed = parseRuntimeConfig(deployedConfig);
+  return {
+    ...DEFAULT_RUNTIME_CONFIG,
+    contactEmail: deployed.contactEmail,
+    privacyPolicyUrl: deployed.privacyPolicyUrl,
+    termsOfServiceUrl: deployed.termsOfServiceUrl,
+  };
+})();
+
 const OVERRIDE_KEY = "lk.dataSource";
 
 function rememberedDataSource(): DataSource | null {
@@ -96,22 +119,33 @@ function rememberDataSource(value: DataSource) {
  * 탭 수명 동안 기억한다. `?data=mock` 이면 다시 mock 으로 돌아가고, 탭을 닫으면 사라진다.
  */
 export function applyDataSourceOverride(config: RuntimeConfig): RuntimeConfig {
-  if (typeof window === "undefined") return config;
+  const requested = requestedDataSource();
+  return requested ? { ...config, dataSource: requested } : config;
+}
+
+/** 주소가 요청한 출처, 없으면 이 탭이 기억하는 출처. 둘 다 없으면 null. */
+function requestedDataSource(): DataSource | null {
+  if (typeof window === "undefined") return null;
   const requested = new URLSearchParams(window.location.search).get("data");
   if (requested === "api" || requested === "mock") {
     rememberDataSource(requested);
-    return { ...config, dataSource: requested };
+    return requested;
   }
-  const remembered = rememberedDataSource();
-  return remembered ? { ...config, dataSource: remembered } : config;
+  return rememberedDataSource();
 }
 
 export async function loadRuntimeConfig(): Promise<RuntimeConfig> {
+  // 주소는 설정을 받기 **전에** 읽는다. 화면이 설정보다 먼저 그려지므로, 받는 사이에 링크를 눌러
+  // 주소에서 `?data=` 가 사라질 수 있다. 탭에 기억하지 못하는 환경(사생활 보호 모드)에서도
+  // 처음 열 때의 요청이 지켜진다.
+  const requested = requestedDataSource();
+  const override = (config: RuntimeConfig) =>
+    requested ? { ...config, dataSource: requested } : config;
   try {
     const response = await fetch("/config.json", { cache: "no-store" });
-    if (!response.ok) return applyDataSourceOverride(DEFAULT_RUNTIME_CONFIG);
-    return applyDataSourceOverride(parseRuntimeConfig(await response.json()));
+    if (!response.ok) return override(DEFAULT_RUNTIME_CONFIG);
+    return override(parseRuntimeConfig(await response.json()));
   } catch {
-    return applyDataSourceOverride(DEFAULT_RUNTIME_CONFIG);
+    return override(DEFAULT_RUNTIME_CONFIG);
   }
 }
