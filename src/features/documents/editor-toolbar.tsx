@@ -354,6 +354,7 @@ export function EditorToolbar({
   const controlsRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const moreRef = useRef<HTMLButtonElement>(null);
+  const fillRef = useRef<HTMLSpanElement>(null);
   /** 단계마다 도구 줄이 차지하는 너비. 그 단계에 있을 때 잰다. */
   const trackWidthRef = useRef<number[]>([]);
   /** 저장 상태 글자를 다시 보이려면 필요한 툴바 너비. */
@@ -378,7 +379,8 @@ export function EditorToolbar({
     const controls = controlsRef.current;
     const track = trackRef.current;
     if (!root || !controls || !track || root.clientWidth === 0) return;
-    const space = controls.clientWidth;
+    // 도구 줄이 쓸 수 있는 폭. 지금 차지한 폭에, 뒤에 남아 있는 빈 폭을 더한 것이다.
+    const space = controls.clientWidth + (fillRef.current?.clientWidth ?? 0);
     const needed = track.scrollWidth;
     trackWidthRef.current[level] = needed;
     if (needed > space && level < STEPS.length) {
@@ -798,6 +800,7 @@ export function EditorToolbar({
             />
           </>
         )}
+        <span ref={fillRef} className={styles.fill} />
         <div className={styles.status}>
           <SaveState status={status} tight={tight} onRetry={onRetry} />
           <Counts

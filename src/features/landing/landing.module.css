@@ -714,6 +714,10 @@
   word-break: keep-all;
 }
 
+.footerCode {
+  white-space: nowrap;
+}
+
 .footerLinks {
   display: flex;
   flex-wrap: wrap;

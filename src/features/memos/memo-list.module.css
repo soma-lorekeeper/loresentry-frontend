@@ -142,7 +142,8 @@
  */
 .textarea {
   max-height: min(46vh, 360px);
-  padding: 14px 16px 6px;
+  /* 읽는 카드(.open)와 같은 안쪽 여백이다. 누르기 전과 후에 글의 자리가 움직이지 않는다. */
+  padding: 12px 14px var(--lk-space-1);
   border: 0;
   border-radius: inherit;
   background: none;

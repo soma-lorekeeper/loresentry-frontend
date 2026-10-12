@@ -46,6 +46,8 @@ const FRAME = 1000 / 60;
 const SLICE = 48;
 /** 조각 수의 상한. 넓은 창을 가로로 썰 때 복사본이 지나치게 많아지지 않게 한다 */
 const MAX_SLICES = 16;
+/** 다 펴진 뒤 조각을 걷어 내며 진짜 창으로 넘어가는 시간(ms) */
+const HANDOVER_DURATION = 120;
 /** 조각 사이로 뒤가 비치지 않게 서로 이만큼(px) 겹친다 */
 const SLICE_OVERLAP = 1;
 /** 움직임을 줄인 환경에서 새 창이 나타나는 시간(ms) */
@@ -143,8 +145,13 @@ function genie(pane: HTMLElement, place: Rect, source: Rect) {
     const strip = document.createElement("div");
     strip.className = styles.genieSlice;
     // 이웃 조각과 조금 겹치게 자른다. 변환은 겹치기 전의 크기로 계산하므로 자리는 그대로다.
-    strip.style.width = px(slice.width + (horizontal ? SLICE_OVERLAP : 0));
-    strip.style.height = px(slice.height + (horizontal ? 0 : SLICE_OVERLAP));
+    // 창의 끝에 닿은 조각은 늘리지 않는다 — 늘리면 창 밖(시트 사이의 틈)으로 삐져나온다.
+    const last = horizontal
+      ? slice.left + slice.width >= place.width - EPSILON
+      : slice.top + slice.height >= place.height - EPSILON;
+    const overlap = last ? 0 : SLICE_OVERLAP;
+    strip.style.width = px(slice.width + (horizontal ? overlap : 0));
+    strip.style.height = px(slice.height + (horizontal ? 0 : overlap));
 
     // 창을 한 벌 복사해, 이 조각에 해당하는 띠만 보이게 밀어 놓는다.
     const copy = pane.cloneNode(true) as HTMLElement;
@@ -167,17 +174,26 @@ function genie(pane: HTMLElement, place: Rect, source: Rect) {
      * 장면 사이를 이어 주게 두면 안 된다 — 투영 변환은 사이값을 "행렬을 풀었다 다시 짜서"
      * 만드는데, 그 결과가 사다리꼴이 아니어서 조각들이 제멋대로 흩어진다. 장면은 화면이
      * 그려지는 간격으로 계산해 두었으므로 끊겨 보이지 않는다.
+     *
+     * 장면마다 그 구간이 **끝날 때의** 모양을 그린다. 구간이 시작할 때의 모양을 그리면 마지막
+     * 구간에 아직 덜 펴진 모양이 남아, 조각을 걷는 순간 창이 몇 px 튄다.
      */
     const frames: Keyframe[] = [];
     for (let step = 0; step <= steps; step += 1) {
-      const quad = genieQuads(place, geometry, step / steps)[index];
+      const progress = Math.min(1, (step + 1) / steps);
+      const quad = genieQuads(place, geometry, progress)[index];
       frames.push({
         transform: quadTransform(slice.width, slice.height, quad),
         easing: "step-end",
       });
     }
     animations.push(
-      strip.animate(frames, { duration: GENIE_DURATION, easing: "linear" }),
+      // 끝난 뒤에도 제자리에 머문다(forwards). 조각을 걷을 때까지 흩어지면 안 된다.
+      strip.animate(frames, {
+        duration: GENIE_DURATION,
+        easing: "linear",
+        fill: "forwards",
+      }),
     );
   });
 
@@ -188,7 +204,29 @@ function genie(pane: HTMLElement, place: Rect, source: Rect) {
       duration: GENIE_DURATION,
     }),
   );
-  return { animations, remove: () => overlay.remove() };
+  return {
+    animations,
+    /**
+     * 조각을 걷는다. 다 펴져서 끝났으면 옅어지며 진짜 창으로 넘어간다 — 조각은 처음 그려진
+     * 순간의 창이라, 그사이 불러온 내용이 한꺼번에 튀어나오지 않게 한다. 도중에 멈춘 것이면
+     * 바로 치운다.
+     */
+    remove: (interrupted: boolean) => {
+      if (interrupted) {
+        overlay.remove();
+        return;
+      }
+      overlay
+        .animate([{ opacity: 1 }, { opacity: 0 }], {
+          duration: HANDOVER_DURATION,
+          easing: "linear",
+        })
+        .finished.then(
+          () => overlay.remove(),
+          () => overlay.remove(),
+        );
+    },
+  };
 }
 
 /**
@@ -218,7 +256,7 @@ function play(
   if (entering.length === 0 && moved.length === 0) return null;
 
   const animations: Animation[] = [];
-  const cleanups: Array<() => void> = [];
+  const cleanups: Array<(interrupted: boolean) => void> = [];
   let pinned: HTMLElement[] = [];
 
   if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
@@ -287,11 +325,12 @@ function play(
   }
 
   let ended = false;
-  const end = () => {
+  /** @param interrupted 다 끝나서가 아니라 도중에 멈춘 것인가(다음 배치 변경, 화면을 떠남) */
+  const end = (interrupted: boolean) => {
     if (ended) return;
     ended = true;
-    for (const animation of animations) animation.cancel();
-    for (const cleanup of cleanups) cleanup();
+    if (interrupted) for (const animation of animations) animation.cancel();
+    for (const cleanup of cleanups) cleanup(interrupted);
     for (const pane of pinned) {
       for (const property of ["position", "left", "top", "width", "height"]) {
         pane.style.removeProperty(property);
@@ -302,10 +341,10 @@ function play(
   };
   // 멈춰서 끝난 경우(cancel)에는 finished 가 거절된다. 그때는 end 가 이미 불린 뒤다.
   Promise.all(animations.map((animation) => animation.finished)).then(
-    end,
+    () => end(false),
     () => {},
   );
-  return end;
+  return () => end(true);
 }
 
 /**

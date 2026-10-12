@@ -19,8 +19,12 @@
  * 도구 줄은 제 칸 밖으로 그려지지 않는다. 넘치면 덜 쓰는 도구부터 더보기에 접히고(editor-toolbar.tsx
  * COLLAPSE_ORDER), 다 접어도 모자라면 가로로 밀어 보게 하고 오른쪽 끝을 흐린다.
  */
+/*
+ * 도구가 차지하는 만큼만 넓고, 모자라면 줄어든다. 남는 폭은 뒤의 .fill 이 갖는다 — 도구 줄이
+ * 남는 폭까지 차지하면 더보기가 마지막 도구에서 떨어져 저장 상태 쪽에 붙어 보인다.
+ */
 .controls {
-  flex: 1;
+  flex: 0 1 auto;
   min-width: 0;
   margin: 0 calc(var(--lk-space-1) * -1);
   overflow-x: auto;
@@ -129,6 +133,12 @@
 
 .longMenu > * {
   flex: none;
+}
+
+/* 도구와 상태 칸 사이의 남는 폭. 도구 줄이 더 펼 수 있는지는 이 폭까지 더해 판단한다. */
+.fill {
+  flex: 1;
+  min-width: 0;
 }
 
 .status {

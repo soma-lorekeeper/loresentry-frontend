@@ -261,7 +261,6 @@ ol {
   .lk-print-body pre {
     padding: 3mm;
     border: 0.5pt solid #bbb;
-    border-radius: 1.5mm;
     white-space: pre-wrap;
     break-inside: avoid;
   }
