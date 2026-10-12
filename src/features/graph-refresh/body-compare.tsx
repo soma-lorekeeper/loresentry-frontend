@@ -39,6 +39,11 @@ interface Props {
   onEdit?: (side: SideName, text: string) => void;
   /** 두 쪽 본문을 읽어 줄 이름. 주지 않으면 "현재 버전 본문"·"신규 버전 본문" 이다 */
   labels?: Record<SideName, string>;
+  /**
+   * 달라진 줄 안에서 바뀐 낱말을 한 번 더 짚는가(기본). 끄면 줄의 띠만 남는다 — 버전 기록은
+   * 어디가 달라졌는지만 보면 되어 끈다.
+   */
+  wordMarks?: boolean;
 }
 
 /** 다시 그린 뒤에 커서를 세울 자리 */
@@ -88,7 +93,11 @@ function layout(hunks: Hunk[]): { blocks: Block[]; rows: number } {
   return { blocks, rows: Math.max(row - 1, 1) };
 }
 
-function linesOf(blocks: Block[], side: SideName): LineRow[] {
+function linesOf(
+  blocks: Block[],
+  side: SideName,
+  wordMarks: boolean,
+): LineRow[] {
   const out: LineRow[] = [];
   for (const { hunk, row } of blocks) {
     const own = side === "left" ? hunk.leftLines : hunk.rightLines;
@@ -98,7 +107,7 @@ function linesOf(blocks: Block[], side: SideName): LineRow[] {
       // 덩어리 안의 줄은 같은 자리의 줄과 짝짓는다. 한 줄만 고친 경우가 가장 흔하다.
       const pair = hunk.same ? null : other[offset];
       const marks =
-        pair === undefined || pair === null
+        !wordMarks || pair === undefined || pair === null
           ? null
           : wordDiff(
               side === "left" ? text : pair,
@@ -119,12 +128,19 @@ function linesOf(blocks: Block[], side: SideName): LineRow[] {
   return out;
 }
 
-export function BodyCompare({ left, right, onPush, onEdit, labels }: Props) {
+export function BodyCompare({
+  left,
+  right,
+  onPush,
+  onEdit,
+  labels,
+  wordMarks = true,
+}: Props) {
   const hunks = lineDiff(left ?? "", right ?? "");
   const { blocks, rows } = layout(hunks);
   const lines = {
-    left: linesOf(blocks, "left"),
-    right: linesOf(blocks, "right"),
+    left: linesOf(blocks, "left", wordMarks),
+    right: linesOf(blocks, "right", wordMarks),
   };
 
   const box = useRef<HTMLDivElement>(null);

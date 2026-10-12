@@ -125,14 +125,16 @@ describe("DocumentDiff", () => {
     }
   });
 
-  it("points at the words that changed inside a row", () => {
+  it("marks a changed row as a whole, not the words inside it", () => {
     const { container } = renderDiff();
 
-    // 줄 전체의 띠만으로는 무엇이 바뀌었는지 두 줄을 번갈아 읽어야 안다. 낱말을 한 번 더 짚는다.
-    const marks = Array.from(
-      cell(container, "설명", "right").querySelectorAll("mark"),
-    ).map((mark) => mark.textContent);
-    expect(marks.join("")).toContain("은빛 항해단의");
+    // 변경 사항 창은 달라진 줄 안에서 바뀐 낱말을 한 번 더 짚는다. 버전 기록은 줄의 띠만 깐다 —
+    // 속성 값에도 본문에도 낱말 표시가 없다.
+    expect(container.querySelectorAll("mark")).toHaveLength(0);
+    // 글자는 그대로 다 보인다.
+    expect(cell(container, "설명", "right").textContent).toContain(
+      "기억 항로를 읽어 내는 은빛 항해단의 항해사",
+    );
     expect(cell(container, "설명", "left").textContent).toContain(
       "기억 항로를 읽어 내는 항해사",
     );

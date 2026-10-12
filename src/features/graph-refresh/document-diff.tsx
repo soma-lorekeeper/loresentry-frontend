@@ -4,8 +4,9 @@
  * 문서 하나의 두 버전을 나란히 놓고 **읽기만** 한다. {@link DocumentCompare} 의 고칠 수 없는 판이다.
  *
  * 버전 기록이 쓴다. 변경 사항 창과 같은 문서 상자여야 해서 같은 스타일(graph-diff-modal.module.css)과
- * 같은 비교(속성 줄, 낱말 차이, 본문의 띠와 리본)를 쓴다. 다른 것은 셋뿐이다 — 값을 고칠 수 없고,
- * 가운데 칸에 화살표가 없고, 그래서 가운데 칸이 좁다.
+ * 같은 비교(속성 줄, 본문의 띠와 리본)를 쓴다. 다른 것은 이렇다 — 값을 고칠 수 없고, 가운데 칸에
+ * 화살표가 없어 그 칸이 좁고, 달라진 곳은 **줄 단위로만** 짚는다. 변경 사항 창은 달라진 줄 안에서
+ * 바뀐 낱말을 한 번 더 짚지만(어느 낱말을 받아들일지 골라야 하므로) 여기서는 띠만 깐다.
  *
  * 따로 한 벌을 그리지 않고 여기에 둔 까닭: 두 화면이 같은 모양이어야 한다는 것은 스타일을 베껴서는
  * 지켜지지 않는다. 한쪽만 고치는 날부터 달라진다.
@@ -26,7 +27,6 @@ import { cx } from "@/shared/cx";
 import { BodyCompare } from "./body-compare";
 import styles from "./graph-diff-modal.module.css";
 import { bodyLines, propertyRows, type SideName } from "./merge";
-import { wordDiff, type Segment } from "./word-diff";
 
 const SIDES = ["left", "right"] as const;
 
@@ -40,31 +40,11 @@ export type DiffTarget = {
   docType?: DocumentType;
 };
 
-/** 고칠 수 없는 글. 바뀐 낱말에는 변경 사항 창과 같은 표시를 얹는다 */
-function StaticText({
-  value,
-  segments,
-}: {
-  value: string;
-  segments: Segment[] | null;
-}) {
+/** 고칠 수 없는 글 */
+function StaticText({ value }: { value: string }) {
   // 비어 있는 값은 줄표로 적는다(변경 사항 창의 빈 입력란도 같은 줄표를 보인다).
   if (value === "") return <span className={styles.staticEmpty}>—</span>;
-  return (
-    <span className={styles.static}>
-      {segments
-        ? segments.map((segment, index) =>
-            segment.changed ? (
-              <mark key={index} className={styles.word}>
-                {segment.text}
-              </mark>
-            ) : (
-              <Fragment key={index}>{segment.text}</Fragment>
-            ),
-          )
-        : value}
-    </span>
-  );
+  return <span className={styles.static}>{value}</span>;
 }
 
 export function DocumentDiff({
@@ -93,8 +73,6 @@ export function DocumentDiff({
 }) {
   const docs = { left, right };
   const rows = propertyRows(left, right);
-  const titleMarks =
-    left.title === right.title ? null : wordDiff(left.title, right.title);
 
   /**
    * 격자의 행 번호. 세 칸에 모두 적어 둔다 — 좌우 칸만 열을 정해 두면 가운데 칸이 자동 배치되며
@@ -176,10 +154,7 @@ export function DocumentDiff({
           {/* 제목은 두 버전이 다를 때만 적는다. 같으면 창의 제목이 이미 말한다. */}
           {left.title !== right.title &&
             row("title", t("제목"), true, (side) => (
-              <StaticText
-                value={docs[side].title}
-                segments={titleMarks ? titleMarks[side] : null}
-              />
+              <StaticText value={docs[side].title} />
             ))}
 
           {rows.map((line) => {
@@ -190,14 +165,8 @@ export function DocumentDiff({
                 const property = line[side];
                 return property?.kind === "text" ? property.value : "";
               };
-              const marks = line.same
-                ? null
-                : wordDiff(text("left"), text("right"));
               return row(line.key, line.label, !line.same, (side) => (
-                <StaticText
-                  value={text(side)}
-                  segments={marks ? marks[side] : null}
-                />
+                <StaticText value={text(side)} />
               ));
             }
 
@@ -237,6 +206,7 @@ export function DocumentDiff({
         <BodyCompare
           left={bodyLines(left.body)}
           right={bodyLines(right.body)}
+          wordMarks={false}
           labels={{
             left: t("{name} 본문", { name: labels.left }),
             right: t("{name} 본문", { name: labels.right }),
