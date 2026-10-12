@@ -284,6 +284,44 @@ describe("mock files", () => {
 });
 
 describe("mock search and graph", () => {
+  it("ranks an exact title above partial titles above body-only matches", async () => {
+    const hits = await services.search.search(GLASS_GARDEN_ID, "레나");
+    const titled = hits.map((hit) => hit.title.includes("레나"));
+    expect(hits.length).toBeGreaterThan(1);
+    expect(titled.indexOf(false)).toBeGreaterThan(titled.lastIndexOf(true));
+
+    const [exact] = await services.search.search(
+      GLASS_GARDEN_ID,
+      "레나 아르벨",
+    );
+    expect(exact).toMatchObject({
+      fileId: `${GLASS_GARDEN_ID}:c-lena`,
+      docType: "character",
+      path: ["캐릭터"],
+    });
+  });
+
+  it("cuts a snippet from the body text around the match", async () => {
+    const hits = await services.search.search(GLASS_GARDEN_ID, "레나");
+    const bodyOnly = hits.find((hit) => !hit.title.includes("레나"));
+    expect(bodyOnly?.snippet?.match).toBe("레나");
+    expect(bodyOnly?.snippet?.before.length).toBeLessThanOrEqual(40);
+  });
+
+  it("places a chapter under its episode", async () => {
+    const chapter = getDb().files.find((node) => node.id === chapter12)!;
+    const [hit] = await services.search.search(GLASS_GARDEN_ID, chapter.title);
+    const episode = getDb().files.find((node) => node.id === chapter.parentId);
+    expect(hit.path).toEqual(["원고", episode?.title]);
+  });
+
+  it("leaves trashed documents and empty queries out", async () => {
+    expect(
+      await services.search.search(GLASS_GARDEN_ID, "옛 프롤로그"),
+    ).toEqual([]);
+    expect(await services.search.search(GLASS_GARDEN_ID, "   ")).toEqual([]);
+  });
+
   it("builds directed edges only between active documents", async () => {
     const graph = await services.graph.getProjectGraph(GLASS_GARDEN_ID);
     const ids = new Set(graph.nodes.map((node) => node.id));

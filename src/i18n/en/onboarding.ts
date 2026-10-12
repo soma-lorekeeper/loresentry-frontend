@@ -155,6 +155,7 @@ export default {
   "무대::온실 안에서 들리는 목소리의 정체는 아직 밝히지 않는다.":
     "Don't reveal yet whose voice is heard inside the greenhouse.",
 
+  "무대::검색": "Search",
   "무대::그래프": "Graph",
   "무대::타임라인": "Timeline",
   "무대::메모": "Notes",

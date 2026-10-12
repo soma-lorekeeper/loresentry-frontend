@@ -225,6 +225,7 @@ function Sidebar({ scene, userName }: { scene: Scene; userName: string }) {
           <span className={styles.ellipsis}>{PROJECT}</span>
           <Icon name="chevron-down" size={13} />
         </div>
+        <SideItem icon="search" label={t("무대::검색")} />
         <SideItem
           icon="waypoints"
           label={t("무대::그래프")}

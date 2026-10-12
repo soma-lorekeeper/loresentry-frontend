@@ -513,7 +513,7 @@ Lore Sentry의 앱은 회색 책상 위에 흰 작업 시트 한 장이 떠 있�
 
 ### Tertiary
 
-- **Change Teal** (`diff-modify` / `diff-modify-bg`): 바뀐 줄. 그래프 최신화 변경 사항과 버전 기록의 바뀐 줄 바탕, 문서 안 찾기 결과 표시. Pencil에는 추가·삭제·확정 diff 색도 있지만 지금 쓰는 화면이 없다.
+- **Change Teal** (`diff-modify` / `diff-modify-bg`): 바뀐 줄. 그래프 최신화 변경 사항과 버전 기록의 바뀐 줄 바탕, 문서 안 찾기와 프로젝트 검색의 일치 구간(바탕 + 1px `diff-modify` 고리). Pencil에는 추가·삭제·확정 diff 색도 있지만 지금 쓰는 화면이 없다.
 - **Bookmark Gold** (`favorite`, 켜짐은 `favorite-on`): 즐겨찾기 별.
 
 ### Neutral
@@ -654,7 +654,7 @@ Lore Sentry의 앱은 회색 책상 위에 흰 작업 시트 한 장이 떠 있�
 
 ### Inputs / Fields
 
-- **Style:** `surface-sunken` 면, 테두리 없음, 10px 모서리, 42px 높이(설정 밀도 40px), 좌우 10px. 여러 줄은 최소 88px, 세로로만 늘린다. 검색칸도 같은 결이다(그래프·타임라인 36px, 사용 가이드 44px).
+- **Style:** `surface-sunken` 면, 테두리 없음, 10px 모서리, 42px 높이(설정 밀도 40px), 좌우 10px. 여러 줄은 최소 88px, 세로로만 늘린다. 검색칸도 같은 결이다(그래프·타임라인 36px, 사용 가이드·프로젝트 검색 44px). 프로젝트 검색과 작업공간 도움말은 `SearchField` 프리미티브를 같이 쓰고, 입력칸은 친 글자 폭만큼만 늘어나 지우기 단추가 글자 바로 뒤에 선다.
 - **Focus:** 면이 `surface-default`로 밝아지고 focus ring이 둘러진다(160ms).
 - **레이블:** 13px 600(설정 밀도 12px). 선택 입력은 레이블 바로 옆에 회색 12px "선택"을 붙이고, 필수 표시는 하지 않는다. 글자 수는 한도의 80%를 넘을 때만 `tabular-nums`로 보인다.
 - **Error / Disabled:** 오류는 1px 청록 테두리 + 청록 경고 아이콘 + 청록 600 문구(The No-Alarm Rule). 읽기 전용·비활성은 `surface-icon` 면.
@@ -664,10 +664,11 @@ Lore Sentry의 앱은 회색 책상 위에 흰 작업 시트 한 장이 떠 있�
 - **판:** 들어간 판(14px, 안쪽 4px, 행 사이 2px).
 - **행:** 10px 모서리, 좌우 14px, 높이 44px(최근 파일) – 64px(휴지통처럼 두 줄). hover는 행이 `surface-default`로 떠오른다(140ms). 흰 면 위의 목록이면 hover는 `state-hover`.
 - **구분:** 행 사이 선을 긋지 않는다. 꼭 필요하면 `border-subtle`.
+- **검색 결과 행:** 받침 없는 종류 아이콘 + 제목(600) / 본문 조각 한 줄 / 경로(12px `text-secondary`, 첫 마디가 종류 이름)의 세 줄. 다시 찾는 동안 이전 결과는 판째 불투명도 0.72로 남고 입력칸 끝에 스피너가 돈다.
 
 ### Navigation
 
-- **사이드바:** 책상 위에 직접 놓인다. 맨 위 사용자 줄, 그 아래 프로젝트 전환 단추(40px, `surface-pill` + pill 그림자, 10px, hover·펼침에서 raise), 보기 항목(그래프·타임라인·메모), 그래프 최신화, 즐겨찾기, 파일 트리, 맨 아래 휴지통·설정·도움말. 섹션 이름은 12px 600 `text-secondary`.
+- **사이드바:** 책상 위에 직접 놓인다. 맨 위 사용자 줄, 그 아래 프로젝트 전환 단추(40px, `surface-pill` + pill 그림자, 10px, hover·펼침에서 raise), 보기 항목(검색·그래프·타임라인·메모), 그래프 최신화, 즐겨찾기, 파일 트리, 맨 아래 휴지통·설정·도움말. 섹션 이름은 12px 600 `text-secondary`.
 - **사이드바 항목:** 34px, 좌우 10px, 7px, 아이콘 + 말줄임 이름. hover `state-hover`. 현재 위치(`aria-current="page"`)와 고른 항목은 `surface-pill` + pill 그림자, 주 내비게이션은 600까지.
 - **탭 막대:** 시트 맨 위 46px `surface-topbar` 띠 + 아래 `border-subtle`. 탭은 32px, 7px, 13px `text-secondary`. 고른 탭은 `surface-pill` + pill 그림자 + `text-primary` 600. 닫기 단추는 고른 탭과 hover한 탭에만 보인다. 끌어 옮길 때 놓을 자리는 2px 청록 세로선.
 - **메뉴:** 테두리 없음, `surface-raised`, 12px, float 그림자, 204px 폭, 안쪽 8px, 항목 34px. hover·키보드 포커스 `state-hover`, 체크된 항목 `state-selected` + 600 + 청록 체크, 파괴 동작은 청록 600. 그룹 이름 12px 600 `text-secondary`, 구분선 `border-default`. 방향키·Esc 처리 후 시작 지점으로 포커스를 돌린다.

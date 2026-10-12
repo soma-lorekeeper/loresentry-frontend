@@ -1,0 +1,112 @@
+.field {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--lk-space-3);
+  height: 44px;
+  padding: 0 var(--lk-space-4);
+  border-radius: 10px;
+  background: var(--lk-color-surface-sunken);
+  color: var(--lk-color-icon-default);
+  transition:
+    background-color 160ms var(--lk-ease),
+    box-shadow 160ms var(--lk-ease);
+}
+
+.field:focus-within {
+  background: var(--lk-color-surface-default);
+  box-shadow: var(--lk-focus-ring);
+}
+
+.icon {
+  flex: none;
+}
+
+.grow {
+  display: inline-grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.grow.empty {
+  flex: 1;
+}
+
+.grow::after,
+.input {
+  grid-area: 1 / 1;
+  min-width: 1ch;
+  font: inherit;
+}
+
+.grow::after {
+  overflow: hidden;
+  content: attr(data-value) " ";
+  visibility: hidden;
+  white-space: pre;
+}
+
+.input {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--lk-color-text-primary);
+}
+
+.input:focus-visible {
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--lk-color-text-secondary);
+}
+
+.input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.clear {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--lk-radius-control);
+  color: var(--lk-color-icon-default);
+  transition: background-color 140ms var(--lk-ease);
+}
+
+.clear:hover {
+  background: var(--lk-color-state-hover);
+}
+
+.clear:focus-visible {
+  outline: none;
+  box-shadow: var(--lk-focus-ring);
+}
+
+.spin {
+  flex: none;
+  animation: spin 900ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field,
+  .clear {
+    transition: none;
+  }
+
+  .spin {
+    animation-duration: 2400ms;
+  }
+}

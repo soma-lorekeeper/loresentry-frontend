@@ -11,6 +11,7 @@ import { ApiClient } from "./http";
 import { createApiMemos } from "./memos";
 import { createApiProjects } from "./projects";
 import { createApiRefresh } from "./refresh";
+import { createApiSearch } from "./search";
 import { unavailableServices } from "./unavailable";
 import { createApiWorkspaceState } from "./workspace-state";
 
@@ -37,6 +38,7 @@ export function createApiServices(baseUrl: string): Partial<Services> {
     documents,
     versions,
     memos: createApiMemos(client),
+    search: createApiSearch(client),
     workspaceState: createApiWorkspaceState(client),
     graph: createApiGraph(client),
     feedback: createApiFeedback(client),
