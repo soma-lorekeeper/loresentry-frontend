@@ -53,10 +53,55 @@ import { documentJSON } from "./editor/text-align";
 import { FileHeader } from "./file-header";
 import { PrintSheet, printRows } from "./print-sheet";
 import { PropertyTable } from "./property-table";
+import type { SaveStatus } from "./document-session";
 import { useDocumentSession } from "./use-document-session";
 import { bodyOf, type DocumentBody } from "@/domain/document-body";
 
 const MIN_EDITOR_WIDTH = 640;
+/**
+ * 직접 시킨 저장에서 "저장 중…" 이 머무는 가장 짧은 시간(ms). 저장이 이보다 빨리 끝나도(또는 저장할
+ * 것이 없어도) 이만큼은 보인다 — 눈에 띄기 전에 지나가면 눌렀는지 알 수 없다.
+ */
+const SAVE_ECHO_MS = 600;
+
+/**
+ * 저장을 직접 시켰을 때(단축키) 저장 상태 표시가 그것을 보여 주게 한다.
+ *
+ * <p>단축키로 시킨 저장은 화면에 잘 보이지 않는다 — 손을 멈추고 0.8초면 자동 저장이 끝나 있어
+ * 대부분 할 일이 없고, 할 일이 있어도 순식간에 끝난다. 눌렀는데 화면이 그대로면 저장됐는지 알 수
+ * 없다. 그래서 누르면 곧바로 "저장 중…" 을 띄우고, 읽힐 만큼({@link SAVE_ECHO_MS}) 머문 뒤
+ * 실제 상태("저장됨")로 돌아간다. "저장 대기 중" 은 거치지 않는다 — 기다리는 것이 아니라 지금
+ * 저장하라고 시킨 것이다.
+ *
+ * <p><b>화면만 그렇다.</b> 실제 저장은 누르는 즉시 나가고, 표시가 머무는 동안 기다리지 않는다.
+ *
+ * <p>문제가 생겼으면(저장 실패, 겹친 수정, 잠김) 보여 주던 것을 그만두고 실제 상태를 보인다.
+ *
+ * @param status 실제 저장 상태
+ * @returns `shown` 은 화면에 보일 상태, `play` 는 "저장 중…" 을 지금부터 보여 주는 함수
+ */
+function useSaveEcho(status: SaveStatus) {
+  const [echoing, setEchoing] = useState(false);
+  const timer = useRef<number | null>(null);
+
+  const stop = () => {
+    if (timer.current !== null) window.clearTimeout(timer.current);
+    timer.current = null;
+  };
+  useEffect(() => stop, []);
+
+  const play = () => {
+    // 보여 주는 중에 또 누르면 그때부터 다시 센다.
+    stop();
+    setEchoing(true);
+    timer.current = window.setTimeout(() => setEchoing(false), SAVE_ECHO_MS);
+  };
+
+  // 평소의 세 상태일 때만 덮어 보인다. 그 밖의 상태는 작가가 지금 알아야 하는 것이다.
+  const routine =
+    status === "saved" || status === "dirty" || status === "saving";
+  return { shown: echoing && routine ? ("saving" as const) : status, play };
+}
 
 function BodyEditor({
   body,
@@ -142,7 +187,8 @@ function TabActionsBridge({
   useEffect(
     () =>
       registerTabActions(paneId, tabId, {
-        save: () => latest.current.save(),
+        // 누가 시킨 저장인지(`acknowledge`)를 그대로 넘긴다.
+        save: (options) => latest.current.save(options),
         find: () => latest.current.find(),
         exportPdf: () => latest.current.exportPdf(),
       }),
@@ -179,6 +225,8 @@ export function DocumentView({
   // 웹 글꼴은 처음 고를 때 받는다. 오기 전에는 기기의 비슷한 글꼴로 그린다(editor-fonts.ts).
   const fontStack = useEditorFontStack(prefs.font);
   const doc = useDocumentSession(fileId);
+  // 단축키로 저장을 시키면 도구 막대의 저장 상태가 곧바로 "저장 중…" 을 보여 준다.
+  const saveEcho = useSaveEcho(doc.status);
   const [editor, setEditor] = useState<Editor | null>(null);
   const [lockPending, setLockPending] = useState(false);
   const [versionsOpen, setVersionsOpen] = useState(false);
@@ -388,7 +436,9 @@ export function DocumentView({
         paneId={paneId}
         tabId={tabIdFor({ kind: "file", fileId })}
         actions={{
-          save: async () => {
+          save: async (options) => {
+            // 보여 주는 것은 여기서 시작하고, 저장은 기다리지 않고 바로 보낸다.
+            if (options?.acknowledge) saveEcho.play();
             await doc.session.save();
             // 저장은 실패해도 조용히 끝난다(상태로만 알린다). 서버에 닿지 못한 글이 남았는지를
             // 돌려줘야, 탭을 옮기는 쪽이 그 글을 잃지 않게 멈출 수 있다.
@@ -424,7 +474,7 @@ export function DocumentView({
             key={editor ? "ready" : "pending"}
             editor={editor}
             prefs={prefs}
-            status={doc.status}
+            status={saveEcho.shown}
             locked={locked}
             onRetry={() => void doc.session.retry()}
             findOpen={findOpen}

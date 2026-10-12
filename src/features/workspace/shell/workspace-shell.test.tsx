@@ -413,6 +413,44 @@ describe("WorkspaceShell shortcuts", () => {
     expect(delivered).toBe(false);
   });
 
+  it("shows the save in progress as soon as it is asked for, without holding the save back", async () => {
+    stubMatchMedia();
+    const fileId = "glass-garden:ch-12";
+    renderShell(createLayout({ kind: "file", fileId }));
+    const toolbar = await screen.findByRole("toolbar", { name: "편집 도구" });
+    // 저장 상태 자리에는 폭을 잡아 두려는 숨은 글자도 있다. 보이는 것만 본다.
+    const visible = { ignore: '[aria-hidden="true"]' };
+    const shown = (label: string) =>
+      within(toolbar).findByText(label, visible, { timeout: 2000 });
+    await shown("저장됨");
+
+    // 저장할 것이 없어도 눌렀다는 것이 보인다. 기다리는 단계 없이 곧바로 "저장 중…" 이다.
+    fireEvent.keyDown(window, { code: "KeyS", ctrlKey: true });
+    expect(within(toolbar).getByText("저장 중…", visible)).toBeInTheDocument();
+    expect(within(toolbar).queryByText("저장 대기 중", visible)).toBeNull();
+    await shown("저장됨");
+
+    // 고친 것이 있을 때: 글은 누르는 즉시 서버에 간다. 화면의 표시가 끝나기를 기다리지 않는다.
+    fireEvent.change(screen.getByRole("textbox", { name: "제목" }), {
+      target: { value: "12화 · 고친 제목" },
+    });
+    expect(
+      within(toolbar).getByText("저장 대기 중", visible),
+    ).toBeInTheDocument();
+    fireEvent.keyDown(window, { code: "KeyS", ctrlKey: true });
+    expect(within(toolbar).getByText("저장 중…", visible)).toBeInTheDocument();
+    await waitFor(
+      () =>
+        expect(getDb().files.find((node) => node.id === fileId)?.title).toBe(
+          "12화 · 고친 제목",
+        ),
+      { timeout: 400 },
+    );
+    // 저장은 이미 끝났지만 "저장 중…" 은 읽힐 만큼 더 머문다. 그 뒤에 "저장됨" 이다.
+    expect(within(toolbar).getByText("저장 중…", visible)).toBeInTheDocument();
+    await shown("저장됨");
+  }, 15_000);
+
   it("closes the tab in view on Alt+W", async () => {
     stubMatchMedia();
     renderShell(twoTabs());

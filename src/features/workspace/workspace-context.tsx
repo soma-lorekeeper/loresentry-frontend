@@ -111,8 +111,13 @@ export interface TabActions {
   /**
    * 자동 저장을 기다리지 않고 지금 저장한다. 저장하지 못한 것이 남았으면(오프라인, 서버 오류,
    * 겹친 수정) `false` 를 돌려준다 — 탭을 옮기는 쪽이 그때는 옮기지 않는다.
+   *
+   * `acknowledge` 는 작가가 직접 시킨 저장(단축키)이라는 뜻이다. 그때는 화면이 저장 상태 자리에서
+   * 눌렀다는 것을 보여 준다. 탭을 옮기기 전의 저장처럼 작가가 시키지 않은 저장에는 주지 않는다.
    */
-  save?: () => void | boolean | Promise<void | boolean>;
+  save?: (options?: {
+    acknowledge?: boolean;
+  }) => void | boolean | Promise<void | boolean>;
   /** 문서 안 찾기 막대를 연다 */
   find?: () => void;
   /** PDF 로 내보낸다(인쇄 창을 연다) */

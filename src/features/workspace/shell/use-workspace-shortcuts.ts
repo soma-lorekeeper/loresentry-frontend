@@ -49,7 +49,8 @@ export function useWorkspaceShortcuts({ onPlace }: { onPlace: () => void }) {
         case "save":
           // 저장할 문서가 없어도 막는다. 작업공간에서 브라우저의 "페이지 저장" 창이 뜰 이유가 없다.
           event.preventDefault();
-          void actions?.save?.();
+          // 작가가 직접 시킨 저장이다. 문서 화면이 저장 상태 자리에서 그것을 보여 준다.
+          void actions?.save?.({ acknowledge: true });
           return;
         case "find":
           // 문서가 아닌 화면(가이드, 설정 등)에서는 브라우저의 찾기를 그대로 쓴다.

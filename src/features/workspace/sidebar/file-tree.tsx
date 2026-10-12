@@ -12,7 +12,6 @@ import {
 import {
   Icon,
   Menu,
-  Tooltip,
   type IconName,
   type MenuEntry,
 } from "@/design-system/primitives";
@@ -98,11 +97,12 @@ function indent(depth: number) {
 /**
  * 이름을 적는 줄. 새 문서·폴더를 만들 때와 이름을 바꿀 때 쓴다.
  *
- * <p>다 적으면 될 줄과 같은 모양으로 그린다 — 같은 자리의 종류 색 아이콘, 같은 높이. Enter 나
- * 확인 단추, 또는 다른 곳을 누르면 정해지고, Esc 는 그만둔다. 이름을 비우고 정하면 그만둔 것이다.
+ * <p>다 적으면 될 줄과 같은 모양으로 그린다 — 같은 자리의 종류 색 아이콘, 같은 높이. Enter 를
+ * 치거나 다른 곳을 누르면 정해지고, Esc 는 그만둔다. 이름을 비우고 정하면 그만둔 것이다. 확인하는
+ * 단추는 따로 두지 않는다.
  *
  * @param kind 문서면 그 종류. 아이콘이 그 종류의 색이 된다
- * @param pending 이름을 정했고 만드는 중이면 그 이름. 고칠 수 없고 확인 자리에 대기 표시가 돈다
+ * @param pending 이름을 정했고 만드는 중이면 그 이름. 고칠 수 없고 줄 끝에 대기 표시가 돈다
  */
 export function InlineEditRow({
   icon,
@@ -123,7 +123,6 @@ export function InlineEditRow({
 }) {
   const [value, setValue] = useState(defaultTitle);
   const committed = useRef(false);
-  const confirmRef = useRef<HTMLButtonElement>(null);
   const commit = () => {
     if (committed.current) return;
     committed.current = true;
@@ -178,17 +177,6 @@ export function InlineEditRow({
         }}
         onBlur={commit}
       />
-      <button
-        ref={confirmRef}
-        type="button"
-        className={styles.editConfirm}
-        aria-label={t("확인")}
-        onMouseDown={(event) => event.preventDefault()}
-        onClick={commit}
-      >
-        <Icon name="check" size={14} />
-      </button>
-      <Tooltip anchorRef={confirmRef} label={t("확인")} shortcut="Enter" />
     </div>
   );
 }
