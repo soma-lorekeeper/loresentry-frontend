@@ -15,18 +15,14 @@ import { relativeTime } from "@/shared/format";
 
 import { categoryFolderOf, documentsOf } from "../model/tree";
 import { useCreateFile, useFileTree } from "../queries";
-import { useImportPicker } from "../use-import-document";
 import { useWorkspace } from "../workspace-context";
 import styles from "./new-tab.module.css";
 
 export function NewTabView() {
-  const { project, projectId, open } = useWorkspace();
+  const { project, projectId, open, setImporting } = useWorkspace();
   const tree = useFileTree(projectId);
   const create = useCreateFile(projectId);
   const nodes = useMemo(() => tree.data ?? [], [tree.data]);
-  const importPicker = useImportPicker(projectId, nodes, (node) =>
-    open({ kind: "file", fileId: node.id }),
-  );
 
   // 서버 가정: "최근에 연 파일"은 서버가 사용자별 열람 기록으로 돌려준다. mock은 최근 수정 순으로 대신한다.
   const recent = useMemo(
@@ -114,12 +110,11 @@ export function NewTabView() {
           <button
             type="button"
             className={styles.import}
-            onClick={importPicker.pick}
+            onClick={() => setImporting(true)}
           >
             <Icon name="upload" size={14} />
             {t("가져오기")}
           </button>
-          <input {...importPicker.inputProps} />
         </div>
         <div className={styles.createGrid}>
           {DOCUMENT_TYPES.map((type) => (

@@ -135,9 +135,36 @@ export default {
 
   "가져온 원고": "Imported manuscript",
   "원고를 가져왔어요.": "Manuscript imported.",
-  "파일을 가져오지 못했어요.": "Couldn't import the file.",
-  "텍스트(.txt)나 마크다운(.md) 파일인지 확인해 주세요.":
-    "Make sure it's a text (.txt) or Markdown (.md) file.",
+  "원고 {count}개를 가져왔어요.": "{count} manuscripts imported.",
+  "원고 가져오기": "Import manuscripts",
+  "원고 가져오기 닫기": "Close import",
+  "텍스트(.txt)와 마크다운(.md) 파일을 원고로 가져와요.":
+    "Bring in text (.txt) and Markdown (.md) files as manuscripts.",
+  "파일 선택": "Choose files",
+  "여기로 끌어다 놓아도 돼요": "or drop them here",
+  "놓으면 목록에 담겨요": "Drop to add them to the list",
+  "가져올 파일": "Files to import",
+  마크다운: "Markdown",
+  텍스트: "Text",
+  "{title} 빼기": "Remove {title}",
+  "가져오지 못했어요": "Couldn't import",
+  "{count}개를 가져오지 못했어요. 다시 시도하거나 목록에서 빼 주세요.": plural(
+    "{count} file couldn't be imported. Try again or remove it from the list.",
+    "{count} files couldn't be imported. Try again or remove them from the list.",
+  ),
+  "{count}개는 담지 않았어요. 텍스트(.txt)와 마크다운(.md) 파일만 가져올 수 있어요.":
+    plural(
+      "{count} file wasn't added. Only text (.txt) and Markdown (.md) files can be imported.",
+      "{count} files weren't added. Only text (.txt) and Markdown (.md) files can be imported.",
+    ),
+  "원고 폴더에 새 원고로 만들어져요.":
+    "They're created as new manuscripts in the Manuscripts folder.",
+  "파일 이름이 원고의 제목이 돼요.":
+    "Each file name becomes the manuscript's title.",
+  "‘가져오기’를 누르기 전에는 아무것도 만들어지지 않아요.":
+    "Nothing is created until you press Import.",
+  "파일 {count}개": plural("{count} file", "{count} files"),
+  "{total}개 중 {done}번째를 가져오는 중": "Importing {done} of {total}",
 
   "제목 없는 {kind}": (p) => `Untitled ${kindNoun(p)}`,
   "작업공간::이어서 작업하기": "Continue working",

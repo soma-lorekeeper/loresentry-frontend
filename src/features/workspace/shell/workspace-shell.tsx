@@ -1,11 +1,13 @@
 "use client";
 
-import { Fragment, useRef, type CSSProperties } from "react";
+import { Fragment, useEffect, useRef, type CSSProperties } from "react";
 
 import { Icon, ResizeHandle } from "@/design-system/primitives";
+import { onTourEnd } from "@/features/tour/tour-state";
 import { WorkspaceTour } from "@/features/tour/workspace-tour";
 import { t } from "@/i18n";
 
+import { ImportDialog } from "../import-dialog";
 import { SPLIT_RATIO, splitOf, type WorkspacePane } from "../model/layout";
 import { DocumentViewHost } from "../views/document-view-host";
 import { WORKSPACE_VIEWS } from "../views/registry";
@@ -200,8 +202,17 @@ function PaneDivider({
 }
 
 export function WorkspaceShell() {
-  const { layout, activePane, narrow, sidebarVisible, setSidebarVisible } =
-    useWorkspace();
+  const {
+    layout,
+    activePane,
+    narrow,
+    sidebarVisible,
+    setSidebarVisible,
+    importing,
+    setImporting,
+  } = useWorkspace();
+  // 작업공간 둘러보기는 가져오기 창을 열어 보여 준다. 둘러보기가 끝나면 그 창도 함께 닫는다.
+  useEffect(() => onTourEnd(() => setImporting(false)), [setImporting]);
   const shellRef = useRef<HTMLDivElement>(null);
   const panesRef = useRef<HTMLElement>(null);
   const sidebarWidth = useSidebarWidth();
@@ -300,6 +311,12 @@ export function WorkspaceShell() {
           </p>
         )}
       </main>
+      {/*
+        원고 가져오기 창. 여는 단추는 사이드바와 새 탭에 있지만 창은 여기 하나다 — 단추가 있는
+        화면이 사라져도(좁아져 접힌 사이드바) 올려 둔 목록이 남는다. 열려 있을 때만 그려서, 닫을
+        때마다 목록이 비워진다.
+      */}
+      {importing && <ImportDialog onClose={() => setImporting(false)} />}
       <WorkspaceTour />
     </div>
   );

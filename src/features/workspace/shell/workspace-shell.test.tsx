@@ -199,6 +199,35 @@ describe("WorkspaceShell sidebar", () => {
     expect(save).not.toHaveBeenCalled();
   });
 
+  it("keeps the files added to the import dialog when the window narrows", async () => {
+    const media = stubMatchMedia();
+    renderShell(twoTabs());
+    const nav = await screen.findByRole("navigation", { name: "작업공간" });
+
+    fireEvent.click(within(nav).getByRole("button", { name: "가져오기" }));
+    const dialog = await screen.findByRole("dialog", { name: "원고 가져오기" });
+    const dataTransfer = {
+      types: ["Files"],
+      files: [new File(["본문"], "13화.txt", { type: "text/plain" })],
+    };
+    fireEvent.dragEnter(window, { dataTransfer });
+    fireEvent.drop(window, { dataTransfer });
+    expect(within(dialog).getByText("13화")).toBeInTheDocument();
+
+    // 창이 좁아지면 사이드바는 서랍이 되어 사라진다. 가져오기 단추도 함께 사라지지만,
+    // 창과 올려 둔 목록은 그 단추의 것이 아니라 남아 있어야 한다.
+    media.set(true);
+
+    expect(
+      screen.queryByRole("navigation", { name: "작업공간" }),
+    ).not.toBeInTheDocument();
+    expect(
+      within(screen.getByRole("dialog", { name: "원고 가져오기" })).getByText(
+        "13화",
+      ),
+    ).toBeInTheDocument();
+  });
+
   it("remembers the width it was resized to", async () => {
     stubMatchMedia();
     renderShell(twoTabs());

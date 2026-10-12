@@ -89,6 +89,14 @@ interface WorkspaceContextValue {
    * 거치고(저장하지 않은 설정 등), 문서면 쓰던 글을 저장한 뒤에 옮긴다.
    */
   relocate: (action: RelocateAction) => void;
+  /**
+   * 원고 가져오기 창이 열려 있는가(import-dialog.tsx).
+   *
+   * 여는 단추는 사이드바와 새 탭 두 곳에 있지만 창은 하나다. 단추가 있는 화면이 사라져도(창이
+   * 좁아져 접힌 사이드바, 닫힌 새 탭) 올려 둔 파일 목록이 남아야 하므로 열림을 여기에 둔다.
+   */
+  importing: boolean;
+  setImporting: (open: boolean) => void;
 }
 
 export type RelocateAction = Extract<
@@ -144,6 +152,7 @@ export function WorkspaceProvider({
    */
   const [narrow, setNarrow] = useState(matchesNarrow);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [importing, setImporting] = useState(false);
   useEffect(() => {
     if (typeof window.matchMedia !== "function") return;
     const query = window.matchMedia(NARROW_QUERY);
@@ -306,6 +315,8 @@ export function WorkspaceProvider({
       registerTabActions,
       tabActionsOf,
       relocate,
+      importing,
+      setImporting,
     }),
     [
       project,
@@ -322,6 +333,7 @@ export function WorkspaceProvider({
       registerTabActions,
       tabActionsOf,
       relocate,
+      importing,
     ],
   );
 
