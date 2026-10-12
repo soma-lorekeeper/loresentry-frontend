@@ -11,6 +11,7 @@ import {
 import { t } from "@/i18n";
 
 import {
+  landingShare,
   offeredZones,
   previewRect,
   sameZone,
@@ -21,7 +22,8 @@ import {
 } from "../model/drop-zones";
 import { splitOf, tabIdFor, type DropEdge } from "../model/layout";
 import { useWorkspace } from "../workspace-context";
-import { endDrag, getDrag, type DragSession } from "./drag-session";
+import { endDrag, getDrag, originOf, type DragSession } from "./drag-session";
+import type { DropOrigin } from "./use-pane-motion";
 
 /** 두 시트 사이의 틈(px). 가장자리 미리보기가 새 시트의 실제 크기와 맞으려면 알아야 한다 */
 const PANE_GAP = 10;
@@ -32,6 +34,11 @@ export interface DropPreview {
   zone: DropZone;
   /** 작업 영역(main) 왼쪽 위를 기준으로 한 사각형 */
   rect: Rect;
+  /**
+   * 놓으면 두 창이 자리를 맞바꾼다. 미리보기 사각형이 "그 창으로 옮기기" 와 같은 자리에
+   * 그려지므로, 무엇이 일어나는지 글자로 적어 구분한다.
+   */
+  swap?: boolean;
   /** 방금 놓았다. 그 자리에서 사라지는 중이다 */
   settling?: boolean;
 }
@@ -113,12 +120,14 @@ export function usePaneDrop(panesRef: RefObject<HTMLElement | null>) {
   const [preview, setPreview] = useState<DropPreview | null>(null);
   const zone = useRef<DropZone | null>(null);
   const settle = useRef<number | null>(null);
+  /** 방금 끌어온 단추의 자리. 새 창이 거기서 나온다(use-pane-motion.ts 가 읽고 비운다) */
+  const dropOriginRef = useRef<DropOrigin | null>(null);
 
   /** 그 자리의 미리보기 사각형을 재어 보여 준다. null 이면 지운다 */
   const show = useCallback(
-    (next: DropZone | null) => {
+    (next: DropZone | null, source?: DragSource) => {
       const main = panesRef.current;
-      if (!next || !main) {
+      if (!next || !source || !main) {
         if (zone.current) {
           zone.current = null;
           setPreview(null);
@@ -127,8 +136,16 @@ export function usePaneDrop(panesRef: RefObject<HTMLElement | null>) {
       }
       if (sameZone(zone.current, next)) return;
       zone.current = next;
+      const { layout } = latest.current;
       const { area, paneRects, origin } = measure(main);
-      const rect = previewRect(next, area, paneRects, PANE_GAP);
+      // 가장자리의 크기는 놓았을 때의 배치에서 읽는다. 맞바꾸면 그 창의 원래 크기다.
+      const rect = previewRect(
+        next,
+        area,
+        paneRects,
+        PANE_GAP,
+        next.kind === "edge" ? landingShare(layout, source, next.edge) : 1,
+      );
       setPreview({
         zone: next,
         rect: {
@@ -136,43 +153,62 @@ export function usePaneDrop(panesRef: RefObject<HTMLElement | null>) {
           left: rect.left - origin.left,
           top: rect.top - origin.top,
         },
+        swap:
+          next.kind === "edge" &&
+          offeredZones(layout, source).swap === next.edge,
       });
     },
     [panesRef],
   );
 
-  /** 그 자리에 놓는다 */
-  const perform = useCallback((source: DragSource, target: DropZone) => {
-    const ws = latest.current;
-    // 놓은 자리에서 미리보기가 잠깐 남았다가 사라진다. 그 사이에 새 시트가 들어온다.
-    zone.current = null;
-    setPreview((current) => (current ? { ...current, settling: true } : null));
-    if (settle.current) window.clearTimeout(settle.current);
-    settle.current = window.setTimeout(() => setPreview(null), SETTLE_MS);
-
-    if (source.from) {
-      // 탭을 옮긴다. 화면이 새로 만들어지므로 저장과 닫기 확인을 거친다(relocate).
-      ws.relocate(
-        target.kind === "edge"
-          ? {
-              type: "split",
-              edge: target.edge,
-              target: source.target,
-              from: source.from,
-            }
-          : {
-              type: "moveTab",
-              from: source.from,
-              tabId: tabIdFor(source.target),
-              to: target.paneId,
-            },
+  /**
+   * 그 자리에 놓는다.
+   *
+   * @param origin 끌어온 단추의 자리(뷰포트 좌표). 새 창이 거기서 나온다
+   */
+  const perform = useCallback(
+    (source: DragSource, target: DropZone, origin?: Rect) => {
+      dropOriginRef.current = origin
+        ? { rect: origin, at: performance.now() }
+        : null;
+      const ws = latest.current;
+      // 놓은 자리에서 미리보기가 잠깐 남았다가 사라진다. 그 사이에 새 시트가 들어온다.
+      zone.current = null;
+      setPreview((current) =>
+        current ? { ...current, settling: true } : null,
       );
-    } else if (target.kind === "edge") {
-      ws.dispatch({ type: "split", edge: target.edge, target: source.target });
-    } else {
-      ws.open(source.target, { paneId: target.paneId });
-    }
-  }, []);
+      if (settle.current) window.clearTimeout(settle.current);
+      settle.current = window.setTimeout(() => setPreview(null), SETTLE_MS);
+
+      if (source.from) {
+        // 탭을 옮긴다. 화면이 새로 만들어지므로 저장과 닫기 확인을 거친다(relocate).
+        ws.relocate(
+          target.kind === "edge"
+            ? {
+                type: "split",
+                edge: target.edge,
+                target: source.target,
+                from: source.from,
+              }
+            : {
+                type: "moveTab",
+                from: source.from,
+                tabId: tabIdFor(source.target),
+                to: target.paneId,
+              },
+        );
+      } else if (target.kind === "edge") {
+        ws.dispatch({
+          type: "split",
+          edge: target.edge,
+          target: source.target,
+        });
+      } else {
+        ws.open(source.target, { paneId: target.paneId });
+      }
+    },
+    [],
+  );
 
   useEffect(
     () => () => {
@@ -204,7 +240,7 @@ export function usePaneDrop(panesRef: RefObject<HTMLElement | null>) {
         offeredZones(ws.layout, source),
         zone.current,
       );
-      return hit ? { source, zone: hit } : null;
+      return hit ? { source, zone: hit, origin: session.origin } : null;
     };
 
     const onOver = (event: DragEvent) => {
@@ -217,7 +253,7 @@ export function usePaneDrop(panesRef: RefObject<HTMLElement | null>) {
       event.preventDefault();
       event.stopPropagation();
       if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
-      show(hit.zone);
+      show(hit.zone, hit.source);
     };
     const onLeave = (event: DragEvent) => {
       const next = event.relatedTarget;
@@ -231,7 +267,7 @@ export function usePaneDrop(panesRef: RefObject<HTMLElement | null>) {
       }
       event.preventDefault();
       event.stopPropagation();
-      perform(hit.source, hit.zone);
+      perform(hit.source, hit.zone, hit.origin);
       endDrag();
     };
 
@@ -257,6 +293,8 @@ export function usePaneDrop(panesRef: RefObject<HTMLElement | null>) {
     source: DragSource;
     zones: DropZone[];
     index: number;
+    /** 옮기려는 것(파일 줄, 탭)의 자리. 끌어 놓을 때처럼 새 창이 거기서 나온다 */
+    origin?: Rect;
   } | null>(null);
   /** 키보드로 놓은 뒤에는 포커스를 옮겨 간 탭으로 보낸다 */
   const focusAfter = useRef(false);
@@ -281,6 +319,12 @@ export function usePaneDrop(panesRef: RefObject<HTMLElement | null>) {
         ? { target: active.target, from: pane.id }
         : null;
     if (!source) return;
+    // 그 파일 줄이나 탭이 화면에 있으면 자리를 재 둔다.
+    const from = row
+      ? focused
+      : panesRef.current.querySelector(
+          `[data-pane-id="${pane.id}"] [role="tab"][aria-selected="true"]`,
+        );
     const offered = offeredZones(ws.layout, source);
     // 다른 창이 있으면 그 창이 먼저다. 없으면 오른쪽에 새 창을 여는 것이 기본이다.
     const edges: DropEdge[] = ["right", "left", "bottom", "top"];
@@ -291,13 +335,19 @@ export function usePaneDrop(panesRef: RefObject<HTMLElement | null>) {
         .map((edge) => ({ kind: "edge" as const, edge })),
     ];
     if (zones.length === 0) return;
-    setPlacing({ source, zones, index: 0 });
+    setPlacing({
+      source,
+      zones,
+      index: 0,
+      origin: from ? originOf(from) : undefined,
+    });
   }, [panesRef]);
 
   const placed = placing ? placing.zones[placing.index] : null;
+  const placedSource = placing?.source;
   useEffect(() => {
-    if (placed) show(placed);
-  }, [placed, show]);
+    if (placed) show(placed, placedSource);
+  }, [placed, placedSource, show]);
 
   useEffect(() => {
     if (!placing) return;
@@ -344,7 +394,7 @@ export function usePaneDrop(panesRef: RefObject<HTMLElement | null>) {
         );
       } else if (event.key === "Enter" || event.key === " ") {
         focusAfter.current = true;
-        perform(placing.source, placing.zones[placing.index]);
+        perform(placing.source, placing.zones[placing.index], placing.origin);
         setPlacing(null);
       } else if (event.key === "Escape") {
         stop();
@@ -379,17 +429,23 @@ export function usePaneDrop(panesRef: RefObject<HTMLElement | null>) {
 
   const placingState: PlacingState | null = placed
     ? {
-        label: t("{place}에 놓아요. Enter로 확정, Esc로 취소", {
-          place:
-            placed.kind === "edge"
-              ? edgeName(placed.edge)
-              : t("창 {number}", {
-                  number:
-                    layout.panes.findIndex((p) => p.id === placed.paneId) + 1,
-                }),
-        }),
+        label:
+          // 맞바꾸는 자리는 "어디에 놓는다" 가 아니라 "두 창이 바뀐다" 로 읽어 준다.
+          placed.kind === "edge" && preview?.swap
+            ? t("두 창의 자리를 바꿔요. Enter로 확정, Esc로 취소")
+            : t("{place}에 놓아요. Enter로 확정, Esc로 취소", {
+                place:
+                  placed.kind === "edge"
+                    ? edgeName(placed.edge)
+                    : t("창 {number}", {
+                        number:
+                          layout.panes.findIndex(
+                            (p) => p.id === placed.paneId,
+                          ) + 1,
+                      }),
+              }),
       }
     : null;
 
-  return { preview, placing: placingState, startPlacing };
+  return { preview, placing: placingState, startPlacing, dropOriginRef };
 }

@@ -249,14 +249,15 @@ function insertInPane(
 /**
  * 가장자리에 놓기.
  *
- * <p>창이 하나면 그 가장자리에 새 창이 생긴다. 창은 둘까지라, 이미 둘이면 더 늘리지 않고
- * 놓은 것이 **그 가장자리에 서는 창**으로 들어간다:
+ * <p>창이 하나면 그 가장자리에 새 창이 생긴다. 창은 둘까지라, 이미 둘이면 더 늘리지 않는다.
+ * 그때 가장자리는 **창을 다시 놓는 자리**다 — 탭 하나를 다른 창으로 보내는 것은 가장자리가
+ * 아니라 그 창 안(또는 탭 막대)에 놓는 일이다(`moveTab`).
  * <ul>
- *   <li>지금 분할과 같은 축의 가장자리(좌우로 나뉜 채 왼쪽에 놓음)면, 이미 그쪽에 있는
- *       창으로 간다. 창의 자리는 그대로다.
- *   <li>직교하는 가장자리(좌우로 나뉜 채 위에 놓음)면 분할 방향이 바뀐다. 끌어온 탭이
- *       제 창의 하나뿐인 탭이면 그 창이 통째로 그 가장자리로 가고, 아니면 탭이 반대쪽
- *       창으로 옮겨 가 그 창이 그 가장자리에 선다.
+ *   <li><b>탭을 끌어왔으면</b> 그 탭이 있던 창이 통째로 그 가장자리에 서고, 다른 창이 맞은편에
+ *       선다. 같은 축의 맞은편이면 두 창이 자리를 맞바꾸고(크기는 저마다 그대로), 직교하는
+ *       가장자리면 분할 방향이 바뀐다(반반으로). 끌어온 탭이 그 창에서 보이는 탭이 된다.
+ *   <li><b>사이드바의 파일이면</b> 그 가장자리에 서는 창이 받는다. 같은 축이면 이미 그쪽에 있는
+ *       창이고, 직교하면 지금 쓰지 않는 창이 받아 그 가장자리로 간다.
  * </ul>
  */
 function splitAt(
@@ -286,44 +287,48 @@ function splitAt(
   }
 
   const [first, second] = layout.panes;
-  if (direction === splitOf(layout).direction) {
-    // 같은 축: 이미 그 가장자리에 있는 창으로 들어간다.
-    const destination = leads(edge) ? first : second;
-    if (!moving) {
-      return layoutReducer(layout, {
-        type: "open",
-        target,
-        paneId: destination.id,
-      });
-    }
-    return layoutReducer(layout, {
-      type: "moveTab",
-      from: source!.id,
-      tabId: moved.id,
-      to: destination.id,
-    });
-  }
+  const current = splitOf(layout);
+  const along = direction === current.direction;
 
-  // 직교하는 축: 분할 방향이 바뀐다.
-  if (moving && source!.tabs.length === 1) {
-    // 하나뿐인 탭을 끌었으니 창을 통째로 그 가장자리로 옮긴다. id 를 지켜 화면을 다시 만들지 않는다.
+  if (moving) {
+    // 탭이 있던 창을 통째로 그 가장자리에 세운다. id 를 지켜 화면을 다시 만들지 않는다.
     const other = source === first ? second : first;
+    const standing = { ...source!, activeTabId: moved.id };
+    const panes = leads(edge) ? [standing, other] : [other, standing];
+    // 이미 그 가장자리에 서 있고 보이는 탭도 같으면 바뀔 것이 없다.
+    if (along && panes[0].id === first.id && source!.activeTabId === moved.id) {
+      return layout;
+    }
+    // 맞바꿀 때는 두 창이 제 크기를 지킨다. 축이 바뀌면 크기를 옮길 수 없어 반반으로 둔다.
+    const share = source === first ? current.ratio : 1 - current.ratio;
     return {
       ...layout,
-      panes: leads(edge) ? [source!, other] : [other, source!],
+      panes,
       activePaneId: source!.id,
-      split: { direction, ratio: SPLIT_RATIO.initial },
+      split: {
+        direction,
+        ratio: along
+          ? clampRatio(leads(edge) ? share : 1 - share)
+          : SPLIT_RATIO.initial,
+      },
     };
   }
-  // 받는 쪽은 탭이 있던 창의 반대편이다. 탭이 아닌 것(파일)을 놓았으면 지금 쓰지 않는 창이다.
-  const keeperId = moving ? source!.id : layout.activePaneId;
-  const receiver = first.id === keeperId ? second : first;
+
+  if (along) {
+    // 같은 축: 이미 그 가장자리에 있는 창이 받는다.
+    return layoutReducer(layout, {
+      type: "open",
+      target,
+      paneId: (leads(edge) ? first : second).id,
+    });
+  }
+  // 직교하는 축: 지금 쓰지 않는 창이 받아 그 가장자리로 간다.
+  const receiver = first.id === layout.activePaneId ? second : first;
   const keeper = receiver === first ? second : first;
   const received = openInPane(receiver, target);
-  const kept = moving ? closeInPane(keeper, moved.id)! : keeper;
   return {
     ...layout,
-    panes: leads(edge) ? [received, kept] : [kept, received],
+    panes: leads(edge) ? [received, keeper] : [keeper, received],
     activePaneId: received.id,
     split: { direction, ratio: SPLIT_RATIO.initial },
   };

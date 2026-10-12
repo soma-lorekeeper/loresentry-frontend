@@ -226,7 +226,7 @@ describe("WorkspaceShell drag and drop", () => {
     fireEvent.dragStart(memo, {
       dataTransfer: { setData: () => {}, effectAllowed: "none" },
     });
-    // 오른쪽 가장자리 띠 안이다(폭의 22%, 최대 200px).
+    // 오른쪽 가장자리 쪽이다. 하나뿐인 창의 탭은 어디에 놓든 가장 가까운 가장자리로 간다.
     const over = drag("dragover", main(), 980, 300);
 
     expect(over.defaultPrevented).toBe(true);

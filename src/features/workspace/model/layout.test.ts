@@ -221,24 +221,26 @@ describe("splitting by dropping on an edge", () => {
     expect(tabIds(layout, 1)).toEqual(["file:a", "file:b"]);
   });
 
-  it("sends a tab to the other pane and docks that pane on a crossing edge", () => {
-    // 창은 둘까지다. 왼쪽 창의 탭 b 를 아래에 놓으면 b 는 오른쪽 창으로 가고 그 창이 아래에 선다.
+  it("re-docks the whole pane, however many tabs it holds, and shows the dragged tab", () => {
+    // 창은 둘까지다. 가장자리는 창을 다시 놓는 자리라, 왼쪽 창의 탭 a 를 아래에 놓으면
+    // 그 창이 통째로(a·b) 아래로 간다. 끌어온 a 가 그 창에서 보이는 탭이 된다.
     const layout = layoutReducer(sideBySide(), {
       type: "split",
       edge: "bottom",
-      target: file("b"),
+      target: file("a"),
       from: "pane-1",
     });
 
-    expect(layout.split?.direction).toBe("column");
-    expect(layout.panes.map((p) => p.id)).toEqual(["pane-1", "pane-2"]);
-    expect(tabIds(layout, 0)).toEqual(["file:a"]);
-    expect(tabIds(layout, 1)).toEqual(["file:c", "file:b"]);
-    expect(layout.activePaneId).toBe("pane-2");
+    expect(layout.split).toEqual({ direction: "column", ratio: 0.5 });
+    expect(layout.panes.map((p) => p.id)).toEqual(["pane-2", "pane-1"]);
+    expect(tabIds(layout, 0)).toEqual(["file:c"]);
+    expect(tabIds(layout, 1)).toEqual(["file:a", "file:b"]);
+    expect(layout.panes[1].activeTabId).toBe("file:a");
+    expect(layout.activePaneId).toBe("pane-1");
   });
 
-  it("uses the pane already on that side for an edge along the split", () => {
-    // 좌우로 나뉜 채 왼쪽 가장자리에 놓으면 왼쪽 창으로 간다. 창의 자리는 그대로다.
+  it("swaps the two panes when a tab is dropped on the far edge along the split", () => {
+    // 좌우로 나뉜 채 오른쪽 창의 탭을 왼쪽 가장자리에 놓으면 두 창이 자리를 맞바꾼다.
     const layout = layoutReducer(sideBySide(), {
       type: "split",
       edge: "left",
@@ -246,8 +248,54 @@ describe("splitting by dropping on an edge", () => {
       from: "pane-2",
     });
 
-    expect(layout.panes).toHaveLength(1);
-    expect(tabIds(layout)).toEqual(["file:a", "file:b", "file:c"]);
+    expect(layout.panes.map((p) => p.id)).toEqual(["pane-2", "pane-1"]);
+    expect(tabIds(layout, 0)).toEqual(["file:c"]);
+    expect(tabIds(layout, 1)).toEqual(["file:a", "file:b"]);
+    expect(layout.split?.direction).toBe("row");
+    expect(layout.activePaneId).toBe("pane-2");
+  });
+
+  it("keeps each pane's size when they swap", () => {
+    // 왼쪽 30%, 오른쪽 70%. 맞바꾸면 70% 이던 창이 왼쪽에서 여전히 70% 다.
+    const uneven = layoutReducer(sideBySide(), {
+      type: "setSplitRatio",
+      ratio: 0.3,
+    });
+
+    const layout = layoutReducer(uneven, {
+      type: "split",
+      edge: "left",
+      target: file("c"),
+      from: "pane-2",
+    });
+
+    expect(layout.split).toEqual({ direction: "row", ratio: 0.7 });
+  });
+
+  it("changes nothing when a pane's tab is dropped on the edge it already stands on", () => {
+    const before = sideBySide();
+
+    expect(
+      layoutReducer(before, {
+        type: "split",
+        edge: "right",
+        target: file("c"),
+        from: "pane-2",
+      }),
+    ).toBe(before);
+  });
+
+  it("opens a dropped file in the pane already on that side along the split", () => {
+    // 사이드바의 파일은 창이 아니다. 좌우로 나뉜 채 왼쪽 가장자리에 놓으면 왼쪽 창이 받는다.
+    const layout = layoutReducer(sideBySide(), {
+      type: "split",
+      edge: "left",
+      target: file("d"),
+    });
+
+    expect(layout.panes.map((p) => p.id)).toEqual(["pane-1", "pane-2"]);
+    expect(tabIds(layout, 0)).toEqual(["file:a", "file:b", "file:d"]);
+    expect(layout.activePaneId).toBe("pane-1");
   });
 
   it("opens a dropped file in the pane that is not in use when crossing", () => {

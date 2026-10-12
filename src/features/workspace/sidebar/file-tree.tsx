@@ -20,7 +20,7 @@ import type { FileNode } from "@/domain/models";
 import { t } from "@/i18n";
 
 import { isDocument, type TreeItem } from "../model/tree";
-import { beginDrag } from "../shell/drag-session";
+import { beginDrag, originOf } from "../shell/drag-session";
 import styles from "./file-tree.module.css";
 
 export const TREE_INDENT = [12, 28, 46, 64, 82];
@@ -340,6 +340,7 @@ export function FileTree({
                     kind: "node",
                     fileId: node.id,
                     document: isDocument(node),
+                    origin: originOf(event.currentTarget),
                   });
                 }}
                 onDragOver={(event) => {

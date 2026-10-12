@@ -18,6 +18,7 @@ import {
   beginDrag,
   endDrag,
   getDrag,
+  originOf,
   useDragSession,
 } from "./drag-session";
 import styles from "./tab-bar.module.css";
@@ -211,6 +212,7 @@ export function TabBar({
                   paneId: pane.id,
                   tabId: tab.id,
                   target: tab.target,
+                  origin: originOf(event.currentTarget),
                 });
               }}
               onDragEnter={(event) => onDragOver(event, tab.id)}

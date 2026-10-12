@@ -43,6 +43,9 @@ export default {
   "창 {number}": "Pane {number}",
   "사이드바 폭 조절": "Resize sidebar",
   "창 크기 조절": "Resize panes",
+  "자리 바꾸기": "Swap places",
+  "두 창의 자리를 바꿔요. Enter로 확정, Esc로 취소":
+    "Swap the two panes. Enter to confirm, Esc to cancel",
   "배치::왼쪽": "the left",
   "배치::오른쪽": "the right",
   "배치::위": "the top",

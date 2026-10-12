@@ -86,6 +86,8 @@
 .dropVeil {
   position: absolute;
   z-index: 5;
+  display: grid;
+  place-items: center;
   border-radius: var(--lk-radius-surface);
   background: color-mix(
     in srgb,
@@ -113,38 +115,53 @@
   }
 }
 
-/* 방금 생긴 창은 자기가 선 가장자리 쪽에서 들어온다. 놓은 방향과 같아 어디서 왔는지 읽힌다. */
-.pane[data-enter] {
-  animation: paneIn 200ms var(--lk-ease) both;
+/* 맞바꾸는 자리에만 붙는 한마디. 막 한가운데에 떠 있고, 막과 함께 사라진다. */
+.veilLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+  height: 32px;
+  padding: 0 var(--lk-space-3);
+  border-radius: 999px;
+  background: var(--lk-color-surface-raised);
+  box-shadow: var(--lk-shadow-float);
+  color: var(--lk-color-text-primary);
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+  white-space: nowrap;
 }
 
-.pane[data-enter="left"] {
-  --enter-x: -16px;
+.veilLabel > svg {
+  color: var(--lk-color-accent-primary);
 }
 
-.pane[data-enter="right"] {
-  --enter-x: 16px;
+/*
+ * 새 창이 단추에서 나오는 동안(지니) 그 창을 썬 조각들을 띄우는 자리. 화면 전체를 덮지만 아무것도
+ * 받지 않는다. 메뉴·대화상자(z-index 50)보다는 아래다.
+ */
+.genie {
+  position: fixed;
+  z-index: 40;
+  inset: 0;
+  pointer-events: none;
 }
 
-.pane[data-enter="top"] {
-  --enter-y: -16px;
+/* 조각 하나. 창의 복사본을 띠 모양으로 잘라 보이고, 통째로 사다리꼴로 변형된다(matrix3d). */
+.genieSlice {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  transform-origin: 0 0;
+  will-change: transform;
 }
 
-.pane[data-enter="bottom"] {
-  --enter-y: 16px;
-}
-
-@keyframes paneIn {
-  from {
-    opacity: 0;
-    transform: translate(var(--enter-x, 0), var(--enter-y, 0));
-  }
-}
-
-@keyframes paneFade {
-  from {
-    opacity: 0;
-  }
+/*
+ * 창이 새 자리로 움직이는 동안(use-pane-motion.ts). 창들은 잠깐 흐름에서 떨어져 제 사각형을
+ * 따라 움직이고, 그동안 구분선은 혼자 남아 엉뚱한 자리에 서므로 감춘다.
+ */
+.panes[data-arranging] > .divider {
+  visibility: hidden;
 }
 
 /* 키보드로 놓을 자리를 고르는 동안, 무엇을 누르면 되는지 알려 주는 한 줄. */
@@ -164,15 +181,11 @@
   transform: translateX(-50%);
 }
 
-/* 움직임을 줄이면 자리를 옮겨 다니지 않고, 들어오는 창도 밀려 들어오지 않는다. 옅어짐만 남긴다. */
+/* 움직임을 줄이면 막이 자리를 옮겨 다니지 않는다. 옅어짐만 남긴다(창의 움직임은 use-pane-motion.ts). */
 @media (prefers-reduced-motion: reduce) {
   .dropVeil {
     animation: veilIn 120ms linear;
     transition: opacity 120ms linear;
-  }
-
-  .pane[data-enter] {
-    animation: paneFade 120ms linear both;
   }
 }
 

@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from "react";
 
+import type { Rect } from "../model/drop-zones";
 import type { WorkspaceTarget } from "../model/layout";
 
 /**
@@ -12,11 +13,25 @@ import type { WorkspaceTarget } from "../model/layout";
  *
  * <p>끌기는 한 번에 하나뿐이라 모듈 하나에 둔다.
  */
-export type DragSession =
+type Dragged =
   /** 탭을 끌고 있다. `paneId` 는 그 탭이 있던 창이다 */
   | { kind: "tab"; paneId: string; tabId: string; target: WorkspaceTarget }
   /** 사이드바의 파일을 끌고 있다. 창에 열 수 있는 것은 문서뿐이라 폴더인지도 적는다 */
   | { kind: "node"; fileId: string; document: boolean };
+
+export type DragSession = Dragged & {
+  /**
+   * 끌기 시작한 단추의 자리(뷰포트 좌표). 놓아서 새 창이 생기면 그 창이 여기서 나온다
+   * (use-pane-motion.ts).
+   */
+  origin: Rect;
+};
+
+/** 요소의 자리를 {@link DragSession.origin} 에 적을 모양으로 잰다 */
+export function originOf(element: Element): Rect {
+  const box = element.getBoundingClientRect();
+  return { left: box.left, top: box.top, width: box.width, height: box.height };
+}
 
 /** 탭을 끌 때 dataTransfer 에 싣는 종류. 글자로 싣지 않아 에디터 본문에 붙여 넣어지지 않는다 */
 export const TAB_MIME = "application/x-loresentry-tab";
