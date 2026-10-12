@@ -68,6 +68,11 @@ export interface MockSeed {
   };
   otherProjects: SeedOtherProject[];
   trashedProjects: SeedTrashedProject[];
+  /**
+   * 작가가 관계 칩에 적었을 법한 설명. 두 문서의 key 로 가리킨다(순서는 뜻이 없다).
+   * 그래프에서 노드를 고르면 그 엣지 위에 이 글자가 보인다.
+   */
+  relationNotes: Array<{ between: [string, string]; note: string }>;
   refresh: {
     harinDescription: string;
     harinBodyAddition: string;

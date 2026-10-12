@@ -165,8 +165,7 @@ export interface GraphNode {
   description: string;
 }
 
-// 서버 가정(GRAPH_INBOX_PATTERN §3): 엣지는 document_relations 한 행이고
-// 관계를 가진 문서(source)에서 대상 문서(target)로 향한다.
+// 서버 가정(GRAPH_INBOX_PATTERN §3): 엣지는 document_relations 의 한 쌍이다.
 /**
  * 두 문서를 잇는 연결 하나. 저장은 양방향이지만 **한 쌍에 하나**만 온다 — 두 개면 관계도에 링크가
  * 겹쳐 그려진다. 관계는 대칭이므로 `source`·`target` 은 그리기 순서일 뿐 뜻이 없다.

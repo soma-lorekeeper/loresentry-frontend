@@ -408,6 +408,14 @@ export const KO_SEED: MockSeed = {
   },
   otherProjects: OTHER_PROJECTS,
   trashedProjects: TRASHED_PROJECTS,
+  relationNotes: [
+    { between: ["c-lena", "o-fleet"], note: "마지막 항해사" },
+    { between: ["c-lena", "p-range"], note: "처음 각성한 곳" },
+    { between: ["c-lena", "e-awaken"], note: "각성한 당사자" },
+    { between: ["c-lena", "ch-11"], note: "첫 등장" },
+    { between: ["c-lena", "ch-12"], note: "북쪽 온실에 도착" },
+    { between: ["ch-12", "p-north"], note: "이야기의 무대" },
+  ],
   refresh: {
     harinDescription: "북쪽 온실의 문이 열린 뒤 기록단에 합류한 정원사",
     harinBodyAddition:

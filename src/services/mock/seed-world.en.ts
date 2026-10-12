@@ -466,6 +466,14 @@ export const EN_SEED: MockSeed = {
   },
   otherProjects: OTHER_PROJECTS,
   trashedProjects: TRASHED_PROJECTS,
+  relationNotes: [
+    { between: ["c-lena", "o-fleet"], note: "Their last navigator" },
+    { between: ["c-lena", "p-range"], note: "Where she first awakened" },
+    { between: ["c-lena", "e-awaken"], note: "The one who awakened" },
+    { between: ["c-lena", "ch-11"], note: "First appearance" },
+    { between: ["c-lena", "ch-12"], note: "Arrives at the greenhouse" },
+    { between: ["ch-12", "p-north"], note: "Where the chapter is set" },
+  ],
   refresh: {
     harinDescription:
       "The gardener who joined the Recorders after the North Greenhouse door opened",

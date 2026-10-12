@@ -309,10 +309,10 @@ function RelationRow({
           onClose={() => setPicking(false)}
           candidates={candidates}
           onPick={(node) => {
+            // 이미 이어 둔 문서들의 관계 설명은 그대로 둔다. 새 문서는 설명 없이 더해진다.
             onChange({
               ...property,
               targetIds: [...property.targetIds, node.id],
-              descriptions: {},
             });
             setPicking(false);
           }}

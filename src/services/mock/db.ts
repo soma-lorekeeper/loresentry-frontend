@@ -33,7 +33,7 @@ import { LOCALE, t } from "@/i18n";
 import { SEED } from "./seed-world";
 import type { MockSeed, SeedOtherProject } from "./seed-types";
 
-export const MOCK_DB_VERSION = 10;
+export const MOCK_DB_VERSION = 11;
 const STORAGE_KEY =
   LOCALE === "ko" ? "loresentry.mock.db" : `loresentry.mock.db.${LOCALE}`;
 
@@ -285,6 +285,20 @@ function buildGlassGarden(
       body: bodyFromParagraphs(bodies.get(key) ?? ""),
       properties,
     };
+  }
+
+  // 관계 설명. 관계는 양쪽 문서에 한 행씩 있으므로, 그 관계를 가진 쪽마다 같은 글을 적는다.
+  for (const { between, note } of seed.relationNotes) {
+    for (const [from, to] of [between, [between[1], between[0]]]) {
+      const relation = db.documents[docId(from)]?.properties.find(
+        (property) =>
+          property.kind === "relation" &&
+          property.targetIds.includes(docId(to)),
+      );
+      if (relation?.kind === "relation") {
+        relation.descriptions[docId(to)] = note;
+      }
+    }
   }
 
   const trashFolderId = docId("trash-folder");

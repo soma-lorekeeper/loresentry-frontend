@@ -63,6 +63,7 @@ function build(
       source: edge.source,
       target: edge.target,
       key: edge.key,
+      description: edge.description,
     }));
 
   return { nodes, links };

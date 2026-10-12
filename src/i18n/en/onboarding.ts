@@ -89,8 +89,8 @@ export default {
     "Documents you link in property tables become the graph's nodes and lines.",
   "‘그래프’를 눌러 보세요.": "Click ‘Graph’.",
   "한 문서에 집중해요": "Focus on one document",
-  "노드를 누르면 바로 이어진 문서만 진하게 남아요. 한 번 더 누르면 풀려요.":
-    "Click a node to keep only its direct links bold. Click it again to let go.",
+  "노드를 누르면 바로 이어진 문서만 진하게 남아요. 더 누르면 함께 보이고, 빈 곳을 누르면 풀려요.":
+    "Click a node to keep only its direct links bold. Click more to add theirs, or the empty canvas to let go.",
   "노드 하나를 눌러 보세요.": "Click a node.",
   "이어진 문서가 모여요": "Its links gather here",
   "고른 문서와 바로 이어진 문서가 카드로 모여요. 카드를 누르면 그 문서가 열려요.":

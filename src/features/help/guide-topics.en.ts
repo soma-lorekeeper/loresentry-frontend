@@ -128,7 +128,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "graph",
         title: "Explore the graph",
-        body: "Select a node to highlight the documents linked directly to it.",
+        body: "Select a node to highlight the documents linked directly to it. Select more nodes to highlight their links together, and click the empty canvas to clear the selection. The text on a line is the note you wrote for that relationship in the property table.",
       },
       {
         id: "filter",
