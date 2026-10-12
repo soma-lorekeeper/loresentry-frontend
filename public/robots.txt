@@ -1,0 +1,8 @@
+# Everything may be crawled. Pages that should stay out of search carry a
+# noindex meta tag instead of a Disallow rule here: a crawler that is blocked
+# from a page never reads its noindex. Keep /ko/_next/ and /en/_next/ open,
+# the pages are rendered by those scripts.
+User-agent: *
+Allow: /
+
+Sitemap: https://loresentry.com/sitemap.xml
