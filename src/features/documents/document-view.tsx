@@ -45,8 +45,10 @@ import { tabIdFor } from "../workspace/model/layout";
 import { useWorkspace, type TabActions } from "../workspace/workspace-context";
 import styles from "./document.module.css";
 import { EditorToolbar } from "./editor-toolbar";
-import { EDITOR_FONTS, useEditorPrefs } from "./editor-prefs";
+import { useEditorFontStack } from "./editor-fonts";
+import { useEditorPrefs } from "./editor-prefs";
 import { createDocumentExtensions } from "./editor/extensions";
+import { documentJSON } from "./editor/text-align";
 import { FileHeader } from "./file-header";
 import { PropertyTable } from "./property-table";
 import { useDocumentSession } from "./use-document-session";
@@ -87,7 +89,7 @@ function BodyEditor({
       },
     },
     onUpdate: ({ editor: current }) =>
-      onChangeRef.current(bodyOf(current.getJSON())),
+      onChangeRef.current(bodyOf(documentJSON(current))),
   });
 
   useEffect(() => {
@@ -172,6 +174,8 @@ export function DocumentView({
   const setFavorite = useSetFavorite(projectId);
   const move = useMoveFile(projectId);
   const prefs = useEditorPrefs();
+  // 웹 글꼴은 처음 고를 때 받는다. 오기 전에는 기기의 비슷한 글꼴로 그린다(editor-fonts.ts).
+  const fontStack = useEditorFontStack(prefs.font);
   const doc = useDocumentSession(fileId);
   const [editor, setEditor] = useState<Editor | null>(null);
   const [lockPending, setLockPending] = useState(false);
@@ -234,12 +238,11 @@ export function DocumentView({
   const docType: DocumentType = isDocument(node)
     ? node.docType
     : content.docType;
-  const font = EDITOR_FONTS.find((f) => f.id === prefs.font) ?? EDITOR_FONTS[0];
+  // 글꼴·크기·줄 간격은 이 브라우저의 설정이다. 정렬은 문단마다 본문에 담겨 여기 없다.
   const editorVars = {
-    "--editor-font": font.stack,
-    "--editor-size": `${prefs.fontSize}px`,
+    "--editor-font": fontStack,
+    "--editor-size": `${prefs.fontSize}pt`,
     "--editor-line-height": String(prefs.lineHeight),
-    "--editor-align": prefs.align,
   } as CSSProperties;
 
   const toggleLock = async () => {

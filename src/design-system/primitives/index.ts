@@ -17,3 +17,4 @@ export { SidebarButton, SidebarLink } from "./sidebar-item";
 export { EmptyState } from "./empty-state";
 export { Segmented } from "./segmented";
 export type { SegmentedOption } from "./segmented";
+export { Tooltip } from "./tooltip";

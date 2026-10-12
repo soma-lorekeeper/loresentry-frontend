@@ -75,7 +75,8 @@
   background: var(--lk-color-state-hover);
 }
 
-.tool[aria-pressed="true"] {
+.tool[aria-pressed="true"],
+.tool[aria-expanded="true"] {
   background: var(--lk-color-state-selected);
 }
 
@@ -97,9 +98,14 @@
   font-size: var(--lk-font-size-label);
 }
 
+/* 긴 값(글꼴 이름)은 단추 안에서 말줄임한다. 전체 이름은 호버 설명에 있다. */
 .select > span {
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
   text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .select > svg {
@@ -112,26 +118,17 @@
   background: var(--lk-color-state-hover);
 }
 
-.labelTool {
-  display: inline-flex;
+/*
+ * 글꼴 목록과, 도구가 많이 접혔을 때의 더보기는 길다. 낮은 창에서는 목록 안에서 밀어 본다.
+ * 항목이 눌려 줄어들지 않게 높이를 지킨다.
+ */
+.longMenu {
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+.longMenu > * {
   flex: none;
-  align-items: center;
-  gap: var(--lk-space-2);
-  height: 32px;
-  padding: 0 var(--lk-space-2);
-  border-radius: var(--lk-radius-control);
-  color: var(--lk-color-text-secondary);
-  font-size: var(--lk-font-size-label);
-}
-
-.labelTool > svg {
-  color: var(--lk-color-icon-default);
-}
-
-.labelTool:hover,
-.labelTool[aria-pressed="true"],
-.labelTool[aria-expanded="true"] {
-  background: var(--lk-color-state-hover);
 }
 
 .status {
@@ -182,11 +179,12 @@
   white-space: nowrap;
 }
 
-:lang(en) .toolbar[data-tight] .counts {
+/* 좁은 도구 줄에서는 글자 수의 이름을 줄여 적는다(공백 포함 → 포함). 숫자는 그대로 둘 다 보인다. */
+.toolbar[data-tight] .countLabel {
   font-size: 0;
 }
 
-:lang(en) .toolbar[data-tight] .counts::after {
+.toolbar[data-tight] .countLabel::after {
   content: attr(data-short);
   font-size: var(--lk-font-size-label);
 }
@@ -212,8 +210,22 @@
   font-weight: 600;
 }
 
+/*
+ * 글자 수. 공백 포함·공백 제외를 두 줄로 쌓는다 — 한 줄로 늘어놓으면 도구가 설 자리를 그만큼 먹는다.
+ * 이름은 왼쪽, 숫자는 오른쪽 끝에 맞춰 두 숫자의 자릿수가 위아래로 나란하다.
+ */
 .counts {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: var(--lk-space-2);
+  line-height: 1.25;
+}
+
+.countValue {
+  color: var(--lk-color-text-primary);
   font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  text-align: right;
 }
 
 .actions {
@@ -273,7 +285,7 @@
   flex: 1;
 }
 
-/* 좁은 창: 여백을 줄이고 긴 글꼴 이름은 말줄임한다. 접기와 밀어 보기는 위의 규칙이 맡는다. */
+/* 좁은 창: 여백을 줄이고 글꼴 단추를 좁힌다. 접기와 밀어 보기는 위의 규칙이 맡는다. */
 /* 브라우저가 아니라 이 화면이 놓인 창의 폭을 본다(workspace-shell.module.css 의 lk-pane). */
 @container lk-pane (max-width: 744px) {
   .toolbar {
@@ -282,11 +294,5 @@
 
   .select {
     max-width: 96px;
-  }
-
-  .select > span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 }

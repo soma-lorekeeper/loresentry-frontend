@@ -158,7 +158,7 @@ const KEY_NAMES: Record<string, string> = {
 };
 
 function keyName(code: string) {
-  return KEY_NAMES[code] ?? code.replace(/^Key/, "");
+  return KEY_NAMES[code] ?? code.replace(/^(Key|Digit)/, "");
 }
 
 /** 화면에 적을 조합. Mac 은 기호를 붙여 쓰고(⌘S), 그 밖은 이름을 + 로 잇는다(Ctrl+S) */

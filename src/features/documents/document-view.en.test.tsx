@@ -47,7 +47,20 @@ describe("DocumentView (English build)", () => {
     expect(
       within(toolbar).getByRole("button", { name: "Font: Pretendard" }),
     ).toBeInTheDocument();
-    expect(within(toolbar).getByText(/^[\d,]+ characters$/)).toBeVisible();
+    // 글자 크기는 pt 로 적는다.
+    expect(
+      within(toolbar).getByRole("button", { name: "Font size: 10.5pt" }),
+    ).toBeInTheDocument();
+    // 정렬은 고르는 목록이 아니라 아이콘 넷이다.
+    const alignment = within(toolbar).getByRole("group", { name: "Alignment" });
+    for (const name of ["Align left", "Align center", "Align right", "Justify"])
+      expect(
+        within(alignment).getByRole("button", { name }),
+      ).toBeInTheDocument();
+    // 글자 수는 공백을 넣어 센 것과 뺀 것을 함께 적는다.
+    expect(within(toolbar).getByText("With spaces")).toBeVisible();
+    expect(within(toolbar).getByText("Without spaces")).toBeVisible();
+    expect(within(toolbar).getAllByText(/^[\d,]+ chars?$/)).toHaveLength(2);
     expect(
       within(toolbar).getByRole("button", { name: "Version history" }),
     ).toBeInTheDocument();

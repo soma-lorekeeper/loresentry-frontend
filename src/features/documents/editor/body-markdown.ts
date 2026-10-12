@@ -7,6 +7,7 @@ import {
 } from "@/domain/document-body";
 
 import { createDocumentExtensions } from "./extensions";
+import { documentJSON } from "./text-align";
 
 /**
  * Markdown 과 본문 사이 변환. **입출력에서만** 쓴다.
@@ -40,7 +41,7 @@ function withEditor<T>(
 
 /** 레거시 본문·옛 버전 스냅샷과 `.md` 가져오기가 쓴다. */
 export function markdownToBody(markdown: string): DocumentBody {
-  return withEditor((editor) => bodyOf(editor.getJSON()), markdown, true);
+  return withEditor((editor) => bodyOf(documentJSON(editor)), markdown, true);
 }
 
 /** `.md` 내보내기만 쓴다. */
