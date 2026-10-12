@@ -41,6 +41,24 @@ export interface GraphViewState {
   episodeIds: string[];
 }
 
+/** 두 창을 나란히(row) 놓을지 위아래(column)로 쌓을지 */
+export type SplitDirection = "row" | "column";
+
+/** 작업 영역의 네 가장자리. 탭이나 파일을 끌어다 놓는 자리다 */
+export type DropEdge = "left" | "right" | "top" | "bottom";
+
+/**
+ * 창이 둘일 때의 배치. `panes` 배열의 순서가 곧 화면 순서다 — 첫 번째가 왼쪽(row) 또는
+ * 위(column)이고, `ratio` 는 그 첫 번째 창이 차지하는 몫이다.
+ */
+export interface WorkspaceSplit {
+  direction: SplitDirection;
+  ratio: number;
+}
+
+/** 한쪽 창이 지나치게 좁아지지 않게 비율을 묶는다. 새로 나누면 반반이다 */
+export const SPLIT_RATIO = { min: 0.2, max: 0.8, initial: 0.5 };
+
 export interface WorkspaceLayout {
   version: 1;
   panes: WorkspacePane[];
@@ -48,9 +66,35 @@ export interface WorkspaceLayout {
   sidebarOpen: boolean;
   panels: WorkspacePanels;
   graphView?: GraphViewState;
+  /**
+   * 창이 둘일 때의 방향과 비율. 이 필드가 생기기 전에 저장된 배치에는 없으므로 읽을 때는
+   * 반드시 {@link splitOf} 를 거친다 — 없으면 예전 모습 그대로 좌우 반반이다.
+   */
+  split?: WorkspaceSplit;
 }
 
 export const MAX_PANES = 2;
+
+function clampRatio(ratio: number) {
+  const bounded = Math.min(SPLIT_RATIO.max, Math.max(SPLIT_RATIO.min, ratio));
+  // 소수 셋째 자리까지만 둔다. 끌 때마다 긴 소수가 저장되면 같은 배치가 다른 값으로 보인다.
+  return Math.round(bounded * 1000) / 1000;
+}
+
+/**
+ * 지금 배치의 분할. 저장된 값이 없거나 모양이 이상하면 좌우 반반으로 읽는다.
+ * 서버는 배치 JSON 을 해석하지 않고 그대로 돌려주므로 옛 값·깨진 값을 여기서 받아낸다.
+ */
+export function splitOf(layout: WorkspaceLayout): WorkspaceSplit {
+  const split = layout.split as Partial<WorkspaceSplit> | undefined;
+  return {
+    direction: split?.direction === "column" ? "column" : "row",
+    ratio:
+      typeof split?.ratio === "number" && Number.isFinite(split.ratio)
+        ? clampRatio(split.ratio)
+        : SPLIT_RATIO.initial,
+  };
+}
 
 export const DEFAULT_PANELS: WorkspacePanels = {
   memoOpen: false,
@@ -100,9 +144,28 @@ export type LayoutAction =
   | { type: "close"; paneId: string; tabId: string }
   | { type: "reorder"; paneId: string; sourceId: string; targetId: string }
   | { type: "openToSide"; target: WorkspaceTarget }
+  /**
+   * 작업 영역의 한 가장자리에 놓았다. `from` 은 끌어온 탭이 있던 창이고, 사이드바의
+   * 파일처럼 탭이 아닌 것을 놓았으면 없다(그때는 옮기지 않고 새로 연다).
+   */
+  | { type: "split"; edge: DropEdge; target: WorkspaceTarget; from?: string }
+  /**
+   * 탭을 다른 창으로(또는 같은 창의 다른 자리로) 옮긴다. `beforeId` 는 그 탭 앞에 끼우라는
+   * 뜻이고, null 이면 맨 끝이다. 생략하면 "그 창에 연다" — 빈 새 탭이 있으면 그 자리를 쓴다.
+   */
+  | {
+      type: "moveTab";
+      from: string;
+      tabId: string;
+      to: string;
+      beforeId?: string | null;
+    }
+  | { type: "setSplitRatio"; ratio: number }
   | { type: "focusPane"; paneId: string }
   | { type: "closeFiles"; fileIds: string[] }
   | { type: "toggleSidebar" }
+  /** 사이드바를 정해진 상태로 둔다. 이미 그 상태면 아무 일도 없다 */
+  | { type: "setSidebar"; open: boolean }
   | { type: "setPanels"; panels: Partial<WorkspacePanels> }
   | { type: "setGraphView"; graphView: GraphViewState }
   | { type: "replace"; layout: WorkspaceLayout };
@@ -157,6 +220,155 @@ function closeInPane(pane: WorkspacePane, tabId: string): WorkspacePane | null {
   return { ...pane, tabs, activeTabId };
 }
 
+/**
+ * 새 창에 줄 id. 창은 많아야 둘이라 `pane-1`·`pane-2` 가운데 비어 있는 것을 쓴다.
+ * 시각을 섞어 만들면 같은 배치가 매번 다른 id 를 갖게 되어, 창을 다시 배치할 때마다
+ * 그 안의 화면이 통째로 새로 만들어진다.
+ */
+function freePaneId(panes: readonly WorkspacePane[]): string {
+  return panes.some((p) => p.id === "pane-1") ? "pane-2" : "pane-1";
+}
+
+function directionOf(edge: DropEdge): SplitDirection {
+  return edge === "left" || edge === "right" ? "row" : "column";
+}
+
+/** 그 가장자리에 놓인 창이 배열의 앞(왼쪽·위)에 서는가 */
+function leads(edge: DropEdge): boolean {
+  return edge === "left" || edge === "top";
+}
+
+/** 탭 하나를 `beforeId` 앞에 끼운다. null 이면 맨 끝이다. 끼운 탭이 활성 탭이 된다 */
+function insertInPane(
+  pane: WorkspacePane,
+  moved: WorkspaceTab,
+  beforeId: string | null,
+): WorkspacePane {
+  const tabs = pane.tabs.filter((t) => t.id !== moved.id);
+  const at = beforeId ? tabs.findIndex((t) => t.id === beforeId) : -1;
+  tabs.splice(at < 0 ? tabs.length : at, 0, moved);
+  return { ...pane, tabs, activeTabId: moved.id };
+}
+
+/**
+ * 가장자리에 놓기.
+ *
+ * <p>창이 하나면 그 가장자리에 새 창이 생긴다. 창이 이미 둘이면 더 늘릴 수 없으므로
+ * (MAX_PANES) 놓은 것이 **그 가장자리에 서는 창**으로 들어간다:
+ * <ul>
+ *   <li>지금 분할과 같은 축의 가장자리(좌우로 나뉜 채 왼쪽에 놓음)면, 이미 그쪽에 있는
+ *       창으로 간다. 창의 자리는 그대로다.
+ *   <li>직교하는 가장자리(좌우로 나뉜 채 위에 놓음)면 분할 방향이 바뀐다. 끌어온 탭이
+ *       제 창의 하나뿐인 탭이면 그 창이 통째로 그 가장자리로 가고, 아니면 탭이 반대쪽
+ *       창으로 옮겨 가 그 창이 그 가장자리에 선다.
+ * </ul>
+ */
+function splitAt(
+  layout: WorkspaceLayout,
+  edge: DropEdge,
+  target: WorkspaceTarget,
+  from: string | undefined,
+): WorkspaceLayout {
+  const moved = tab(target);
+  const source = layout.panes.find((p) => p.id === from);
+  // 끌어온 탭이 실제로 그 창에 있어야 "옮기기"다. 아니면 새로 여는 것이다.
+  const moving = source?.tabs.some((t) => t.id === moved.id) ?? false;
+  const direction = directionOf(edge);
+
+  if (layout.panes.length === 1) {
+    const only = layout.panes[0];
+    const rest = moving ? closeInPane(only, moved.id) : only;
+    // 하나뿐인 창의 하나뿐인 탭은 나눌 것이 없다.
+    if (!rest) return layout;
+    const created = pane(freePaneId(layout.panes), target);
+    return {
+      ...layout,
+      panes: leads(edge) ? [created, rest] : [rest, created],
+      activePaneId: created.id,
+      split: { direction, ratio: SPLIT_RATIO.initial },
+    };
+  }
+
+  const [first, second] = layout.panes;
+  if (direction === splitOf(layout).direction) {
+    // 같은 축: 이미 그 가장자리에 있는 창으로 들어간다.
+    const destination = leads(edge) ? first : second;
+    if (!moving) {
+      return layoutReducer(layout, {
+        type: "open",
+        target,
+        paneId: destination.id,
+      });
+    }
+    return layoutReducer(layout, {
+      type: "moveTab",
+      from: source!.id,
+      tabId: moved.id,
+      to: destination.id,
+    });
+  }
+
+  // 직교하는 축: 분할 방향이 바뀐다.
+  if (moving && source!.tabs.length === 1) {
+    // 하나뿐인 탭을 끌었으니 창을 통째로 그 가장자리로 옮긴다. id 를 지켜 화면을 다시 만들지 않는다.
+    const other = source === first ? second : first;
+    return {
+      ...layout,
+      panes: leads(edge) ? [source!, other] : [other, source!],
+      activePaneId: source!.id,
+      split: { direction, ratio: SPLIT_RATIO.initial },
+    };
+  }
+  // 받는 쪽은 탭이 있던 창의 반대편이다. 탭이 아닌 것(파일)을 놓았으면 지금 쓰지 않는 창이다.
+  const keeperId = moving ? source!.id : layout.activePaneId;
+  const receiver = first.id === keeperId ? second : first;
+  const keeper = receiver === first ? second : first;
+  const received = openInPane(receiver, target);
+  const kept = moving ? closeInPane(keeper, moved.id)! : keeper;
+  return {
+    ...layout,
+    panes: leads(edge) ? [received, kept] : [kept, received],
+    activePaneId: received.id,
+    split: { direction, ratio: SPLIT_RATIO.initial },
+  };
+}
+
+function moveTab(
+  layout: WorkspaceLayout,
+  from: string,
+  tabId: string,
+  to: string,
+  beforeId: string | null | undefined,
+): WorkspaceLayout {
+  const source = layout.panes.find((p) => p.id === from);
+  const destination = layout.panes.find((p) => p.id === to);
+  const moved = source?.tabs.find((t) => t.id === tabId);
+  if (!source || !destination || !moved) return layout;
+
+  if (source === destination) {
+    // 같은 창 안에서는 자리만 바꾼다. 자리를 주지 않았으면 바꿀 것이 없다.
+    if (beforeId === undefined || beforeId === tabId) return layout;
+    return updatePane(layout, from, (p) => insertInPane(p, moved, beforeId));
+  }
+
+  const panes = layout.panes.flatMap((current) => {
+    if (current === source) {
+      // 탭을 내준 창이 비면 창도 사라진다.
+      const rest = closeInPane(current, tabId);
+      return rest ? [rest] : [];
+    }
+    if (current === destination) {
+      return [
+        beforeId === undefined
+          ? openInPane(current, moved.target)
+          : insertInPane(current, moved, beforeId),
+      ];
+    }
+    return [current];
+  });
+  return { ...layout, panes, activePaneId: to };
+}
+
 export function layoutReducer(
   layout: WorkspaceLayout,
   action: LayoutAction,
@@ -203,12 +415,30 @@ export function layoutReducer(
           paneId: other.id,
         });
       }
-      const id = `pane-${Date.now().toString(36)}`;
+      const id = freePaneId(layout.panes);
       return {
         ...layout,
         panes: [...layout.panes, pane(id, action.target)],
         activePaneId: id,
       };
+    }
+    case "split":
+      return splitAt(layout, action.edge, action.target, action.from);
+    case "moveTab":
+      return moveTab(
+        layout,
+        action.from,
+        action.tabId,
+        action.to,
+        action.beforeId,
+      );
+    case "setSplitRatio": {
+      // 창이 하나면 나눌 비율이 없다. 같은 값이면 같은 객체를 돌려줘 저장이 다시 나가지 않게 한다.
+      if (layout.panes.length < 2) return layout;
+      const current = splitOf(layout);
+      const ratio = clampRatio(action.ratio);
+      if (ratio === current.ratio) return layout;
+      return { ...layout, split: { ...current, ratio } };
     }
     case "focusPane":
       return layout.panes.some((p) => p.id === action.paneId)
@@ -232,6 +462,10 @@ export function layoutReducer(
     }
     case "toggleSidebar":
       return { ...layout, sidebarOpen: !layout.sidebarOpen };
+    case "setSidebar":
+      return layout.sidebarOpen === action.open
+        ? layout
+        : { ...layout, sidebarOpen: action.open };
     case "setGraphView":
       return { ...layout, graphView: action.graphView };
     case "setPanels":
