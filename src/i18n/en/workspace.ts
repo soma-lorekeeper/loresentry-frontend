@@ -44,6 +44,7 @@ export default {
   "사이드바 폭 조절": "Resize sidebar",
   "창 크기 조절": "Resize panes",
   "자리 바꾸기": "Swap places",
+  "만드는 중": "Creating",
   "두 창의 자리를 바꿔요. Enter로 확정, Esc로 취소":
     "Swap the two panes. Enter to confirm, Esc to cancel",
   "배치::왼쪽": "the left",
@@ -165,6 +166,7 @@ export default {
     "Check your connection and try again.",
   "메모 메뉴": "Note menu",
   "눌러서 내용을 적으세요.": "Click to start writing.",
+  "새 메모": "New note",
   "메모 내용": "Note text",
   "메모를 적으세요.": "Write a note.",
   "불러오는 중…": "Loading…",

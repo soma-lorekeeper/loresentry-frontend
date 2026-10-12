@@ -35,6 +35,11 @@
   width: 240px;
 }
 
+/* 적는 중인 카드는 읽기만 하는 카드보다 넓게 준다. 240px 에 글을 쓰면 몇 글자마다 줄이 바뀐다. */
+.compact .editingCard {
+  width: min(360px, 100%);
+}
+
 .card {
   position: relative;
   display: flex;
@@ -128,29 +133,45 @@
   position: static;
 }
 
+/*
+ * 메모를 적는 칸. 카드 전체가 종이이고 이 칸에는 테두리도 바탕도 없다 — 지금 적는 중이라는 것은
+ * 카드를 두른 포커스 고리와 떠오른 그림자가 알린다.
+ *
+ * 높이는 적은 만큼 늘어난다(memo-list.tsx). 세 줄에서 시작하고, 길어지면 화면의 절반 안에서 안쪽이
+ * 밀린다. 손으로 끌어 늘리는 손잡이는 두지 않는다.
+ */
 .textarea {
-  min-height: 108px;
-  padding: 12px 14px;
+  max-height: min(46vh, 360px);
+  padding: 14px 16px 6px;
   border: 0;
   border-radius: inherit;
   background: none;
+  caret-color: var(--lk-color-accent-primary);
   color: var(--lk-color-text-primary);
   font: inherit;
   font-size: var(--lk-font-size-body);
-  line-height: 1.6;
-  resize: vertical;
+  line-height: 1.65;
+  overflow-y: auto;
+  resize: none;
+}
+
+.textarea::placeholder {
+  color: var(--lk-color-text-secondary);
 }
 
 .textarea:focus-visible {
   outline: none;
 }
 
+/*
+ * 적는 칸 아래의 동작 줄. 왼쪽에 더보기(삭제 등), 오른쪽에 취소와 저장. 선으로 가르지 않고
+ * 간격으로 나눈다. 저장만 청록 바탕이라 다 적은 뒤에 누를 것이 한눈에 보인다.
+ */
 .actions {
   display: flex;
   align-items: center;
-  gap: 2px;
-  padding: 6px;
-  border-top: 1px solid var(--lk-color-border-subtle);
+  gap: var(--lk-space-1);
+  padding: var(--lk-space-1) var(--lk-space-2) var(--lk-space-2);
 }
 
 .spacer {

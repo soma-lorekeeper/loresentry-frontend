@@ -14,7 +14,6 @@ import { cx } from "@/shared/cx";
 
 import { MemoList } from "./memo-list";
 import styles from "./memo-panel.module.css";
-import { useCreateMemo } from "./queries";
 
 export const MEMO_RIGHT_RANGE = { min: 280, max: 560 };
 export const MEMO_BELOW_RANGE = { min: 180, max: 480 };
@@ -89,9 +88,9 @@ export function MemoPanel({
 }) {
   // 이 패널은 문서를 열어 둔 채 쓴다. 지금 쓰는 문서의 메모가 먼저 보여야 한다.
   const [tab, setTab] = useState<PanelTab>("file");
-  // 추가 버튼은 디자인처럼 탭 줄에 있다. 그래서 만들기는 패널이 하고 목록은 결과만 받는다.
-  const create = useCreateMemo(projectId);
-  const [fresh, setFresh] = useState<string | null>(null);
+  // 추가 단추는 디자인처럼 탭 줄에 있다. 누르면 지금 보는 목록의 맨 위에 적는 칸이 열린다.
+  // 메모는 그 칸에서 저장할 때 생긴다(memo-list.tsx).
+  const [composing, setComposing] = useState(false);
   const typeLabel = DOCUMENT_TYPE_META[docType].label;
 
   return (
@@ -135,7 +134,11 @@ export function MemoPanel({
             { value: "project" as const, label: t("작품 메모") },
           ]}
           value={tab}
-          onChange={setTab}
+          onChange={(next) => {
+            setTab(next);
+            // 적던 칸은 그 목록의 것이다. 다른 목록으로 가면 닫는다.
+            setComposing(false);
+          }}
         />
         <IconButton
           icon="plus"
@@ -146,17 +149,8 @@ export function MemoPanel({
               : t("작품 메모 추가")
           }
           className={styles.add}
-          disabled={create.isPending}
-          onClick={() =>
-            create.mutate(
-              {
-                scope: tab,
-                fileId: tab === "file" ? fileId : null,
-                body: "",
-              },
-              { onSuccess: (memo) => setFresh(memo.id) },
-            )
-          }
+          disabled={composing}
+          onClick={() => setComposing(true)}
         />
       </div>
       <div className={styles.content}>
@@ -168,7 +162,8 @@ export function MemoPanel({
             fileId={fileId}
             compact={dock === "below"}
             canAdd={false}
-            freshId={fresh}
+            composing={composing}
+            onComposingChange={setComposing}
             addLabel={t("메모 추가")}
             emptyTitle={t("{title}에 적은 메모가 없어요", { title: fileTitle })}
             emptyDescription={t("이 {kind}에 대해 기억할 것을 적어 두세요.", {
@@ -182,7 +177,8 @@ export function MemoPanel({
             scope="project"
             compact={dock === "below"}
             canAdd={false}
-            freshId={fresh}
+            composing={composing}
+            onComposingChange={setComposing}
             addLabel={t("메모 추가")}
             emptyTitle={t("작품 메모가 없어요")}
             emptyDescription={t("작품 전체에 걸친 생각을 적어 두세요.")}

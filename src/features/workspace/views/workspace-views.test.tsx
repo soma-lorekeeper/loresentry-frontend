@@ -313,4 +313,74 @@ describe("workspace views", () => {
       ),
     );
   });
+
+  /**
+   * 전에는 추가를 누르는 순간 빈 메모가 서버에 생겼다. 적다 그만두면 그 빈 메모가 목록에 남았다.
+   * 이제 추가는 적는 칸만 열고, 저장해야 메모가 생긴다.
+   */
+  it("creates a memo only when the new one is saved", async () => {
+    const actor = userEvent.setup();
+    renderInWorkspace("memo", <MemoView />);
+    await actor.click(await screen.findByRole("radio", { name: "작품 메모" }));
+    const count = () =>
+      getDb().memos.filter((memo) => memo.scope === "project").length;
+    const before = count();
+
+    await actor.click(await screen.findByRole("button", { name: "메모 추가" }));
+    const composer = await screen.findByRole("listitem", { name: "새 메모" });
+    const editor = within(composer).getByRole("textbox", { name: "메모 내용" });
+    // 적는 칸이 열렸을 뿐, 아직 아무것도 만들어지지 않았다. 빈 채로는 남길 수 없다.
+    expect(count()).toBe(before);
+    expect(
+      within(composer).getByRole("button", { name: "저장" }),
+    ).toBeDisabled();
+
+    await actor.type(editor, "북쪽 온실의 열쇠는 누가 갖고 있나");
+    await actor.click(within(composer).getByRole("button", { name: "저장" }));
+
+    await waitFor(() => expect(count()).toBe(before + 1));
+    expect(
+      getDb().memos.some(
+        (memo) => memo.body === "북쪽 온실의 열쇠는 누가 갖고 있나",
+      ),
+    ).toBe(true);
+    // 저장하면 적는 칸은 닫히고 그 메모가 목록의 카드로 남는다.
+    await waitFor(() =>
+      expect(screen.queryByRole("listitem", { name: "새 메모" })).toBeNull(),
+    );
+  });
+
+  it("leaves nothing behind when a new memo is abandoned", async () => {
+    const actor = userEvent.setup();
+    renderInWorkspace("memo", <MemoView />);
+    await actor.click(await screen.findByRole("radio", { name: "작품 메모" }));
+    const before = getDb().memos.length;
+
+    await actor.click(await screen.findByRole("button", { name: "메모 추가" }));
+    await actor.type(
+      await screen.findByRole("textbox", { name: "메모 내용" }),
+      "지울 생각",
+    );
+    await actor.keyboard("{Escape}");
+
+    expect(screen.queryByRole("textbox", { name: "메모 내용" })).toBeNull();
+    expect(getDb().memos).toHaveLength(before);
+  });
+
+  it("saves with Ctrl+Enter", async () => {
+    const actor = userEvent.setup();
+    renderInWorkspace("memo", <MemoView />);
+    await actor.click(await screen.findByRole("radio", { name: "작품 메모" }));
+    await actor.click(await screen.findByRole("button", { name: "메모 추가" }));
+    await actor.type(
+      await screen.findByRole("textbox", { name: "메모 내용" }),
+      "단축키로 남긴 메모{Control>}{Enter}{/Control}",
+    );
+
+    await waitFor(() =>
+      expect(
+        getDb().memos.some((memo) => memo.body === "단축키로 남긴 메모"),
+      ).toBe(true),
+    );
+  });
 });

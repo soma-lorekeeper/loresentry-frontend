@@ -225,9 +225,9 @@ export function WorkspaceSidebar() {
 
   const commitEdit = (title: string) => {
     const current = edit;
-    setEdit(null);
     if (!current) return;
     if (current.mode === "rename") {
+      setEdit(null);
       if (title === current.defaultTitle) return;
       rename.mutate(
         { fileId: current.nodeId, title },
@@ -235,6 +235,11 @@ export function WorkspaceSidebar() {
       );
       return;
     }
+    // 만들어질 때까지 그 자리에 정한 이름의 줄을 남겨 둔다(대기 표시). 끝나면 진짜 줄이 온다.
+    const pending: TreeEdit = { ...current, pending: title };
+    setEdit(pending);
+    // 그사이 다른 것을 만들거나 이름을 바꾸기 시작했으면 그 줄은 건드리지 않는다.
+    const settle = () => setEdit((now) => (now === pending ? null : now));
     create.mutate(
       {
         parentId: current.parentId,
@@ -244,9 +249,13 @@ export function WorkspaceSidebar() {
       },
       {
         onSuccess: (node) => {
+          settle();
           if (isDocument(node)) open({ kind: "file", fileId: node.id });
         },
-        onError: (error) => failed(error, t("만들지 못했어요.")),
+        onError: (error) => {
+          settle();
+          failed(error, t("만들지 못했어요."));
+        },
       },
     );
   };
@@ -386,6 +395,7 @@ export function WorkspaceSidebar() {
           setEdit({
             mode: "rename",
             nodeId: node.id,
+            docType: node.docType,
             icon: DOCUMENT_TYPE_META[node.docType].entityIcon,
             defaultTitle: node.title,
           }),
