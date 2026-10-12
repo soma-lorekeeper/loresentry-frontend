@@ -60,6 +60,12 @@ interface ToolbarProps {
   status: SaveStatus;
   locked: boolean;
   onRetry: () => void;
+  /**
+   * 찾기 막대가 열려 있는가. 단축키(문서에서 찾기)로도 열어야 해서 문서 화면이 쥐고 있다 —
+   * 도구 막대는 에디터가 준비되면 새로 만들어지므로 여기 두면 그때 닫혀 버린다.
+   */
+  findOpen: boolean;
+  onFindOpenChange: (open: boolean) => void;
   /** 오른쪽 끝에 붙는 파일 도구(메모·버전·내보내기·잠금). */
   actions?: ReactNode;
 }
@@ -193,6 +199,8 @@ export function EditorToolbar({
   status,
   locked,
   onRetry,
+  findOpen,
+  onFindOpenChange,
   actions,
 }: ToolbarProps) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -207,7 +215,6 @@ export function EditorToolbar({
   const [scrolls, setScrolls] = useState(false);
   const [resized, onResize] = useReducer((count: number) => count + 1, 0);
   const [moreOpen, setMoreOpen] = useState(false);
-  const [findOpen, setFindOpen] = useState(false);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -377,7 +384,7 @@ export function EditorToolbar({
         id: "find",
         label: t("찾기·바꾸기"),
         icon: "search",
-        onSelect: () => setFindOpen(true),
+        onSelect: () => onFindOpenChange(true),
       },
     ]),
   ]
@@ -531,7 +538,7 @@ export function EditorToolbar({
                   icon="search"
                   label={t("찾기·바꾸기")}
                   pressed={findOpen}
-                  onClick={() => setFindOpen((open) => !open)}
+                  onClick={() => onFindOpenChange(!findOpen)}
                 />
               </>
             )}
@@ -579,7 +586,7 @@ export function EditorToolbar({
         <FindBar
           editor={editor}
           locked={locked}
-          onClose={() => setFindOpen(false)}
+          onClose={() => onFindOpenChange(false)}
         />
       )}
     </>

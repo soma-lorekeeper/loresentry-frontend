@@ -1,0 +1,43 @@
+/* 대화상자 안의 들어간 판. 줄 사이 선은 긋지 않는다. */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--lk-space-1);
+  border-radius: 14px;
+  background: var(--lk-color-surface-sunken);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lk-space-4);
+  min-height: 36px;
+  padding: 0 var(--lk-space-3);
+  border-radius: 10px;
+}
+
+.row > dd {
+  flex: none;
+}
+
+/* 누를 키. 판 위로 살짝 떠 있는 알약이라 설명 글과 구분된다. */
+.keys {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 var(--lk-space-2);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-pill);
+  box-shadow: var(--lk-shadow-pill);
+  font-family: inherit;
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.note {
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}

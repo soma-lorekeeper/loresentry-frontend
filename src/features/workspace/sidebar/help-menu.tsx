@@ -7,6 +7,7 @@ import { useFeedback } from "@/features/feedback/feedback-provider";
 import { requestTour } from "@/features/tour/tour-state";
 import { t } from "@/i18n";
 
+import { ShortcutsDialog } from "../shell/shortcuts-dialog";
 import { useWorkspace } from "../workspace-context";
 import styles from "./sidebar.module.css";
 
@@ -14,6 +15,7 @@ export function HelpMenu({ selected }: { selected: boolean }) {
   const { open } = useWorkspace();
   const feedback = useFeedback();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const holdTrigger = useCallback((node: HTMLSpanElement | null) => {
     triggerRef.current = node?.querySelector("button") ?? null;
@@ -50,12 +52,22 @@ export function HelpMenu({ selected }: { selected: boolean }) {
             onSelect: requestTour,
           },
           {
+            id: "shortcuts",
+            label: t("키보드 단축키"),
+            icon: "keyboard",
+            onSelect: () => setShortcutsOpen(true),
+          },
+          {
             id: "feedback",
             label: t("작업공간::피드백 보내기"),
             icon: "message-square",
             onSelect: feedback.open,
           },
         ]}
+      />
+      <ShortcutsDialog
+        open={shortcutsOpen}
+        onClose={() => setShortcutsOpen(false)}
       />
     </span>
   );

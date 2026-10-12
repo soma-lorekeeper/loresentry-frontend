@@ -66,9 +66,30 @@ interface WorkspaceContextValue {
     tabId: string,
     guard: CloseGuard,
   ) => () => void;
+  /**
+   * 탭이 단축키로 불릴 수 있는 일을 등록한다(저장, 찾기 등). 돌려주는 함수로 해제한다.
+   * 탭마다 열려 있는 화면이 다르므로, 단축키를 듣는 쪽은 지금 보고 있는 탭의 것만 부른다.
+   */
+  registerTabActions: (
+    paneId: string,
+    tabId: string,
+    actions: TabActions,
+  ) => () => void;
+  /** 그 탭이 등록해 둔 일. 문서가 아닌 탭이나 아직 열리는 중인 탭은 없다 */
+  tabActionsOf: (paneId: string, tabId: string) => TabActions | undefined;
 }
 
 export type CloseGuard = (proceed: () => void) => boolean;
+
+/** 탭 하나가 단축키에 내주는 일들. 그 탭에 해당하지 않는 것은 비워 둔다 */
+export interface TabActions {
+  /** 자동 저장을 기다리지 않고 지금 저장한다 */
+  save?: () => void | Promise<void>;
+  /** 문서 안 찾기 막대를 연다 */
+  find?: () => void;
+  /** PDF 로 내보낸다(인쇄 창을 연다) */
+  exportPdf?: () => void;
+}
 
 // 같은 뷰가 두 창에 동시에 열릴 수 있으므로(옆에 열기) 창까지 합쳐 탭을 가리킨다.
 export function tabKey(paneId: string, tabId: string) {
@@ -165,6 +186,27 @@ export function WorkspaceProvider({
     [],
   );
 
+  const tabActions = useRef(new Map<string, TabActions>());
+
+  const registerTabActions = useCallback(
+    (paneId: string, tabId: string, actions: TabActions) => {
+      const key = tabKey(paneId, tabId);
+      tabActions.current.set(key, actions);
+      return () => {
+        // 같은 탭이 다시 등록한 뒤에 옛 해제가 불려도 새 것을 지우지 않는다.
+        if (tabActions.current.get(key) === actions)
+          tabActions.current.delete(key);
+      };
+    },
+    [],
+  );
+
+  const tabActionsOf = useCallback(
+    (paneId: string, tabId: string) =>
+      tabActions.current.get(tabKey(paneId, tabId)),
+    [],
+  );
+
   const closeTab = useCallback((paneId: string, tabId: string) => {
     const proceed = () => dispatch({ type: "close", paneId, tabId });
     const guard = guards.current.get(tabKey(paneId, tabId));
@@ -197,6 +239,8 @@ export function WorkspaceProvider({
       open,
       closeTab,
       registerCloseGuard,
+      registerTabActions,
+      tabActionsOf,
     }),
     [
       project,
@@ -210,6 +254,8 @@ export function WorkspaceProvider({
       open,
       closeTab,
       registerCloseGuard,
+      registerTabActions,
+      tabActionsOf,
     ],
   );
 

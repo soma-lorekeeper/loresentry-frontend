@@ -41,7 +41,8 @@ import {
   useMoveFile,
   useSetFavorite,
 } from "../workspace/queries";
-import { useWorkspace } from "../workspace/workspace-context";
+import { tabIdFor } from "../workspace/model/layout";
+import { useWorkspace, type TabActions } from "../workspace/workspace-context";
 import styles from "./document.module.css";
 import { EditorToolbar } from "./editor-toolbar";
 import { EDITOR_FONTS, useEditorPrefs } from "./editor-prefs";
@@ -114,6 +115,38 @@ function BodyEditor({
   );
 }
 
+/**
+ * 이 문서 탭이 단축키에 내주는 일을 작업공간에 등록한다(저장, 찾기, PDF).
+ *
+ * 등록은 탭이 바뀔 때만 다시 하고, 불릴 때는 늘 지금의 함수를 부른다. 문서 화면은 글자를
+ * 칠 때마다 다시 그려지므로 그때마다 등록을 갈아 끼우지 않으려는 것이다.
+ */
+function TabActionsBridge({
+  paneId,
+  tabId,
+  actions,
+}: {
+  paneId: string;
+  tabId: string;
+  actions: Required<TabActions>;
+}) {
+  const { registerTabActions } = useWorkspace();
+  const latest = useRef(actions);
+  useEffect(() => {
+    latest.current = actions;
+  });
+  useEffect(
+    () =>
+      registerTabActions(paneId, tabId, {
+        save: () => latest.current.save(),
+        find: () => latest.current.find(),
+        exportPdf: () => latest.current.exportPdf(),
+      }),
+    [paneId, tabId, registerTabActions],
+  );
+  return null;
+}
+
 function download(url: string, fileName: string) {
   const link = document.createElement("a");
   link.href = url;
@@ -124,6 +157,7 @@ function download(url: string, fileName: string) {
 
 export function DocumentView({
   fileId,
+  paneId,
 }: {
   fileId: string;
   paneId: string;
@@ -142,6 +176,8 @@ export function DocumentView({
   const [editor, setEditor] = useState<Editor | null>(null);
   const [lockPending, setLockPending] = useState(false);
   const [versionsOpen, setVersionsOpen] = useState(false);
+  // 찾기 막대. 도구 막대의 단추와 단축키(문서에서 찾기)가 함께 여닫는다.
+  const [findOpen, setFindOpen] = useState(false);
   const printBody = useRef<HTMLDivElement>(null);
   const [workArea, setWorkArea] = useState<HTMLDivElement | null>(null);
   const workSize = useElementSize(workArea);
@@ -314,6 +350,15 @@ export function DocumentView({
 
   return (
     <div className={styles.view} data-document-view>
+      <TabActionsBridge
+        paneId={paneId}
+        tabId={tabIdFor({ kind: "file", fileId })}
+        actions={{
+          save: () => doc.session.save(),
+          find: () => setFindOpen(true),
+          exportPdf: () => void exportAs("pdf"),
+        }}
+      />
       {/* 인쇄에만 보이는 블록. 화면에서는 숨어 있고, PDF 내보내기가 본문을 여기에 넣는다. */}
       <article className="lk-print-sheet" aria-hidden="true">
         <h1>{draft.title || t("제목 없음")}</h1>
@@ -334,6 +379,8 @@ export function DocumentView({
             status={doc.status}
             locked={locked}
             onRetry={() => void doc.session.retry()}
+            findOpen={findOpen}
+            onFindOpenChange={setFindOpen}
             actions={
               <FileHeader
                 memoOpen={panels.memoOpen}

@@ -12,6 +12,7 @@ import { WORKSPACE_VIEWS } from "../views/registry";
 import { useWorkspace } from "../workspace-context";
 import { WorkspaceSidebar } from "../sidebar/workspace-sidebar";
 import { TabBar } from "./tab-bar";
+import { useWorkspaceShortcuts } from "./use-workspace-shortcuts";
 import {
   SIDEBAR_WIDTH,
   clampSidebarWidth,
@@ -203,6 +204,7 @@ export function WorkspaceShell() {
   const panesRef = useRef<HTMLElement>(null);
   const sidebarWidth = useSidebarWidth();
   const split = splitOf(layout);
+  useWorkspaceShortcuts({ onPlace: () => {} });
 
   // 좁은 창에서는 창을 나누지 않는다. 지금 보고 있는 것 하나만 그린다.
   const panes = narrow
