@@ -19,6 +19,7 @@ import { useServices } from "@/services/services-context";
 import {
   activeTabOf,
   layoutReducer,
+  tabIdFor,
   type LayoutAction,
   type WorkspaceLayout,
   type WorkspacePane,
@@ -26,6 +27,8 @@ import {
 } from "./model/layout";
 
 const SAVE_DELAY_MS = 300;
+/** 탭을 옮기기 전에 쓰던 글의 저장을 기다려 주는 시간. 넘으면 기다리지 않고 옮긴다 */
+const RELOCATE_SAVE_WAIT_MS = 400;
 
 /** 사이드바가 본문을 밀지 않고 덮는 폭. 여기서부터 창이 좁다고 본다(shell 의 CSS 와 같은 값). */
 const NARROW_QUERY = "(max-width: 900px)";
@@ -56,10 +59,7 @@ interface WorkspaceContextValue {
   sidebarVisible: boolean;
   /** 사이드바를 열거나 닫는다. 좁은 창에서는 서랍만 여닫고 저장된 선호는 건드리지 않는다 */
   setSidebarVisible: (open: boolean) => void;
-  open: (
-    target: WorkspaceTarget,
-    options?: { toSide?: boolean; paneId?: string },
-  ) => void;
+  open: (target: WorkspaceTarget, options?: { paneId?: string }) => void;
   closeTab: (paneId: string, tabId: string) => void;
   registerCloseGuard: (
     paneId: string,
@@ -77,7 +77,19 @@ interface WorkspaceContextValue {
   ) => () => void;
   /** 그 탭이 등록해 둔 일. 문서가 아닌 탭이나 아직 열리는 중인 탭은 없다 */
   tabActionsOf: (paneId: string, tabId: string) => TabActions | undefined;
+  /**
+   * 탭을 다른 창으로 옮기거나 가장자리에 놓는다(`moveTab`·`split`).
+   *
+   * 창이 바뀌면 그 탭의 화면이 새로 만들어진다. 그래서 탭을 닫을 때처럼 닫기 확인을 먼저
+   * 거치고(저장하지 않은 설정 등), 문서면 쓰던 글을 저장한 뒤에 옮긴다.
+   */
+  relocate: (action: RelocateAction) => void;
 }
+
+export type RelocateAction = Extract<
+  LayoutAction,
+  { type: "split" } | { type: "moveTab" }
+>;
 
 export type CloseGuard = (proceed: () => void) => boolean;
 
@@ -91,7 +103,7 @@ export interface TabActions {
   exportPdf?: () => void;
 }
 
-// 같은 뷰가 두 창에 동시에 열릴 수 있으므로(옆에 열기) 창까지 합쳐 탭을 가리킨다.
+// 같은 뷰가 두 창에 동시에 열릴 수 있으므로 창까지 합쳐 탭을 가리킨다.
 export function tabKey(paneId: string, tabId: string) {
   return `${paneId}/${tabId}`;
 }
@@ -165,11 +177,7 @@ export function WorkspaceProvider({
 
   const open = useCallback<WorkspaceContextValue["open"]>(
     (target, options) =>
-      dispatch(
-        options?.toSide
-          ? { type: "openToSide", target }
-          : { type: "open", target, paneId: options?.paneId },
-      ),
+      dispatch({ type: "open", target, paneId: options?.paneId }),
     [],
   );
 
@@ -217,6 +225,33 @@ export function WorkspaceProvider({
     proceed();
   }, []);
 
+  const relocate = useCallback((action: RelocateAction) => {
+    // 탭이 아닌 것(사이드바의 파일)을 놓은 것이면 옮길 화면이 없다. 바로 반영한다.
+    const from = action.from;
+    if (!from) {
+      dispatch(action);
+      return;
+    }
+    const key = tabKey(
+      from,
+      action.type === "split" ? tabIdFor(action.target) : action.tabId,
+    );
+    const proceed = () => {
+      // 저장이 오래 걸려도 옮기기를 붙잡아 두지 않는다. 못다 한 저장은 문서 화면이
+      // 사라지면서 한 번 더 내보낸다(use-document-session 의 dispose).
+      const saved = Promise.resolve(tabActions.current.get(key)?.save?.());
+      const waited = new Promise<void>((resolve) =>
+        window.setTimeout(resolve, RELOCATE_SAVE_WAIT_MS),
+      );
+      void Promise.race([saved, waited])
+        .catch(() => {})
+        .then(() => dispatch(action));
+    };
+    // 닫기 확인이 가로막으면(저장하지 않은 설정 등) 사용자가 고른 뒤에 이어 간다.
+    if (guards.current.get(key)?.(proceed)) return;
+    proceed();
+  }, []);
+
   const activePane =
     layout.panes.find((pane) => pane.id === layout.activePaneId) ??
     layout.panes[0];
@@ -241,6 +276,7 @@ export function WorkspaceProvider({
       registerCloseGuard,
       registerTabActions,
       tabActionsOf,
+      relocate,
     }),
     [
       project,
@@ -256,6 +292,7 @@ export function WorkspaceProvider({
       registerCloseGuard,
       registerTabActions,
       tabActionsOf,
+      relocate,
     ],
   );
 

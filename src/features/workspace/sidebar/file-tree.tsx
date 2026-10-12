@@ -20,6 +20,7 @@ import type { FileNode } from "@/domain/models";
 import { t } from "@/i18n";
 
 import { isDocument, type TreeItem } from "../model/tree";
+import { beginDrag } from "../shell/drag-session";
 import styles from "./file-tree.module.css";
 
 export const TREE_INDENT = [12, 28, 46, 64, 82];
@@ -334,6 +335,12 @@ export function FileTree({
                   event.dataTransfer.setData(DRAG_MIME, node.id);
                   event.dataTransfer.setData("text/plain", node.title);
                   event.dataTransfer.effectAllowed = "move";
+                  // 작업 영역과 탭 막대가 끄는 동안 읽는다. 문서면 창에 열 수 있다.
+                  beginDrag({
+                    kind: "node",
+                    fileId: node.id,
+                    document: isDocument(node),
+                  });
                 }}
                 onDragOver={(event) => {
                   if (!folder || !event.dataTransfer.types.includes(DRAG_MIME))

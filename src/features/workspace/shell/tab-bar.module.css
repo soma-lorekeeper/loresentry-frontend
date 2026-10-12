@@ -68,6 +68,16 @@
   content: "";
 }
 
+/* 맨 끝에 놓일 때는 마지막 탭 뒤에 같은 선이 선다. */
+.tabs[data-drop-end="true"]::after {
+  flex: none;
+  width: 2px;
+  height: 20px;
+  border-radius: 1px;
+  background: var(--lk-color-accent-primary);
+  content: "";
+}
+
 .tab > svg {
   flex: none;
   color: var(--lk-color-icon-default);

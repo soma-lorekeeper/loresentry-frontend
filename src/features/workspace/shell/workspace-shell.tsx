@@ -1,6 +1,12 @@
 "use client";
 
-import { Fragment, useRef, type CSSProperties } from "react";
+import {
+  Fragment,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 
 import { ResizeHandle } from "@/design-system/primitives";
 import { WorkspaceTour } from "@/features/tour/workspace-tour";
@@ -12,6 +18,7 @@ import { WORKSPACE_VIEWS } from "../views/registry";
 import { useWorkspace } from "../workspace-context";
 import { WorkspaceSidebar } from "../sidebar/workspace-sidebar";
 import { TabBar } from "./tab-bar";
+import { usePaneDrop } from "./use-pane-drop";
 import { useWorkspaceShortcuts } from "./use-workspace-shortcuts";
 import {
   SIDEBAR_WIDTH,
@@ -27,7 +34,18 @@ import styles from "./workspace-shell.module.css";
  * @param slot 화면에서의 순서(0 이 왼쪽 또는 위). 크기 비율과, 사이드바 단추를 어느 창에
  *   둘지가 이 값으로 정해진다
  */
-function Pane({ pane, slot }: { pane: WorkspacePane; slot: number }) {
+function Pane({
+  pane,
+  slot,
+  entering,
+  onEntered,
+}: {
+  pane: WorkspacePane;
+  slot: number;
+  /** 방금 생긴 창이면 들어오는 가장자리. 그쪽에서 미끄러져 들어온다 */
+  entering?: "left" | "right" | "top" | "bottom";
+  onEntered: () => void;
+}) {
   const { dispatch, layout } = useWorkspace();
   const focused = layout.activePaneId === pane.id;
   return (
@@ -40,6 +58,11 @@ function Pane({ pane, slot }: { pane: WorkspacePane; slot: number }) {
       }
       data-pane-id={pane.id}
       data-slot={slot}
+      data-enter={entering}
+      onAnimationEnd={(event) => {
+        // 안쪽 요소의 애니메이션도 여기까지 올라온다. 이 창 자신의 것만 본다.
+        if (event.target === event.currentTarget) onEntered();
+      }}
       data-focused={focused || undefined}
       onFocusCapture={() =>
         !focused && dispatch({ type: "focusPane", paneId: pane.id })
@@ -197,6 +220,28 @@ function PaneDivider({
   );
 }
 
+/**
+ * 방금 생긴 창을 알아낸다. 그 창만 들어오는 동작을 한다.
+ *
+ * 처음 그릴 때의 창(저장된 배치를 되살린 것)은 움직이지 않는다 — 이전에 그린 창 목록이
+ * 있을 때만 견준다. 창의 자리만 바뀐 경우(다시 배치)에도 새로 생긴 창이 없으니 가만히 있다.
+ */
+function useEnteringPane(paneIds: string[]) {
+  const previous = useRef<string[] | null>(null);
+  const [entering, setEntering] = useState<string | null>(null);
+  const key = paneIds.join("|");
+  useLayoutEffect(() => {
+    const before = previous.current;
+    previous.current = paneIds;
+    if (!before || paneIds.length <= before.length) return;
+    const added = paneIds.find((id) => !before.includes(id));
+    if (added) setEntering(added);
+    // paneIds 는 렌더마다 새 배열이다. 내용이 바뀔 때만 다시 본다.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+  return { entering, clear: () => setEntering(null) };
+}
+
 export function WorkspaceShell() {
   const { layout, activePane, narrow, sidebarVisible, setSidebarVisible } =
     useWorkspace();
@@ -204,13 +249,26 @@ export function WorkspaceShell() {
   const panesRef = useRef<HTMLElement>(null);
   const sidebarWidth = useSidebarWidth();
   const split = splitOf(layout);
-  useWorkspaceShortcuts({ onPlace: () => {} });
+  const drop = usePaneDrop(panesRef);
+  useWorkspaceShortcuts({ onPlace: drop.startPlacing });
 
   // 좁은 창에서는 창을 나누지 않는다. 지금 보고 있는 것 하나만 그린다.
   const panes = narrow
     ? layout.panes.filter((pane) => pane.id === activePane.id)
     : layout.panes;
   const divided = panes.length > 1;
+  const { entering, clear: clearEntering } = useEnteringPane(
+    panes.map((pane) => pane.id),
+  );
+  /** 그 순서의 창이 어느 가장자리에 서 있는가. 들어오는 방향이 된다 */
+  const edgeOf = (index: number) =>
+    split.direction === "row"
+      ? index === 0
+        ? "left"
+        : "right"
+      : index === 0
+        ? "top"
+        : "bottom";
 
   return (
     <div
@@ -247,9 +305,40 @@ export function WorkspaceShell() {
         {panes.map((pane, index) => (
           <Fragment key={pane.id}>
             {index === 1 && <PaneDivider panesRef={panesRef} />}
-            <Pane pane={pane} slot={index} />
+            <Pane
+              pane={pane}
+              slot={index}
+              entering={
+                divided && entering === pane.id ? edgeOf(index) : undefined
+              }
+              onEntered={clearEntering}
+            />
           </Fragment>
         ))}
+        {/* 놓을 자리의 미리보기. 포인터를 받지 않아 그 아래의 끌기를 가리지 않는다. */}
+        {drop.preview && (
+          <div
+            className={styles.dropVeil}
+            data-drop-preview={
+              drop.preview.zone.kind === "edge"
+                ? drop.preview.zone.edge
+                : drop.preview.zone.paneId
+            }
+            data-settling={drop.preview.settling || undefined}
+            style={{
+              left: drop.preview.rect.left,
+              top: drop.preview.rect.top,
+              width: drop.preview.rect.width,
+              height: drop.preview.rect.height,
+            }}
+          />
+        )}
+        {/* 키보드로 자리를 고르는 동안의 안내. 스크린 리더도 고른 자리를 읽는다. */}
+        {drop.placing && (
+          <p className={styles.placingHint} role="status" aria-live="polite">
+            {drop.placing.label}
+          </p>
+        )}
       </main>
       <WorkspaceTour />
     </div>

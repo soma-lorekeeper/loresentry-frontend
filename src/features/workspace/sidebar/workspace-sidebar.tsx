@@ -370,13 +370,6 @@ export function WorkspaceSidebar() {
     }
     return [
       {
-        id: "side",
-        label: t("옆에 열기"),
-        icon: "panels-top-left",
-        onSelect: () =>
-          open({ kind: "file", fileId: node.id }, { toSide: true }),
-      },
-      {
         id: "favorite",
         label: favorite
           ? t("작업공간::즐겨찾기에서 제거")

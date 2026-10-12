@@ -73,8 +73,6 @@ export interface WorkspaceLayout {
   split?: WorkspaceSplit;
 }
 
-export const MAX_PANES = 2;
-
 function clampRatio(ratio: number) {
   const bounded = Math.min(SPLIT_RATIO.max, Math.max(SPLIT_RATIO.min, ratio));
   // 소수 셋째 자리까지만 둔다. 끌 때마다 긴 소수가 저장되면 같은 배치가 다른 값으로 보인다.
@@ -142,8 +140,6 @@ export type LayoutAction =
   | { type: "open"; target: WorkspaceTarget; paneId?: string }
   | { type: "activate"; paneId: string; tabId: string }
   | { type: "close"; paneId: string; tabId: string }
-  | { type: "reorder"; paneId: string; sourceId: string; targetId: string }
-  | { type: "openToSide"; target: WorkspaceTarget }
   /**
    * 작업 영역의 한 가장자리에 놓았다. `from` 은 끌어온 탭이 있던 창이고, 사이드바의
    * 파일처럼 탭이 아닌 것을 놓았으면 없다(그때는 옮기지 않고 새로 연다).
@@ -253,8 +249,8 @@ function insertInPane(
 /**
  * 가장자리에 놓기.
  *
- * <p>창이 하나면 그 가장자리에 새 창이 생긴다. 창이 이미 둘이면 더 늘릴 수 없으므로
- * (MAX_PANES) 놓은 것이 **그 가장자리에 서는 창**으로 들어간다:
+ * <p>창이 하나면 그 가장자리에 새 창이 생긴다. 창은 둘까지라, 이미 둘이면 더 늘리지 않고
+ * 놓은 것이 **그 가장자리에 서는 창**으로 들어간다:
  * <ul>
  *   <li>지금 분할과 같은 축의 가장자리(좌우로 나뉜 채 왼쪽에 놓음)면, 이미 그쪽에 있는
  *       창으로 간다. 창의 자리는 그대로다.
@@ -394,34 +390,6 @@ export function layoutReducer(
       return updatePane(layout, action.paneId, (p) =>
         closeInPane(p, action.tabId),
       );
-    case "reorder":
-      return updatePane(layout, action.paneId, (p) => {
-        const from = p.tabs.findIndex((t) => t.id === action.sourceId);
-        const to = p.tabs.findIndex((t) => t.id === action.targetId);
-        if (from < 0 || to < 0 || from === to) return p;
-        const tabs = [...p.tabs];
-        const [moved] = tabs.splice(from, 1);
-        tabs.splice(to, 0, moved);
-        return { ...p, tabs };
-      });
-    case "openToSide": {
-      if (layout.panes.length >= MAX_PANES) {
-        const other =
-          layout.panes.find((p) => p.id !== layout.activePaneId) ??
-          layout.panes[0];
-        return layoutReducer(layout, {
-          type: "open",
-          target: action.target,
-          paneId: other.id,
-        });
-      }
-      const id = freePaneId(layout.panes);
-      return {
-        ...layout,
-        panes: [...layout.panes, pane(id, action.target)],
-        activePaneId: id,
-      };
-    }
     case "split":
       return splitAt(layout, action.edge, action.target, action.from);
     case "moveTab":

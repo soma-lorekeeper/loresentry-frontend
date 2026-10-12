@@ -23,6 +23,7 @@
 }
 
 .panes {
+  position: relative;
   display: flex;
   flex: 1;
   min-width: 0;
@@ -69,6 +70,104 @@
 .panes[data-split="column"] > .divider {
   width: auto;
   height: 10px;
+}
+
+/*
+ * 탭이나 파일을 끌어올 때 놓일 자리를 미리 보여 주는 막. 가장자리면 새 시트가 설 절반,
+ * 창이면 그 창 전체를 덮는다. 하나의 막이 자리 사이를 미끄러져 옮겨 다닌다 — 자리마다
+ * 따로 켜지면 어디가 "지금"인지 눈이 놓친다. 포인터를 받지 않아 아래의 끌기를 가리지 않는다.
+ */
+.dropVeil {
+  position: absolute;
+  z-index: 5;
+  border-radius: var(--lk-radius-surface);
+  background: color-mix(
+    in srgb,
+    var(--lk-color-accent-primary) 16%,
+    transparent
+  );
+  pointer-events: none;
+  animation: veilIn 120ms var(--lk-ease);
+  transition:
+    top 160ms var(--lk-ease),
+    left 160ms var(--lk-ease),
+    width 160ms var(--lk-ease),
+    height 160ms var(--lk-ease),
+    opacity 160ms var(--lk-ease);
+}
+
+/* 놓은 직후. 그 자리에서 사라지고, 같은 자리로 새 시트가 들어온다. */
+.dropVeil[data-settling] {
+  opacity: 0;
+}
+
+@keyframes veilIn {
+  from {
+    opacity: 0;
+  }
+}
+
+/* 방금 생긴 창은 자기가 선 가장자리 쪽에서 들어온다. 놓은 방향과 같아 어디서 왔는지 읽힌다. */
+.pane[data-enter] {
+  animation: paneIn 200ms var(--lk-ease) both;
+}
+
+.pane[data-enter="left"] {
+  --enter-x: -16px;
+}
+
+.pane[data-enter="right"] {
+  --enter-x: 16px;
+}
+
+.pane[data-enter="top"] {
+  --enter-y: -16px;
+}
+
+.pane[data-enter="bottom"] {
+  --enter-y: 16px;
+}
+
+@keyframes paneIn {
+  from {
+    opacity: 0;
+    transform: translate(var(--enter-x, 0), var(--enter-y, 0));
+  }
+}
+
+@keyframes paneFade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* 키보드로 놓을 자리를 고르는 동안, 무엇을 누르면 되는지 알려 주는 한 줄. */
+.placingHint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  z-index: 6;
+  padding: var(--lk-space-2) var(--lk-space-4);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-raised);
+  box-shadow: var(--lk-shadow-float);
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+/* 움직임을 줄이면 자리를 옮겨 다니지 않고, 들어오는 창도 밀려 들어오지 않는다. 옅어짐만 남긴다. */
+@media (prefers-reduced-motion: reduce) {
+  .dropVeil {
+    animation: veilIn 120ms linear;
+    transition: opacity 120ms linear;
+  }
+
+  .pane[data-enter] {
+    animation: paneFade 120ms linear both;
+  }
 }
 
 .content {
