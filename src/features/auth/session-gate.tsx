@@ -14,6 +14,8 @@ import { followAccountLocale } from "@/i18n/preference";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 
+import { settleSessionHint } from "./session-hint";
+
 export function useAuthTransitionPending() {
   return useSyncExternalStore(
     subscribeAuthTransition,
@@ -25,12 +27,21 @@ export function useAuthTransitionPending() {
 export function useSession(enabled = true) {
   const transitionPending = useAuthTransitionPending();
   const services = useServices();
-  return useQuery({
+  const session = useQuery({
     enabled: enabled && !transitionPending,
     queryKey: queryKeys.session,
     queryFn: () => services.auth.getSession(),
     staleTime: Infinity,
   });
+  // 로그인 여부가 확인되면, 랜딩이 그동안 숨겨 둔 버튼을 드러내고 다음 방문을 위한 표시를 맞춘다
+  // (session-hint.ts). effect 는 화면이 맞는 버튼으로 바뀐 뒤에 돌므로, 틀린 버튼이 보이지 않는다.
+  const { isSuccess, isError, data } = session;
+  useEffect(() => {
+    if (isSuccess) settleSessionHint(Boolean(data));
+    // 확인하지 못했으면 버튼만 드러낸다. 화면은 지금처럼 로그아웃 모습을 보여 준다.
+    else if (isError) settleSessionHint(null);
+  }, [isSuccess, isError, data]);
+  return session;
 }
 
 /**
