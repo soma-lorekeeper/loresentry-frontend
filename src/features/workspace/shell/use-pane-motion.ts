@@ -385,9 +385,11 @@ export function usePaneMotion(
   useLayoutEffect(() => {
     const main = mainRef.current;
     if (!main) return;
+    // "바뀌기 전" 은 앞선 움직임을 끝내기 전에 읽는다. 끝내면 그 움직임이 제 마무리로 자리를
+    // 다시 적는데, 그때 재는 것은 이미 새 배치라 전후가 같아져 움직임 없이 툭 바뀐다.
+    const before = known.current;
     // 앞선 움직임이 남아 있으면 그 자리에서 끝낸다. 그래야 지금 재는 것이 새 배치다.
     stop.current?.();
-    const before = known.current;
     const after = rectsOf(main);
     known.current = after;
 
@@ -395,7 +397,14 @@ export function usePaneMotion(
     dropOriginRef.current = null;
     const resized = wasNarrow.current !== narrow;
     // 처음 그릴 때(저장된 배치를 되살린 것)와 창 폭이 바뀌어 생긴 변화는 움직이지 않는다.
-    if (before.size === 0 || resized || typeof main.animate !== "function") {
+    // 좁은 창도 움직이지 않는다 — 창을 하나만 그리므로, 보는 창이 바뀐 것은 배치가 아니라
+    // 화면이 통째로 바뀐 것이다(그대로 두면 탭을 닫을 때마다 다른 창이 지니로 나온다).
+    if (
+      before.size === 0 ||
+      resized ||
+      narrow ||
+      typeof main.animate !== "function"
+    ) {
       return;
     }
     const fresh =

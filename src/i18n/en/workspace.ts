@@ -52,7 +52,10 @@ export default {
   "배치::위": "the top",
   "배치::아래": "the bottom",
   "{place}에 놓아요. Enter로 확정, Esc로 취소":
-    "Place on {place}. Enter to confirm, Esc to cancel",
+    "Move to {place}. Enter to confirm, Esc to cancel",
+  "쓰던 글이 아직 저장되지 않아 탭을 옮기지 않았어요.":
+    "The tab wasn't moved because your writing isn't saved yet.",
+  "저장된 뒤에 다시 옮겨 주세요.": "Move it again once it's saved.",
   "키보드 단축키": "Keyboard shortcuts",
   "단축키::지금 저장": "Save now",
   "단축키::문서에서 찾기": "Find in document",

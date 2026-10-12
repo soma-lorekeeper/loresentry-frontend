@@ -22,7 +22,13 @@ import {
 } from "../model/drop-zones";
 import { splitOf, tabIdFor, type DropEdge } from "../model/layout";
 import { useWorkspace } from "../workspace-context";
-import { endDrag, getDrag, originOf, type DragSession } from "./drag-session";
+import {
+  endDrag,
+  getDrag,
+  originOf,
+  useDragSession,
+  type DragSession,
+} from "./drag-session";
 import type { DropOrigin } from "./use-pane-motion";
 
 /** 두 시트 사이의 틈(px). 가장자리 미리보기가 새 시트의 실제 크기와 맞으려면 알아야 한다 */
@@ -259,7 +265,20 @@ export function usePaneDrop(panesRef: RefObject<HTMLElement | null>) {
     };
     const onLeave = (event: DragEvent) => {
       const next = event.relatedTarget;
-      if (!(next instanceof Node) || !main.contains(next)) show(null);
+      if (next instanceof Node) {
+        if (!main.contains(next)) show(null);
+        return;
+      }
+      // Safari 는 이 사건에 어디로 갔는지(relatedTarget)를 주지 않는다. 그것만 믿으면 작업 영역
+      // 안에서 자식 사이를 넘을 때마다 미리보기를 지웠다 다시 그려 깜빡인다. 그래서 모를 때는
+      // 포인터가 아직 작업 영역 안인지를 본다(브라우저 창을 벗어난 경우는 좌표가 바깥이다).
+      const box = main.getBoundingClientRect();
+      const inside =
+        event.clientX >= box.left &&
+        event.clientX < box.right &&
+        event.clientY >= box.top &&
+        event.clientY < box.bottom;
+      if (!inside) show(null);
     };
     const onDrop = (event: DragEvent) => {
       const hit = resolve(event);
@@ -284,6 +303,13 @@ export function usePaneDrop(panesRef: RefObject<HTMLElement | null>) {
       main.removeEventListener("drop", onDrop, true);
     };
   }, [panesRef, perform, show]);
+
+  // 끌기가 끝나면 남은 미리보기를 지운다. 작업 영역을 덮은 것(알림 등) 위에서 끝난 끌기는
+  // 위의 dragleave 가 놓칠 수 있다. 놓아서 끝난 경우에는 이미 지워져 있어 아무 일도 없다.
+  const dragging = useDragSession() !== null;
+  useEffect(() => {
+    if (!dragging) show(null);
+  }, [dragging, show]);
 
   /*
    * 키보드로 자리 고르기(배치 모드).

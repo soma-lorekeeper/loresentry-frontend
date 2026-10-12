@@ -85,7 +85,9 @@ function MemoEditor({
           } else if (
             event.key === "Enter" &&
             (event.metaKey || event.ctrlKey) &&
-            savable
+            savable &&
+            // 저장 단추는 보내는 동안 눌리지 않는다. 키도 같아야 같은 메모가 두 번 생기지 않는다.
+            !pending
           ) {
             event.preventDefault();
             onSave(draft);

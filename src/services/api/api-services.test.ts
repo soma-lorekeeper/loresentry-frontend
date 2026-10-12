@@ -859,6 +859,36 @@ describe("graph", () => {
       chapterIds: ["d-1"],
     });
   });
+
+  it("reads a missing edge description as empty", async () => {
+    // 설명은 작가가 적지 않을 수 있는 칸이다. 그래프는 이 값을 글자로 믿고 다듬어 그리므로,
+    // 비어 온 것이 그대로 넘어가면 노드를 고르는 순간 캔버스가 멈춘다.
+    reply(200, {
+      nodes: [],
+      edges: [
+        {
+          id: "r-1",
+          source: "d-1",
+          target: "d-2",
+          relation_key: "related_character",
+          description: null,
+          origin: "USER",
+        },
+        {
+          id: "r-2",
+          source: "d-1",
+          target: "d-3",
+          relation_key: "related_place",
+          origin: "USER",
+        },
+      ],
+      episodes: [],
+    });
+
+    const graph = await services().graph!.getProjectGraph("p-1");
+
+    expect(graph.edges.map((edge) => edge.description)).toEqual(["", ""]);
+  });
 });
 
 describe("search", () => {

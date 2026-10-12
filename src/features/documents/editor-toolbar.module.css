@@ -189,14 +189,25 @@
   white-space: nowrap;
 }
 
-/* 좁은 도구 줄에서는 글자 수의 이름을 줄여 적는다(공백 포함 → 포함). 숫자는 그대로 둘 다 보인다. */
-.toolbar[data-tight] .countLabel {
-  font-size: 0;
+/*
+ * 좁은 도구 줄에서는 글자 수의 이름을 줄여 적는다(공백 포함 → 포함). 숫자는 그대로 둘 다 보인다.
+ * 온전한 이름은 화면에서만 감춘다 — 읽어 주는 도구에는 그 이름이 그대로 남아야 한다.
+ */
+.countShort {
+  display: none;
 }
 
-.toolbar[data-tight] .countLabel::after {
-  content: attr(data-short);
-  font-size: var(--lk-font-size-label);
+.toolbar[data-tight] .countShort {
+  display: inline;
+}
+
+.toolbar[data-tight] .countFull {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .saveError {

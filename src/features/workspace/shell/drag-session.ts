@@ -81,4 +81,11 @@ if (typeof document !== "undefined") {
   const settle = () => window.setTimeout(endDrag, 0);
   document.addEventListener("dragend", settle, true);
   document.addEventListener("drop", settle, true);
+  /*
+   * 그래도 치우지 못한 것이 남았을 수 있다(끌던 요소가 사라진 채 창 밖에서 끝난 끌기는 위의 두
+   * 사건이 모두 오지 않는다). 남은 채로 두면 다음에 끄는 것 — 에디터의 글자 같은 남의 끌기 — 을
+   * 예전에 끌던 탭으로 알고 받는다. 새 끌기는 늘 빈 데서 시작하게 한다. 문서에서 먼저(capture)
+   * 들으므로, 우리 단추의 `beginDrag` 는 이 뒤에 불려 새로 적는다.
+   */
+  document.addEventListener("dragstart", endDrag, true);
 }

@@ -308,20 +308,24 @@ function Counts({
   return (
     <>
       <span ref={ref} className={styles.counts}>
-        <span
-          className={styles.countLabel}
-          data-short={t("글자 수 줄임::포함")}
-        >
-          {t("공백 포함")}
+        {/*
+          이름은 두 벌이다. 온전한 이름이 읽히는 이름이고, 줄인 이름은 좁은 도구 줄에서 눈에만
+          보인다(aria-hidden) — 둘 다 읽히면 "공백 포함 포함" 이 된다.
+        */}
+        <span className={styles.countLabel}>
+          <span className={styles.countFull}>{t("공백 포함")}</span>
+          <span className={styles.countShort} aria-hidden="true">
+            {t("글자 수 줄임::포함")}
+          </span>
         </span>
         <span className={styles.countValue}>
           {t("글자 수 줄임::{count}자", { count: included })}
         </span>
-        <span
-          className={styles.countLabel}
-          data-short={t("글자 수 줄임::제외")}
-        >
-          {t("공백 제외")}
+        <span className={styles.countLabel}>
+          <span className={styles.countFull}>{t("공백 제외")}</span>
+          <span className={styles.countShort} aria-hidden="true">
+            {t("글자 수 줄임::제외")}
+          </span>
         </span>
         <span className={styles.countValue}>
           {t("글자 수 줄임::{count}자", { count: excluded })}

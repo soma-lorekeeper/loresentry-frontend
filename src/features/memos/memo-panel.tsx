@@ -66,6 +66,7 @@ function MemoResizeHandle({
 }
 
 export function MemoPanel({
+  hidden,
   projectId,
   fileId,
   fileTitle,
@@ -76,6 +77,8 @@ export function MemoPanel({
   onDock,
   onClose,
 }: {
+  /** 자리가 모자라 잠시 접었는가. 감추기만 하므로 적던 메모와 보던 탭이 그대로 남는다 */
+  hidden?: boolean;
   projectId: string;
   fileId: string;
   fileTitle: string;
@@ -95,6 +98,7 @@ export function MemoPanel({
 
   return (
     <aside
+      hidden={hidden}
       className={cx(styles.panel, dock === "below" && styles.below)}
       style={dock === "right" ? { width: size } : { height: size }}
       aria-label={t("작업공간::메모")}

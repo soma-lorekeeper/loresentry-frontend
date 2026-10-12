@@ -186,6 +186,9 @@ export function DocumentView({
   const [findOpen, setFindOpen] = useState(false);
   // 인쇄 중일 때만 본문 HTML 이 들어 있다. 그동안에만 인쇄 지면을 그린다(print-sheet.tsx).
   const [printing, setPrinting] = useState<string | null>(null);
+  // 내보내기가 진행 중인가. 저장과 글꼴을 기다리는 동안에는 `printing` 이 아직 비어 있어,
+  // 그것만 보면 그 사이에 한 번 더 불렸을 때(단축키를 누르고 있을 때) 인쇄 창이 두 번 뜬다.
+  const exporting = useRef(false);
   const [workArea, setWorkArea] = useState<HTMLDivElement | null>(null);
   const workSize = useElementSize(workArea);
 
@@ -287,8 +290,9 @@ export function DocumentView({
    * 속성·본문만 담은 인쇄 지면을 따로 그리고, 인쇄하는 동안 그것만 보이게 한다.
    */
   const exportPdf = async () => {
-    // 이미 인쇄 중이면(대화상자가 떠 있으면) 다시 시작하지 않는다.
-    if (printing !== null || !editor) return;
+    // 이미 내보내는 중이면(준비 중이거나 대화상자가 떠 있으면) 다시 시작하지 않는다.
+    if (exporting.current || !editor) return;
+    exporting.current = true;
     await doc.session.save();
     // 지면이 실제로 그려진 뒤에 인쇄해야 한다. 상태만 바꾸고 바로 인쇄하면 빈 종이가 나온다.
     flushSync(() => setPrinting(editor.getHTML()));
@@ -305,6 +309,7 @@ export function DocumentView({
       document.body.classList.remove("lk-printing");
       document.title = pageTitle;
       setPrinting(null);
+      exporting.current = false;
     };
     window.addEventListener("afterprint", restore);
     window.print();
@@ -383,7 +388,13 @@ export function DocumentView({
         paneId={paneId}
         tabId={tabIdFor({ kind: "file", fileId })}
         actions={{
-          save: () => doc.session.save(),
+          save: async () => {
+            await doc.session.save();
+            // 저장은 실패해도 조용히 끝난다(상태로만 알린다). 서버에 닿지 못한 글이 남았는지를
+            // 돌려줘야, 탭을 옮기는 쪽이 그 글을 잃지 않게 멈출 수 있다.
+            const status = doc.session.getSnapshot().status;
+            return status !== "error" && status !== "conflict";
+          },
           find: () => setFindOpen(true),
           exportPdf: () => void exportAs("pdf"),
         }}
@@ -534,8 +545,13 @@ export function DocumentView({
             </div>
           </div>
         </div>
-        {panels.memoOpen && !memoCollapsed && (
+        {/*
+          좁아서 접을 때는 떼어 내지 않고 감추기만 한다. 떼어 내면 적던 메모가 사라지는데, 창을
+          나누거나 폭을 줄이는 것만으로도 접히기 때문에 작가는 그 일이 메모를 버린다고 생각하지 못한다.
+        */}
+        {panels.memoOpen && (
           <MemoPanel
+            hidden={memoCollapsed}
             projectId={projectId}
             fileId={fileId}
             fileTitle={draft.title || t("제목 없음")}

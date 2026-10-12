@@ -13,7 +13,9 @@ import {
   type ReactNode,
 } from "react";
 
+import { useToast } from "@/design-system/primitives";
 import type { Project, User } from "@/domain/models";
+import { t } from "@/i18n";
 import { useServices } from "@/services/services-context";
 
 import {
@@ -27,8 +29,11 @@ import {
 } from "./model/layout";
 
 const SAVE_DELAY_MS = 300;
-/** 탭을 옮기기 전에 쓰던 글의 저장을 기다려 주는 시간. 넘으면 기다리지 않고 옮긴다 */
-const RELOCATE_SAVE_WAIT_MS = 400;
+/**
+ * 탭을 옮기기 전에 쓰던 글의 저장을 기다려 주는 시간. 넘으면 옮기지 않고 알린다 — 요청에는
+ * 시간 제한이 없어, 끝없이 기다리면 한참 뒤에 탭이 혼자 움직인다.
+ */
+const RELOCATE_SAVE_WAIT_MS = 3000;
 
 /** 사이드바가 본문을 밀지 않고 덮는 폭. 여기서부터 창이 좁다고 본다(shell 의 CSS 와 같은 값). */
 const NARROW_QUERY = "(max-width: 900px)";
@@ -95,8 +100,11 @@ export type CloseGuard = (proceed: () => void) => boolean;
 
 /** 탭 하나가 단축키에 내주는 일들. 그 탭에 해당하지 않는 것은 비워 둔다 */
 export interface TabActions {
-  /** 자동 저장을 기다리지 않고 지금 저장한다 */
-  save?: () => void | Promise<void>;
+  /**
+   * 자동 저장을 기다리지 않고 지금 저장한다. 저장하지 못한 것이 남았으면(오프라인, 서버 오류,
+   * 겹친 수정) `false` 를 돌려준다 — 탭을 옮기는 쪽이 그때는 옮기지 않는다.
+   */
+  save?: () => void | boolean | Promise<void | boolean>;
   /** 문서 안 찾기 막대를 연다 */
   find?: () => void;
   /** PDF 로 내보낸다(인쇄 창을 연다) */
@@ -122,6 +130,7 @@ export function WorkspaceProvider({
   children: ReactNode;
 }) {
   const services = useServices();
+  const toast = useToast();
   const [layout, dispatch] = useReducer(layoutReducer, initialLayout);
   const pending = useRef<WorkspaceLayout | null>(null);
 
@@ -225,32 +234,52 @@ export function WorkspaceProvider({
     proceed();
   }, []);
 
-  const relocate = useCallback((action: RelocateAction) => {
-    // 탭이 아닌 것(사이드바의 파일)을 놓은 것이면 옮길 화면이 없다. 바로 반영한다.
-    const from = action.from;
-    if (!from) {
-      dispatch(action);
-      return;
-    }
-    const key = tabKey(
-      from,
-      action.type === "split" ? tabIdFor(action.target) : action.tabId,
-    );
-    const proceed = () => {
-      // 저장이 오래 걸려도 옮기기를 붙잡아 두지 않는다. 못다 한 저장은 문서 화면이
-      // 사라지면서 한 번 더 내보낸다(use-document-session 의 dispose).
-      const saved = Promise.resolve(tabActions.current.get(key)?.save?.());
-      const waited = new Promise<void>((resolve) =>
-        window.setTimeout(resolve, RELOCATE_SAVE_WAIT_MS),
+  const relocate = useCallback(
+    (action: RelocateAction) => {
+      // 탭이 아닌 것(사이드바의 파일)을 놓은 것이면 옮길 화면이 없다. 바로 반영한다.
+      const from = action.from;
+      if (!from) {
+        dispatch(action);
+        return;
+      }
+      const key = tabKey(
+        from,
+        action.type === "split" ? tabIdFor(action.target) : action.tabId,
       );
-      void Promise.race([saved, waited])
-        .catch(() => {})
-        .then(() => dispatch(action));
-    };
-    // 닫기 확인이 가로막으면(저장하지 않은 설정 등) 사용자가 고른 뒤에 이어 간다.
-    if (guards.current.get(key)?.(proceed)) return;
-    proceed();
-  }, []);
+      const proceed = () => {
+        /*
+         * 쓰던 글이 서버에 닿은 것을 확인한 뒤에만 옮긴다. 창이 바뀌면 문서 화면이 새로 만들어지고,
+         * 새 화면은 마지막으로 저장된 글에서 시작한다 — 저장하지 못한 글(오프라인, 서버 오류, 겹친
+         * 수정)은 예전 화면과 함께 사라진다. 그래서 저장이 실패했거나 제때 끝나지 않으면 옮기지 않는다.
+         */
+        const saved = Promise.resolve(
+          tabActions.current.get(key)?.save?.(),
+        ).then(
+          (result) => result !== false,
+          () => false,
+        );
+        const waited = new Promise<false>((resolve) =>
+          window.setTimeout(() => resolve(false), RELOCATE_SAVE_WAIT_MS),
+        );
+        void Promise.race([saved, waited]).then((safe) => {
+          if (safe) {
+            dispatch(action);
+            return;
+          }
+          toast({
+            icon: "triangle-alert",
+            title: t("쓰던 글이 아직 저장되지 않아 탭을 옮기지 않았어요."),
+            description: t("저장된 뒤에 다시 옮겨 주세요."),
+          });
+        });
+      };
+      // 닫기 확인이 가로막으면(저장하지 않은 설정 등) 사용자가 고른 뒤에 이어 간다.
+      if (guards.current.get(key)?.(proceed)) return;
+      proceed();
+      // toast 는 알림 제공자가 한 번 만들어 주는 함수라 바뀌지 않는다.
+    },
+    [toast],
+  );
 
   const activePane =
     layout.panes.find((pane) => pane.id === layout.activePaneId) ??

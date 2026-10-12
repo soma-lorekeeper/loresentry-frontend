@@ -310,6 +310,36 @@ describe("WorkspaceShell drag and drop", () => {
     expect(tabNames(panes()[1])).toEqual(["메모"]);
   });
 
+  it("keeps the tab where it is when its writing could not be saved", async () => {
+    stubMatchMedia();
+    // 저장에 실패한 문서 화면처럼, 이 탭은 "서버에 닿지 못한 글이 남았다" 고 답한다.
+    function UnsavedProbe() {
+      const { registerTabActions } = useWorkspace();
+      useEffect(
+        () => registerTabActions("pane-1", "memo", { save: () => false }),
+        [registerTabActions],
+      );
+      return null;
+    }
+    renderShell(twoTabs(), <UnsavedProbe />);
+    const memo = await screen.findByRole("tab", { name: /메모/ });
+    stubGeometry();
+
+    fireEvent.dragStart(memo, {
+      dataTransfer: { setData: () => {}, effectAllowed: "none" },
+    });
+    drag("dragover", main(), 500, 590);
+    drag("drop", main(), 500, 590);
+
+    // 옮기면 화면이 새로 만들어져 그 글이 사라진다. 옮기지 않고 까닭을 알린다.
+    expect(
+      await screen.findByText(
+        "쓰던 글이 아직 저장되지 않아 탭을 옮기지 않았어요.",
+      ),
+    ).toBeInTheDocument();
+    expect(panes()).toHaveLength(1);
+  });
+
   it("leaves a drag it did not start alone", async () => {
     stubMatchMedia();
     renderShell(twoTabs());

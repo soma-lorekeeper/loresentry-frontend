@@ -9,7 +9,11 @@ import { FileTrashView } from "@/features/file-trash/file-trash-view";
 import { ProjectSettingsView } from "@/features/project-settings/project-settings-view";
 import { searchTermOf } from "@/features/search/queries";
 import { SearchView } from "@/features/search/search-view";
-import { clearMockRules, setMockRule } from "@/services/mock/control";
+import {
+  clearMockRules,
+  setMockLatency,
+  setMockRule,
+} from "@/services/mock/control";
 import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
 import { renderWithServices, routerMock } from "@/test/render";
 
@@ -382,5 +386,29 @@ describe("workspace views", () => {
         getDb().memos.some((memo) => memo.body === "단축키로 남긴 메모"),
       ).toBe(true),
     );
+  });
+
+  it("creates one memo when Ctrl+Enter is pressed again while it saves", async () => {
+    const actor = userEvent.setup();
+    renderInWorkspace("memo", <MemoView />);
+    await actor.click(await screen.findByRole("radio", { name: "작품 메모" }));
+    await actor.click(await screen.findByRole("button", { name: "메모 추가" }));
+    const editor = await screen.findByRole("textbox", { name: "메모 내용" });
+    await actor.type(editor, "한 번만 남을 메모");
+    // 느린 연결. 첫 저장이 가는 동안 같은 키를 한 번 더 누른다.
+    setMockLatency(150);
+
+    await actor.keyboard("{Control>}{Enter}{/Control}");
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "저장" })).toBeDisabled(),
+    );
+    await actor.keyboard("{Control>}{Enter}{/Control}");
+
+    await waitFor(() =>
+      expect(screen.queryByRole("listitem", { name: "새 메모" })).toBeNull(),
+    );
+    expect(
+      getDb().memos.filter((memo) => memo.body === "한 번만 남을 메모"),
+    ).toHaveLength(1);
   });
 });

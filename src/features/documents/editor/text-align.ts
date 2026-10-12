@@ -93,7 +93,12 @@ export const DocumentTextAlign = TextAlign.extend({
       ]),
     );
   },
-}).configure({ types: [...ALIGNABLE] });
+}).configure({
+  types: [...ALIGNABLE],
+  // 읽어 들일 때 받는 값. 왼쪽을 빼 두면 붙여 넣은 글의 `text-align: left` 가 빈 값으로 읽힌다 —
+  // "왼쪽은 적지 않는다" 가 붙여 넣은 문단에도 지켜진다.
+  alignments: ["center", "right", "justify"],
+});
 
 /**
  * 에디터의 문서를 저장할 모양으로 꺼낸다.

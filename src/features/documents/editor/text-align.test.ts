@@ -150,4 +150,22 @@ describe("documentJSON", () => {
     expect(aligns()).toEqual(["right"]);
     expect(editor.getHTML()).toContain("text-align: right");
   });
+
+  it("reads a pasted left alignment as no alignment", () => {
+    open();
+    // 다른 편집기에서 가져온 글은 왼쪽 정렬도 스타일로 적어 온다. 그대로 담으면 정렬하지 않은
+    // 문단과 모양이 달라져, 같은 글이 버전 비교에서 바뀐 문단으로 잡힌다.
+    editor.commands.setContent(
+      '<p style="text-align: left">왼쪽</p><p style="text-align: center">가운데</p>',
+    );
+
+    expect(documentJSON(editor).content).toEqual([
+      { type: "paragraph", content: [{ type: "text", text: "왼쪽" }] },
+      {
+        type: "paragraph",
+        attrs: { textAlign: "center" },
+        content: [{ type: "text", text: "가운데" }],
+      },
+    ]);
+  });
 });

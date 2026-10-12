@@ -17,7 +17,8 @@ interface ApiEdge {
   source: string;
   target: string;
   relation_key: string;
-  description: string;
+  /** 작가가 적지 않은 관계는 비어 있다. 문서의 관계(`ApiRelation`)에서도 생략되는 칸이다 */
+  description?: string | null;
   origin: "USER" | "AI";
 }
 
@@ -59,7 +60,8 @@ export function createApiGraph(client: ApiClient): GraphService {
           source: edge.source,
           target: edge.target,
           key: edge.relation_key,
-          description: edge.description,
+          // 화면은 적지 않은 설명을 빈 문자열로 안다(domain/models.ts).
+          description: edge.description ?? "",
           // 서버가 아직 보내지 않는 판을 만나도 사용자가 이은 관계로 본다.
           origin: edge.origin ?? "USER",
         })),
