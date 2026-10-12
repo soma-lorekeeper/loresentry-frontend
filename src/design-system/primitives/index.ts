@@ -7,6 +7,7 @@ export { Menu } from "./menu";
 export type { MenuEntry } from "./menu";
 export { InlineNotice, StatusNotice, ToastProvider, useToast } from "./notice";
 export { Popover } from "./popover";
+export { ResizeHandle } from "./resize-handle";
 export { Icon } from "../icons/icon";
 export type { IconName } from "../icons/icon";
 export { SaveBar } from "./save-bar";

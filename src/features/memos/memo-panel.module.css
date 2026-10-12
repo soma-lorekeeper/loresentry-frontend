@@ -14,15 +14,13 @@
   border-left: 0;
 }
 
+/* 손잡이의 자리만 정한다. 모양(커서, 가리킬 때의 선)은 ResizeHandle 프리미티브가 맡는다. */
 .handle {
   position: absolute;
   top: 0;
   bottom: 0;
   left: -4px;
-  z-index: 2;
   width: 8px;
-  cursor: col-resize;
-  touch-action: none;
 }
 
 .handleBelow {
@@ -32,24 +30,6 @@
   left: 0;
   width: auto;
   height: 8px;
-  cursor: row-resize;
-}
-
-.handle:hover,
-.handle:focus-visible,
-.handle[data-dragging] {
-  background: linear-gradient(
-      var(--lk-color-accent-primary),
-      var(--lk-color-accent-primary)
-    )
-    center / 2px 100% no-repeat;
-  outline: none;
-}
-
-.handleBelow:hover,
-.handleBelow:focus-visible,
-.handleBelow[data-dragging] {
-  background-size: 100% 2px;
 }
 
 .header {

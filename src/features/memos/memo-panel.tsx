@@ -1,8 +1,12 @@
 "use client";
 
-import { useState, type KeyboardEvent, type PointerEvent } from "react";
+import { useRef, useState } from "react";
 
-import { IconButton, Segmented } from "@/design-system/primitives";
+import {
+  IconButton,
+  ResizeHandle,
+  Segmented,
+} from "@/design-system/primitives";
 import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
 import type { MemoDock } from "@/features/workspace/model/layout";
 import { t } from "@/i18n";
@@ -27,7 +31,11 @@ function clamp(value: number, range: { min: number; max: number }) {
   return Math.min(range.max, Math.max(range.min, Math.round(value)));
 }
 
-function ResizeHandle({
+/**
+ * 메모 패널의 손잡이. 패널은 문서의 오른쪽이나 아래에 붙어 있어, 손잡이를 왼쪽·위로
+ * 끌수록 패널이 커진다 — 그래서 움직인 거리를 빼서 크기를 정한다.
+ */
+function MemoResizeHandle({
   dock,
   size,
   onResize,
@@ -37,42 +45,23 @@ function ResizeHandle({
   onResize: (size: number) => void;
 }) {
   const range = dock === "right" ? MEMO_RIGHT_RANGE : MEMO_BELOW_RANGE;
-  const [drag, setDrag] = useState<{ start: number; size: number } | null>(
-    null,
-  );
-  const coord = (event: PointerEvent) =>
-    dock === "right" ? event.clientX : event.clientY;
+  // 끌기 시작할 때의 크기. 움직인 거리는 누른 자리 기준으로 오므로 여기에 견준다.
+  const startSize = useRef(size);
   return (
-    <div
-      role="separator"
-      tabIndex={0}
-      aria-label={t("메모 패널 크기 조절")}
-      aria-orientation={dock === "right" ? "vertical" : "horizontal"}
-      aria-valuemin={range.min}
-      aria-valuemax={range.max}
-      aria-valuenow={size}
-      data-dragging={drag ? true : undefined}
+    <ResizeHandle
+      label={t("메모 패널 크기 조절")}
+      orientation={dock === "right" ? "vertical" : "horizontal"}
+      value={size}
+      min={range.min}
+      max={range.max}
       className={cx(styles.handle, dock === "below" && styles.handleBelow)}
-      onPointerDown={(event) => {
-        event.currentTarget.setPointerCapture(event.pointerId);
-        setDrag({ start: coord(event), size });
+      onDragStart={() => {
+        startSize.current = size;
       }}
-      onPointerMove={(event) => {
-        if (!drag) return;
-        onResize(clamp(drag.size + drag.start - coord(event), range));
-      }}
-      onPointerUp={() => setDrag(null)}
-      onPointerCancel={() => setDrag(null)}
-      onKeyDown={(event: KeyboardEvent) => {
-        const grow =
-          dock === "right"
-            ? { ArrowLeft: 1, ArrowRight: -1 }
-            : { ArrowUp: 1, ArrowDown: -1 };
-        const delta = grow[event.key as keyof typeof grow];
-        if (!delta) return;
-        event.preventDefault();
-        onResize(clamp(size + delta * KEY_STEP, range));
-      }}
+      onDrag={(delta) => onResize(clamp(startSize.current - delta, range))}
+      onStep={(direction) =>
+        onResize(clamp(size - direction * KEY_STEP, range))
+      }
     />
   );
 }
@@ -117,7 +106,7 @@ export function MemoPanel({
         }
       }}
     >
-      <ResizeHandle dock={dock} size={size} onResize={onResize} />
+      <MemoResizeHandle dock={dock} size={size} onResize={onResize} />
       <header className={styles.header}>
         <IconButton
           icon="x"
