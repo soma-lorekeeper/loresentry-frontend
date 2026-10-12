@@ -119,6 +119,10 @@ export function DocumentDiff({
             data-side={side}
             data-changed={changed || undefined}
             style={{ gridColumn: side === "left" ? 1 : 3, gridRow: at }}
+            // 두 쪽의 칸이 줄마다 번갈아 놓인다. 읽어 주는 도구가 "설명 … 설명 …" 을 이어 읽으면
+            // 어느 쪽 값인지 알 수 없으므로 칸마다 쪽의 이름을 붙인다.
+            role="group"
+            aria-label={t("{name}의 {label}", { name: labels[side], label })}
           >
             <span className={styles.label}>{label}</span>
             <span className={styles.value}>{cell(side)}</span>
@@ -143,12 +147,13 @@ export function DocumentDiff({
         {SIDES.map((side) => (
           <Fragment key={side}>
             {side === "right" && <span className={styles.headGutter} />}
-            <span data-side={side}>
+            {/* 제목 요소가 들어가므로 글자 요소(span)가 아니라 div 다. */}
+            <div data-side={side}>
               <h3 className={styles.headName}>{labels[side]}</h3>
               {notes?.[side] && (
                 <span className={styles.headNote}>{notes[side]}</span>
               )}
-            </span>
+            </div>
           </Fragment>
         ))}
       </div>

@@ -164,6 +164,7 @@ export default {
   "현재 버전 본문": "Body (current)",
   "신규 버전 본문": "Body (proposed)",
   "{name} 본문": "Body ({name})",
+  "{name}의 {label}": "{label} ({name})",
   "현재 버전 제목": "Title (current)",
   "신규 버전 제목": "Title (proposed)",
   "현재 버전 {label}": "{label} (current)",

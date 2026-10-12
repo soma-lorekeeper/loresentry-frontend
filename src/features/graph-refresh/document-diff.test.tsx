@@ -99,6 +99,18 @@ describe("DocumentDiff", () => {
     expect(screen.getByText("10월 13일 01:33")).toBeInTheDocument();
   });
 
+  it("tells assistive technology which side each value belongs to", () => {
+    renderDiff();
+
+    // 두 쪽의 칸이 줄마다 번갈아 놓인다. 이름이 없으면 "설명 … 설명 …" 으로만 읽힌다.
+    expect(
+      screen.getByRole("group", { name: "선택한 버전의 설명" }),
+    ).toHaveTextContent("기억 항로를 읽어 내는 항해사");
+    expect(
+      screen.getByRole("group", { name: "현재 문서의 설명" }),
+    ).toHaveTextContent("은빛 항해단의");
+  });
+
   it("marks the rows that differ and leaves the same ones alone", () => {
     const { container } = renderDiff();
 

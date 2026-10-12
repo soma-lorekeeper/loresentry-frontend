@@ -296,8 +296,26 @@
   position: sticky;
   top: 0;
   z-index: 2;
+  /*
+   * 줄어들지 않는다. 이 비교는 세로로 쌓는 flex 이면서 저 혼자 밀리는 영역이라, 문서가 길면 넘치는
+   * 만큼을 줄어들 수 있는 자식이 떠안는다 — 그대로 두면 머리 줄이 눌려 사라진다.
+   */
+  flex: none;
   /* 밀려 올라온 글을 가리는 바탕. 무슨 색 위에 놓였는지는 놓은 쪽이 안다(--compare-backdrop). */
   background: var(--compare-backdrop, var(--lk-color-surface-raised));
+}
+
+/* 머리의 두 이름. 위의 머리와 같은 안쪽 여백이다(이쪽은 제목 요소를 담아 span 이 아니다). */
+.compare[data-readonly] .heads > [data-side] {
+  padding: 0 var(--lk-space-4);
+}
+
+/*
+ * 읽기만 하는 칩에는 빼기 단추가 없다. 아래의 칩 규칙은 그 단추가 펼쳐질 자리를 내려고 hover 와
+ * 터치 기기에서 오른쪽 여백을 줄이는데, 여기서는 줄일 까닭이 없다 — 줄이면 올릴 때마다 칩이 좁아진다.
+ */
+.compare[data-readonly] .chip {
+  padding-right: 10px;
 }
 
 /* 가운데 칸에 화살표가 없다. 두 띠를 잇는 리본이 설 만큼만 둔다. */
@@ -771,6 +789,10 @@
   .compare[data-only] .heads {
     grid-template-columns: minmax(0, 1fr);
     min-height: 0;
+  }
+
+  .compare[data-only] .heads > [data-side] {
+    padding: 0 var(--lk-space-3);
   }
 
   /*
