@@ -62,7 +62,10 @@ describe("ProjectGuidePage (English build)", () => {
       within(breadcrumb).getByRole("link", { name: "User guide" }),
     ).toHaveAttribute("href", "/projects/guide");
     const article = screen.getByRole("article");
-    expect(within(article).getAllByRole("listitem")).toHaveLength(4);
+    // 절마다 번호 붙은 소제목이다. 작업공간의 도움말 탭과 같은 글이다.
+    expect(within(article).getAllByRole("heading", { level: 2 })).toHaveLength(
+      4,
+    );
     expect(article.textContent).toContain("Find and replace");
     expect(article.textContent).not.toMatch(HANGUL);
   });
