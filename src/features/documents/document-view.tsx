@@ -9,6 +9,7 @@ import {
   useState,
   type CSSProperties,
 } from "react";
+import { flushSync } from "react-dom";
 
 import {
   Button,
@@ -50,6 +51,7 @@ import { useEditorPrefs } from "./editor-prefs";
 import { createDocumentExtensions } from "./editor/extensions";
 import { documentJSON } from "./editor/text-align";
 import { FileHeader } from "./file-header";
+import { PrintSheet, printRows } from "./print-sheet";
 import { PropertyTable } from "./property-table";
 import { useDocumentSession } from "./use-document-session";
 import { bodyOf, type DocumentBody } from "@/domain/document-body";
@@ -182,7 +184,8 @@ export function DocumentView({
   const [versionsOpen, setVersionsOpen] = useState(false);
   // 찾기 막대. 도구 막대의 단추와 단축키(문서에서 찾기)가 함께 여닫는다.
   const [findOpen, setFindOpen] = useState(false);
-  const printBody = useRef<HTMLDivElement>(null);
+  // 인쇄 중일 때만 본문 HTML 이 들어 있다. 그동안에만 인쇄 지면을 그린다(print-sheet.tsx).
+  const [printing, setPrinting] = useState<string | null>(null);
   const [workArea, setWorkArea] = useState<HTMLDivElement | null>(null);
   const workSize = useElementSize(workArea);
 
@@ -277,16 +280,39 @@ export function DocumentView({
     }
   };
 
+  /**
+   * PDF 로 내보낸다 — 브라우저의 인쇄로 넘긴다(대화상자에서 "PDF 로 저장" 을 고른다).
+   *
+   * <p>편집 화면을 그대로 인쇄하면 입력창·도구 막대·스크롤 영역이 종이에 찍힌다. 그래서 제목·
+   * 속성·본문만 담은 인쇄 지면을 따로 그리고, 인쇄하는 동안 그것만 보이게 한다.
+   */
+  const exportPdf = async () => {
+    // 이미 인쇄 중이면(대화상자가 떠 있으면) 다시 시작하지 않는다.
+    if (printing !== null || !editor) return;
+    await doc.session.save();
+    // 지면이 실제로 그려진 뒤에 인쇄해야 한다. 상태만 바꾸고 바로 인쇄하면 빈 종이가 나온다.
+    flushSync(() => setPrinting(editor.getHTML()));
+    // 고른 글꼴을 아직 받는 중이면 다 올 때까지 기다린다. 기다리지 않으면 대체 글꼴로 찍힌다.
+    await document.fonts?.ready;
+    // 인쇄 대화상자는 문서 제목을 PDF 파일 이름으로 쓴다.
+    const pageTitle = document.title;
+    document.title = draft.title || t("제목 없음");
+    document.body.classList.add("lk-printing");
+    // 대화상자가 닫히면(저장했든 취소했든) 원래대로 돌린다. print() 가 끝나기를 기다리지 않는
+    // 브라우저도 있어, 돌아오는 것을 믿지 않고 이 사건을 듣는다.
+    const restore = () => {
+      window.removeEventListener("afterprint", restore);
+      document.body.classList.remove("lk-printing");
+      document.title = pageTitle;
+      setPrinting(null);
+    };
+    window.addEventListener("afterprint", restore);
+    window.print();
+  };
+
   const exportAs = async (format: ExportFormat) => {
     if (format === "pdf") {
-      await doc.session.save();
-      // 편집 화면을 그대로 인쇄하면 제목 입력창·속성표·툴바가 종이에 찍힌다. 인쇄용 블록에
-      // 제목과 본문만 담아 그것만 보이게 한다.
-      printBody.current!.innerHTML = editor?.getHTML() ?? "";
-      document.body.classList.add("lk-printing");
-      window.print();
-      document.body.classList.remove("lk-printing");
-      printBody.current!.innerHTML = "";
+      await exportPdf();
       return;
     }
     try {
@@ -362,11 +388,19 @@ export function DocumentView({
           exportPdf: () => void exportAs("pdf"),
         }}
       />
-      {/* 인쇄에만 보이는 블록. 화면에서는 숨어 있고, PDF 내보내기가 본문을 여기에 넣는다. */}
-      <article className="lk-print-sheet" aria-hidden="true">
-        <h1>{draft.title || t("제목 없음")}</h1>
-        <div ref={printBody} />
-      </article>
+      {printing !== null && (
+        <PrintSheet
+          title={draft.title || t("제목 없음")}
+          rows={printRows(
+            docType,
+            draft.properties,
+            index,
+            episodeOf(index, fileId),
+          )}
+          html={printing}
+          style={editorVars}
+        />
+      )}
       <div
         ref={setWorkArea}
         className={cx(

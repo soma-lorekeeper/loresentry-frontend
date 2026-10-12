@@ -73,6 +73,7 @@ export default {
   기울임: "Italic",
   "공백 포함 {withSpaces}자 · 공백 제외 {withoutSpaces}자":
     "{withSpaces} characters with spaces · {withoutSpaces} without spaces",
+  "볼 문서": "Document to view",
   "공백 포함": "With spaces",
   "공백 제외": "Without spaces",
   "글자 수 줄임::포함": "Incl.",
