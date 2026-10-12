@@ -111,6 +111,20 @@ for (const route of ROUTES) {
     errors.push(
       `/${route} 의 canonical(${canonical ?? "없음"})이 sitemap.xml 의 주소(${localeBase}${route})와 다릅니다.`,
     );
+  // 검색에 내보내는 페이지는 본문이 HTML 에 들어 있어야 한다. 스크립트를 실행하지 않는 로봇은
+  // HTML 만 읽는다. 화면 전체가 설정을 기다리던 때에는 이 본문이 비어 있었다(src/app/providers.tsx).
+  // 스크립트 안에도 같은 글이 데이터로 들어 있으므로, 스크립트와 스타일을 걷어 내고 본다.
+  const body = html
+    .slice(html.indexOf("<body"))
+    .replace(/<(script|style)\b[\s\S]*?<\/\1>/g, "");
+  const text = body
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!/<h1[\s>]/.test(body) || text.length < 200)
+    errors.push(
+      `sitemap.xml 에 있는 /${route} 의 HTML 에 본문이 없습니다(<h1> ${/<h1[\s>]/.test(body) ? "있음" : "없음"}, 글자 ${text.length}자). 빌드 때 화면이 그려지지 않았습니다.`,
+    );
 }
 
 const files = walk(OUT);
