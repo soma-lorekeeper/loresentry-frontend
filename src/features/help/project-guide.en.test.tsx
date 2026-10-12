@@ -64,9 +64,13 @@ describe("ProjectGuidePage (English build)", () => {
     const article = screen.getByRole("article");
     // 절마다 번호 붙은 소제목이다. 작업공간의 도움말 탭과 같은 글이다.
     expect(within(article).getAllByRole("heading", { level: 2 })).toHaveLength(
-      4,
+      5,
     );
     expect(article.textContent).toContain("Find and replace");
+    // 가져오기도 이 글에서 설명한다.
+    expect(article.textContent).toContain(
+      "nothing is created until you press Import",
+    );
     expect(article.textContent).not.toMatch(HANGUL);
   });
 });

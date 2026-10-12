@@ -44,11 +44,13 @@ describe("WorkspaceTour (English)", () => {
     const first = await screen.findByRole("dialog", {
       name: "Write your chapters here",
     });
-    expect(screen.getByRole("list", { name: "Step 1 of 14" })).toBeVisible();
+    expect(screen.getByRole("list", { name: "Step 1 of 16" })).toBeVisible();
     expect(screen.getByRole("button", { name: "Skip" })).toBeInTheDocument();
     expect(first.textContent).not.toMatch(/[가-힣]/);
 
     for (const title of [
+      "Bring in what you've already written",
+      "Add files, check the list, then import",
       "Link documents in the property table",
       "See your links as a graph",
       "Focus on one document",

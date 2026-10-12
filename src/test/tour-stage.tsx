@@ -19,10 +19,31 @@ export function TourStage({
   const [run, setRun] = useState<"idle" | "running" | "ready">("idle");
   const [diff, setDiff] = useState(false);
   const [picked, setPicked] = useState(false);
+  const [importing, setImporting] = useState(false);
   return (
     <>
       <div data-tour="editor" />
       <div data-tour="properties" />
+      {sidebar && (
+        <button
+          type="button"
+          data-tour="import"
+          onClick={() => setImporting(true)}
+        >
+          stage import
+        </button>
+      )}
+      {importing && (
+        <div data-tour="import-dialog">
+          <button
+            type="button"
+            data-tour="import-cancel"
+            onClick={() => setImporting(false)}
+          >
+            stage cancel
+          </button>
+        </div>
+      )}
       {sidebar && (
         <button type="button" data-tour="graph" onClick={() => setGraph(true)}>
           stage graph
