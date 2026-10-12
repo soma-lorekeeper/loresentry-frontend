@@ -407,7 +407,14 @@ function useTargetRect(name: string | null) {
 }
 
 export function WorkspaceTour() {
-  const { projectId, open, layout, dispatch } = useWorkspace();
+  const {
+    projectId,
+    open,
+    layout,
+    dispatch,
+    sidebarVisible,
+    setSidebarVisible,
+  } = useWorkspace();
   const tree = useFileTree(projectId);
   const refresh = useRefreshRun(projectId);
   const { discard } = useRefreshActions(projectId);
@@ -420,13 +427,17 @@ export function WorkspaceTour() {
   const openedSidebar = useRef(false);
   const before = useRef<{
     layout: WorkspaceLayout;
+    // 좁은 창에서는 서랍의 열림이 배치와 따로 간다. 투어가 끝나면 이것도 되돌린다.
+    sidebarVisible: boolean;
     runId: string | null;
   } | null>(null);
   const snapshot = () => ({
     open,
     dispatch,
     layout,
-    sidebarOpen: layout.sidebarOpen,
+    // 사이드바가 실제로 보이는가. 좁은 창에서는 `layout.sidebarOpen` 과 다를 수 있다.
+    sidebarVisible,
+    setSidebarVisible,
     run: refresh.data ?? null,
     discard: discard.mutate,
   });
@@ -438,7 +449,11 @@ export function WorkspaceTour() {
 
   const begin = useCallback(() => {
     const current = latest.current;
-    before.current = { layout: current.layout, runId: current.run?.id ?? null };
+    before.current = {
+      layout: current.layout,
+      sidebarVisible: current.sidebarVisible,
+      runId: current.run?.id ?? null,
+    };
     openedSidebar.current = false;
     setIndex(0);
   }, []);
@@ -458,17 +473,17 @@ export function WorkspaceTour() {
     if (!step) return;
     const current = latest.current;
     if (step.open) current.open(step.open);
-    if (step.sidebar && !current.sidebarOpen) {
+    if (step.sidebar && !current.sidebarVisible) {
       openedSidebar.current = true;
-      current.dispatch({ type: "toggleSidebar" });
+      current.setSidebarVisible(true);
     } else if (
       !step.sidebar &&
       openedSidebar.current &&
-      current.sidebarOpen &&
+      current.sidebarVisible &&
       !document.querySelector("dialog[open]")
     ) {
       openedSidebar.current = false;
-      current.dispatch({ type: "toggleSidebar" });
+      current.setSidebarVisible(false);
     }
   }, [step]);
 
@@ -489,8 +504,10 @@ export function WorkspaceTour() {
     }
     if (before.current) {
       current.dispatch({ type: "replace", layout: before.current.layout });
-    } else if (openedSidebar.current && current.sidebarOpen) {
-      current.dispatch({ type: "toggleSidebar" });
+      // 넓은 창에서는 위의 배치 복원과 같은 값이라 아무 일도 없고, 좁은 창에서는 서랍을 되돌린다.
+      current.setSidebarVisible(before.current.sidebarVisible);
+    } else if (openedSidebar.current && current.sidebarVisible) {
+      current.setSidebarVisible(false);
     }
     before.current = null;
     openedSidebar.current = false;
@@ -501,9 +518,9 @@ export function WorkspaceTour() {
   const forward = useCallback(() => {
     if (index === null) return;
     const current = latest.current;
-    if (steps[index + 1]?.sidebar && !current.sidebarOpen) {
+    if (steps[index + 1]?.sidebar && !current.sidebarVisible) {
       openedSidebar.current = true;
-      current.dispatch({ type: "toggleSidebar" });
+      current.setSidebarVisible(true);
       setResolving(index);
       return;
     }
@@ -513,7 +530,7 @@ export function WorkspaceTour() {
   }, [end, index, steps]);
 
   useEffect(() => {
-    if (resolving === null || !layout.sidebarOpen) return;
+    if (resolving === null || !sidebarVisible) return;
     const frame = window.requestAnimationFrame(() => {
       setResolving(null);
       const following = nextIndex(steps, resolving);
@@ -521,7 +538,7 @@ export function WorkspaceTour() {
       else setIndex(following);
     });
     return () => window.cancelAnimationFrame(frame);
-  }, [resolving, layout.sidebarOpen, steps, end]);
+  }, [resolving, sidebarVisible, steps, end]);
 
   useAppears(step?.advanceOn, forward);
 
@@ -556,7 +573,7 @@ export function WorkspaceTour() {
       target={rect}
       step={index}
       chapters={steps.map((item) => item.chapter)}
-      last={!hasNext(steps, index, layout.sidebarOpen)}
+      last={!hasNext(steps, index, sidebarVisible)}
       title={step.title}
       body={step.body}
       action={step.action}

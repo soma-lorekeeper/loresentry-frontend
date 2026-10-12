@@ -11,8 +11,8 @@ export function TourStage({
   refresh?: boolean;
   drawer?: boolean;
 }) {
-  const { layout } = useWorkspace();
-  const sidebar = !drawer || layout.sidebarOpen;
+  const { sidebarVisible } = useWorkspace();
+  const sidebar = !drawer || sidebarVisible;
   const [graph, setGraph] = useState(false);
   const [panel, setPanel] = useState(false);
   const [timeline, setTimeline] = useState(false);

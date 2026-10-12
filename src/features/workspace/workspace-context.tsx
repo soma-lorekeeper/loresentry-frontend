@@ -8,6 +8,7 @@ import {
   useMemo,
   useReducer,
   useRef,
+  useState,
   type Dispatch,
   type ReactNode,
 } from "react";
@@ -26,6 +27,18 @@ import {
 
 const SAVE_DELAY_MS = 300;
 
+/** 사이드바가 본문을 밀지 않고 덮는 폭. 여기서부터 창이 좁다고 본다(shell 의 CSS 와 같은 값). */
+const NARROW_QUERY = "(max-width: 900px)";
+
+function matchesNarrow() {
+  // 테스트 환경(jsdom)에는 matchMedia 가 없다. 그때는 넓은 창으로 본다.
+  return (
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia(NARROW_QUERY).matches
+  );
+}
+
 interface WorkspaceContextValue {
   projectId: string;
   project: Project;
@@ -34,6 +47,15 @@ interface WorkspaceContextValue {
   dispatch: Dispatch<LayoutAction>;
   activePane: WorkspacePane;
   activeFileId: string | null;
+  /** 창이 좁아 사이드바가 서랍으로 뜨고, 창을 하나만 그리는 상태 */
+  narrow: boolean;
+  /**
+   * 사이드바가 지금 화면에 보이는가. 넓은 창에서는 저장된 선호(`layout.sidebarOpen`)이고,
+   * 좁은 창에서는 서랍이 열려 있는지다. 화면은 `layout.sidebarOpen` 대신 이 값을 본다.
+   */
+  sidebarVisible: boolean;
+  /** 사이드바를 열거나 닫는다. 좁은 창에서는 서랍만 여닫고 저장된 선호는 건드리지 않는다 */
+  setSidebarVisible: (open: boolean) => void;
   open: (
     target: WorkspaceTarget,
     options?: { toSide?: boolean; paneId?: string },
@@ -69,6 +91,36 @@ export function WorkspaceProvider({
   const services = useServices();
   const [layout, dispatch] = useReducer(layoutReducer, initialLayout);
   const pending = useRef<WorkspaceLayout | null>(null);
+
+  /*
+   * 좁은 창의 사이드바는 저장되는 배치와 따로 간다.
+   *
+   * 전에는 창이 좁아지면 `toggleSidebar` 로 사이드바를 닫았다. 그러면 그 닫힘이 작가의
+   * 선호로 서버에 저장되고, 창을 다시 넓혀도 돌아오지 않았다. 이제 좁은 창에서는 서랍의
+   * 열림(`drawerOpen`)만 따로 두고 `layout.sidebarOpen` 은 넓은 창에서의 선호로 남긴다.
+   * 창이 넓어지면 그 선호가 그대로 보인다.
+   */
+  const [narrow, setNarrow] = useState(matchesNarrow);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  useEffect(() => {
+    if (typeof window.matchMedia !== "function") return;
+    const query = window.matchMedia(NARROW_QUERY);
+    const apply = () => {
+      setNarrow(query.matches);
+      // 넓어졌다 다시 좁아지면 서랍은 닫힌 채로 시작한다. 본문을 덮은 채 나타나면 안 된다.
+      setDrawerOpen(false);
+    };
+    query.addEventListener("change", apply);
+    return () => query.removeEventListener("change", apply);
+  }, []);
+  const sidebarVisible = narrow ? drawerOpen : layout.sidebarOpen;
+  const setSidebarVisible = useCallback(
+    (open: boolean) => {
+      if (narrow) setDrawerOpen(open);
+      else dispatch({ type: "setSidebar", open });
+    },
+    [narrow],
+  );
 
   useEffect(() => {
     // 적재한 배치를 그대로 다시 써 보낼 이유가 없다. 리듀서는 동작마다 새 객체를 주므로
@@ -139,6 +191,9 @@ export function WorkspaceProvider({
       dispatch,
       activePane,
       activeFileId,
+      narrow,
+      sidebarVisible,
+      setSidebarVisible,
       open,
       closeTab,
       registerCloseGuard,
@@ -149,6 +204,9 @@ export function WorkspaceProvider({
       layout,
       activePane,
       activeFileId,
+      narrow,
+      sidebarVisible,
+      setSidebarVisible,
       open,
       closeTab,
       registerCloseGuard,

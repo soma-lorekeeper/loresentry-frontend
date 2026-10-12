@@ -10,8 +10,21 @@ import { useWorkspace } from "../workspace-context";
 import styles from "./tab-bar.module.css";
 import { useTabPresentation } from "./use-tab-presentation";
 
-export function TabBar({ pane }: { pane: WorkspacePane }) {
-  const { dispatch, layout, closeTab } = useWorkspace();
+/**
+ * 창 맨 위의 탭 막대.
+ *
+ * @param leading 화면의 첫 번째 창인가. 사이드바를 여닫는 단추는 작업공간에 하나만 있으면
+ *   되므로 첫 번째 창에만 그린다 — 창을 둘로 나눠도 같은 단추가 두 번 나오지 않는다
+ */
+export function TabBar({
+  pane,
+  leading,
+}: {
+  pane: WorkspacePane;
+  leading: boolean;
+}) {
+  const { dispatch, closeTab, sidebarVisible, setSidebarVisible } =
+    useWorkspace();
   const present = useTabPresentation();
   const listRef = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState<string | null>(null);
@@ -48,14 +61,16 @@ export function TabBar({ pane }: { pane: WorkspacePane }) {
 
   return (
     <div className={styles.bar}>
-      <IconButton
-        icon="panel-left"
-        iconSize={17}
-        label={layout.sidebarOpen ? t("사이드바 닫기") : t("사이드바 열기")}
-        aria-pressed={!layout.sidebarOpen || undefined}
-        className={styles.toggle}
-        onClick={() => dispatch({ type: "toggleSidebar" })}
-      />
+      {leading && (
+        <IconButton
+          icon="panel-left"
+          iconSize={17}
+          label={sidebarVisible ? t("사이드바 닫기") : t("사이드바 열기")}
+          aria-pressed={!sidebarVisible || undefined}
+          className={styles.toggle}
+          onClick={() => setSidebarVisible(!sidebarVisible)}
+        />
+      )}
       <div
         ref={listRef}
         className={styles.tabs}

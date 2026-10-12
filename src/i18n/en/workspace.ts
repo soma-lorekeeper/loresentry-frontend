@@ -41,6 +41,8 @@ export default {
   "작업공간::불러오는 중": "Loading",
   "찾을 수 없는 파일": "File not found",
   "창 {number}": "Pane {number}",
+  "사이드바 폭 조절": "Resize sidebar",
+  "창 크기 조절": "Resize panes",
 
   작업공간: "Workspace",
   "작업공간::즐겨찾기": "Favorites",

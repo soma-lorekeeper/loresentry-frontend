@@ -5,19 +5,34 @@
   background: var(--lk-color-bg-canvas);
 }
 
+/* 폭은 작가가 끌어서 정하고 이 브라우저에 기억한다(workspace-chrome-prefs.ts). */
 .sidebar {
+  position: relative;
   flex: none;
-  width: 232px;
+  width: var(--sidebar-width, 232px);
   height: 100%;
+}
+
+/* 사이드바와 본문 사이. 본문 쪽 10px 틈 위에 걸쳐 놓아 사이드바 안쪽을 가리지 않는다. */
+.sidebarHandle {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  bottom: 0;
+  width: 8px;
 }
 
 .panes {
   display: flex;
   flex: 1;
-  gap: 10px;
   min-width: 0;
   height: 100%;
   padding: 10px 10px 10px 0;
+}
+
+/* 위아래로 쌓은 분할. 좌우 분할이 기본이다. */
+.panes[data-split="column"] {
+  flex-direction: column;
 }
 
 .pane {
@@ -25,11 +40,35 @@
   flex: 1 1 0;
   flex-direction: column;
   min-width: 0;
-  height: 100%;
+  min-height: 0;
   overflow: hidden;
   border-radius: var(--lk-radius-surface);
   background: var(--lk-color-surface-default);
   box-shadow: var(--lk-shadow-lift);
+}
+
+/*
+ * 창이 둘이면 --split(첫 번째 창의 몫)대로 나눈다. flex-basis 가 0 이라 남는 공간 전부가
+ * 이 비율로 갈리고, 손잡이가 끄는 동안 이 변수만 고쳐도 두 창이 함께 움직인다.
+ */
+.panes[data-split] > .pane[data-slot="0"] {
+  flex-grow: var(--split, 0.5);
+}
+
+.panes[data-split] > .pane[data-slot="1"] {
+  flex-grow: calc(1 - var(--split, 0.5));
+}
+
+/* 두 시트 사이로 책상이 비쳐 보이는 10px 틈. 이 틈이 곧 크기 조절 손잡이다. */
+.divider {
+  flex: none;
+  align-self: stretch;
+  width: 10px;
+}
+
+.panes[data-split="column"] > .divider {
+  width: auto;
+  height: 10px;
 }
 
 .content {
