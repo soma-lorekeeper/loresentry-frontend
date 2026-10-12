@@ -107,8 +107,8 @@ export default {
   "Google 계정 하나면 바로 시작해요. 처음 들어오면 예시 프로젝트로 지금 본 화면을 직접 눌러 볼 수 있어요.":
     "All you need is a Google account. The first time you come in, you can click through the screens you just saw in a sample project.",
 
-  "SW마에스트로 프로젝트로 만들고 있어요.":
-    "We're building Lore Sentry as an SW Maestro project.",
+  "이 성과는 2026년도 과학기술정보통신부의 재원으로 정보통신기획평가원의 지원을 받아 수행된 결과물임 (IITP-2026-AI·SW마에스트로)":
+    "This work was supported by the Institute of Information & Communications Technology Planning & Evaluation(IITP) grant funded by the Ministry of Science and ICT(MSIT) (IITP-2026-AI·SW Maestro)",
   바닥글: "Footer",
   "문의하기 · {email}": "Contact · {email}",
   "랜딩::이용약관": "Terms of service",

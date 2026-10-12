@@ -178,7 +178,12 @@ function Footer({
             </span>
             Lore Sentry
           </span>
-          <p>{t("SW마에스트로 프로젝트로 만들고 있어요.")}</p>
+          {/* 지원 사업의 사사 표기. 정해진 문구라 고쳐 쓰지 않는다(국문·영문 각각). */}
+          <p>
+            {t(
+              "이 성과는 2026년도 과학기술정보통신부의 재원으로 정보통신기획평가원의 지원을 받아 수행된 결과물임 (IITP-2026-AI·SW마에스트로)",
+            )}
+          </p>
         </div>
         <nav className={styles.footerLinks} aria-label={t("바닥글")}>
           {contactEmail && onContact && (

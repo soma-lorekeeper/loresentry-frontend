@@ -10,6 +10,19 @@
   flex-direction: column;
 }
 
+/*
+ * 화면의 뿌리(refresh-review.tsx). 대화상자 안에도, 랜딩·온보딩의 예시 화면 안에도 놓인다.
+ * 좁은 배치로 바꿀지는 브라우저 폭이 아니라 **이 화면의 폭**으로 정한다 — 예시 화면은 줄여 놓은
+ * 그림이라, 휴대폰에서도 넓은 배치 그대로 보여야 한다.
+ */
+.review {
+  container: lk-review / inline-size;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .header {
   display: flex;
   flex: none;
@@ -667,6 +680,7 @@
   transform: translateX(-50%);
 }
 
+/* 좁은 화면에서는 대화상자가 화면을 다 쓴다. 이것만은 브라우저 폭의 일이다. */
 @media (max-width: 720px) {
   .modal {
     width: 100vw;
@@ -675,7 +689,10 @@
     max-height: 100dvh;
     border-radius: 0;
   }
+}
 
+/* 화면이 좁을 때의 안쪽 배치. 대화상자가 화면을 다 쓰는 폭과 같은 기준이다. */
+@container lk-review (max-width: 720px) {
   .header {
     flex-wrap: wrap;
     height: auto;

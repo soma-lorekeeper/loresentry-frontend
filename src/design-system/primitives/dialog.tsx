@@ -34,6 +34,12 @@ const scrimClass: Record<ModalScrim, string | undefined> = {
   strong: styles.scrimStrong,
 };
 
+/**
+ * 대화상자의 바탕 색을 주는 클래스. 대화상자 밖에서 대화상자의 내용을 그대로 그릴 때 붙인다
+ * (dialog.module.css 의 `.surface`).
+ */
+export const DIALOG_SURFACE_CLASS = styles.surface;
+
 export function Modal({
   open,
   onClose,
@@ -85,7 +91,7 @@ export function Modal({
       aria-labelledby={labelledBy}
       aria-label={label}
       aria-describedby={describedBy}
-      className={cx(styles.modal, scrimClass[scrim], className)}
+      className={cx(styles.modal, styles.surface, scrimClass[scrim], className)}
       onCancel={onCancel}
       onClose={handleClose}
       onClick={(event) => {

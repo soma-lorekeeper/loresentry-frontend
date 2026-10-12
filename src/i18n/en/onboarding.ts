@@ -1,5 +1,4 @@
 import type { Messages } from "../messages";
-import { plural } from "./helpers";
 
 export default {
   "작품 하나에\n작업공간 하나": "One story,\none workspace",
@@ -133,7 +132,6 @@ export default {
     "A Silver Voyagers navigator who reads the Memory Routes",
   "무대::북쪽 문 너머에서 돌아온 은빛 항해단의 항해사":
     "A Silver Voyagers navigator who came back from beyond the North Door",
-  "무대::유리 산맥, 북쪽 온실": "Glass Mountains, North Greenhouse",
   "무대::레나는 타인의 기억이 남긴 방향을 감각으로 읽는다.":
     "Lena reads by feel the directions that other people's memories leave behind.",
   "무대::짙은 안개 속에서도 그는 한 번도 길을 잃지 않았다.":
@@ -164,6 +162,7 @@ export default {
   "무대::변경 사항 반영": "Apply changes",
   "무대::즐겨찾기": "Favorites",
   "무대::파일": "Files",
+  "무대::가져오기": "Import",
   "무대::휴지통": "Trash",
   "무대::설정": "Settings",
   "무대::도움말": "Help",
@@ -181,15 +180,6 @@ export default {
   "무대::전체": "All",
   "무대::화면 맞춤": "Fit to screen",
   "무대::{number}화": "Ch. {number}",
-  "무대::변경 사항": "Changes",
-  "무대::문서 {count}개": plural("{count} document", "{count} documents"),
-  "무대::현재 버전 전체 반영": "Accept all current",
-  "무대::신규 버전 전체 반영": "Accept all new",
-  "무대::<b>변경 {changed}</b> 확정 {resolved}":
-    "<b>{changed} changed</b> · {resolved} confirmed",
-  "무대::수정": "Modified",
-  "무대::현재 버전": "Current version",
-  "무대::신규 버전": "New version",
   "무대::1,284자": "1,284 characters",
   "무대::문서": "Document",
   "무대::작품": "Project",

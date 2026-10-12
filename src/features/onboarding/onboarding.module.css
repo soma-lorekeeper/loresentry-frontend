@@ -308,6 +308,12 @@
   color: var(--lk-color-icon-default);
 }
 
+/* 문서 줄의 아이콘은 그 종류의 색이다(실제 사이드바의 파일 트리·즐겨찾기와 같다). */
+.sideItem[data-kind] svg,
+.tab[data-kind] > svg:first-child {
+  color: var(--kind, var(--lk-color-icon-default));
+}
+
 .sideItemOn {
   background: var(--lk-color-surface-pill);
   box-shadow: var(--lk-shadow-pill);
@@ -557,6 +563,21 @@
   color: var(--lk-color-icon-default);
 }
 
+/* 정렬 단추 넷. 한 묶음이라 사이를 좁히고, 눌린 것은 바탕을 깐다. */
+.toolGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toolOn {
+  box-sizing: content-box;
+  margin: -5px;
+  padding: 5px;
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-state-selected);
+}
+
 .toolSaved {
   display: inline-flex;
   align-items: center;
@@ -580,6 +601,12 @@
 
 .docTitle svg {
   color: var(--lk-color-icon-default);
+}
+
+/* 즐겨찾기한 문서의 별은 속을 채운다. 실제 문서 제목 옆의 별과 같은 색이다. */
+.docTitle .starOn {
+  color: var(--lk-color-favorite-on);
+  fill: var(--lk-color-favorite-on);
 }
 
 .propTable {
@@ -743,6 +770,7 @@
 }
 
 .nodeDot {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -750,6 +778,25 @@
   height: 18px;
   border-radius: 50%;
   color: var(--lk-color-bg-canvas);
+}
+
+/*
+ * 즐겨찾기한 노드의 별. 원 안은 종류 아이콘이 쓰고 있어 오른쪽 위 모서리에 얹고, 노드 색에 붙어
+ * 뭉개지지 않게 바탕색으로 한 번 두른다(실제 그래프의 engine/kind-icon.ts 와 같은 방법).
+ */
+.nodeStar {
+  position: absolute;
+  top: -5px;
+  right: -6px;
+  display: inline-flex;
+  color: var(--lk-color-favorite);
+}
+
+.nodeStar svg {
+  fill: currentColor;
+  stroke: var(--lk-color-surface-default);
+  stroke-width: 5;
+  paint-order: stroke fill;
 }
 
 .nodeOn .nodeDot {
@@ -799,6 +846,17 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
+}
+
+/* 범례의 즐겨찾기. 실제 그래프처럼 종류들과 선으로 가르고, 노드 위의 별과 같은 채운 별이다. */
+.legendFavorite {
+  padding-left: 10px;
+  border-left: 1px solid var(--lk-color-border-subtle);
+}
+
+.legendFavorite svg {
+  color: var(--lk-color-favorite);
+  fill: var(--lk-color-favorite);
 }
 
 /* 4. 타임라인 */
@@ -942,151 +1000,31 @@
   animation: fadeIn 260ms linear var(--d) both;
 }
 
+/*
+ * 변경 사항 창의 틀. 안쪽은 실제 창이 쓰는 화면이다(refresh-preview.tsx).
+ *
+ * 무대는 실제 화면을 줄여 옮긴 것이라 이 자리는 실제 대화상자보다 좁다. 실제 화면을 이 폭에
+ * 그대로 그리면 단추가 줄바꿈되고 비교 칸이 눌려 실제와 다른 모양이 된다. 그래서 실제 크기로
+ * 그린 뒤 통째로 줄여 맞춘다(--diff-scale). 실제 대화상자를 1000px 남짓한 창에서 볼 때의 비율이다.
+ */
 .diff {
+  --diff-scale: 0.8;
+
   position: absolute;
   inset: 28px 24px;
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
-  box-shadow: var(--lk-shadow-modal);
-  border-radius: var(--lk-radius-card);
-  background: var(--lk-color-surface-raised);
+  /* 실제 대화상자의 18px 를 같은 비율로 줄인 값. */
+  border-radius: 14px;
   box-shadow: 0 16px 40px var(--lk-color-shadow-dialog);
 }
 
-.diffHead {
-  display: flex;
-  flex: none;
-  align-items: center;
-  gap: 8px;
-  height: 48px;
-  padding: 0 14px;
-  border-bottom: 1px solid var(--lk-color-border-subtle);
-}
-
-.diffTitle {
-  font-size: var(--lk-font-size-heading);
-  font-weight: 650;
-}
-
-.diffBody {
-  display: grid;
-  flex: 1;
-  grid-template-columns: 210px 1fr;
-  min-height: 0;
-}
-
-.diffList {
+.diffStage {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin: 8px 0 8px 8px;
-  padding: 10px 8px;
-  border-radius: 12px;
-  background: var(--lk-color-surface-sunken);
-}
-
-.diffList > p {
-  padding: 0 6px 6px;
-}
-
-.diffEntry {
-  display: grid;
-  grid-template-columns: 14px 1fr auto;
-  align-items: center;
-  gap: 6px;
-  height: 34px;
-  padding: 0 10px;
-  border-radius: 8px;
-}
-
-.diffEntryOn {
-  background: var(--lk-color-surface-pill);
-  box-shadow: var(--lk-shadow-pill);
-  font-weight: 600;
-}
-
-.diffCompare {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-width: 0;
-  padding: 14px 16px;
-}
-
-.diffDocTitle {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: var(--lk-font-size-heading);
-  font-weight: 650;
-}
-
-.badge {
-  padding: 1px 8px;
-  border-radius: 999px;
-  background: var(--lk-color-surface-icon);
-  color: var(--lk-color-text-secondary);
-  font-size: var(--lk-font-size-label);
-  font-weight: 500;
-}
-
-.diffColumns {
-  display: grid;
-  grid-template-columns: 1fr 40px 1fr;
-}
-
-.diffColumn {
-  background: var(--lk-color-surface-sunken);
-  border-radius: var(--lk-radius-control);
-  background: var(--lk-color-surface-default);
-}
-
-.diffColumnHead {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--lk-color-border-subtle);
-}
-
-.diffRow {
-  display: grid;
-  grid-template-columns: 70px 1fr;
-  align-items: center;
-  min-height: 36px;
-  padding: 0 12px;
-  border-bottom: 1px solid var(--lk-color-border-subtle);
-}
-
-.diffRow:last-child {
-  border-bottom: 0;
-}
-
-.diffRowChanged {
-  background: var(--lk-color-state-selected);
-}
-
-.diffArrows {
-  grid-column: 2;
-  grid-row: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 52px;
-  color: var(--lk-color-icon-default);
-}
-
-.diffArrows > span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  height: 36px;
-}
-
-.diffColumns:lang(en) {
-  grid-template-rows: auto repeat(4, auto);
+  width: calc(100% / var(--diff-scale));
+  height: calc(100% / var(--diff-scale));
+  transform: scale(var(--diff-scale));
+  transform-origin: 0 0;
 }
 
 .diffColumn:lang(en) {

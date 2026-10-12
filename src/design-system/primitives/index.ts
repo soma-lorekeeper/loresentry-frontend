@@ -1,6 +1,12 @@
 export { Button, IconButton } from "./button";
 export type { ButtonProps, ButtonSize, ButtonVariant } from "./button";
-export { DialogBullets, DialogCard, DialogDetail, Modal } from "./dialog";
+export {
+  DIALOG_SURFACE_CLASS,
+  DialogBullets,
+  DialogCard,
+  DialogDetail,
+  Modal,
+} from "./dialog";
 export type { DialogSize } from "./dialog";
 export { TextAreaField, TextField } from "./field";
 export { Menu } from "./menu";

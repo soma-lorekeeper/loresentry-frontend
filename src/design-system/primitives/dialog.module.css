@@ -7,9 +7,19 @@
   padding: 0;
   border: 0;
   border-radius: 18px;
+  box-shadow: var(--lk-shadow-modal);
+}
+
+/*
+ * 대화상자의 바탕. 떠오른 면(raised) 위에서는 "한 단계 들어간 면"(sunken)도 그 면을 기준으로
+ * 다시 잡는다 — 시트 위의 값을 그대로 쓰면 바탕보다 밝아져 들어간 것으로 보이지 않는다.
+ *
+ * 대화상자가 아닌 곳에서 대화상자의 내용을 그릴 때도 이 클래스를 붙인다(랜딩·온보딩의 예시 화면).
+ * 그래야 안의 색이 실제 대화상자와 같다.
+ */
+.surface {
   background: var(--lk-color-surface-raised);
   color: var(--lk-color-text-primary);
-  box-shadow: var(--lk-shadow-modal);
   --lk-color-surface-sunken: color-mix(
     in srgb,
     var(--lk-color-text-primary) 6%,
