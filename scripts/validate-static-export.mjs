@@ -56,6 +56,63 @@ if (!existsSync(configPath)) {
   }
 }
 
+// 검색 로봇과 공유 미리보기가 찾는 파일. public/ 에서 그대로 복사된다(og-image.png 는 영어판만
+// public-en/ 의 것으로 덮인다).
+for (const file of [
+  "robots.txt",
+  "sitemap.xml",
+  "og-image.png",
+  "icon.svg",
+  "favicon.ico",
+]) {
+  if (!existsSync(join(OUT, file))) errors.push(`${file} 이 없습니다.`);
+}
+
+// 색인 규칙. 색인은 기본으로 닫혀 있고(src/app/layout.tsx), 검색에 내보낼 페이지만 publicPage() 로
+// 연다(src/app/site-metadata.ts). sitemap.xml 에 적은 주소와 실제로 열린 페이지가 같아야 한다.
+//   - sitemap 에 있는데 noindex 면: 내보내려던 페이지가 검색에서 사라진다(메인이 여기에 해당한다).
+//   - sitemap 에 없는데 열려 있으면: 로그인해야 보이는 빈 화면이 색인된다.
+const SITE = "https://loresentry.com";
+// 인자 없이 부르면(out/) 한국어판이다. 언어의 기본값이 ko 다(src/i18n/locale.ts).
+const localeBase = `${SITE}/${PREFIX.slice(1) || "ko"}/`;
+const sitemapPath = join(OUT, "sitemap.xml");
+const publicRoutes = existsSync(sitemapPath)
+  ? [...readFileSync(sitemapPath, "utf8").matchAll(/<loc>([^<]+)<\/loc>/g)]
+      .map(([, loc]) => loc)
+      // sitemap 은 두 언어판이 함께 쓰는 파일이라, 이 언어판의 주소만 본다.
+      .filter((loc) => loc.startsWith(localeBase))
+      .map((loc) => loc.slice(localeBase.length))
+  : [];
+
+for (const route of publicRoutes) {
+  if (!ROUTES.includes(route))
+    errors.push(`sitemap.xml 의 /${route} 는 검사하는 라우트 목록에 없습니다.`);
+}
+for (const route of ROUTES) {
+  const page = join(OUT, route, "index.html");
+  // 파일이 없는 경우는 위에서 이미 보고했다.
+  if (!existsSync(page)) continue;
+  const html = readFileSync(page, "utf8");
+  const noindex = /<meta name="robots" content="[^"]*noindex/.test(html);
+  if (!publicRoutes.includes(route)) {
+    if (!noindex)
+      errors.push(
+        `sitemap.xml 에 없는 /${route} 가 색인에 열려 있습니다. publicPage() 를 빼거나 sitemap.xml 에 적으세요.`,
+      );
+    continue;
+  }
+  if (noindex)
+    errors.push(
+      `sitemap.xml 에 있는 /${route} 가 noindex 입니다. 그 page 의 metadata 에 publicPage() 가 있는지 확인하세요.`,
+    );
+  // canonical 이 sitemap 의 주소와 다르면 검색엔진이 두 주소를 다른 문서로 본다.
+  const canonical = /<link rel="canonical" href="([^"]+)"/.exec(html)?.[1];
+  if (canonical !== `${localeBase}${route}`)
+    errors.push(
+      `/${route} 의 canonical(${canonical ?? "없음"})이 sitemap.xml 의 주소(${localeBase}${route})와 다릅니다.`,
+    );
+}
+
 const files = walk(OUT);
 const htmlFiles = files.filter((file) => file.endsWith(".html"));
 

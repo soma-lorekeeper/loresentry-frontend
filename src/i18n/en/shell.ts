@@ -279,6 +279,8 @@ export default {
   "서비스 이용약관": "Terms of Service",
   "개인정보 처리방침": "Privacy Policy",
   "서비스 이용약관 · Lore Sentry": "Terms of Service · Lore Sentry",
+  "Lore Sentry 서비스 이용약관이에요. 가입과 계정, 원고의 권리, 외부 AI 분석, 원고 삭제와 탈퇴에 관한 조건을 안내해요.":
+    "The Lore Sentry Terms of Service: accounts, rights to your manuscript, external AI analysis, and deleting manuscripts or your account.",
   "개인정보 처리방침 · Lore Sentry": "Privacy Policy · Lore Sentry",
   "초안 0.3": "Draft 0.3",
   목차: "Contents",
