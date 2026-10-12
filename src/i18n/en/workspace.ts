@@ -25,6 +25,7 @@ function count(value: string | number | undefined, one: string, other: string) {
 
 export default {
   "작업공간::새 탭": "New tab",
+  "작업공간::검색": "Search",
   "작업공간::그래프": "Graph",
   "작업공간::타임라인": "Timeline",
   "작업공간::메모": "Notes",
@@ -228,4 +229,17 @@ export default {
   "복원 중…": "Restoring…",
   "복원하지 못했어요. 다시 시도해 주세요.":
     "Couldn't restore it. Please try again.",
+
+  "검색::프로젝트에서 검색": "Search this project",
+  "검색::검색어 지우기": "Clear search",
+  "검색::찾는 중": "Searching",
+  "검색::{count}개 결과": plural("{count} result", "{count} results"),
+  "검색::검색 결과": "Search results",
+  "검색::처음 {count}개만 보여요. 검색어를 더 구체적으로 적어 보세요.":
+    "Showing the first {count}. Try a more specific search.",
+  "검색::원고와 설정 문서의 제목과 본문에서 찾아요":
+    "Search the titles and text of your chapters and setting documents",
+  "검색::찾는 중이에요": "Searching",
+  "검색::검색하지 못했어요": "Couldn't search",
+  "검색::일치하는 문서가 없어요": "No documents match",
 } satisfies Messages;

@@ -15,6 +15,7 @@ import type {
   ProjectGraph,
   ProjectSettings,
   RefreshRun,
+  SearchHit,
   TrashEntry,
   User,
 } from "@/domain/models";
@@ -151,6 +152,10 @@ export interface MemoService {
   remove(memoId: string): Promise<void>;
 }
 
+export interface SearchService {
+  search(projectId: string, query: string): Promise<SearchHit[]>;
+}
+
 export interface GraphService {
   // 서버 가정: graph-rag가 Neptune 투영본을 프로젝트 단위로 돌려준다(GRAPH_INBOX_PATTERN).
   getProjectGraph(projectId: string): Promise<ProjectGraph>;
@@ -219,6 +224,7 @@ export interface Services {
   documents: DocumentService;
   versions: VersionService;
   memos: MemoService;
+  search: SearchService;
   graph: GraphService;
   refresh: RefreshService;
   chat: ChatService;
