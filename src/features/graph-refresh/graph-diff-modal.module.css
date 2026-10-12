@@ -274,6 +274,38 @@
   justify-content: center;
 }
 
+/*
+ * 읽기만 하는 비교(document-diff.tsx — 버전 기록)의 머리. 이름은 제목 요소지만 글자는 위의 머리와
+ * 같고, 옆에 그 버전을 남긴 때를 덧붙인다.
+ */
+.headName {
+  display: inline;
+  font: inherit;
+}
+
+.headNote {
+  margin-left: var(--lk-space-2);
+  font-weight: 400;
+}
+
+/*
+ * 읽기만 하는 비교는 길어지면 저 혼자 밀어 본다(버전 기록은 창 전체가 아니라 이 자리만 민다).
+ * 그래서 머리를 위에 붙여 둔다 — 한참 내려가도 어느 쪽이 어느 버전인지 보인다.
+ */
+.compare[data-readonly] .heads {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  /* 밀려 올라온 글을 가리는 바탕. 무슨 색 위에 놓였는지는 놓은 쪽이 안다(--compare-backdrop). */
+  background: var(--compare-backdrop, var(--lk-color-surface-raised));
+}
+
+/* 가운데 칸에 화살표가 없다. 두 띠를 잇는 리본이 설 만큼만 둔다. */
+.compare[data-readonly] .heads,
+.compare[data-readonly] .sheets {
+  grid-template-columns: minmax(0, 1fr) 36px minmax(0, 1fr);
+}
+
 /* 두 버전이 각각 문서 한 장이다. 판은 격자 뒤에 깔린 바탕일 뿐이고, 가운데 칸은 어느 쪽에도
    속하지 않는다 */
 .sheets {
@@ -430,6 +462,28 @@
 .editable:focus-within {
   background: var(--lk-color-surface-default);
   box-shadow: var(--lk-focus-ring);
+}
+
+/*
+ * 고칠 수 없는 글(읽기만 하는 비교). 입력란과 같은 자리에 같은 줄 높이로 선다 — 입력란은 바깥
+ * 여백 4px + 안쪽 5px 로 글자를 9px 내려 두고, 왼쪽은 -8px + 8px 로 제자리다.
+ */
+.static,
+.staticEmpty {
+  min-width: 0;
+  padding: 9px 0;
+  line-height: 22px;
+}
+
+.static {
+  flex: 1;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* 비어 있는 값. 빈 입력란이 보이는 줄표와 같은 색이다. */
+.staticEmpty {
+  color: var(--lk-color-text-secondary);
 }
 
 .word {
@@ -643,6 +697,11 @@
   outline: none;
 }
 
+/* 읽기만 하는 본문. 고칠 수 있는 자리처럼 글자 커서를 띄우지 않는다. */
+.pane[data-readonly] {
+  cursor: auto;
+}
+
 .line {
   min-width: 0;
   padding: 1px var(--lk-space-4);
@@ -688,6 +747,58 @@
     height: 100dvh;
     max-height: 100dvh;
     border-radius: 0;
+  }
+}
+
+/*
+ * 한쪽만 보기(버전 기록의 좁은 화면). 두 문서를 나란히 둘 폭이 없으면 고른 쪽 하나만 화면 폭
+ * 그대로 그린다. 칸의 자리(1열·3열)는 그대로 두고 안 보이는 쪽의 열을 0 으로 접는다 — 칸마다
+ * 열을 다시 정하지 않아도 된다.
+ */
+@media (max-width: 720px) {
+  .compare[data-only="left"] .sheets {
+    grid-template-columns: minmax(0, 1fr) 0 0;
+  }
+
+  .compare[data-only="right"] .sheets {
+    grid-template-columns: 0 0 minmax(0, 1fr);
+  }
+
+  /*
+   * 머리는 한 칸으로 둔다. 머리의 이름들은 열을 정해 두지 않아서, 안 보이는 쪽을 빼면 남은 이름이
+   * 첫 열로 온다 — 시트처럼 열을 0 으로 접으면 그 이름이 폭 0 인 칸에 들어가 세로로 선다.
+   */
+  .compare[data-only] .heads {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+
+  /*
+   * 한쪽만 볼 때는 어느 쪽인지 고르는 단추가 바로 위에 있다(그 단추가 `only` 를 정한다). 같은
+   * 이름을 머리에서 되풀이하지 않는다 — 화면에서만 감추고 읽어 주는 도구에는 남긴다. 덧붙인 말
+   * (그 버전을 남긴 때)만 보이고, 그것도 없는 쪽은 머리 줄이 접힌다.
+   */
+  .compare[data-only] .headName {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .compare[data-only] .headNote {
+    margin-left: 0;
+  }
+
+  .compare[data-only="left"] [data-side="right"],
+  .compare[data-only="left"] [data-pane="right"],
+  .compare[data-only="right"] [data-side="left"],
+  .compare[data-only="right"] [data-pane="left"],
+  .compare[data-only] .gutter,
+  .compare[data-only] .headGutter,
+  .compare[data-only] .ribbonCell {
+    display: none;
   }
 }
 
