@@ -18,6 +18,7 @@ import type {
   SearchHit,
   TrashEntry,
   User,
+  WithdrawalSurvey,
 } from "@/domain/models";
 import type { GuideTopic } from "@/features/help/guide-content";
 import type { WorkspaceLayout } from "@/features/workspace/model/layout";
@@ -48,7 +49,10 @@ export interface AccountService {
   updateDisplayName(displayName: string): Promise<User>;
   updateLocale(locale: Locale): Promise<User>;
   completeOnboarding(): Promise<void>;
-  deleteAccount(confirmationEmail: string): Promise<void>;
+  deleteAccount(
+    confirmationEmail: string,
+    survey?: WithdrawalSurvey,
+  ): Promise<void>;
 }
 
 export interface ProjectService {

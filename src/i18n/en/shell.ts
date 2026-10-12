@@ -135,6 +135,21 @@ export default {
   "올린 이미지와 AI 분석 결과": "Uploaded images and AI analysis results",
   "계정을 삭제하고 있어요": "Deleting your account",
   "계정을 삭제할까요?": "Delete your account?",
+  "떠나시는 이유를 알려 주시겠어요?": "Would you tell us why you're leaving?",
+  "답하지 않아도 돼요. 답은 계정과 따로 보관하고 서비스를 고치는 데만 써요.":
+    "Answering is optional. Answers are kept apart from your account and used only to improve the service.",
+  "탈퇴 사유::떠나는 이유": "Why you're leaving",
+  "탈퇴 사유::자주 쓰지 않아요": "I don't use it often",
+  "탈퇴 사유::필요한 기능이 없어요": "It's missing something I need",
+  "탈퇴 사유::쓰기 어렵거나 불편해요": "It's hard or awkward to use",
+  "탈퇴 사유::오류가 잦거나 느려요": "It breaks or feels slow",
+  "탈퇴 사유::다른 도구를 쓰기로 했어요": "I'm switching to another tool",
+  "탈퇴 사유::원고와 개인정보가 걱정돼요":
+    "I'm worried about my writing or privacy",
+  "탈퇴 사유::연재를 마쳤거나 쉬고 있어요":
+    "I finished my series or I'm taking a break",
+  "탈퇴 사유::기타": "Something else",
+  "탈퇴 사유::더 알려 주실 내용": "Anything else you'd like to tell us",
   "모든 자료를 지우는 중이에요. 창을 닫지 말고 잠시만 기다려 주세요.":
     "Erasing all your data. Keep this window open and wait a moment.",
   "이 계정과 모든 작업이 바로 삭제되며 되돌릴 수 없어요.":

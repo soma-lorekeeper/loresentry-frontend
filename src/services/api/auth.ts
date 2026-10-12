@@ -1,4 +1,4 @@
-import type { User } from "@/domain/models";
+import type { User, WithdrawalSurvey } from "@/domain/models";
 import { isLocale, LOCALE, t } from "@/i18n";
 
 import { ServiceError } from "../errors";
@@ -161,6 +161,12 @@ export function createApiAuth(client: ApiClient): AuthService {
   };
 }
 
+function surveyBody(survey: WithdrawalSurvey | undefined) {
+  const comment = survey?.comment.trim() ?? "";
+  if (!survey || (survey.reasons.length === 0 && !comment)) return {};
+  return { survey: { reasons: survey.reasons, comment: comment || null } };
+}
+
 export function createApiAccount(client: ApiClient): AccountService {
   return {
     getAccount: async () =>
@@ -201,11 +207,14 @@ export function createApiAccount(client: ApiClient): AccountService {
      * 계정·Google 연결·동의 기록을 지우고 세션 쿠키를 삭제한다(`loresentry-gateway/docs/API.md`).
      * 실패는 아무것도 지우지 않았거나 다시 시도해도 안전한 상태로 돌아온다.
      */
-    deleteAccount: (confirmationEmail) =>
+    deleteAccount: (confirmationEmail, survey) =>
       withAuthTransition(async () => {
         await client.request<void>("/auth/users/me/deletion", {
           method: "POST",
-          body: { confirmation_email: confirmationEmail },
+          body: {
+            confirmation_email: confirmationEmail,
+            ...surveyBody(survey),
+          },
           operation: "account.delete",
           expectedStatus: 204,
           authTransition: true,

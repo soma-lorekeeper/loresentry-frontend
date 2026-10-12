@@ -156,6 +156,46 @@
   gap: var(--lk-space-4);
 }
 
+.reasons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px;
+  margin: 0;
+  padding: 4px;
+  border: 0;
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-sunken);
+}
+
+.reason {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+  min-height: 36px;
+  padding: 0 var(--lk-space-3);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 140ms var(--lk-ease);
+}
+
+.reason:hover {
+  background: var(--lk-color-state-hover);
+}
+
+.reason:has(input:checked) {
+  background: var(--lk-color-state-selected);
+  font-weight: 600;
+}
+
+.reason input {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--lk-color-accent-primary);
+  cursor: pointer;
+}
+
 .deleteScope {
   border-radius: var(--lk-radius-card);
   background: var(--lk-color-surface-sunken);
@@ -203,6 +243,10 @@
 }
 
 @media (max-width: 600px) {
+  .reasons {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .body {
     padding: var(--lk-space-6);
   }
@@ -213,5 +257,11 @@
 
   .dangerCopy {
     flex-basis: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reason {
+    transition: none;
   }
 }

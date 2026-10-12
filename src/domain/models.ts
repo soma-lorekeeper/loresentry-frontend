@@ -16,6 +16,24 @@ export interface User {
   locale?: Locale | null;
 }
 
+export const WITHDRAWAL_REASONS = [
+  "RARELY_USED",
+  "MISSING_FEATURE",
+  "HARD_TO_USE",
+  "UNRELIABLE",
+  "SWITCHED_SERVICE",
+  "PRIVACY",
+  "PAUSED_WRITING",
+  "OTHER",
+] as const;
+
+export type WithdrawalReason = (typeof WITHDRAWAL_REASONS)[number];
+
+export interface WithdrawalSurvey {
+  reasons: WithdrawalReason[];
+  comment: string;
+}
+
 export interface Project {
   id: string;
   title: string;
