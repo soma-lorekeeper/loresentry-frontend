@@ -13,3 +13,7 @@ src/design-system/screens/pencil-screen-catalog.json
 
 .impeccable/
 src/design-system/fonts/
+
+# 검색엔진 소유 확인 파일. 콘솔에서 받은 그대로 서빙해야 하므로 포맷하지 않는다.
+public/google*.html
+public/naver*.html
