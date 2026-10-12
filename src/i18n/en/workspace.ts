@@ -152,17 +152,20 @@ export default {
     "{count} file couldn't be imported. Try again or remove it from the list.",
     "{count} files couldn't be imported. Try again or remove them from the list.",
   ),
-  "{count}개는 담지 않았어요. 텍스트(.txt)와 마크다운(.md) 파일만 가져올 수 있어요.":
-    plural(
-      "{count} file wasn't added. Only text (.txt) and Markdown (.md) files can be imported.",
-      "{count} files weren't added. Only text (.txt) and Markdown (.md) files can be imported.",
-    ),
+  "{done}개는 가져왔어요. {count}개는 가져오지 못했으니 다시 시도하거나 목록에서 빼 주세요.":
+    "{done} imported, {count} failed. Try again or remove the failed files from the list.",
+  "‘{name}’ 파일은 담지 않았어요. .txt와 .md 파일만 담을 수 있어요.":
+    "‘{name}’ wasn't added. Only .txt and .md files can be added.",
+  "{count}개는 담지 않았어요. .txt와 .md 파일만 담을 수 있어요.": plural(
+    "{count} file wasn't added. Only .txt and .md files can be added.",
+    "{count} files weren't added. Only .txt and .md files can be added.",
+  ),
+  "올린 파일은 여기에 쌓이고, ‘가져오기’를 눌러야 원고로 만들어져요.":
+    "Files you add wait here and become manuscripts only when you press Import.",
   "원고 폴더에 새 원고로 만들어져요.":
     "They're created as new manuscripts in the Manuscripts folder.",
   "파일 이름이 원고의 제목이 돼요.":
     "Each file name becomes the manuscript's title.",
-  "‘가져오기’를 누르기 전에는 아무것도 만들어지지 않아요.":
-    "Nothing is created until you press Import.",
   "파일 {count}개": plural("{count} file", "{count} files"),
   "{total}개 중 {done}번째를 가져오는 중": "Importing {done} of {total}",
 

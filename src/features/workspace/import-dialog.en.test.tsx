@@ -53,7 +53,9 @@ describe("ImportDialog in English", () => {
       ),
     ).toBeInTheDocument();
     expect(
-      within(dialog).getByText("Nothing is created until you press Import."),
+      within(dialog).getByText(
+        "Files you add wait here and become manuscripts only when you press Import.",
+      ),
     ).toBeInTheDocument();
 
     // 수에 따라 낱말이 달라진다(file / files).
@@ -72,7 +74,7 @@ describe("ImportDialog in English", () => {
     expect(rows[1]).toHaveTextContent("Text");
     expect(within(dialog).getByText("2 files")).toBeInTheDocument();
     expect(within(dialog).getByRole("alert")).toHaveTextContent(
-      "1 file wasn't added. Only text (.txt) and Markdown (.md) files can be imported.",
+      "‘cover.png’ wasn't added. Only .txt and .md files can be added.",
     );
     expect(
       within(dialog).getByRole("button", { name: "Remove Chapter 1" }),

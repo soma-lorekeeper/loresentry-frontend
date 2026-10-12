@@ -76,10 +76,12 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
   const toast = useToast();
   const importer = useImportDocument(projectId);
   const inputRef = useRef<HTMLInputElement>(null);
+  const pickRef = useRef<HTMLButtonElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
 
   const [staged, setStaged] = useState<Staged[]>([]);
-  /** 방금 올린 것 가운데 받지 않은 파일 수(형식이 다른 것) */
-  const [refused, setRefused] = useState(0);
+  /** 방금 올린 것 가운데 받지 않은 파일들의 이름(형식이 다른 것) */
+  const [refused, setRefused] = useState<string[]>([]);
   /** 가져오는 중이면 몇 번째 파일까지 끝냈는가. 아니면 null */
   const [progress, setProgress] = useState<number | null>(null);
   /** 이 창이 열려 있는 동안 만들어진 원고들. 닫을 때 알리고 첫 원고를 연다 */
@@ -98,11 +100,11 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
   const add = (files: readonly File[]) => {
     const known = new Set(staged.map((item) => item.key));
     const next: Staged[] = [];
-    let unsupported = 0;
+    const unsupported: string[] = [];
     for (const file of files) {
       const format = importFormatOf(file.name);
       if (!format) {
-        unsupported += 1;
+        unsupported.push(file.name);
         continue;
       }
       // 같은 파일을 다시 올린 것은 한 번만 담는다. 이름만 같은 다른 파일은 따로 담긴다.
@@ -157,7 +159,7 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
   /** 목록의 파일을 차례로 원고로 만든다 */
   const run = async () => {
     if (!parent || busy) return;
-    setRefused(0);
+    setRefused([]);
     const created = [...made];
     const left: Staged[] = [];
     for (const [index, item] of staged.entries()) {
@@ -180,6 +182,21 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
     if (left.length === 0) finish(created, []);
     else setStaged(left);
   };
+
+  /*
+   * 줄을 빼면 그 줄의 단추가 사라진다. 포커스를 그대로 두면 대화상자의 맨 위로 튕겨, 키보드로
+   * 여러 줄을 이어서 뺄 수 없다. 그 자리로 올라온 줄(마지막 줄을 뺐으면 그 앞줄)의 빼기 단추로
+   * 옮기고, 목록이 비었으면 파일을 고르는 단추로 보낸다.
+   */
+  const removedAt = useRef<number | null>(null);
+  useEffect(() => {
+    const index = removedAt.current;
+    if (index === null) return;
+    removedAt.current = null;
+    const buttons =
+      listRef.current?.querySelectorAll<HTMLButtonElement>("button") ?? [];
+    (buttons[Math.min(index, buttons.length - 1)] ?? pickRef.current)?.focus();
+  }, [staged]);
 
   /*
    * 끌어다 놓기는 창(window)에서 듣는다. 이 대화상자가 떠 있는 동안에는 뒤의 화면을 쓸 수 없으니,
@@ -227,14 +244,18 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
       closeDisabled={busy}
       dismissible={!busy}
       footerHint={
-        staged.length === 0
-          ? undefined
-          : progress !== null
-            ? t("{total}개 중 {done}번째를 가져오는 중", {
-                done: progress + 1,
-                total: staged.length,
-              })
-            : t("파일 {count}개", { count: staged.length })
+        // 담긴 수와 진행을 읽어 주는 자리. 처음부터 있어야 글자가 바뀔 때 읽힌다(비어 있다가
+        // 생긴 자리는 읽어 주는 도구가 놓친다).
+        <span role="status">
+          {staged.length === 0
+            ? ""
+            : progress !== null
+              ? t("{total}개 중 {done}번째를 가져오는 중", {
+                  done: progress + 1,
+                  total: staged.length,
+                })
+              : t("파일 {count}개", { count: staged.length })}
+        </span>
       }
       actions={
         <>
@@ -281,8 +302,10 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
         >
           <div className={styles.picker}>
             <Button
+              ref={pickRef}
               size="md"
-              icon="upload"
+              // 확정하는 `가져오기` 와 같은 아이콘을 쓰면 어느 쪽이 "올리는" 단추인지 헷갈린다.
+              icon="file-plus"
               disabled={busy}
               onClick={() => inputRef.current?.click()}
             >
@@ -306,9 +329,24 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
               }}
             />
           </div>
-          {staged.length > 0 && (
-            <ul className={styles.list} aria-label={t("가져올 파일")}>
-              {staged.map((item) => (
+          {/*
+            목록 자리는 비어 있든 차 있든 같은 높이다. 줄 수에 따라 창의 높이가 달라지면 창이 다시
+            가운데로 가면서 단추들이 움직인다 — 줄을 하나 빼면 다음 줄의 빼기 단추가 커서 밑에서
+            달아난다.
+          */}
+          {staged.length === 0 ? (
+            <p className={styles.empty}>
+              {t(
+                "올린 파일은 여기에 쌓이고, ‘가져오기’를 눌러야 원고로 만들어져요.",
+              )}
+            </p>
+          ) : (
+            <ul
+              ref={listRef}
+              className={styles.list}
+              aria-label={t("가져올 파일")}
+            >
+              {staged.map((item, index) => (
                 // 만들어질 것(원고)의 아이콘과 색으로 그린다.
                 <li
                   key={item.key}
@@ -344,6 +382,7 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
                     disabled={busy}
                     onClick={() => {
                       discard([item]);
+                      removedAt.current = index;
                       setStaged(staged.filter((other) => other !== item));
                     }}
                   />
@@ -354,18 +393,30 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
         </div>
         {failed > 0 ? (
           <InlineNotice>
-            {t(
-              "{count}개를 가져오지 못했어요. 다시 시도하거나 목록에서 빼 주세요.",
-              { count: failed },
-            )}
+            {/* 된 줄은 목록에서 빠진다. 말해 주지 않으면 사라진 파일이 들어갔는지 알 수 없다. */}
+            {made.length > 0
+              ? t(
+                  "{done}개는 가져왔어요. {count}개는 가져오지 못했으니 다시 시도하거나 목록에서 빼 주세요.",
+                  { done: made.length, count: failed },
+                )
+              : t(
+                  "{count}개를 가져오지 못했어요. 다시 시도하거나 목록에서 빼 주세요.",
+                  { count: failed },
+                )}
           </InlineNotice>
         ) : (
-          refused > 0 && (
+          refused.length > 0 && (
             <InlineNotice icon="info">
-              {t(
-                "{count}개는 담지 않았어요. 텍스트(.txt)와 마크다운(.md) 파일만 가져올 수 있어요.",
-                { count: refused },
-              )}
+              {/* 하나면 어느 파일인지 적는다. 받는 형식은 위의 설명에 있으니 짧게만 되짚는다. */}
+              {refused.length === 1
+                ? t(
+                    "‘{name}’ 파일은 담지 않았어요. .txt와 .md 파일만 담을 수 있어요.",
+                    { name: refused[0] },
+                  )
+                : t(
+                    "{count}개는 담지 않았어요. .txt와 .md 파일만 담을 수 있어요.",
+                    { count: refused.length },
+                  )}
             </InlineNotice>
           )
         )}
@@ -373,10 +424,6 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
           items={[
             { icon: "folder", text: t("원고 폴더에 새 원고로 만들어져요.") },
             { icon: "file-text", text: t("파일 이름이 원고의 제목이 돼요.") },
-            {
-              icon: "circle-check",
-              text: t("‘가져오기’를 누르기 전에는 아무것도 만들어지지 않아요."),
-            },
           ]}
         />
       </div>

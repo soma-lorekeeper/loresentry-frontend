@@ -83,10 +83,18 @@ describe("ImportDialog", () => {
     const actor = userEvent.setup();
     const { onClose } = renderDialog();
     const before = manuscripts().length;
-    // 아무것도 올리지 않았으면 가져올 것이 없다.
+    // 아무것도 올리지 않았으면 가져올 것이 없다. 빈 자리에는 이 창이 하는 일이 적혀 있다.
     expect(
       await screen.findByRole("button", { name: "가져오기" }),
     ).toBeDisabled();
+    expect(
+      screen.getByText(
+        "올린 파일은 여기에 쌓이고, ‘가져오기’를 눌러야 원고로 만들어져요.",
+      ),
+    ).toBeInTheDocument();
+    // 담긴 수를 읽어 주는 자리는 처음부터 있다(글자가 바뀔 때 읽히려면).
+    const count = within(screen.getByRole("dialog")).getByRole("status");
+    expect(count).toBeEmptyDOMElement();
 
     await choose(actor, [
       file("13화 · 북쪽 문.md", "# 북쪽 문"),
@@ -100,7 +108,7 @@ describe("ImportDialog", () => {
     expect(rows[0]).toHaveTextContent("마크다운");
     expect(rows[1]).toHaveTextContent("14화 · 유리 온실");
     expect(rows[1]).toHaveTextContent("텍스트");
-    expect(screen.getByText("파일 2개")).toBeInTheDocument();
+    expect(count).toHaveTextContent("파일 2개");
     // 올려 두기만 했다. 서버에는 아무것도 없다.
     expect(manuscripts()).toHaveLength(before);
 
@@ -158,8 +166,15 @@ describe("ImportDialog", () => {
     drop([file("표지.png", "x"), file("1화.txt", "본문")]);
 
     expect(within(staged()).getAllByRole("listitem")).toHaveLength(1);
+    // 하나면 어느 파일인지 적는다.
     expect(screen.getByRole("alert")).toHaveTextContent(
-      "1개는 담지 않았어요. 텍스트(.txt)와 마크다운(.md) 파일만 가져올 수 있어요.",
+      "‘표지.png’ 파일은 담지 않았어요. .txt와 .md 파일만 담을 수 있어요.",
+    );
+
+    drop([file("표지.png", "x"), file("지도.jpg", "x")]);
+
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "2개는 담지 않았어요. .txt와 .md 파일만 담을 수 있어요.",
     );
   });
 
@@ -179,6 +194,14 @@ describe("ImportDialog", () => {
     const rows = within(staged()).getAllByRole("listitem");
     expect(rows).toHaveLength(1);
     expect(rows[0]).toHaveTextContent("2화");
+    // 포커스는 그 자리로 올라온 줄에 간다. 키보드로 이어서 뺄 수 있다.
+    expect(screen.getByRole("button", { name: "2화 빼기" })).toHaveFocus();
+
+    await actor.keyboard("{Enter}");
+
+    // 목록이 비면 파일을 고르는 단추로 돌아간다.
+    expect(screen.queryByRole("list", { name: "가져올 파일" })).toBeNull();
+    expect(screen.getByRole("button", { name: "파일 선택" })).toHaveFocus();
   });
 
   it("keeps only the file that failed, and retrying does not create it twice", async () => {
@@ -193,8 +216,9 @@ describe("ImportDialog", () => {
 
     await actor.click(importButton());
 
+    // 된 줄은 목록에서 빠진다. 말해 주지 않으면 그 파일이 들어갔는지 알 수 없다.
     expect(await screen.findByRole("alert")).toHaveTextContent(
-      "1개를 가져오지 못했어요.",
+      "1개는 가져왔어요. 1개는 가져오지 못했으니 다시 시도하거나 목록에서 빼 주세요.",
     );
     const rows = within(staged()).getAllByRole("listitem");
     expect(rows).toHaveLength(1);
