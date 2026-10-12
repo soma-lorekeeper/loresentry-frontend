@@ -274,7 +274,8 @@
 }
 
 /* 좁은 창: 여백을 줄이고 긴 글꼴 이름은 말줄임한다. 접기와 밀어 보기는 위의 규칙이 맡는다. */
-@media (max-width: 760px) {
+/* 브라우저가 아니라 이 화면이 놓인 창의 폭을 본다(workspace-shell.module.css 의 lk-pane). */
+@container lk-pane (max-width: 744px) {
   .toolbar {
     padding: 3px var(--lk-space-2);
   }

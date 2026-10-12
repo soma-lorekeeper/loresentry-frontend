@@ -43,7 +43,8 @@
   background: var(--lk-color-surface-sunken);
 }
 
-@media (max-width: 600px) {
+/* 브라우저가 아니라 이 화면이 놓인 창의 폭을 본다(workspace-shell.module.css 의 lk-pane). */
+@container lk-pane (max-width: 584px) {
   .page {
     padding: 32px 16px 48px;
   }

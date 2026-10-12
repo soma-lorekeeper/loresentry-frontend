@@ -459,7 +459,8 @@
 }
 
 /* 휴대폰에서는 이름 열을 좁혀 회차 열을 더 보인다. 긴 이름은 말줄임으로 끝난다. */
-@media (max-width: 600px) {
+/* 브라우저가 아니라 이 화면이 놓인 창의 폭을 본다(workspace-shell.module.css 의 lk-pane). */
+@container lk-pane (max-width: 584px) {
   .scroller {
     --label-width: 112px;
   }

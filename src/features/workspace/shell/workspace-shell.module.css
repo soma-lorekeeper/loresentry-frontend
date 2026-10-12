@@ -36,7 +36,13 @@
   flex-direction: column;
 }
 
+/*
+ * 창은 container 다. 안에 놓인 화면(탭 막대, 문서, 그래프, 타임라인 등)은 브라우저 폭이 아니라
+ * **이 창의 폭**을 보고 좁은 배치로 바뀐다(@container lk-pane). 창을 둘로 나누거나 끌어서
+ * 줄이면 브라우저는 넓어도 창은 좁아지기 때문이다.
+ */
 .pane {
+  container: lk-pane / inline-size;
   display: flex;
   flex: 1 1 0;
   flex-direction: column;

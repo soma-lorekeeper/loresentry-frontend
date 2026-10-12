@@ -471,7 +471,8 @@
 }
 
 /* 좁은 화면에서는 범례를 한 줄로 두고 옆으로 밀어 본다. 줄바꿈하면 글자가 세로로 쪼개진다. */
-@media (max-width: 600px) {
+/* 브라우저가 아니라 이 화면이 놓인 창의 폭을 본다(workspace-shell.module.css 의 lk-pane). */
+@container lk-pane (max-width: 584px) {
   .legend {
     right: var(--lk-space-3);
     overflow-x: auto;

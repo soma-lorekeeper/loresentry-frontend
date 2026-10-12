@@ -127,7 +127,8 @@
   flex: none;
 }
 
-@media (max-width: 600px) {
+/* 브라우저가 아니라 이 화면이 놓인 창의 폭을 본다(workspace-shell.module.css 의 lk-pane). */
+@container lk-pane (max-width: 584px) {
   .tab:not([aria-selected="true"]) {
     justify-content: center;
     width: 32px;
