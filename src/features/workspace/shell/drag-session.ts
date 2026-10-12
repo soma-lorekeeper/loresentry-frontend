@@ -17,7 +17,9 @@ type Dragged =
   /** 탭을 끌고 있다. `paneId` 는 그 탭이 있던 창이다 */
   | { kind: "tab"; paneId: string; tabId: string; target: WorkspaceTarget }
   /** 사이드바의 파일을 끌고 있다. 창에 열 수 있는 것은 문서뿐이라 폴더인지도 적는다 */
-  | { kind: "node"; fileId: string; document: boolean };
+  | { kind: "node"; fileId: string; document: boolean }
+  /** 사이드바의 보기(검색·그래프·타임라인·메모)를 끌고 있다. 놓은 곳에 그 화면을 연다 */
+  | { kind: "view"; target: WorkspaceTarget };
 
 export type DragSession = Dragged & {
   /**
@@ -35,6 +37,8 @@ export function originOf(element: Element): Rect {
 
 /** 탭을 끌 때 dataTransfer 에 싣는 종류. 글자로 싣지 않아 에디터 본문에 붙여 넣어지지 않는다 */
 export const TAB_MIME = "application/x-loresentry-tab";
+/** 사이드바의 보기를 끌 때 싣는 종류. 탭과 같은 이유로 글자로 싣지 않는다 */
+export const VIEW_MIME = "application/x-loresentry-view";
 
 let current: DragSession | null = null;
 const listeners = new Set<() => void>();

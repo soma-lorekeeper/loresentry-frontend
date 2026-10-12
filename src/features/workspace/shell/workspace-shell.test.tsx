@@ -243,6 +243,56 @@ describe("WorkspaceShell drag and drop", () => {
     expect(main()).toHaveAttribute("data-split", "row");
   });
 
+  /**
+   * 사이드바의 보기(검색·그래프·타임라인·메모)도 파일처럼 끌어다 놓는다. 가장자리에 놓으면 그
+   * 화면이 새 창으로 열린다.
+   */
+  it("opens a sidebar view in a new pane when it is dropped on an edge", async () => {
+    stubMatchMedia();
+    renderShell(twoTabs());
+    await screen.findByRole("tab", { name: /메모/ });
+    const sidebar = screen.getByRole("navigation", { name: "작업공간" });
+    const timeline = within(sidebar).getByRole("button", { name: "타임라인" });
+    expect(timeline).toHaveAttribute("draggable", "true");
+    stubGeometry();
+
+    fireEvent.dragStart(timeline, {
+      dataTransfer: { setData: () => {}, effectAllowed: "none" },
+    });
+    // 사이드바에서 온 것은 창 안에도 놓을 수 있어, 가장자리는 바깥 3분의 1 이다.
+    drag("dragover", main(), 980, 300);
+    expect(main().querySelector("[data-drop-preview]")).toHaveAttribute(
+      "data-drop-preview",
+      "right",
+    );
+    drag("drop", main(), 980, 300);
+
+    await waitFor(() => expect(panes()).toHaveLength(2));
+    // 옮긴 것이 아니라 연 것이다. 있던 탭은 그대로다.
+    expect(tabNames(panes()[0])).toEqual(["휴지통", "메모"]);
+    expect(tabNames(panes()[1])).toEqual(["타임라인"]);
+  });
+
+  it("opens a sidebar view as a tab when it is dropped on a tab bar", async () => {
+    stubMatchMedia();
+    renderShell(twoTabs());
+    await screen.findByRole("tab", { name: /메모/ });
+    const sidebar = screen.getByRole("navigation", { name: "작업공간" });
+    const graph = within(sidebar).getByRole("button", { name: "그래프" });
+
+    fireEvent.dragStart(graph, {
+      dataTransfer: { setData: () => {}, effectAllowed: "none" },
+    });
+    const tablist = screen.getByRole("tablist");
+    fireEvent.dragOver(tablist, { dataTransfer: { dropEffect: "none" } });
+    fireEvent.drop(tablist, { dataTransfer: { dropEffect: "none" } });
+
+    await waitFor(() =>
+      expect(tabNames(panes()[0])).toEqual(["휴지통", "메모", "그래프"]),
+    );
+    expect(panes()).toHaveLength(1);
+  });
+
   it("stacks the panes when the tab is dropped on the bottom edge", async () => {
     stubMatchMedia();
     renderShell(twoTabs());

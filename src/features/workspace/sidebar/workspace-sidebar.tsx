@@ -42,6 +42,7 @@ import {
   useSetFavorite,
   useTrashFile,
 } from "../queries";
+import { VIEW_MIME, beginDrag, originOf } from "../shell/drag-session";
 import { useImportPicker } from "../use-import-document";
 import { useWorkspace } from "../workspace-context";
 import { DRAG_MIME, FileTree, type TreeEdit } from "./file-tree";
@@ -483,6 +484,19 @@ export function WorkspaceSidebar() {
             selected={activeKind === item.kind}
             data-tour={item.kind}
             onClick={() => open({ kind: item.kind })}
+            // 파일처럼 끌어다 놓을 수 있다. 작업 영역의 가장자리에 놓으면 그 화면이 새 창으로,
+            // 창이나 탭 막대에 놓으면 그 창의 탭으로 열린다(shell/use-pane-drop.ts).
+            draggable
+            onDragStart={(event) => {
+              // 값은 읽지 않는다. 실은 것이 없으면 끌기를 시작하지 않는 브라우저가 있다.
+              event.dataTransfer.setData(VIEW_MIME, item.kind);
+              event.dataTransfer.effectAllowed = "move";
+              beginDrag({
+                kind: "view",
+                target: { kind: item.kind },
+                origin: originOf(event.currentTarget),
+              });
+            }}
           />
         ))}
       </div>

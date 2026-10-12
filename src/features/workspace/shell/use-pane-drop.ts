@@ -53,6 +53,8 @@ function sourceOf(session: DragSession): DragSource | null {
   if (session.kind === "tab") {
     return { target: session.target, from: session.paneId };
   }
+  // 사이드바의 보기. 옮기는 것이 아니라 여는 것이라 온 곳(`from`)이 없다 — 파일과 같다.
+  if (session.kind === "view") return { target: session.target };
   // 창에 열 수 있는 것은 문서뿐이다. 폴더를 끌어오면 작업 영역은 받지 않는다.
   return session.document
     ? { target: { kind: "file", fileId: session.fileId } }

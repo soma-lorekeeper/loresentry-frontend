@@ -89,13 +89,10 @@ export function TabBar({
     event.preventDefault();
   };
 
-  /** 이 탭 막대가 받을 수 있는 것을 끌고 있는가. 탭이거나 사이드바의 문서다 */
+  /** 이 탭 막대가 받을 수 있는 것을 끌고 있는가. 탭이거나, 사이드바의 문서나 보기다 */
   const accepts = () => {
     const current = getDrag();
-    return (
-      current !== null &&
-      (current.kind === "tab" || (current.kind === "node" && current.document))
-    );
+    return current !== null && (current.kind !== "node" || current.document);
   };
 
   const onDragOver = (event: DragEvent, before: string) => {
@@ -115,11 +112,14 @@ export function TabBar({
     event.preventDefault();
     event.stopPropagation();
     const beforeId = before === END ? null : before;
-    if (current.kind === "node") {
-      // 사이드바의 문서. 이 창에 연다.
+    if (current.kind === "node" || current.kind === "view") {
+      // 사이드바의 문서나 보기. 이 창에 연다.
       dispatch({
         type: "open",
-        target: { kind: "file", fileId: current.fileId },
+        target:
+          current.kind === "view"
+            ? current.target
+            : { kind: "file", fileId: current.fileId },
         paneId: pane.id,
       });
     } else if (current.paneId === pane.id) {
