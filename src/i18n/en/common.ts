@@ -10,6 +10,8 @@ export default {
     "Lore Sentry · A writing editor and AI agent for web novelists",
   "웹소설 작가를 위한 집필 에디터이자 AI 에이전트예요. 회차를 쓰면 설정 문서에 바뀔 점을 AI가 찾아 두고, 반영은 작가가 골라요.":
     "A writing editor and AI agent for web novelists. When you write a new chapter, AI finds what should change in your setting documents, and you choose what to apply.",
+  // 검색엔진에 알리는 소프트웨어 분류(app/page.tsx 의 구조화 데이터). 화면에는 나오지 않는다.
+  "글쓰기 도구": "Writing tool",
   "로그인 · Lore Sentry": "Log in · Lore Sentry",
   "계정 삭제 완료 · Lore Sentry": "Account deleted · Lore Sentry",
   "로그아웃 · Lore Sentry": "Logged out · Lore Sentry",

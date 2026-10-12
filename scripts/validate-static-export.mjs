@@ -127,6 +127,41 @@ for (const route of ROUTES) {
     );
 }
 
+// 랜딩의 구조화 데이터(src/app/page.tsx). 하나만 있어야 하고, 그 주소는 이 언어판의 대표 주소여야
+// 한다. 주소가 canonical 과 다르면 검색엔진이 다른 문서의 정보로 본다.
+const landingPath = join(OUT, "index.html");
+if (existsSync(landingPath)) {
+  const blocks = [
+    ...readFileSync(landingPath, "utf8").matchAll(
+      /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,
+    ),
+  ].map(([, json]) => json);
+  if (blocks.length !== 1) {
+    errors.push(
+      `랜딩의 구조화 데이터(JSON-LD)가 ${blocks.length}개입니다. 1개여야 합니다.`,
+    );
+  } else {
+    try {
+      const data = JSON.parse(blocks[0]);
+      if (data["@type"] !== "SoftwareApplication")
+        errors.push(
+          `랜딩 구조화 데이터의 @type 이 SoftwareApplication 이 아닙니다: ${data["@type"]}`,
+        );
+      // Naver 가이드의 필수 항목.
+      for (const field of ["name", "applicationCategory"]) {
+        if (!data[field])
+          errors.push(`랜딩 구조화 데이터에 ${field} 가 없습니다.`);
+      }
+      if (data.url !== localeBase)
+        errors.push(
+          `랜딩 구조화 데이터의 url(${data.url ?? "없음"})이 이 언어판의 주소(${localeBase})와 다릅니다.`,
+        );
+    } catch {
+      errors.push("랜딩의 구조화 데이터를 JSON 으로 읽을 수 없습니다.");
+    }
+  }
+}
+
 const files = walk(OUT);
 const htmlFiles = files.filter((file) => file.endsWith(".html"));
 
