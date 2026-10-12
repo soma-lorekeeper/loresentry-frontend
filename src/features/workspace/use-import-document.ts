@@ -1,15 +1,17 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { useCallback } from "react";
+import { useCallback, useRef, type ChangeEvent } from "react";
 
 import { useToast } from "@/design-system/primitives";
-import type { DocumentNode } from "@/domain/models";
+import type { DocumentNode, FileNode } from "@/domain/models";
 import { t } from "@/i18n";
 import { invalidateProjectContent } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 import { bodyFromPlainText } from "@/domain/document-body";
 import { markdownToBody } from "@/features/documents/editor/body-markdown";
+
+import { categoryFolderOf } from "./model/tree";
 
 export const IMPORT_ACCEPT = ".txt,.md,.markdown,text/plain,text/markdown";
 
@@ -65,4 +67,41 @@ export function useImportDocument(projectId: string) {
     },
     [projectId, queryClient, services, toast],
   );
+}
+
+/**
+ * 파일을 고르는 것부터 가져온 원고를 넘겨주는 것까지. 새 탭의 "가져오기"와 사이드바의
+ * "가져오기"가 같은 동작이어야 해서 한 곳에 둔다.
+ *
+ * <p>브라우저의 파일 선택 창은 `<input type="file">` 을 눌러야만 열린다. 그래서 숨긴 input 에
+ * `inputProps` 를 펼쳐 두고, 보이는 버튼은 `pick` 을 부른다. 가져온 원고는 원고 폴더에 들어간다.
+ */
+export function useImportPicker(
+  projectId: string,
+  nodes: readonly FileNode[],
+  onImported: (node: DocumentNode) => void,
+) {
+  const importDocument = useImportDocument(projectId);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const onChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    // 같은 파일을 다시 골라도 change 가 나도록 값을 비운다.
+    event.target.value = "";
+    const parent = categoryFolderOf(nodes, "manuscript");
+    if (!file || !parent) return;
+    const node = await importDocument(file, parent.id);
+    if (node) onImported(node);
+  };
+
+  return {
+    pick: () => inputRef.current?.click(),
+    inputProps: {
+      ref: inputRef,
+      type: "file",
+      accept: IMPORT_ACCEPT,
+      hidden: true,
+      onChange,
+    } as const,
+  };
 }

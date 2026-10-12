@@ -42,6 +42,7 @@ import {
   useSetFavorite,
   useTrashFile,
 } from "../queries";
+import { useImportPicker } from "../use-import-document";
 import { useWorkspace } from "../workspace-context";
 import { DRAG_MIME, FileTree, type TreeEdit } from "./file-tree";
 import { GraphRefreshItem } from "./graph-refresh-item";
@@ -160,6 +161,10 @@ export function WorkspaceSidebar() {
   const [dialog, setDialog] = useState<PendingDialog>(null);
   const [dialogError, setDialogError] = useState(false);
   const activeKind = activeTabOf(activePane).target.kind;
+  // 새 탭의 "가져오기"와 같은 동작이다. 새 탭을 닫아 둔 채로도 원고를 들여올 수 있게 여기에도 둔다.
+  const importPicker = useImportPicker(projectId, nodes, (node) =>
+    open({ kind: "file", fileId: node.id }),
+  );
 
   if (activeFileId && activeFileId !== revealed && index.has(activeFileId)) {
     setRevealed(activeFileId);
@@ -527,6 +532,12 @@ export function WorkspaceSidebar() {
         </section>
       </div>
       <div className={styles.utility}>
+        <SidebarButton
+          icon="upload"
+          label={t("가져오기")}
+          onClick={importPicker.pick}
+        />
+        <input {...importPicker.inputProps} />
         {UTILITY_NAV.map((item) => (
           <SidebarButton
             key={item.kind}
