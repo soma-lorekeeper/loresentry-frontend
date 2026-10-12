@@ -383,7 +383,11 @@
 }
 
 .group > svg {
-  color: var(--lk-color-icon-default);
+  color: var(--kind, var(--lk-color-icon-default));
+}
+
+.group[data-favorites] > svg {
+  color: var(--lk-color-favorite);
 }
 
 .row {

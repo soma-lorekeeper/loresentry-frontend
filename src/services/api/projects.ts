@@ -4,7 +4,6 @@ import type { Project, ProjectSettings } from "@/domain/models";
 import type { ProjectService } from "../ports";
 
 import type { ApiClient } from "./http";
-import { projectIconOf } from "./mapping";
 
 /** 서버 표현. 필드 이름은 snake case 다(authentication 서비스와 같은 규약). */
 interface ApiProject {
@@ -26,7 +25,6 @@ function toProject(api: ApiProject): Project {
     id: api.id,
     title: api.name,
     description: api.description,
-    icon: projectIconOf(api.id),
     createdAt: api.created_at,
     lastWorkedAt: api.last_worked_at,
     // 가장 최근에 수정된 활성 문서. 서버가 채운다(`ProjectResponse.last_file`).

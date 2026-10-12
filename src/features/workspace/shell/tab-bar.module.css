@@ -73,6 +73,11 @@
   color: var(--lk-color-icon-default);
 }
 
+/* 문서 탭은 아이콘이 그 문서의 종류 색이다. 파일 트리·새 탭의 아이콘과 같은 색을 지닌다. */
+.tab[data-kind] > svg {
+  color: var(--kind, var(--lk-color-icon-default));
+}
+
 .tabLabel {
   flex: 1;
   min-width: 0;

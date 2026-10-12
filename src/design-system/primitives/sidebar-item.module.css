@@ -19,6 +19,11 @@
   color: var(--lk-color-icon-default);
 }
 
+/* 문서를 가리키는 항목(즐겨찾기 등)은 `data-kind` 를 달아 아이콘이 종류 색을 받는다. */
+.item[data-kind] > svg {
+  color: var(--kind, var(--lk-color-icon-default));
+}
+
 .item:hover:not([aria-current="page"]):not([data-selected="true"]) {
   background: var(--lk-color-state-hover);
 }

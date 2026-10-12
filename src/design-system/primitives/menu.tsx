@@ -21,6 +21,11 @@ export type MenuEntry =
       id: string;
       label: string;
       icon?: IconName;
+      /**
+       * 문서 종류. 있으면 아이콘이 그 종류의 색을 받는다(theme/kinds.css 의 `data-kind`).
+       * 메뉴는 `body` 로 옮겨 그려져 문서의 `--kind` 를 물려받지 못하므로 항목마다 직접 단다.
+       */
+      kind?: string;
       hint?: string;
       checked?: boolean;
       disabled?: boolean;
@@ -145,6 +150,7 @@ export function Menu({
               aria-checked={checkable ? entry.checked : undefined}
               disabled={entry.disabled}
               tabIndex={-1}
+              data-kind={entry.kind}
               className={cx(
                 styles.item,
                 entry.destructive && styles.destructive,

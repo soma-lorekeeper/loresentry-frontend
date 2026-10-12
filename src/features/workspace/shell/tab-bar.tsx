@@ -64,7 +64,7 @@ export function TabBar({ pane }: { pane: WorkspacePane }) {
       >
         {pane.tabs.map((tab, index) => {
           const selected = tab.id === pane.activeTabId;
-          const { icon, title } = present(tab.target);
+          const { icon, title, kind } = present(tab.target);
           return (
             <div
               key={tab.id}
@@ -74,6 +74,7 @@ export function TabBar({ pane }: { pane: WorkspacePane }) {
               aria-selected={selected}
               tabIndex={selected ? 0 : -1}
               data-tab-id={tab.id}
+              data-kind={kind}
               data-dragging={dragging === tab.id || undefined}
               data-drop-target={
                 (dropTarget === tab.id && dragging !== tab.id) || undefined

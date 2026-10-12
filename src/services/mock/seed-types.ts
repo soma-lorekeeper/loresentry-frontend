@@ -23,7 +23,6 @@ export interface SeedEpisode {
 export interface SeedOtherProject {
   id: string;
   title: string;
-  icon: "sparkles" | "library" | "orbit" | "cloud-rain" | "notebook-tabs";
   description: string;
   lastFileTitle: string;
   lastWorkedMinutesAgo: number;
@@ -33,7 +32,6 @@ export interface SeedOtherProject {
 export interface SeedTrashedProject {
   id: string;
   title: string;
-  icon: "book-open";
   trashedDaysAgo: number;
 }
 

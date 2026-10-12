@@ -63,7 +63,14 @@ function DeleteEntryDialog({
           : t("이 항목은 프로젝트에서 완전히 삭제되고 복원할 수 없어요.")
       }
       target={
-        entry ? { icon: entryIcon(entry), name: entry.node.title } : undefined
+        entry
+          ? {
+              icon: entryIcon(entry),
+              name: entry.node.title,
+              kind:
+                entry.node.kind === "document" ? entry.node.docType : undefined,
+            }
+          : undefined
       }
       actions={
         <>

@@ -1,7 +1,5 @@
 import type { DocumentBody } from "./document-body";
 
-import type { IconName } from "@/design-system/icons/icon";
-
 import type { DocumentType } from "./document-types";
 import type { Locale } from "@/i18n/locale";
 
@@ -20,7 +18,6 @@ export interface Project {
   id: string;
   title: string;
   description: string;
-  icon: IconName;
   createdAt: IsoDateTime;
   lastWorkedAt: IsoDateTime;
   lastFile: { id: string; title: string } | null;

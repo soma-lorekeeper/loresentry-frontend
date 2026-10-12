@@ -184,16 +184,6 @@ describe("projects", () => {
     expect(project.trashedAt).toBeNull();
   });
 
-  it("derives a stable icon from the id, since the server does not store one", async () => {
-    reply(200, { projects: [apiProject] });
-    reply(200, { projects: [apiProject] });
-
-    const first = (await services().projects!.list())[0].icon;
-    const second = (await services().projects!.list())[0].icon;
-
-    expect(first).toBe(second);
-  });
-
   it("sends the title as name when creating", async () => {
     reply(201, apiProject);
     await services().projects!.create({

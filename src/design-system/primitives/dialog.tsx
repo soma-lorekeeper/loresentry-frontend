@@ -114,7 +114,8 @@ interface DialogCardProps {
   closeLabel?: string;
   closeDisabled?: boolean;
   compact?: boolean;
-  target?: { icon: IconName; name: string };
+  /** `kind` 는 대상이 문서일 때의 종류다. 아이콘이 그 종류의 색을 받는다(theme/kinds.css). */
+  target?: { icon: IconName; name: string; kind?: string };
   children?: ReactNode;
   footerHint?: ReactNode;
   actions: ReactNode;
@@ -170,7 +171,7 @@ export function DialogCard({
           )}
         </div>
         {target && (
-          <div className={styles.target}>
+          <div className={styles.target} data-kind={target.kind}>
             <Icon name={target.icon} size={16} />
             <span className={styles.targetName}>{target.name}</span>
           </div>

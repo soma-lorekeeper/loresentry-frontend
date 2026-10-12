@@ -251,6 +251,7 @@ export function WorkspaceSidebar() {
       id: `create-${type}`,
       label: DOCUMENT_TYPE_SINGULAR_LABEL[type],
       icon: DOCUMENT_TYPE_META[type].entityIcon,
+      kind: type,
       onSelect: () => {
         const parent = index.get(parentId);
         const target =
@@ -508,6 +509,8 @@ export function WorkspaceSidebar() {
                 key={node.id}
                 icon={DOCUMENT_TYPE_META[node.docType].entityIcon}
                 label={node.title}
+                // 파일 트리의 같은 문서와 같은 색이어야 한다. 종류 색은 data-kind 로 받는다.
+                data-kind={node.docType}
                 selected={node.id === activeFileId}
                 onClick={() => open({ kind: "file", fileId: node.id })}
               />
@@ -548,6 +551,7 @@ export function WorkspaceSidebar() {
                   ? DOCUMENT_TYPE_META[dialog.node.docType].entityIcon
                   : "folder",
                 name: dialog.node.title,
+                kind: isDocument(dialog.node) ? dialog.node.docType : undefined,
               }
             : undefined
         }

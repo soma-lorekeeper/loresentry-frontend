@@ -52,9 +52,35 @@
   height: 32px;
 }
 
+/* 닫힌 책과 열린 책을 같은 자리에 겹쳐 두고, 카드를 가리키면 맞바꾼다. */
 .projectIcon {
+  position: relative;
   flex: none;
+  width: 18px;
+  height: 18px;
   color: var(--lk-color-icon-default);
+}
+
+.projectIcon > svg {
+  position: absolute;
+  inset: 0;
+  transition: opacity 140ms var(--lk-ease);
+}
+
+.bookOpen {
+  opacity: 0;
+}
+
+.card:hover .bookClosed,
+.card[data-selected="true"] .bookClosed,
+.card:has(.cardLink:focus-visible) .bookClosed {
+  opacity: 0;
+}
+
+.card:hover .bookOpen,
+.card[data-selected="true"] .bookOpen,
+.card:has(.cardLink:focus-visible) .bookOpen {
+  opacity: 1;
 }
 
 .spacer {
@@ -192,6 +218,10 @@
 @media (prefers-reduced-motion: reduce) {
   .bone {
     animation: none;
+  }
+
+  .projectIcon > svg {
+    transition: none;
   }
 }
 

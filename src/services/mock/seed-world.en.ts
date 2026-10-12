@@ -322,7 +322,6 @@ const OTHER_PROJECTS: SeedOtherProject[] = [
   {
     id: "starlight-promise",
     title: "A Last Promise Under Starlight — Trilogy",
-    icon: "sparkles",
     description:
       "A novel in which a promise spanning three generations is resolved on the last night. It is being written in three parts: Part 1, The Star Covenant; Part 2, The Night That Never Returns; Part 3, Witness at Dawn.",
     lastFileTitle: "Chapter_17_The_Night_That_Never_Returns",
@@ -332,7 +331,6 @@ const OTHER_PROJECTS: SeedOtherProject[] = [
   {
     id: "moonlight-library",
     title: "Chronicles of the Moonlight Library",
-    icon: "library",
     description:
       "The librarians of a library that opens only at night guard the forbidden stacks",
     lastFileTitle: "Part_2_The_Forbidden_Stacks",
@@ -342,7 +340,6 @@ const OTHER_PROJECTS: SeedOtherProject[] = [
   {
     id: "orbit-people",
     title: "People in Nearby Orbits",
-    icon: "orbit",
     description: "",
     lastFileTitle: "Epilogue_Ordinary_Gravity",
     lastWorkedMinutesAgo: 60 * 24 * 21,
@@ -351,7 +348,6 @@ const OTHER_PROJECTS: SeedOtherProject[] = [
   {
     id: "sleeping-city",
     title: "A Very Long Story of the City Asleep Under Rain",
-    icon: "cloud-rain",
     description:
       "A child's journey to wake the sleepers of a city where the rain never stops",
     lastFileTitle: "Draft_Act_3_The_Night_the_City_Wakes",
@@ -361,7 +357,6 @@ const OTHER_PROJECTS: SeedOtherProject[] = [
   {
     id: "nameless-notes",
     title: "Untitled Worldbuilding Notes",
-    icon: "notebook-tabs",
     description: "",
     lastFileTitle: "Character_Relationships",
     lastWorkedMinutesAgo: 60 * 24 * 46,
@@ -373,19 +368,16 @@ const TRASHED_PROJECTS: SeedTrashedProject[] = [
   {
     id: "starlight-draft",
     title: "A Last Promise Under Starlight",
-    icon: "book-open",
     trashedDaysAgo: 19,
   },
   {
     id: "glass-sea",
     title: "Map of the Glass Sea",
-    icon: "book-open",
     trashedDaysAgo: 23,
   },
   {
     id: "winter-station",
     title: "Letters from the Winter Station",
-    icon: "book-open",
     trashedDaysAgo: 31,
   },
 ];

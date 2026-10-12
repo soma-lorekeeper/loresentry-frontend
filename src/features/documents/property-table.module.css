@@ -39,6 +39,11 @@
   height: 22px;
 }
 
+/* 관계 행의 아이콘은 그 관계가 가리키는 종류의 색이다(칩의 아이콘과 같은 색). */
+.identityButton[data-kind] {
+  color: var(--kind, var(--lk-color-icon-default));
+}
+
 .identityName {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -299,7 +304,7 @@
 
 .pickerItem > svg {
   flex: none;
-  color: var(--lk-color-icon-default);
+  color: var(--kind, var(--lk-color-icon-default));
 }
 
 .pickerItem:hover,

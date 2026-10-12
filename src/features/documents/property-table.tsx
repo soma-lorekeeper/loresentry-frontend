@@ -112,6 +112,8 @@ function RelationPicker({
                 role="option"
                 aria-selected={index === active}
                 data-active={index === active || undefined}
+                // 목록은 body 로 옮겨 그려져 문서의 --kind 를 물려받지 못한다. 항목마다 단다.
+                data-kind={node.docType}
                 className={styles.pickerItem}
                 onMouseEnter={() => setActive(index)}
                 onClick={() => onPick(node)}
@@ -184,6 +186,8 @@ function RelationRow({
           ref={menuRef}
           icon={meta.entityIcon}
           label={t("{label} 속성 메뉴", { label: property.label })}
+          // 이 행이 가리키는 종류의 색이다. 열려 있는 문서의 종류 색이 아니다.
+          data-kind={property.targetType}
           className={styles.identityButton}
           disabled={readOnly}
           aria-haspopup="menu"
@@ -475,6 +479,7 @@ export function PropertyTable({
       id: type,
       label: DOCUMENT_TYPE_META[type].relationLabel,
       icon: DOCUMENT_TYPE_META[type].entityIcon,
+      kind: type,
       disabled: properties.some(
         (p) => p.kind === "relation" && p.targetType === type,
       ),
@@ -569,6 +574,7 @@ export function PropertyTable({
                 id: type,
                 label: DOCUMENT_TYPE_SINGULAR_LABEL[type],
                 icon: DOCUMENT_TYPE_META[type].entityIcon,
+                kind: type,
                 checked: type === docType,
                 onSelect: () => type !== docType && onChangeType(type),
               }))}
