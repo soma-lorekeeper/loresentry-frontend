@@ -75,14 +75,10 @@ const NODE_MAX_RADIUS = 15;
  * 값이 커진다.
  */
 const ICON_MIN_SCREEN_RADIUS = 9;
-/**
- * 방향 화살표 길이(그래프 좌표).
- *
- * 실험 레포는 엣지를 무방향으로 그렸지만, 서비스에서는 관계 속성을 가진 문서(source)
- * 에서 대상 문서(target)로 향한다(GRAPH_INBOX_PATTERN §3). 누가 누구를 가리키는지가
- * 드러나도록 대상 쪽 끝에 작은 화살표를 붙인다.
+/*
+ * 엣지에는 화살표를 그리지 않는다. 관계는 대칭이라 source·target 은 그리기 순서일 뿐
+ * 방향이 아니다(domain/models.ts 의 GraphEdge). 화살표를 붙이면 없는 방향을 말하게 된다.
  */
-const ARROW_LENGTH = 3.2;
 
 /** 바깥에서 줌·화면 맞춤을 부르는 손잡이 */
 export interface GraphControls {
@@ -96,16 +92,17 @@ interface Props {
   graph: RenderGraph;
   /** 즐겨찾기한 노드. 노드 모서리에 별을 얹는다 */
   favorites: ReadonlySet<string>;
-  /** 선택한 노드. 테두리를 두른다 */
-  selectedId: string | null;
-  /** 엣지 위에 얹을 관계 이름 */
+  /** 엣지 위에 얹을 글자(작가가 적은 관계 설명). 없으면 그 엣지에는 아무것도 얹지 않는다 */
   relationName: (link: RenderLink) => string | null;
   controlsRef?: React.RefObject<GraphControls | null>;
   onZoom?: (scale: number) => void;
   palette: Palette;
   highlight: Highlight;
-  /** 1-hop 강조를 고정한 노드. 누르면 켜지고 다시 누르면 꺼진다 */
-  activeId: string | null;
+  /**
+   * 1-hop 강조를 고정한 노드들. 누르면 더해지고 다시 누르면 빠진다. 고른 노드에는
+   * 테두리를 두르고, 하나라도 있으면 강조 밖의 노드는 물러난다.
+   */
+  activeIds: ReadonlySet<string>;
   hoveredId: string | null;
   /** 문서에서 돌아왔을 때 중앙에 둘 노드 */
   focusId: string | null;
@@ -119,6 +116,8 @@ interface Props {
   onHover: (id: string | null) => void;
   /** 노드를 누르면 그 노드를 center 로 넣거나 뺀다. 문서로 가지 않는다 */
   onFocus: (node: RenderNode) => void;
+  /** 노드가 없는 빈 배경을 눌렀다. 고른 노드를 푸는 데 쓴다 */
+  onBackgroundClick: () => void;
   onLayoutStop: () => void;
 }
 
@@ -148,18 +147,18 @@ function nodeValue(node: RenderNode) {
 export function Graph2D({
   graph,
   favorites,
-  selectedId,
   relationName,
   controlsRef,
   onZoom,
   palette,
   highlight,
-  activeId,
+  activeIds,
   hoveredId,
   focusId,
   centerIds,
   onHover,
   onFocus,
+  onBackgroundClick,
   onLayoutStop,
 }: Props) {
   const { ref: containerRef, size } = useElementSize<HTMLDivElement>();
@@ -172,7 +171,7 @@ export function Graph2D({
 
   /** halo 를 켤지. 규모가 커지면 끈다 */
   const rich = graph.nodes.length <= RICH_NODE_LIMIT;
-  const dimming = activeId !== null;
+  const dimming = activeIds.size > 0;
 
   /*
    * 즐겨찾기는 여기서 **읽기만** 한다 — 켜고 끄는 것은 문서에서만 할 수 있다.
@@ -214,7 +213,8 @@ export function Graph2D({
       const y = node.y ?? 0;
       const radius = nodeRadius(node);
       const lit = isLit(node.id);
-      const hovered = node.id === hoveredId || node.id === selectedId;
+      // 마우스를 올린 노드와 고른 노드에 같은 테두리를 두른다.
+      const hovered = node.id === hoveredId || activeIds.has(node.id);
       const base = lit ? palette.node[node.kind] : palette.nodeDim;
 
       if (rich) {
@@ -265,20 +265,20 @@ export function Graph2D({
         ctx.stroke();
       }
     },
-    [favorites, hoveredId, isLit, palette, rich, selectedId],
+    [activeIds, favorites, hoveredId, isLit, palette, rich],
   );
 
   /**
-   * 강조된 엣지 위의 관계 이름.
+   * 강조된 엣지 위의 관계 설명.
    *
-   * 엣지는 두 노드가 이어져 있다는 것만 알려준다. 그게 어떤 관계인지는 사용자가
-   * 문서에서 붙인 이름에만 있는데, 그 이름을 보려고 매번 문서로 나가야 했다.
+   * 엣지는 두 노드가 이어져 있다는 것만 알려준다. 그게 어떤 관계인지는 작가가
+   * 속성 표의 칩에 적은 설명에만 있는데, 그것을 보려고 매번 문서로 나가야 했다.
    *
-   * 언제 그리는가 — 노드를 눌러 강조 중이면 그 노드에 붙은 엣지만, 포커스 중이면 화면에
-   * 남은 엣지 전부다. 포커스는 이미 몇십 개로 좁혀진 화면이라 전부 그려도 읽힌다.
+   * 언제 그리는가 — 노드를 눌러 강조 중이면 고른 노드들에 붙은 엣지만, 포커스 중이면
+   * 화면에 남은 엣지 전부다. 포커스는 이미 몇십 개로 좁혀진 화면이라 전부 그려도 읽힌다.
    *
-   * 이름이 없는 엣지는 건너뛴다. 지금 데이터는 대부분이 그래서, 실제로 글자가
-   * 얹히는 엣지는 몇 개 되지 않는다.
+   * 설명을 적지 않은 엣지는 건너뛴다. 관계의 분류("관련 원고" 등)로 대신 채우지 않는다 —
+   * 분류는 양 끝 노드의 색과 아이콘이 이미 말하고 있다.
    *
    * 노드 이름을 다 그린 뒤에 부른다 — 같은 labelPacker 를 쓰므로 자리가 겹치면
    * 관계 이름 쪽이 밀린다. 이름이 무엇인지가 관계가 무엇인지보다 먼저다.
@@ -296,7 +296,7 @@ export function Graph2D({
       ctx.textBaseline = "middle";
 
       for (const link of graph.links) {
-        // 강조 중이면 누른 노드에 붙은 엣지만 대상이다.
+        // 강조 중이면 고른 노드들에 붙은 엣지만 대상이다.
         if (dimming && !highlight.links.has(link)) continue;
 
         // force-graph 가 첫 렌더에서 문자열을 노드 객체로 바꿔 넣는다.
@@ -385,7 +385,7 @@ export function Graph2D({
       for (const node of candidates) {
         const x = node.x ?? 0;
         const y = node.y ?? 0;
-        const hovered = node.id === hoveredId || node.id === activeId;
+        const hovered = node.id === hoveredId || activeIds.has(node.id);
         const fontSize = Math.max((hovered ? 11 : 10) / globalScale, 1.6);
         ctx.font = `${hovered ? 600 : 400} ${fontSize}px ${fontFamily}`;
 
@@ -446,7 +446,7 @@ export function Graph2D({
       drawRelationNames,
       fontFamily,
       graph,
-      activeId,
+      activeIds,
       hoveredId,
       isLit,
       labelPacker,
@@ -641,12 +641,10 @@ export function Graph2D({
           nodePointerAreaPaint={paintPointerArea}
           linkColor={linkColor}
           linkWidth={linkWidth}
-          linkDirectionalArrowLength={ARROW_LENGTH}
-          linkDirectionalArrowRelPos={1}
-          linkDirectionalArrowColor={linkColor}
           onZoom={onZoom ? ({ k }) => onZoom(k) : undefined}
           onNodeHover={handleHover}
           onNodeClick={onFocus}
+          onBackgroundClick={onBackgroundClick}
           // autoPauseRedraw 는 기본값(true) 그대로 둔다. 레이아웃이 수렴하고 아무
           // 상호작용이 없으면 캔버스 리드로를 쉬어서 배터리와 발열에 유리하다.
           //

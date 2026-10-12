@@ -5,7 +5,7 @@ import {
   isUnavailable,
   PreparingState,
 } from "@/features/common/preparing-state";
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 import {
   Button,
@@ -53,7 +53,8 @@ export function GraphView() {
   const controls = useRef<GraphControls | null>(null);
   const episodeRef = useRef<HTMLButtonElement>(null);
   const [episodeOpen, setEpisodeOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  // 고른 노드들. 고른 순서대로 쌓인다 — 노드 패널이 그 순서로 보여 준다.
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [zoom, setZoom] = useState(1);
   const [noticeDismissed, setNoticeDismissed] = useState(false);
 
@@ -133,10 +134,29 @@ export function GraphView() {
     })),
   ];
 
+  // 검색에서 고르면 그 노드 하나만 남긴다. 찾던 것을 바로 가운데에 두려는 동작이다.
   const pick = (id: string) => {
-    setSelectedId(id);
+    setSelectedIds([id]);
     controls.current?.centerOn(id);
   };
+
+  // 캔버스에서 누른 노드는 고른 목록에 더한다. 이미 고른 노드를 다시 누르면 그것만 뺀다.
+  // 그래서 노드를 차례로 누르면 각 노드의 1-hop 이 합쳐져 보인다.
+  const toggleSelected = useCallback(
+    (node: { id: string }) =>
+      setSelectedIds((current) =>
+        current.includes(node.id)
+          ? current.filter((id) => id !== node.id)
+          : [...current, node.id],
+      ),
+    [],
+  );
+  // 빈 배경을 누르면 모두 푼다. force-graph 에 넘기는 함수라 identity 를 고정한다.
+  const clearSelected = useCallback(() => setSelectedIds([]), []);
+
+  // 범례의 별은 지금 보이는 노드 가운데 즐겨찾기가 있을 때만 뜻이 있다.
+  const hasFavorites =
+    renderGraph?.nodes.some((node) => favoriteSet.has(node.baseId)) ?? false;
 
   return (
     <div className={styles.view}>
@@ -227,14 +247,11 @@ export function GraphView() {
               <GraphCanvas
                 graph={renderGraph}
                 favorites={favoriteSet}
-                selectedId={selectedId}
+                selectedIds={selectedIds}
                 controlsRef={controls}
                 onZoom={setZoom}
-                onSelect={(node) =>
-                  setSelectedId((current) =>
-                    current === node.id ? null : node.id,
-                  )
-                }
+                onSelect={toggleSelected}
+                onClearSelection={clearSelected}
               />
               {renderGraph.nodes.length === 0 && (
                 <EmptyState
@@ -273,15 +290,15 @@ export function GraphView() {
                 onKindsChange={(next) => saveView({ kinds: [...next] })}
                 onPick={(node) => pick(node.id)}
               />
-              <GraphLegend kinds={kinds} hasFavorites />
+              <GraphLegend kinds={kinds} hasFavorites={hasFavorites} />
             </>
           )}
         </div>
-        {data && selectedId && (
+        {data && selectedIds.length > 0 && (
           <NodePanel
             graph={data}
-            nodeId={selectedId}
-            onClose={() => setSelectedId(null)}
+            nodeIds={selectedIds}
+            onClose={clearSelected}
             onOpen={(id) => open({ kind: "file", fileId: id })}
           />
         )}

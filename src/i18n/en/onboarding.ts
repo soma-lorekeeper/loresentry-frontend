@@ -1,5 +1,4 @@
 import type { Messages } from "../messages";
-import { plural } from "./helpers";
 
 export default {
   "작품 하나에\n작업공간 하나": "One story,\none workspace",
@@ -54,6 +53,13 @@ export default {
     "Your writing saves as you type. The save status and character count are in the toolbar above.",
   "원고를 만들면 이 창에서 바로 쓰고, 쓰는 대로 저장돼요.":
     "Create a chapter to write right in this window. It saves as you type.",
+  "쓰던 원고는 가져와요": "Bring in what you've already written",
+  "다른 곳에서 쓰던 글을 텍스트(.txt)나 마크다운(.md) 파일로 올려 원고로 만들 수 있어요.":
+    "Upload writing from elsewhere as text (.txt) or Markdown (.md) files and turn it into chapters.",
+  "‘가져오기’를 눌러 보세요.": "Click ‘Import’.",
+  "올려 두고, 확인하고, 가져와요": "Add files, check the list, then import",
+  "올린 파일은 목록에 먼저 담겨요. ‘가져오기’를 눌러야 원고 폴더에 원고로 만들어져요.":
+    "Files you add go into the list first. They become chapters in the Manuscripts folder only when you press ‘Import’.",
   "속성 표로 문서를 이어요": "Link documents in the property table",
   "관련 원고와 인물, 장소를 고르면 그 관계가 그래프와 타임라인이 돼요.":
     "Pick related chapters, characters and places, and those links become your graph and timeline.",
@@ -89,8 +95,8 @@ export default {
     "Documents you link in property tables become the graph's nodes and lines.",
   "‘그래프’를 눌러 보세요.": "Click ‘Graph’.",
   "한 문서에 집중해요": "Focus on one document",
-  "노드를 누르면 바로 이어진 문서만 진하게 남아요. 한 번 더 누르면 풀려요.":
-    "Click a node to keep only its direct links bold. Click it again to let go.",
+  "노드를 누르면 바로 이어진 문서만 진하게 남아요. 더 누르면 함께 보이고, 빈 곳을 누르면 풀려요.":
+    "Click a node to keep only its direct links bold. Click more to add theirs, or the empty canvas to let go.",
   "노드 하나를 눌러 보세요.": "Click a node.",
   "이어진 문서가 모여요": "Its links gather here",
   "고른 문서와 바로 이어진 문서가 카드로 모여요. 카드를 누르면 그 문서가 열려요.":
@@ -133,7 +139,6 @@ export default {
     "A Silver Voyagers navigator who reads the Memory Routes",
   "무대::북쪽 문 너머에서 돌아온 은빛 항해단의 항해사":
     "A Silver Voyagers navigator who came back from beyond the North Door",
-  "무대::유리 산맥, 북쪽 온실": "Glass Mountains, North Greenhouse",
   "무대::레나는 타인의 기억이 남긴 방향을 감각으로 읽는다.":
     "Lena reads by feel the directions that other people's memories leave behind.",
   "무대::짙은 안개 속에서도 그는 한 번도 길을 잃지 않았다.":
@@ -164,6 +169,7 @@ export default {
   "무대::변경 사항 반영": "Apply changes",
   "무대::즐겨찾기": "Favorites",
   "무대::파일": "Files",
+  "무대::가져오기": "Import",
   "무대::휴지통": "Trash",
   "무대::설정": "Settings",
   "무대::도움말": "Help",
@@ -181,15 +187,6 @@ export default {
   "무대::전체": "All",
   "무대::화면 맞춤": "Fit to screen",
   "무대::{number}화": "Ch. {number}",
-  "무대::변경 사항": "Changes",
-  "무대::문서 {count}개": plural("{count} document", "{count} documents"),
-  "무대::현재 버전 전체 반영": "Accept all current",
-  "무대::신규 버전 전체 반영": "Accept all new",
-  "무대::<b>변경 {changed}</b> 확정 {resolved}":
-    "<b>{changed} changed</b> · {resolved} confirmed",
-  "무대::수정": "Modified",
-  "무대::현재 버전": "Current version",
-  "무대::신규 버전": "New version",
   "무대::1,284자": "1,284 characters",
   "무대::문서": "Document",
   "무대::작품": "Project",

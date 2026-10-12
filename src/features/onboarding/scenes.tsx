@@ -1,12 +1,23 @@
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import {
+  Suspense,
+  lazy,
+  useEffect,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 
-import { Icon, type IconName } from "@/design-system/primitives";
+import {
+  DIALOG_SURFACE_CLASS,
+  Icon,
+  type IconName,
+} from "@/design-system/primitives";
 import {
   DOCUMENT_TYPE_META,
   DOCUMENT_TYPE_SINGULAR_LABEL,
   type DocumentType,
 } from "@/domain/document-types";
-import { LOCALE, t, tRich } from "@/i18n";
+import { LOCALE, t } from "@/i18n";
 import { cx } from "@/shared/cx";
 
 import type { OnboardingStep } from "./steps";
@@ -128,21 +139,28 @@ const ACTIVE_ENTRY: Partial<Record<Scene, string>> = {
 /** 랜딩의 실이 따라가는 인물. 창에 실이 닿으면 이 표시가 붙은 자리가 잠깐 강조된다. */
 const FOLLOWED = LENA;
 
+/** 무대에서 즐겨찾기로 둔 문서. 사이드바의 즐겨찾기, 제목의 별, 그래프의 별이 함께 본다. */
+const FAVORITE = CH12;
+
 function SideItem({
   icon,
   label,
   active,
   depth = 0,
+  kind,
 }: {
   icon: IconName;
   label: ReactNode;
   active?: boolean;
   depth?: number;
+  /** 문서면 그 종류. 실제 사이드바처럼 아이콘이 종류의 색이 된다 */
+  kind?: DocumentType;
 }) {
   return (
     <div
       className={cx(styles.sideItem, active && styles.sideItemOn)}
       style={{ paddingLeft: 8 + depth * 16 }}
+      data-kind={kind}
       data-followed={(active && label === FOLLOWED) || undefined}
     >
       <Icon name={icon} size={13} />
@@ -194,6 +212,7 @@ function FolderChildren({ type, scene }: { type: DocumentType; scene: Scene }) {
               icon="file-text"
               label={chapter}
               depth={2}
+              kind="manuscript"
               active={chapter === episode.active}
             />
           ))}
@@ -206,6 +225,7 @@ function FolderChildren({ type, scene }: { type: DocumentType; scene: Scene }) {
       icon={iconOf(type)}
       label={name}
       depth={1}
+      kind={type}
       active={name === ACTIVE_ENTRY[scene]}
     />
   ));
@@ -240,7 +260,7 @@ function Sidebar({ scene, userName }: { scene: Scene; userName: string }) {
         <div className={styles.sideDivider} />
         <RefreshItem scene={scene} />
         <p className={styles.sideHeading}>{t("무대::즐겨찾기")}</p>
-        <SideItem icon="file-text" label={CH12} />
+        <SideItem icon="file-text" label={FAVORITE} kind="manuscript" />
         <div className={styles.sideNav} data-focus="workspace">
           <p className={styles.sideHeading}>{t("무대::파일")}</p>
           {FOLDERS.map((type) => (
@@ -257,6 +277,7 @@ function Sidebar({ scene, userName }: { scene: Scene; userName: string }) {
         </div>
       </div>
       <div className={styles.sideBottom}>
+        <SideItem icon="upload" label={t("무대::가져오기")} />
         <SideItem icon="trash-2" label={t("무대::휴지통")} />
         <SideItem icon="settings" label={t("무대::설정")} />
         <SideItem icon="circle-help" label={t("무대::도움말")} />
@@ -267,15 +288,18 @@ function Sidebar({ scene, userName }: { scene: Scene; userName: string }) {
 
 /* 탭 막대 -------------------------------------------------------------- */
 
-const TABS: Record<Scene, { icon: IconName; label: string }> = {
+const TABS: Record<
+  Scene,
+  { icon: IconName; label: string; kind?: DocumentType }
+> = {
   workspace: { icon: "home", label: t("무대::새 탭") },
   name: { icon: "home", label: t("무대::새 탭") },
-  relations: { icon: iconOf("character"), label: LENA },
+  relations: { icon: iconOf("character"), label: LENA, kind: "character" },
   graph: { icon: "waypoints", label: t("무대::그래프") },
   timeline: { icon: "chart-no-axes-gantt", label: t("무대::타임라인") },
   refresh: { icon: "waypoints", label: t("무대::그래프") },
-  editor: { icon: "file-text", label: CH12 },
-  files: { icon: "file-text", label: CH12 },
+  editor: { icon: "file-text", label: CH12, kind: "manuscript" },
+  files: { icon: "file-text", label: CH12, kind: "manuscript" },
 };
 
 function TabBar({ scene }: { scene: Scene }) {
@@ -283,7 +307,7 @@ function TabBar({ scene }: { scene: Scene }) {
   return (
     <div className={styles.tabBar}>
       <Icon name="panel-left" size={14} />
-      <span key={tab.label} className={styles.tab}>
+      <span key={tab.label} className={styles.tab} data-kind={tab.kind}>
         <Icon name={tab.icon} size={13} />
         {tab.label}
         <Icon name="x" size={12} />
@@ -394,6 +418,18 @@ function PropertyRow({
   );
 }
 
+/** 실제 도구 막대의 정렬 단추 넷. 왼쪽이 눌린 모습이다(정렬하지 않은 문단) */
+function AlignTools() {
+  return (
+    <span className={styles.toolGroup}>
+      <Icon name="text-align-start" size={13} className={styles.toolOn} />
+      <Icon name="text-align-center" size={13} />
+      <Icon name="text-align-end" size={13} />
+      <Icon name="text-align-justify" size={13} />
+    </span>
+  );
+}
+
 function DocumentView() {
   return (
     <div className={styles.document}>
@@ -404,12 +440,17 @@ function DocumentView() {
           Pretendard <Icon name="chevron-down" size={11} />
         </span>
         <span className={styles.toolSelect}>
-          14 <Icon name="chevron-down" size={11} />
+          10.5pt <Icon name="chevron-down" size={11} />
         </span>
+        <span className={styles.toolSelect}>
+          <Icon name="list-chevrons-up-down" size={13} />
+          1.5 <Icon name="chevrons-up-down" size={11} />
+        </span>
+        <AlignTools />
         <Icon name="bold" size={13} />
         <Icon name="italic" size={13} />
-        <Icon name="underline" size={13} />
-        <Icon name="strikethrough" size={13} />
+        {/* 실제 도구 막대도 이 폭에서는 밑줄·취소선·목록을 더보기에 접어 둔다. */}
+        <Icon name="ellipsis" size={13} />
         <span className={styles.spacer} />
         <span className={styles.toolSaved}>
           <Icon name="cloud-check" size={13} />
@@ -606,6 +647,11 @@ function GraphView({ quiet }: { quiet?: boolean }) {
               style={{ background: nodeColor(type) }}
             >
               <Icon name={iconOf(type)} size={state === "on" ? 11 : 9} />
+              {label === FAVORITE && (
+                <span className={styles.nodeStar}>
+                  <Icon name="star" size={10} />
+                </span>
+              )}
             </span>
             <span className={styles.nodeLabel}>{label}</span>
           </span>
@@ -617,7 +663,7 @@ function GraphView({ quiet }: { quiet?: boolean }) {
               {labelOf(type)}
             </span>
           ))}
-          <span className={styles.legendItem}>
+          <span className={cx(styles.legendItem, styles.legendFavorite)}>
             <Icon name="star" size={11} />
             {t("무대::즐겨찾기")}
           </span>
@@ -769,125 +815,24 @@ function TimelineView() {
 
 /* 5. 그래프 최신화 ----------------------------------------------------- */
 
-const DIFF_ENTRIES: { type: DocumentType; name: string; mark: string }[] = [
-  { type: "character", name: LENA, mark: "~" },
-  { type: "place", name: NORTH_GREENHOUSE, mark: "~" },
-  { type: "organization", name: LIGHTHOUSE_KEEPERS, mark: "+" },
-];
-const DIFF_ROWS: {
-  label: string;
-  current: string;
-  next: string;
-  changed?: boolean;
-}[] = [
-  {
-    label: t("무대::분류"),
-    current: kindOf("character"),
-    next: kindOf("character"),
-  },
-  {
-    label: t("무대::설명"),
-    current: LENA_ROLE,
-    next: t("무대::북쪽 문 너머에서 돌아온 은빛 항해단의 항해사"),
-    changed: true,
-  },
-  {
-    label: relationOf("place"),
-    current: GLASS_MOUNTAINS,
-    next: t("무대::유리 산맥, 북쪽 온실"),
-    changed: true,
-  },
-  {
-    label: relationOf("organization"),
-    current: SILVER_VOYAGERS,
-    next: SILVER_VOYAGERS,
-  },
-];
+/*
+ * 변경 사항 창의 안쪽은 실제 창이 쓰는 화면이다(refresh-preview.tsx). 문서 비교까지 딸려 와
+ * 무거우므로, 이 장면이 그려질 때 따로 받는다 — 랜딩의 첫 화면이 그만큼을 먼저 받지 않게.
+ * 창의 틀(자리와 크기)은 여기서 바로 그린다. 온보딩의 조명이 이 틀을 찾아 비추기 때문이다.
+ */
+const RefreshPreview = lazy(() => import("./refresh-preview"));
 
 function DiffModal() {
   return (
-    <Enter delay={1500} kind="pop" className={styles.diff} data-focus="diff">
-      <div className={styles.diffHead}>
-        <span className={styles.diffTitle}>{t("무대::변경 사항")}</span>
-        <span className={styles.mutedSmall}>
-          {t("무대::문서 {count}개", { count: DIFF_ENTRIES.length })}
-        </span>
-        <span className={styles.spacer} />
-        <span className={styles.toolButton}>
-          {t("무대::현재 버전 전체 반영")}
-        </span>
-        <span className={styles.toolButton}>
-          {t("무대::신규 버전 전체 반영")}
-        </span>
-        <Icon name="x" size={13} />
-      </div>
-      <div className={styles.diffBody}>
-        <div className={styles.diffList}>
-          <p className={styles.mutedSmall}>
-            {tRich(
-              "무대::<b>변경 {changed}</b> 확정 {resolved}",
-              { b: (chunk) => <b>{chunk}</b> },
-              { changed: DIFF_ENTRIES.length, resolved: 0 },
-            )}
-          </p>
-          {DIFF_ENTRIES.map((entry, i) => (
-            <div
-              key={entry.name}
-              className={cx(styles.diffEntry, i === 0 && styles.diffEntryOn)}
-              data-followed={entry.name === FOLLOWED || undefined}
-              data-kind={entry.type}
-            >
-              <Icon name={iconOf(entry.type)} size={12} />
-              <b className={styles.ellipsis}>{entry.name}</b>
-              <span>{entry.mark}</span>
-            </div>
-          ))}
-        </div>
-        <div className={styles.diffCompare}>
-          <p className={styles.diffDocTitle}>
-            {LENA} <span className={styles.badge}>{t("무대::수정")}</span>
-          </p>
-          <div className={styles.diffColumns}>
-            {[t("무대::현재 버전"), t("무대::신규 버전")].map(
-              (title, column) => (
-                <div
-                  key={title}
-                  className={styles.diffColumn}
-                  style={{ gridColumn: column === 0 ? 1 : 3 }}
-                >
-                  <div className={styles.diffColumnHead}>
-                    <b>{title}</b>
-                  </div>
-                  {DIFF_ROWS.map((row) => (
-                    <div
-                      key={row.label}
-                      className={cx(
-                        styles.diffRow,
-                        row.changed && styles.diffRowChanged,
-                      )}
-                    >
-                      <span className={styles.mutedSmall}>{row.label}</span>
-                      <span>{column === 0 ? row.current : row.next}</span>
-                    </div>
-                  ))}
-                </div>
-              ),
-            )}
-            <div className={styles.diffArrows}>
-              {DIFF_ROWS.map((row) => (
-                <span key={row.label}>
-                  {row.changed && (
-                    <>
-                      <Icon name="chevrons-right" size={12} />
-                      <Icon name="chevrons-left" size={12} />
-                    </>
-                  )}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+    <Enter
+      delay={1500}
+      kind="pop"
+      className={cx(styles.diff, DIALOG_SURFACE_CLASS)}
+      data-focus="diff"
+    >
+      <Suspense fallback={null}>
+        <RefreshPreview />
+      </Suspense>
     </Enter>
   );
 }
@@ -978,13 +923,12 @@ function EditorView() {
             Pretendard <Icon name="chevron-down" size={11} />
           </span>
           <span className={styles.toolSelect}>
-            14 <Icon name="chevron-down" size={11} />
+            10.5pt <Icon name="chevron-down" size={11} />
           </span>
           <Icon name="bold" size={13} />
           <Icon name="italic" size={13} />
-          <Icon name="underline" size={13} />
-          <Icon name="strikethrough" size={13} />
-          <Icon name="list-ordered" size={13} />
+          {/* 메모가 열려 좁아진 창이다. 실제 도구 막대는 이 폭에서 줄 간격·정렬까지 더보기에 접는다. */}
+          <Icon name="ellipsis" size={13} />
           <span className={styles.spacer} />
           <SaveState count={typed} />
         </div>
@@ -994,7 +938,7 @@ function EditorView() {
         >
           <Enter delay={60} kind="fade" className={styles.docTitle}>
             {CH12}
-            <Icon name="star" size={14} />
+            <Icon name="star" size={14} className={styles.starOn} />
           </Enter>
           <Enter delay={160} kind="fade" className={styles.manuscriptProse}>
             <p>
@@ -1061,7 +1005,7 @@ function FilesView() {
       </div>
       <div className={styles.pane}>
         <div className={styles.paneTabs}>
-          <span className={styles.tab}>
+          <span className={styles.tab} data-kind="character">
             <Icon name={iconOf("character")} size={13} />
             {LENA}
             <Icon name="x" size={12} />

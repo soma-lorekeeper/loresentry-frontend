@@ -1,0 +1,182 @@
+/* 판·알림·안내가 한 묶음으로 서로 가깝게 선다. 대화상자의 큰 간격은 이 묶음 바깥에만 둔다. */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-4);
+}
+
+/*
+ * 올리는 자리와 올린 목록이 함께 놓이는 판. 파일을 놓을 자리라고 점선 상자를 두르지 않는다 —
+ * 이 화면에서 묶음은 선이 아니라 한 단 들어간 면이 만든다(DESIGN.md 의 Elevation Not Lines).
+ */
+.tray {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 14px;
+  background: var(--lk-color-surface-sunken);
+}
+
+/*
+ * 파일을 끌어 화면 위에 올렸다. 창을 나눌 때의 미리보기와 같은 청록 16% 막으로 "여기에 담긴다" 를
+ * 말한다. 판의 바탕만 물들이면 이미 올린 줄들에 가려 거의 보이지 않아, 줄 위까지 덮는 막으로 깐다.
+ */
+.tray::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: color-mix(
+    in srgb,
+    var(--lk-color-accent-primary) 16%,
+    transparent
+  );
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms var(--lk-ease);
+}
+
+.tray[data-dragging]::after {
+  opacity: 1;
+}
+
+.picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--lk-space-2) var(--lk-space-3);
+  min-height: 52px;
+  padding: var(--lk-space-2) var(--lk-space-3);
+}
+
+.pickerHint {
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}
+
+/* 끄는 중에는 이 글자가 "지금 놓아도 된다" 를 말한다. 막만으로는 어두운 테마에서 약하다. */
+.tray[data-dragging] .pickerHint {
+  color: var(--lk-color-text-primary);
+  font-weight: 600;
+}
+
+/* 손가락으로 쓰는 기기에는 끌어다 놓을 파일이 없다. 할 수 없는 일을 권하지 않는다. */
+@media (hover: none) and (pointer: coarse) {
+  .pickerHint {
+    display: none;
+  }
+}
+
+/*
+ * 올린 파일이 놓이는 자리. 비어 있든 차 있든 높이가 같다 — 줄 수에 따라 창이 커졌다 작아지면 창이
+ * 다시 가운데로 가면서 그 안의 단추들이 움직인다. 많이 올리면 이 안에서 밀어 본다.
+ * 고르는 줄과는 머리카락 선 하나로 가른다(판 안의 영역 구분).
+ */
+.list,
+.empty {
+  block-size: min(240px, 40dvh);
+  border-top: 1px solid var(--lk-color-border-subtle);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 2px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--lk-color-border-default) transparent;
+}
+
+/* 아직 아무것도 올리지 않았을 때. 비어 있다는 것과 언제 원고가 되는지를 두 줄로 적는다. */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lk-space-1);
+  padding: var(--lk-space-4) var(--lk-space-6);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  line-height: var(--lk-line-height-body);
+  text-align: center;
+  text-wrap: balance;
+}
+
+/*
+ * 줄은 판 위에 그대로 놓인다(휴지통 목록과 같다). 줄마다 면을 주면 어두운 테마에서 판보다 어두운
+ * 칸이 되어, 떠 있는 것이 아니라 테두리를 두른 칸으로 읽힌다. 누르는 것이 아니라 놓여 있는
+ * 것이라 hover 로도 바뀌지 않는다.
+ */
+.row {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--lk-space-3);
+  min-height: 48px;
+  padding: 0 var(--lk-space-2) 0 var(--lk-space-3);
+  border-radius: 10px;
+}
+
+.icon {
+  flex: none;
+  color: var(--kind, var(--lk-color-icon-default));
+}
+
+.copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.title {
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meta {
+  overflow: hidden;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  font-variant-numeric: tabular-nums;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 실패한 줄. 빨간색을 쓰지 않는다 — 진한 글자와 청록 경고 아이콘이 알린다(The No-Alarm Rule). */
+.failure {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-1);
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+}
+
+.failure > svg {
+  flex: none;
+  color: var(--lk-color-accent-primary);
+}
+
+/*
+ * 끄는 동안 화면 전체를 덮는 보이지 않는 막(import-dialog.tsx). 대화상자는 맨 위 층에 있어
+ * fixed 가 화면을 기준으로 잡힌다.
+ */
+.catcher {
+  position: fixed;
+  z-index: 1;
+  inset: 0;
+}
+
+/* 움직임을 줄인 환경에서도 옅어짐은 남긴다(자리가 옮겨지는 움직임이 아니다). 속도만 고르게 한다. */
+@media (prefers-reduced-motion: reduce) {
+  .tray::after {
+    transition-timing-function: linear;
+  }
+}

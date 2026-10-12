@@ -61,6 +61,15 @@ function differencesOutsideText(a: unknown, b: unknown, path = "$"): string[] {
       const left = (a as Record<string, unknown>)[key];
       const right = (b as Record<string, unknown>)[key];
       if (typeof left === "string" && TEXT_FIELDS.has(key)) return [];
+      // 관계 설명은 대상 문서 id → 글 이다. 어느 관계에 설명이 있는지(열쇠)는 같아야 하고,
+      // 글 자체는 언어마다 다르다.
+      if (key === "descriptions" && left && right) {
+        const leftIds = Object.keys(left).sort().join();
+        const rightIds = Object.keys(right).sort().join();
+        return leftIds === rightIds
+          ? []
+          : [`${path}.${key}: {${leftIds}} vs {${rightIds}}`];
+      }
       return differencesOutsideText(left, right, `${path}.${key}`);
     });
   }

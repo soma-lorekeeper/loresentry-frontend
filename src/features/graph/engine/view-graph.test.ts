@@ -42,10 +42,10 @@ function tinyGraph(): RenderGraph {
       make("far", "character"),
     ],
     links: [
-      { source: "hub", target: "a", key: "k" },
-      { source: "hub", target: "b", key: "k" },
-      { source: "a", target: "b", key: "k" }, // 이웃끼리의 엣지
-      { source: "c", target: "far", key: "k" }, // hub 와 무관한 쪽
+      { source: "hub", target: "a", key: "k", description: "" },
+      { source: "hub", target: "b", key: "k", description: "" },
+      { source: "a", target: "b", key: "k", description: "" }, // 이웃끼리의 엣지
+      { source: "c", target: "far", key: "k", description: "" }, // hub 와 무관한 쪽
     ],
   };
 }

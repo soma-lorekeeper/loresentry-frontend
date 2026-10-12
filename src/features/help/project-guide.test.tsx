@@ -32,6 +32,37 @@ describe("ProjectGuidePage", () => {
     expect(routerMock.push).toHaveBeenCalledWith("/welcome/?replay=1");
   });
 
+  /**
+   * 프로젝트 목록의 가이드와 작업공간의 도움말 탭은 같은 글을 같은 모양으로 보인다. 전에는 이쪽에
+   * 읽는 시간도, 한눈에 보는 표도, 관련 글도, 목차도 없었다.
+   */
+  it("shows a topic with everything the workspace help shows", () => {
+    setSearchParams("topic=writing");
+    renderWithServices(<ProjectGuidePage user={user} />);
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: "원고 작성" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/마지막 업데이트 .+ · 읽는 데 \d+분/),
+    ).toBeVisible();
+    const article = screen.getByRole("article");
+    // 한눈에 보는 표.
+    expect(within(article).getAllByRole("term").length).toBeGreaterThan(0);
+    // 관련 글은 주소가 있는 링크다. 눌러도 이 화면 안에서 주소만 바뀐다.
+    const related = within(article).getByRole("navigation", {
+      name: "관련 문서",
+    });
+    for (const link of within(related).getAllByRole("link")) {
+      expect(link.getAttribute("href")).toMatch(/^\/projects\/guide\?topic=/);
+    }
+    // 목차는 절의 수만큼이다.
+    const toc = screen.getByRole("navigation", { name: "이 문서에서" });
+    expect(within(toc).getAllByRole("link")).toHaveLength(
+      within(article).getAllByRole("heading", { level: 2 }).length,
+    );
+  });
+
   it("clears a search that finds nothing", async () => {
     const actor = userEvent.setup();
     setSearchParams("");

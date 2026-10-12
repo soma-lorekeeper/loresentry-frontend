@@ -114,13 +114,19 @@ describe("workspace (English build)", () => {
     expect(
       screen.getByRole("heading", { level: 2, name: "Recently opened" }),
     ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Import" })).toBeInTheDocument();
+    // 새 탭 화면의 "가져오기". 사이드바에도 같은 이름의 항목이 있어 화면 영역으로 좁혀 찾는다.
+    expect(
+      within(screen.getByRole("tabpanel")).getByRole("button", {
+        name: "Import",
+      }),
+    ).toBeInTheDocument();
 
     const nav = screen.getByRole("navigation", { name: "Workspace" });
     for (const label of [
       "Graph",
       "Timeline",
       "Notes",
+      "Import",
       "Trash",
       "Settings",
       "Help",

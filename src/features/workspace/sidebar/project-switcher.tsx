@@ -28,7 +28,8 @@ export function ProjectSwitcher() {
     {
       id: project.id,
       label: project.title,
-      icon: project.icon,
+      // 열어 둔 프로젝트는 펼친 책, 나머지는 덮은 책이다. 프로젝트 목록의 카드와 같은 규칙이다.
+      icon: "book-open",
       checked: true,
       onSelect: () => {},
     },
@@ -53,7 +54,7 @@ export function ProjectSwitcher() {
         aria-label={t("프로젝트 전환, 현재 {title}", { title: project.title })}
         onClick={() => setOpen((value) => !value)}
       >
-        <Icon name={project.icon} size={15} />
+        <Icon name="book-open" size={15} />
         <span className={styles.switcherName}>{project.title}</span>
         <Icon name="chevron-down" size={14} />
       </button>

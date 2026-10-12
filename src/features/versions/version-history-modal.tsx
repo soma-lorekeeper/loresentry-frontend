@@ -9,6 +9,7 @@ import {
   IconButton,
   InlineNotice,
   Modal,
+  Segmented,
 } from "@/design-system/primitives";
 import {
   DOCUMENT_TYPE_META,
@@ -211,6 +212,8 @@ export function VersionHistoryModal({
   const versions = useVersions(fileId, open);
   const mutations = useVersionMutations(fileId);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  // 좁은 화면에서는 두 문서를 나란히 둘 폭이 없다. 한 번에 한쪽만 보이고, 이 값으로 고른다.
+  const [shown, setShown] = useState<"left" | "right">("left");
   const [preparing, setPreparing] = useState(false);
   const list = versions.data ?? [];
   const selected =
@@ -329,23 +332,36 @@ export function VersionHistoryModal({
               )}
             />
           ) : (
-            <div className={styles.compare}>
-              <ComparePane
-                title={t("선택한 버전")}
-                subtitle={fullTime(selected.createdAt)}
-                snapshot={selected.snapshot}
-                other={current}
-                side="left"
-                index={index}
+            <>
+              {/* 좁은 화면에서만 보인다(CSS). 넓은 화면에서는 두 문서가 나란히 있다. */}
+              <Segmented
+                className={styles.switch}
+                label={t("볼 문서")}
+                value={shown}
+                onChange={setShown}
+                options={[
+                  { value: "left", label: t("선택한 버전") },
+                  { value: "right", label: t("현재 문서") },
+                ]}
               />
-              <ComparePane
-                title={t("현재 문서")}
-                snapshot={current}
-                other={selected.snapshot}
-                side="right"
-                index={index}
-              />
-            </div>
+              <div className={styles.compare} data-shown={shown}>
+                <ComparePane
+                  title={t("선택한 버전")}
+                  subtitle={fullTime(selected.createdAt)}
+                  snapshot={selected.snapshot}
+                  other={current}
+                  side="left"
+                  index={index}
+                />
+                <ComparePane
+                  title={t("현재 문서")}
+                  snapshot={current}
+                  other={selected.snapshot}
+                  side="right"
+                  index={index}
+                />
+              </div>
+            </>
           )}
           {error && <InlineNotice icon="circle-alert">{error}</InlineNotice>}
           <footer className={styles.footer}>

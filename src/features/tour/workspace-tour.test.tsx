@@ -70,6 +70,17 @@ function renderTour(
 const card = (name: string) =>
   screen.findByRole("dialog", { name }, { timeout: 4000 });
 
+/**
+ * 가져오기 두 단계를 지난다. 첫 단계의 `다음` 은 가져오기 단추를 대신 눌러 창을 열고, 둘째 단계의
+ * `다음` 은 그 창을 닫으며 넘어간다.
+ */
+async function throughImport(actor: ReturnType<typeof userEvent.setup>) {
+  await card("쓰던 원고는 가져와요");
+  await actor.click(screen.getByRole("button", { name: "다음" }));
+  await card("올려 두고, 확인하고, 가져와요");
+  await actor.click(screen.getByRole("button", { name: "다음" }));
+}
+
 afterEach(() => window.localStorage.clear());
 
 describe("WorkspaceTour", () => {
@@ -79,8 +90,9 @@ describe("WorkspaceTour", () => {
     renderTour();
 
     await card("원고는 여기서 써요");
-    expect(screen.getByRole("list", { name: "14단계 중 1단계" })).toBeVisible();
+    expect(screen.getByRole("list", { name: "16단계 중 1단계" })).toBeVisible();
     await actor.click(screen.getByRole("button", { name: "다음" }));
+    await throughImport(actor);
     await card("속성 표로 문서를 이어요");
     await actor.click(screen.getByRole("button", { name: "다음" }));
 
@@ -125,6 +137,7 @@ describe("WorkspaceTour", () => {
 
     await card("원고는 여기서 써요");
     await actor.click(screen.getByRole("button", { name: "다음" }));
+    await throughImport(actor);
     await card("속성 표로 문서를 이어요");
     await actor.click(screen.getByRole("button", { name: "다음" }));
     await card("이은 관계는 그래프로 봐요");
@@ -145,7 +158,17 @@ describe("WorkspaceTour", () => {
     await card("원고는 여기서 써요");
     expect(sidebar()).toBe("false");
     await actor.click(screen.getByRole("button", { name: "다음" }));
+    // 가져오기 단추는 사이드바에 있다. 그 단계와 창을 보여 주는 단계 동안만 열려 있다.
+    await card("쓰던 원고는 가져와요");
+    expect(sidebar()).toBe("true");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("올려 두고, 확인하고, 가져와요");
+    expect(screen.getByRole("button", { name: "stage cancel" })).toBeVisible();
+    await actor.click(screen.getByRole("button", { name: "다음" }));
     await card("속성 표로 문서를 이어요");
+    // 넘어가면서 창을 닫았고, 사이드바도 도로 접혔다.
+    expect(screen.queryByRole("button", { name: "stage cancel" })).toBeNull();
+    await waitFor(() => expect(sidebar()).toBe("false"));
     await actor.click(screen.getByRole("button", { name: "다음" }));
     await card("이은 관계는 그래프로 봐요");
     expect(sidebar()).toBe("true");
@@ -166,6 +189,7 @@ describe("WorkspaceTour", () => {
 
     await card("원고는 여기서 써요");
     await actor.click(screen.getByRole("button", { name: "다음" }));
+    await throughImport(actor);
     await card("속성 표로 문서를 이어요");
     await actor.click(screen.getByRole("button", { name: "다음" }));
     await card("이은 관계는 그래프로 봐요");
@@ -207,6 +231,7 @@ describe("WorkspaceTour", () => {
 
     await card("원고는 여기서 써요");
     await actor.click(screen.getByRole("button", { name: "다음" }));
+    await throughImport(actor);
     await card("속성 표로 문서를 이어요");
     expect(screen.getByTestId("tabs").textContent).toBe("file,file");
     await actor.click(
@@ -260,8 +285,10 @@ describe("WorkspaceTour", () => {
     );
 
     await card("원고는 여기서 써요");
-    expect(screen.getByRole("list", { name: "7단계 중 1단계" })).toBeVisible();
+    expect(screen.getByRole("list", { name: "9단계 중 1단계" })).toBeVisible();
     for (const next of [
+      "쓰던 원고는 가져와요",
+      "올려 두고, 확인하고, 가져와요",
       "속성 표로 문서를 이어요",
       "이은 관계는 그래프로 봐요",
       "한 문서에 집중해요",

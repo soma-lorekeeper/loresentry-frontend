@@ -5,31 +5,188 @@
   background: var(--lk-color-bg-canvas);
 }
 
+/* 폭은 작가가 끌어서 정하고 이 브라우저에 기억한다(workspace-chrome-prefs.ts). */
 .sidebar {
+  position: relative;
   flex: none;
-  width: 232px;
+  width: var(--sidebar-width, 232px);
   height: 100%;
 }
 
+/* 사이드바와 본문 사이. 본문 쪽 10px 틈 위에 걸쳐 놓아 사이드바 안쪽을 가리지 않는다. */
+.sidebarHandle {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  bottom: 0;
+  width: 8px;
+}
+
 .panes {
+  position: relative;
   display: flex;
   flex: 1;
-  gap: 10px;
   min-width: 0;
   height: 100%;
   padding: 10px 10px 10px 0;
 }
 
+/* 위아래로 쌓은 분할. 좌우 분할이 기본이다. */
+.panes[data-split="column"] {
+  flex-direction: column;
+}
+
+/*
+ * 창은 container 다. 안에 놓인 화면(탭 막대, 문서, 그래프, 타임라인 등)은 브라우저 폭이 아니라
+ * **이 창의 폭**을 보고 좁은 배치로 바뀐다(@container lk-pane). 창을 둘로 나누거나 끌어서
+ * 줄이면 브라우저는 넓어도 창은 좁아지기 때문이다.
+ */
 .pane {
+  container: lk-pane / inline-size;
   display: flex;
   flex: 1 1 0;
   flex-direction: column;
   min-width: 0;
-  height: 100%;
+  min-height: 0;
   overflow: hidden;
   border-radius: var(--lk-radius-surface);
   background: var(--lk-color-surface-default);
   box-shadow: var(--lk-shadow-lift);
+}
+
+/*
+ * 창이 둘이면 --split(첫 번째 창의 몫)대로 나눈다. flex-basis 가 0 이라 남는 공간 전부가
+ * 이 비율로 갈리고, 손잡이가 끄는 동안 이 변수만 고쳐도 두 창이 함께 움직인다.
+ */
+.panes[data-split] > .pane[data-slot="0"] {
+  flex-grow: var(--split, 0.5);
+}
+
+.panes[data-split] > .pane[data-slot="1"] {
+  flex-grow: calc(1 - var(--split, 0.5));
+}
+
+/* 두 시트 사이로 책상이 비쳐 보이는 10px 틈. 이 틈이 곧 크기 조절 손잡이다. */
+.divider {
+  flex: none;
+  align-self: stretch;
+  width: 10px;
+}
+
+.panes[data-split="column"] > .divider {
+  width: auto;
+  height: 10px;
+}
+
+/*
+ * 탭이나 파일을 끌어올 때 놓일 자리를 미리 보여 주는 막. 가장자리면 새 시트가 설 절반,
+ * 창이면 그 창 전체를 덮는다. 하나의 막이 자리 사이를 미끄러져 옮겨 다닌다 — 자리마다
+ * 따로 켜지면 어디가 "지금"인지 눈이 놓친다. 포인터를 받지 않아 아래의 끌기를 가리지 않는다.
+ */
+.dropVeil {
+  position: absolute;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  border-radius: var(--lk-radius-surface);
+  background: color-mix(
+    in srgb,
+    var(--lk-color-accent-primary) 16%,
+    transparent
+  );
+  pointer-events: none;
+  animation: veilIn 120ms var(--lk-ease);
+  transition:
+    top 160ms var(--lk-ease),
+    left 160ms var(--lk-ease),
+    width 160ms var(--lk-ease),
+    height 160ms var(--lk-ease),
+    opacity 160ms var(--lk-ease);
+}
+
+/* 놓은 직후. 그 자리에서 사라지고, 같은 자리로 새 시트가 들어온다. */
+.dropVeil[data-settling] {
+  opacity: 0;
+}
+
+@keyframes veilIn {
+  from {
+    opacity: 0;
+  }
+}
+
+/* 맞바꾸는 자리에만 붙는 한마디. 막 한가운데에 떠 있고, 막과 함께 사라진다. */
+.veilLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+  height: 32px;
+  padding: 0 var(--lk-space-3);
+  border-radius: 999px;
+  background: var(--lk-color-surface-raised);
+  box-shadow: var(--lk-shadow-float);
+  color: var(--lk-color-text-primary);
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.veilLabel > svg {
+  color: var(--lk-color-accent-primary);
+}
+
+/*
+ * 새 창이 단추에서 나오는 동안(지니) 그 창을 썬 조각들을 띄우는 자리. 화면 전체를 덮지만 아무것도
+ * 받지 않는다. 메뉴·대화상자(z-index 50)보다는 아래다.
+ */
+.genie {
+  position: fixed;
+  z-index: 40;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* 조각 하나. 창의 복사본을 띠 모양으로 잘라 보이고, 통째로 사다리꼴로 변형된다(matrix3d). */
+.genieSlice {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/*
+ * 창이 새 자리로 움직이는 동안(use-pane-motion.ts). 창들은 잠깐 흐름에서 떨어져 제 사각형을
+ * 따라 움직이고, 그동안 구분선은 혼자 남아 엉뚱한 자리에 서므로 감춘다.
+ */
+.panes[data-arranging] > .divider {
+  visibility: hidden;
+}
+
+/* 키보드로 놓을 자리를 고르는 동안, 무엇을 누르면 되는지 알려 주는 한 줄. */
+.placingHint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  z-index: 6;
+  padding: var(--lk-space-2) var(--lk-space-4);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-raised);
+  box-shadow: var(--lk-shadow-float);
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+/* 움직임을 줄이면 막이 자리를 옮겨 다니지 않는다. 옅어짐만 남긴다(창의 움직임은 use-pane-motion.ts). */
+@media (prefers-reduced-motion: reduce) {
+  .dropVeil {
+    animation: veilIn 120ms linear;
+    transition: opacity 120ms linear;
+  }
 }
 
 .content {

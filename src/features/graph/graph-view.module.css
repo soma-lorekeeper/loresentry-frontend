@@ -342,8 +342,10 @@
   border-left: 1px solid var(--lk-color-border-subtle);
 }
 
+/* 캔버스의 노드 위 별은 속을 채워 그린다(engine/kind-icon.ts). 범례도 같은 모양이어야 한다. */
 .legendFavorite > svg {
   color: var(--lk-color-favorite);
+  fill: var(--lk-color-favorite);
 }
 
 .notice {
@@ -392,6 +394,15 @@
 .nodePanelHeader > h2 {
   font-size: var(--lk-font-size-body);
   font-weight: 600;
+}
+
+/* 노드를 둘 이상 골랐을 때만 제목 옆에 붙는 개수. */
+.nodePanelCount {
+  margin-left: var(--lk-space-2);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
 }
 
 .cards {
@@ -460,7 +471,8 @@
 }
 
 /* 좁은 화면에서는 범례를 한 줄로 두고 옆으로 밀어 본다. 줄바꿈하면 글자가 세로로 쪼개진다. */
-@media (max-width: 600px) {
+/* 브라우저가 아니라 이 화면이 놓인 창의 폭을 본다(workspace-shell.module.css 의 lk-pane). */
+@container lk-pane (max-width: 584px) {
   .legend {
     right: var(--lk-space-3);
     overflow-x: auto;

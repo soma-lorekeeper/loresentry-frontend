@@ -704,10 +704,18 @@
   padding: 40px var(--gutter) 48px;
 }
 
+/* 사사 표기는 긴 한 문장이다. 읽기 좋은 폭에서 줄을 바꾸고, 낱말 가운데서 끊지 않는다. */
 .footerBrand p {
+  max-width: 58ch;
   margin-top: 10px;
   color: var(--lk-color-text-secondary);
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+.footerCode {
+  white-space: nowrap;
 }
 
 .footerLinks {

@@ -74,7 +74,7 @@ export const GUIDE_TOPICS_KO: GuideTopic[] = [
     title: "원고 작성",
     summary: "집중해서 쓰고 저장 상태 확인하기",
     lead: "원고는 제목과 서식 있는 본문으로 구성되며, 저장 버튼 없이 자동으로 저장됩니다.",
-    updatedAt: "2026-08-30",
+    updatedAt: "2026-10-13",
     readMinutes: 3,
     facts: [
       { label: "문서 종류", value: "원고" },
@@ -86,6 +86,11 @@ export const GUIDE_TOPICS_KO: GuideTopic[] = [
         id: "episode",
         title: "에피소드 만들기",
         body: "원고 폴더에서 에피소드를 만들고 그 안에 회차 원고를 둡니다.",
+      },
+      {
+        id: "import",
+        title: "쓰던 원고 가져오기",
+        body: "사이드바나 새 탭의 가져오기에서 텍스트(.txt)·마크다운(.md) 파일을 올리고, 목록을 확인한 뒤 가져오기를 누르면 원고 폴더에 원고로 만들어집니다. 파일 이름이 제목이 되고, 가져오기를 누르기 전에는 아무것도 만들어지지 않습니다.",
       },
       {
         id: "format",
@@ -126,7 +131,7 @@ export const GUIDE_TOPICS_KO: GuideTopic[] = [
       {
         id: "graph",
         title: "그래프 둘러보기",
-        body: "노드를 선택하면 직접 연결된 문서가 강조됩니다.",
+        body: "노드를 선택하면 직접 연결된 문서가 강조됩니다. 다른 노드를 더 선택하면 각 노드에 연결된 문서가 함께 강조되고, 빈 곳을 누르면 선택이 풀립니다. 선 위의 글자는 속성 표에서 그 관계에 적어 둔 설명입니다.",
       },
       {
         id: "filter",

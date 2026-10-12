@@ -20,6 +20,7 @@ import type { FileNode } from "@/domain/models";
 import { t } from "@/i18n";
 
 import { isDocument, type TreeItem } from "../model/tree";
+import { beginDrag, originOf } from "../shell/drag-session";
 import styles from "./file-tree.module.css";
 
 export const TREE_INDENT = [12, 28, 46, 64, 82];
@@ -38,8 +39,20 @@ export type TreeEdit =
       docType?: DocumentType;
       icon: IconName;
       defaultTitle: string;
+      /**
+       * 이름을 정했고 지금 만드는 중이다. 값은 정한 이름이다. 서버가 대답할 때까지 그 자리에
+       * 그 이름의 줄을 남겨 둔다 — 줄을 바로 치우면 만들어지는 동안 아무 일도 없어 보인다.
+       */
+      pending?: string;
     }
-  | { mode: "rename"; nodeId: string; icon: IconName; defaultTitle: string };
+  | {
+      mode: "rename";
+      nodeId: string;
+      /** 문서의 이름을 바꾸는 중이면 그 종류. 아이콘이 종류 색을 지킨다 */
+      docType?: DocumentType;
+      icon: IconName;
+      defaultTitle: string;
+    };
 
 interface FileTreeProps {
   items: TreeItem[];
@@ -81,16 +94,30 @@ function indent(depth: number) {
   return TREE_INDENT[Math.min(depth, TREE_INDENT.length - 1)];
 }
 
+/**
+ * 이름을 적는 줄. 새 문서·폴더를 만들 때와 이름을 바꿀 때 쓴다.
+ *
+ * <p>다 적으면 될 줄과 같은 모양으로 그린다 — 같은 자리의 종류 색 아이콘, 같은 높이. Enter 를
+ * 치거나 다른 곳을 누르면 정해지고, Esc 는 그만둔다. 이름을 비우고 정하면 그만둔 것이다. 확인하는
+ * 단추는 따로 두지 않는다.
+ *
+ * @param kind 문서면 그 종류. 아이콘이 그 종류의 색이 된다
+ * @param pending 이름을 정했고 만드는 중이면 그 이름. 고칠 수 없고 줄 끝에 대기 표시가 돈다
+ */
 export function InlineEditRow({
   icon,
+  kind,
   defaultTitle,
   depth,
+  pending,
   onCommit,
   onCancel,
 }: {
   icon: IconName;
+  kind?: DocumentType;
   defaultTitle: string;
   depth: number;
+  pending?: string;
   onCommit: (title: string) => void;
   onCancel: () => void;
 }) {
@@ -102,8 +129,34 @@ export function InlineEditRow({
     if (value.trim()) onCommit(value.trim());
     else onCancel();
   };
+
+  if (pending !== undefined) {
+    return (
+      <div
+        className={styles.editRow}
+        style={{ paddingLeft: indent(depth) }}
+        data-kind={kind}
+        aria-busy="true"
+      >
+        <Icon name={icon} size={15} />
+        <span className={styles.editInput}>{pending}</span>
+        <span
+          className={styles.editPending}
+          role="status"
+          aria-label={t("만드는 중")}
+        >
+          <Icon name="loader-circle" size={14} />
+        </span>
+      </div>
+    );
+  }
+
   return (
-    <div className={styles.editRow} style={{ paddingLeft: indent(depth) }}>
+    <div
+      className={styles.editRow}
+      style={{ paddingLeft: indent(depth) }}
+      data-kind={kind}
+    >
       <Icon name={icon} size={15} />
       <input
         autoFocus
@@ -124,15 +177,6 @@ export function InlineEditRow({
         }}
         onBlur={commit}
       />
-      <button
-        type="button"
-        className={styles.editConfirm}
-        aria-label={t("확인")}
-        onMouseDown={(event) => event.preventDefault()}
-        onClick={commit}
-      >
-        <Icon name="check" size={14} />
-      </button>
     </div>
   );
 }
@@ -314,6 +358,7 @@ export function FileTree({
             {renaming ? (
               <InlineEditRow
                 icon={edit.icon}
+                kind={edit.docType}
                 defaultTitle={edit.defaultTitle}
                 depth={item.depth}
                 onCommit={onCommitEdit}
@@ -334,6 +379,13 @@ export function FileTree({
                   event.dataTransfer.setData(DRAG_MIME, node.id);
                   event.dataTransfer.setData("text/plain", node.title);
                   event.dataTransfer.effectAllowed = "move";
+                  // 작업 영역과 탭 막대가 끄는 동안 읽는다. 문서면 창에 열 수 있다.
+                  beginDrag({
+                    kind: "node",
+                    fileId: node.id,
+                    document: isDocument(node),
+                    origin: originOf(event.currentTarget),
+                  });
                 }}
                 onDragOver={(event) => {
                   if (!folder || !event.dataTransfer.types.includes(DRAG_MIME))
@@ -360,7 +412,9 @@ export function FileTree({
             {createHere && (
               <InlineEditRow
                 icon={edit.icon}
+                kind={edit.docType}
                 defaultTitle={edit.defaultTitle}
+                pending={edit.pending}
                 depth={item.depth + 1}
                 onCommit={onCommitEdit}
                 onCancel={onCancelEdit}
@@ -372,7 +426,9 @@ export function FileTree({
       {createAtRoot && (
         <InlineEditRow
           icon={edit.icon}
+          kind={edit.docType}
           defaultTitle={edit.defaultTitle}
+          pending={edit.pending}
           depth={rootDepth}
           onCommit={onCommitEdit}
           onCancel={onCancelEdit}

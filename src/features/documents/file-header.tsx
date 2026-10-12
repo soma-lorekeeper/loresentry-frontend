@@ -5,12 +5,14 @@ import { useRef, useState } from "react";
 import {
   Icon,
   Menu,
+  Tooltip,
   type IconName,
   type MenuEntry,
 } from "@/design-system/primitives";
 import type { ExportFormat } from "@/domain/models";
 import { t } from "@/i18n";
 
+import { shortcutKeys } from "../workspace/shell/shortcuts";
 import styles from "./file-header.module.css";
 
 /**
@@ -50,6 +52,7 @@ interface FileHeaderProps {
   onToggleLock: () => void;
 }
 
+/** 파일 도구의 아이콘 단추. 이름은 호버 설명으로 보인다. */
 function Action({
   icon,
   label,
@@ -60,20 +63,25 @@ function Action({
   icon: IconName;
   label: string;
   pressed?: boolean;
-  ref?: React.Ref<HTMLButtonElement>;
+  /** 이 단추에 메뉴를 붙일 때 넘긴다. 없으면 호버 설명만 이 단추를 가리킨다 */
+  ref?: React.RefObject<HTMLButtonElement | null>;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  const own = useRef<HTMLButtonElement>(null);
+  const anchor = ref ?? own;
   return (
-    <button
-      ref={ref}
-      type="button"
-      className={styles.action}
-      aria-pressed={pressed}
-      aria-label={label}
-      title={label}
-      {...rest}
-    >
-      <Icon name={icon} size={16} />
-    </button>
+    <>
+      <button
+        ref={anchor}
+        type="button"
+        className={styles.action}
+        aria-pressed={pressed}
+        aria-label={label}
+        {...rest}
+      >
+        <Icon name={icon} size={16} />
+      </button>
+      <Tooltip anchorRef={anchor} label={label} />
+    </>
   );
 }
 
@@ -92,6 +100,8 @@ export function FileHeader({
     id: option.format,
     label: option.label,
     icon: option.icon,
+    // PDF 는 단축키로도 내보낸다(workspace/shell/shortcuts.ts).
+    hint: option.format === "pdf" ? shortcutKeys("exportPdf") : undefined,
     disabled: option.pending,
     onSelect: () => onExport(option.format),
   }));
@@ -126,9 +136,8 @@ export function FileHeader({
       />
       <Action
         icon={locked ? "lock" : "lock-open"}
-        label={t("잠금")}
+        label={locked ? t("잠금 해제") : t("잠금")}
         pressed={locked}
-        aria-label={locked ? t("잠금 해제") : t("잠금")}
         disabled={lockPending}
         onClick={onToggleLock}
       />

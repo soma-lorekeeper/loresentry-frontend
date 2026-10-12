@@ -11,18 +11,39 @@ export function TourStage({
   refresh?: boolean;
   drawer?: boolean;
 }) {
-  const { layout } = useWorkspace();
-  const sidebar = !drawer || layout.sidebarOpen;
+  const { sidebarVisible } = useWorkspace();
+  const sidebar = !drawer || sidebarVisible;
   const [graph, setGraph] = useState(false);
   const [panel, setPanel] = useState(false);
   const [timeline, setTimeline] = useState(false);
   const [run, setRun] = useState<"idle" | "running" | "ready">("idle");
   const [diff, setDiff] = useState(false);
   const [picked, setPicked] = useState(false);
+  const [importing, setImporting] = useState(false);
   return (
     <>
       <div data-tour="editor" />
       <div data-tour="properties" />
+      {sidebar && (
+        <button
+          type="button"
+          data-tour="import"
+          onClick={() => setImporting(true)}
+        >
+          stage import
+        </button>
+      )}
+      {importing && (
+        <div data-tour="import-dialog">
+          <button
+            type="button"
+            data-tour="import-cancel"
+            onClick={() => setImporting(false)}
+          >
+            stage cancel
+          </button>
+        </div>
+      )}
       {sidebar && (
         <button type="button" data-tour="graph" onClick={() => setGraph(true)}>
           stage graph

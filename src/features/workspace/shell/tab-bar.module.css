@@ -68,9 +68,24 @@
   content: "";
 }
 
+/* 맨 끝에 놓일 때는 마지막 탭 뒤에 같은 선이 선다. */
+.tabs[data-drop-end="true"]::after {
+  flex: none;
+  width: 2px;
+  height: 20px;
+  border-radius: 1px;
+  background: var(--lk-color-accent-primary);
+  content: "";
+}
+
 .tab > svg {
   flex: none;
   color: var(--lk-color-icon-default);
+}
+
+/* 문서 탭은 아이콘이 그 문서의 종류 색이다. 파일 트리·새 탭의 아이콘과 같은 색을 지닌다. */
+.tab[data-kind] > svg {
+  color: var(--kind, var(--lk-color-icon-default));
 }
 
 .tabLabel {
@@ -112,7 +127,8 @@
   flex: none;
 }
 
-@media (max-width: 600px) {
+/* 브라우저가 아니라 이 화면이 놓인 창의 폭을 본다(workspace-shell.module.css 의 lk-pane). */
+@container lk-pane (max-width: 584px) {
   .tab:not([aria-selected="true"]) {
     justify-content: center;
     width: 32px;

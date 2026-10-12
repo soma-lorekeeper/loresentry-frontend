@@ -42,6 +42,7 @@ import {
   useSetFavorite,
   useTrashFile,
 } from "../queries";
+import { VIEW_MIME, beginDrag, originOf } from "../shell/drag-session";
 import { useWorkspace } from "../workspace-context";
 import { DRAG_MIME, FileTree, type TreeEdit } from "./file-tree";
 import { GraphRefreshItem } from "./graph-refresh-item";
@@ -136,8 +137,15 @@ function SectionHeader({
 
 export function WorkspaceSidebar() {
   const toast = useToast();
-  const { projectId, user, open, dispatch, activePane, activeFileId } =
-    useWorkspace();
+  const {
+    projectId,
+    user,
+    open,
+    dispatch,
+    activePane,
+    activeFileId,
+    setImporting,
+  } = useWorkspace();
   const tree = useFileTree(projectId);
   const favorites = useFavorites(projectId);
   const setFavorite = useSetFavorite(projectId);
@@ -220,9 +228,9 @@ export function WorkspaceSidebar() {
 
   const commitEdit = (title: string) => {
     const current = edit;
-    setEdit(null);
     if (!current) return;
     if (current.mode === "rename") {
+      setEdit(null);
       if (title === current.defaultTitle) return;
       rename.mutate(
         { fileId: current.nodeId, title },
@@ -230,6 +238,11 @@ export function WorkspaceSidebar() {
       );
       return;
     }
+    // 만들어질 때까지 그 자리에 정한 이름의 줄을 남겨 둔다(대기 표시). 끝나면 진짜 줄이 온다.
+    const pending: TreeEdit = { ...current, pending: title };
+    setEdit(pending);
+    // 그사이 다른 것을 만들거나 이름을 바꾸기 시작했으면 그 줄은 건드리지 않는다.
+    const settle = () => setEdit((now) => (now === pending ? null : now));
     create.mutate(
       {
         parentId: current.parentId,
@@ -239,9 +252,13 @@ export function WorkspaceSidebar() {
       },
       {
         onSuccess: (node) => {
+          settle();
           if (isDocument(node)) open({ kind: "file", fileId: node.id });
         },
-        onError: (error) => failed(error, t("만들지 못했어요.")),
+        onError: (error) => {
+          settle();
+          failed(error, t("만들지 못했어요."));
+        },
       },
     );
   };
@@ -251,6 +268,7 @@ export function WorkspaceSidebar() {
       id: `create-${type}`,
       label: DOCUMENT_TYPE_SINGULAR_LABEL[type],
       icon: DOCUMENT_TYPE_META[type].entityIcon,
+      kind: type,
       onSelect: () => {
         const parent = index.get(parentId);
         const target =
@@ -364,13 +382,6 @@ export function WorkspaceSidebar() {
     }
     return [
       {
-        id: "side",
-        label: t("옆에 열기"),
-        icon: "panels-top-left",
-        onSelect: () =>
-          open({ kind: "file", fileId: node.id }, { toSide: true }),
-      },
-      {
         id: "favorite",
         label: favorite
           ? t("작업공간::즐겨찾기에서 제거")
@@ -387,6 +398,7 @@ export function WorkspaceSidebar() {
           setEdit({
             mode: "rename",
             nodeId: node.id,
+            docType: node.docType,
             icon: DOCUMENT_TYPE_META[node.docType].entityIcon,
             defaultTitle: node.title,
           }),
@@ -474,6 +486,19 @@ export function WorkspaceSidebar() {
             selected={activeKind === item.kind}
             data-tour={item.kind}
             onClick={() => open({ kind: item.kind })}
+            // 파일처럼 끌어다 놓을 수 있다. 작업 영역의 가장자리에 놓으면 그 화면이 새 창으로,
+            // 창이나 탭 막대에 놓으면 그 창의 탭으로 열린다(shell/use-pane-drop.ts).
+            draggable
+            onDragStart={(event) => {
+              // 값은 읽지 않는다. 실은 것이 없으면 끌기를 시작하지 않는 브라우저가 있다.
+              event.dataTransfer.setData(VIEW_MIME, item.kind);
+              event.dataTransfer.effectAllowed = "move";
+              beginDrag({
+                kind: "view",
+                target: { kind: item.kind },
+                origin: originOf(event.currentTarget),
+              });
+            }}
           />
         ))}
       </div>
@@ -508,6 +533,8 @@ export function WorkspaceSidebar() {
                 key={node.id}
                 icon={DOCUMENT_TYPE_META[node.docType].entityIcon}
                 label={node.title}
+                // 파일 트리의 같은 문서와 같은 색이어야 한다. 종류 색은 data-kind 로 받는다.
+                data-kind={node.docType}
                 selected={node.id === activeFileId}
                 onClick={() => open({ kind: "file", fileId: node.id })}
               />
@@ -524,6 +551,13 @@ export function WorkspaceSidebar() {
         </section>
       </div>
       <div className={styles.utility}>
+        <SidebarButton
+          icon="upload"
+          label={t("가져오기")}
+          data-tour="import"
+          // 새 탭의 "가져오기"와 같은 창을 연다. 새 탭을 닫아 둔 채로도 원고를 들여올 수 있게 여기에도 둔다.
+          onClick={() => setImporting(true)}
+        />
         {UTILITY_NAV.map((item) => (
           <SidebarButton
             key={item.kind}
@@ -548,6 +582,7 @@ export function WorkspaceSidebar() {
                   ? DOCUMENT_TYPE_META[dialog.node.docType].entityIcon
                   : "folder",
                 name: dialog.node.title,
+                kind: isDocument(dialog.node) ? dialog.node.docType : undefined,
               }
             : undefined
         }

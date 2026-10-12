@@ -1,0 +1,33 @@
+/*
+ * 크기 조절 손잡이. 쉬는 동안에는 보이지 않고, 가리키거나 포커스하거나 끄는 동안에만
+ * 가운데에 2px 청록 선이 선다. 자리(절대 위치·폭)는 쓰는 쪽이 className 으로 정한다.
+ */
+.handle {
+  z-index: 2;
+  touch-action: none;
+}
+
+.handle[aria-orientation="vertical"] {
+  cursor: col-resize;
+}
+
+.handle[aria-orientation="horizontal"] {
+  cursor: row-resize;
+}
+
+.handle:hover,
+.handle:focus-visible,
+.handle[data-dragging] {
+  background: linear-gradient(
+      var(--lk-color-accent-primary),
+      var(--lk-color-accent-primary)
+    )
+    center / 2px 100% no-repeat;
+  outline: none;
+}
+
+.handle[aria-orientation="horizontal"]:hover,
+.handle[aria-orientation="horizontal"]:focus-visible,
+.handle[aria-orientation="horizontal"][data-dragging] {
+  background-size: 100% 2px;
+}

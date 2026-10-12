@@ -243,6 +243,19 @@
   grid-template-columns: var(--label-width) minmax(var(--min-track), 1fr);
 }
 
+/*
+ * 머리와 본문은 트랙이 다 들어가는 폭을 갖는다.
+ *
+ * 회차가 많거나 화면이 좁으면 트랙(회차마다 최소 폭)이 스크롤 영역보다 길다. 이때 상자가 스크롤
+ * 영역의 폭에 머물면, 그 안에서 `%` 로 자리를 잡는 것들이 트랙이 아니라 화면 폭을 기준으로
+ * 놓인다 — 에피소드 경계선과 고른 회차의 띠가 엉뚱한 회차 위에 그려졌다. 옆으로 밀면 줄의
+ * 이름 칸도 줄 상자의 끝에서 고정이 풀려 따라오지 않았다.
+ */
+.head,
+.body {
+  min-width: calc(var(--label-width) + var(--min-track));
+}
+
 .head {
   position: sticky;
   top: 0;
@@ -251,9 +264,11 @@
   background: var(--lk-color-surface-default);
 }
 
+/* 옆으로 밀면 에피소드 띠가 이 칸 아래로 지나간다. 띠보다 위에 그려야 이름 칸을 덮지 않는다. */
 .corner {
   position: sticky;
   left: 0;
+  z-index: 1;
   border-right: 1px solid var(--lk-color-border-subtle);
   background: var(--lk-color-surface-default);
 }
@@ -383,7 +398,11 @@
 }
 
 .group > svg {
-  color: var(--lk-color-icon-default);
+  color: var(--kind, var(--lk-color-icon-default));
+}
+
+.group[data-favorites] > svg {
+  color: var(--lk-color-favorite);
 }
 
 .row {
@@ -455,7 +474,8 @@
 }
 
 /* 휴대폰에서는 이름 열을 좁혀 회차 열을 더 보인다. 긴 이름은 말줄임으로 끝난다. */
-@media (max-width: 600px) {
+/* 브라우저가 아니라 이 화면이 놓인 창의 폭을 본다(workspace-shell.module.css 의 lk-pane). */
+@container lk-pane (max-width: 584px) {
   .scroller {
     --label-width: 112px;
   }

@@ -73,7 +73,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
     title: "Writing chapters",
     summary: "Write without distractions and keep an eye on saving",
     lead: "A chapter has a title and a formatted body. It saves automatically, so there is no save button.",
-    updatedAt: "2026-08-30",
+    updatedAt: "2026-10-13",
     readMinutes: 3,
     facts: [
       { label: "Document type", value: "Manuscript" },
@@ -85,6 +85,11 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
         id: "episode",
         title: "Create an episode",
         body: "Create an episode in the Manuscripts folder and keep its chapters inside it.",
+      },
+      {
+        id: "import",
+        title: "Bring in what you've already written",
+        body: "Choose Import in the sidebar or on a new tab, add text (.txt) or Markdown (.md) files, check the list and press Import. They are created as chapters in the Manuscripts folder. Each file name becomes the title, and nothing is created until you press Import.",
       },
       {
         id: "format",
@@ -128,7 +133,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "graph",
         title: "Explore the graph",
-        body: "Select a node to highlight the documents linked directly to it.",
+        body: "Select a node to highlight the documents linked directly to it. Select more nodes to highlight their links together, and click the empty canvas to clear the selection. The text on a line is the note you wrote for that relationship in the property table.",
       },
       {
         id: "filter",

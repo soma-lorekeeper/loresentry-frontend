@@ -3,7 +3,6 @@ import {
   documentTypeOfRelationKey,
   type DocumentType,
 } from "@/domain/document-types";
-import type { IconName } from "@/design-system/icons/icon";
 import type { DocumentProperty } from "@/domain/models";
 import { t } from "@/i18n";
 
@@ -158,24 +157,4 @@ const TEXT_PROPERTY_LABELS: Record<string, string> = {
 
 function textPropertyLabel(key: string): string {
   return TEXT_PROPERTY_LABELS[key] ?? key;
-}
-
-/**
- * 프로젝트 아이콘은 서버에 두지 않기로 했다(`CONTENT_PROJECT_API.md` §9-3). 사용자가 고르는 UI 가
- * 없으므로 id 에서 결정론적으로 고른다 — 같은 프로젝트는 언제 열어도 같은 아이콘이다.
- */
-const PROJECT_ICONS: IconName[] = [
-  "book-open",
-  "sparkles",
-  "library",
-  "orbit",
-  "notebook-tabs",
-];
-
-export function projectIconOf(projectId: string): IconName {
-  let hash = 0;
-  for (let i = 0; i < projectId.length; i++) {
-    hash = (hash * 31 + projectId.charCodeAt(i)) % 100000;
-  }
-  return PROJECT_ICONS[hash % PROJECT_ICONS.length];
 }

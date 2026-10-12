@@ -39,6 +39,11 @@ interface TourStep {
   advanceOn?: readonly string[];
   waiting?: boolean;
   when?: string;
+  /**
+   * 이 단계가 띄워 둔 것을 닫는 단추. 다른 단계로 옮기기 직전에 누른다 — 대화상자를 가리키는
+   * 단계에서 그대로 넘어가면, 다음 단계가 가리킬 화면이 그 대화상자에 가려진다.
+   */
+  dismiss?: string;
 }
 
 const FIND_TIMEOUT_MS = 2500;
@@ -75,6 +80,32 @@ function buildSteps(
           open: { kind: "new" },
           placement: ["bottom", "right", "top"],
         },
+    {
+      title: t("쓰던 원고는 가져와요"),
+      body: t(
+        "다른 곳에서 쓰던 글을 텍스트(.txt)나 마크다운(.md) 파일로 올려 원고로 만들 수 있어요.",
+      ),
+      action: t("‘가져오기’를 눌러 보세요."),
+      target: "import",
+      chapter: 0,
+      sidebar: true,
+      press: "import",
+      advanceOn: ["import-dialog"],
+      placement: ["right", "top"],
+    },
+    {
+      title: t("올려 두고, 확인하고, 가져와요"),
+      body: t(
+        "올린 파일은 목록에 먼저 담겨요. ‘가져오기’를 눌러야 원고 폴더에 원고로 만들어져요.",
+      ),
+      target: "import-dialog",
+      chapter: 0,
+      sidebar: true,
+      when: "import-dialog",
+      dismiss: "import-cancel",
+      // 창 옆에 선다. 아래에 서면 창의 안내와 단추를 가린다(좁은 화면에서는 옆자리가 없어 아래로 간다).
+      placement: ["right", "left", "bottom", "top"],
+    },
     setting
       ? {
           title: t("속성 표로 문서를 이어요"),
@@ -110,7 +141,7 @@ function buildSteps(
     {
       title: t("한 문서에 집중해요"),
       body: t(
-        "노드를 누르면 바로 이어진 문서만 진하게 남아요. 한 번 더 누르면 풀려요.",
+        "노드를 누르면 바로 이어진 문서만 진하게 남아요. 더 누르면 함께 보이고, 빈 곳을 누르면 풀려요.",
       ),
       action: t("노드 하나를 눌러 보세요."),
       target: "graph-canvas",
@@ -407,7 +438,14 @@ function useTargetRect(name: string | null) {
 }
 
 export function WorkspaceTour() {
-  const { projectId, open, layout, dispatch } = useWorkspace();
+  const {
+    projectId,
+    open,
+    layout,
+    dispatch,
+    sidebarVisible,
+    setSidebarVisible,
+  } = useWorkspace();
   const tree = useFileTree(projectId);
   const refresh = useRefreshRun(projectId);
   const { discard } = useRefreshActions(projectId);
@@ -420,13 +458,17 @@ export function WorkspaceTour() {
   const openedSidebar = useRef(false);
   const before = useRef<{
     layout: WorkspaceLayout;
+    // 좁은 창에서는 서랍의 열림이 배치와 따로 간다. 투어가 끝나면 이것도 되돌린다.
+    sidebarVisible: boolean;
     runId: string | null;
   } | null>(null);
   const snapshot = () => ({
     open,
     dispatch,
     layout,
-    sidebarOpen: layout.sidebarOpen,
+    // 사이드바가 실제로 보이는가. 좁은 창에서는 `layout.sidebarOpen` 과 다를 수 있다.
+    sidebarVisible,
+    setSidebarVisible,
     run: refresh.data ?? null,
     discard: discard.mutate,
   });
@@ -438,7 +480,11 @@ export function WorkspaceTour() {
 
   const begin = useCallback(() => {
     const current = latest.current;
-    before.current = { layout: current.layout, runId: current.run?.id ?? null };
+    before.current = {
+      layout: current.layout,
+      sidebarVisible: current.sidebarVisible,
+      runId: current.run?.id ?? null,
+    };
     openedSidebar.current = false;
     setIndex(0);
   }, []);
@@ -458,17 +504,17 @@ export function WorkspaceTour() {
     if (!step) return;
     const current = latest.current;
     if (step.open) current.open(step.open);
-    if (step.sidebar && !current.sidebarOpen) {
+    if (step.sidebar && !current.sidebarVisible) {
       openedSidebar.current = true;
-      current.dispatch({ type: "toggleSidebar" });
+      current.setSidebarVisible(true);
     } else if (
       !step.sidebar &&
       openedSidebar.current &&
-      current.sidebarOpen &&
+      current.sidebarVisible &&
       !document.querySelector("dialog[open]")
     ) {
       openedSidebar.current = false;
-      current.dispatch({ type: "toggleSidebar" });
+      current.setSidebarVisible(false);
     }
   }, [step]);
 
@@ -489,8 +535,10 @@ export function WorkspaceTour() {
     }
     if (before.current) {
       current.dispatch({ type: "replace", layout: before.current.layout });
-    } else if (openedSidebar.current && current.sidebarOpen) {
-      current.dispatch({ type: "toggleSidebar" });
+      // 넓은 창에서는 위의 배치 복원과 같은 값이라 아무 일도 없고, 좁은 창에서는 서랍을 되돌린다.
+      current.setSidebarVisible(before.current.sidebarVisible);
+    } else if (openedSidebar.current && current.sidebarVisible) {
+      current.setSidebarVisible(false);
     }
     before.current = null;
     openedSidebar.current = false;
@@ -501,9 +549,9 @@ export function WorkspaceTour() {
   const forward = useCallback(() => {
     if (index === null) return;
     const current = latest.current;
-    if (steps[index + 1]?.sidebar && !current.sidebarOpen) {
+    if (steps[index + 1]?.sidebar && !current.sidebarVisible) {
       openedSidebar.current = true;
-      current.dispatch({ type: "toggleSidebar" });
+      current.setSidebarVisible(true);
       setResolving(index);
       return;
     }
@@ -513,7 +561,7 @@ export function WorkspaceTour() {
   }, [end, index, steps]);
 
   useEffect(() => {
-    if (resolving === null || !layout.sidebarOpen) return;
+    if (resolving === null || !sidebarVisible) return;
     const frame = window.requestAnimationFrame(() => {
       setResolving(null);
       const following = nextIndex(steps, resolving);
@@ -521,7 +569,7 @@ export function WorkspaceTour() {
       else setIndex(following);
     });
     return () => window.cancelAnimationFrame(frame);
-  }, [resolving, layout.sidebarOpen, steps, end]);
+  }, [resolving, sidebarVisible, steps, end]);
 
   useAppears(step?.advanceOn, forward);
 
@@ -533,20 +581,31 @@ export function WorkspaceTour() {
     return () => window.clearTimeout(timer);
   }, [pressedAt, index, forward]);
 
+  /*
+   * 이 단계가 띄워 둔 것을 닫는다. 단계를 옮기는 것과 같은 순간에 불러야 한다 — 닫힘과 옮김이 한 번에
+   * 그려져야, 다음 단계가 시작할 때 대화상자가 이미 없다(사이드바를 도로 접는 판단이 그것을 본다).
+   */
+  const leave = useCallback(() => {
+    if (step?.dismiss) pressTarget(step.dismiss);
+  }, [step]);
+
   const next = useCallback(() => {
     if (index === null || !step) return;
     if (step.press && pressedAt !== index && pressTarget(step.press)) {
       setPressedAt(index);
       return;
     }
+    leave();
     forward();
-  }, [forward, index, pressedAt, step]);
+  }, [forward, index, leave, pressedAt, step]);
 
   const back = useCallback(() => {
     if (index === null) return;
     const previous = previousIndex(steps, index);
-    if (previous !== null) setIndex(previous);
-  }, [index, steps]);
+    if (previous === null) return;
+    leave();
+    setIndex(previous);
+  }, [index, leave, steps]);
 
   if (!step || index === null) return null;
 
@@ -556,7 +615,7 @@ export function WorkspaceTour() {
       target={rect}
       step={index}
       chapters={steps.map((item) => item.chapter)}
-      last={!hasNext(steps, index, layout.sidebarOpen)}
+      last={!hasNext(steps, index, sidebarVisible)}
       title={step.title}
       body={step.body}
       action={step.action}

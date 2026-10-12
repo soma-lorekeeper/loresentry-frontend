@@ -13,14 +13,6 @@ export const PROJECT_TITLE_MAX = 255;
 
 export const PROJECT_DESCRIPTION_MAX = 500;
 
-const NEW_PROJECT_ICONS = [
-  "book-open",
-  "sparkles",
-  "library",
-  "orbit",
-  "notebook-tabs",
-] as const;
-
 function requireProject(projectId: string) {
   const project = getDb().projects.find((p) => p.id === projectId);
   if (!project)
@@ -117,7 +109,6 @@ export const mockProjects: ProjectService = {
         id: nextId("project"),
         title: validateTitle(title),
         description: validateDescription(description),
-        icon: NEW_PROJECT_ICONS[db.projects.length % NEW_PROJECT_ICONS.length],
         createdAt: now,
         lastWorkedAt: now,
         lastFile: null,

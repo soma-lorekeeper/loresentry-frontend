@@ -34,6 +34,12 @@ const scrimClass: Record<ModalScrim, string | undefined> = {
   strong: styles.scrimStrong,
 };
 
+/**
+ * 대화상자의 바탕 색을 주는 클래스. 대화상자 밖에서 대화상자의 내용을 그대로 그릴 때 붙인다
+ * (dialog.module.css 의 `.surface`).
+ */
+export const DIALOG_SURFACE_CLASS = styles.surface;
+
 export function Modal({
   open,
   onClose,
@@ -75,6 +81,10 @@ export function Modal({
   };
 
   const onCancel = (event: SyntheticEvent<HTMLDialogElement>) => {
+    // `cancel` 은 대화상자만 내는 사건이 아니다. 안에 있는 파일 입력도 파일 선택 창을 고르지
+    // 않고 닫으면 같은 이름의 사건을 내고, 그것이 여기까지 올라온다. 대화상자 자신의 것(Esc)만
+    // 닫기로 받는다 — 가리지 않으면 파일을 고르다 그만둔 것만으로 창이 닫힌다.
+    if (event.target !== event.currentTarget) return;
     event.preventDefault();
     if (dismissible) onClose();
   };
@@ -85,7 +95,7 @@ export function Modal({
       aria-labelledby={labelledBy}
       aria-label={label}
       aria-describedby={describedBy}
-      className={cx(styles.modal, scrimClass[scrim], className)}
+      className={cx(styles.modal, styles.surface, scrimClass[scrim], className)}
       onCancel={onCancel}
       onClose={handleClose}
       onClick={(event) => {
@@ -114,7 +124,8 @@ interface DialogCardProps {
   closeLabel?: string;
   closeDisabled?: boolean;
   compact?: boolean;
-  target?: { icon: IconName; name: string };
+  /** `kind` 는 대상이 문서일 때의 종류다. 아이콘이 그 종류의 색을 받는다(theme/kinds.css). */
+  target?: { icon: IconName; name: string; kind?: string };
   children?: ReactNode;
   footerHint?: ReactNode;
   actions: ReactNode;
@@ -170,7 +181,7 @@ export function DialogCard({
           )}
         </div>
         {target && (
-          <div className={styles.target}>
+          <div className={styles.target} data-kind={target.kind}>
             <Icon name={target.icon} size={16} />
             <span className={styles.targetName}>{target.name}</span>
           </div>
