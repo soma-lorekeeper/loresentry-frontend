@@ -67,6 +67,42 @@ describe("workspace layout", () => {
     expect(tabIds(layout)).toEqual(["new"]);
   });
 
+  it("stands the new tab in a pane of its own when every tab has been closed", () => {
+    // 화면은 처음 보는 id 의 창을 "새로 생긴 창" 으로 그린다(지니 효과). 탭을 다 닫아 나오는 새 탭은
+    // 어느 창이 마지막이었든 늘 그렇게 나와야 하므로, 방금 비워진 창과 다른 id 를 받는다.
+    let layout = layoutReducer(createLayout(), {
+      type: "open",
+      target: file("a"),
+    });
+    expect(layout.panes[0].id).toBe("pane-1");
+
+    layout = layoutReducer(layout, {
+      type: "close",
+      paneId: "pane-1",
+      tabId: "file:a",
+    });
+    expect(layout.panes.map((pane) => pane.id)).toEqual(["pane-2"]);
+    expect(layout.activePaneId).toBe("pane-2");
+
+    // 마지막에 남은 창이 pane-2 였을 때도 같다.
+    layout = layoutReducer(layout, { type: "open", target: file("b") });
+    layout = layoutReducer(layout, {
+      type: "close",
+      paneId: "pane-2",
+      tabId: "file:b",
+    });
+    expect(layout.panes.map((pane) => pane.id)).toEqual(["pane-1"]);
+    expect(tabIds(layout)).toEqual(["new"]);
+  });
+
+  it("leaves a lone new tab as it is when it is closed", () => {
+    // 닫을 것이 없다. 새 창으로 바꿔 세우면 같은 새 탭이 효과와 함께 다시 나온다.
+    const layout = createLayout();
+    expect(
+      layoutReducer(layout, { type: "close", paneId: "pane-1", tabId: "new" }),
+    ).toBe(layout);
+  });
+
   it("activates the neighbour of a closed active tab", () => {
     let layout = createLayout(file("a"));
     layout = layoutReducer(layout, { type: "open", target: file("b") });

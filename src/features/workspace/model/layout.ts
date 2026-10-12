@@ -176,16 +176,29 @@ function updatePane(
     const next = update(current);
     return next ? [next] : [];
   });
-  if (panes.length === 0) return createLayoutFrom(layout);
+  if (panes.length === 0) return emptiedLayout(layout, paneId);
   const activePaneId = panes.some((p) => p.id === layout.activePaneId)
     ? layout.activePaneId
     : panes[panes.length - 1].id;
   return { ...layout, panes, activePaneId };
 }
 
-function createLayoutFrom(layout: WorkspaceLayout): WorkspaceLayout {
-  const fresh = createLayout();
-  return { ...layout, panes: fresh.panes, activePaneId: fresh.activePaneId };
+/**
+ * 탭이 모두 닫혔을 때의 배치. 새 탭 하나가 든 창 하나다.
+ *
+ * <p>그 창에는 방금 비워진 창(`emptied`)과 **다른 id** 를 준다. 비워진 창이 이어지는 것이 아니라
+ * 새 창이 서는 것이고, 화면도 그렇게 그린다 — 처음 보는 id 의 창은 지니 효과로 나온다
+ * (shell/use-pane-motion.ts). 늘 `pane-1` 을 주면 마지막에 남았던 창이 어느 쪽이었느냐에 따라
+ * 효과가 나왔다 안 나왔다 한다.
+ */
+function emptiedLayout(
+  layout: WorkspaceLayout,
+  emptied: string,
+): WorkspaceLayout {
+  const fresh = pane(freePaneId(layout.panes.filter((p) => p.id === emptied)), {
+    kind: "new",
+  });
+  return { ...layout, panes: [fresh], activePaneId: fresh.id };
 }
 
 function openInPane(
@@ -391,10 +404,21 @@ export function layoutReducer(
         ),
         activePaneId: action.paneId,
       };
-    case "close":
+    case "close": {
+      // 남은 것이 새 탭 하나뿐이면 닫을 것이 없다. 그대로 둔다 — 닫는다고 새 창을 세우면 같은
+      // 새 탭이 효과와 함께 다시 나온다.
+      const [only] = layout.panes.length === 1 ? layout.panes[0].tabs : [];
+      if (
+        layout.panes[0]?.tabs.length === 1 &&
+        only?.id === action.tabId &&
+        only.target.kind === "new"
+      ) {
+        return layout;
+      }
       return updatePane(layout, action.paneId, (p) =>
         closeInPane(p, action.tabId),
       );
+    }
     case "split":
       return splitAt(layout, action.edge, action.target, action.from);
     case "moveTab":

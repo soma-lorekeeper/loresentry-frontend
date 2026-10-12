@@ -351,17 +351,20 @@ function play(
  * @param arrangement 창의 구성과 방향을 적은 글자. 이 값이 바뀌면 배치가 바뀐 것이다
  *   (비율만 바뀐 것은 움직임이 아니다 — 손잡이를 끄는 동안 이미 따라 움직였다)
  * @param narrow 좁은 창인가. 좁아지거나 넓어지며 창 수가 달라진 것은 사용자가 놓은 것이 아니다
+ * @param solo 배치에 창이 하나뿐인가(그리는 창의 수가 아니다 — 좁은 창은 둘이어도 하나만 그린다)
  * @param dropOriginRef 방금 끌어온 단추의 자리. 읽고 나면 비운다
  */
 export function usePaneMotion(
   mainRef: RefObject<HTMLElement | null>,
   arrangement: string,
   narrow: boolean,
+  solo: boolean,
   dropOriginRef: RefObject<DropOrigin | null>,
 ) {
   /** 마지막으로 본 창들의 자리. 배치가 바뀌는 순간에는 "바뀌기 전" 자리다 */
   const known = useRef<ReadonlyMap<string, Rect>>(new Map());
   const wasNarrow = useRef(narrow);
+  const wasSolo = useRef(solo);
   const stop = useRef<(() => void) | null>(null);
 
   /*
@@ -396,13 +399,18 @@ export function usePaneMotion(
     const origin = dropOriginRef.current;
     dropOriginRef.current = null;
     const resized = wasNarrow.current !== narrow;
-    // 처음 그릴 때(저장된 배치를 되살린 것)와 창 폭이 바뀌어 생긴 변화는 움직이지 않는다.
-    // 좁은 창도 움직이지 않는다 — 창을 하나만 그리므로, 보는 창이 바뀐 것은 배치가 아니라
-    // 화면이 통째로 바뀐 것이다(그대로 두면 탭을 닫을 때마다 다른 창이 지니로 나온다).
+    /*
+     * 좁은 창은 창을 하나만 그린다. 그리는 창이 바뀌었다고 다 배치가 바뀐 것은 아니다 — 두 창 가운데
+     * 보는 쪽만 바뀐 것은 화면이 통째로 바뀐 것이라 움직이지 않는다(그대로 두면 탭을 닫을 때마다
+     * 다른 창이 지니로 나온다). 창이 하나뿐이던 배치에서 그 창이 다른 창으로 바뀐 것, 곧 탭을 모두
+     * 닫아 새 탭의 창이 선 것만 넓은 창에서처럼 움직인다.
+     */
+    const swapped = narrow && !(wasSolo.current && solo);
+    // 처음 그릴 때(저장된 배치를 되살린 것)와 창 폭이 바뀌어 생긴 변화도 움직이지 않는다.
     if (
       before.size === 0 ||
       resized ||
-      narrow ||
+      swapped ||
       typeof main.animate !== "function"
     ) {
       return;
@@ -413,14 +421,15 @@ export function usePaneMotion(
       stop.current = null;
       known.current = rectsOf(main);
     });
-    // 배치가 바뀔 때만 본다. narrow 는 그 순간의 값을 읽기만 한다.
+    // 배치가 바뀔 때만 본다. narrow 와 solo 는 그 순간의 값을 읽기만 한다.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arrangement]);
 
   // 위의 effect 보다 뒤에 둔다. 같은 순간에 바뀌었으면 위에서 먼저 예전 값과 견준다.
   useLayoutEffect(() => {
     wasNarrow.current = narrow;
-  }, [narrow]);
+    wasSolo.current = solo;
+  }, [narrow, solo]);
 
   useEffect(() => () => stop.current?.(), []);
 }

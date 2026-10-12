@@ -230,6 +230,7 @@ export function WorkspaceShell() {
     panesRef,
     `${panes.map((pane) => pane.id).join("|")}:${divided ? split.direction : ""}`,
     narrow,
+    layout.panes.length === 1,
     drop.dropOriginRef,
   );
 
