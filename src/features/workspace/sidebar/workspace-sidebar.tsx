@@ -54,6 +54,7 @@ const PRIMARY_NAV: Array<{
   label: string;
   icon: IconName;
 }> = [
+  { kind: "search", label: t("작업공간::검색"), icon: "search" },
   { kind: "graph", label: t("작업공간::그래프"), icon: "waypoints" },
   {
     kind: "timeline",

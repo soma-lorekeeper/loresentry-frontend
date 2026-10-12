@@ -24,6 +24,10 @@ export function useDocumentSession(fileId: string) {
         const projectId = outcome.content.projectId;
         if (outcome.titleChanged || outcome.relationsChanged) {
           void invalidateProjectContent(queryClient, projectId);
+        } else {
+          void queryClient.invalidateQueries({
+            queryKey: ["search", projectId],
+          });
         }
         if (outcome.relationsChanged) {
           // 관계는 양방향이다. 서버가 반대쪽 문서에도 행을 넣으므로, 열어 둔 다른 탭이 그 문서를

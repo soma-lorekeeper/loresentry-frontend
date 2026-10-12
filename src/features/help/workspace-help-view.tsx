@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
-import { Button, EmptyState, Icon } from "@/design-system/primitives";
+import { Button, EmptyState, SearchField } from "@/design-system/primitives";
 import {
   isUnavailable,
   PreparingState,
@@ -46,36 +46,16 @@ function GuideTopics({
   onOpen: (id: string) => void;
 }) {
   const [query, setQuery] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
   const matches = searchTopics(query, topics);
   return (
     <div className={styles.listBody}>
-      <div className={styles.search} role="search">
-        <Icon name="search" size={17} />
-        <input
-          ref={inputRef}
-          type="search"
-          className={styles.searchInput}
-          placeholder={t("가이드 검색")}
-          aria-label={t("가이드 검색")}
-          value={query}
-          size={Math.max(query.length, 1)}
-          onChange={(event) => setQuery(event.target.value)}
-        />
-        {query && (
-          <button
-            type="button"
-            className={styles.clear}
-            aria-label={t("가이드::검색어 지우기")}
-            onClick={() => {
-              setQuery("");
-              inputRef.current?.focus();
-            }}
-          >
-            <Icon name="x" size={15} />
-          </button>
-        )}
-      </div>
+      <SearchField
+        value={query}
+        label={t("가이드 검색")}
+        clearLabel={t("가이드::검색어 지우기")}
+        onClear={() => setQuery("")}
+        onChange={(event) => setQuery(event.target.value)}
+      />
       {matches.length === 0 ? (
         <div className={styles.panel}>
           <EmptyState icon="search-x" title={t("가이드::검색 결과가 없어요")} />

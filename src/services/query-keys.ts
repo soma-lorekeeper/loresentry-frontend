@@ -19,6 +19,8 @@ export const queryKeys = {
   versions: (fileId: string) => ["versions", fileId] as const,
   memos: (projectId: string, scope: MemoScope, fileId: string | null) =>
     ["memos", projectId, scope, fileId] as const,
+  search: (projectId: string, query: string) =>
+    ["search", projectId, query] as const,
   graph: (projectId: string) => ["graph", projectId] as const,
   refresh: (projectId: string) => ["refresh", projectId] as const,
   guides: ["help", "guides"] as const,
@@ -31,6 +33,7 @@ export async function invalidateProjectContent(
   await Promise.all([
     queryClient.invalidateQueries({ queryKey: queryKeys.files(projectId) }),
     queryClient.invalidateQueries({ queryKey: queryKeys.graph(projectId) }),
+    queryClient.invalidateQueries({ queryKey: ["search", projectId] }),
     queryClient.invalidateQueries({ queryKey: queryKeys.projects }),
   ]);
 }

@@ -7,6 +7,9 @@ import { WorkspaceHelpView } from "@/features/help/workspace-help-view";
 import { MemoView } from "@/features/memos/memo-view";
 import { FileTrashView } from "@/features/file-trash/file-trash-view";
 import { ProjectSettingsView } from "@/features/project-settings/project-settings-view";
+import { searchTermOf } from "@/features/search/queries";
+import { SearchView } from "@/features/search/search-view";
+import { clearMockRules, setMockRule } from "@/services/mock/control";
 import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
 import { renderWithServices, routerMock } from "@/test/render";
 
@@ -67,6 +70,92 @@ function Harness({
     </WorkspaceProvider>
   );
 }
+
+function renderSearch(before?: () => void) {
+  return renderInWorkspace(
+    "search",
+    <SearchView
+      paneId="pane-1"
+      tab={{ id: "search", target: { kind: "search" } }}
+      active
+    />,
+    before,
+  );
+}
+
+describe("project search", () => {
+  it("lists documents that match the title or the body", async () => {
+    const actor = userEvent.setup();
+    renderSearch();
+    const input = screen.getByRole("searchbox", { name: "프로젝트에서 검색" });
+    expect(input).toHaveFocus();
+
+    await actor.type(input, "레나");
+    const results = await screen.findByRole("list", { name: "검색 결과" });
+    const rows = within(results).getAllByRole("button");
+    expect(rows.length).toBeGreaterThan(1);
+    expect(rows[0]).toHaveTextContent("레나");
+    expect(
+      within(rows[0]).getAllByText("레나", { selector: "mark" }).length,
+    ).toBeGreaterThan(0);
+    expect(screen.getByText(`${rows.length}개 결과`)).toBeInTheDocument();
+  });
+
+  it("opens the first result with Enter and walks the list with the arrow keys", async () => {
+    const actor = userEvent.setup();
+    renderSearch();
+    const input = screen.getByRole("searchbox", { name: "프로젝트에서 검색" });
+    await actor.type(input, "레나 아르벨");
+    const results = await screen.findByRole("list", { name: "검색 결과" });
+    const rows = within(results).getAllByRole("button");
+
+    await actor.keyboard("{ArrowDown}");
+    expect(rows[0]).toHaveFocus();
+    await actor.keyboard("{ArrowUp}");
+    expect(input).toHaveFocus();
+
+    await actor.keyboard("{Enter}");
+    expect(screen.getByLabelText("탭 수")).toHaveTextContent("3");
+  });
+
+  it("says when nothing matches and clears the query from the field", async () => {
+    const actor = userEvent.setup();
+    renderSearch();
+    const input = screen.getByRole("searchbox", { name: "프로젝트에서 검색" });
+    await actor.type(input, "없는말없는말");
+    expect(
+      await screen.findByText("일치하는 문서가 없어요"),
+    ).toBeInTheDocument();
+
+    await actor.click(screen.getByRole("button", { name: "검색어 지우기" }));
+    expect(input).toHaveValue("");
+    expect(
+      screen.getByText("원고와 설정 문서의 제목과 본문에서 찾아요"),
+    ).toBeInTheDocument();
+  });
+
+  it("keeps the query and offers a retry when search fails", async () => {
+    const actor = userEvent.setup();
+    renderSearch(() => setMockRule("search.query", "fail"));
+    const input = screen.getByRole("searchbox", { name: "프로젝트에서 검색" });
+    await actor.type(input, "레나");
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent("검색하지 못했어요");
+    expect(input).toHaveValue("레나");
+
+    clearMockRules();
+    await actor.click(within(alert).getByRole("button", { name: "다시 시도" }));
+    expect(
+      await screen.findByRole("list", { name: "검색 결과" }),
+    ).toBeInTheDocument();
+  });
+
+  it("does not send a consonant or vowel still being typed", () => {
+    expect(searchTermOf("유ㄹ")).toBe("유");
+    expect(searchTermOf(" ㄹ ")).toBe("");
+    expect(searchTermOf("레나 ")).toBe("레나");
+  });
+});
 
 describe("workspace views", () => {
   it("opens the guide on its topic list and comes back from a topic", async () => {

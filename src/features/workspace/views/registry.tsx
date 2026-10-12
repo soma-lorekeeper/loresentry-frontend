@@ -4,6 +4,7 @@ import { TimelineView } from "@/features/timeline/timeline-view";
 import { WorkspaceHelpView } from "@/features/help/workspace-help-view";
 import { MemoView } from "@/features/memos/memo-view";
 import { ProjectSettingsView } from "@/features/project-settings/project-settings-view";
+import { SearchView } from "@/features/search/search-view";
 import { t } from "@/i18n";
 
 import type { WorkspaceViewKind } from "../model/layout";
@@ -19,6 +20,12 @@ export const WORKSPACE_VIEWS: Record<
     icon: "home",
     title: t("작업공간::새 탭"),
     render: () => <NewTabView />,
+  },
+  search: {
+    kind: "search",
+    icon: "search",
+    title: t("작업공간::검색"),
+    render: (props) => <SearchView {...props} />,
   },
   graph: {
     kind: "graph",

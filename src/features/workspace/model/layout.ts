@@ -1,5 +1,6 @@
 export const WORKSPACE_VIEW_KINDS = [
   "new",
+  "search",
   "graph",
   "timeline",
   "memo",

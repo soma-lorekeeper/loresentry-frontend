@@ -11,6 +11,7 @@ export { Icon } from "../icons/icon";
 export type { IconName } from "../icons/icon";
 export { SaveBar } from "./save-bar";
 export type { SaveBarCopy, SaveBarState } from "./save-bar";
+export { SearchField } from "./search-field";
 export { SidebarButton, SidebarLink } from "./sidebar-item";
 export { EmptyState } from "./empty-state";
 export { Segmented } from "./segmented";
