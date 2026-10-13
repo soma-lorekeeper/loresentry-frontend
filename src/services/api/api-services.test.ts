@@ -1140,6 +1140,35 @@ describe("auth", () => {
     expect(calls[0].body).toEqual({ confirmation_email: "author@lore.kr" });
   });
 
+  it("sends the exit survey with the deletion, and leaves out an empty one", async () => {
+    reply(204);
+    await services().account!.deleteAccount("author@lore.kr", {
+      reasons: ["RARELY_USED", "OTHER"],
+      comment: "  고마웠어요 ",
+    });
+    expect(calls[0].body).toEqual({
+      confirmation_email: "author@lore.kr",
+      survey: { reasons: ["RARELY_USED", "OTHER"], comment: "고마웠어요" },
+    });
+
+    reply(204);
+    await services().account!.deleteAccount("author@lore.kr", {
+      reasons: ["PRIVACY"],
+      comment: "   ",
+    });
+    expect(calls[1].body).toEqual({
+      confirmation_email: "author@lore.kr",
+      survey: { reasons: ["PRIVACY"], comment: null },
+    });
+
+    reply(204);
+    await services().account!.deleteAccount("author@lore.kr", {
+      reasons: [],
+      comment: " ",
+    });
+    expect(calls[2].body).toEqual({ confirmation_email: "author@lore.kr" });
+  });
+
   it("tells a wrong email apart from a failed deletion", async () => {
     reply(400, { code: "ACCOUNT_CONFIRMATION_MISMATCH", next_action: "NONE" });
     const mismatch = await services()

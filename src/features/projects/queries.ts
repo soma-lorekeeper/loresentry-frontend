@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import type { Project, User } from "@/domain/models";
+import type { Project, User, WithdrawalSurvey } from "@/domain/models";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 
@@ -140,7 +140,12 @@ export function useCompleteOnboarding() {
 export function useDeleteAccount() {
   const services = useServices();
   return useMutation({
-    mutationFn: (confirmationEmail: string) =>
-      services.account.deleteAccount(confirmationEmail),
+    mutationFn: ({
+      confirmationEmail,
+      survey,
+    }: {
+      confirmationEmail: string;
+      survey?: WithdrawalSurvey;
+    }) => services.account.deleteAccount(confirmationEmail, survey),
   });
 }
