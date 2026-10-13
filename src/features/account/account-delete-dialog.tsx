@@ -14,6 +14,7 @@ import {
 } from "@/design-system/primitives";
 import type { User, WithdrawalReason } from "@/domain/models";
 import { t } from "@/i18n";
+import { settleSessionHint } from "@/features/auth/session-hint";
 import { AccountRow } from "@/features/projects/user-menu";
 import {
   useDeleteAccount,
@@ -99,6 +100,8 @@ function AccountDeleteCard({
       {
         onSuccess: () => {
           queryClient.clear();
+          // 다음에 랜딩을 열 때 버튼을 숨기지 않게, 로그인했다는 표시를 지운다.
+          settleSessionHint(false);
           router.replace("/goodbye/");
         },
       },

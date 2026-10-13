@@ -472,6 +472,9 @@ export function TimelineView() {
                   <button
                     type="button"
                     className={styles.group}
+                    // 폴더 아이콘이 그 분류의 색을 받는다. 즐겨찾기는 분류가 없어 별의 색을 쓴다.
+                    data-kind={group.kind ?? undefined}
+                    data-favorites={group.id === FAVORITES_GROUP || undefined}
                     aria-expanded={!isCollapsed}
                     onClick={() =>
                       setCollapsed((current) => {

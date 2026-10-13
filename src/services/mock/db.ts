@@ -33,7 +33,7 @@ import { LOCALE, t } from "@/i18n";
 import { SEED } from "./seed-world";
 import type { MockSeed, SeedOtherProject } from "./seed-types";
 
-export const MOCK_DB_VERSION = 10;
+export const MOCK_DB_VERSION = 11;
 const STORAGE_KEY =
   LOCALE === "ko" ? "loresentry.mock.db" : `loresentry.mock.db.${LOCALE}`;
 
@@ -287,6 +287,20 @@ function buildGlassGarden(
     };
   }
 
+  // 관계 설명. 관계는 양쪽 문서에 한 행씩 있으므로, 그 관계를 가진 쪽마다 같은 글을 적는다.
+  for (const { between, note } of seed.relationNotes) {
+    for (const [from, to] of [between, [between[1], between[0]]]) {
+      const relation = db.documents[docId(from)]?.properties.find(
+        (property) =>
+          property.kind === "relation" &&
+          property.targetIds.includes(docId(to)),
+      );
+      if (relation?.kind === "relation") {
+        relation.descriptions[docId(to)] = note;
+      }
+    }
+  }
+
   const trashFolderId = docId("trash-folder");
   db.files.push(
     {
@@ -490,7 +504,6 @@ function buildGlassGarden(
     id: projectId,
     title: seed.project.title,
     description: seed.project.description,
-    icon: "book-open",
     createdAt: minutes(now, 60 * 24 * 120),
     lastWorkedAt: minutes(now, 3),
     lastFile: { ...chapter12 },
@@ -524,7 +537,6 @@ function buildOtherProject(now: number, db: MockDb, seed: SeedOtherProject) {
     id: seed.id,
     title: seed.title,
     description: seed.description,
-    icon: seed.icon,
     createdAt: minutes(now, seed.lastWorkedMinutesAgo + 60 * 24 * 30),
     lastWorkedAt: minutes(now, seed.lastWorkedMinutesAgo),
     lastFile: { id: lastFileId, title: seed.lastFileTitle },
@@ -562,7 +574,6 @@ export function buildSeedDb(now = Date.now(), seed = SEED): MockDb {
       id: trashed.id,
       title: trashed.title,
       description: "",
-      icon: trashed.icon,
       createdAt: minutes(now, 60 * 24 * 200),
       lastWorkedAt: minutes(now, 60 * 24 * (trashed.trashedDaysAgo + 10)),
       lastFile: null,

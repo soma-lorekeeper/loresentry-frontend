@@ -178,7 +178,18 @@ function Footer({
             </span>
             Lore Sentry
           </span>
-          <p>{t("SW마에스트로 프로젝트로 만들고 있어요.")}</p>
+          {/* 지원 사업의 사사 표기. 정해진 문구라 고쳐 쓰지 않는다(국문·영문 각각). */}
+          <p>
+            {tRich(
+              "이 성과는 2026년도 과학기술정보통신부의 재원으로 정보통신기획평가원의 지원을 받아 수행된 결과물임 <code>(IITP-2026-AI·SW마에스트로)</code>",
+              {
+                // 과제 번호는 한 덩어리로 읽혀야 한다. 좁은 화면에서도 가운데서 끊지 않는다.
+                code: (chunk) => (
+                  <span className={styles.footerCode}>{chunk}</span>
+                ),
+              },
+            )}
+          </p>
         </div>
         <nav className={styles.footerLinks} aria-label={t("바닥글")}>
           {contactEmail && onContact && (
@@ -402,7 +413,8 @@ export function LandingPage() {
           </div>
           <SceneFrame
             scene="refresh"
-            focus={[432, 976]}
+            // 좁은 화면에서는 문서 목록을 빼고 비교 칸부터 보인다(목록이 조금만 걸쳐 보이지 않게).
+            focus={[446, 976]}
             className={styles.refreshFrame}
             label={t(
               "그래프 최신화의 변경 사항 창. 레나 아르벨의 현재 버전과 신규 버전이 나란히 놓이고, 바뀐 설명과 관련 장소가 표시된다.",

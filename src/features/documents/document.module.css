@@ -101,7 +101,6 @@
   font-family: var(--editor-font, var(--lk-font-stack-ui));
   font-size: var(--editor-size, var(--lk-font-size-manuscript-body));
   line-height: var(--editor-line-height, var(--lk-line-height-manuscript-body));
-  text-align: var(--editor-align, left);
 }
 
 .editor :global(.ProseMirror) {

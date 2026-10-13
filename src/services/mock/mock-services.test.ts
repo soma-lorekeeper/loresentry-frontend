@@ -322,19 +322,29 @@ describe("mock search and graph", () => {
     expect(await services.search.search(GLASS_GARDEN_ID, "   ")).toEqual([]);
   });
 
-  it("builds directed edges only between active documents", async () => {
+  it("builds one edge per pair, only between active documents", async () => {
     const graph = await services.graph.getProjectGraph(GLASS_GARDEN_ID);
     const ids = new Set(graph.nodes.map((node) => node.id));
     expect(graph.nodes.length).toBeGreaterThan(40);
     expect(
       graph.edges.every((edge) => ids.has(edge.source) && ids.has(edge.target)),
     ).toBe(true);
-    expect(graph.edges).toContainEqual(
-      expect.objectContaining({
-        source: chapter12,
-        target: `${GLASS_GARDEN_ID}:c-lena`,
-      }),
+
+    // 관계는 양쪽 문서에 한 행씩 저장되지만 엣지는 한 쌍에 하나다.
+    const pairs = graph.edges.map((edge) =>
+      [edge.source, edge.target].sort().join("|"),
     );
+    expect(new Set(pairs).size).toBe(pairs.length);
+
+    // 12화와 레나는 서로를 가리킨다. 그래도 엣지는 하나이고, 칩에 적은 설명을 싣는다.
+    const lena = `${GLASS_GARDEN_ID}:c-lena`;
+    const between = graph.edges.filter(
+      (edge) =>
+        [edge.source, edge.target].sort().join("|") ===
+        [chapter12, lena].sort().join("|"),
+    );
+    expect(between).toHaveLength(1);
+    expect(between[0].description).toBe("북쪽 온실에 도착");
     expect(graph.episodes[3].chapterIds).toContain(chapter12);
   });
 });

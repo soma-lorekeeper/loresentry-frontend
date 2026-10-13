@@ -77,7 +77,7 @@ function DeleteProjectDialog({
       description={t(
         "프로젝트의 모든 파일과 설정이 완전히 삭제되며 복원할 수 없습니다.",
       )}
-      target={project ? { icon: "book-open", name: project.title } : undefined}
+      target={project ? { icon: "book", name: project.title } : undefined}
       actions={
         <>
           <Button
@@ -182,7 +182,7 @@ export function ProjectTrashPage({ user }: { user: User }) {
             return (
               <li key={project.id} style={{ display: "contents" }}>
                 <div className={styles.row}>
-                  <Icon name={project.icon} size={16} className={styles.icon} />
+                  <Icon name="book" size={16} className={styles.icon} />
                   <span className={styles.copy}>
                     <span className={styles.title}>{project.title}</span>
                     <span className={styles.meta}>

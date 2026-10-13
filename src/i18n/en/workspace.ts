@@ -41,6 +41,35 @@ export default {
   "작업공간::불러오는 중": "Loading",
   "찾을 수 없는 파일": "File not found",
   "창 {number}": "Pane {number}",
+  "사이드바 폭 조절": "Resize sidebar",
+  "창 크기 조절": "Resize panes",
+  "자리 바꾸기": "Swap places",
+  "만드는 중": "Creating",
+  "두 창의 자리를 바꿔요. Enter로 확정, Esc로 취소":
+    "Swap the two panes. Enter to confirm, Esc to cancel",
+  "배치::왼쪽": "the left",
+  "배치::오른쪽": "the right",
+  "배치::위": "the top",
+  "배치::아래": "the bottom",
+  "{place}에 놓아요. Enter로 확정, Esc로 취소":
+    "Move to {place}. Enter to confirm, Esc to cancel",
+  "쓰던 글이 아직 저장되지 않아 탭을 옮기지 않았어요.":
+    "The tab wasn't moved because your writing isn't saved yet.",
+  "저장된 뒤에 다시 옮겨 주세요.": "Move it again once it's saved.",
+  "키보드 단축키": "Keyboard shortcuts",
+  "단축키::지금 저장": "Save now",
+  "단축키::문서에서 찾기": "Find in document",
+  "단축키::PDF로 내보내기": "Export as PDF",
+  "단축키::프로젝트 검색": "Search the project",
+  "단축키::사이드바 여닫기": "Show or hide the sidebar",
+  "단축키::탭 닫기": "Close tab",
+  "단축키::새 탭": "New tab",
+  "단축키::다음 탭": "Next tab",
+  "단축키::이전 탭": "Previous tab",
+  "단축키::탭 옮기기·창 나누기": "Move tab or split",
+  "단축키::다른 창으로 이동": "Go to the other pane",
+  "굵게·기울임·되돌리기 같은 편집 단축키는 에디터에서 그대로 쓸 수 있어요.":
+    "Editing shortcuts such as bold, italic and undo work in the editor as usual.",
 
   작업공간: "Workspace",
   "작업공간::즐겨찾기": "Favorites",
@@ -60,7 +89,6 @@ export default {
   "원고 추가": "Add manuscript",
   "에피소드 폴더 삭제": "Delete episode folder",
   "작업공간::휴지통으로 이동": "Move to trash",
-  "옆에 열기": "Open to the side",
   "작업공간::즐겨찾기에 추가": "Add to favorites",
   "작업공간::즐겨찾기에서 제거": "Remove from favorites",
   "휴지통으로 옮겼어요.": "Moved to trash.",
@@ -107,9 +135,38 @@ export default {
 
   "가져온 원고": "Imported manuscript",
   "원고를 가져왔어요.": "Manuscript imported.",
-  "파일을 가져오지 못했어요.": "Couldn't import the file.",
-  "텍스트(.txt)나 마크다운(.md) 파일인지 확인해 주세요.":
-    "Make sure it's a text (.txt) or Markdown (.md) file.",
+  "원고 {count}개를 가져왔어요.": "{count} manuscripts imported.",
+  "원고 가져오기": "Import manuscripts",
+  "텍스트(.txt)·마크다운(.md) 파일 지원":
+    "Text (.txt) and Markdown (.md) files",
+  "파일 선택": "Choose files",
+  "또는 끌어다 놓기": "or drag and drop",
+  "여기에 놓기": "Drop here",
+  "가져올 파일": "Files to import",
+  마크다운: "Markdown",
+  텍스트: "Text",
+  "{title} 빼기": "Remove {title}",
+  "가져오지 못했어요": "Couldn't import",
+  "{count}개를 가져오지 못했어요. 다시 시도하거나 목록에서 빼 주세요.": plural(
+    "{count} file couldn't be imported. Try again or remove it from the list.",
+    "{count} files couldn't be imported. Try again or remove them from the list.",
+  ),
+  "{done}개는 가져왔어요. {count}개는 가져오지 못했으니 다시 시도하거나 목록에서 빼 주세요.":
+    "{done} imported, {count} failed. Try again or remove the failed files from the list.",
+  "‘{name}’ 파일은 담지 않았어요. .txt와 .md 파일만 담을 수 있어요.":
+    "‘{name}’ wasn't added. Only .txt and .md files can be added.",
+  "{count}개는 담지 않았어요. .txt와 .md 파일만 담을 수 있어요.": plural(
+    "{count} file wasn't added. Only .txt and .md files can be added.",
+    "{count} files weren't added. Only .txt and .md files can be added.",
+  ),
+  "올린 파일 없음": "No files added",
+  "‘가져오기’를 눌러야 원고로 생성":
+    "Created as manuscripts when you press Import",
+  "원고 폴더에 새 원고로 생성":
+    "Created as new manuscripts in the Manuscripts folder",
+  "파일 이름이 원고 제목": "File name becomes the manuscript title",
+  "파일 {count}개": plural("{count} file", "{count} files"),
+  "{total}개 중 {done}번째를 가져오는 중": "Importing {done} of {total}",
 
   "제목 없는 {kind}": (p) => `Untitled ${kindNoun(p)}`,
   "작업공간::이어서 작업하기": "Continue working",
@@ -139,8 +196,8 @@ export default {
   "메모를 저장하지 못했어요.": "Couldn't save the note.",
   "작업공간::연결을 확인한 뒤 다시 시도해 주세요.":
     "Check your connection and try again.",
-  "메모 메뉴": "Note menu",
   "눌러서 내용을 적으세요.": "Click to start writing.",
+  "새 메모": "New note",
   "메모 내용": "Note text",
   "메모를 적으세요.": "Write a note.",
   "불러오는 중…": "Loading…",

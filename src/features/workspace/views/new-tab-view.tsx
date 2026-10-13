@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
 
 import { Button, Icon } from "@/design-system/primitives";
 import {
@@ -15,16 +15,13 @@ import { relativeTime } from "@/shared/format";
 
 import { categoryFolderOf, documentsOf } from "../model/tree";
 import { useCreateFile, useFileTree } from "../queries";
-import { IMPORT_ACCEPT, useImportDocument } from "../use-import-document";
 import { useWorkspace } from "../workspace-context";
 import styles from "./new-tab.module.css";
 
 export function NewTabView() {
-  const { project, projectId, open } = useWorkspace();
-  const importDocument = useImportDocument(projectId);
+  const { project, projectId, open, setImporting } = useWorkspace();
   const tree = useFileTree(projectId);
   const create = useCreateFile(projectId);
-  const fileInput = useRef<HTMLInputElement>(null);
   const nodes = useMemo(() => tree.data ?? [], [tree.data]);
 
   // 서버 가정: "최근에 연 파일"은 서버가 사용자별 열람 기록으로 돌려준다. mock은 최근 수정 순으로 대신한다.
@@ -54,13 +51,6 @@ export function NewTabView() {
       },
       { onSuccess: (node) => open({ kind: "file", fileId: node.id }) },
     );
-  };
-
-  const importFile = async (file: File) => {
-    const parent = categoryFolderOf(nodes, "manuscript");
-    if (!parent) return;
-    const node = await importDocument(file, parent.id);
-    if (node) open({ kind: "file", fileId: node.id });
   };
 
   return (
@@ -120,22 +110,11 @@ export function NewTabView() {
           <button
             type="button"
             className={styles.import}
-            onClick={() => fileInput.current?.click()}
+            onClick={() => setImporting(true)}
           >
             <Icon name="upload" size={14} />
             {t("가져오기")}
           </button>
-          <input
-            ref={fileInput}
-            type="file"
-            accept={IMPORT_ACCEPT}
-            hidden
-            onChange={(event) => {
-              const file = event.target.files?.[0];
-              event.target.value = "";
-              if (file) void importFile(file);
-            }}
-          />
         </div>
         <div className={styles.createGrid}>
           {DOCUMENT_TYPES.map((type) => (

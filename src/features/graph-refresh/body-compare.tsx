@@ -13,6 +13,10 @@
  * 여러 줄을 붙여 넣을 수 없고, Enter·Backspace·화살표를 손으로 다시 만들어야 한다. 하나로 두면
  * 그 일은 브라우저가 하고, 우리는 고쳐진 뒤의 글을 읽어 가기만 한다 — 한글 조합도 브라우저에
  * 맡길 수 있는 이유다. 읽어 간 값으로 그 자리에서 다시 견준다.
+ *
+ * **읽기만 하는 곳에서도 쓴다(버전 기록).** `onEdit` 를 주지 않으면 편집 구역이 아니라 그냥 글이고,
+ * `onPush` 를 주지 않으면 가운데 화살표가 없다. 띠·리본·낱말 표시는 그대로다 — 같은 본문 비교가
+ * 두 화면에서 다른 모양이면 안 된다.
  */
 
 import { useLayoutEffect, useRef, useState } from "react";
@@ -29,9 +33,17 @@ interface Props {
   /** 현재 버전의 본문. 문서가 없으면 undefined */
   left: string | undefined;
   right: string | undefined;
-  onPush: (hunk: Hunk, direction: Direction) => void;
-  /** 한쪽 글 전체가 바뀌었다 */
-  onEdit: (side: SideName, text: string) => void;
+  /** 덩어리를 반대편에 넣는다. 주지 않으면 화살표를 그리지 않는다 */
+  onPush?: (hunk: Hunk, direction: Direction) => void;
+  /** 한쪽 글 전체가 바뀌었다. 주지 않으면 고칠 수 없는 글로 그린다 */
+  onEdit?: (side: SideName, text: string) => void;
+  /** 두 쪽 본문을 읽어 줄 이름. 주지 않으면 "현재 버전 본문"·"신규 버전 본문" 이다 */
+  labels?: Record<SideName, string>;
+  /**
+   * 달라진 줄 안에서 바뀐 낱말을 한 번 더 짚는가(기본). 끄면 줄의 띠만 남는다 — 버전 기록은
+   * 어디가 달라졌는지만 보면 되어 끈다.
+   */
+  wordMarks?: boolean;
 }
 
 /** 다시 그린 뒤에 커서를 세울 자리 */
@@ -81,7 +93,11 @@ function layout(hunks: Hunk[]): { blocks: Block[]; rows: number } {
   return { blocks, rows: Math.max(row - 1, 1) };
 }
 
-function linesOf(blocks: Block[], side: SideName): LineRow[] {
+function linesOf(
+  blocks: Block[],
+  side: SideName,
+  wordMarks: boolean,
+): LineRow[] {
   const out: LineRow[] = [];
   for (const { hunk, row } of blocks) {
     const own = side === "left" ? hunk.leftLines : hunk.rightLines;
@@ -91,7 +107,7 @@ function linesOf(blocks: Block[], side: SideName): LineRow[] {
       // 덩어리 안의 줄은 같은 자리의 줄과 짝짓는다. 한 줄만 고친 경우가 가장 흔하다.
       const pair = hunk.same ? null : other[offset];
       const marks =
-        pair === undefined || pair === null
+        !wordMarks || pair === undefined || pair === null
           ? null
           : wordDiff(
               side === "left" ? text : pair,
@@ -112,12 +128,19 @@ function linesOf(blocks: Block[], side: SideName): LineRow[] {
   return out;
 }
 
-export function BodyCompare({ left, right, onPush, onEdit }: Props) {
+export function BodyCompare({
+  left,
+  right,
+  onPush,
+  onEdit,
+  labels,
+  wordMarks = true,
+}: Props) {
   const hunks = lineDiff(left ?? "", right ?? "");
   const { blocks, rows } = layout(hunks);
   const lines = {
-    left: linesOf(blocks, "left"),
-    right: linesOf(blocks, "right"),
+    left: linesOf(blocks, "left", wordMarks),
+    right: linesOf(blocks, "right", wordMarks),
   };
 
   const box = useRef<HTMLDivElement>(null);
@@ -153,7 +176,7 @@ export function BodyCompare({ left, right, onPush, onEdit }: Props) {
     // 커서 자리는 다시 그리기 전에 잰다. 지금 화면에 있는 것이 방금 고친 글이다.
     const at = caretPoint(pane);
     const text = readNodes(pane.childNodes);
-    if (text !== (side === "left" ? left : right)) onEdit(side, text);
+    if (text !== (side === "left" ? left : right)) onEdit?.(side, text);
     // 브라우저가 줄 요소를 늘리거나 지웠을 때에만 통째로 다시 세운다. 글자만 바뀐 때까지
     // 다시 세우면 빨리 치는 동안 화면이 자꾸 새로 서서 글자가 흘린다.
     if (pane.childElementCount !== drawn) rebuild(side);
@@ -167,12 +190,16 @@ export function BodyCompare({ left, right, onPush, onEdit }: Props) {
     if (!at) return;
     const from = absolute(text, at.start);
     const to = absolute(text, at.end);
-    onEdit(side, `${text.slice(0, from)}\n${text.slice(to)}`);
+    onEdit?.(side, `${text.slice(0, from)}\n${text.slice(to)}`);
     rebuild(side);
     caretAt.current = { side, line: at.start.line + 1, offset: 0 };
   };
 
   const present = { left: left !== undefined, right: right !== undefined };
+  const names = labels ?? {
+    left: t("현재 버전 본문"),
+    right: t("신규 버전 본문"),
+  };
 
   return (
     <div
@@ -199,7 +226,9 @@ export function BodyCompare({ left, right, onPush, onEdit }: Props) {
           <Pane
             key={`${side}-${nonce[side]}`}
             side={side}
+            label={names[side]}
             lines={lines[side]}
+            editable={onEdit !== undefined}
             onCommit={commit}
             onSplit={split}
           />
@@ -209,17 +238,63 @@ export function BodyCompare({ left, right, onPush, onEdit }: Props) {
   );
 }
 
+/** 줄 하나. 편집 구역에서도, 읽기만 하는 글에서도 같은 모양이다 */
+function Line({ line }: { line: LineRow }) {
+  return (
+    <span
+      className={styles.line}
+      data-line-index={line.index}
+      data-changed={line.changed || undefined}
+      style={{ gridRow: `${line.row} / ${line.row + 1}` }}
+    >
+      {line.text === ""
+        ? BLANK
+        : line.segments
+          ? line.segments.map((segment, index) =>
+              segment.changed ? (
+                <mark key={index} className={styles.word}>
+                  {segment.text}
+                </mark>
+              ) : (
+                segment.text
+              ),
+            )
+          : line.text}
+    </span>
+  );
+}
+
 function Pane({
   side,
+  label,
   lines,
+  editable,
   onCommit,
   onSplit,
 }: {
   side: SideName;
+  label: string;
   lines: LineRow[];
+  editable: boolean;
   onCommit: (side: SideName, pane: HTMLElement, drawn: number) => void;
   onSplit: (side: SideName, pane: HTMLElement) => void;
 }) {
+  // 읽기만 하는 글. 편집 구역의 속성(contentEditable, 입력 처리)을 하나도 달지 않는다.
+  if (!editable) {
+    return (
+      <div
+        className={styles.pane}
+        data-pane={side}
+        data-readonly=""
+        role="group"
+        aria-label={label}
+      >
+        {lines.map((line) => (
+          <Line key={line.index} line={line} />
+        ))}
+      </div>
+    );
+  }
   return (
     <div
       className={styles.pane}
@@ -229,7 +304,7 @@ function Pane({
       spellCheck={false}
       role="textbox"
       aria-multiline="true"
-      aria-label={side === "left" ? t("현재 버전 본문") : t("신규 버전 본문")}
+      aria-label={label}
       // 조합 중에는 손대지 않는다. 도중에 화면을 다시 세우면 한글 조합이 끊긴다.
       onInput={(event) => {
         if (
@@ -257,29 +332,12 @@ function Pane({
       }}
     >
       {lines.map((line) => (
-        <span
+        <Line
           // 글이 바뀌면 줄을 통째로 갈아 끼운다. 안쪽 표시만 고치려 들면 브라우저가 이미
           // 지워 버린 조각을 React 가 지우려다 넘어진다.
           key={`${line.index}:${line.text}:${line.segments ? "m" : ""}`}
-          className={styles.line}
-          data-line-index={line.index}
-          data-changed={line.changed || undefined}
-          style={{ gridRow: `${line.row} / ${line.row + 1}` }}
-        >
-          {line.text === ""
-            ? BLANK
-            : line.segments
-              ? line.segments.map((segment, index) =>
-                  segment.changed ? (
-                    <mark key={index} className={styles.word}>
-                      {segment.text}
-                    </mark>
-                  ) : (
-                    segment.text
-                  ),
-                )
-              : line.text}
-        </span>
+          line={line}
+        />
       ))}
     </div>
   );
@@ -296,7 +354,7 @@ function Marks({
 }: {
   block: Block;
   present: { left: boolean; right: boolean };
-  onPush: (hunk: Hunk, direction: Direction) => void;
+  onPush?: (hunk: Hunk, direction: Direction) => void;
 }) {
   const { hunk, row, rows } = block;
   const leftRef = useRef<HTMLDivElement>(null);
@@ -364,24 +422,27 @@ function Marks({
             d={`M 0 0 L 100 0 L 100 ${size.right} C 62 ${size.right} 38 ${size.left} 0 ${size.left} Z`}
           />
         </svg>
-        <span className={styles.arrows}>
-          {present.left && (
-            <IconButton
-              icon="chevrons-right"
-              iconSize={14}
-              label={t("{label}: 현재 버전 값을 신규 버전에 넣기", { label })}
-              onClick={() => onPush(hunk, ">>")}
-            />
-          )}
-          {present.right && (
-            <IconButton
-              icon="chevrons-left"
-              iconSize={14}
-              label={t("{label}: 신규 버전 값을 현재 버전에 넣기", { label })}
-              onClick={() => onPush(hunk, "<<")}
-            />
-          )}
-        </span>
+        {/* 읽기만 하는 곳에는 옮길 것이 없다. 리본만 두 띠를 잇는다. */}
+        {onPush && (
+          <span className={styles.arrows}>
+            {present.left && (
+              <IconButton
+                icon="chevrons-right"
+                iconSize={14}
+                label={t("{label}: 현재 버전 값을 신규 버전에 넣기", { label })}
+                onClick={() => onPush(hunk, ">>")}
+              />
+            )}
+            {present.right && (
+              <IconButton
+                icon="chevrons-left"
+                iconSize={14}
+                label={t("{label}: 신규 버전 값을 현재 버전에 넣기", { label })}
+                onClick={() => onPush(hunk, "<<")}
+              />
+            )}
+          </span>
+        )}
       </div>
     </>
   );

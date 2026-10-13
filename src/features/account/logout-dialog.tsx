@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Button, DialogCard } from "@/design-system/primitives";
 import type { User } from "@/domain/models";
 import { t } from "@/i18n";
+import { settleSessionHint } from "@/features/auth/session-hint";
 import { AccountRow } from "@/features/projects/user-menu";
 import { useLogout } from "@/features/projects/queries";
 
@@ -34,6 +35,8 @@ export function LogoutDialog({
     logout.mutate(undefined, {
       onSuccess: () => {
         queryClient.clear();
+        // 다음에 랜딩을 열 때 버튼을 숨기지 않게, 로그인했다는 표시를 지운다.
+        settleSessionHint(false);
         router.replace("/logout");
       },
     });

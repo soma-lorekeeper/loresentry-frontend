@@ -268,7 +268,6 @@ const OTHER_PROJECTS: SeedOtherProject[] = [
   {
     id: "starlight-promise",
     title: "별빛 아래 마지막 약속 — 장편 3부작",
-    icon: "sparkles",
     description:
       "세 세대에 걸친 약속이 마지막 밤에 풀리는 장편. 1부 별의 계약, 2부 돌아오지 않는 밤, 3부 새벽의 증인으로 나누어 쓰고 있다.",
     lastFileTitle: "제17장_돌아오지_않는_밤",
@@ -278,7 +277,6 @@ const OTHER_PROJECTS: SeedOtherProject[] = [
   {
     id: "moonlight-library",
     title: "달빛 도서관 연대기",
-    icon: "library",
     description:
       "밤에만 문을 여는 도서관의 사서들이 금지된 서가를 지키는 이야기",
     lastFileTitle: "2부_금지된_서가",
@@ -288,7 +286,6 @@ const OTHER_PROJECTS: SeedOtherProject[] = [
   {
     id: "orbit-people",
     title: "주변 궤도의 사람들",
-    icon: "orbit",
     description: "",
     lastFileTitle: "에필로그_보통의_중력",
     lastWorkedMinutesAgo: 60 * 24 * 21,
@@ -297,7 +294,6 @@ const OTHER_PROJECTS: SeedOtherProject[] = [
   {
     id: "sleeping-city",
     title: "비 아래 잠든 도시의 아주 긴 이야기",
-    icon: "cloud-rain",
     description: "비가 그치지 않는 도시에서 잠든 사람들을 깨우는 아이의 여정",
     lastFileTitle: "초고_제3막_도시가_눈을_뜨는_밤",
     lastWorkedMinutesAgo: 60 * 24 * 28,
@@ -306,7 +302,6 @@ const OTHER_PROJECTS: SeedOtherProject[] = [
   {
     id: "nameless-notes",
     title: "이름 없는 세계관 노트",
-    icon: "notebook-tabs",
     description: "",
     lastFileTitle: "인물_관계_정리",
     lastWorkedMinutesAgo: 60 * 24 * 46,
@@ -318,19 +313,16 @@ const TRASHED_PROJECTS: SeedTrashedProject[] = [
   {
     id: "starlight-draft",
     title: "별빛 아래 마지막 약속",
-    icon: "book-open",
     trashedDaysAgo: 19,
   },
   {
     id: "glass-sea",
     title: "유리 바다의 지도",
-    icon: "book-open",
     trashedDaysAgo: 23,
   },
   {
     id: "winter-station",
     title: "겨울 정거장의 편지",
-    icon: "book-open",
     trashedDaysAgo: 31,
   },
 ];
@@ -416,6 +408,14 @@ export const KO_SEED: MockSeed = {
   },
   otherProjects: OTHER_PROJECTS,
   trashedProjects: TRASHED_PROJECTS,
+  relationNotes: [
+    { between: ["c-lena", "o-fleet"], note: "마지막 항해사" },
+    { between: ["c-lena", "p-range"], note: "처음 각성한 곳" },
+    { between: ["c-lena", "e-awaken"], note: "각성한 당사자" },
+    { between: ["c-lena", "ch-11"], note: "첫 등장" },
+    { between: ["c-lena", "ch-12"], note: "북쪽 온실에 도착" },
+    { between: ["ch-12", "p-north"], note: "이야기의 무대" },
+  ],
   refresh: {
     harinDescription: "북쪽 온실의 문이 열린 뒤 기록단에 합류한 정원사",
     harinBodyAddition:

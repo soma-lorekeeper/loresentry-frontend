@@ -43,7 +43,11 @@ function ProjectCard({
   return (
     <article className={styles.card} data-selected={menuOpen || undefined}>
       <div className={styles.cardHeader}>
-        <Icon name={project.icon} size={18} className={styles.projectIcon} />
+        {/* 닫힌 책이 기본이고, 카드를 가리키거나 키보드로 고르면 열린 책으로 바뀐다(CSS). */}
+        <span className={styles.projectIcon} aria-hidden="true">
+          <Icon name="book" size={18} className={styles.bookClosed} />
+          <Icon name="book-open" size={18} className={styles.bookOpen} />
+        </span>
         <span className={styles.spacer} />
         <IconButton
           ref={moreRef}

@@ -9,28 +9,27 @@ import {
   IconButton,
   InlineNotice,
   Modal,
+  Segmented,
 } from "@/design-system/primitives";
-import {
-  DOCUMENT_TYPE_META,
-  DOCUMENT_TYPE_SINGULAR_LABEL,
-  type DocumentType,
-} from "@/domain/document-types";
+import { DOCUMENT_TYPE_META } from "@/domain/document-types";
 import type {
   DocumentContent,
-  DocumentDraft,
   DocumentVersion,
   FileNode,
   VersionKind,
 } from "@/domain/models";
+import {
+  DocumentDiff,
+  type DiffSnapshot,
+  type DiffTarget,
+} from "@/features/graph-refresh/document-diff";
 import { isDocument } from "@/features/workspace/model/tree";
 import { INTL_LOCALE, LOCALE, t } from "@/i18n";
 import { clockTime, versionTimeLabel } from "@/shared/format";
 import { cx } from "@/shared/cx";
 
-import { compareBodies, compareProperties, type CompareCell } from "./compare";
 import { useVersionMutations, useVersions } from "./queries";
 import styles from "./version-history-modal.module.css";
-import { bodyToPlainText } from "@/domain/document-body";
 
 const KIND_LABEL: Record<VersionKind, string> = {
   AUTO: t("자동 저장"),
@@ -53,108 +52,6 @@ function versionName(version: DocumentVersion) {
   if (version.kind === "PRE_RESTORE" && version.label !== null)
     return t("복원 전");
   return version.label ?? versionTimeLabel(version.createdAt);
-}
-
-type Snapshot = DocumentDraft & { docType: DocumentType };
-
-function Cell({
-  cell,
-  index,
-}: {
-  cell: CompareCell;
-  index: ReadonlyMap<string, FileNode>;
-}) {
-  if (cell.kind === "missing") return <span className={styles.missing}>—</span>;
-  if (cell.kind === "text")
-    return <span className={styles.text}>{cell.value || "—"}</span>;
-  const node = index.get(cell.targetId);
-  return (
-    <span
-      className={styles.chip}
-      data-kind={isDocument(node) ? node.docType : undefined}
-    >
-      <Icon
-        name={
-          isDocument(node)
-            ? DOCUMENT_TYPE_META[node.docType].entityIcon
-            : "file"
-        }
-        size={14}
-      />
-      {node?.title ?? t("삭제된 파일")}
-    </span>
-  );
-}
-
-function ComparePane({
-  title,
-  subtitle,
-  snapshot,
-  other,
-  side,
-  index,
-}: {
-  title: string;
-  subtitle?: string;
-  snapshot: Snapshot;
-  other: Snapshot;
-  side: "left" | "right";
-  index: ReadonlyMap<string, FileNode>;
-}) {
-  const [left, right] = side === "left" ? [snapshot, other] : [other, snapshot];
-  const properties = compareProperties(left.properties, right.properties);
-  const body = compareBodies(
-    bodyToPlainText(left.body),
-    bodyToPlainText(right.body),
-  );
-  const meta = DOCUMENT_TYPE_META[snapshot.docType];
-  return (
-    <section className={styles.pane} aria-label={title}>
-      <header className={styles.paneHeader}>
-        <h3>{title}</h3>
-        {subtitle && <span>{subtitle}</span>}
-      </header>
-      <dl className={styles.properties}>
-        <div className={styles.property}>
-          <dt>{t("분류")}</dt>
-          <dd>
-            <span className={styles.type} data-kind={snapshot.docType}>
-              <Icon name={meta.entityIcon} size={14} />
-              {DOCUMENT_TYPE_SINGULAR_LABEL[snapshot.docType]}
-            </span>
-          </dd>
-        </div>
-        {properties.map((row) => (
-          <div
-            key={row.key}
-            className={cx(styles.property, row.changed && styles.changed)}
-          >
-            <dt>{row.label}</dt>
-            <dd>
-              <Cell cell={row[side]} index={index} />
-            </dd>
-          </div>
-        ))}
-      </dl>
-      <div className={styles.body}>
-        {body.map((row, position) => {
-          const text = row[side];
-          return (
-            <p
-              key={position}
-              className={cx(
-                styles.paragraph,
-                row.changed && styles.changed,
-                text === null && styles.placeholder,
-              )}
-            >
-              {text ?? " "}
-            </p>
-          );
-        })}
-      </div>
-    </section>
-  );
 }
 
 function VersionRow({
@@ -197,7 +94,7 @@ export function VersionHistoryModal({
   open: boolean;
   fileId: string;
   title: string;
-  current: Snapshot;
+  current: DiffSnapshot;
   locked: boolean;
   /** 저장하지 못한 편집이 남아 있다(저장 오류·충돌). 복원하면 그 편집을 잃는다 */
   unsaved: boolean;
@@ -211,12 +108,26 @@ export function VersionHistoryModal({
   const versions = useVersions(fileId, open);
   const mutations = useVersionMutations(fileId);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  // 좁은 화면에서는 두 문서를 나란히 둘 폭이 없다. 한 번에 한쪽만 보이고, 이 값으로 고른다.
+  const [shown, setShown] = useState<"left" | "right">("left");
   const [preparing, setPreparing] = useState(false);
   const list = versions.data ?? [];
   const selected =
     list.find((version) => version.id === selectedId) ?? list[0] ?? null;
   const busy =
     preparing || mutations.save.isPending || mutations.restore.isPending;
+
+  /** 관계 칩에 그릴 문서. 그 뒤로 지워진 문서도 버전에는 남아 있어 이름만 대신 적는다 */
+  const lookup = (id: string): DiffTarget => {
+    const node = index.get(id);
+    return isDocument(node)
+      ? {
+          title: node.title,
+          icon: DOCUMENT_TYPE_META[node.docType].entityIcon,
+          docType: node.docType,
+        }
+      : { title: node?.title ?? t("삭제된 파일"), icon: "file" };
+  };
 
   const close = () => {
     if (busy) return;
@@ -329,23 +240,32 @@ export function VersionHistoryModal({
               )}
             />
           ) : (
-            <div className={styles.compare}>
-              <ComparePane
-                title={t("선택한 버전")}
-                subtitle={fullTime(selected.createdAt)}
-                snapshot={selected.snapshot}
-                other={current}
-                side="left"
-                index={index}
+            <>
+              {/* 좁은 화면에서만 보인다(CSS). 넓은 화면에서는 두 문서가 나란히 있다. */}
+              <Segmented
+                className={styles.switch}
+                label={t("볼 문서")}
+                value={shown}
+                onChange={setShown}
+                options={[
+                  { value: "left", label: t("선택한 버전") },
+                  { value: "right", label: t("현재 문서") },
+                ]}
               />
-              <ComparePane
-                title={t("현재 문서")}
-                snapshot={current}
-                other={selected.snapshot}
-                side="right"
-                index={index}
+              {/*
+                두 문서 상자는 변경 사항 창의 것과 같다(같은 컴포넌트 계열, 같은 스타일). 여기서는
+                읽기만 하므로 화살표가 없고, 달라진 곳의 띠와 낱말 표시는 그대로다.
+              */}
+              <DocumentDiff
+                className={styles.diff}
+                left={selected.snapshot}
+                right={current}
+                labels={{ left: t("선택한 버전"), right: t("현재 문서") }}
+                notes={{ left: fullTime(selected.createdAt) }}
+                only={shown}
+                lookup={lookup}
               />
-            </div>
+            </>
           )}
           {error && <InlineNotice icon="circle-alert">{error}</InlineNotice>}
           <footer className={styles.footer}>

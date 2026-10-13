@@ -334,7 +334,7 @@ export function TrashProjectDialog({
       description={t(
         "파일과 설정은 그대로 남고, 휴지통에서 다시 복원할 수 있어요.",
       )}
-      target={project ? { icon: project.icon, name: project.title } : undefined}
+      target={project ? { icon: "book", name: project.title } : undefined}
       actions={
         <>
           <Button

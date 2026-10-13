@@ -39,6 +39,11 @@
   height: 22px;
 }
 
+/* 관계 행의 아이콘은 그 관계가 가리키는 종류의 색이다(칩의 아이콘과 같은 색). */
+.identityButton[data-kind] {
+  color: var(--kind, var(--lk-color-icon-default));
+}
+
 .identityName {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -299,7 +304,7 @@
 
 .pickerItem > svg {
   flex: none;
-  color: var(--lk-color-icon-default);
+  color: var(--kind, var(--lk-color-icon-default));
 }
 
 .pickerItem:hover,
@@ -335,7 +340,8 @@
  * 라벨 열이 168px 로 고정이라 390px 화면에서는 값이 쓸 폭이 200px도 남지 않는다. 칩 두 개가
  * 줄바꿈되고 설명은 잘린다. 이름과 값을 세로로 쌓으면 둘 다 온전한 폭을 쓴다.
  */
-@media (max-width: 760px) {
+/* 브라우저가 아니라 이 화면이 놓인 창의 폭을 본다(workspace-shell.module.css 의 lk-pane). */
+@container lk-pane (max-width: 744px) {
   .row {
     flex-direction: column;
     align-items: stretch;

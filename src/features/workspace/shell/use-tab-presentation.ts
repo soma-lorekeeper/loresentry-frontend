@@ -3,7 +3,7 @@
 import { useCallback, useMemo } from "react";
 
 import type { IconName } from "@/design-system/icons/icon";
-import { DOCUMENT_TYPE_META } from "@/domain/document-types";
+import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
 import { t } from "@/i18n";
 
 import type { WorkspaceTarget } from "../model/layout";
@@ -17,7 +17,14 @@ export function useTabPresentation() {
   const tree = useFileTree(projectId);
   const index = useMemo(() => indexNodes(tree.data ?? []), [tree.data]);
   return useCallback(
-    (target: WorkspaceTarget): { icon: IconName; title: string } => {
+    (
+      target: WorkspaceTarget,
+    ): {
+      icon: IconName;
+      title: string;
+      /** 문서 탭이면 그 문서의 종류. 탭 아이콘이 종류 색을 받는 데 쓴다. */
+      kind?: DocumentType;
+    } => {
       if (target.kind !== "file") {
         const view = WORKSPACE_VIEWS[target.kind];
         return { icon: view.icon, title: view.title };
@@ -27,6 +34,7 @@ export function useTabPresentation() {
         return {
           icon: DOCUMENT_TYPE_META[node.docType].entityIcon,
           title: node.title,
+          kind: node.docType,
         };
       }
       return {

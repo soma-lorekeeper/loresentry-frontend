@@ -1,12 +1,19 @@
 export { Button, IconButton } from "./button";
 export type { ButtonProps, ButtonSize, ButtonVariant } from "./button";
-export { DialogBullets, DialogCard, DialogDetail, Modal } from "./dialog";
+export {
+  DIALOG_SURFACE_CLASS,
+  DialogBullets,
+  DialogCard,
+  DialogDetail,
+  Modal,
+} from "./dialog";
 export type { DialogSize } from "./dialog";
 export { TextAreaField, TextField } from "./field";
 export { Menu } from "./menu";
 export type { MenuEntry } from "./menu";
 export { InlineNotice, StatusNotice, ToastProvider, useToast } from "./notice";
 export { Popover } from "./popover";
+export { ResizeHandle } from "./resize-handle";
 export { Icon } from "../icons/icon";
 export type { IconName } from "../icons/icon";
 export { SaveBar } from "./save-bar";
@@ -16,3 +23,4 @@ export { SidebarButton, SidebarLink } from "./sidebar-item";
 export { EmptyState } from "./empty-state";
 export { Segmented } from "./segmented";
 export type { SegmentedOption } from "./segmented";
+export { Tooltip } from "./tooltip";

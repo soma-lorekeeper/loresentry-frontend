@@ -85,48 +85,72 @@
   background: var(--lk-color-surface-icon-hover);
 }
 
+/*
+ * 이름을 적는 줄(새로 만들기, 이름 바꾸기). 다 적으면 될 줄과 같은 모양이다 — 같은 자리의 종류 색
+ * 아이콘, 같은 높이, 고른 줄과 같은 알약. 입력칸에 따로 테두리를 두르지 않는다. 줄 전체가
+ * 입력칸이고, 지금 적는 중이라는 것은 줄을 두른 포커스 고리가 알린다.
+ */
 .editRow {
   display: flex;
   align-items: center;
   gap: var(--lk-space-2);
   height: 32px;
-  padding-right: var(--lk-space-3);
+  /* 줄 끝에 단추가 없다. 긴 이름이 알약의 둥근 끝에 닿지 않을 만큼 띄운다. */
+  padding-right: var(--lk-space-2);
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-pill);
+  box-shadow: var(--lk-shadow-pill);
+  transition: box-shadow 140ms var(--lk-ease);
+}
+
+.editRow:focus-within {
+  box-shadow: var(--lk-focus-ring), var(--lk-shadow-pill);
 }
 
 .editRow > svg {
   flex: none;
-  color: var(--lk-color-icon-default);
+  color: var(--kind, var(--lk-color-icon-default));
 }
 
 .editInput {
   flex: 1;
   min-width: 0;
-  height: 28px;
-  padding: 0 var(--lk-space-2);
-  border: 1px solid transparent;
-  border-radius: var(--lk-radius-control);
+  padding: 0;
+  border: 0;
   outline: none;
-  box-shadow: var(--lk-focus-ring);
-  background: var(--lk-color-state-hover);
+  overflow: hidden;
+  background: transparent;
   caret-color: var(--lk-color-accent-primary);
   color: var(--lk-color-text-primary);
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.editInput:focus-visible {
-  border-color: var(--lk-color-accent-primary);
-}
-
-.editConfirm {
+/* 만드는 중. 줄 끝에서 돈다. */
+.editPending {
   display: inline-flex;
   flex: none;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: var(--lk-radius-control);
+  width: 24px;
+  height: 24px;
   color: var(--lk-color-icon-default);
 }
 
-.editConfirm:hover {
-  background: var(--lk-color-state-hover);
+.editPending > svg {
+  animation: editSpin 900ms linear infinite;
+}
+
+@keyframes editSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 움직임을 줄이면 돌지 않는다. 아이콘 자체가 대기를 뜻한다. */
+@media (prefers-reduced-motion: reduce) {
+  .editPending > svg {
+    animation: none;
+  }
 }

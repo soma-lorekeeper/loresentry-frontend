@@ -35,6 +35,11 @@
   width: 240px;
 }
 
+/* 적는 중인 카드는 읽기만 하는 카드보다 넓게 준다. 240px 에 글을 쓰면 몇 글자마다 줄이 바뀐다. */
+.compact .editingCard {
+  width: min(360px, 100%);
+}
+
 .card {
   position: relative;
   display: flex;
@@ -73,7 +78,7 @@
   text-align: left;
 }
 
-.card > :first-child:not(.menuButton, .open) ~ .open {
+.card > :first-child:not(.deleteButton, .open) ~ .open {
   padding-top: 6px;
 }
 
@@ -105,8 +110,11 @@
   padding-right: 0;
 }
 
-/* 더보기는 평소에 숨는다. 목록을 훑을 때 가장 먼저 보일 버튼이 아니다. */
-.menuButton {
+/*
+ * 카드 오른쪽 위의 삭제 단추(×). 읽는 카드에서는 평소에 숨는다 — 목록을 훑을 때 가장 먼저 보일
+ * 버튼이 아니다. 적는 중인 카드에서는 늘 보이고, 읽을 때와 같은 자리에 있다.
+ */
+.deleteButton {
   position: absolute;
   top: 6px;
   right: 6px;
@@ -116,45 +124,57 @@
   height: 26px;
 }
 
-.card:hover .menuButton,
-.menuButton:focus-visible,
-.menuButton[aria-expanded="true"],
-.editingCard .menuButton {
+.card:hover .deleteButton,
+.deleteButton:focus-visible,
+.editingCard .deleteButton {
   display: inline-flex;
 }
 
-/* 편집 중에는 아래 동작 줄에 놓인다. */
-.editingCard .menuButton {
-  position: static;
-}
-
+/*
+ * 메모를 적는 칸. 카드 전체가 종이이고 이 칸에는 테두리도 바탕도 없다 — 지금 적는 중이라는 것은
+ * 카드를 두른 포커스 고리와 떠오른 그림자가 알린다.
+ *
+ * 높이는 적은 만큼 늘어난다(memo-list.tsx). 세 줄에서 시작하고, 길어지면 화면의 절반 안에서 안쪽이
+ * 밀린다. 손으로 끌어 늘리는 손잡이는 두지 않는다.
+ */
 .textarea {
-  min-height: 108px;
-  padding: 12px 14px;
+  max-height: min(46vh, 360px);
+  /*
+   * 읽는 카드(.open)와 같은 안쪽 여백이다. 누르기 전과 후에 글의 자리가 움직이지 않는다.
+   * 오른쪽 38px 은 읽는 카드의 글(.excerpt)이 줄을 바꾸는 자리와 같고, 위 구석의 삭제 단추에
+   * 첫 줄이 깔리지 않게 비워 두는 폭이기도 하다.
+   */
+  padding: 12px 38px var(--lk-space-1) 14px;
   border: 0;
   border-radius: inherit;
   background: none;
+  caret-color: var(--lk-color-accent-primary);
   color: var(--lk-color-text-primary);
   font: inherit;
   font-size: var(--lk-font-size-body);
-  line-height: 1.6;
-  resize: vertical;
+  line-height: 1.65;
+  overflow-y: auto;
+  resize: none;
+}
+
+.textarea::placeholder {
+  color: var(--lk-color-text-secondary);
 }
 
 .textarea:focus-visible {
   outline: none;
 }
 
+/*
+ * 적는 칸 아래의 동작 줄. 오른쪽 끝에 취소와 저장. 선으로 가르지 않고 간격으로 나눈다.
+ * 저장만 청록 바탕이라 다 적은 뒤에 누를 것이 한눈에 보인다.
+ */
 .actions {
   display: flex;
   align-items: center;
-  gap: 2px;
-  padding: 6px;
-  border-top: 1px solid var(--lk-color-border-subtle);
-}
-
-.spacer {
-  flex: 1;
+  justify-content: flex-end;
+  gap: var(--lk-space-1);
+  padding: var(--lk-space-1) var(--lk-space-2) var(--lk-space-2);
 }
 
 .hint {
@@ -170,7 +190,7 @@
 }
 
 @media (hover: none) {
-  .menuButton {
+  .deleteButton {
     display: inline-flex;
   }
 }
