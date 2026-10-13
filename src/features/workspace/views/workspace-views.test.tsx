@@ -302,12 +302,15 @@ describe("workspace views", () => {
     renderInWorkspace("memo", <MemoView />);
     await actor.click(await screen.findByRole("radio", { name: "작품 메모" }));
     const before = getDb().memos.filter((m) => m.scope === "project").length;
-    // 디자인처럼 삭제는 카드의 더보기 메뉴에 있다.
+    // 삭제는 카드 오른쪽 위의 × 에 있다. 메뉴를 거치지 않고 바로 누른다.
     await actor.click(
-      (await screen.findAllByRole("button", { name: "메모 메뉴" }))[0],
+      (await screen.findAllByRole("button", { name: "메모 삭제" }))[0],
     );
-    await actor.click(await screen.findByRole("menuitem", { name: "삭제" }));
+    // 눌러도 곧바로 지워지지 않는다. 되돌릴 수 없는 일이라 확인을 거친다.
     const dialog = await screen.findByRole("dialog");
+    expect(getDb().memos.filter((m) => m.scope === "project")).toHaveLength(
+      before,
+    );
     await actor.click(
       within(dialog).getByRole("button", { name: "메모 삭제" }),
     );
@@ -316,6 +319,78 @@ describe("workspace views", () => {
         before - 1,
       ),
     );
+  });
+
+  it("closes an untouched memo when somewhere else is pressed", async () => {
+    // 긴 메모는 눌러야 끝까지 읽힌다. 읽으려고 연 칸은 취소를 찾지 않고 다른 곳을 눌러 닫는다.
+    const actor = userEvent.setup();
+    renderInWorkspace("memo", <MemoView />);
+    await actor.click(await screen.findByRole("radio", { name: "작품 메모" }));
+    const card = (await screen.findAllByRole("listitem"))[0];
+    // 카드 안의 단추는 삭제, 카드 본문 순서다. 본문을 누르면 고치는 칸이 열린다.
+    await actor.click(within(card).getAllByRole("button").at(-1)!);
+    expect(
+      await screen.findByRole("textbox", { name: "메모 내용" }),
+    ).toBeInTheDocument();
+
+    await actor.click(screen.getByRole("heading", { name: "메모" }));
+
+    expect(screen.queryByRole("textbox", { name: "메모 내용" })).toBeNull();
+  });
+
+  it("keeps an edited memo open when somewhere else is pressed", async () => {
+    // 고친 것이 있으면 남길지 버릴지는 작가가 정한다. 잘못 누른 한 번에 적던 글이 사라지면 안 된다.
+    const actor = userEvent.setup();
+    renderInWorkspace("memo", <MemoView />);
+    await actor.click(await screen.findByRole("radio", { name: "작품 메모" }));
+    const card = (await screen.findAllByRole("listitem"))[0];
+    await actor.click(within(card).getAllByRole("button").at(-1)!);
+    await actor.type(
+      await screen.findByRole("textbox", { name: "메모 내용" }),
+      " 적던 글",
+    );
+
+    await actor.click(screen.getByRole("heading", { name: "메모" }));
+
+    // 닫히지도, 저장되지도 않았다. 적던 글이 그대로 있다.
+    expect(
+      screen.getByRole("textbox", { name: "메모 내용" }),
+    ).toHaveDisplayValue(/ 적던 글$/);
+    expect(getDb().memos.some((memo) => memo.body.endsWith(" 적던 글"))).toBe(
+      false,
+    );
+  });
+
+  it("closes an empty new memo when somewhere else is pressed", async () => {
+    // 새 메모를 적는 칸도 같은 칸이다. 아무것도 적지 않았으면 바깥을 눌러 닫는다.
+    const actor = userEvent.setup();
+    renderInWorkspace("memo", <MemoView />);
+    await actor.click(await screen.findByRole("radio", { name: "작품 메모" }));
+    const before = getDb().memos.length;
+    await actor.click(await screen.findByRole("button", { name: "메모 추가" }));
+    expect(
+      await screen.findByRole("listitem", { name: "새 메모" }),
+    ).toBeInTheDocument();
+
+    await actor.click(screen.getByRole("heading", { name: "메모" }));
+
+    expect(screen.queryByRole("listitem", { name: "새 메모" })).toBeNull();
+    expect(getDb().memos).toHaveLength(before);
+  });
+
+  it("goes to the file from a file memo's card", async () => {
+    // 전에는 더보기 메뉴 안에 있었다. 메뉴를 없애면서 카드 머리의 문서 이름이 그 단추가 됐다.
+    const actor = userEvent.setup();
+    // 메모 화면은 문서 메모부터 보여 준다. 열려 있는 탭은 새 탭과 메모, 둘이다.
+    renderInWorkspace("memo", <MemoView />);
+    const memo = getDb().memos.find((m) => m.scope === "file")!;
+    const file = getDb().files.find((f) => f.id === memo.fileId)!;
+    // 단추의 이름은 문서 이름이고, 누르면 무슨 일이 생기는지는 설명(title)으로 붙는다.
+    const link = await screen.findByRole("button", { name: file.title });
+    expect(link).toHaveAttribute("title", "파일로 이동");
+    await actor.click(link);
+
+    expect(screen.getByLabelText("탭 수")).toHaveTextContent("3");
   });
 
   /**

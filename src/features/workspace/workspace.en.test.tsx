@@ -214,7 +214,7 @@ describe("workspace (English build)", () => {
       await screen.findByRole("button", { name: "Add note" }),
     ).toBeInTheDocument();
     expect(
-      (await screen.findAllByRole("button", { name: "Note menu" })).length,
+      (await screen.findAllByRole("button", { name: "Delete note" })).length,
     ).toBeGreaterThan(0);
     expect(untranslatedChrome()).toEqual([]);
   });

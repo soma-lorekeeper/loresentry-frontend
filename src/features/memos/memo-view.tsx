@@ -36,13 +36,17 @@ export function MemoView() {
   const fileOf = (memo: Memo) =>
     memo.fileId ? index.get(memo.fileId) : undefined;
 
+  /**
+   * 문서 메모 카드의 머리. 어느 문서의 메모인지 아이콘과 이름으로 보여 준다.
+   *
+   * <p>이 머리가 그 문서로 가는 단추다. 여러 문서의 메모가 한 목록에 섞여 있어, 메모에서 그 문서로
+   * 바로 갈 수 있어야 한다. 전에는 카드의 더보기 메뉴에 "파일로 이동" 이 따로 있었는데, 이름을
+   * 누르면 그 문서가 열리는 쪽이 찾기 쉽다. 문서를 찾을 수 없으면 갈 곳이 없으니 글자로만 둔다.
+   */
   const fileContext = (memo: Memo) => {
     const file = fileOf(memo);
-    return (
-      <div
-        className={styles.fileHead}
-        data-kind={isDocument(file) ? file.docType : undefined}
-      >
+    const label = (
+      <>
         <Icon
           name={
             isDocument(file)
@@ -54,23 +58,28 @@ export function MemoView() {
         <span className={styles.fileTitle}>
           {file?.title ?? t("찾을 수 없는 문서")}
         </span>
+      </>
+    );
+    return (
+      <div
+        className={styles.fileHead}
+        data-kind={isDocument(file) ? file.docType : undefined}
+      >
+        {file ? (
+          <button
+            type="button"
+            className={styles.fileLink}
+            // 이름은 문서 이름 그대로 읽히고, 누르면 무슨 일이 생기는지는 설명으로 붙는다.
+            title={t("파일로 이동")}
+            onClick={() => open({ kind: "file", fileId: file.id })}
+          >
+            {label}
+          </button>
+        ) : (
+          <span className={styles.fileLink}>{label}</span>
+        )}
       </div>
     );
-  };
-
-  // 디자인의 파일 메모 메뉴는 "파일로 이동" 과 "삭제" 를 담는다.
-  const fileEntries = (memo: Memo) => {
-    const file = fileOf(memo);
-    return file
-      ? [
-          {
-            id: "open",
-            label: t("파일로 이동"),
-            icon: "external-link" as const,
-            onSelect: () => open({ kind: "file", fileId: file.id }),
-          },
-        ]
-      : [];
   };
 
   return (
@@ -97,7 +106,6 @@ export function MemoView() {
             "문서를 열어 메모 패널에서 적으면 여기에 모여요.",
           )}
           context={fileContext}
-          entriesFor={fileEntries}
         />
       ) : (
         <MemoList
