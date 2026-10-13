@@ -11,7 +11,7 @@ const DESCRIPTION = t(
 );
 
 export const metadata: Metadata = {
-  title: t("Lore Sentry · 작가를 위한 집필 에디터와 AI 에이전트"),
+  title: t("Lore Sentry · 웹소설 작가를 위한 집필 에디터와 AI 에이전트"),
   description: DESCRIPTION,
   // 검색에 내보내는 페이지다. 색인을 열고, 언어마다 따로 열리는 주소를 검색엔진에 알린다.
   ...publicPage("/"),
