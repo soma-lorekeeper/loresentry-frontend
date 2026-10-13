@@ -6,7 +6,7 @@ import type { Messages } from "../messages";
 export default {
   "원고와 설정을 하나의 흐름으로 연결하는 집필 작업공간":
     "A writing workspace that keeps your manuscript and your world in one flow",
-  "Lore Sentry · 작가를 위한 집필 에디터와 AI 에이전트":
+  "Lore Sentry · 웹소설 작가를 위한 집필 에디터와 AI 에이전트":
     "Lore Sentry · A writing editor and AI agent for web novelists",
   "웹소설 작가를 위한 집필 에디터이자 AI 에이전트예요. 회차를 쓰면 설정 문서에 바뀔 점을 AI가 찾아 두고, 반영은 작가가 골라요.":
     "A writing editor and AI agent for web novelists. When you write a new chapter, AI finds what should change in your setting documents, and you choose what to apply.",

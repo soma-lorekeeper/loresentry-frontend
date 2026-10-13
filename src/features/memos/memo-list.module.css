@@ -78,7 +78,7 @@
   text-align: left;
 }
 
-.card > :first-child:not(.menuButton, .open) ~ .open {
+.card > :first-child:not(.deleteButton, .open) ~ .open {
   padding-top: 6px;
 }
 
@@ -110,8 +110,11 @@
   padding-right: 0;
 }
 
-/* 더보기는 평소에 숨는다. 목록을 훑을 때 가장 먼저 보일 버튼이 아니다. */
-.menuButton {
+/*
+ * 카드 오른쪽 위의 삭제 단추(×). 읽는 카드에서는 평소에 숨는다 — 목록을 훑을 때 가장 먼저 보일
+ * 버튼이 아니다. 적는 중인 카드에서는 늘 보이고, 읽을 때와 같은 자리에 있다.
+ */
+.deleteButton {
   position: absolute;
   top: 6px;
   right: 6px;
@@ -121,16 +124,10 @@
   height: 26px;
 }
 
-.card:hover .menuButton,
-.menuButton:focus-visible,
-.menuButton[aria-expanded="true"],
-.editingCard .menuButton {
+.card:hover .deleteButton,
+.deleteButton:focus-visible,
+.editingCard .deleteButton {
   display: inline-flex;
-}
-
-/* 편집 중에는 아래 동작 줄에 놓인다. */
-.editingCard .menuButton {
-  position: static;
 }
 
 /*
@@ -142,8 +139,12 @@
  */
 .textarea {
   max-height: min(46vh, 360px);
-  /* 읽는 카드(.open)와 같은 안쪽 여백이다. 누르기 전과 후에 글의 자리가 움직이지 않는다. */
-  padding: 12px 14px var(--lk-space-1);
+  /*
+   * 읽는 카드(.open)와 같은 안쪽 여백이다. 누르기 전과 후에 글의 자리가 움직이지 않는다.
+   * 오른쪽 38px 은 읽는 카드의 글(.excerpt)이 줄을 바꾸는 자리와 같고, 위 구석의 삭제 단추에
+   * 첫 줄이 깔리지 않게 비워 두는 폭이기도 하다.
+   */
+  padding: 12px 38px var(--lk-space-1) 14px;
   border: 0;
   border-radius: inherit;
   background: none;
@@ -165,18 +166,15 @@
 }
 
 /*
- * 적는 칸 아래의 동작 줄. 왼쪽에 더보기(삭제 등), 오른쪽에 취소와 저장. 선으로 가르지 않고
- * 간격으로 나눈다. 저장만 청록 바탕이라 다 적은 뒤에 누를 것이 한눈에 보인다.
+ * 적는 칸 아래의 동작 줄. 오른쪽 끝에 취소와 저장. 선으로 가르지 않고 간격으로 나눈다.
+ * 저장만 청록 바탕이라 다 적은 뒤에 누를 것이 한눈에 보인다.
  */
 .actions {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: var(--lk-space-1);
   padding: var(--lk-space-1) var(--lk-space-2) var(--lk-space-2);
-}
-
-.spacer {
-  flex: 1;
 }
 
 .hint {
@@ -192,7 +190,7 @@
 }
 
 @media (hover: none) {
-  .menuButton {
+  .deleteButton {
     display: inline-flex;
   }
 }

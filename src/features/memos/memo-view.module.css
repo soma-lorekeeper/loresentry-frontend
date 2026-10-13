@@ -41,18 +41,40 @@
   color: var(--kind, var(--lk-color-icon-default));
 }
 
-.fileHead > svg {
+/*
+ * 문서 아이콘과 이름. 문서가 있으면 그 문서로 가는 단추이고, 찾을 수 없으면 글자일 뿐이다.
+ * 줄 전체가 아니라 아이콘과 이름만큼만 차지한다 — 이름 옆의 빈 곳을 눌렀는데 문서로 가면 안 된다.
+ */
+.fileLink {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+  min-width: 0;
+  border-radius: var(--lk-radius-control);
+  text-align: left;
+}
+
+.fileLink:focus-visible {
+  outline: none;
+  box-shadow: var(--lk-focus-ring);
+}
+
+.fileLink > svg {
   flex: none;
 }
 
 .fileTitle {
-  flex: 1;
   min-width: 0;
   overflow: hidden;
   color: var(--lk-color-text-primary);
   font-weight: 600;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* 누르면 그 문서가 열린다는 것은 타임라인의 문서 줄처럼 이름의 밑줄로 알린다. */
+button.fileLink:hover > .fileTitle {
+  text-decoration: underline;
 }
 
 /* 브라우저가 아니라 이 화면이 놓인 창의 폭을 본다(workspace-shell.module.css 의 lk-pane). */

@@ -196,7 +196,6 @@ export default {
   "메모를 저장하지 못했어요.": "Couldn't save the note.",
   "작업공간::연결을 확인한 뒤 다시 시도해 주세요.":
     "Check your connection and try again.",
-  "메모 메뉴": "Note menu",
   "눌러서 내용을 적으세요.": "Click to start writing.",
   "새 메모": "New note",
   "메모 내용": "Note text",

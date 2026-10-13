@@ -1,13 +1,19 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 import {
   Button,
   EmptyState,
+  IconButton,
   Tooltip,
   useToast,
-  type MenuEntry,
 } from "@/design-system/primitives";
 import type { Memo, MemoScope } from "@/domain/models";
 import { formatChord, isMac } from "@/features/workspace/shell/shortcuts";
@@ -15,7 +21,6 @@ import { t } from "@/i18n";
 import { cx } from "@/shared/cx";
 
 import { DeleteMemoDialog } from "./delete-memo-dialog";
-import { MemoMenuButton } from "./memo-menu-button";
 import styles from "./memo-list.module.css";
 import { memoTitle, useCreateMemo, useMemos, useUpdateMemo } from "./queries";
 
@@ -28,20 +33,21 @@ import { memoTitle, useCreateMemo, useMemos, useUpdateMemo } from "./queries";
  * <p><b>키.</b> Cmd/Ctrl+Enter 는 저장, Esc 는 취소다. Esc 는 여기서 끝낸다 — 메모 패널도 Esc 로
  * 닫히는데, 적던 것을 그만두려던 키에 패널까지 닫히면 안 된다.
  *
+ * <p><b>바깥을 누르면.</b> 고친 것이 없을 때만 닫힌다. 긴 메모는 눌러야 끝까지 읽을 수 있어서,
+ * 읽으려고 연 칸은 다른 곳을 누르는 것으로 닫혀야 한다. 고친 것이 있으면 그대로 둔다 — 남길지
+ * 버릴지는 작가가 정하는 것이고(수동 저장), 잘못 누른 한 번에 적던 글이 사라지면 안 된다.
+ *
  * @param initial 처음 내용. 새 메모면 빈 글이다
- * @param menu 동작 줄 왼쪽에 둘 것(카드의 더보기 메뉴). 새 메모에는 없다
  * @param onSave 지금 적힌 내용을 남긴다
  */
 function MemoEditor({
   initial,
   pending,
-  menu,
   onSave,
   onCancel,
 }: {
   initial: string;
   pending: boolean;
-  menu?: ReactNode;
   onSave: (body: string) => void;
   onCancel: () => void;
 }) {
@@ -49,8 +55,36 @@ function MemoEditor({
   const areaRef = useRef<HTMLTextAreaElement>(null);
   const saveRef = useRef<HTMLButtonElement>(null);
   const cancelRef = useRef<HTMLButtonElement>(null);
+  // 카드 바깥에서 누르기 시작했는가. 누름과 클릭 사이에 다시 그려져도 남아야 해서 ref 에 둔다.
+  const pressedOutside = useRef(false);
   // 새 메모는 적은 것이 있어야 남길 수 있다. 있던 메모는 비워서 남길 수도 있다.
   const savable = initial !== "" || draft.trim() !== "";
+
+  // 카드 바깥을 누르면, 고친 것이 없을 때 닫는다.
+  useEffect(() => {
+    // 적는 칸을 감싼 카드. 삭제 단추처럼 카드 안에 있는 것을 누르는 것은 바깥이 아니다.
+    const card = areaRef.current?.parentElement;
+    if (!card) return;
+    const isOutside = (event: Event) => !card.contains(event.target as Node);
+    const onPointerDown = (event: PointerEvent) => {
+      pressedOutside.current = isOutside(event);
+    };
+    // 누를 때가 아니라 클릭에서 닫는다. 누를 때 닫으면 카드가 줄어들며 목록이 밀려, 누르려던
+    // 다른 메모가 커서 밑에서 달아나고 그 클릭이 사라진다.
+    const onClick = (event: MouseEvent) => {
+      // 카드 안에서 누르기 시작한 것은 건너뛴다. 글을 끌어 고르다 카드 밖에서 손을 떼도 닫히지 않는다.
+      const startedOutside = pressedOutside.current;
+      pressedOutside.current = false;
+      if (startedOutside && isOutside(event) && draft === initial) onCancel();
+    };
+    // 누른 곳이 제 클릭을 처리하기 전에 먼저 본다(popover.tsx 와 같다).
+    document.addEventListener("pointerdown", onPointerDown, true);
+    document.addEventListener("click", onClick, true);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown, true);
+      document.removeEventListener("click", onClick, true);
+    };
+  }, [draft, initial, onCancel]);
 
   // 적은 만큼 칸이 늘어난다. 손으로 끌어 늘리지 않아도 된다(넘치면 CSS 의 상한에서 안쪽이 밀린다).
   useLayoutEffect(() => {
@@ -95,8 +129,6 @@ function MemoEditor({
         }}
       />
       <div className={styles.actions}>
-        {menu}
-        <span className={styles.spacer} />
         <Button ref={cancelRef} variant="ghost" onClick={onCancel}>
           {t("취소")}
         </Button>
@@ -130,15 +162,12 @@ function MemoCard({
   projectId,
   memo,
   context,
-  extraEntries,
   onDelete,
 }: {
   projectId: string;
   memo: Memo;
   /** 카드 위에 붙일 맥락. 메모 화면의 파일 메모는 어느 문서의 것인지 보여야 한다. */
   context?: ReactNode;
-  /** 카드 메뉴에 더 붙일 항목. 메모 화면의 "파일로 이동" 이 여기로 온다. */
-  extraEntries?: MenuEntry[];
   onDelete: (memo: Memo) => void;
 }) {
   const toast = useToast();
@@ -165,28 +194,24 @@ function MemoCard({
     );
   };
 
-  // 디자인의 카드는 삭제를 더보기 메뉴에 둔다. 목록을 훑을 때 가장 먼저 보일 버튼이 아니다.
-  const menuEntries: MenuEntry[] = [
-    ...(extraEntries ?? []),
-    ...(extraEntries?.length
-      ? [{ type: "separator" as const, id: "sep" }]
-      : []),
-    {
-      id: "delete",
-      label: t("삭제"),
-      icon: "trash-2" as const,
-      destructive: true,
-      onSelect: () => onDelete(memo),
-    },
-  ];
-  const menu = <MemoMenuButton label={t("메모 메뉴")} entries={menuEntries} />;
+  // 카드 오른쪽 위의 삭제 단추. 메뉴에 넣지 않고 × 로 바로 누르게 둔다. 눌러도 곧바로 지워지지는
+  // 않는다 — 되돌릴 수 없는 일이라 확인 대화상자를 거친다(MemoList 의 DeleteMemoDialog).
+  const remove = (
+    <IconButton
+      icon="x"
+      iconSize={15}
+      label={t("메모 삭제")}
+      className={styles.deleteButton}
+      onClick={() => onDelete(memo)}
+    />
+  );
 
   if (!editing) {
     const title = memoTitle(memo);
     return (
       <li className={styles.card}>
         {context}
-        {menu}
+        {remove}
         <button
           type="button"
           className={styles.open}
@@ -204,10 +229,10 @@ function MemoCard({
   return (
     <li className={cx(styles.card, styles.editingCard)}>
       {context}
+      {remove}
       <MemoEditor
         initial={memo.body}
         pending={update.isPending}
-        menu={menu}
         onSave={save}
         onCancel={() => setEditing(false)}
       />
@@ -237,7 +262,6 @@ export function MemoList({
   composing: composingProp,
   onComposingChange,
   context,
-  entriesFor,
 }: {
   projectId: string;
   scope: MemoScope;
@@ -255,8 +279,6 @@ export function MemoList({
   composing?: boolean;
   onComposingChange?: (composing: boolean) => void;
   context?: (memo: Memo) => ReactNode;
-  /** 카드 메뉴에 더할 항목을 메모마다 만든다. */
-  entriesFor?: (memo: Memo) => MenuEntry[];
 }) {
   const toast = useToast();
   const memos = useMemos(projectId, scope, fileId);
@@ -339,7 +361,6 @@ export function MemoList({
               projectId={projectId}
               memo={memo}
               context={context?.(memo)}
-              extraEntries={entriesFor?.(memo)}
               onDelete={setDeleting}
             />
           ))}
