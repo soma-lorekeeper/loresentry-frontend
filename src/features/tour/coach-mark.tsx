@@ -8,7 +8,6 @@ import {
   useRef,
   useState,
   type KeyboardEvent,
-  type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
 
@@ -31,7 +30,6 @@ export interface CoachMarkProps {
   last: boolean;
   title: string;
   body: string;
-  badge?: ReactNode;
   round?: boolean;
   action?: string;
   waiting?: boolean;
@@ -94,7 +92,6 @@ export function CoachMark({
   last,
   title,
   body,
-  badge,
   round = false,
   action,
   waiting = false,
@@ -269,12 +266,9 @@ export function CoachMark({
               />
             ))}
           </ol>
-          <div className={styles.heading}>
-            <h2 id={titleId} className={styles.title}>
-              {title}
-            </h2>
-            {badge}
-          </div>
+          <h2 id={titleId} className={styles.title}>
+            {title}
+          </h2>
           <p id={bodyId} className={styles.body}>
             {body}
           </p>

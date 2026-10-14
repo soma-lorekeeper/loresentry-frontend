@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { EmptyState, SearchField } from "@/design-system/primitives";
-import { ChatSoonBadge } from "@/features/chat/launch";
 import { INTL_LOCALE, LOCALE, t } from "@/i18n";
 import { cx } from "@/shared/cx";
 
@@ -94,10 +93,7 @@ export function GuideTopics({
           {matches.map((topic) => (
             <li key={topic.id}>
               <TopicLink id={topic.id} nav={nav} className={styles.topic}>
-                <span className={styles.topicHead}>
-                  <span className={styles.topicTitle}>{topic.title}</span>
-                  {topic.soon && <ChatSoonBadge />}
-                </span>
+                <span className={styles.topicTitle}>{topic.title}</span>
                 <span className={styles.topicSummary}>{topic.summary}</span>
               </TopicLink>
             </li>
@@ -163,7 +159,6 @@ export function GuideArticle({
               <p className={styles.articleMeta}>{guideMeta(topic)}</p>
             </header>
           )}
-          {topic.soon && <ChatSoonBadge className={styles.soon} />}
           <p className={styles.secondary}>{topic.lead}</p>
           <dl className={styles.facts}>
             {topic.facts.map((fact) => (

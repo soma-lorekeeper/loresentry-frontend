@@ -1233,21 +1233,6 @@
   white-space: nowrap;
 }
 
-.soon {
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  height: 22px;
-  padding: 0 9px;
-  border-radius: 999px;
-  background: var(--lk-color-state-selected);
-  color: var(--lk-color-accent-primary);
-  font-size: var(--lk-font-size-label);
-  font-weight: 600;
-  letter-spacing: 0;
-  white-space: nowrap;
-}
-
 @keyframes windowIn {
   from {
     opacity: 0;

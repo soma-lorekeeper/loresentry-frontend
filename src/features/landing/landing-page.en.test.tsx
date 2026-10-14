@@ -43,7 +43,7 @@ describe("LandingPage (English build)", () => {
     expect(
       screen.getByRole("heading", { name: /When you're writing/ }),
     ).toBeInTheDocument();
-    expect(screen.getAllByText("We're still building this")).toHaveLength(2);
+    expect(screen.getAllByText("We're still building this")).toHaveLength(1);
     expect(
       screen.getByRole("heading", { name: /reads your whole story/ }),
     ).toBeInTheDocument();

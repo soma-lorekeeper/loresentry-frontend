@@ -73,8 +73,6 @@ describe("WorkspaceTour (English)", () => {
         { timeout: 4000 },
       );
       expect(dialog.textContent).not.toMatch(/[가-힣]/);
-      if (title === "AI chat that knows your story")
-        expect(dialog).toHaveTextContent("Coming soon");
     }
     expect(screen.getByRole("button", { name: "Back" })).toBeInTheDocument();
     await actor.click(screen.getByRole("button", { name: "Done" }));

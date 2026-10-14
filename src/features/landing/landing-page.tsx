@@ -6,7 +6,6 @@ import { useEffect, useState, type ReactNode } from "react";
 import { useRuntimeConfig } from "@/app/providers";
 import { Icon, type IconName } from "@/design-system/primitives";
 import { DOCUMENT_TYPES, DOCUMENT_TYPE_META } from "@/domain/document-types";
-import { CHAT_LAUNCHED } from "@/features/chat/launch";
 import { GoogleMark } from "@/features/auth/google-mark";
 import { useSession } from "@/features/auth/session-gate";
 import { LanguageSwitch } from "@/features/locale/language-switch";
@@ -442,12 +441,6 @@ export function LandingPage() {
             <h2 id="chat-title" className={styles.h2}>
               {tRich("작품 전체를 읽고<br/>근거와 함께 답해요")}
             </h2>
-            {!CHAT_LAUNCHED && (
-              <p className={styles.status}>
-                <Icon name="clock-3" size={14} />
-                {t("지금 만들고 있는 기능이에요")}
-              </p>
-            )}
             <p className={styles.body}>
               {t(
                 "작품을 아는 AI 챗에 물으면 원고와 설정 문서, 문서 사이의 관계, 메모까지 한 번에 모두 읽고 답해요. 답에는 근거가 된 문서가 붙어 눌러서 바로 확인할 수 있고, 원고는 고치지 않아요.",

@@ -1,5 +1,3 @@
-import { CHAT_LAUNCHED } from "@/features/chat/launch";
-
 import type { GuideTopic } from "./guide-content";
 
 export const GUIDE_TOPICS_EN: GuideTopic[] = [
@@ -183,7 +181,6 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
     lead: "AI chat reads your chapters, setting documents, the relationships between them and your notes all at once, then answers your question. It only answers and never edits your manuscript.",
     updatedAt: "2026-10-14",
     readMinutes: 3,
-    soon: !CHAT_LAUNCHED,
     facts: [
       { label: "Open from", value: "Button at the bottom right" },
       {

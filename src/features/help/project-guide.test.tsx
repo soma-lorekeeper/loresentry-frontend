@@ -2,7 +2,6 @@ import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
-import { CHAT_LAUNCHED } from "@/features/chat/launch";
 import { renderWithServices, routerMock, setSearchParams } from "@/test/render";
 
 import { ProjectGuidePage } from "./project-guide";
@@ -86,9 +85,6 @@ describe("ProjectGuidePage", () => {
       "7. 작품이 길 때",
     ]);
     expect(article.textContent).toContain("원고는 고치지 않습니다");
-    expect(within(article).queryAllByText("곧 열려요")).toHaveLength(
-      CHAT_LAUNCHED ? 0 : 1,
-    );
   });
 
   it("clears a search that finds nothing", async () => {

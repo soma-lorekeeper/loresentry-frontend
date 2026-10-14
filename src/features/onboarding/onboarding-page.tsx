@@ -18,7 +18,6 @@ import {
   TextField,
 } from "@/design-system/primitives";
 import type { User } from "@/domain/models";
-import { ChatSoonBadge } from "@/features/chat/launch";
 import {
   useCompleteOnboarding,
   useCreateSampleProject,
@@ -473,12 +472,9 @@ export function OnboardingPage({
             ))}
           </ol>
           <div key={step} className={styles.copy} aria-live="polite">
-            <div className={styles.heading}>
-              <h1 id="onboarding-title" className={styles.title}>
-                {current.title}
-              </h1>
-              {current.soon && <ChatSoonBadge className={styles.soon} />}
-            </div>
+            <h1 id="onboarding-title" className={styles.title}>
+              {current.title}
+            </h1>
             {current.body && <p className={styles.body}>{current.body}</p>}
           </div>
           {onName && (

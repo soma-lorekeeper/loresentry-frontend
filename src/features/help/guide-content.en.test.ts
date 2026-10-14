@@ -1,7 +1,5 @@
 import { describe, expect, it } from "vitest";
 
-import { CHAT_LAUNCHED } from "@/features/chat/launch";
-
 import { GUIDE_TOPICS, findTopic, searchTopics } from "./guide-content";
 import { GUIDE_TOPICS_EN } from "./guide-topics.en";
 import { GUIDE_TOPICS_KO } from "./guide-topics.ko";
@@ -13,7 +11,6 @@ function shape(topics: typeof GUIDE_TOPICS) {
     id: topic.id,
     updatedAt: topic.updatedAt,
     readMinutes: topic.readMinutes,
-    soon: topic.soon ?? false,
     facts: topic.facts.length,
     sections: topic.sections.map((section) => section.id),
     related: topic.related,
@@ -36,8 +33,6 @@ describe("guide content (English build)", () => {
     const ko = GUIDE_TOPICS_KO.find((topic) => topic.id === "chat");
     expect(en?.title).toBe("AI chat");
     expect(ko?.title).toBe("AI 챗");
-    expect(en?.soon).toBe(!CHAT_LAUNCHED);
-    expect(ko?.soon).toBe(!CHAT_LAUNCHED);
     expect(ko?.sections.map((section) => section.id)).toEqual([
       "open",
       "ask",

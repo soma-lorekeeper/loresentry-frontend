@@ -116,7 +116,6 @@ describe("WorkspaceTour", () => {
     await actor.click(screen.getByRole("button", { name: "다음" }));
 
     const chat = await card("작품을 아는 AI 챗");
-    expect(chat).toHaveTextContent("곧 열려요");
     expect(chat).toHaveTextContent("원고 문장을 드래그하면");
     await actor.click(screen.getByRole("button", { name: "다음" }));
 

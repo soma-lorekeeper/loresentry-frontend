@@ -1,7 +1,6 @@
 import type { Messages } from "../messages";
 
 export default {
-  "곧 열려요": "Coming soon",
   "새 대화": "New conversation",
   "대화 이름을 입력해 주세요.": "Enter a name for the conversation.",
   "고칠 질문을 찾을 수 없어요.": "Couldn't find the question to edit.",

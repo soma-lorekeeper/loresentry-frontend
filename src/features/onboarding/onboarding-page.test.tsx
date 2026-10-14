@@ -51,7 +51,7 @@ describe("OnboardingPage", () => {
     );
   });
 
-  it("introduces AI chat as coming soon, with drag-to-ask in the stage", () => {
+  it("introduces AI chat, with drag-to-ask in the stage", () => {
     renderWithServices(<OnboardingPage user={newcomer} replay={false} />);
     for (let i = 0; i < 6; i++)
       fireEvent.keyDown(window, { key: "ArrowRight" });
@@ -59,7 +59,6 @@ describe("OnboardingPage", () => {
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "작품을 아는 AI 챗",
     );
-    expect(screen.getByText("곧 열려요")).toBeInTheDocument();
     expect(screen.getByText(/원고 문장을 드래그해서/)).toBeInTheDocument();
     expect(screen.getByText("AI에게 묻기")).toBeInTheDocument();
     expect(screen.getByText("설명해 줘")).toBeInTheDocument();
@@ -72,7 +71,6 @@ describe("OnboardingPage", () => {
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "작가명을",
     );
-    expect(screen.queryByText("곧 열려요")).toBeNull();
   });
 
   it("skips the tour with Esc but stops at the author name", () => {

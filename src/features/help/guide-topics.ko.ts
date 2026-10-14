@@ -1,5 +1,4 @@
 // i18n-exempt-file: 사용 가이드 본문은 언어마다 따로 쓴 글이라 문구 사전 대신 언어별 데이터로 둔다(영어판은 guide-topics.en.ts).
-import { CHAT_LAUNCHED } from "@/features/chat/launch";
 
 import type { GuideTopic } from "./guide-content";
 
@@ -181,7 +180,6 @@ export const GUIDE_TOPICS_KO: GuideTopic[] = [
     lead: "AI 챗은 원고, 설정 문서, 문서 사이의 관계, 메모를 한 번에 모두 읽고 질문에 답합니다. AI는 답만 하고 원고는 고치지 않습니다.",
     updatedAt: "2026-10-14",
     readMinutes: 3,
-    soon: !CHAT_LAUNCHED,
     facts: [
       { label: "여는 곳", value: "작업공간 오른쪽 아래 버튼" },
       { label: "읽는 자료", value: "원고 · 설정 문서 · 관계 · 메모" },

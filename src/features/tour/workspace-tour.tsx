@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import type { FileNode } from "@/domain/models";
-import { CHAT_LAUNCHED, ChatSoonBadge } from "@/features/chat/launch";
 import { isUnavailable } from "@/features/common/preparing-state";
 import {
   useRefreshActions,
@@ -30,7 +29,6 @@ import {
 interface TourStep {
   title: string;
   body: string;
-  soon?: boolean;
   round?: boolean;
   target: string;
   chapter: number;
@@ -188,7 +186,6 @@ function buildSteps(
       body: t(
         "원고·설정·메모를 모두 읽고 근거와 함께 답해요. 원고 문장을 드래그하면 그 부분을 바로 물어볼 수 있어요.",
       ),
-      soon: !CHAT_LAUNCHED,
       round: true,
       target: "ai-chat",
       chapter: 2,
@@ -633,7 +630,6 @@ export function WorkspaceTour() {
       last={!hasNext(steps, index, sidebarVisible)}
       title={step.title}
       body={step.body}
-      badge={step.soon ? <ChatSoonBadge /> : undefined}
       round={step.round}
       action={step.action}
       waiting={step.waiting}

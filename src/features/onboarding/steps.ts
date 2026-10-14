@@ -13,7 +13,6 @@ export interface OnboardingStep {
     | "start";
   title: string;
   body: string;
-  soon?: boolean;
 }
 
 export const ONBOARDING_STEPS: OnboardingStep[] = [
@@ -59,7 +58,6 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     body: t(
       "원고·설정·메모를 모두 읽고 근거와 함께 답해요. 원고 문장을 드래그해서 바로 물어볼 수도 있어요.",
     ),
-    soon: true,
   },
   {
     id: "name",
