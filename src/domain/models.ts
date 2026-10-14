@@ -150,16 +150,51 @@ export interface ChatSession {
   projectId: string;
   title: string;
   updatedAt: IsoDateTime;
+  preview: string;
 }
+
+export type ChatIntent = "ask" | "explain" | "related" | "flow";
+
+export interface ChatQuote {
+  fileId: string;
+  title: string;
+  docType: DocumentType;
+  text: string;
+}
+
+export type ChatCitation =
+  | {
+      kind: "document";
+      fileId: string;
+      title: string;
+      docType: DocumentType;
+      quote: string | null;
+    }
+  | { kind: "memo"; memoId: string; title: string; quote: string | null };
 
 export interface ChatMessage {
   id: string;
   sessionId: string;
   role: "user" | "assistant";
   content: string;
+  intent: ChatIntent | null;
+  quote: ChatQuote | null;
+  citations: ChatCitation[];
   createdAt: IsoDateTime;
-  contextFile: { id: string; title: string } | null;
 }
+
+export interface ChatSearchHit {
+  session: ChatSession;
+  snippet: { before: string; match: string; after: string } | null;
+}
+
+export interface ChatAvailability {
+  status: "available" | "too-large";
+  size: number;
+  limit: number;
+}
+
+export type ChatPhase = "gathering" | "reading" | "writing";
 
 export interface SearchHit {
   fileId: string;

@@ -50,6 +50,7 @@ describe("OnboardingPage (English)", () => {
       "See links as a graph",
       "Who appears in which chapter",
       "New chapter? Refresh the graph",
+      "AI chat that knows your story",
       "Choose your pen name",
     ]) {
       await actor.click(screen.getByRole("button", { name: "Next" }));
@@ -103,6 +104,7 @@ describe("AppWindow (English)", () => {
     "graph",
     "timeline",
     "refresh",
+    "chat",
     "files",
   ];
 
@@ -115,6 +117,17 @@ describe("AppWindow (English)", () => {
     expect(text).toContain("The Glass Garden Records");
     expect(text).toContain("Graph refresh");
     expect(text).toContain("Favorites");
+  });
+
+  it("shows drag-to-ask and a cited answer in the chat scene", () => {
+    const { container } = render(
+      <AppWindow scene="chat" leaving={null} userName="Yunju Seo" />,
+    );
+    const text = container.textContent ?? "";
+    expect(text).toContain("Ask AI");
+    expect(text).toContain("Explain this passage");
+    expect(text).toContain("check this against Old Key.");
+    expect(text).toContain("Note · Direction of the fracture");
   });
 
   it("types the opening line with the name highlighted", () => {

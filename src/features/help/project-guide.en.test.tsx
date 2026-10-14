@@ -28,8 +28,12 @@ describe("ProjectGuidePage (English build)", () => {
       screen.getByRole("button", { name: "Replay the intro" }),
     ).toBeInTheDocument();
     const list = screen.getByRole("list", { name: "Guide topics" });
-    expect(within(list).getAllByRole("link")).toHaveLength(6);
+    expect(within(list).getAllByRole("link")).toHaveLength(7);
     expect(list.textContent).not.toMatch(HANGUL);
+    expect(within(list).getByRole("link", { name: /AI chat/ })).toHaveAttribute(
+      "href",
+      "/projects/guide?topic=chat",
+    );
     expect(
       within(list).getByRole("link", { name: /Getting started/ }),
     ).toHaveAttribute("href", "/projects/guide?topic=start");

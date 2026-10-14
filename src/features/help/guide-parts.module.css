@@ -6,6 +6,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 .pageTitle {
@@ -62,6 +64,13 @@
   box-shadow: var(--lk-focus-ring);
 }
 
+.topicHead {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-2);
+  min-width: 0;
+}
+
 .topicTitle,
 .topicSummary {
   overflow: hidden;
@@ -83,6 +92,8 @@
   grid-template-columns: minmax(0, 1fr) 200px;
   gap: var(--lk-space-7);
   margin-top: var(--lk-space-3);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 .article {
@@ -96,6 +107,11 @@
   display: flex;
   flex-direction: column;
   gap: var(--lk-space-2);
+}
+
+.soon {
+  align-self: flex-start;
+  margin-bottom: calc(var(--lk-space-3) * -1);
 }
 
 .articleMeta {

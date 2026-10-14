@@ -1,4 +1,8 @@
-import type { AuthService, RefreshService } from "@/services/ports";
+import type {
+  AuthService,
+  ChatService,
+  RefreshService,
+} from "@/services/ports";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render } from "@testing-library/react";
 import type { ReactElement } from "react";
@@ -38,6 +42,7 @@ export function renderWithServices(
     before?: () => void;
     auth?: Partial<AuthService>;
     refresh?: Partial<RefreshService>;
+    chat?: Partial<ChatService>;
     queryClient?: QueryClient;
   } = {},
 ) {
@@ -57,6 +62,7 @@ export function renderWithServices(
   const services = createMockServices();
   services.auth = { ...services.auth, ...options.auth };
   services.refresh = { ...services.refresh, ...options.refresh };
+  services.chat = { ...services.chat, ...options.chat };
   return render(
     <QueryClientProvider client={queryClient}>
       <ServicesProvider services={services}>

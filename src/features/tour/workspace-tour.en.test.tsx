@@ -37,6 +37,9 @@ describe("WorkspaceTour (English)", () => {
         initialLayout={createLayout({ kind: "new" })}
       >
         <TourStage refreshDelay={50} />
+        <button type="button" data-tour="ai-chat">
+          stage chat
+        </button>
         <WorkspaceTour />
       </WorkspaceProvider>,
     );
@@ -44,7 +47,7 @@ describe("WorkspaceTour (English)", () => {
     const first = await screen.findByRole("dialog", {
       name: "Write your chapters here",
     });
-    expect(screen.getByRole("list", { name: "Step 1 of 16" })).toBeVisible();
+    expect(screen.getByRole("list", { name: "Step 1 of 17" })).toBeVisible();
     expect(screen.getByRole("button", { name: "Skip" })).toBeInTheDocument();
     expect(first.textContent).not.toMatch(/[가-힣]/);
 
@@ -56,6 +59,7 @@ describe("WorkspaceTour (English)", () => {
       "Focus on one document",
       "Track appearances in the timeline",
       "Rows are documents, columns are chapters",
+      "AI chat that knows your story",
       "After you write a new chapter",
       "Changes found",
       "Changed documents are listed here",
@@ -69,6 +73,8 @@ describe("WorkspaceTour (English)", () => {
         { timeout: 4000 },
       );
       expect(dialog.textContent).not.toMatch(/[가-힣]/);
+      if (title === "AI chat that knows your story")
+        expect(dialog).toHaveTextContent("Coming soon");
     }
     expect(screen.getByRole("button", { name: "Back" })).toBeInTheDocument();
     await actor.click(screen.getByRole("button", { name: "Done" }));

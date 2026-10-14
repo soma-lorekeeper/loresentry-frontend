@@ -19,6 +19,9 @@ export default {
   "새 회차를 쓰면\n그래프 최신화": "New chapter?\nRefresh the graph",
   "AI가 설정 문서에 바뀔 점을 찾고, 고르는 건 작가예요. 원고는 고치지 않아요.":
     "AI finds what should change in your setting documents, and you decide what to keep. Your manuscript stays untouched.",
+  "작품을 아는\nAI 챗": "AI chat that\nknows your story",
+  "원고·설정·메모를 모두 읽고 근거와 함께 답해요. 원고 문장을 드래그해서 바로 물어볼 수도 있어요.":
+    "It reads your manuscript, settings and notes, and answers with its sources. You can also select a sentence in a chapter and ask about it.",
   "작가명을\n정해 주세요": "Choose your\npen name",
   "프로젝트 목록과 작업공간에 보이는 이름이에요.":
     "This name appears in your project list and workspace.",
@@ -108,6 +111,8 @@ export default {
   "줄은 문서, 칸은 회차예요": "Rows are documents, columns are chapters",
   "막대가 있는 칸이 그 문서가 이어진 회차예요. 회차 이름을 누르면 그 회차를 따라 읽을 수 있어요.":
     "A bar marks a chapter the document is linked to. Click a chapter name to follow that chapter down the rows.",
+  "원고·설정·메모를 모두 읽고 근거와 함께 답해요. 원고 문장을 드래그하면 그 부분을 바로 물어볼 수 있어요.":
+    "It reads your manuscript, settings and notes, and answers with its sources. Select a sentence in a chapter to ask about that part right away.",
   "투어::{total}단계 중 {step}단계": "Step {step} of {total}",
   "투어::건너뛰기": "Skip",
   "투어::완료": "Done",
@@ -159,6 +164,23 @@ export default {
   "무대::13화로 넘길 것": "Save for Ch. 13",
   "무대::온실 안에서 들리는 목소리의 정체는 아직 밝히지 않는다.":
     "Don't reveal yet whose voice is heard inside the greenhouse.",
+  "무대::정원은 밤이 오면 유리보다 먼저 숨을 죽였다. 달빛이 온실의 지붕을 훑고 지나갈 때마다, 금이 간 창마다 은빛 선이 번졌다. 서윤은 그 선들이 모두 한곳을 가리키고 있다는 사실을 세 번째 순찰에서야 알아차렸다.":
+    "When night came, the garden held its breath before the glass did. Each time the moonlight swept across the greenhouse roofs, silver lines spread through every cracked pane. Only on the third patrol did Seoyun realize that all of those lines pointed to the same place.",
+  "무대::오래 잠겨 있던 북쪽 문 앞에는 발자국이 하나뿐이었다. 안으로 들어간 흔적은 있었지만 돌아 나온 흔적은 없었다. 손잡이에 손을 얹자 차가운 진동이 손목을 타고 올라왔다. 어젯밤 메모에 적어 둔 문장이 떠올랐다. ‘균열은 문이 아니라 기억의 방향이다.’":
+    "In front of the long-locked North Door there was only a single set of footprints. There were signs of someone going in, but none of anyone coming back out. When she laid her hand on the handle, a cold tremor climbed up her wrist. A sentence she had written in her notes the night before came back to her: “A fracture is not a door but the direction of a memory.”",
+  "무대::서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다.":
+    "Seoyun set the lantern down on the ground and slowly pushed the door open.",
+  "무대::어둠 너머에서 익숙한 목소리가 이름을 불렀다. 아주 오래전, 이 정원을 떠난 사람이 마지막으로 불렀던 방식 그대로였다.":
+    "From beyond the darkness, a familiar voice called her name. It was exactly the way it had been called the last time, long ago, by someone who had left this garden.",
+  "무대::이 부분은 서윤이 망설임을 끝내고 북쪽 문을 여는 순간이에요.":
+    "This is the moment Seoyun stops hesitating and opens the North Door.",
+  "무대::{who} 이 회차에서 {place}에 도착해요.":
+    "{who} arrives at {place} in this episode.",
+  "무대::열쇠 없이 연다는 점이 {chip} 설정과 어긋나지 않는지 확인해 보세요.":
+    "She opens it without a key, so check this against {chip}.",
+  "무대::문을 밀기 직전 떠올린 문장은 메모에도 적어 두셨어요.":
+    "The line she recalls just before pushing the door is in your notes too.",
+  "무대::균열의 방향": "Direction of the fracture",
 
   "무대::검색": "Search",
   "무대::그래프": "Graph",

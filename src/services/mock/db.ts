@@ -30,10 +30,11 @@ import {
 
 import { LOCALE, t } from "@/i18n";
 
+import { chatPreview, compileChatMarkup } from "./chat-markup";
 import { SEED } from "./seed-world";
 import type { MockSeed, SeedOtherProject } from "./seed-types";
 
-export const MOCK_DB_VERSION = 11;
+export const MOCK_DB_VERSION = 13;
 const STORAGE_KEY =
   LOCALE === "ko" ? "loresentry.mock.db" : `loresentry.mock.db.${LOCALE}`;
 
@@ -464,41 +465,48 @@ function buildGlassGarden(
     description.value = history.currentDescription;
   }
 
-  const chatSessions: Array<[string, string, number]> = [
-    ["chat-crack", seed.chat.sessions.crack, 5],
-    ["chat-lena", seed.chat.sessions.lena, 60 * 26],
-    ["chat-title", seed.chat.sessions.title, 60 * 24 * 4],
-  ];
   const chapter12 = {
     id: docId("ch-12"),
     title: db.files.find((file) => file.id === docId("ch-12"))!.title,
   };
-  for (const [id, title, ago] of chatSessions) {
-    db.chatSessions.push({
-      id,
-      projectId,
-      title,
-      updatedAt: minutes(now, ago),
-    });
-  }
-  db.chatMessages.push(
-    {
-      id: "msg-1",
-      sessionId: "chat-crack",
-      role: "user",
-      content: seed.chat.question,
-      createdAt: minutes(now, 6),
-      contextFile: { ...chapter12 },
-    },
-    {
-      id: "msg-2",
-      sessionId: "chat-crack",
-      role: "assistant",
-      content: seed.chat.answer,
-      createdAt: minutes(now, 5),
-      contextFile: { ...chapter12 },
-    },
+  const chatDocs = db.files.filter(
+    (node): node is DocumentNode =>
+      node.projectId === projectId && isDocumentNode(node),
   );
+  const chatMemos = db.memos.filter((memo) => memo.projectId === projectId);
+  for (const conversation of seed.chat.sessions) {
+    const sessionId = `${projectId}:${conversation.key}`;
+    const answer = compileChatMarkup(conversation.answer, chatDocs, chatMemos);
+    db.chatSessions.push({
+      id: sessionId,
+      projectId,
+      title: conversation.title,
+      updatedAt: minutes(now, conversation.minutesAgo),
+      preview: chatPreview(answer.content, answer.citations),
+    });
+    db.chatMessages.push(
+      {
+        id: `${sessionId}:q`,
+        sessionId,
+        role: "user",
+        content: conversation.question,
+        intent: "ask",
+        quote: null,
+        citations: [],
+        createdAt: minutes(now, conversation.minutesAgo + 1),
+      },
+      {
+        id: `${sessionId}:a`,
+        sessionId,
+        role: "assistant",
+        content: answer.content,
+        intent: null,
+        quote: null,
+        citations: answer.citations,
+        createdAt: minutes(now, conversation.minutesAgo),
+      },
+    );
+  }
 
   db.projects.push({
     id: projectId,

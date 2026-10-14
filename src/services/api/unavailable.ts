@@ -19,6 +19,8 @@ function unavailable<T>(): Promise<T> {
 }
 
 const chat: ChatService = {
+  availability: () => unavailable(),
+  search: () => unavailable(),
   sessions: () => unavailable(),
   createSession: () => unavailable(),
   renameSession: () => unavailable(),

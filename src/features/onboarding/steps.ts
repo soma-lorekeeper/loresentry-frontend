@@ -8,10 +8,12 @@ export interface OnboardingStep {
     | "graph"
     | "timeline"
     | "refresh"
+    | "chat"
     | "name"
     | "start";
   title: string;
   body: string;
+  soon?: boolean;
 }
 
 export const ONBOARDING_STEPS: OnboardingStep[] = [
@@ -50,6 +52,14 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     body: t(
       "AI가 설정 문서에 바뀔 점을 찾고, 고르는 건 작가예요. 원고는 고치지 않아요.",
     ),
+  },
+  {
+    id: "chat",
+    title: t("작품을 아는\nAI 챗"),
+    body: t(
+      "원고·설정·메모를 모두 읽고 근거와 함께 답해요. 원고 문장을 드래그해서 바로 물어볼 수도 있어요.",
+    ),
+    soon: true,
   },
   {
     id: "name",

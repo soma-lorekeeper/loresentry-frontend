@@ -51,6 +51,7 @@ function renderTour(
   options: Parameters<typeof renderWithServices>[1] = {},
   stage: Parameters<typeof TourStage>[0] = {},
   sidebarOpen = true,
+  launcher = true,
 ) {
   const project = getDb().projects.find((p) => p.id === GLASS_GARDEN_ID)!;
   return renderWithServices(
@@ -61,6 +62,11 @@ function renderTour(
     >
       <SidebarProbe />
       <TourStage {...stage} />
+      {launcher && (
+        <button type="button" data-tour="ai-chat">
+          stage chat
+        </button>
+      )}
       <WorkspaceTour />
     </WorkspaceProvider>,
     options,
@@ -90,7 +96,7 @@ describe("WorkspaceTour", () => {
     renderTour();
 
     await card("원고는 여기서 써요");
-    expect(screen.getByRole("list", { name: "16단계 중 1단계" })).toBeVisible();
+    expect(screen.getByRole("list", { name: "17단계 중 1단계" })).toBeVisible();
     await actor.click(screen.getByRole("button", { name: "다음" }));
     await throughImport(actor);
     await card("속성 표로 문서를 이어요");
@@ -107,6 +113,11 @@ describe("WorkspaceTour", () => {
     await card("회차별 등장은 타임라인에서");
     await actor.click(screen.getByRole("button", { name: "stage timeline" }));
     await card("줄은 문서, 칸은 회차예요");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+
+    const chat = await card("작품을 아는 AI 챗");
+    expect(chat).toHaveTextContent("곧 열려요");
+    expect(chat).toHaveTextContent("원고 문장을 드래그하면");
     await actor.click(screen.getByRole("button", { name: "다음" }));
 
     await card("새 회차를 쓴 다음엔");
@@ -202,6 +213,9 @@ describe("WorkspaceTour", () => {
     expect(screen.queryByRole("button", { name: "stage refresh" })).toBeNull();
     expect(screen.getByRole("button", { name: "다음" })).toBeVisible();
     await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("작품을 아는 AI 챗");
+    expect(screen.getByRole("button", { name: "다음" })).toBeVisible();
+    await actor.click(screen.getByRole("button", { name: "다음" }));
     await card("새 회차를 쓴 다음엔");
     expect(
       screen.getByRole("button", { name: "stage refresh" }),
@@ -285,7 +299,39 @@ describe("WorkspaceTour", () => {
     );
 
     await card("원고는 여기서 써요");
-    expect(screen.getByRole("list", { name: "9단계 중 1단계" })).toBeVisible();
+    expect(screen.getByRole("list", { name: "10단계 중 1단계" })).toBeVisible();
+    for (const next of [
+      "쓰던 원고는 가져와요",
+      "올려 두고, 확인하고, 가져와요",
+      "속성 표로 문서를 이어요",
+      "이은 관계는 그래프로 봐요",
+      "한 문서에 집중해요",
+      "회차별 등장은 타임라인에서",
+      "줄은 문서, 칸은 회차예요",
+      "작품을 아는 AI 챗",
+    ]) {
+      await actor.click(screen.getByRole("button", { name: "다음" }));
+      await card(next);
+    }
+    expect(screen.getByRole("button", { name: "완료" })).toBeVisible();
+  });
+
+  it("leaves out the AI chat step when there is no chat launcher", async () => {
+    window.localStorage.setItem("loresentry.tour.workspace", "pending");
+    const actor = userEvent.setup();
+    renderTour(
+      {
+        refresh: {
+          current: () =>
+            Promise.reject(new ServiceError("unavailable", "준비 중")),
+        },
+      },
+      { refresh: false },
+      true,
+      false,
+    );
+
+    await card("원고는 여기서 써요");
     for (const next of [
       "쓰던 원고는 가져와요",
       "올려 두고, 확인하고, 가져와요",
@@ -299,6 +345,9 @@ describe("WorkspaceTour", () => {
       await card(next);
     }
     expect(screen.getByRole("button", { name: "완료" })).toBeVisible();
+    await actor.click(screen.getByRole("button", { name: "완료" }));
+    await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+    expect(screen.queryByText("작품을 아는 AI 챗")).toBeNull();
   });
 
   it("stays away once done, skips with Esc, and replays on request", async () => {

@@ -65,14 +65,6 @@ export default {
   "‘{title}’이 추출 뒤에 수정됐어요. 그래프를 다시 최신화해 주세요.":
     "“{title}” was edited after extraction. Refresh the graph again.",
 
-  "새 채팅": "New chat",
-  "세션 이름을 입력해 주세요.": "Enter a session name.",
   "대화를 찾을 수 없어요.": "Couldn't find this conversation.",
   "응답 생성을 중단했어요.": "Stopped generating the response.",
-  "장면의 목적을 한 문장으로 먼저 정해 보세요. 그 문장에서 벗어나는 묘사를 덜어 내면 긴장이 한곳에 모입니다.":
-    "Start by stating the purpose of the scene in one sentence. Trim the description that strays from that sentence, and the tension gathers in one place.",
-  "인물이 무엇을 원하고 무엇이 그것을 막는지 대사보다 행동으로 먼저 보여 주면 좋겠습니다. 마지막 문장은 다음 장면의 질문으로 남겨 두세요.":
-    "Show what the character wants and what stands in the way through action before dialogue. Leave the last sentence as a question for the next scene.",
-  "지금 열린 문서의 설정과 겹치는 표현이 있어요. 같은 사물을 부르는 이름을 하나로 맞추면 독자가 덜 헷갈립니다.":
-    "Some wording overlaps with the settings in the open document. Using one name for the same thing makes it easier for readers to follow.",
 } satisfies Messages;

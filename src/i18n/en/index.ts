@@ -1,3 +1,4 @@
+import chat from "./chat";
 import common from "./common";
 import editor from "./editor";
 import help from "./help";
@@ -20,6 +21,7 @@ export const EN = {
   ...workspace,
   ...editor,
   ...help,
+  ...chat,
   ...mock,
 };
 
@@ -31,5 +33,6 @@ export const EN_AREAS = {
   workspace,
   editor,
   help,
+  chat,
   mock,
 };

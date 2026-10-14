@@ -32,4 +32,18 @@ describe("WorkspaceHelpView", () => {
       screen.getByRole("navigation", { name: "관련 문서" }),
     ).toHaveTextContent("관련 문서원고 작성검색과 그래프");
   });
+
+  it("opens the AI chat topic from the list", async () => {
+    const actor = userEvent.setup();
+    renderWithServices(<WorkspaceHelpView />);
+
+    const list = await screen.findByRole("list", { name: "가이드 주제" });
+    await actor.click(within(list).getByRole("button", { name: /AI 챗/ }));
+    expect(
+      await screen.findByRole("heading", { level: 1, name: "AI 챗" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("navigation", { name: "이 문서에서" }),
+    ).toHaveTextContent("본문에서 바로 묻기");
+  });
 });

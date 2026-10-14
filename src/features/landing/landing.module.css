@@ -614,6 +614,31 @@
   margin-top: 56px;
 }
 
+.chat {
+  margin-top: clamp(140px, 16vw, 220px);
+}
+
+.chatCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 540px;
+}
+
+.chat .chatFrame {
+  width: 100%;
+  margin-top: 56px;
+}
+
+.chatPoints {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(24px, 3vw, 48px);
+  margin-top: 48px;
+  padding: 0;
+  list-style: none;
+}
+
 .steps {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -792,7 +817,8 @@
     margin-top: 40px;
   }
 
-  .steps {
+  .steps,
+  .chatPoints {
     grid-template-columns: minmax(0, 1fr);
   }
 

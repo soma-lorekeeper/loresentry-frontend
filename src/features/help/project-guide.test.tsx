@@ -2,6 +2,7 @@ import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
+import { CHAT_LAUNCHED } from "@/features/chat/launch";
 import { renderWithServices, routerMock, setSearchParams } from "@/test/render";
 
 import { ProjectGuidePage } from "./project-guide";
@@ -20,7 +21,7 @@ describe("ProjectGuidePage", () => {
     renderWithServices(<ProjectGuidePage user={user} />);
 
     const list = screen.getByRole("list", { name: "가이드 주제" });
-    expect(within(list).getAllByRole("link")).toHaveLength(6);
+    expect(within(list).getAllByRole("link")).toHaveLength(7);
     expect(
       within(list).getByRole("link", { name: /작업공간 시작하기/ }),
     ).toHaveAttribute("href", "/projects/guide?topic=start");
@@ -60,6 +61,33 @@ describe("ProjectGuidePage", () => {
     const toc = screen.getByRole("navigation", { name: "이 문서에서" });
     expect(within(toc).getAllByRole("link")).toHaveLength(
       within(article).getAllByRole("heading", { level: 2 }).length,
+    );
+  });
+
+  it("explains the AI chat and says when it is not open yet", () => {
+    setSearchParams("topic=chat");
+    renderWithServices(<ProjectGuidePage user={user} />);
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: "AI 챗" }),
+    ).toBeInTheDocument();
+    const article = screen.getByRole("article");
+    expect(
+      within(article)
+        .getAllByRole("heading", { level: 2 })
+        .map((heading) => heading.textContent),
+    ).toEqual([
+      "1. 챗 열기",
+      "2. 질문하기",
+      "3. 본문에서 바로 묻기",
+      "4. 답과 근거 보기",
+      "5. 멈추기와 다시 묻기",
+      "6. 대화 찾기와 정리",
+      "7. 작품이 길 때",
+    ]);
+    expect(article.textContent).toContain("원고는 고치지 않습니다");
+    expect(within(article).queryAllByText("곧 열려요")).toHaveLength(
+      CHAT_LAUNCHED ? 0 : 1,
     );
   });
 

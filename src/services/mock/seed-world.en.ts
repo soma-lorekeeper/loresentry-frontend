@@ -21,6 +21,15 @@ const chapter = (
   body,
 });
 
+const CHAT_DOOR =
+  "The latest chapter with text is Ch. 12. When Seoyun pushes the North Door, **a familiar voice from beyond the darkness calls her name.** [[doc:Ch. 12 · Night of the Fracture|From beyond the darkness, a familiar voice called her name.]] The text says it was exactly the way someone who had left the garden long ago last called it.\nCh. 12 doesn't reveal whose voice it is. The next chapter, [[doc:Ch. 13 · The Voice That Returned]], takes that up, and among your setting documents [[doc:Theo|The one who left the garden and came back]] is the closest match.\n- There is only one set of footprints at the door: signs of someone going in, none of anyone coming back out. [[doc:Ch. 12 · Night of the Fracture|There were signs of someone going in, but none of anyone coming back out.]]\n- The sentence Seoyun recalls right before pushing the door is also in one of your project notes. [[memo:Direction of the fracture|A fracture is not a door but the direction of a memory.]]";
+
+const CHAT_LENA =
+  "Among the main characters, [[doc:Lena Arbel]] has the most links: five documents in her property table.\n- **Organization** [[doc:Silver Voyagers|Their last navigator]] The Voyagers call Lena their last navigator.\n- **Place** [[doc:Glass Mountains|Where she first awakened]] Where Lena first awakened.\n- **Event** [[doc:Awakening|The one who awakened]] Lena is the one it happened to.\n- **Manuscript** She first appears in [[doc:Ch. 11 · The Glass Garden|First appearance]] and reaches the North Greenhouse in [[doc:Ch. 12 · Night of the Fracture|Arrives at the greenhouse]].\nHer setting says every memory she reads comes at a price, but no chapter has shown that price yet. [[doc:Lena Arbel|Reading memories always demands a price.]]";
+
+const CHAT_OPEN =
+  "Among the chapters that have text, the first is **the moment in Ch. 12 when she grips the handle of the North Door**. [[doc:Ch. 12 · Night of the Fracture|When she laid her hand on the handle, a cold tremor climbed up her wrist.]]\nUp to that point Seoyun is drawn only as a recorder watching the fractures over three patrols. Here she hesitates for the first time, and setting the lantern down before she “slowly” pushes the door shows it.\nThere is an earlier candidate. In Ch. 11 she and Harin look up at the cracked pane in silence, which reads more like a warning of unease than wavering. [[doc:Ch. 11 · The Glass Garden|The two of them looked up at the cracked pane without a word.]]\nCh. 1–10 have no text yet, so I left them out. Ask again once you've written them.";
+
 const EPISODES: SeedEpisode[] = [
   {
     key: "ep-1",
@@ -454,15 +463,48 @@ export const EN_SEED: MockSeed = {
       "A Silver Voyagers navigator who reads the memory routes",
   },
   chat: {
-    sessions: {
-      crack: "Polishing the fracture scene",
-      lena: "Sorting out Lena's profile",
-      title: "Title ideas for Ch. 12",
+    sessions: [
+      {
+        key: "chat-door",
+        title: "Checking the North Door scene",
+        minutesAgo: 120,
+        question: "What does Seoyun hear after she opens the North Door?",
+        answer: CHAT_DOOR,
+      },
+      {
+        key: "chat-lena",
+        title: "Sorting out Lena's profile",
+        minutesAgo: 60 * 26,
+        question: "Sum up the settings linked to Lena",
+        answer: CHAT_LENA,
+      },
+      {
+        key: "chat-title",
+        title: "Title ideas for Ch. 12",
+        minutesAgo: 60 * 24 * 4,
+        question: "Give me a few more title ideas for Ch. 12",
+        answer:
+          "The current title, “Night of the Fracture”, is the same as the event document's name. [[doc:Night of the Fracture]] If you want the chapter title to stand apart, here are a few options.\n- A Single Set of Footprints\n- No Way Back Out\n- The Direction of a Memory",
+      },
+    ],
+    scripts: [
+      { keywords: ["lena", "linked", "main character"], answer: CHAT_LENA },
+      { keywords: ["waver", "break"], answer: CHAT_OPEN },
+      { keywords: ["latest", "door", "voice", "hear"], answer: CHAT_DOOR },
+    ],
+    quotedChapter: "Ch. 12 · Night of the Fracture",
+    quoted: {
+      ask: "The sentence you picked is in the last paragraph of Ch. 12. {cite}\n**The voice beyond the door appears for the first time in this chapter.** The same phrase isn't used anywhere else in the manuscript, and who it belongs to is held over to Ch. 13. Among your setting documents, [[doc:Theo|The one who left the garden and came back]] fits “someone who had left this garden” best.",
+      explain:
+        "This is the moment Seoyun stops hesitating and opens the North Door. {cite}\n- **Who**: Seoyun, alone, right after noticing on her third patrol that every crack points the same way.\n- **What**: She sets the lantern down and pushes the door. She opens it without a key, so check this against [[doc:Old Key|The key that opens the North Door]].\n- **Why it matters**: The voice beyond the door leads into the events of Ch. 13. [[doc:Ch. 13 · The Voice That Returned]]",
+      related:
+        "Three settings are linked to the part you picked. {cite}\n- [[doc:North Greenhouse|Where the chapter is set]] This is where the scene takes place.\n- [[doc:Old Key|The key that opens the North Door]] Seoyun pushes the door without a key. Who holds the key hasn't come up in the manuscript yet.\n- [[doc:Night of the Fracture|The night a fracture first appeared in the greenhouses]] The event document for the same night.",
+      flow: "This sentence is the turning point of Ch. 12. {cite}\n- Before: in Ch. 11, Seoyun and Harin look up at the cracked pane without a word. [[doc:Ch. 11 · The Glass Garden|The two of them looked up at the cracked pane without a word.]]\n- After: Ch. 13, “The Voice That Returned”, reveals whose voice it is. Its text is still empty. [[doc:Ch. 13 · The Voice That Returned]]",
     },
-    question:
-      "How can I raise the tension in the scene just before the door opens?",
-    answer:
-      "Before the door opens, try building up three senses in short beats. If you narrow in, one sentence at a time, on the tremor in the handle, the sound of the swaying lantern and the voice beyond the door, readers will feel Seoyun's hesitation along with her.",
+    quotedOther:
+      "The part you picked is in {title}. {cite}\nThis screen runs on sample data, so it only answers in detail about sentences in Ch. 12. Open [[doc:Ch. 12 · Night of the Fracture]] and select some of its text.",
+    fallback:
+      "This is where AI reads your whole manuscript, settings and notes and answers. Right now the screen runs on sample data, so it only answers the prepared questions as it really would. Try a suggested question, or select a sentence in your manuscript and ask about it.",
   },
   otherProjects: OTHER_PROJECTS,
   trashedProjects: TRASHED_PROJECTS,

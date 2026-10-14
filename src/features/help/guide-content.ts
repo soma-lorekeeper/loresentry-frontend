@@ -16,6 +16,7 @@ export interface GuideTopic {
   lead: string;
   updatedAt: string;
   readMinutes: number;
+  soon?: boolean;
   facts: Array<{ label: string; value: string }>;
   sections: GuideSection[];
   related: string[];

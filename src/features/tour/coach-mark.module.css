@@ -85,6 +85,13 @@
   margin-left: 6px;
 }
 
+.heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+
 .title {
   font-family: var(--lk-font-stack-display);
   font-size: 17px;

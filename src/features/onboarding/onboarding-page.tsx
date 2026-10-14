@@ -18,6 +18,7 @@ import {
   TextField,
 } from "@/design-system/primitives";
 import type { User } from "@/domain/models";
+import { ChatSoonBadge } from "@/features/chat/launch";
 import {
   useCompleteOnboarding,
   useCreateSampleProject,
@@ -29,7 +30,7 @@ import { isServiceError } from "@/services/errors";
 import { cx } from "@/shared/cx";
 import { useElementSize } from "@/shared/use-element-size";
 
-import { AppWindow, type TourScene as Scene } from "./scenes";
+import { AppWindow, CHAT_OPENS_AT, type TourScene as Scene } from "./scenes";
 import { stepsFor } from "./steps";
 import styles from "./onboarding.module.css";
 
@@ -49,6 +50,10 @@ const FOCUS: Record<Scene, { target: string; at: number; whole?: boolean }[]> =
     refresh: [
       { target: "refresh", at: 0 },
       { target: "diff", at: 1500, whole: true },
+    ],
+    chat: [
+      { target: "selection", at: 0 },
+      { target: "chat", at: CHAT_OPENS_AT },
     ],
     name: [{ target: "name", at: 0 }],
   };
@@ -468,9 +473,12 @@ export function OnboardingPage({
             ))}
           </ol>
           <div key={step} className={styles.copy} aria-live="polite">
-            <h1 id="onboarding-title" className={styles.title}>
-              {current.title}
-            </h1>
+            <div className={styles.heading}>
+              <h1 id="onboarding-title" className={styles.title}>
+                {current.title}
+              </h1>
+              {current.soon && <ChatSoonBadge className={styles.soon} />}
+            </div>
             {current.body && <p className={styles.body}>{current.body}</p>}
           </div>
           {onName && (
