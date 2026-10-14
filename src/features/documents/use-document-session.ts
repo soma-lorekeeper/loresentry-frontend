@@ -7,6 +7,7 @@ import { invalidateProjectContent, queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 
 import { DocumentSession } from "./document-session";
+import { trackSession } from "./open-sessions";
 
 export function useDocumentSession(fileId: string) {
   const services = useServices();
@@ -45,8 +46,10 @@ export function useDocumentSession(fileId: string) {
     const flush = () => {
       if (document.visibilityState === "hidden") void session.save();
     };
+    const untrack = trackSession(session);
     document.addEventListener("visibilitychange", flush);
     return () => {
+      untrack();
       document.removeEventListener("visibilitychange", flush);
       void session.dispose();
     };

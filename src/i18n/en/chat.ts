@@ -88,4 +88,13 @@ export default {
     "Show the settings related to this passage",
   "이 부분의 앞뒤 흐름을 알려 줘":
     "What happens before and after this passage?",
+  "질문을 입력해 주세요.": "Type a question.",
+  "마지막 질문만 고칠 수 있어요.": "Only the last question can be edited.",
+  "답을 받는 중에 연결이 끊겼어요.":
+    "The connection dropped while the answer was coming in.",
+  "AI가 지금 답할 수 없어요. 잠시 뒤 다시 물어봐 주세요.":
+    "The AI can't answer right now. Please ask again in a moment.",
+  "AI 챗 서버에 연결할 수 없어요.": "Can't reach the AI chat server.",
+  "이 대화에서 답을 쓰는 중이에요. 끝난 뒤에 다시 보내 주세요.":
+    "An answer is still being written in this conversation. Send again once it's done.",
 } satisfies Messages;

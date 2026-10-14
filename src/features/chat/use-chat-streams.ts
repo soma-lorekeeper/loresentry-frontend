@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
 import type { ChatCitation, ChatMessage, ChatPhase } from "@/domain/models";
+import { saveOpenDocuments } from "@/features/documents/open-sessions";
 import type { ChatSendInput } from "@/services/ports";
 import { useServices } from "@/services/services-context";
 
@@ -96,27 +97,29 @@ export function useChatStreams(projectId: string) {
         startedAt: Date.now(),
       },
     }));
-    services.chat
-      .send(
-        sessionId,
-        input,
-        {
-          onPhase: (phase) => update(sessionId, () => ({ phase })),
-          onCitation: (index, citation) =>
-            update(sessionId, (stream) => {
-              const citations = [...stream.citations];
-              citations[index - 1] = citation;
-              return { citations };
-            }),
-          onDelta: (text) =>
-            update(sessionId, (stream) => ({
-              phase: "writing",
-              content: stream.content + text,
-              freshFrom: stream.content.length,
-              tick: stream.tick + 1,
-            })),
-        },
-        controller.signal,
+    saveOpenDocuments()
+      .then(() =>
+        services.chat.send(
+          sessionId,
+          input,
+          {
+            onPhase: (phase) => update(sessionId, () => ({ phase })),
+            onCitation: (index, citation) =>
+              update(sessionId, (stream) => {
+                const citations = [...stream.citations];
+                citations[index - 1] = citation;
+                return { citations };
+              }),
+            onDelta: (text) =>
+              update(sessionId, (stream) => ({
+                phase: "writing",
+                content: stream.content + text,
+                freshFrom: stream.content.length,
+                tick: stream.tick + 1,
+              })),
+          },
+          controller.signal,
+        ),
       )
       .then(
         async () => {

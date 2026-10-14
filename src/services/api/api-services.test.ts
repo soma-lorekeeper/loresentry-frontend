@@ -935,20 +935,17 @@ describe("search", () => {
 });
 
 describe("wiring", () => {
-  it("refuses the ports the server does not serve, rather than faking them", async () => {
+  it("asks the server for chat instead of faking conversations", async () => {
     const wired = createServices({
       ...DEFAULT_RUNTIME_CONFIG,
       dataSource: "api",
       apiBaseUrl: BASE,
     });
+    reply(200, { sessions: [] });
 
-    // mock 을 그대로 두면 그럴듯한 가짜 대화를 진짜처럼 보여 준다.
-    const error = await wired.chat
-      .sessions("p-1")
-      .catch((cause: unknown) => cause);
-    expect(isServiceError(error) && error.code).toBe("unavailable");
-    // 요청을 보내지도 않는다. 서버에 그 경로가 없다.
-    expect(calls).toHaveLength(0);
+    expect(await wired.chat.sessions("p-1")).toEqual([]);
+    expect(calls[0].url).toBe(`${BASE}/projects/p-1/chat/sessions`);
+    expect(calls[0].credentials).toBe("include");
   });
 
   it("runs graph refresh in the browser as a preview until the AI server exists", async () => {

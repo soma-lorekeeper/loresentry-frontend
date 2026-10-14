@@ -1,6 +1,7 @@
 import type { Services } from "../ports";
 
 import { createApiAccount, createApiAuth } from "./auth";
+import { createApiChat } from "./chat";
 import { createApiDocuments, createApiVersions } from "./documents";
 import { ApiFavoriteStore } from "./favorites";
 import { createApiFeedback } from "./feedback";
@@ -12,7 +13,6 @@ import { createApiMemos } from "./memos";
 import { createApiProjects } from "./projects";
 import { createApiRefresh } from "./refresh";
 import { createApiSearch } from "./search";
-import { unavailableServices } from "./unavailable";
 import { createApiWorkspaceState } from "./workspace-state";
 
 /**
@@ -44,6 +44,6 @@ export function createApiServices(baseUrl: string): Partial<Services> {
     feedback: createApiFeedback(client),
     help: createApiHelp(),
     refresh: createApiRefresh({ files, documents, versions }),
-    ...unavailableServices(),
+    chat: createApiChat(client),
   };
 }
