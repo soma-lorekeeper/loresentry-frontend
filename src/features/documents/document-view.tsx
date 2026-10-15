@@ -536,6 +536,8 @@ export function DocumentView({
                 className={styles.column}
                 style={editorVars}
                 data-kind={docType}
+                data-file-id={fileId}
+                data-file-title={draft.title}
               >
                 <div className={styles.titleRow}>
                   <input

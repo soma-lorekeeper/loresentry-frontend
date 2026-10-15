@@ -175,6 +175,60 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
     related: ["writing", "explore"],
   },
   {
+    id: "chat",
+    title: "AI chat",
+    summary: "Ask about your story and see where each answer comes from",
+    lead: "AI chat reads your chapters, setting documents, the relationships between them and your notes all at once, then answers your question. It only answers and never edits your manuscript.",
+    updatedAt: "2026-10-14",
+    readMinutes: 3,
+    facts: [
+      { label: "Open from", value: "Button at the bottom right" },
+      {
+        label: "Reads",
+        value: "Chapters · Settings · Relationships · Notes",
+      },
+      { label: "Conversations", value: "Kept per project" },
+    ],
+    sections: [
+      {
+        id: "open",
+        title: "Open the chat",
+        body: "Press the round button at the bottom right of the workspace to open the chat window. You can keep writing while it's open. Drag its left or top edge, or its top-left corner, to resize it, and double-click an edge to go back to the default size. This browser remembers the size you choose.",
+      },
+      {
+        id: "ask",
+        title: "Ask a question",
+        body: "Type a question on the first screen, or pick a suggested one, to start a new conversation. The document you're viewing is shared too; click its chip in the question box to leave it out. The answer appears once the whole story has been read, and while you wait you can see what it's doing and how long it has taken.",
+      },
+      {
+        id: "selection",
+        title: "Ask about a passage",
+        body: "Select a passage in a document's text and a small bar appears. Choose Ask AI to add the passage to the question box as a quote, or choose Explain, Related settings or Before and after to ask right away. If a conversation is open in the chat window, the question goes there. Otherwise a new conversation starts.",
+      },
+      {
+        id: "answer",
+        title: "Read answers and sources",
+        body: "Each source appears as a chip with the document's name, colored by document type. Notes are your working notes, so they're kept apart from chapter and setting sources as gray note chips. Hover over a chip to see the quoted text, and click it to open the document or your notes. Use the copy button under an answer to copy it.",
+      },
+      {
+        id: "stop",
+        title: "Stop and ask again",
+        body: "While an answer is being written, press the stop button in the question box. Unfinished answers aren't kept, and Ask again sends the same question once more. Hover over your last question and click the pencil to edit it and get a new answer.",
+      },
+      {
+        id: "sessions",
+        title: "Search and manage conversations",
+        body: "Search conversations on the first screen to look through their titles and what was said. Matches are highlighted, and Enter opens the first result. Use the ⋯ menu at the top of a conversation to rename or delete it. A deleted conversation can't be restored.",
+      },
+      {
+        id: "too-long",
+        title: "When a story is too long",
+        body: "If your chapters, settings and notes together are more than AI chat can read at once, the chat button turns gray. Click it to see how long the story is and what the limit is.",
+      },
+    ],
+    related: ["writing", "memo"],
+  },
+  {
     id: "trash",
     title: "Trash and restore",
     summary: "Bring back deleted items safely",

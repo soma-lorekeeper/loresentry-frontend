@@ -30,6 +30,7 @@ export interface CoachMarkProps {
   last: boolean;
   title: string;
   body: string;
+  round?: boolean;
   action?: string;
   waiting?: boolean;
   placement: readonly Placement[];
@@ -91,6 +92,7 @@ export function CoachMark({
   last,
   title,
   body,
+  round = false,
   action,
   waiting = false,
   placement,
@@ -186,8 +188,10 @@ export function CoachMark({
     { left: 0, top: 0, width: viewport.width, height: viewport.height },
     0,
   );
+  const holeRadius =
+    round && hole ? Math.min(hole.width, hole.height) / 2 : HOLE_RADIUS;
   const catcher =
-    interactive && hole ? `${frame} ${roundedRect(hole, HOLE_RADIUS)}` : frame;
+    interactive && hole ? `${frame} ${roundedRect(hole, holeRadius)}` : frame;
   const total = chapters.length;
 
   return createPortal(
@@ -204,7 +208,7 @@ export function CoachMark({
                 y={hole.top}
                 width={hole.width}
                 height={hole.height}
-                rx={HOLE_RADIUS}
+                rx={holeRadius}
                 fill="black"
               />
             )}
@@ -224,7 +228,7 @@ export function CoachMark({
             y={hole.top}
             width={hole.width}
             height={hole.height}
-            rx={HOLE_RADIUS}
+            rx={holeRadius}
           />
         )}
         <path className={styles.catcher} d={catcher} fillRule="evenodd" />

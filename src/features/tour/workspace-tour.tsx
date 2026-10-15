@@ -29,6 +29,7 @@ import {
 interface TourStep {
   title: string;
   body: string;
+  round?: boolean;
   target: string;
   chapter: number;
   open?: WorkspaceTarget;
@@ -180,6 +181,17 @@ function buildSteps(
       when: "timeline-grid",
       placement: ["bottom", "top", "left", "right"],
     },
+    {
+      title: t("작품을 아는 AI 챗"),
+      body: t(
+        "원고·설정·메모를 모두 읽고 근거와 함께 답해요. 원고 문장을 드래그하면 그 부분을 바로 물어볼 수 있어요.",
+      ),
+      round: true,
+      target: "ai-chat",
+      chapter: 2,
+      when: "ai-chat",
+      placement: ["left", "top"],
+    },
     refreshAvailable && {
       title: t("새 회차를 쓴 다음엔"),
       body: t(
@@ -187,7 +199,7 @@ function buildSteps(
       ),
       action: t("‘그래프 최신화’를 눌러 보세요."),
       target: "refresh-start",
-      chapter: 2,
+      chapter: 3,
       sidebar: true,
       press: "refresh-start",
       advanceOn: ["refresh-running", "refresh-review"],
@@ -200,7 +212,7 @@ function buildSteps(
       action: t("몇 초면 끝나요."),
       waiting: true,
       target: "refresh-running",
-      chapter: 2,
+      chapter: 3,
       sidebar: true,
       advanceOn: ["refresh-review"],
       when: "refresh-running",
@@ -211,7 +223,7 @@ function buildSteps(
       body: t("제안은 아직 문서에 들어가지 않았어요. 열어서 하나씩 확인해요."),
       action: t("‘변경 사항 반영’을 눌러 보세요."),
       target: "refresh-review",
-      chapter: 2,
+      chapter: 3,
       sidebar: true,
       press: "refresh-review",
       advanceOn: ["diff-list", "diff-empty"],
@@ -223,7 +235,7 @@ function buildSteps(
       body: t("‘~’는 고칠 문서, ‘+’는 새로 만들 문서, ‘−’는 지울 문서예요."),
       action: t("문서 하나를 골라 보세요."),
       target: "diff-list",
-      chapter: 2,
+      chapter: 3,
       press: "diff-list",
       advanceOn: ["diff-compare"],
       when: "diff-list",
@@ -235,7 +247,7 @@ function buildSteps(
         "가운데 화살표로 한 줄씩 옮기거나 양쪽을 직접 고쳐요. 두 쪽이 같아지면 그 문서는 정해져요.",
       ),
       target: "diff-compare",
-      chapter: 2,
+      chapter: 3,
       when: "diff-compare",
       placement: ["top", "bottom", "left"],
     },
@@ -245,7 +257,7 @@ function buildSteps(
         "모든 문서를 정하면 ‘반영 확정’이 켜지고, 반영 전 상태는 버전 기록에 남아요. 완료하면 이 창을 닫고 처음 화면으로 돌아가요.",
       ),
       target: "diff-confirm",
-      chapter: 2,
+      chapter: 3,
       when: "diff-list",
       placement: ["bottom", "left"],
     },
@@ -255,7 +267,7 @@ function buildSteps(
         "원고를 더 쓴 뒤 다시 최신화하면 이 창에 제안이 모여요. 완료하면 이 창을 닫고 처음 화면으로 돌아가요.",
       ),
       target: "diff-empty",
-      chapter: 2,
+      chapter: 3,
       when: "diff-empty",
       placement: ["bottom", "top"],
     },
@@ -618,6 +630,7 @@ export function WorkspaceTour() {
       last={!hasNext(steps, index, sidebarVisible)}
       title={step.title}
       body={step.body}
+      round={step.round}
       action={step.action}
       waiting={step.waiting}
       placement={step.placement}

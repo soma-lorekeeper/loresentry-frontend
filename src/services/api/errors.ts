@@ -64,6 +64,15 @@ const CODE_TO_SERVICE_ERROR: Record<string, ServiceErrorCode> = {
   INVALID_SESSION_ID: "unauthenticated",
   REVOCATION_UNCONFIRMED: "network",
   INTERNAL_ERROR: "unknown",
+  CHAT_NOT_ENABLED: "unavailable",
+  AI_CHAT_UNAVAILABLE: "network",
+  CHAT_SESSION_NOT_FOUND: "not-found",
+  CHAT_TITLE_REQUIRED: "validation",
+  CHAT_QUESTION_REQUIRED: "validation",
+  CHAT_NOT_LAST_QUESTION: "validation",
+  CHAT_ANSWER_IN_PROGRESS: "busy",
+  CHAT_CONTEXT_TOO_LARGE: "validation",
+  CHAT_MODEL_UNAVAILABLE: "network",
 };
 
 const MESSAGES: Partial<Record<ServiceErrorCode, string>> = {
@@ -109,6 +118,18 @@ const CODE_MESSAGES: Record<string, string> = {
   CONTENT_UNAVAILABLE: t("잠시 뒤 다시 시도해 주세요."),
   SESSION_INVALID: t("세션이 만료됐어요. 다시 로그인해 주세요."),
   SESSION_UNAVAILABLE: t("잠시 뒤 다시 시도해 주세요."),
+  CHAT_SESSION_NOT_FOUND: t("대화를 찾을 수 없어요."),
+  CHAT_TITLE_REQUIRED: t("대화 이름을 입력해 주세요."),
+  CHAT_QUESTION_REQUIRED: t("질문을 입력해 주세요."),
+  CHAT_NOT_LAST_QUESTION: t("마지막 질문만 고칠 수 있어요."),
+  CHAT_ANSWER_IN_PROGRESS: t(
+    "이 대화에서 답을 쓰는 중이에요. 끝난 뒤에 다시 보내 주세요.",
+  ),
+  CHAT_CONTEXT_TOO_LARGE: t("작품이 커서 AI 챗을 열 수 없어요"),
+  CHAT_MODEL_UNAVAILABLE: t(
+    "AI가 지금 답할 수 없어요. 잠시 뒤 다시 물어봐 주세요.",
+  ),
+  AI_CHAT_UNAVAILABLE: t("AI 챗 서버에 연결할 수 없어요."),
 };
 
 export function toServiceError(

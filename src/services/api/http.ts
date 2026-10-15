@@ -97,6 +97,63 @@ export class ApiClient {
     );
   }
 
+  async stream(
+    path: string,
+    onEvent: (event: string, data: unknown) => void,
+    options: RequestOptions = {},
+  ): Promise<void> {
+    const response = await withSessionRequest(async () => {
+      const opened = await this.fetch(path, options);
+      if (!opened.ok) {
+        throw toServiceError(
+          (await readJson(opened)) as ApiErrorBody | null,
+          opened.status,
+          options.operation,
+        );
+      }
+      return opened;
+    });
+    if (!response.body)
+      throw new ServiceError(
+        "unknown",
+        t("서버 응답을 확인할 수 없어요."),
+        options.operation,
+      );
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    try {
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += decoder
+          .decode(value, { stream: true })
+          .replace(/\r\n/g, "\n");
+        for (
+          let boundary = buffer.indexOf("\n\n");
+          boundary >= 0;
+          boundary = buffer.indexOf("\n\n")
+        ) {
+          dispatchFrame(buffer.slice(0, boundary), onEvent);
+          buffer = buffer.slice(boundary + 2);
+        }
+      }
+    } catch (cause) {
+      if (cause instanceof DOMException && cause.name === "AbortError")
+        throw cause;
+      if (cause instanceof ServiceError) throw cause;
+      if (options.signal?.aborted)
+        throw new DOMException(t("응답 생성을 중단했어요."), "AbortError");
+      throw new ServiceError(
+        "network",
+        t("서버에 연결할 수 없어요."),
+        options.operation,
+      );
+    } finally {
+      reader.cancel().catch(() => {});
+    }
+  }
+
   private async send(path: string, options: RequestOptions): Promise<Exchange> {
     const exchange = async () => {
       const response = await this.fetch(path, options);
@@ -157,6 +214,27 @@ async function readJson(response: Response): Promise<unknown> {
     // 서버가 JSON 이 아닌 것을 돌려줬다. 본문을 추측하지 않고 없는 것으로 본다.
     return null;
   }
+}
+
+function dispatchFrame(
+  frame: string,
+  onEvent: (event: string, data: unknown) => void,
+) {
+  let event = "message";
+  const data: string[] = [];
+  for (const line of frame.split("\n")) {
+    if (line.startsWith(":")) continue;
+    if (line.startsWith("event:")) event = line.slice(6).trim();
+    else if (line.startsWith("data:")) data.push(line.slice(5).trimStart());
+  }
+  if (!data.length) return;
+  let payload: unknown;
+  try {
+    payload = JSON.parse(data.join("\n"));
+  } catch {
+    return;
+  }
+  onEvent(event, payload);
 }
 
 export function query(params: Record<string, string | undefined>): string {

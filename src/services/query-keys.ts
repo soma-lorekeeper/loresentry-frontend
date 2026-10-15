@@ -24,6 +24,12 @@ export const queryKeys = {
   graph: (projectId: string) => ["graph", projectId] as const,
   refresh: (projectId: string) => ["refresh", projectId] as const,
   guides: ["help", "guides"] as const,
+  chatAvailability: (projectId: string) =>
+    ["chat", projectId, "availability"] as const,
+  chatSessions: (projectId: string) => ["chat", projectId, "sessions"] as const,
+  chatSearch: (projectId: string, query: string) =>
+    ["chat", projectId, "search", query] as const,
+  chatMessages: (sessionId: string) => ["chat-messages", sessionId] as const,
 };
 
 export async function invalidateProjectContent(
@@ -35,5 +41,8 @@ export async function invalidateProjectContent(
     queryClient.invalidateQueries({ queryKey: queryKeys.graph(projectId) }),
     queryClient.invalidateQueries({ queryKey: ["search", projectId] }),
     queryClient.invalidateQueries({ queryKey: queryKeys.projects }),
+    queryClient.invalidateQueries({
+      queryKey: queryKeys.chatAvailability(projectId),
+    }),
   ]);
 }

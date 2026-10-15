@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useRef, type CSSProperties } from "react";
 
 import { Icon, ResizeHandle } from "@/design-system/primitives";
+import { ChatDock } from "@/features/chat/chat-dock";
 import { onTourEnd } from "@/features/tour/tour-state";
 import { WorkspaceTour } from "@/features/tour/workspace-tour";
 import { t } from "@/i18n";
@@ -319,6 +320,7 @@ export function WorkspaceShell() {
       */}
       {importing && <ImportDialog onClose={() => setImporting(false)} />}
       <WorkspaceTour />
+      <ChatDock />
     </div>
   );
 }

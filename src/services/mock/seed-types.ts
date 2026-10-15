@@ -61,11 +61,7 @@ export interface MockSeed {
     versionDescriptions: [string, string, string, string];
     currentDescription: string;
   };
-  chat: {
-    sessions: { crack: string; lena: string; title: string };
-    question: string;
-    answer: string;
-  };
+  chat: SeedChat;
   otherProjects: SeedOtherProject[];
   trashedProjects: SeedTrashedProject[];
   /**
@@ -79,4 +75,24 @@ export interface MockSeed {
     newPlace: SeedDocumentText;
     seoyunDescription: string;
   };
+}
+
+export interface SeedChatScript {
+  keywords: string[];
+  answer: string;
+}
+
+export interface SeedChat {
+  sessions: Array<{
+    key: string;
+    title: string;
+    minutesAgo: number;
+    question: string;
+    answer: string;
+  }>;
+  scripts: SeedChatScript[];
+  quotedChapter: string;
+  quoted: Record<"ask" | "explain" | "related" | "flow", string>;
+  quotedOther: string;
+  fallback: string;
 }

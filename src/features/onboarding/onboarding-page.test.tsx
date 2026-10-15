@@ -51,6 +51,28 @@ describe("OnboardingPage", () => {
     );
   });
 
+  it("introduces AI chat, with drag-to-ask in the stage", () => {
+    renderWithServices(<OnboardingPage user={newcomer} replay={false} />);
+    for (let i = 0; i < 6; i++)
+      fireEvent.keyDown(window, { key: "ArrowRight" });
+
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "작품을 아는 AI 챗",
+    );
+    expect(screen.getByText(/원고 문장을 드래그해서/)).toBeInTheDocument();
+    expect(screen.getByText("AI에게 묻기")).toBeInTheDocument();
+    expect(screen.getByText("설명해 줘")).toBeInTheDocument();
+    expect(screen.getAllByText("이 부분을 설명해 줘").length).toBeGreaterThan(
+      0,
+    );
+    expect(screen.getByText("메모 · 균열의 방향")).toBeInTheDocument();
+
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "작가명을",
+    );
+  });
+
   it("skips the tour with Esc but stops at the author name", () => {
     renderWithServices(<OnboardingPage user={newcomer} replay={false} />);
     fireEvent.keyDown(window, { key: "Escape" });

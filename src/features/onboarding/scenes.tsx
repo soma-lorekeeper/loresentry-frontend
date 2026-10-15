@@ -1,4 +1,5 @@
 import {
+  Fragment,
   Suspense,
   lazy,
   useEffect,
@@ -17,6 +18,7 @@ import {
   DOCUMENT_TYPE_SINGULAR_LABEL,
   type DocumentType,
 } from "@/domain/document-types";
+import { AiMark } from "@/features/chat/ai-mark";
 import { LOCALE, t } from "@/i18n";
 import { cx } from "@/shared/cx";
 
@@ -112,12 +114,18 @@ const OPEN_FOLDERS: Partial<Record<Scene, DocumentType[]>> = {
   name: ["manuscript"],
   relations: ["character"],
   editor: ["manuscript"],
+  chat: ["manuscript"],
   files: ["manuscript", "character"],
 };
 const OPEN_EPISODE: Partial<
   Record<Scene, { name: string; chapters: string[]; active: string }>
 > = {
   editor: {
+    name: NEW_EPISODE,
+    chapters: [CH11, CH12],
+    active: CH12,
+  },
+  chat: {
     name: NEW_EPISODE,
     chapters: [CH11, CH12],
     active: CH12,
@@ -299,6 +307,7 @@ const TABS: Record<
   timeline: { icon: "chart-no-axes-gantt", label: t("무대::타임라인") },
   refresh: { icon: "waypoints", label: t("무대::그래프") },
   editor: { icon: "file-text", label: CH12, kind: "manuscript" },
+  chat: { icon: "file-text", label: CH12, kind: "manuscript" },
   files: { icon: "file-text", label: CH12, kind: "manuscript" },
 };
 
@@ -430,33 +439,39 @@ function AlignTools() {
   );
 }
 
+function WideToolbar() {
+  return (
+    <div className={styles.toolbar}>
+      <Icon name="undo-2" size={13} />
+      <Icon name="redo-2" size={13} />
+      <span className={styles.toolSelect}>
+        Pretendard <Icon name="chevron-down" size={11} />
+      </span>
+      <span className={styles.toolSelect}>
+        10.5pt <Icon name="chevron-down" size={11} />
+      </span>
+      <span className={styles.toolSelect}>
+        <Icon name="list-chevrons-up-down" size={13} />
+        1.5 <Icon name="chevrons-up-down" size={11} />
+      </span>
+      <AlignTools />
+      <Icon name="bold" size={13} />
+      <Icon name="italic" size={13} />
+      {/* 실제 도구 막대도 이 폭에서는 밑줄·취소선·목록을 더보기에 접어 둔다. */}
+      <Icon name="ellipsis" size={13} />
+      <span className={styles.spacer} />
+      <span className={styles.toolSaved}>
+        <Icon name="cloud-check" size={13} />
+        {t("무대::자동 저장됨")}
+      </span>
+    </div>
+  );
+}
+
 function DocumentView() {
   return (
     <div className={styles.document}>
-      <div className={styles.toolbar}>
-        <Icon name="undo-2" size={13} />
-        <Icon name="redo-2" size={13} />
-        <span className={styles.toolSelect}>
-          Pretendard <Icon name="chevron-down" size={11} />
-        </span>
-        <span className={styles.toolSelect}>
-          10.5pt <Icon name="chevron-down" size={11} />
-        </span>
-        <span className={styles.toolSelect}>
-          <Icon name="list-chevrons-up-down" size={13} />
-          1.5 <Icon name="chevrons-up-down" size={11} />
-        </span>
-        <AlignTools />
-        <Icon name="bold" size={13} />
-        <Icon name="italic" size={13} />
-        {/* 실제 도구 막대도 이 폭에서는 밑줄·취소선·목록을 더보기에 접어 둔다. */}
-        <Icon name="ellipsis" size={13} />
-        <span className={styles.spacer} />
-        <span className={styles.toolSaved}>
-          <Icon name="cloud-check" size={13} />
-          {t("무대::자동 저장됨")}
-        </span>
-      </div>
+      <WideToolbar />
       <div className={styles.docBody}>
         <Enter delay={60} kind="fade" className={styles.docTitle}>
           {LENA}
@@ -1042,12 +1057,264 @@ function FilesView() {
   );
 }
 
+export const CHAT_OPENS_AT = 1800;
+const CHAT_STREAM_AT = CHAT_OPENS_AT + 900;
+const CHAT_STEP = LOCALE === "en" ? 40 : 60;
+
+const PICKED = t("무대::서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다.");
+const EXPLAIN = t("이 부분을 설명해 줘");
+const [KEY_BEFORE, KEY_AFTER] = t(
+  "무대::열쇠 없이 연다는 점이 {chip} 설정과 어긋나지 않는지 확인해 보세요.",
+).split("{chip}");
+const [ARRIVE_LEAD, ARRIVE_MID, ARRIVE_TAIL] = t(
+  "무대::{who} 이 회차에서 {place}에 도착해요.",
+).split(/\{who\}|\{place\}/);
+
+interface Citation {
+  type: DocumentType | "memo";
+  label: string;
+}
+
+type Streamed =
+  | { kind: "word"; text: string; at: number }
+  | { kind: "cite"; citation: Citation; at: number }
+  | { kind: "space" };
+
+const ANSWER: (string | Citation)[][] = [
+  [t("무대::이 부분은 서윤이 망설임을 끝내고 북쪽 문을 여는 순간이에요.")],
+  [
+    ARRIVE_LEAD,
+    { type: "character", label: LENA },
+    ARRIVE_MID,
+    { type: "place", label: NORTH_GREENHOUSE },
+    ARRIVE_TAIL,
+  ],
+  [KEY_BEFORE, { type: "item", label: OLD_KEY }, KEY_AFTER],
+  [
+    t("무대::문을 밀기 직전 떠올린 문장은 메모에도 적어 두셨어요."),
+    " ",
+    {
+      type: "memo",
+      label: t("메모 · {title}", { title: t("무대::균열의 방향") }),
+    },
+  ],
+];
+
+const STREAM = (() => {
+  let clock = CHAT_STREAM_AT;
+  const blocks = ANSWER.map((pieces) => {
+    const start = clock;
+    const items = pieces.flatMap((piece): Streamed[] => {
+      if (typeof piece !== "string") {
+        const cite: Streamed = { kind: "cite", citation: piece, at: clock };
+        clock += CHAT_STEP * 2;
+        return [cite];
+      }
+      return piece
+        .split(/(\s+)/)
+        .filter(Boolean)
+        .map((part): Streamed => {
+          if (/^\s+$/.test(part)) return { kind: "space" };
+          const word: Streamed = { kind: "word", text: part, at: clock };
+          clock += CHAT_STEP;
+          return word;
+        });
+    });
+    return { at: start, items };
+  });
+  return { blocks, end: clock };
+})();
+
+const opensAt = { "--open": `${CHAT_OPENS_AT}ms` } as CSSProperties;
+
+function Cite({ citation, delay }: { citation: Citation; delay: number }) {
+  const memo = citation.type === "memo";
+  return (
+    <span
+      className={styles.cite}
+      data-memo={memo || undefined}
+      data-kind={memo ? undefined : citation.type}
+      style={at(delay)}
+    >
+      <Icon
+        name={citation.type === "memo" ? "sticky-note" : iconOf(citation.type)}
+        size={12}
+      />
+      {citation.label}
+    </span>
+  );
+}
+
+function StreamedText({ items }: { items: Streamed[] }) {
+  return items.map((item, index) => {
+    if (item.kind === "space") return <Fragment key={index}> </Fragment>;
+    if (item.kind === "cite")
+      return <Cite key={index} citation={item.citation} delay={item.at} />;
+    return (
+      <span key={index} className={styles.token} style={at(item.at)}>
+        {item.text}
+      </span>
+    );
+  });
+}
+
+function ChatWindow() {
+  const [lead, ...points] = STREAM.blocks;
+  return (
+    <Enter
+      delay={CHAT_OPENS_AT}
+      kind="pop"
+      className={cx(styles.chatWindow, DIALOG_SURFACE_CLASS)}
+    >
+      <div className={styles.chatHead}>
+        <Icon name="arrow-left" size={14} />
+        <span className={styles.ellipsis}>{EXPLAIN}</span>
+        <span className={styles.spacer} />
+        <Icon name="ellipsis" size={14} />
+        <Icon name="chevron-down" size={14} />
+      </div>
+      <div className={styles.chatThread}>
+        <div className={styles.chatAsk}>
+          <div className={styles.chatQuote} data-kind="manuscript">
+            <span className={styles.chatQuoteHead}>
+              <Icon name="file-text" size={12} />
+              {CH12}
+            </span>
+            <span className={styles.chatQuoteText}>{PICKED}</span>
+          </div>
+          <p>{EXPLAIN}</p>
+        </div>
+        <div className={styles.chatReply}>
+          <p
+            className={styles.chatWaiting}
+            style={
+              {
+                ...at(CHAT_OPENS_AT + 320),
+                "--out": `${CHAT_STREAM_AT - 140}ms`,
+              } as CSSProperties
+            }
+          >
+            <Icon name="loader-circle" size={13} />
+            {t("작품 전체를 읽는 중")}
+          </p>
+          <div
+            className={styles.chatAnswer}
+            style={{ "--step": `${CHAT_STEP}ms` } as CSSProperties}
+          >
+            <p>
+              <StreamedText items={lead.items} />
+            </p>
+            <ul>
+              {points.map((point) => (
+                <li key={point.at} style={at(point.at)}>
+                  <StreamedText items={point.items} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div className={styles.chatComposer}>
+        <div className={styles.chatField}>
+          <span className={styles.chatPlaceholder}>
+            {t("작품에 대해 물어보세요")}
+          </span>
+          <div className={styles.chatFieldRow}>
+            <span className={styles.chatViewing} data-kind="manuscript">
+              <Icon name="file-text" size={12} />
+              <span className={styles.ellipsis}>{CH12}</span>
+            </span>
+            <span className={styles.spacer} />
+            <span className={styles.chatSend} style={at(STREAM.end)}>
+              <span className={styles.chatStop}>
+                <Icon name="square" size={10} />
+              </span>
+              <span className={styles.chatGo}>
+                <Icon name="arrow-up" size={14} />
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </Enter>
+  );
+}
+
+function ChatView() {
+  return (
+    <div className={styles.document}>
+      <WideToolbar />
+      <div className={styles.chatDoc}>
+        <Enter delay={60} kind="fade" className={styles.docTitle}>
+          {CH12}
+          <Icon name="star" size={14} className={styles.starOn} />
+        </Enter>
+        <Enter delay={120} kind="fade" className={styles.manuscriptProse}>
+          <p>
+            {t(
+              "무대::정원은 밤이 오면 유리보다 먼저 숨을 죽였다. 달빛이 온실의 지붕을 훑고 지나갈 때마다, 금이 간 창마다 은빛 선이 번졌다. 서윤은 그 선들이 모두 한곳을 가리키고 있다는 사실을 세 번째 순찰에서야 알아차렸다.",
+            )}
+          </p>
+          <p>
+            {t(
+              "무대::오래 잠겨 있던 북쪽 문 앞에는 발자국이 하나뿐이었다. 안으로 들어간 흔적은 있었지만 돌아 나온 흔적은 없었다. 손잡이에 손을 얹자 차가운 진동이 손목을 타고 올라왔다. 어젯밤 메모에 적어 둔 문장이 떠올랐다. ‘균열은 문이 아니라 기억의 방향이다.’",
+            )}
+          </p>
+          <div
+            className={styles.picking}
+            style={opensAt}
+            data-focus="selection"
+          >
+            <span className={styles.chatBar}>
+              <span className={styles.chatBarMain}>
+                <AiMark size={15} />
+                {t("AI에게 묻기")}
+              </span>
+              <span className={cx(styles.chatBarQuick, styles.chatBarPress)}>
+                {t("설명해 줘")}
+              </span>
+              <span className={styles.chatBarQuick}>{t("관련 설정")}</span>
+              <span className={styles.chatBarQuick}>{t("앞뒤 흐름")}</span>
+            </span>
+            <p>
+              <span className={styles.picked}>{PICKED}</span>{" "}
+              {t(
+                "무대::어둠 너머에서 익숙한 목소리가 이름을 불렀다. 아주 오래전, 이 정원을 떠난 사람이 마지막으로 불렀던 방식 그대로였다.",
+              )}
+            </p>
+          </div>
+        </Enter>
+      </div>
+      <span className={styles.chatFocus} data-focus="chat" />
+      <ChatWindow />
+    </div>
+  );
+}
+
+function Launcher({ scene }: { scene: Scene }) {
+  return (
+    <span
+      className={cx(styles.launcher, scene === "chat" && styles.launcherOpen)}
+      style={opensAt}
+    >
+      <span className={styles.launcherMark}>
+        <AiMark solid size={20} />
+      </span>
+      <span className={styles.launcherClose}>
+        <Icon name="chevron-down" size={18} />
+      </span>
+    </span>
+  );
+}
+
 /* 창 ------------------------------------------------------------------- */
 
 function Content({ scene }: { scene: Scene }) {
   switch (scene) {
     case "editor":
       return <EditorView />;
+    case "chat":
+      return <ChatView />;
     case "files":
       return <FilesView />;
     case "workspace":
@@ -1104,6 +1371,7 @@ export function AppWindow({
           </div>
         </div>
       </div>
+      <Launcher scene={scene} />
       {children}
     </div>
   );

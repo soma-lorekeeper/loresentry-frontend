@@ -26,7 +26,7 @@ describe("WorkspaceHelpView (English build)", () => {
       screen.getByRole("heading", { level: 1, name: "User guide" }),
     ).toBeInTheDocument();
     const list = await screen.findByRole("list", { name: "Guide topics" });
-    expect(within(list).getAllByRole("button")).toHaveLength(6);
+    expect(within(list).getAllByRole("button")).toHaveLength(7);
     expect(document.body.textContent).not.toMatch(HANGUL);
 
     await actor.type(

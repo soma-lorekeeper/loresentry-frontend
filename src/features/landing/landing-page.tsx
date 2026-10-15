@@ -436,6 +436,44 @@ export function LandingPage() {
           </ol>
         </section>
 
+        <section id="chat" className={styles.chat} aria-labelledby="chat-title">
+          <div className={styles.chatCopy}>
+            <h2 id="chat-title" className={styles.h2}>
+              {tRich("작품 전체를 읽고<br/>근거와 함께 답해요")}
+            </h2>
+            <p className={styles.body}>
+              {t(
+                "작품을 아는 AI 챗에 물으면 원고와 설정 문서, 문서 사이의 관계, 메모까지 한 번에 모두 읽고 답해요. 답에는 근거가 된 문서가 붙어 눌러서 바로 확인할 수 있고, 원고는 고치지 않아요.",
+              )}
+            </p>
+          </div>
+          <SceneFrame
+            scene="chat"
+            focus={[560, 1000]}
+            className={styles.chatFrame}
+            label={t(
+              "AI 챗 장면. 12화 문장을 골라 ‘설명해 줘’를 누르면 오른쪽 아래에 챗 창이 열리고, 근거 문서와 메모가 칩으로 붙은 답이 이어서 나타난다.",
+            )}
+          />
+          <ul className={styles.chatPoints}>
+            <Point icon="message-square" title={t("작품에 대해 물어요")}>
+              {t(
+                "주인공이 처음 흔들린 장면처럼, 작품 안에서 일어난 일을 물어요.",
+              )}
+            </Point>
+            <Point icon="text-select" title={t("문장을 골라 물어요")}>
+              {t(
+                "원고에서 고른 부분을 설명해 달라고 하거나, 관련 설정과 앞뒤 흐름을 물어요.",
+              )}
+            </Point>
+            <Point icon="file-search" title={t("근거를 눌러 확인해요")}>
+              {t(
+                "답에 붙은 문서를 누르면 바로 열려요. 메모에서 온 내용은 따로 표시해요.",
+              )}
+            </Point>
+          </ul>
+        </section>
+
         <section className={styles.more} aria-labelledby="more-title">
           <h2 id="more-title" className={styles.h3}>
             {t("그 밖에, 쓰는 데 필요한 것들")}
@@ -449,11 +487,6 @@ export function LandingPage() {
             </Point>
             <Point icon="book-open" title={t("예시 프로젝트")}>
               {t("「유리 정원의 기록」으로 먼저 눌러 보고 시작해요.")}
-            </Point>
-            <Point icon="sparkles" title={t("작품을 아는 AI 챗")}>
-              {t(
-                "작품 자료를 바탕으로 묻고 답하는 대화예요. 지금 만들고 있어요.",
-              )}
             </Point>
           </ul>
         </section>

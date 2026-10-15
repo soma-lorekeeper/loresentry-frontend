@@ -2,7 +2,13 @@ import { t } from "@/i18n";
 import type { Locale } from "@/i18n/locale";
 import type { DocumentType } from "@/domain/document-types";
 import type {
+  ChatAvailability,
+  ChatCitation,
+  ChatIntent,
   ChatMessage,
+  ChatPhase,
+  ChatQuote,
+  ChatSearchHit,
   ChatSession,
   DocumentContent,
   DocumentDraft,
@@ -178,22 +184,38 @@ export interface RefreshService {
 }
 
 export interface ChatStreamHandlers {
-  onToken(token: string): void;
+  onPhase(phase: ChatPhase): void;
+  onCitation(index: number, citation: ChatCitation): void;
+  onDelta(text: string): void;
+}
+
+export interface ChatSendInput {
+  content: string;
+  intent: ChatIntent;
+  quote: ChatQuote | null;
+  focusFileId: string | null;
+  replaces: string | null;
+}
+
+export interface ChatTurn {
+  question: ChatMessage;
+  answer: ChatMessage;
 }
 
 export interface ChatService {
+  availability(projectId: string): Promise<ChatAvailability>;
   sessions(projectId: string): Promise<ChatSession[]>;
+  search(projectId: string, query: string): Promise<ChatSearchHit[]>;
   createSession(projectId: string): Promise<ChatSession>;
   renameSession(sessionId: string, title: string): Promise<ChatSession>;
   deleteSession(sessionId: string): Promise<void>;
   messages(sessionId: string): Promise<ChatMessage[]>;
-  // 요구사항 §8.1: 응답은 점진적으로 표시하고, 중단된 미완성 답변은 기록에 남기지 않는다.
   send(
     sessionId: string,
-    input: { content: string; contextFile: ChatMessage["contextFile"] },
+    input: ChatSendInput,
     handlers: ChatStreamHandlers,
     signal: AbortSignal,
-  ): Promise<ChatMessage>;
+  ): Promise<ChatTurn>;
 }
 
 export interface WorkspaceStateService {
