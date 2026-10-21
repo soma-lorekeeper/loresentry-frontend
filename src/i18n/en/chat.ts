@@ -55,7 +55,7 @@ export default {
   "보내기 (Enter)": "Send (Enter)",
 
   "원고와 설정을 모으는 중": "Gathering your manuscript and settings",
-  "작품 전체를 읽는 중": "Reading your whole story",
+  "필요한 문서를 읽는 중": "Reading what the question needs",
   "{seconds}초": "{seconds}s",
   "답변 복사": "Copy answer",
   "답변을 복사했어요": "Answer copied",
