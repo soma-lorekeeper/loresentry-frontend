@@ -1195,7 +1195,7 @@ function ChatWindow() {
             }
           >
             <Icon name="loader-circle" size={13} />
-            {t("작품 전체를 읽는 중")}
+            {t("필요한 문서를 읽는 중")}
           </p>
           <div
             className={styles.chatAnswer}

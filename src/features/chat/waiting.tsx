@@ -21,7 +21,7 @@ export function Waiting({
           {phase === "gathering"
             ? t("원고와 설정을 모으는 중")
             : phase === "reading"
-              ? t("작품 전체를 읽는 중")
+              ? t("필요한 문서를 읽는 중")
               : t("답을 쓰는 중")}
         </span>
         {elapsed >= 2 && (
