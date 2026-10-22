@@ -245,7 +245,6 @@ export function createApiChat(client: ApiClient): ChatService {
                     text: input.quote.text,
                   }
                 : null,
-              focus_file_id: input.focusFileId,
               replaces: input.replaces,
               client_message_id: crypto.randomUUID(),
             },

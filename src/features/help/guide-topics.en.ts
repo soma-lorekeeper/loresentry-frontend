@@ -198,7 +198,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "ask",
         title: "Ask a question",
-        body: "Type a question on the first screen, or pick a suggested one, to start a new conversation. The document you're viewing is shared too; click its chip in the question box to leave it out. The answer appears once the whole story has been read, and while you wait you can see what it's doing and how long it has taken.",
+        body: "Type a question on the first screen, or pick a suggested one, to start a new conversation. The answer appears once the whole story has been read, and while you wait you can see what it's doing and how long it has taken.",
       },
       {
         id: "selection",

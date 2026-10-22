@@ -2,7 +2,6 @@
 
 import {
   useEffect,
-  useMemo,
   useRef,
   useState,
   type CSSProperties,
@@ -26,7 +25,6 @@ import type {
   ChatQuote,
   ChatSearchHit,
   ChatSession,
-  DocumentNode,
 } from "@/domain/models";
 import {
   PreparingState,
@@ -36,11 +34,10 @@ import { t } from "@/i18n";
 import { cx } from "@/shared/cx";
 import { formatNumber, relativeTime } from "@/shared/format";
 
-import { useFileTree } from "../workspace/queries";
 import { useWorkspace } from "../workspace/workspace-context";
 import { AiMark } from "./ai-mark";
 import { highlight } from "./answer";
-import { Composer, type Viewing } from "./composer";
+import { Composer } from "./composer";
 import {
   Conversation,
   DeleteConfirm,
@@ -239,8 +236,7 @@ function TooLarge({
 }
 
 export function ChatDock() {
-  const { projectId, user, activeFileId, open, narrow } = useWorkspace();
-  const tree = useFileTree(projectId);
+  const { projectId, user, open, narrow } = useWorkspace();
   const availability = useChatAvailability(projectId);
   const unavailable = isUnavailable(availability.error);
   const tooLarge = availability.data?.status === "too-large";
@@ -263,7 +259,6 @@ export function ChatDock() {
   const [view, setView] = useState<ChatView>({ kind: "home" });
   const [draft, setDraft] = useState("");
   const [quote, setQuote] = useState<ChatQuote | null>(null);
-  const [viewingOn, setViewingOn] = useState(true);
   const [seenAt, setSeenAt] = useState(0);
   const [renaming, setRenaming] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -284,20 +279,6 @@ export function ChatDock() {
   const interruption = sessionId
     ? (streams.interrupted[sessionId] ?? null)
     : null;
-
-  const docs = useMemo(
-    () =>
-      (tree.data ?? []).filter(
-        (node): node is DocumentNode =>
-          node.kind === "document" && node.trashedAt === null,
-      ),
-    [tree.data],
-  );
-  const viewingDoc = docs.find((doc) => doc.id === activeFileId);
-  const viewing: Viewing | null = viewingDoc
-    ? { title: viewingDoc.title, docType: viewingDoc.docType }
-    : null;
-  const focusFileId = viewingOn ? (viewingDoc?.id ?? null) : null;
 
   useEffect(() => {
     const before = lastLevel.current;
@@ -358,7 +339,6 @@ export function ChatDock() {
       content,
       intent,
       quote: withQuote,
-      focusFileId,
       replaces: null,
     });
   };
@@ -407,7 +387,6 @@ export function ChatDock() {
       content,
       intent: message.intent ?? "ask",
       quote: message.quote,
-      focusFileId,
       replaces: message.id,
     });
   };
@@ -432,9 +411,6 @@ export function ChatDock() {
       onStop={() => sessionId && streams.stop(sessionId)}
       quote={quote}
       onRemoveQuote={() => setQuote(null)}
-      viewing={viewing}
-      viewingOn={viewingOn}
-      onToggleViewing={() => setViewingOn((v) => !v)}
       placeholder={
         sessionId ? t("작품에 대해 물어보세요") : t("새 대화를 시작해 보세요")
       }

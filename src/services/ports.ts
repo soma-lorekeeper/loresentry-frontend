@@ -194,7 +194,6 @@ export interface ChatSendInput {
   content: string;
   intent: ChatIntent;
   quote: ChatQuote | null;
-  focusFileId: string | null;
   replaces: string | null;
 }
 

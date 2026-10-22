@@ -9,7 +9,7 @@ import {
 } from "react";
 
 import { Icon, IconButton } from "@/design-system/primitives";
-import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
+import { DOCUMENT_TYPE_META } from "@/domain/document-types";
 import type { ChatQuote } from "@/domain/models";
 import { t } from "@/i18n";
 import { cx } from "@/shared/cx";
@@ -48,11 +48,6 @@ export function QuoteCard({
   );
 }
 
-export interface Viewing {
-  title: string;
-  docType: DocumentType;
-}
-
 export const Composer = forwardRef<
   HTMLTextAreaElement,
   {
@@ -63,9 +58,6 @@ export const Composer = forwardRef<
     onStop: () => void;
     quote: ChatQuote | null;
     onRemoveQuote: () => void;
-    viewing: Viewing | null;
-    viewingOn: boolean;
-    onToggleViewing: () => void;
     placeholder: string;
     notice?: ReactNode;
     elsewhere?: boolean;
@@ -79,9 +71,6 @@ export const Composer = forwardRef<
     onStop,
     quote,
     onRemoveQuote,
-    viewing,
-    viewingOn,
-    onToggleViewing,
     placeholder,
     notice,
     elsewhere = false,
@@ -132,26 +121,6 @@ export const Composer = forwardRef<
           }}
         />
         <div className={styles.fieldRow}>
-          {viewing && (
-            <button
-              type="button"
-              className={styles.viewing}
-              data-kind={viewing.docType}
-              aria-pressed={viewingOn}
-              title={
-                viewingOn
-                  ? t("지금 보는 문서를 함께 알려요. 누르면 빼요.")
-                  : t("지금 보는 문서를 빼고 물어요. 누르면 다시 넣어요.")
-              }
-              onClick={onToggleViewing}
-            >
-              <Icon
-                name={DOCUMENT_TYPE_META[viewing.docType].entityIcon}
-                size={12}
-              />
-              <span>{viewing.title}</span>
-            </button>
-          )}
           <span className={styles.fieldSpacer} />
           {pending ? (
             <button

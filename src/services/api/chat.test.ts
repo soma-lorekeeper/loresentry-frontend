@@ -77,7 +77,6 @@ const input: ChatSendInput = {
     docType: "manuscript",
     text: "문을 밀었다",
   },
-  focusFileId: "f-12",
   replaces: null,
 };
 
@@ -232,7 +231,6 @@ describe("chat over the API", () => {
         doc_type: "manuscript",
         text: "문을 밀었다",
       },
-      focus_file_id: "f-12",
       replaces: null,
     });
     expect(
