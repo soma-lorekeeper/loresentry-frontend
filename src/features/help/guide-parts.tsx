@@ -111,6 +111,25 @@ export function GuideTopics({
  * @param heading 글 제목과 메타 줄을 여기서 그릴지. 바깥(프로젝트 화면의 머리)이 이미 제목을
  *   그렸으면 끈다 — 같은 제목이 두 번 나오지 않게
  */
+function SectionBody({ body }: { body: string }) {
+  return body.split("\n\n").map((block, index) => {
+    const lines = block.split("\n");
+    if (lines.every((line) => line.startsWith("- ")))
+      return (
+        <ul key={index} className={cx(styles.secondary, styles.steps)}>
+          {lines.map((line) => (
+            <li key={line}>{line.slice(2)}</li>
+          ))}
+        </ul>
+      );
+    return (
+      <p key={index} className={styles.secondary}>
+        {block}
+      </p>
+    );
+  });
+}
+
 export function GuideArticle({
   topic,
   topics,
@@ -178,7 +197,7 @@ export function GuideArticle({
               <h2 className={styles.sectionTitle}>
                 {index + 1}. {section.title}
               </h2>
-              <p className={styles.secondary}>{section.body}</p>
+              <SectionBody body={section.body} />
             </section>
           ))}
           {related.length > 0 && (

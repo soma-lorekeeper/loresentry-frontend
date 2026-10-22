@@ -51,8 +51,11 @@ describe("guide content (English build)", () => {
   it("searches the English text", () => {
     expect(searchTopics("version history").map((topic) => topic.id)).toEqual([
       "writing",
+      "refresh",
     ]);
-    expect(searchTopics("TIMELINE").map((topic) => topic.id)).toEqual(["memo"]);
+    expect(searchTopics("ROWS TO SHOW").map((topic) => topic.id)).toEqual([
+      "memo",
+    ]);
     expect(searchTopics("휴지통")).toEqual([]);
   });
 });

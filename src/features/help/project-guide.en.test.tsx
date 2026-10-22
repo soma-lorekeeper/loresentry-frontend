@@ -28,7 +28,7 @@ describe("ProjectGuidePage (English build)", () => {
       screen.getByRole("button", { name: "Replay the intro" }),
     ).toBeInTheDocument();
     const list = screen.getByRole("list", { name: "Guide topics" });
-    expect(within(list).getAllByRole("link")).toHaveLength(7);
+    expect(within(list).getAllByRole("link")).toHaveLength(10);
     expect(list.textContent).not.toMatch(HANGUL);
     expect(within(list).getByRole("link", { name: /AI chat/ })).toHaveAttribute(
       "href",
@@ -40,7 +40,7 @@ describe("ProjectGuidePage (English build)", () => {
 
     const search = screen.getByRole("searchbox");
     expect(search).toHaveAttribute("placeholder", "Search the guide");
-    await actor.type(search, "find and replace");
+    await actor.type(search, "replace all");
     expect(
       within(screen.getByRole("list", { name: "Guide topics" })).getAllByRole(
         "link",
@@ -68,12 +68,12 @@ describe("ProjectGuidePage (English build)", () => {
     const article = screen.getByRole("article");
     // 절마다 번호 붙은 소제목이다. 작업공간의 도움말 탭과 같은 글이다.
     expect(within(article).getAllByRole("heading", { level: 2 })).toHaveLength(
-      5,
+      9,
     );
     expect(article.textContent).toContain("Find and replace");
     // 가져오기도 이 글에서 설명한다.
     expect(article.textContent).toContain(
-      "nothing is created until you press Import",
+      "Nothing is created until you select Import",
     );
     expect(article.textContent).not.toMatch(HANGUL);
   });

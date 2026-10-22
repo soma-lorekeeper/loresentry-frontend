@@ -26,7 +26,7 @@ describe("WorkspaceHelpView", () => {
       within(list).getByRole("button", { name: /메모와 타임라인/ }),
     );
     expect(
-      await screen.findByText("마지막 업데이트 2026년 8월 30일 · 읽는 데 2분"),
+      await screen.findByText("마지막 업데이트 2026년 10월 22일 · 읽는 데 4분"),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("navigation", { name: "관련 문서" }),

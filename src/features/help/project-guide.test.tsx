@@ -20,7 +20,7 @@ describe("ProjectGuidePage", () => {
     renderWithServices(<ProjectGuidePage user={user} />);
 
     const list = screen.getByRole("list", { name: "가이드 주제" });
-    expect(within(list).getAllByRole("link")).toHaveLength(7);
+    expect(within(list).getAllByRole("link")).toHaveLength(10);
     expect(
       within(list).getByRole("link", { name: /작업공간 시작하기/ }),
     ).toHaveAttribute("href", "/projects/guide?topic=start");
