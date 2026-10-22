@@ -12,7 +12,6 @@ const ask = (content: string): ChatSendInput => ({
   content,
   intent: "ask",
   quote: null,
-  focusFileId: null,
   replaces: null,
 });
 
@@ -142,7 +141,6 @@ describe("mock chat", () => {
             docType: "manuscript",
             text: "서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다.",
           },
-          focusFileId: null,
           replaces: null,
         },
         quiet,

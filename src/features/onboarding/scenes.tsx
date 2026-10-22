@@ -1220,10 +1220,6 @@ function ChatWindow() {
             {t("작품에 대해 물어보세요")}
           </span>
           <div className={styles.chatFieldRow}>
-            <span className={styles.chatViewing} data-kind="manuscript">
-              <Icon name="file-text" size={12} />
-              <span className={styles.ellipsis}>{CH12}</span>
-            </span>
             <span className={styles.spacer} />
             <span className={styles.chatSend} style={at(STREAM.end)}>
               <span className={styles.chatStop}>

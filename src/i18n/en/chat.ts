@@ -47,10 +47,6 @@ export default {
   질문: "Question",
   "인용 빼기": "Remove quote",
   "이 부분에 대해 물어보세요": "Ask about this passage",
-  "지금 보는 문서를 함께 알려요. 누르면 빼요.":
-    "The document you're viewing is shared too. Click to leave it out.",
-  "지금 보는 문서를 빼고 물어요. 누르면 다시 넣어요.":
-    "Asking without the document you're viewing. Click to include it.",
   "응답 멈추기": "Stop answering",
   "보내기 (Enter)": "Send (Enter)",
 
