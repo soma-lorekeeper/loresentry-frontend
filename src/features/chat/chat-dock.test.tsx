@@ -74,6 +74,31 @@ describe("ChatDock", () => {
     return screen.getByRole("dialog", { name: "AI 챗" });
   }
 
+  it("waits for one conversation's answer before another can ask", async () => {
+    renderDock();
+    await flush();
+    fireEvent.click(screen.getByRole("button", { name: /^AI 챗 열기/ }));
+    await flush();
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "가장 최근 회차에서 무슨 일이 있었어?",
+      }),
+    );
+    await flush(400);
+    fireEvent.click(screen.getByRole("button", { name: "대화 목록" }));
+    await flush();
+    fireEvent.change(screen.getByRole("textbox", { name: "질문" }), {
+      target: { value: "레나는 누구야?" },
+    });
+
+    const send = screen.getByRole("button", { name: "보내기" });
+    expect(send).toBeDisabled();
+    expect(send).toHaveAttribute("title", "다른 대화에서 답을 쓰는 중이에요");
+
+    await flush(20_000);
+    expect(screen.getByRole("button", { name: "보내기" })).toBeEnabled();
+  });
+
   it("shows today's usage in the header and when it resets", async () => {
     const chat = await openAt(CHAT_DAILY_LIMIT * 0.28);
 

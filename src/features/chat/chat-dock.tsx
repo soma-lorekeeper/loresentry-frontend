@@ -383,7 +383,8 @@ export function ChatDock() {
   const askAbout = async (picked: ChatQuote, intent: QuickIntent) => {
     const target = selectionTarget(windowOpen, view);
     openWindow();
-    if (target && streams.streams[target]) {
+    if (streams.busy) {
+      if (!target) await newSession();
       setQuote(picked);
       setDraft(quickQuestion(intent));
       focusInput();
@@ -437,6 +438,7 @@ export function ChatDock() {
       placeholder={
         sessionId ? t("작품에 대해 물어보세요") : t("새 대화를 시작해 보세요")
       }
+      elsewhere={streams.busy && stream === null}
       notice={
         usage.data && usageNotice.shown ? (
           <UsageNotice usage={usage.data} onDismiss={usageNotice.dismiss} />
@@ -475,6 +477,11 @@ export function ChatDock() {
   );
 
   const pick = async (question: string) => {
+    if (streams.busy) {
+      setDraft(question);
+      focusInput();
+      return;
+    }
     const id = sessionId ?? (await newSession());
     sendTo(id, question, "ask", null);
   };

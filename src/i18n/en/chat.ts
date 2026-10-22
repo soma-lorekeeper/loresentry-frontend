@@ -116,4 +116,7 @@ export default {
   "{minutes}분": "{minutes} min",
   "{hours}시간": "{hours} h",
   "{hours}시간 {minutes}분": "{hours} h {minutes} min",
+  "다른 대화에서 답을 쓰는 중이에요. 끝난 뒤에 다시 보내 주세요.":
+    "An answer is being written in another conversation. Send again once it's done.",
+  "다른 대화에서 답을 쓰는 중이에요": "Another conversation is still answering",
 } satisfies Messages;
