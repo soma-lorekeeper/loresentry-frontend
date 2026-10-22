@@ -4,8 +4,12 @@
   gap: var(--lk-space-3);
 }
 
-.order {
-  align-self: flex-end;
+.sort {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--lk-space-2);
 }
 
 .list {
