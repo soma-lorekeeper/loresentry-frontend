@@ -117,10 +117,10 @@ function withParagraph(body: DocumentBody, text: string): DocumentBody {
     !blocks[blocks.length - 1].content?.length
   )
     blocks.pop();
-  return bodyFromBlocks([
-    ...blocks,
-    { type: "paragraph", content: [{ type: "text", text }] },
-  ]);
+  return bodyFromBlocks(
+    [...blocks, { type: "paragraph", content: [{ type: "text", text }] }],
+    body.doc.attrs,
+  );
 }
 
 function withDescription(draft: DocumentDraft, value: string): DocumentDraft {

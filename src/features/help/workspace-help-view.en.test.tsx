@@ -26,12 +26,12 @@ describe("WorkspaceHelpView (English build)", () => {
       screen.getByRole("heading", { level: 1, name: "User guide" }),
     ).toBeInTheDocument();
     const list = await screen.findByRole("list", { name: "Guide topics" });
-    expect(within(list).getAllByRole("button")).toHaveLength(7);
+    expect(within(list).getAllByRole("button")).toHaveLength(10);
     expect(document.body.textContent).not.toMatch(HANGUL);
 
     await actor.type(
       screen.getByRole("searchbox", { name: "Search the guide" }),
-      "trash",
+      "delete permanently",
     );
     expect(
       within(screen.getByRole("list", { name: "Guide topics" })).getAllByRole(
@@ -53,7 +53,7 @@ describe("WorkspaceHelpView (English build)", () => {
       }),
     ).toBeInTheDocument();
     expect(
-      screen.getByText("Last updated August 30, 2026 · 2 min read"),
+      screen.getByText("Last updated October 22, 2026 · 4 min read"),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("navigation", { name: "On this page" }),

@@ -31,15 +31,9 @@ import { useProjectSettings, useSaveProjectSettings } from "./queries";
 const TITLE_MAX = 255;
 const DESCRIPTION_MAX = 500;
 
-const COPY = {
-  saved: {
-    message: t("작업공간::설정이 저장되었습니다"),
-    detail: t("사이드바와 프로젝트 목록에 바로 반영됐어요."),
-  },
-  error: {
-    message: t("작업공간::설정을 저장하지 못했어요"),
-    detail: t("입력값은 유지됩니다."),
-  },
+const ERROR_COPY = {
+  message: t("작업공간::설정을 저장하지 못했어요"),
+  detail: t("입력값은 유지됩니다."),
 };
 
 function changedFields(saved: ProjectSettings, draft: ProjectSettings) {
@@ -132,7 +126,6 @@ function SettingsForm({
   const save = useSaveProjectSettings(projectId);
   const [saved, setSaved] = useState(initial);
   const [draft, setDraft] = useState(initial);
-  const [justSaved, setJustSaved] = useState(false);
   const [leaving, setLeaving] = useState<(() => void) | null>(null);
   const [trashOpen, setTrashOpen] = useState(false);
 
@@ -162,13 +155,10 @@ function SettingsForm({
       ? "error"
       : dirty
         ? "changed"
-        : justSaved
-          ? "saved"
-          : "unchanged";
+        : "unchanged";
 
   const edit = (patch: Partial<ProjectSettings>) => {
     setDraft((current) => ({ ...current, ...patch }));
-    setJustSaved(false);
     save.reset();
   };
 
@@ -181,7 +171,6 @@ function SettingsForm({
           const settings = { title: next.title, description: next.description };
           setSaved(settings);
           setDraft(settings);
-          setJustSaved(true);
         },
       },
     );
@@ -239,7 +228,7 @@ function SettingsForm({
         </form>
         <SaveBar
           state={state}
-          copy={COPY}
+          errorCopy={ERROR_COPY}
           saveDisabled={titleEmpty}
           onSave={submit}
           onCancel={discard}

@@ -164,11 +164,6 @@ function FeedbackDialog({
           autoFocus
         />
         {error && <InlineNotice icon="circle-alert">{error}</InlineNotice>}
-        <p className={styles.context}>
-          {t("계정 정보와 지금 보고 있던 화면 위치({page})가 함께 전달돼요.", {
-            page: page || "/",
-          })}
-        </p>
       </div>
     </DialogCard>
   );

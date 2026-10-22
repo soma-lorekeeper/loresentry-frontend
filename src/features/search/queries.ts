@@ -2,6 +2,8 @@
 
 import { useQuery } from "@tanstack/react-query";
 
+import type { SearchHit } from "@/domain/models";
+import { INTL_LOCALE, LOCALE } from "@/i18n/locale";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 
@@ -42,4 +44,20 @@ export function useProjectSearch(projectId: string, term: string) {
     queryFn: () => services.search.search(projectId, term),
     enabled: term.length > 0,
   });
+}
+
+export type SearchOrder = "relevance" | "recent" | "title";
+
+const titleCollator = new Intl.Collator(INTL_LOCALE[LOCALE], {
+  numeric: true,
+  sensitivity: "base",
+});
+
+export function sortHits(hits: SearchHit[], order: SearchOrder): SearchHit[] {
+  if (order === "relevance") return hits;
+  const sorted = [...hits];
+  if (order === "recent")
+    sorted.sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt));
+  else sorted.sort((a, b) => titleCollator.compare(a.title, b.title));
+  return sorted;
 }

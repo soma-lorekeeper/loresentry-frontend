@@ -154,6 +154,35 @@ describe("project search", () => {
     ).toBeInTheDocument();
   });
 
+  it("sorts results by recent edit or title and shows each document's details", async () => {
+    const actor = userEvent.setup();
+    renderSearch();
+    const input = screen.getByRole("searchbox", { name: "프로젝트에서 검색" });
+    await actor.type(input, "균열");
+    const results = await screen.findByRole("list", { name: "검색 결과" });
+    const rows = () => within(results).getAllByRole("button");
+
+    await actor.click(screen.getByRole("radio", { name: "최근 수정순" }));
+    const times = rows().map((row) =>
+      Date.parse(row.querySelector("time")!.dateTime),
+    );
+    expect(times).toEqual([...times].sort((a, b) => b - a));
+
+    await actor.click(screen.getByRole("radio", { name: "이름순" }));
+    const names = rows().map(
+      (row) => row.querySelector("time")!.previousElementSibling!.textContent,
+    );
+    expect(names).toEqual(
+      [...names].sort((a, b) =>
+        a.localeCompare(b, "ko", { numeric: true, sensitivity: "base" }),
+      ),
+    );
+
+    const favorite = rows().find((row) => row.textContent?.includes("12화"));
+    expect(favorite).toHaveTextContent("즐겨찾기");
+    expect(favorite).toHaveTextContent("원고");
+  });
+
   it("does not send a consonant or vowel still being typed", () => {
     expect(searchTermOf("유ㄹ")).toBe("유");
     expect(searchTermOf(" ㄹ ")).toBe("");
@@ -251,9 +280,11 @@ describe("workspace views", () => {
     await actor.clear(name);
     await actor.type(name, "유리 정원의 연대기");
     await actor.click(screen.getByRole("button", { name: "변경사항 저장" }));
-    expect(
-      await screen.findByText("설정이 저장되었습니다"),
-    ).toBeInTheDocument();
+    await waitFor(() =>
+      expect(
+        screen.queryByRole("button", { name: "변경사항 저장" }),
+      ).not.toBeInTheDocument(),
+    );
     expect(getDb().projects.find((p) => p.id === GLASS_GARDEN_ID)?.title).toBe(
       "유리 정원의 연대기",
     );

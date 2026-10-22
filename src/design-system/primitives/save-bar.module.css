@@ -6,21 +6,13 @@
   min-height: 64px;
   padding: var(--lk-space-3);
   border-radius: var(--lk-radius-card);
-  background: var(--lk-color-surface-sunken);
+  background: var(--lk-color-surface-raised);
+  box-shadow: var(--lk-shadow-lift);
 }
 
 .bar > svg {
   flex: none;
   color: var(--lk-color-icon-default);
-}
-
-.saved > svg {
-  color: var(--lk-color-accent-primary);
-}
-
-.error {
-  background: var(--lk-color-surface-raised);
-  box-shadow: var(--lk-shadow-lift);
 }
 
 .copy {
@@ -33,6 +25,7 @@
 
 .actions {
   display: flex;
+  justify-content: flex-end;
   gap: var(--lk-space-2);
   margin-left: auto;
 }
@@ -44,14 +37,4 @@
 .detail {
   color: var(--lk-color-text-secondary);
   font-size: var(--lk-font-size-label);
-}
-
-.spin {
-  animation: spin 900ms linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }

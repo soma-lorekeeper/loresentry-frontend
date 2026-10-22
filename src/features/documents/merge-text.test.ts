@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  bodyBlocks,
+  bodyFromBlocks,
   bodyFromPlainText,
   bodyToPlainText,
   emptyBody,
@@ -82,6 +84,22 @@ describe("mergeParagraphs", () => {
 
     const result = mergeParagraphs(plain, bold, plain);
     expect(result.ok && result.body.doc).toEqual(bold.doc);
+  });
+
+  it("keeps the format from the side that changed it", () => {
+    const formatted = (text: string, font?: string) => {
+      const body = bodyFromPlainText(text);
+      return bodyFromBlocks(bodyBlocks(body), font ? { font } : undefined);
+    };
+    const original = formatted(base);
+    const mine = formatted("첫 문단 고침\n둘째 문단\n셋째 문단", "georgia");
+    const theirs = formatted("첫 문단\n둘째 문단\n셋째 문단 고침");
+
+    const result = mergeParagraphs(original, mine, theirs);
+    const reverse = mergeParagraphs(original, theirs, mine);
+
+    expect(result.ok && result.body.doc.attrs).toEqual({ font: "georgia" });
+    expect(reverse.ok && reverse.body.doc.attrs).toEqual({ font: "georgia" });
   });
 
   it("merges an empty body without inventing blocks", () => {

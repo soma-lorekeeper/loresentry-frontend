@@ -75,6 +75,7 @@ const NODE_MAX_RADIUS = 15;
  * 값이 커진다.
  */
 const ICON_MIN_SCREEN_RADIUS = 9;
+const FAVORITE_MIN_SCREEN_SIZE = ICON_MIN_SCREEN_RADIUS * 0.95;
 /*
  * 엣지에는 화살표를 그리지 않는다. 관계는 대칭이라 source·target 은 그리기 순서일 뿐
  * 방향이 아니다(domain/models.ts 의 GraphEdge). 화살표를 붙이면 없는 방향을 말하게 된다.
@@ -240,16 +241,14 @@ export function Graph2D({
       }
 
       // 즐겨찾기 별. 원 안은 분류 아이콘이 쓰고 있으므로 오른쪽 위 모서리에 얹는다.
-      // 분류 아이콘과 같은 크기 컷을 쓴다 — 아이콘이 안 보일 만큼 작으면 별도 점이다.
-      if (
-        favorites.has(node.baseId) &&
-        radius * globalScale >= ICON_MIN_SCREEN_RADIUS
-      ) {
+      // 분류 아이콘과 달리 노드가 작아도 그린다 — 관계가 없는 새 문서는 늘 가장 작은
+      // 노드라, 크기 컷을 두면 즐겨찾기한 새 문서에는 별이 끝내 보이지 않는다.
+      if (favorites.has(node.baseId)) {
         drawFavoriteStar(
           ctx,
           x + radius * 0.72,
           y - radius * 0.72,
-          radius * 0.95,
+          Math.max(radius * 0.95, FAVORITE_MIN_SCREEN_SIZE / globalScale),
           // 흐림 상태에서는 별도 함께 물러난다. 강조 중에 별만 또렷하면
           // 1-hop 이 눈에 들어오지 않는다.
           lit ? palette.favorite : palette.nodeDim,

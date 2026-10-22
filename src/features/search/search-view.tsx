@@ -2,6 +2,7 @@
 
 import {
   useEffect,
+  useMemo,
   useRef,
   useState,
   type KeyboardEvent,
@@ -13,22 +14,35 @@ import {
   EmptyState,
   Icon,
   SearchField,
+  Segmented,
+  type SegmentedOption,
 } from "@/design-system/primitives";
 import { DOCUMENT_TYPE_META } from "@/domain/document-types";
 import type { SearchHit } from "@/domain/models";
+import { indexNodes, isDocument } from "@/features/workspace/model/tree";
+import { useFavorites, useFileTree } from "@/features/workspace/queries";
 import type { WorkspaceViewProps } from "@/features/workspace/views/view-types";
 import { ViewPage, ViewPanel } from "@/features/workspace/views/view-page";
 import { useWorkspace } from "@/features/workspace/workspace-context";
 import { t } from "@/i18n";
+import { dottedDate, relativeTime } from "@/shared/format";
 
 import {
   SEARCH_DEBOUNCE_MS,
   SEARCH_LIMIT,
   displaySnippet,
   searchTermOf,
+  sortHits,
   useProjectSearch,
+  type SearchOrder,
 } from "./queries";
 import styles from "./search-view.module.css";
+
+const ORDERS: SegmentedOption<SearchOrder>[] = [
+  { value: "relevance", label: t("검색::관련도순") },
+  { value: "recent", label: t("검색::최근 수정순") },
+  { value: "title", label: t("검색::이름순") },
+];
 
 interface Shown {
   term: string;
@@ -51,11 +65,15 @@ function highlight(text: string, term: string): ReactNode {
 function ResultRow({
   hit,
   term,
+  locked,
+  favorite,
   onOpen,
   onKeyDown,
 }: {
   hit: SearchHit;
   term: string;
+  locked: boolean;
+  favorite: boolean;
   onOpen: () => void;
   onKeyDown: (event: KeyboardEvent<HTMLButtonElement>) => void;
 }) {
@@ -72,7 +90,18 @@ function ResultRow({
       >
         <Icon name={meta.entityIcon} size={16} className={styles.icon} />
         <span className={styles.copy}>
-          <span className={styles.title}>{highlight(hit.title, term)}</span>
+          <span className={styles.head}>
+            <span className={styles.title}>{highlight(hit.title, term)}</span>
+            <time
+              className={styles.time}
+              dateTime={hit.updatedAt}
+              title={t("검색::마지막 수정 {date}", {
+                date: dottedDate(hit.updatedAt),
+              })}
+            >
+              {relativeTime(hit.updatedAt)}
+            </time>
+          </span>
           {snippet && (
             <span className={styles.snippet}>
               {snippet.leading && "…"}
@@ -82,7 +111,25 @@ function ResultRow({
               {snippet.trailing && "…"}
             </span>
           )}
-          <span className={styles.path}>{hit.path.join("/")}</span>
+          <span className={styles.meta}>
+            {hit.path.map((part) => (
+              <span key={part} className={styles.metaItem}>
+                {part}
+              </span>
+            ))}
+            {locked && (
+              <span className={styles.metaItem}>
+                <Icon name="lock" size={12} />
+                {t("검색::잠김")}
+              </span>
+            )}
+            {favorite && (
+              <span className={styles.metaItem} data-favorite>
+                <Icon name="star" size={12} />
+                {t("검색::즐겨찾기")}
+              </span>
+            )}
+          </span>
         </span>
       </button>
     </li>
@@ -96,8 +143,16 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
   const [query, setQuery] = useState("");
   const [requested, setRequested] = useState("");
   const [shown, setShown] = useState<Shown | null>(null);
+  const [order, setOrder] = useState<SearchOrder>("relevance");
   const term = searchTermOf(query);
   const search = useProjectSearch(projectId, requested);
+  const tree = useFileTree(projectId);
+  const favorites = useFavorites(projectId);
+  const nodes = useMemo(() => indexNodes(tree.data ?? []), [tree.data]);
+  const favoriteIds = useMemo(
+    () => new Set(favorites.data ?? []),
+    [favorites.data],
+  );
   const focused = active && activePane.id === paneId;
 
   useEffect(() => {
@@ -136,7 +191,10 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
         ? "results"
         : "loading";
   const busy = status === "loading" || (status === "results" && !settled);
-  const hits = status === "results" && shown ? shown.hits : [];
+  const hits = useMemo(
+    () => (status === "results" && shown ? sortHits(shown.hits, order) : []),
+    [status, shown, order],
+  );
 
   const change = (next: string) => {
     setQuery(next);
@@ -145,6 +203,11 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
 
   const rowsOf = () =>
     Array.from(listRef.current?.querySelectorAll("button") ?? []);
+
+  const lockedOf = (fileId: string) => {
+    const node = nodes.get(fileId);
+    return isDocument(node) && node.locked;
+  };
 
   const openHit = (hit: SearchHit) =>
     open({ kind: "file", fileId: hit.fileId });
@@ -201,6 +264,14 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
 
       {status === "results" && hits.length > 0 ? (
         <div className={styles.results}>
+          <Segmented
+            label={t("검색::정렬")}
+            variant="pills"
+            options={ORDERS}
+            value={order}
+            onChange={setOrder}
+            className={styles.order}
+          />
           <ul
             ref={listRef}
             className={styles.list}
@@ -212,6 +283,8 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
                 key={hit.fileId}
                 hit={hit}
                 term={shown?.term ?? term}
+                locked={lockedOf(hit.fileId)}
+                favorite={favoriteIds.has(hit.fileId)}
                 onOpen={() => openHit(hit)}
                 onKeyDown={onRowKeyDown}
               />

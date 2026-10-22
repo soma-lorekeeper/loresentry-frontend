@@ -4,13 +4,6 @@
   gap: var(--lk-space-4);
 }
 
-.context {
-  color: var(--lk-color-text-secondary);
-  font-size: var(--lk-font-size-label);
-  line-height: var(--lk-line-height-body);
-  word-break: keep-all;
-}
-
 .ghost {
   background: var(--lk-color-state-hover);
   border-color: transparent;
