@@ -34,9 +34,13 @@ export function bodyBlocks(body: DocumentBody): JSONContent[] {
   return body.doc.content ?? [];
 }
 
-export function bodyFromBlocks(blocks: JSONContent[]): DocumentBody {
+export function bodyFromBlocks(
+  blocks: JSONContent[],
+  attrs?: JSONContent["attrs"],
+): DocumentBody {
   return bodyOf({
     type: "doc",
+    ...(attrs ? { attrs } : {}),
     content: blocks.length > 0 ? blocks : [{ type: "paragraph" }],
   });
 }

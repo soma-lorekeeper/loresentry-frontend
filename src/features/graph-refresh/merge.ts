@@ -95,7 +95,11 @@ export function bodyLines(body: DocumentBody) {
 function fromBodyLines(original: DocumentBody, text: string): DocumentBody {
   const blocks = bodyBlocks(original);
   const before = bodyLines(original);
-  if (before === "") return bodyFromPlainText(text);
+  if (before === "")
+    return bodyFromBlocks(
+      bodyBlocks(bodyFromPlainText(text)),
+      original.doc.attrs,
+    );
 
   /** 원래 글의 줄마다, 그 줄이 시작하는 블록과 블록이 차지하는 줄 수. 블록 첫 줄에만 있다 */
   const starts = new Map<
@@ -132,7 +136,7 @@ function fromBodyLines(original: DocumentBody, text: string): DocumentBody {
       }
     }
   }
-  return bodyFromBlocks(out);
+  return bodyFromBlocks(out, original.doc.attrs);
 }
 
 function sameProperty(

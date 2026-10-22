@@ -4,6 +4,7 @@ import { Placeholder } from "@tiptap/extensions";
 import StarterKit from "@tiptap/starter-kit";
 
 import { FindReplace } from "./find-replace";
+import { FormattedDocument } from "./formatted-document";
 import { DocumentTextAlign } from "./text-align";
 
 // DOCUMENT_EDITING_PROPOSAL §3.2: 편집기 스키마를 Markdown으로 표현 가능한 범위로 잠근다.
@@ -19,6 +20,7 @@ export function createDocumentExtensions(
       link: { openOnClick: false, autolink: true },
     }),
     Markdown,
+    FormattedDocument,
     DocumentTextAlign,
     Placeholder.configure({ placeholder: options.placeholder ?? "" }),
     FindReplace,

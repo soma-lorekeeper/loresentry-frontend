@@ -43,5 +43,9 @@ export function mergeParagraphs(
     }
     merged.push(mineChanged ? m[i] : t[i]);
   }
-  return { ok: true, body: bodyFromBlocks(merged) };
+  const attrs =
+    JSON.stringify(mine.doc.attrs) === JSON.stringify(base.doc.attrs)
+      ? theirs.doc.attrs
+      : mine.doc.attrs;
+  return { ok: true, body: bodyFromBlocks(merged, attrs) };
 }

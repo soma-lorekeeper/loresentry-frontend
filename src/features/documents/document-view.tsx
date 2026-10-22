@@ -47,8 +47,16 @@ import { useWorkspace, type TabActions } from "../workspace/workspace-context";
 import styles from "./document.module.css";
 import { EditorToolbar } from "./editor-toolbar";
 import { useEditorFontStack } from "./editor-fonts";
-import { useEditorPrefs } from "./editor-prefs";
+import {
+  formatOf,
+  useDeviceFormat,
+  type DocumentFormat,
+} from "./document-format";
 import { createDocumentExtensions } from "./editor/extensions";
+import {
+  replaceDocument,
+  setDocumentFormat,
+} from "./editor/formatted-document";
 import { documentJSON } from "./editor/text-align";
 import { FileHeader } from "./file-header";
 import { PrintSheet, printRows } from "./print-sheet";
@@ -152,7 +160,7 @@ function BodyEditor({
   useEffect(() => {
     if (!editor || appliedVersion.current === version) return;
     appliedVersion.current = version;
-    editor.commands.setContent(body.doc, { emitUpdate: false });
+    replaceDocument(editor, body.doc);
   }, [editor, body, version]);
 
   return (
@@ -221,10 +229,11 @@ export function DocumentView({
   const favorites = useFavorites(projectId);
   const setFavorite = useSetFavorite(projectId);
   const move = useMoveFile(projectId);
-  const prefs = useEditorPrefs();
-  // 웹 글꼴은 처음 고를 때 받는다. 오기 전에는 기기의 비슷한 글꼴로 그린다(editor-fonts.ts).
-  const fontStack = useEditorFontStack(prefs.font);
+  const deviceFormat = useDeviceFormat();
   const doc = useDocumentSession(fileId);
+  const format = formatOf(doc.draft?.body.doc, deviceFormat);
+  // 웹 글꼴은 처음 고를 때 받는다. 오기 전에는 기기의 비슷한 글꼴로 그린다(editor-fonts.ts).
+  const fontStack = useEditorFontStack(format.font);
   // 단축키로 저장을 시키면 도구 막대의 저장 상태가 곧바로 "저장 중…" 을 보여 준다.
   const saveEcho = useSaveEcho(doc.status);
   const [editor, setEditor] = useState<Editor | null>(null);
@@ -292,12 +301,15 @@ export function DocumentView({
   const docType: DocumentType = isDocument(node)
     ? node.docType
     : content.docType;
-  // 글꼴·크기·줄 간격은 이 브라우저의 설정이다. 정렬은 문단마다 본문에 담겨 여기 없다.
+  // 글꼴·크기·줄 간격은 문서마다 본문에 담긴다. 정렬은 문단마다 담겨 여기 없다.
   const editorVars = {
     "--editor-font": fontStack,
-    "--editor-size": `${prefs.fontSize}pt`,
-    "--editor-line-height": String(prefs.lineHeight),
+    "--editor-size": `${format.fontSize}pt`,
+    "--editor-line-height": String(format.lineHeight),
   } as CSSProperties;
+  const changeFormat = (patch: Partial<DocumentFormat>) => {
+    if (editor && !locked) setDocumentFormat(editor, { ...format, ...patch });
+  };
 
   const toggleLock = async () => {
     setLockPending(true);
@@ -473,7 +485,8 @@ export function DocumentView({
           <EditorToolbar
             key={editor ? "ready" : "pending"}
             editor={editor}
-            prefs={prefs}
+            format={format}
+            onFormat={changeFormat}
             status={saveEcho.shown}
             locked={locked}
             onRetry={() => void doc.session.retry()}

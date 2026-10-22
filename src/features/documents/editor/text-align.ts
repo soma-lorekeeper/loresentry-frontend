@@ -2,6 +2,8 @@ import type { Editor, JSONContent } from "@tiptap/core";
 import { TextAlign } from "@tiptap/extension-text-align";
 import type { EditorState } from "@tiptap/pm/state";
 
+import { withoutEmptyFormat } from "./formatted-document";
+
 /**
  * 문단 정렬.
  *
@@ -109,7 +111,7 @@ export const DocumentTextAlign = TextAlign.extend({
  * `sameBlock`). 그래서 비어 있는 정렬은 적지 않는다.
  */
 export function documentJSON(editor: Editor): JSONContent {
-  return withoutEmptyAlign(editor.getJSON());
+  return withoutEmptyFormat(withoutEmptyAlign(editor.getJSON()));
 }
 
 function withoutEmptyAlign(node: JSONContent): JSONContent {

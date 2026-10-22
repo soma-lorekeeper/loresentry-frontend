@@ -33,9 +33,8 @@ import { EDITOR_FONTS, editorFontOf, type EditorFont } from "./editor-fonts";
 import {
   EDITOR_FONT_SIZES,
   EDITOR_LINE_HEIGHTS,
-  setEditorPrefs,
-  type EditorPrefs,
-} from "./editor-prefs";
+  type DocumentFormat,
+} from "./document-format";
 import { findStateOf } from "./editor/find-replace";
 import {
   alignmentOf,
@@ -116,7 +115,8 @@ const ROUTINE_STATUSES: Exclude<SaveStatus, "error">[] = [
 
 interface ToolbarProps {
   editor: Editor | null;
-  prefs: EditorPrefs;
+  format: DocumentFormat;
+  onFormat: (patch: Partial<DocumentFormat>) => void;
   status: SaveStatus;
   locked: boolean;
   onRetry: () => void;
@@ -346,7 +346,8 @@ function Counts({
 
 export function EditorToolbar({
   editor,
-  prefs,
+  format,
+  onFormat,
   status,
   locked,
   onRetry,
@@ -445,7 +446,7 @@ export function EditorToolbar({
   const tight = applied.has("tight");
   const mac = isMac();
   const keys = (chord: Chord) => formatChord(chord, mac);
-  const font = editorFontOf(prefs.font);
+  const font = editorFontOf(format.font);
   /** 고른 글이 없으면 문서 전체, 있으면 그 문단들만 정렬한다(editor/text-align.ts). */
   const align = (alignment: TextAlignment) => {
     if (editor) setAlignment(editor, alignment);
@@ -454,8 +455,8 @@ export function EditorToolbar({
   const fontEntry = (f: EditorFont): MenuEntry => ({
     id: f.id,
     label: f.label,
-    checked: f.id === prefs.font,
-    onSelect: () => setEditorPrefs({ font: f.id }),
+    checked: f.id === format.font,
+    onSelect: () => onFormat({ font: f.id }),
   });
   // 누구에게나 같은 모양으로 보이는 글꼴이 앞, 기기에 깔려 있어야 보이는 글꼴이 뒤다.
   const fontEntries: MenuEntry[] = [
@@ -467,14 +468,14 @@ export function EditorToolbar({
   const sizeEntries: MenuEntry[] = EDITOR_FONT_SIZES.map((size) => ({
     id: String(size),
     label: `${size}pt`,
-    checked: size === prefs.fontSize,
-    onSelect: () => setEditorPrefs({ fontSize: size }),
+    checked: size === format.fontSize,
+    onSelect: () => onFormat({ fontSize: size }),
   }));
   const lineEntries: MenuEntry[] = EDITOR_LINE_HEIGHTS.map((height) => ({
     id: String(height),
     label: String(height),
-    checked: height === prefs.lineHeight,
-    onSelect: () => setEditorPrefs({ lineHeight: height }),
+    checked: height === format.lineHeight,
+    onSelect: () => onFormat({ lineHeight: height }),
   }));
   const alignEntries: MenuEntry[] = TEXT_ALIGNMENTS.map(({ id }) => ({
     id: `al-${id}`,
@@ -643,14 +644,14 @@ export function EditorToolbar({
               />
               <Select
                 label={t("글자 크기")}
-                value={`${prefs.fontSize}pt`}
+                value={`${format.fontSize}pt`}
                 width={80}
                 entries={sizeEntries}
               />
               {shows("lineHeight") && (
                 <Select
                   label={t("줄 간격")}
-                  value={String(prefs.lineHeight)}
+                  value={String(format.lineHeight)}
                   width={84}
                   icon="list-chevrons-up-down"
                   indicator="chevrons-up-down"
