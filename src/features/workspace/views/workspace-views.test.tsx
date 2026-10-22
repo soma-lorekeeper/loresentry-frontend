@@ -154,6 +154,35 @@ describe("project search", () => {
     ).toBeInTheDocument();
   });
 
+  it("sorts results by recent edit or title and shows each document's details", async () => {
+    const actor = userEvent.setup();
+    renderSearch();
+    const input = screen.getByRole("searchbox", { name: "프로젝트에서 검색" });
+    await actor.type(input, "균열");
+    const results = await screen.findByRole("list", { name: "검색 결과" });
+    const rows = () => within(results).getAllByRole("button");
+
+    await actor.click(screen.getByRole("radio", { name: "최근 수정순" }));
+    const times = rows().map((row) =>
+      Date.parse(row.querySelector("time")!.dateTime),
+    );
+    expect(times).toEqual([...times].sort((a, b) => b - a));
+
+    await actor.click(screen.getByRole("radio", { name: "이름순" }));
+    const names = rows().map(
+      (row) => row.querySelector("time")!.previousElementSibling!.textContent,
+    );
+    expect(names).toEqual(
+      [...names].sort((a, b) =>
+        a.localeCompare(b, "ko", { numeric: true, sensitivity: "base" }),
+      ),
+    );
+
+    const favorite = rows().find((row) => row.textContent?.includes("12화"));
+    expect(favorite).toHaveTextContent("즐겨찾기");
+    expect(favorite).toHaveTextContent("원고");
+  });
+
   it("does not send a consonant or vowel still being typed", () => {
     expect(searchTermOf("유ㄹ")).toBe("유");
     expect(searchTermOf(" ㄹ ")).toBe("");

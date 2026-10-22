@@ -296,4 +296,11 @@ export default {
   "검색::찾는 중이에요": "Searching",
   "검색::검색하지 못했어요": "Couldn't search",
   "검색::일치하는 문서가 없어요": "No documents match",
+  "검색::정렬": "Sort",
+  "검색::관련도순": "Best match",
+  "검색::최근 수정순": "Recently edited",
+  "검색::이름순": "Title",
+  "검색::잠김": "Locked",
+  "검색::즐겨찾기": "Favorite",
+  "검색::마지막 수정 {date}": "Last edited {date}",
 } satisfies Messages;
