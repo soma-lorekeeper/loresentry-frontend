@@ -223,8 +223,6 @@ export default {
   "다시 보내기": "Send again",
   보내기: "Send",
   내용: "Message",
-  "계정 정보와 지금 보고 있던 화면 위치({page})가 함께 전달돼요.":
-    "Your account details and the page you were on ({page}) are sent with it.",
 
   "{what}은 아직 준비 중이에요": "{what} isn't ready yet",
   "서버가 연결되면 여기에서 바로 쓸 수 있어요. 지금은 보여 드릴 것이 없어요.":
