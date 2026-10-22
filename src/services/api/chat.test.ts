@@ -126,6 +126,8 @@ function handlers() {
     onCitation: (index: number, value: { title: string }) =>
       seen.push(`citation:${index}:${value.title}`),
     onDelta: (text: string) => seen.push(`delta:${text}`),
+    onActivity: (activity: { kind: string }) =>
+      seen.push(`activity:${activity.kind}`),
   };
 }
 

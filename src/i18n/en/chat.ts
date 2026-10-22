@@ -115,4 +115,21 @@ export default {
   "다른 대화에서 답을 쓰는 중이에요. 끝난 뒤에 다시 보내 주세요.":
     "An answer is being written in another conversation. Send again once it's done.",
   "다른 대화에서 답을 쓰는 중이에요": "Another conversation is still answering",
+  "작품 지도 확인": "Looked over the story map",
+  "읽은 문서로 답을 쓰는 중": "Writing an answer from what it read",
+  "읽을 문서를 고르는 중": "Choosing what to read",
+  "더 읽을지 정하는 중": "Deciding whether to read more",
+  "문서를 읽는 중": "Reading",
+  읽음: "Read",
+  "{step}단계 · {count}개": "Step {step} · {count}",
+  "분량이 넘친 {count}개는 다음 단계로": "{count} more saved for the next step",
+  "답을 검토하는 중": "Checking the answer",
+  "검토 통과": "Answer checked",
+  "검토 · 보완 필요": "Check · needs more",
+  "더 찾을 것 · {fact}": "Still to find · {fact}",
+  "고칠 점 {count}개": "{count} things to fix",
+  "검토를 반영해 마지막 답을 쓰는 중":
+    "Writing the final answer with the review in mind",
+  "외 {count}개": "+{count} more",
+  "답을 준비하는 과정": "How the answer is coming together",
 } satisfies Messages;

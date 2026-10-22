@@ -203,6 +203,31 @@ export interface ChatUsage {
 
 export type ChatPhase = "gathering" | "reading" | "writing";
 
+/** 답을 기다리는 동안 응답 모델이 하는 일. 서버가 순서대로 보낸다. */
+export interface ChatActivityDocument {
+  title: string;
+  docType: DocumentType | null;
+}
+
+export type ChatActivity =
+  | { kind: "map"; documents: number }
+  | { kind: "think"; step: number; mustAnswer: boolean }
+  | {
+      kind: "read";
+      step: number;
+      documents: ChatActivityDocument[];
+      skipped: number;
+    }
+  | { kind: "review"; step: number }
+  | {
+      kind: "reviewed";
+      step: number;
+      passed: boolean;
+      missing: string[];
+      problems: number;
+    }
+  | { kind: "final" };
+
 export interface SearchHit {
   fileId: string;
   title: string;

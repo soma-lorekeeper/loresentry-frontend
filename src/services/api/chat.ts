@@ -1,4 +1,5 @@
 import type {
+  ChatActivity,
   ChatAvailability,
   ChatCitation,
   ChatIntent,
@@ -54,6 +55,25 @@ interface ApiMessage {
   citations: ApiCitation[];
   created_at: string;
 }
+
+type ApiActivity =
+  | { kind: "map"; documents: number }
+  | { kind: "think"; step: number; must_answer: boolean }
+  | {
+      kind: "read";
+      step: number;
+      documents: { title: string; doc_type: string }[];
+      skipped: number;
+    }
+  | { kind: "review"; step: number }
+  | {
+      kind: "reviewed";
+      step: number;
+      passed: boolean;
+      missing: string[];
+      problems: number;
+    }
+  | { kind: "final" };
 
 interface ApiUsage {
   used: number;
@@ -119,6 +139,23 @@ function toMessage(api: ApiMessage): ChatMessage {
 
 function toUsage(api: ApiUsage): ChatUsage {
   return { used: api.used, limit: api.limit, resetsAt: api.resets_at };
+}
+
+function toActivity(api: ApiActivity): ChatActivity {
+  if (api.kind === "think")
+    return { kind: "think", step: api.step, mustAnswer: api.must_answer };
+  if (api.kind === "read")
+    return {
+      kind: "read",
+      step: api.step,
+      skipped: api.skipped,
+      documents: api.documents.map((doc) => ({
+        title: doc.title,
+        docType:
+          doc.doc_type === "memo" ? null : (doc.doc_type as DocumentType),
+      })),
+    };
+  return api;
 }
 
 function stopped() {
@@ -208,6 +245,8 @@ export function createApiChat(client: ApiClient): ChatService {
           (event, data) => {
             const payload = data as Record<string, unknown>;
             if (event === "phase") handlers.onPhase(payload.phase as ChatPhase);
+            else if (event === "activity")
+              handlers.onActivity(toActivity(data as ApiActivity));
             else if (event === "citation")
               handlers.onCitation(
                 payload.index as number,

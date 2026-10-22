@@ -3,7 +3,12 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
-import type { ChatCitation, ChatMessage, ChatPhase } from "@/domain/models";
+import type {
+  ChatActivity,
+  ChatCitation,
+  ChatMessage,
+  ChatPhase,
+} from "@/domain/models";
 import { saveOpenDocuments } from "@/features/documents/open-sessions";
 import type { ChatSendInput } from "@/services/ports";
 import { queryKeys } from "@/services/query-keys";
@@ -20,7 +25,17 @@ export interface ChatStream {
   freshFrom: number;
   tick: number;
   citations: ChatCitation[];
+  activities: ChatActivity[];
   startedAt: number;
+}
+
+/** 고르는 중·검토 중은 그 결과가 오면 결과로 바뀐다. 작업 기록에는 한 줄만 남는다. */
+export function addActivity(list: ChatActivity[], next: ChatActivity) {
+  const last = list.at(-1);
+  const settles =
+    (last?.kind === "think" && next.kind !== "map") ||
+    (last?.kind === "review" && next.kind === "reviewed");
+  return settles ? [...list.slice(0, -1), next] : [...list, next];
 }
 
 export interface ChatInterruption {
@@ -95,6 +110,7 @@ export function useChatStreams(projectId: string) {
         freshFrom: 0,
         tick: 0,
         citations: [],
+        activities: [],
         startedAt: Date.now(),
       },
     }));
@@ -105,6 +121,10 @@ export function useChatStreams(projectId: string) {
           input,
           {
             onPhase: (phase) => update(sessionId, () => ({ phase })),
+            onActivity: (activity) =>
+              update(sessionId, (stream) => ({
+                activities: addActivity(stream.activities, activity),
+              })),
             onCitation: (index, citation) =>
               update(sessionId, (stream) => {
                 const citations = [...stream.citations];
