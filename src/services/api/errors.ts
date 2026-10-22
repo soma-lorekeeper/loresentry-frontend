@@ -72,6 +72,7 @@ const CODE_TO_SERVICE_ERROR: Record<string, ServiceErrorCode> = {
   CHAT_NOT_LAST_QUESTION: "validation",
   CHAT_ANSWER_IN_PROGRESS: "busy",
   CHAT_CONTEXT_TOO_LARGE: "validation",
+  CHAT_DAILY_LIMIT_REACHED: "busy",
   CHAT_MODEL_UNAVAILABLE: "network",
 };
 
@@ -92,6 +93,7 @@ const MESSAGES: Partial<Record<ServiceErrorCode, string>> = {
 };
 
 const CODE_MESSAGES: Record<string, string> = {
+  CHAT_DAILY_LIMIT_REACHED: t("오늘 AI 챗 사용량을 다 썼어요."),
   INVALID_FEEDBACK: t("내용을 1~2,000자로 적어 주세요."),
   FEEDBACK_RATE_LIMITED: t(
     "짧은 시간에 많이 보냈어요. 잠시 뒤에 다시 보내 주세요.",

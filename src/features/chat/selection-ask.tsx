@@ -61,9 +61,11 @@ function readSelection(): Picked | null {
 export function SelectionAsk({
   onAttach,
   onAsk,
+  resting = false,
 }: {
   onAttach: (quote: ChatQuote) => void;
   onAsk: (quote: ChatQuote, intent: QuickIntent) => void;
+  resting?: boolean;
 }) {
   const [picked, setPicked] = useState<Picked | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -119,13 +121,16 @@ export function SelectionAsk({
       aria-label={t("선택한 부분으로 AI에게 묻기")}
       className={styles.selectionBar}
       data-above={above || undefined}
+      data-resting={resting || undefined}
       style={style}
       onMouseDown={(event) => event.preventDefault()}
     >
       <button
         type="button"
         className={styles.selectionMain}
+        aria-disabled={resting || undefined}
         onClick={() => {
+          if (resting) return;
           onAttach(picked.quote);
           close();
         }}
@@ -138,7 +143,9 @@ export function SelectionAsk({
           key={intent}
           type="button"
           className={styles.selectionQuick}
+          aria-disabled={resting || undefined}
           onClick={() => {
+            if (resting) return;
             onAsk(picked.quote, intent);
             close();
           }}
@@ -146,6 +153,11 @@ export function SelectionAsk({
           {quickLabel(intent)}
         </button>
       ))}
+      {resting && (
+        <p className={styles.selectionNote} role="status">
+          {t("오늘 사용량을 다 썼어요")} <span>{t("자정에 비워져요")}</span>
+        </p>
+      )}
     </div>,
     document.body,
   );

@@ -2,7 +2,11 @@ import { act, fireEvent, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ServiceError } from "@/services/errors";
-import { setMockChatLimit } from "@/services/mock/chat";
+import {
+  CHAT_DAILY_LIMIT,
+  setMockChatLimit,
+  setMockChatUsage,
+} from "@/services/mock/chat";
 import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
 import { renderWithServices } from "@/test/render";
 
@@ -55,7 +59,95 @@ describe("ChatDock", () => {
 
   afterEach(() => {
     setMockChatLimit(null);
+    setMockChatUsage(null);
+    window.localStorage.clear();
     vi.useRealTimers();
+  });
+
+  async function openAt(used: number) {
+    setMockChatUsage(used);
+    renderDock();
+    await flush();
+    await flush();
+    fireEvent.click(screen.getByRole("button", { name: /^AI 챗 열기/ }));
+    await flush();
+    return screen.getByRole("dialog", { name: "AI 챗" });
+  }
+
+  it("shows today's usage in the header and when it resets", async () => {
+    const chat = await openAt(CHAT_DAILY_LIMIT * 0.28);
+
+    fireEvent.click(
+      within(chat).getByRole("button", { name: "오늘 AI 챗 사용량 28%" }),
+    );
+
+    const card = screen.getByRole("dialog", { name: "오늘 사용량" });
+    expect(within(card).getByText("28%")).toBeInTheDocument();
+    expect(within(card).getByText("자정에 0%로 비워져요.")).toBeInTheDocument();
+    expect(screen.queryByText(/오늘 사용량의/)).not.toBeInTheDocument();
+  });
+
+  it("warns once past 80% and stays quiet for the day after it is dismissed", async () => {
+    const chat = await openAt(CHAT_DAILY_LIMIT * 0.82);
+
+    expect(within(chat).getByText("오늘 사용량의 82%를 썼어요")).toBeVisible();
+    fireEvent.click(within(chat).getByRole("button", { name: "알림 닫기" }));
+
+    expect(
+      within(chat).queryByText("오늘 사용량의 82%를 썼어요"),
+    ).not.toBeInTheDocument();
+    expect(window.localStorage.getItem("loresentry.chat.usage-notice")).toMatch(
+      /Z$/,
+    );
+  });
+
+  it("puts a rest card where the question box was once the day is used up", async () => {
+    setMockChatUsage(CHAT_DAILY_LIMIT);
+    renderDock();
+    await flush();
+    await flush();
+    const launcher = await screen.findByRole("button", {
+      name: "AI 챗 열기, 오늘 사용량을 다 썼어요",
+    });
+    fireEvent.click(launcher);
+    await flush();
+    const chat = screen.getByRole("dialog", { name: "AI 챗" });
+
+    expect(
+      within(chat).getByRole("heading", { name: "오늘 사용량을 다 썼어요" }),
+    ).toBeInTheDocument();
+    expect(within(chat).getByText(/뒤 다시 물을 수 있어요$/)).toBeVisible();
+    expect(
+      within(chat).queryByRole("textbox", { name: "질문" }),
+    ).not.toBeInTheDocument();
+    expect(
+      within(chat).queryByText("이렇게 물어보세요"),
+    ).not.toBeInTheDocument();
+    expect(within(chat).getByText("북쪽 문 장면 확인")).toBeInTheDocument();
+  });
+
+  it("tells the author with a toast when an answer uses up the day", async () => {
+    await openAt(CHAT_DAILY_LIMIT - 1000);
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "주요 인물과 연결된 설정을 정리해 줘",
+      }),
+    );
+    for (
+      let i = 0;
+      i < 40 && !screen.queryByText(/뒤 다시 물을 수 있어요$/);
+      i++
+    )
+      await flush(500);
+
+    expect(screen.getByText("오늘 AI 챗 사용량을 다 썼어요")).toBeVisible();
+    const chat = screen.getByRole("dialog", { name: "AI 챗" });
+    expect(
+      within(chat).getByRole("button", { name: "오늘 AI 챗 사용량 100%" }),
+    ).toBeInTheDocument();
+    expect(
+      within(chat).getByRole("heading", { name: "오늘 사용량을 다 썼어요" }),
+    ).toBeInTheDocument();
   });
 
   it("opens to the home view with this project's conversations", async () => {

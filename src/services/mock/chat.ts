@@ -5,6 +5,7 @@ import type {
   ChatMessage,
   ChatSearchHit,
   ChatSession,
+  ChatUsage,
 } from "@/domain/models";
 import { t } from "@/i18n";
 
@@ -37,6 +38,41 @@ function contextLimit() {
     if (Number.isFinite(fromUrl) && fromUrl > 0) return fromUrl;
   }
   return CHAT_CONTEXT_LIMIT;
+}
+
+export const CHAT_DAILY_LIMIT = 450_000;
+const TURN_CREDITS = 45_000;
+
+let usedToday: number | null = null;
+
+export function setMockChatUsage(used: number | null) {
+  usedToday = used;
+}
+
+function used() {
+  if (usedToday !== null) return usedToday;
+  if (typeof window !== "undefined") {
+    const ratio = Number(
+      new URLSearchParams(window.location.search).get("chatUsage"),
+    );
+    if (Number.isFinite(ratio) && ratio > 0)
+      return Math.round(Math.min(ratio, 1) * CHAT_DAILY_LIMIT);
+  }
+  return 0;
+}
+
+function nextMidnightInKorea(now = new Date()) {
+  const korea = new Date(now.getTime() + 9 * 3_600_000);
+  korea.setUTCHours(24, 0, 0, 0);
+  return new Date(korea.getTime() - 9 * 3_600_000).toISOString();
+}
+
+function usageNow(): ChatUsage {
+  return {
+    used: used(),
+    limit: CHAT_DAILY_LIMIT,
+    resetsAt: nextMidnightInKorea(),
+  };
 }
 
 export function newSessionTitle() {
@@ -201,6 +237,7 @@ export const mockChat: ChatService = {
         limit,
       };
     }),
+  usage: () => simulate("chat.usage", usageNow),
   sessions: (projectId) =>
     simulate("chat.sessions", () =>
       getDb()
@@ -278,6 +315,8 @@ export const mockChat: ChatService = {
   send: async (sessionId, input, handlers, signal) => {
     const db = getDb();
     const question = await simulate("chat.send", () => {
+      if (used() >= CHAT_DAILY_LIMIT)
+        throw new ServiceError("busy", t("오늘 AI 챗 사용량을 다 썼어요."));
       const session = sessionOf(db, sessionId);
       if (input.replaces) {
         const from = db.chatMessages.findIndex(
@@ -340,6 +379,7 @@ export const mockChat: ChatService = {
       session.preview = chatPreview(content, citations);
     }
     persistDb();
-    return structuredClone({ question, answer });
+    usedToday = used() + TURN_CREDITS;
+    return structuredClone({ question, answer, usage: usageNow() });
   },
 };

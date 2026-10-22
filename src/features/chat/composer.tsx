@@ -1,6 +1,12 @@
 "use client";
 
-import { forwardRef, useLayoutEffect, useRef, type FormEvent } from "react";
+import {
+  forwardRef,
+  useLayoutEffect,
+  useRef,
+  type FormEvent,
+  type ReactNode,
+} from "react";
 
 import { Icon, IconButton } from "@/design-system/primitives";
 import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
@@ -61,6 +67,7 @@ export const Composer = forwardRef<
     viewingOn: boolean;
     onToggleViewing: () => void;
     placeholder: string;
+    notice?: ReactNode;
   }
 >(function Composer(
   {
@@ -75,6 +82,7 @@ export const Composer = forwardRef<
     viewingOn,
     onToggleViewing,
     placeholder,
+    notice,
   },
   ref,
 ) {
@@ -94,6 +102,7 @@ export const Composer = forwardRef<
 
   return (
     <form className={styles.composer} onSubmit={submit}>
+      {notice}
       {quote && <QuoteCard quote={quote} onRemove={onRemoveQuote} />}
       <div className={styles.field}>
         <textarea

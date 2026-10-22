@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -15,6 +16,7 @@ import {
   Icon,
   IconButton,
   SearchField,
+  useToast,
 } from "@/design-system/primitives";
 import type {
   ChatAvailability,
@@ -50,6 +52,7 @@ import {
   useChatMessages,
   useChatSearch,
   useChatSessions,
+  useChatUsage,
   useCreateChatSession,
   useDeleteChatSession,
   useRenameChatSession,
@@ -63,6 +66,13 @@ import {
 } from "./resize-frame";
 import { SelectionAsk, quickQuestion, type QuickIntent } from "./selection-ask";
 import { selectionTarget, type ChatView } from "./selection-route";
+import {
+  UsageMeter,
+  UsageNotice,
+  UsageRest,
+  usageLevel,
+  useUsageNotice,
+} from "./usage";
 import { useChatStreams, useNow } from "./use-chat-streams";
 import styles from "./chat.module.css";
 
@@ -142,6 +152,7 @@ function Launcher({
   busy,
   unread,
   disabled,
+  resting,
   onClick,
   buttonRef,
 }: {
@@ -149,6 +160,7 @@ function Launcher({
   busy: boolean;
   unread: boolean;
   disabled: boolean;
+  resting: boolean;
   onClick: () => void;
   buttonRef: React.RefObject<HTMLButtonElement | null>;
 }) {
@@ -160,7 +172,9 @@ function Launcher({
         ? t("AI 챗 열기, 답을 쓰는 중")
         : unread
           ? t("AI 챗 열기, 새 답변")
-          : t("AI 챗 열기");
+          : resting
+            ? t("AI 챗 열기, 오늘 사용량을 다 썼어요")
+            : t("AI 챗 열기");
   return (
     <button
       ref={buttonRef}
@@ -183,6 +197,11 @@ function Launcher({
         <Icon name="chevron-down" size={22} />
       </span>
       {unread && !open && <span className={styles.unread} aria-hidden />}
+      {resting && !unread && !open && (
+        <span className={styles.resting} aria-hidden>
+          <Icon name="moon" size={11} />
+        </span>
+      )}
     </button>
   );
 }
@@ -227,6 +246,12 @@ export function ChatDock() {
   const tooLarge = availability.data?.status === "too-large";
   const ready = availability.data?.status === "available";
   const sessions = useChatSessions(projectId, ready);
+  const usage = useChatUsage(ready);
+  const level = usageLevel(usage.data);
+  const resting = level === "full";
+  const usageNotice = useUsageNotice(usage.data);
+  const toast = useToast();
+  const lastLevel = useRef(level);
   const streams = useChatStreams(projectId);
   const createSession = useCreateChatSession(projectId);
   const renameSession = useRenameChatSession(projectId);
@@ -273,6 +298,18 @@ export function ChatDock() {
     ? { title: viewingDoc.title, docType: viewingDoc.docType }
     : null;
   const focusFileId = viewingOn ? (viewingDoc?.id ?? null) : null;
+
+  useEffect(() => {
+    const before = lastLevel.current;
+    lastLevel.current = level;
+    if (level === "full" && (before === "ok" || before === "high"))
+      toast({
+        icon: "moon",
+        title: t("오늘 AI 챗 사용량을 다 썼어요"),
+        description: t("자정에 0%로 비워져요. 지난 대화는 계속 볼 수 있어요."),
+        durationMs: 6000,
+      });
+  }, [level, toast]);
 
   const unread = !windowOpen && streams.completedAt > seenAt;
   const recent = (sessions.data ?? []).filter(
@@ -400,7 +437,25 @@ export function ChatDock() {
       placeholder={
         sessionId ? t("작품에 대해 물어보세요") : t("새 대화를 시작해 보세요")
       }
+      notice={
+        usage.data && usageNotice.shown ? (
+          <UsageNotice usage={usage.data} onDismiss={usageNotice.dismiss} />
+        ) : null
+      }
     />
+  );
+
+  const ask =
+    resting && usage.data ? (
+      <div className={styles.restArea}>
+        <UsageRest usage={usage.data} now={now} />
+      </div>
+    ) : (
+      composer
+    );
+
+  const meter = usage.data && level !== "off" && (
+    <UsageMeter usage={usage.data} level={level} />
   );
 
   const closeButton = (
@@ -414,6 +469,7 @@ export function ChatDock() {
         {t("AI 챗")}
       </span>
       <span className={styles.headerSpacer} />
+      {meter}
       {closeButton}
     </header>
   );
@@ -435,7 +491,7 @@ export function ChatDock() {
       <div className={styles.scroll}>
         <div className={styles.home}>
           {greeting}
-          <div className={styles.homeComposer}>{composer}</div>
+          <div className={styles.homeComposer}>{ask}</div>
           <section className={styles.homeSection} aria-label={t("대화")}>
             <h3>{t("대화")}</h3>
             <SearchField
@@ -505,7 +561,7 @@ export function ChatDock() {
               <p className={styles.noResult}>{t("아직 나눈 대화가 없어요")}</p>
             )}
           </section>
-          {!needle && (
+          {!needle && !resting && (
             <section className={styles.homeSection}>
               <h3>{t("이렇게 물어보세요")}</h3>
               <Suggestions onPick={(question) => void pick(question)} />
@@ -538,6 +594,7 @@ export function ChatDock() {
           <span className={styles.headerTitle}>{session?.title ?? ""}</span>
         )}
         <span className={styles.headerSpacer} />
+        {meter}
         {session && (
           <SessionMenu
             onRename={() => setRenaming(true)}
@@ -561,14 +618,16 @@ export function ChatDock() {
           empty={
             <div className={styles.empty}>
               {greeting}
-              <Suggestions onPick={(question) => void pick(question)} />
+              {!resting && (
+                <Suggestions onPick={(question) => void pick(question)} />
+              )}
             </div>
           }
         />
       ) : (
         <div className={styles.scroll} aria-busy="true" />
       )}
-      {composer}
+      {ask}
     </>
   );
 
@@ -677,6 +736,7 @@ export function ChatDock() {
         busy={streams.busy}
         unread={unread}
         disabled={tooLarge}
+        resting={resting}
         buttonRef={launcherRef}
         onClick={() => {
           if (tooLarge) setNotice((v) => !v);
@@ -684,7 +744,9 @@ export function ChatDock() {
           else openWindow();
         }}
       />
-      {ready && <SelectionAsk onAttach={attach} onAsk={askAbout} />}
+      {ready && (
+        <SelectionAsk onAttach={attach} onAsk={askAbout} resting={resting} />
+      )}
     </>
   );
 }

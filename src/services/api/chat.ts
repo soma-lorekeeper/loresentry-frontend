@@ -7,6 +7,7 @@ import type {
   ChatQuote,
   ChatSearchHit,
   ChatSession,
+  ChatUsage,
 } from "@/domain/models";
 import type { DocumentType } from "@/domain/document-types";
 import { t } from "@/i18n";
@@ -52,6 +53,12 @@ interface ApiMessage {
   quote: ApiQuote | null;
   citations: ApiCitation[];
   created_at: string;
+}
+
+interface ApiUsage {
+  used: number;
+  limit: number;
+  resets_at: string;
 }
 
 interface ApiSearchHit {
@@ -110,6 +117,10 @@ function toMessage(api: ApiMessage): ChatMessage {
   };
 }
 
+function toUsage(api: ApiUsage): ChatUsage {
+  return { used: api.used, limit: api.limit, resetsAt: api.resets_at };
+}
+
 function stopped() {
   return new DOMException(t("응답 생성을 중단했어요."), "AbortError");
 }
@@ -120,6 +131,13 @@ export function createApiChat(client: ApiClient): ChatService {
       client.request<ChatAvailability>(
         `/projects/${projectId}/chat/availability`,
         { operation: "chat.availability" },
+      ),
+
+    usage: async () =>
+      toUsage(
+        await client.request<ApiUsage>("/chat/usage", {
+          operation: "chat.usage",
+        }),
       ),
 
     sessions: async (projectId) =>
@@ -201,6 +219,9 @@ export function createApiChat(client: ApiClient): ChatService {
               result.turn = {
                 question: toMessage(payload.question as ApiMessage),
                 answer: toMessage(payload.answer as ApiMessage),
+                usage: payload.usage
+                  ? toUsage(payload.usage as ApiUsage)
+                  : null,
               };
             else if (event === "error") {
               if (payload.code === "CHAT_ANSWER_CANCELLED") throw stopped();

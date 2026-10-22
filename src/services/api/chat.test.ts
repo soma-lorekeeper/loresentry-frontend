@@ -131,6 +131,57 @@ function handlers() {
 }
 
 describe("chat over the API", () => {
+  it("reads today's usage and the usage that comes with a finished answer", async () => {
+    const usage = {
+      used: 120_000,
+      limit: 450_000,
+      resets_at: "2026-10-22T15:00:00Z",
+    };
+    replies.push(json(200, usage));
+    replies.push(
+      sse([
+        `event: done\ndata: ${JSON.stringify({ question, answer, usage })}\n\n`,
+      ]),
+    );
+
+    expect(await chat().usage()).toEqual({
+      used: 120_000,
+      limit: 450_000,
+      resetsAt: "2026-10-22T15:00:00Z",
+    });
+    const turn = await chat().send(
+      "s-1",
+      input,
+      handlers(),
+      new AbortController().signal,
+    );
+
+    expect(calls[0].url).toBe(`${BASE}/chat/usage`);
+    expect(turn.usage).toEqual({
+      used: 120_000,
+      limit: 450_000,
+      resetsAt: "2026-10-22T15:00:00Z",
+    });
+  });
+
+  it("turns a used-up day into a readable error", async () => {
+    replies.push(
+      json(429, {
+        code: "CHAT_DAILY_LIMIT_REACHED",
+        message: "x",
+        next_action: "NONE",
+      }),
+    );
+
+    const error = await chat()
+      .send("s-1", input, handlers(), new AbortController().signal)
+      .catch((caught: unknown) => caught);
+
+    expect(isServiceError(error) && error.message).toBe(
+      "오늘 AI 챗 사용량을 다 썼어요.",
+    );
+  });
+
   it("streams events split across chunks and returns the saved turn", async () => {
     replies.push(
       sse([
