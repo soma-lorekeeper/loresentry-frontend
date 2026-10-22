@@ -26,6 +26,7 @@ export const queryKeys = {
   guides: ["help", "guides"] as const,
   chatAvailability: (projectId: string) =>
     ["chat", projectId, "availability"] as const,
+  chatUsage: ["chat-usage"] as const,
   chatSessions: (projectId: string) => ["chat", projectId, "sessions"] as const,
   chatSearch: (projectId: string, query: string) =>
     ["chat", projectId, "search", query] as const,

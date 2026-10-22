@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import type { ChatCitation, ChatMessage, ChatPhase } from "@/domain/models";
 import { saveOpenDocuments } from "@/features/documents/open-sessions";
 import type { ChatSendInput } from "@/services/ports";
+import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 
 import { invalidateChat } from "./queries";
@@ -122,12 +123,19 @@ export function useChatStreams(projectId: string) {
         ),
       )
       .then(
-        async () => {
+        async (turn) => {
+          if (turn.usage)
+            queryClient.setQueryData(queryKeys.chatUsage, turn.usage);
+          else
+            void queryClient.invalidateQueries({
+              queryKey: queryKeys.chatUsage,
+            });
           await invalidateChat(queryClient, projectId, sessionId);
           finish(sessionId);
           setCompletedAt(Date.now());
         },
         async (error: unknown) => {
+          void queryClient.invalidateQueries({ queryKey: queryKeys.chatUsage });
           if (forgotten.current.has(sessionId)) return finish(sessionId);
           await invalidateChat(queryClient, projectId, sessionId);
           finish(sessionId);

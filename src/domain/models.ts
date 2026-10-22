@@ -194,6 +194,13 @@ export interface ChatAvailability {
   limit: number;
 }
 
+/** 오늘 쓴 AI 챗 양. `limit` 이 0이면 한도가 없다. 매일 한국 시간 자정에 0으로 돌아간다. */
+export interface ChatUsage {
+  used: number;
+  limit: number;
+  resetsAt: IsoDateTime;
+}
+
 export type ChatPhase = "gathering" | "reading" | "writing";
 
 export interface SearchHit {

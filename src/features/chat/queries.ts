@@ -19,6 +19,17 @@ export function useChatAvailability(projectId: string) {
   });
 }
 
+export function useChatUsage(enabled: boolean) {
+  const services = useServices();
+  return useQuery({
+    queryKey: queryKeys.chatUsage,
+    queryFn: () => services.chat.usage(),
+    enabled,
+    staleTime: 60_000,
+    refetchInterval: 10 * 60_000,
+  });
+}
+
 export function useChatSessions(projectId: string, enabled: boolean) {
   const services = useServices();
   return useQuery({

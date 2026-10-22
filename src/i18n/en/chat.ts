@@ -96,4 +96,27 @@ export default {
   "AI 챗 서버에 연결할 수 없어요.": "Can't reach the AI chat server.",
   "이 대화에서 답을 쓰는 중이에요. 끝난 뒤에 다시 보내 주세요.":
     "An answer is still being written in this conversation. Send again once it's done.",
+  "오늘 AI 챗 사용량을 다 썼어요.": "You've used up today's AI chat.",
+  "오늘 AI 챗 사용량을 다 썼어요": "You've used up today's AI chat",
+  "자정에 0%로 비워져요. 지난 대화는 계속 볼 수 있어요.":
+    "It resets to 0% at midnight. Your past conversations are still here.",
+  "오늘 AI 챗 사용량 {percent}%": "Today's AI chat usage {percent}%",
+  "오늘 사용량": "Today's usage",
+  "자정에 0%로 비워져요.": "Resets to 0% at midnight (Korea time).",
+  "오늘 사용량의 {percent}%를 썼어요": "You've used {percent}% of today's chat",
+  "100%가 되면 자정까지 쉬어요.": "At 100%, chat pauses until midnight.",
+  "알림 닫기": "Dismiss",
+  "오늘 사용량을 다 썼어요": "Today's usage is used up",
+  "자정에 0%로 비워져요. 지난 대화와 근거는 그대로 볼 수 있어요.":
+    "It resets to 0% at midnight. You can still open past conversations and their sources.",
+  "{time} 뒤 다시 물을 수 있어요": "You can ask again in {time}",
+  "자정에 비워져요": "Resets at midnight",
+  "AI 챗 열기, 오늘 사용량을 다 썼어요":
+    "Open AI chat, today's usage is used up",
+  "{minutes}분": "{minutes} min",
+  "{hours}시간": "{hours} h",
+  "{hours}시간 {minutes}분": "{hours} h {minutes} min",
+  "다른 대화에서 답을 쓰는 중이에요. 끝난 뒤에 다시 보내 주세요.":
+    "An answer is being written in another conversation. Send again once it's done.",
+  "다른 대화에서 답을 쓰는 중이에요": "Another conversation is still answering",
 } satisfies Messages;

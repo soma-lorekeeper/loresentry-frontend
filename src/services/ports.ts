@@ -3,6 +3,7 @@ import type { Locale } from "@/i18n/locale";
 import type { DocumentType } from "@/domain/document-types";
 import type {
   ChatAvailability,
+  ChatUsage,
   ChatCitation,
   ChatIntent,
   ChatMessage,
@@ -200,10 +201,12 @@ export interface ChatSendInput {
 export interface ChatTurn {
   question: ChatMessage;
   answer: ChatMessage;
+  usage: ChatUsage | null;
 }
 
 export interface ChatService {
   availability(projectId: string): Promise<ChatAvailability>;
+  usage(): Promise<ChatUsage>;
   sessions(projectId: string): Promise<ChatSession[]>;
   search(projectId: string, query: string): Promise<ChatSearchHit[]>;
   createSession(projectId: string): Promise<ChatSession>;

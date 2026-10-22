@@ -1,6 +1,12 @@
 "use client";
 
-import { forwardRef, useLayoutEffect, useRef, type FormEvent } from "react";
+import {
+  forwardRef,
+  useLayoutEffect,
+  useRef,
+  type FormEvent,
+  type ReactNode,
+} from "react";
 
 import { Icon, IconButton } from "@/design-system/primitives";
 import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
@@ -61,6 +67,8 @@ export const Composer = forwardRef<
     viewingOn: boolean;
     onToggleViewing: () => void;
     placeholder: string;
+    notice?: ReactNode;
+    elsewhere?: boolean;
   }
 >(function Composer(
   {
@@ -75,6 +83,8 @@ export const Composer = forwardRef<
     viewingOn,
     onToggleViewing,
     placeholder,
+    notice,
+    elsewhere = false,
   },
   ref,
 ) {
@@ -86,7 +96,8 @@ export const Composer = forwardRef<
     el.style.height = `${Math.min(el.scrollHeight, 160)}px`;
   }, [value]);
 
-  const canSend = !pending && (value.trim().length > 0 || quote !== null);
+  const canSend =
+    !pending && !elsewhere && (value.trim().length > 0 || quote !== null);
   const submit = (event?: FormEvent) => {
     event?.preventDefault();
     if (canSend) onSubmit();
@@ -94,6 +105,7 @@ export const Composer = forwardRef<
 
   return (
     <form className={styles.composer} onSubmit={submit}>
+      {notice}
       {quote && <QuoteCard quote={quote} onRemove={onRemoveQuote} />}
       <div className={styles.field}>
         <textarea
@@ -156,7 +168,11 @@ export const Composer = forwardRef<
               type="submit"
               className={styles.send}
               aria-label={t("보내기")}
-              title={t("보내기 (Enter)")}
+              title={
+                elsewhere
+                  ? t("다른 대화에서 답을 쓰는 중이에요")
+                  : t("보내기 (Enter)")
+              }
               disabled={!canSend}
             >
               <Icon name="arrow-up" size={15} />
