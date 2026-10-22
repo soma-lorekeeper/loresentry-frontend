@@ -188,13 +188,41 @@ function pieces(content: string) {
 async function stream(
   content: string,
   citations: ChatCitation[],
+  mapSize: number,
   handlers: ChatStreamHandlers,
   signal: AbortSignal,
 ) {
   handlers.onPhase("gathering");
   await wait(GATHER_MS, signal);
   handlers.onPhase("reading");
-  await wait(READ_MS, signal);
+  handlers.onActivity({ kind: "map", documents: mapSize });
+  handlers.onActivity({ kind: "think", step: 1, mustAnswer: false });
+  await wait(READ_MS * 0.3, signal);
+  const read = citations.filter(
+    (citation, index) =>
+      citations.findIndex((other) => other.title === citation.title) === index,
+  );
+  handlers.onActivity({
+    kind: "read",
+    step: 1,
+    skipped: 0,
+    documents: read.map((citation) => ({
+      title: citation.title,
+      docType: citation.kind === "document" ? citation.docType : null,
+    })),
+  });
+  await wait(READ_MS * 0.3, signal);
+  handlers.onActivity({ kind: "think", step: 2, mustAnswer: false });
+  await wait(READ_MS * 0.25, signal);
+  handlers.onActivity({ kind: "review", step: 2 });
+  await wait(READ_MS * 0.15, signal);
+  handlers.onActivity({
+    kind: "reviewed",
+    step: 2,
+    passed: true,
+    missing: [],
+    problems: 0,
+  });
   handlers.onPhase("writing");
   for (const piece of pieces(content)) {
     const marker = /^\[\[(\d+)\]\]$/.exec(piece);
@@ -359,7 +387,13 @@ export const mockChat: ChatService = {
       projectDocs(db, projectId),
       projectMemos(db, projectId),
     );
-    await stream(content, citations, handlers, signal);
+    await stream(
+      content,
+      citations,
+      projectDocs(db, projectId).length + projectMemos(db, projectId).length,
+      handlers,
+      signal,
+    );
     const answer: ChatMessage = {
       id: nextId("msg"),
       sessionId,

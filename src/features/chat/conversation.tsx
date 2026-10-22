@@ -272,7 +272,15 @@ export function Conversation({
   const cut = stream?.replaces
     ? messages.findIndex((m) => m.id === stream.replaces)
     : -1;
-  const visible = cut >= 0 ? messages.slice(0, cut) : messages;
+  const kept = cut >= 0 ? messages.slice(0, cut) : messages;
+  const saved = kept.at(-1);
+  const visible =
+    stream &&
+    !stream.replaces &&
+    saved?.role === "user" &&
+    saved.content === stream.question.content
+      ? kept.slice(0, -1)
+      : kept;
   const shown = stream ? [...visible, stream.question] : visible;
   const lastQuestion = !stream
     ? [...visible].reverse().find((m) => m.role === "user")
@@ -364,7 +372,11 @@ export function Conversation({
             ),
           )}
           {stream && !stream.content && (
-            <Waiting phase={stream.phase} elapsed={elapsed} />
+            <Waiting
+              phase={stream.phase}
+              activities={stream.activities}
+              elapsed={elapsed}
+            />
           )}
           {stream?.content && (
             <Answer

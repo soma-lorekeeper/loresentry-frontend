@@ -2,8 +2,8 @@ import { t } from "@/i18n";
 import type { Locale } from "@/i18n/locale";
 import type { DocumentType } from "@/domain/document-types";
 import type {
+  ChatActivity,
   ChatAvailability,
-  ChatUsage,
   ChatCitation,
   ChatIntent,
   ChatMessage,
@@ -11,6 +11,7 @@ import type {
   ChatQuote,
   ChatSearchHit,
   ChatSession,
+  ChatUsage,
   DocumentContent,
   DocumentDraft,
   DocumentVersion,
@@ -186,6 +187,7 @@ export interface RefreshService {
 
 export interface ChatStreamHandlers {
   onPhase(phase: ChatPhase): void;
+  onActivity(activity: ChatActivity): void;
   onCitation(index: number, citation: ChatCitation): void;
   onDelta(text: string): void;
 }

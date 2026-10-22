@@ -6,7 +6,12 @@ import { mockChat, setMockChatLimit } from "./chat";
 import { clearMockRules, setMockLatency } from "./control";
 import { GLASS_GARDEN_ID, resetDb } from "./db";
 
-const quiet = { onPhase() {}, onCitation() {}, onDelta() {} };
+const quiet = {
+  onPhase() {},
+  onCitation() {},
+  onDelta() {},
+  onActivity() {},
+};
 
 const ask = (content: string): ChatSendInput => ({
   content,
@@ -53,6 +58,7 @@ describe("mock chat", () => {
         {
           onPhase: (phase) => events.push(`phase:${phase}`),
           onCitation: (index) => events.push(`cite:${index}`),
+          onActivity: () => {},
           onDelta: (text) => {
             const marker = /^\[\[(\d+)\]\]$/.exec(text);
             if (marker) events.push(`marker:${marker[1]}`);

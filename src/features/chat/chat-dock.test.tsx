@@ -215,6 +215,42 @@ describe("ChatDock", () => {
     ).toBeVisible();
   });
 
+  it("shows what it reads and checks while the answer is on its way", async () => {
+    renderDock();
+    await flush();
+    fireEvent.click(screen.getByRole("button", { name: /^AI 챗 열기/ }));
+    await flush();
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "주요 인물과 연결된 설정을 정리해 줘",
+      }),
+    );
+    await flush(1000);
+    const trace = screen.getByRole("status", { name: "답을 준비하는 과정" });
+    expect(within(trace).getByText("작품 지도 확인")).toBeInTheDocument();
+    expect(
+      within(trace).getByText("읽을 문서를 고르는 중"),
+    ).toBeInTheDocument();
+
+    await flush(900);
+    expect(within(trace).getByText("문서를 읽는 중")).toBeInTheDocument();
+    expect(within(trace).getByText("레나 아르벨")).toBeInTheDocument();
+    expect(
+      within(trace).queryByText("읽을 문서를 고르는 중"),
+    ).not.toBeInTheDocument();
+
+    await flush(700);
+    expect(within(trace).getByText("읽음")).toBeInTheDocument();
+    expect(within(trace).getByText("더 읽을지 정하는 중")).toBeInTheDocument();
+
+    await flush(700);
+    expect(within(trace).getByText("답을 검토하는 중")).toBeInTheDocument();
+    const chat = screen.getByRole("dialog", { name: "AI 챗" });
+    expect(
+      within(chat).getAllByText("주요 인물과 연결된 설정을 정리해 줘"),
+    ).toHaveLength(1);
+  });
+
   it("stops an answer, keeps nothing unfinished and offers to ask again", async () => {
     renderDock();
     await flush();
