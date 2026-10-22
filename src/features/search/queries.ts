@@ -48,16 +48,33 @@ export function useProjectSearch(projectId: string, term: string) {
 
 export type SearchOrder = "relevance" | "recent" | "title";
 
+export type SortDirection = "asc" | "desc";
+
+export const DEFAULT_DIRECTION: Record<SearchOrder, SortDirection> = {
+  relevance: "desc",
+  recent: "desc",
+  title: "asc",
+};
+
 const titleCollator = new Intl.Collator(INTL_LOCALE[LOCALE], {
   numeric: true,
   sensitivity: "base",
 });
 
-export function sortHits(hits: SearchHit[], order: SearchOrder): SearchHit[] {
-  if (order === "relevance") return hits;
+function ascending(hits: SearchHit[], order: SearchOrder): SearchHit[] {
+  if (order === "relevance") return [...hits].reverse();
   const sorted = [...hits];
   if (order === "recent")
-    sorted.sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt));
+    sorted.sort((a, b) => Date.parse(a.updatedAt) - Date.parse(b.updatedAt));
   else sorted.sort((a, b) => titleCollator.compare(a.title, b.title));
   return sorted;
+}
+
+export function sortHits(
+  hits: SearchHit[],
+  order: SearchOrder,
+  direction: SortDirection,
+): SearchHit[] {
+  const sorted = ascending(hits, order);
+  return direction === "asc" ? sorted : sorted.reverse();
 }

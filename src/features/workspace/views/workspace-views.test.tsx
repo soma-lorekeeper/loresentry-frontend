@@ -154,7 +154,7 @@ describe("project search", () => {
     ).toBeInTheDocument();
   });
 
-  it("sorts results by recent edit or title and shows each document's details", async () => {
+  it("sorts results by relevance, recent edit or title in either direction and shows each document's details", async () => {
     const actor = userEvent.setup();
     renderSearch();
     const input = screen.getByRole("searchbox", { name: "프로젝트에서 검색" });
@@ -176,6 +176,23 @@ describe("project search", () => {
       [...names].sort((a, b) =>
         a.localeCompare(b, "ko", { numeric: true, sensitivity: "base" }),
       ),
+    );
+
+    await actor.click(
+      screen.getByRole("button", { name: "정렬 방향: 오름차순" }),
+    );
+    const reversed = rows().map(
+      (row) => row.querySelector("time")!.previousElementSibling!.textContent,
+    );
+    expect(reversed).toEqual([...names].reverse());
+
+    await actor.click(screen.getByRole("radio", { name: "관련도순" }));
+    const relevance = rows().map((row) => row.textContent);
+    await actor.click(
+      screen.getByRole("button", { name: "정렬 방향: 내림차순" }),
+    );
+    expect(rows().map((row) => row.textContent)).toEqual(
+      [...relevance].reverse(),
     );
 
     const favorite = rows().find((row) => row.textContent?.includes("12화"));

@@ -32,9 +32,11 @@ import {
   SEARCH_LIMIT,
   displaySnippet,
   searchTermOf,
+  DEFAULT_DIRECTION,
   sortHits,
   useProjectSearch,
   type SearchOrder,
+  type SortDirection,
 } from "./queries";
 import styles from "./search-view.module.css";
 
@@ -43,6 +45,21 @@ const ORDERS: SegmentedOption<SearchOrder>[] = [
   { value: "recent", label: t("검색::최근 수정순") },
   { value: "title", label: t("검색::이름순") },
 ];
+
+const DIRECTION_HINT: Record<SearchOrder, Record<SortDirection, string>> = {
+  relevance: {
+    desc: t("검색::관련도가 높은 문서부터"),
+    asc: t("검색::관련도가 낮은 문서부터"),
+  },
+  recent: {
+    desc: t("검색::최근에 고친 문서부터"),
+    asc: t("검색::오래전에 고친 문서부터"),
+  },
+  title: {
+    asc: t("검색::가나다순"),
+    desc: t("검색::가나다 역순"),
+  },
+};
 
 interface Shown {
   term: string;
@@ -144,6 +161,9 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
   const [requested, setRequested] = useState("");
   const [shown, setShown] = useState<Shown | null>(null);
   const [order, setOrder] = useState<SearchOrder>("relevance");
+  const [direction, setDirection] = useState<SortDirection>(
+    DEFAULT_DIRECTION.relevance,
+  );
   const term = searchTermOf(query);
   const search = useProjectSearch(projectId, requested);
   const tree = useFileTree(projectId);
@@ -192,8 +212,11 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
         : "loading";
   const busy = status === "loading" || (status === "results" && !settled);
   const hits = useMemo(
-    () => (status === "results" && shown ? sortHits(shown.hits, order) : []),
-    [status, shown, order],
+    () =>
+      status === "results" && shown
+        ? sortHits(shown.hits, order, direction)
+        : [],
+    [status, shown, order, direction],
   );
 
   const change = (next: string) => {
@@ -203,6 +226,11 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
 
   const rowsOf = () =>
     Array.from(listRef.current?.querySelectorAll("button") ?? []);
+
+  const changeOrder = (next: SearchOrder) => {
+    setOrder(next);
+    setDirection(DEFAULT_DIRECTION[next]);
+  };
 
   const lockedOf = (fileId: string) => {
     const node = nodes.get(fileId);
@@ -264,14 +292,36 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
 
       {status === "results" && hits.length > 0 ? (
         <div className={styles.results}>
-          <Segmented
-            label={t("검색::정렬")}
-            variant="pills"
-            options={ORDERS}
-            value={order}
-            onChange={setOrder}
-            className={styles.order}
-          />
+          <div className={styles.sort}>
+            <Segmented
+              label={t("검색::정렬")}
+              variant="pills"
+              options={ORDERS}
+              value={order}
+              onChange={changeOrder}
+            />
+            <Button
+              variant="ghost"
+              size="md"
+              icon={
+                direction === "asc"
+                  ? "arrow-up-narrow-wide"
+                  : "arrow-down-wide-narrow"
+              }
+              aria-label={t("검색::정렬 방향: {direction}", {
+                direction:
+                  direction === "asc"
+                    ? t("검색::오름차순")
+                    : t("검색::내림차순"),
+              })}
+              title={DIRECTION_HINT[order][direction]}
+              onClick={() =>
+                setDirection((current) => (current === "asc" ? "desc" : "asc"))
+              }
+            >
+              {direction === "asc" ? t("검색::오름차순") : t("검색::내림차순")}
+            </Button>
+          </div>
           <ul
             ref={listRef}
             className={styles.list}
