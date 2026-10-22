@@ -227,9 +227,6 @@ export default {
   "문서를 열어 메모 패널에서 적으면 여기에 모여요.":
     "Notes you write in a document's notes panel gather here.",
 
-  "작업공간::설정이 저장되었습니다": "Settings saved",
-  "사이드바와 프로젝트 목록에 바로 반영됐어요.":
-    "The sidebar and your project list are already updated.",
   "작업공간::설정을 저장하지 못했어요": "Couldn't save settings",
   "입력값은 유지됩니다.": "What you entered is kept.",
   "프로젝트 이름 · {title}": "Project name · {title}",

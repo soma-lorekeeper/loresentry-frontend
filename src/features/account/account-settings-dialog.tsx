@@ -19,23 +19,9 @@ import { isServiceError } from "@/services/errors";
 
 import styles from "./account.module.css";
 
-const COPY = {
-  changed: {
-    message: t("저장되지 않은 이름 변경"),
-    detail: "",
-  },
-  saving: {
-    message: t("계정 정보를 저장하고 있습니다"),
-    detail: "",
-  },
-  saved: {
-    message: t("계정 정보가 저장되었습니다"),
-    detail: "",
-  },
-  error: {
-    message: t("계정 정보를 저장하지 못했어요"),
-    detail: t("입력한 이름은 유지됩니다."),
-  },
+const ERROR_COPY = {
+  message: t("계정 정보를 저장하지 못했어요"),
+  detail: t("입력한 이름은 유지됩니다."),
 };
 
 const LANGUAGE_OPTIONS = LOCALES.map((locale) => ({
@@ -87,7 +73,6 @@ function AccountSettingsForm({
   const update = useUpdateAccount();
   const [savedName, setSavedName] = useState(user.displayName);
   const [name, setName] = useState(user.displayName);
-  const [justSaved, setJustSaved] = useState(false);
   const trimmed = name.trim();
   const invalid = trimmed.length === 0;
   const changed = trimmed !== savedName;
@@ -98,9 +83,7 @@ function AccountSettingsForm({
       ? "error"
       : changed
         ? "changed"
-        : justSaved
-          ? "saved"
-          : "unchanged";
+        : "unchanged";
 
   const save = () => {
     if (invalid || !changed) return;
@@ -108,7 +91,6 @@ function AccountSettingsForm({
       onSuccess: (next) => {
         setSavedName(next.displayName);
         setName(next.displayName);
-        setJustSaved(true);
       },
     });
   };
@@ -147,7 +129,6 @@ function AccountSettingsForm({
           value={name}
           onChange={(event) => {
             setName(event.target.value);
-            setJustSaved(false);
             update.reset();
           }}
           error={invalid ? t("이름을 입력해 주세요.") : validationMessage}
@@ -165,7 +146,7 @@ function AccountSettingsForm({
       </form>
       <SaveBar
         state={state}
-        copy={COPY}
+        errorCopy={ERROR_COPY}
         saveDisabled={invalid}
         onSave={save}
         onCancel={() => {

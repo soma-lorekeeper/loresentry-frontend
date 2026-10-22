@@ -25,9 +25,6 @@ export default {
   "관련 이벤트": "Related events",
   "관련 세계관": "Related worldbuilding",
 
-  "저장되지 않은 변경사항": "Unsaved changes",
-  "설정을 저장하고 있습니다": "Saving settings",
-  "설정이 저장되었습니다": "Settings saved",
   "설정을 저장하지 못했어요": "Couldn't save settings",
   "입력한 값은 유지됩니다.": "Your entries are kept.",
   "변경사항 저장": "Save changes",
@@ -106,9 +103,6 @@ export default {
   "프로젝트를 영구 삭제했어요.": "Project deleted permanently.",
   "‘{title}’은 이제 복원할 수 없어요.": "‘{title}’ can no longer be restored.",
 
-  "저장되지 않은 이름 변경": "Unsaved name change",
-  "계정 정보를 저장하고 있습니다": "Saving your account details",
-  "계정 정보가 저장되었습니다": "Account details saved",
   "계정 정보를 저장하지 못했어요": "Couldn't save your account details",
   "입력한 이름은 유지됩니다.": "The name you entered is kept.",
   "계정 설정 닫기": "Close account settings",

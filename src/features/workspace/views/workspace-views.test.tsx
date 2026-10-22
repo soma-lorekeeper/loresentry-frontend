@@ -251,9 +251,11 @@ describe("workspace views", () => {
     await actor.clear(name);
     await actor.type(name, "유리 정원의 연대기");
     await actor.click(screen.getByRole("button", { name: "변경사항 저장" }));
-    expect(
-      await screen.findByText("설정이 저장되었습니다"),
-    ).toBeInTheDocument();
+    await waitFor(() =>
+      expect(
+        screen.queryByRole("button", { name: "변경사항 저장" }),
+      ).not.toBeInTheDocument(),
+    );
     expect(getDb().projects.find((p) => p.id === GLASS_GARDEN_ID)?.title).toBe(
       "유리 정원의 연대기",
     );
