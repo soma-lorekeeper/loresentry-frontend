@@ -55,6 +55,7 @@ export const Composer = forwardRef<
     onChange: (value: string) => void;
     onSubmit: () => void;
     pending: boolean;
+    creating?: boolean;
     onStop: () => void;
     quote: ChatQuote | null;
     onRemoveQuote: () => void;
@@ -68,6 +69,7 @@ export const Composer = forwardRef<
     onChange,
     onSubmit,
     pending,
+    creating = false,
     onStop,
     quote,
     onRemoveQuote,
@@ -86,16 +88,28 @@ export const Composer = forwardRef<
   }, [value]);
 
   const canSend =
-    !pending && !elsewhere && (value.trim().length > 0 || quote !== null);
+    !creating &&
+    !pending &&
+    !elsewhere &&
+    (value.trim().length > 0 || quote !== null);
   const submit = (event?: FormEvent) => {
     event?.preventDefault();
     if (canSend) onSubmit();
   };
 
   return (
-    <form className={styles.composer} onSubmit={submit}>
+    <form
+      className={styles.composer}
+      onSubmit={submit}
+      aria-busy={creating || undefined}
+    >
       {notice}
-      {quote && <QuoteCard quote={quote} onRemove={onRemoveQuote} />}
+      {quote && (
+        <QuoteCard
+          quote={quote}
+          onRemove={creating ? undefined : onRemoveQuote}
+        />
+      )}
       <div className={styles.field}>
         <textarea
           ref={(el) => {
@@ -105,6 +119,7 @@ export const Composer = forwardRef<
           }}
           rows={1}
           value={value}
+          readOnly={creating}
           maxLength={4000}
           placeholder={quote ? t("이 부분에 대해 물어보세요") : placeholder}
           aria-label={t("질문")}

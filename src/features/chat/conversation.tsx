@@ -12,6 +12,7 @@ import {
   Button,
   Icon,
   IconButton,
+  InlineNotice,
   Menu,
   type MenuEntry,
 } from "@/design-system/primitives";
@@ -29,32 +30,50 @@ export function RenameInput({
   initial,
   onRename,
   onCancel,
+  busy = false,
 }: {
   initial: string;
+  busy?: boolean;
   onRename: (title: string) => void;
   onCancel: () => void;
 }) {
   const [value, setValue] = useState(initial);
   const inputRef = useRef<HTMLInputElement>(null);
+  const committed = useRef(false);
+  useEffect(() => {
+    if (!busy) committed.current = false;
+  }, [busy]);
+  const commit = () => {
+    if (busy || committed.current) return;
+    committed.current = true;
+    if (value.trim()) onRename(value.trim());
+    else onCancel();
+  };
   useEffect(() => inputRef.current?.select(), []);
   return (
     <input
       ref={inputRef}
+      autoFocus
+      readOnly={busy}
+      aria-busy={busy || undefined}
       className={styles.renameInput}
       value={value}
       maxLength={200}
       aria-label={t("대화 이름")}
       onChange={(event) => setValue(event.target.value)}
-      onBlur={() => (value.trim() ? onRename(value.trim()) : onCancel())}
+      onBlur={commit}
       onKeyDown={(event) => {
         if (event.key === "Enter" && !event.nativeEvent.isComposing) {
           event.preventDefault();
-          if (value.trim()) onRename(value.trim());
-          else onCancel();
+          commit();
         }
         if (event.key === "Escape") {
           event.stopPropagation();
-          onCancel();
+          event.preventDefault();
+          if (!busy) {
+            committed.current = true;
+            onCancel();
+          }
         }
       }}
     />
@@ -109,11 +128,13 @@ export function SessionMenu({
 export function DeleteConfirm({
   title,
   busy,
+  error = false,
   onCancel,
   onConfirm,
 }: {
   title: string;
   busy: boolean;
+  error?: boolean;
   onCancel: () => void;
   onConfirm: () => void;
 }) {
@@ -126,11 +147,22 @@ export function DeleteConfirm({
         role="alertdialog"
         aria-labelledby="chat-delete-title"
         aria-describedby="chat-delete-detail"
+        onKeyDown={(event) => {
+          if (event.key !== "Escape") return;
+          event.preventDefault();
+          event.stopPropagation();
+          if (!busy) onCancel();
+        }}
       >
         <h3 id="chat-delete-title">
           {t("‘{title}’ 대화를 지울까요?", { title })}
         </h3>
         <p id="chat-delete-detail">{t("지운 대화는 되돌릴 수 없어요.")}</p>
+        {error && (
+          <InlineNotice icon="circle-alert">
+            {t("대화를 삭제하지 못했어요. 다시 시도해 주세요.")}
+          </InlineNotice>
+        )}
         <div className={styles.confirmActions}>
           <Button ref={cancelRef} onClick={onCancel} disabled={busy}>
             {t("취소")}

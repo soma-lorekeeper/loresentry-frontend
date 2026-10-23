@@ -229,21 +229,36 @@ export function WorkspaceSidebar() {
 
   const commitEdit = (title: string) => {
     const current = edit;
-    if (!current) return;
+    if (!current || current.pending !== undefined) return;
+    const pending: TreeEdit = { ...current, pending: title };
+    const settle = () => setEdit((now) => (now === pending ? null : now));
+    const restore = () =>
+      setEdit((now) =>
+        now === pending
+          ? { ...current, defaultTitle: title, pending: undefined }
+          : now,
+      );
     if (current.mode === "rename") {
-      setEdit(null);
-      if (title === current.defaultTitle) return;
+      if (title === index.get(current.nodeId)?.title) {
+        setEdit(null);
+        return;
+      }
+      setEdit(pending);
       rename.mutate(
         { fileId: current.nodeId, title },
-        { onError: (error) => failed(error, t("이름을 바꾸지 못했어요.")) },
+        {
+          onSuccess: settle,
+          onError: (error) => {
+            restore();
+            failed(error, t("이름을 바꾸지 못했어요."));
+          },
+        },
       );
       return;
     }
     // 만들어질 때까지 그 자리에 정한 이름의 줄을 남겨 둔다(대기 표시). 끝나면 진짜 줄이 온다.
-    const pending: TreeEdit = { ...current, pending: title };
     setEdit(pending);
     // 그사이 다른 것을 만들거나 이름을 바꾸기 시작했으면 그 줄은 건드리지 않는다.
-    const settle = () => setEdit((now) => (now === pending ? null : now));
     create.mutate(
       {
         parentId: current.parentId,
@@ -257,7 +272,7 @@ export function WorkspaceSidebar() {
           if (isDocument(node)) open({ kind: "file", fileId: node.id });
         },
         onError: (error) => {
-          settle();
+          restore();
           failed(error, t("만들지 못했어요."));
         },
       },
@@ -388,6 +403,7 @@ export function WorkspaceSidebar() {
           ? t("작업공간::즐겨찾기에서 제거")
           : t("작업공간::즐겨찾기에 추가"),
         icon: "star",
+        disabled: setFavorite.isPending,
         onSelect: () =>
           setFavorite.mutate({ fileId: node.id, favorite: !favorite }),
       },
@@ -415,16 +431,16 @@ export function WorkspaceSidebar() {
   };
 
   const canDrag = (node: FileNode) =>
+    !move.isPending &&
     !(
       node.kind === "folder" &&
       (node.role === "category" || node.role === "section")
     );
 
-  const dropNode = (dragId: string, target: FileNode) =>
-    move.mutate(
-      { fileId: dragId, parentId: target.id, beforeId: null },
-      { onError: (error) => failed(error, t("옮기지 못했어요.")) },
-    );
+  const dropNode = (dragId: string, target: FileNode) => {
+    if (!move.isPending)
+      move.mutate({ fileId: dragId, parentId: target.id, beforeId: null });
+  };
 
   const confirmDialog = () => {
     if (!dialog) return;
@@ -471,7 +487,9 @@ export function WorkspaceSidebar() {
     canDrag,
     onDropNode: dropNode,
     onCommitEdit: commitEdit,
-    onCancelEdit: () => setEdit(null),
+    onCancelEdit: () => {
+      if (edit?.pending === undefined) setEdit(null);
+    },
   };
 
   return (

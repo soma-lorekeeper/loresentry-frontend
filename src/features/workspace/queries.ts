@@ -3,6 +3,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import type { DocumentType } from "@/domain/document-types";
+import { useToast } from "@/design-system/primitives";
+import { t } from "@/i18n";
 import { invalidateProjectContent, queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 
@@ -41,10 +43,12 @@ export function useFileTrash(projectId: string) {
 function useFileMutation<Variables, Result>(
   projectId: string,
   run: (variables: Variables) => Promise<Result>,
+  onError?: () => void,
 ) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: run,
+    onError,
     onSuccess: () => invalidateProjectContent(queryClient, projectId),
   });
 }
@@ -79,6 +83,7 @@ export function useRenameFile(projectId: string) {
 
 export function useMoveFile(projectId: string) {
   const services = useServices();
+  const toast = useToast();
   return useFileMutation(
     projectId,
     ({
@@ -90,6 +95,13 @@ export function useMoveFile(projectId: string) {
       parentId: string;
       beforeId: string | null;
     }) => services.files.move(fileId, parentId, beforeId),
+    () =>
+      toast({
+        icon: "circle-alert",
+        title: t(
+          "파일을 옮기지 못했어요. 이전 위치를 유지합니다. 다시 시도해 주세요.",
+        ),
+      }),
   );
 }
 
@@ -116,10 +128,16 @@ export function useDeleteFile(projectId: string) {
 
 export function useSetFavorite(projectId: string) {
   const services = useServices();
+  const toast = useToast();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ fileId, favorite }: { fileId: string; favorite: boolean }) =>
       services.files.setFavorite(projectId, fileId, favorite),
+    onError: () =>
+      toast({
+        icon: "circle-alert",
+        title: t("즐겨찾기를 변경하지 못했어요. 다시 시도해 주세요."),
+      }),
     onSuccess: (favorites) => {
       queryClient.setQueryData(queryKeys.favorites(projectId), favorites);
       void queryClient.invalidateQueries({

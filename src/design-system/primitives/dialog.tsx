@@ -97,6 +97,11 @@ export function Modal({
       aria-describedby={describedBy}
       className={cx(styles.modal, styles.surface, scrimClass[scrim], className)}
       onCancel={onCancel}
+      onKeyDown={(event) => {
+        if (event.key !== "Escape") return;
+        event.stopPropagation();
+        if (!dismissible) event.preventDefault();
+      }}
       onClose={handleClose}
       onClick={(event) => {
         if (dismissible && event.target === event.currentTarget) onClose();

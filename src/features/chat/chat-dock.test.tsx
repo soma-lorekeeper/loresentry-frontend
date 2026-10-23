@@ -2,7 +2,7 @@ import { act, fireEvent, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ServiceError } from "@/services/errors";
-import { setMockRule } from "@/services/mock/control";
+import { setMockRule, setMockLatency } from "@/services/mock/control";
 import {
   CHAT_DAILY_LIMIT,
   setMockChatLimit,
@@ -44,6 +44,100 @@ async function flush(ms = 0) {
 }
 
 describe("ChatDock", () => {
+  it("keeps a failed new-conversation question and retries it once", async () => {
+    const createSession = vi
+      .fn()
+      .mockRejectedValueOnce(new Error("create failed"));
+    renderDock({ chat: { createSession } });
+    await flush();
+    await flush();
+    fireEvent.click(screen.getByRole("button", { name: /^AI 챗 열기/ }));
+    const chat = screen.getByRole("dialog", { name: "AI 챗" });
+    const input = within(chat).getByRole("textbox", { name: "질문" });
+    fireEvent.change(input, { target: { value: "질문을 잃지 않아야 한다" } });
+    fireEvent.keyDown(input, { key: "Enter" });
+    fireEvent.keyDown(input, { key: "Enter" });
+    await flush();
+    expect(createSession).toHaveBeenCalledTimes(1);
+    expect(input).toHaveValue("질문을 잃지 않아야 한다");
+    expect(within(chat).getByRole("alert")).toHaveTextContent(
+      "대화를 만들지 못했어요. 질문은 유지됩니다.",
+    );
+    const first = getDb().chatSessions.find(
+      (s) => s.projectId === GLASS_GARDEN_ID,
+    )!;
+    createSession.mockResolvedValueOnce(first);
+    fireEvent.click(within(chat).getByRole("button", { name: "다시 시도" }));
+    await flush();
+    expect(createSession).toHaveBeenCalledTimes(2);
+    expect(within(chat).getByRole("textbox", { name: "질문" })).toHaveValue("");
+    expect(
+      within(chat).queryByText("대화를 만들지 못했어요. 질문은 유지됩니다."),
+    ).toBeNull();
+  });
+
+  it.each(["rename", "delete"] as const)(
+    "retains a failed conversation %s and retries",
+    async (operation) => {
+      renderDock({ before: () => setMockRule(`chat.${operation}`, "once") });
+      await flush();
+      await flush();
+      fireEvent.click(screen.getByRole("button", { name: /^AI 챗 열기/ }));
+      const chat = screen.getByRole("dialog", { name: "AI 챗" });
+      const first = getDb().chatSessions.find(
+        (s) => s.projectId === GLASS_GARDEN_ID && s.preview,
+      )!;
+      fireEvent.click(within(chat).getByText(first.title));
+      await flush();
+      fireEvent.click(within(chat).getByRole("button", { name: "대화 메뉴" }));
+      fireEvent.click(
+        screen.getByRole("menuitem", {
+          name: operation === "rename" ? "이름 바꾸기" : "대화 삭제",
+        }),
+      );
+      setMockLatency(100);
+      if (operation === "rename") {
+        const input = within(chat).getByRole("textbox", { name: "대화 이름" });
+        fireEvent.change(input, { target: { value: "다시 저장할 대화 이름" } });
+        fireEvent.keyDown(input, { key: "Enter" });
+        await flush(500);
+        await flush();
+        expect(input).toHaveValue("다시 저장할 대화 이름");
+        expect(within(chat).getByRole("alert")).toHaveTextContent(
+          "대화 이름을 바꾸지 못했어요",
+        );
+        expect(getDb().chatSessions.find((s) => s.id === first.id)?.title).toBe(
+          first.title,
+        );
+        fireEvent.keyDown(input, { key: "Enter" });
+        await flush(500);
+        await flush(500);
+        expect(
+          within(chat).queryByRole("textbox", { name: "대화 이름" }),
+        ).toBeNull();
+        expect(getDb().chatSessions.find((s) => s.id === first.id)?.title).toBe(
+          "다시 저장할 대화 이름",
+        );
+      } else {
+        const confirm = screen.getByRole("alertdialog");
+        fireEvent.click(within(confirm).getByRole("button", { name: "삭제" }));
+        await flush();
+        fireEvent.keyDown(confirm, { key: "Escape" });
+        await flush(500);
+        await flush();
+        expect(screen.getByRole("dialog", { name: "AI 챗" })).toBeVisible();
+        expect(within(confirm).getByRole("alert")).toHaveTextContent(
+          "대화를 삭제하지 못했어요",
+        );
+        expect(getDb().chatSessions.some((s) => s.id === first.id)).toBe(true);
+        fireEvent.click(within(confirm).getByRole("button", { name: "삭제" }));
+        await flush(500);
+        await flush(500);
+        expect(screen.queryByRole("alertdialog")).toBeNull();
+        expect(getDb().chatSessions.some((s) => s.id === first.id)).toBe(false);
+      }
+    },
+  );
   it.each(["sessions", "search", "messages"] as const)(
     "shows a %s read failure and retries the same view",
     async (operation) => {

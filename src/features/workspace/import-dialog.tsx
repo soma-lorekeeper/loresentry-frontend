@@ -14,6 +14,7 @@ import {
 } from "@/design-system/primitives";
 import { DOCUMENT_TYPE_META } from "@/domain/document-types";
 import { t } from "@/i18n";
+import { isServiceError } from "@/services/errors";
 import { invalidateProjectContent } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 
@@ -39,6 +40,7 @@ interface Staged {
   format: ImportFormat;
   /** 가져오다 실패해 목록에 남은 줄인가 */
   failed?: boolean;
+  failure?: string;
   /** 실패하기 전에 이미 만들어 둔 원고. 다시 시도할 때는 글만 담는다 */
   nodeId?: string;
 }
@@ -169,9 +171,19 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
         nodeId ??= await importer.create(item.file, parent.id);
         await importer.fill(nodeId, item.file);
         created.push({ id: nodeId, title: item.title });
-      } catch {
+      } catch (error) {
         // 만들기까지 됐으면 그 id 를 남겨 둔다. 다시 시도할 때 원고가 하나 더 생기지 않는다.
-        left.push({ ...item, failed: true, nodeId });
+        left.push({
+          ...item,
+          failed: true,
+          nodeId,
+          failure:
+            isServiceError(error) && error.code === "duplicate"
+              ? t(
+                  "같은 위치에 같은 제목의 원고가 있어요. 파일 이름을 바꾼 뒤 이 항목을 빼고 다시 선택해 주세요.",
+                )
+              : t("가져오지 못했어요. 다시 시도해 주세요."),
+        });
       }
     }
     // 새 원고가 파일 트리·그래프·검색에 보이게 한다. 파일마다가 아니라 한 번만 한다.
@@ -362,7 +374,7 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
                     {item.failed ? (
                       <span className={styles.failure}>
                         <Icon name="triangle-alert" size={13} />
-                        {t("가져오지 못했어요")}
+                        {item.failure ?? t("가져오지 못했어요")}
                       </span>
                     ) : (
                       <span className={styles.meta}>

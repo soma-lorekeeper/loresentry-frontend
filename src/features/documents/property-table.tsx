@@ -36,6 +36,7 @@ interface PropertyTableProps {
   episode: FolderNode | null;
   episodes: FolderNode[];
   readOnly: boolean;
+  movePending?: boolean;
   onChange: (properties: DocumentProperty[]) => void;
   onChangeType: (type: DocumentType) => void;
   onMoveToEpisode: (episodeId: string) => void;
@@ -437,6 +438,7 @@ export function PropertyTable({
   episode,
   episodes,
   readOnly,
+  movePending = false,
   onChange,
   onChangeType,
   onMoveToEpisode,
@@ -586,7 +588,7 @@ export function PropertyTable({
           <EpisodeRow
             episode={episode}
             episodes={episodes}
-            readOnly={readOnly}
+            readOnly={readOnly || movePending}
             onMoveToEpisode={onMoveToEpisode}
           />
         )}

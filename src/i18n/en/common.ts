@@ -36,6 +36,20 @@ export default {
   "이 기기의 언어는 변경했지만 계정에 저장하지 못했어요.":
     "The language changed on this device, but couldn't be saved to your account.",
   "계정 언어 다시 저장": "Retry saving account language",
+  "같은 위치에 같은 제목의 원고가 있어요. 파일 이름을 바꾼 뒤 이 항목을 빼고 다시 선택해 주세요.":
+    "A manuscript with this title already exists here. Rename the file, remove this item, and select the renamed file.",
+  "가져오지 못했어요. 다시 시도해 주세요.":
+    "Couldn't import this file. Try again.",
+  "파일을 옮기지 못했어요. 이전 위치를 유지합니다. 다시 시도해 주세요.":
+    "Couldn't move the file. It remains in its previous location. Try again.",
+  "즐겨찾기를 변경하지 못했어요. 다시 시도해 주세요.":
+    "Couldn't change favorites. Try again.",
+  "대화를 만들지 못했어요. 질문은 유지됩니다.":
+    "Couldn't create a conversation. Your question is kept.",
+  "대화 이름을 바꾸지 못했어요. 입력한 이름으로 다시 시도해 주세요.":
+    "Couldn't rename the conversation. Try again with the name you entered.",
+  "대화를 삭제하지 못했어요. 다시 시도해 주세요.":
+    "Couldn't delete the conversation. Try again.",
   "{title} 더보기": "More actions for {title}",
   "{title} 메뉴": "{title} menu",
   "잠시 후 다시 시도해 주세요.": "Try again in a moment.",

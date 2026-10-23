@@ -1,4 +1,4 @@
-import { screen, within } from "@testing-library/react";
+import { screen, within, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, expect, it, vi } from "vitest";
 
@@ -49,6 +49,52 @@ function SidebarAndNewTab() {
     </WorkspaceProvider>
   );
 }
+
+it.each(["create", "rename"] as const)(
+  "preserves a failed tree %s name for retry",
+  async (operation) => {
+    const actor = userEvent.setup();
+    renderWithServices(<SidebarAndNewTab />, {
+      before: () => setMockRule(`files.${operation}`, "once"),
+    });
+    const files = screen.getByRole("region", { name: "파일" });
+    await within(files).findByRole("tree");
+    const episode = getDb().files.find(
+      (n) =>
+        n.projectId === GLASS_GARDEN_ID &&
+        n.kind === "folder" &&
+        n.role === "episode",
+    )!;
+    if (operation === "rename") {
+      await actor.click(within(files).getByRole("treeitem", { name: "원고" }));
+    }
+    await actor.click(
+      within(files).getByRole("button", {
+        name:
+          operation === "create" ? "원고 더보기" : `${episode.title} 더보기`,
+      }),
+    );
+    await actor.click(
+      screen.getByRole("menuitem", {
+        name: operation === "create" ? "에피소드 추가" : "이름 변경",
+      }),
+    );
+    let input = within(files).getByRole("textbox", { name: "이름" });
+    await actor.clear(input);
+    await actor.type(input, "QA 유지할 이름");
+    await actor.keyboard("{Enter}");
+    input = await within(files).findByRole("textbox", { name: "이름" });
+    expect(input).toHaveValue("QA 유지할 이름");
+    expect(getDb().files.some((n) => n.title === "QA 유지할 이름")).toBe(false);
+    await actor.keyboard("{Enter}");
+    await waitFor(() =>
+      expect(getDb().files.some((n) => n.title === "QA 유지할 이름")).toBe(
+        true,
+      ),
+    );
+    expect(within(files).queryByRole("textbox", { name: "이름" })).toBeNull();
+  },
+);
 
 it("shows a tree failure without claiming the existing project has no files", async () => {
   const actor = userEvent.setup();

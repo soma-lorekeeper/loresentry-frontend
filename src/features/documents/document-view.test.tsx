@@ -4,6 +4,7 @@ import { afterAll, describe, expect, it, vi } from "vitest";
 
 import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
 import { renderWithServices, routerMock } from "@/test/render";
+import { setMockLatency, setMockRule } from "@/services/mock/control";
 
 import { createLayout } from "../workspace/model/layout";
 import {
@@ -55,6 +56,32 @@ function renderDocument(fileId: string) {
 }
 
 describe("DocumentView format", () => {
+  it("blocks another favorite change while pending, keeps the previous state on failure, and retries", async () => {
+    const actor = userEvent.setup();
+    const fileId = "glass-garden:ch-12";
+    renderDocument(fileId);
+    await screen.findByRole("toolbar", { name: "편집 도구" });
+    const button = screen.getByRole("button", {
+      name: /^즐겨찾기(에 추가|에서 제거)$/,
+    });
+    const before = button.getAttribute("aria-pressed");
+    setMockLatency(80);
+    setMockRule("files.setFavorite", "once");
+    await actor.click(button);
+    await actor.click(button);
+    expect(button).toBeDisabled();
+    await screen.findByText(
+      "즐겨찾기를 변경하지 못했어요. 다시 시도해 주세요.",
+    );
+    expect(button).toHaveAttribute("aria-pressed", before);
+    await actor.click(button);
+    await waitFor(() =>
+      expect(button).toHaveAttribute(
+        "aria-pressed",
+        before === "true" ? "false" : "true",
+      ),
+    );
+  });
   it("restores an unsaved memo after explicitly closing and reopening its panel", async () => {
     const actor = userEvent.setup();
     renderDocument("glass-garden:ch-12");

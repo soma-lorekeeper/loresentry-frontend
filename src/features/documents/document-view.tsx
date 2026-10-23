@@ -593,6 +593,7 @@ export function DocumentView({
                       favorite ? t("즐겨찾기에서 제거") : t("즐겨찾기에 추가")
                     }
                     aria-pressed={favorite}
+                    disabled={setFavorite.isPending}
                     className={styles.favorite}
                     onClick={() =>
                       setFavorite.mutate({ fileId, favorite: !favorite })
@@ -607,9 +608,11 @@ export function DocumentView({
                   episode={episodeOf(index, fileId)}
                   episodes={episodes}
                   readOnly={locked}
+                  movePending={move.isPending}
                   onChange={(properties) => doc.session.update({ properties })}
                   onChangeType={changeType}
                   onMoveToEpisode={(episodeId) =>
+                    !move.isPending &&
                     move.mutate({ fileId, parentId: episodeId, beforeId: null })
                   }
                   onOpenFile={(target) =>

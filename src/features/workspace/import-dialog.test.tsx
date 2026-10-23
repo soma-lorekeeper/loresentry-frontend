@@ -79,6 +79,24 @@ const staged = () => screen.getByRole("list", { name: "가져올 파일" });
 const importButton = () => screen.getByRole("button", { name: "가져오기" });
 
 describe("ImportDialog", () => {
+  it("explains a same-basename title collision and how to resolve it", async () => {
+    const actor = userEvent.setup();
+    renderDialog();
+    await choose(actor, [
+      file("QA duplicate.txt", "one"),
+      file("QA duplicate.md", "two"),
+    ]);
+    await actor.click(importButton());
+    expect(
+      await screen.findByText(
+        "같은 위치에 같은 제목의 원고가 있어요. 파일 이름을 바꾼 뒤 이 항목을 빼고 다시 선택해 주세요.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      manuscripts().filter((n) => n.title === "QA duplicate"),
+    ).toHaveLength(1);
+    expect(within(staged()).getAllByRole("listitem")).toHaveLength(1);
+  });
   it("lists the chosen files and creates nothing when it is cancelled", async () => {
     const actor = userEvent.setup();
     const { onClose } = renderDialog();

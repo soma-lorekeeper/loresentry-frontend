@@ -111,6 +111,19 @@ export const mockFiles: FileService = {
         );
       }
       const type = docType ?? category?.category ?? "manuscript";
+      if (
+        activeFiles(db, projectId).some(
+          (node) =>
+            node.kind === "document" &&
+            node.parentId === parentId &&
+            node.title === title.trim(),
+        )
+      ) {
+        throw new ServiceError(
+          "duplicate",
+          t("같은 위치에 같은 이름이 이미 있어요."),
+        );
+      }
       if (parent.role === "episode" && type !== "manuscript") {
         throw new ServiceError(
           "validation",

@@ -14,6 +14,7 @@ import {
   EmptyState,
   Icon,
   IconButton,
+  InlineNotice,
   SearchField,
   useToast,
 } from "@/design-system/primitives";
@@ -251,6 +252,8 @@ export function ChatDock() {
   const lastLevel = useRef(level);
   const streams = useChatStreams(projectId);
   const createSession = useCreateChatSession(projectId);
+  const creating = useRef<Promise<string | null> | null>(null);
+  const submitting = useRef(false);
   const renameSession = useRenameChatSession(projectId);
   const deleteSession = useDeleteChatSession(projectId);
   const now = useNow(30000);
@@ -323,10 +326,22 @@ export function ChatDock() {
   const focusInput = () =>
     window.requestAnimationFrame(() => inputRef.current?.focus());
 
-  const newSession = async () => {
-    const created = await createSession.mutateAsync();
-    goTo({ kind: "session", id: created.id });
-    return created.id;
+  const newSession = (): Promise<string | null> => {
+    if (!creating.current) {
+      creating.current = createSession
+        .mutateAsync()
+        .then(
+          (created) => {
+            goTo({ kind: "session", id: created.id });
+            return created.id;
+          },
+          () => null,
+        )
+        .finally(() => {
+          creating.current = null;
+        });
+    }
+    return creating.current;
   };
 
   const sendTo = (
@@ -345,25 +360,34 @@ export function ChatDock() {
   };
 
   const submit = async () => {
+    if (submitting.current || streams.busy) return;
+    submitting.current = true;
     const content = draft.trim();
     const attached = quote;
-    setDraft("");
-    setQuote(null);
-    const id = sessionId ?? (await newSession());
-    sendTo(id, content, "ask", attached);
+    try {
+      const id = sessionId ?? (await newSession());
+      if (!id) return;
+      setDraft("");
+      setQuote(null);
+      sendTo(id, content, "ask", attached);
+    } finally {
+      submitting.current = false;
+    }
   };
 
   const attach = async (picked: ChatQuote) => {
     const target = selectionTarget(windowOpen, view);
     openWindow();
-    if (!target) await newSession();
     setQuote(picked);
+    if (!target) await newSession();
     focusInput();
   };
 
   const askAbout = async (picked: ChatQuote, intent: QuickIntent) => {
     const target = selectionTarget(windowOpen, view);
     openWindow();
+    setQuote(picked);
+    setDraft(quickQuestion(intent));
     if (streams.busy) {
       if (!target) await newSession();
       setQuote(picked);
@@ -372,6 +396,9 @@ export function ChatDock() {
       return;
     }
     const id = target ?? (await newSession());
+    if (!id) return;
+    setQuote(null);
+    setDraft("");
     sendTo(id, quickQuestion(intent), intent, picked);
   };
 
@@ -409,6 +436,7 @@ export function ChatDock() {
       onChange={setDraft}
       onSubmit={() => void submit()}
       pending={stream !== null}
+      creating={createSession.isPending}
       onStop={() => sessionId && streams.stop(sessionId)}
       quote={quote}
       onRemoveQuote={() => setQuote(null)}
@@ -417,7 +445,17 @@ export function ChatDock() {
       }
       elsewhere={streams.busy && stream === null}
       notice={
-        usage.data && usageNotice.shown ? (
+        createSession.isError ? (
+          <InlineNotice icon="circle-alert">
+            {t("대화를 만들지 못했어요. 질문은 유지됩니다.")}
+            <Button
+              disabled={createSession.isPending}
+              onClick={() => void submit()}
+            >
+              {t("다시 시도")}
+            </Button>
+          </InlineNotice>
+        ) : usage.data && usageNotice.shown ? (
           <UsageNotice usage={usage.data} onDismiss={usageNotice.dismiss} />
         ) : null
       }
@@ -454,12 +492,15 @@ export function ChatDock() {
   );
 
   const pick = async (question: string) => {
+    setDraft(question);
     if (streams.busy) {
       setDraft(question);
       focusInput();
       return;
     }
     const id = sessionId ?? (await newSession());
+    if (!id) return;
+    setDraft("");
     sendTo(id, question, "ask", null);
   };
 
@@ -586,9 +627,13 @@ export function ChatDock() {
           <RenameInput
             key={session.id}
             initial={session.title}
+            busy={renameSession.isPending}
             onRename={(title) => {
-              renameSession.mutate({ sessionId: session.id, title });
-              setRenaming(false);
+              if (renameSession.isPending) return;
+              renameSession.mutate(
+                { sessionId: session.id, title },
+                { onSuccess: () => setRenaming(false) },
+              );
             }}
             onCancel={() => setRenaming(false)}
           />
@@ -599,12 +644,25 @@ export function ChatDock() {
         {meter}
         {session && (
           <SessionMenu
-            onRename={() => setRenaming(true)}
-            onDelete={() => setDeleting(true)}
+            onRename={() => {
+              renameSession.reset();
+              setRenaming(true);
+            }}
+            onDelete={() => {
+              deleteSession.reset();
+              setDeleting(true);
+            }}
           />
         )}
         {closeButton}
       </header>
+      {renaming && renameSession.isError && (
+        <InlineNotice icon="circle-alert">
+          {t(
+            "대화 이름을 바꾸지 못했어요. 입력한 이름으로 다시 시도해 주세요.",
+          )}
+        </InlineNotice>
+      )}
       {messages.isError ? (
         <div className={styles.scroll}>
           <QueryFailure
@@ -708,6 +766,7 @@ export function ChatDock() {
           onKeyDown={(event) => {
             if (
               event.key === "Escape" &&
+              !event.defaultPrevented &&
               event.currentTarget.contains(event.target as Node)
             )
               closeWindow();
@@ -719,11 +778,15 @@ export function ChatDock() {
               <DeleteConfirm
                 title={session.title}
                 busy={deleteSession.isPending}
+                error={deleteSession.isError}
                 onCancel={() => setDeleting(false)}
                 onConfirm={() => {
-                  streams.forget(session.id);
+                  if (deleteSession.isPending) return;
                   deleteSession.mutate(session.id, {
-                    onSuccess: () => goTo({ kind: "home" }),
+                    onSuccess: () => {
+                      streams.forget(session.id);
+                      goTo({ kind: "home" });
+                    },
                   });
                 }}
               />

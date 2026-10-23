@@ -47,6 +47,7 @@ export type TreeEdit =
     }
   | {
       mode: "rename";
+      pending?: string;
       nodeId: string;
       /** 문서의 이름을 바꾸는 중이면 그 종류. 아이콘이 종류 색을 지킨다 */
       docType?: DocumentType;
@@ -357,9 +358,11 @@ export function FileTree({
           <Fragment key={node.id}>
             {renaming ? (
               <InlineEditRow
+                key={`${edit.defaultTitle}:${edit.pending === undefined ? "edit" : "pending"}`}
                 icon={edit.icon}
                 kind={edit.docType}
                 defaultTitle={edit.defaultTitle}
+                pending={edit.pending}
                 depth={item.depth}
                 onCommit={onCommitEdit}
                 onCancel={onCancelEdit}
@@ -411,6 +414,7 @@ export function FileTree({
             )}
             {createHere && (
               <InlineEditRow
+                key={`${edit.defaultTitle}:${edit.pending === undefined ? "edit" : "pending"}`}
                 icon={edit.icon}
                 kind={edit.docType}
                 defaultTitle={edit.defaultTitle}
@@ -425,6 +429,7 @@ export function FileTree({
       })}
       {createAtRoot && (
         <InlineEditRow
+          key={`${edit.defaultTitle}:${edit.pending === undefined ? "edit" : "pending"}`}
           icon={edit.icon}
           kind={edit.docType}
           defaultTitle={edit.defaultTitle}
