@@ -72,11 +72,19 @@ export function parseAnswer(content: string): Block[] {
   return blocks;
 }
 
+export function citationTitle(citation: ChatCitation) {
+  return (
+    citation.title.trim() ||
+    citation.quote?.trim().slice(0, 60) ||
+    (citation.kind === "memo" ? t("빈 메모") : t("제목 없음"))
+  );
+}
+
 export function answerPlainText(content: string, citations: ChatCitation[]) {
   return content
     .replace(/\s*\[\[(\d+)\]\]/g, (_, index) => {
       const citation = citations[Number(index) - 1];
-      return citation ? ` (${citation.title})` : "";
+      return citation ? ` (${citationTitle(citation)})` : "";
     })
     .replace(/\*\*/g, "")
     .replace(/ +\n/g, "\n")
@@ -116,6 +124,7 @@ function CiteChip({
 }) {
   const [rect, setRect] = useState<DOMRect | null>(null);
   if (!citation) return null;
+  const title = citationTitle(citation);
   const memo = citation.kind === "memo";
   const show = (el: HTMLElement) =>
     citation.quote && setRect(el.getBoundingClientRect());
@@ -130,8 +139,8 @@ function CiteChip({
         data-fresh={fresh || undefined}
         aria-label={
           memo
-            ? t("메모 ‘{title}’ 열기", { title: citation.title })
-            : t("근거 문서 ‘{title}’ 열기", { title: citation.title })
+            ? t("메모 ‘{title}’ 열기", { title })
+            : t("근거 문서 ‘{title}’ 열기", { title })
         }
         onClick={() => onOpen(citation)}
         onMouseEnter={(event) => show(event.currentTarget)}
@@ -148,9 +157,7 @@ function CiteChip({
           size={12}
         />
         <span className={styles.citeLabel}>
-          {memo
-            ? t("메모 · {title}", { title: citation.title })
-            : citation.title}
+          {memo ? t("메모 · {title}", { title }) : title}
         </span>
       </button>
       {rect &&

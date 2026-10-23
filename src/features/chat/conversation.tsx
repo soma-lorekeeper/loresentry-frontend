@@ -318,8 +318,6 @@ export function Conversation({
     ? [...visible].reverse().find((m) => m.role === "user")
     : undefined;
 
-  const count = shown.length;
-  const seen = useRef(count);
   useLayoutEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -329,9 +327,7 @@ export function Conversation({
       return;
     }
     if (hold.current) return;
-    const grew = count !== seen.current;
-    seen.current = count;
-    if (pinned || grew) el.scrollTop = el.scrollHeight;
+    if (pinned) el.scrollTop = el.scrollHeight;
   });
 
   if (loading)

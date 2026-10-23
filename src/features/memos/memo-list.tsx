@@ -163,16 +163,24 @@ function MemoCard({
   memo,
   context,
   onDelete,
+  focusSequence,
 }: {
   projectId: string;
   memo: Memo;
   /** 카드 위에 붙일 맥락. 메모 화면의 파일 메모는 어느 문서의 것인지 보여야 한다. */
   context?: ReactNode;
   onDelete: (memo: Memo) => void;
+  focusSequence?: number;
 }) {
   const toast = useToast();
   const update = useUpdateMemo(projectId);
   const [editing, setEditing] = useState(false);
+  const cardRef = useRef<HTMLLIElement>(null);
+  useEffect(() => {
+    if (focusSequence === undefined) return;
+    cardRef.current?.scrollIntoView?.({ block: "center" });
+    cardRef.current?.focus({ preventScroll: true });
+  }, [focusSequence]);
 
   const save = (body: string) => {
     // 고친 것이 없으면 저장할 것도 없다. 그대로 닫는다.
@@ -209,7 +217,15 @@ function MemoCard({
   if (!editing) {
     const title = memoTitle(memo);
     return (
-      <li className={styles.card}>
+      <li
+        ref={cardRef}
+        tabIndex={-1}
+        data-memo-id={memo.id}
+        className={cx(
+          styles.card,
+          focusSequence !== undefined && styles.citedCard,
+        )}
+      >
         {context}
         {remove}
         <button
@@ -227,7 +243,16 @@ function MemoCard({
   }
 
   return (
-    <li className={cx(styles.card, styles.editingCard)}>
+    <li
+      ref={cardRef}
+      tabIndex={-1}
+      data-memo-id={memo.id}
+      className={cx(
+        styles.card,
+        styles.editingCard,
+        focusSequence !== undefined && styles.citedCard,
+      )}
+    >
       {context}
       {remove}
       <MemoEditor
@@ -262,6 +287,8 @@ export function MemoList({
   composing: composingProp,
   onComposingChange,
   context,
+  focusMemoId,
+  focusSequence,
 }: {
   projectId: string;
   scope: MemoScope;
@@ -279,6 +306,8 @@ export function MemoList({
   composing?: boolean;
   onComposingChange?: (composing: boolean) => void;
   context?: (memo: Memo) => ReactNode;
+  focusMemoId?: string;
+  focusSequence?: number;
 }) {
   const toast = useToast();
   const memos = useMemos(projectId, scope, fileId);
@@ -362,6 +391,9 @@ export function MemoList({
               memo={memo}
               context={context?.(memo)}
               onDelete={setDeleting}
+              focusSequence={
+                memo.id === focusMemoId ? focusSequence : undefined
+              }
             />
           ))}
         </ul>

@@ -43,7 +43,7 @@ export const WORKSPACE_VIEWS: Record<
     kind: "memo",
     icon: "notebook-pen",
     title: t("작업공간::메모"),
-    render: () => <MemoView />,
+    render: (props) => <MemoView paneId={props.paneId} active={props.active} />,
   },
   trash: {
     kind: "trash",

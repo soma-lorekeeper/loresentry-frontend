@@ -36,6 +36,9 @@ export default {
   "이 기기의 언어는 변경했지만 계정에 저장하지 못했어요.":
     "The language changed on this device, but couldn't be saved to your account.",
   "계정 언어 다시 저장": "Retry saving account language",
+  "인용한 메모를 불러오지 못했어요": "Couldn't load the cited note",
+  "인용한 메모를 찾을 수 없어요. 삭제됐을 수 있어요.":
+    "The cited note couldn't be found. It may have been deleted.",
   "같은 위치에 같은 제목의 원고가 있어요. 파일 이름을 바꾼 뒤 이 항목을 빼고 다시 선택해 주세요.":
     "A manuscript with this title already exists here. Rename the file, remove this item, and select the renamed file.",
   "가져오지 못했어요. 다시 시도해 주세요.":

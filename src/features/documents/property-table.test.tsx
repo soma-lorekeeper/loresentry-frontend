@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
@@ -23,6 +23,37 @@ function place(id: string, title: string): DocumentNode {
 }
 
 describe("PropertyTable relations", () => {
+  it("offers a missing setting description without saving until the user types", () => {
+    const onChange = vi.fn();
+    render(
+      <PropertyTable
+        fileId="empty-character"
+        docType="character"
+        properties={[]}
+        nodes={[]}
+        episode={null}
+        episodes={[]}
+        readOnly={false}
+        onChange={onChange}
+        onChangeType={() => {}}
+        onMoveToEpisode={() => {}}
+        onOpenFile={() => {}}
+      />,
+    );
+    const input = screen.getByRole("textbox", { name: "설명" });
+    expect(input).toHaveValue("");
+    expect(onChange).not.toHaveBeenCalled();
+    fireEvent.change(input, { target: { value: "입력한 캐릭터 설명" } });
+    expect(onChange).toHaveBeenLastCalledWith([
+      {
+        id: "empty-character:description",
+        kind: "text",
+        key: "description",
+        label: "설명",
+        value: "입력한 캐릭터 설명",
+      },
+    ]);
+  });
   it("keeps the notes on existing links when another document is linked", async () => {
     // 그래프의 엣지 위에 보이는 글자가 이 설명이다. 칩을 하나 더할 때 지워지면 안 된다.
     const relation: RelationProperty = {

@@ -30,6 +30,35 @@ describe("parseAnswer", () => {
 });
 
 describe("Answer", () => {
+  it("uses a readable quote or fallback for blank citation titles in the UI and copied text", () => {
+    const notes: ChatCitation[] = [
+      {
+        kind: "memo",
+        memoId: "one",
+        title: " ",
+        quote: "균열은 기억의 방향이다",
+      },
+      { kind: "memo", memoId: "two", title: "", quote: null },
+    ];
+    render(
+      <Answer
+        content="메모 [[1]] 빈 메모 [[2]]"
+        citations={notes}
+        onOpen={() => {}}
+      />,
+    );
+    expect(
+      screen.getByRole("button", {
+        name: "메모 ‘균열은 기억의 방향이다’ 열기",
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "메모 ‘빈 메모’ 열기" }),
+    ).toBeInTheDocument();
+    expect(answerPlainText("메모 [[1]] 빈 메모 [[2]]", notes)).toBe(
+      "메모 (균열은 기억의 방향이다) 빈 메모 (빈 메모)",
+    );
+  });
   it("shows document and note citations as different chips", () => {
     render(
       <Answer

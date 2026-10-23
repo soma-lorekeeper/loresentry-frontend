@@ -97,6 +97,8 @@ interface WorkspaceContextValue {
    */
   importing: boolean;
   setImporting: (open: boolean) => void;
+  memoFocus: { id: string; paneId: string; sequence: number } | null;
+  openMemo: (memoId: string) => void;
 }
 
 export type RelocateAction = Extract<
@@ -158,6 +160,8 @@ export function WorkspaceProvider({
   const [narrow, setNarrow] = useState(matchesNarrow);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [importing, setImporting] = useState(false);
+  const [memoFocus, setMemoFocus] =
+    useState<WorkspaceContextValue["memoFocus"]>(null);
   useEffect(() => {
     if (typeof window.matchMedia !== "function") return;
     const query = window.matchMedia(NARROW_QUERY);
@@ -198,10 +202,22 @@ export function WorkspaceProvider({
     [project.id, services],
   );
 
-  const open = useCallback<WorkspaceContextValue["open"]>(
-    (target, options) =>
-      dispatch({ type: "open", target, paneId: options?.paneId }),
-    [],
+  const open = useCallback<WorkspaceContextValue["open"]>((target, options) => {
+    if (target.kind === "memo") setMemoFocus(null);
+    dispatch({ type: "open", target, paneId: options?.paneId });
+  }, []);
+
+  const openMemo = useCallback(
+    (id: string) => {
+      const paneId = layout.activePaneId;
+      setMemoFocus((previous) => ({
+        id,
+        paneId,
+        sequence: (previous?.sequence ?? 0) + 1,
+      }));
+      dispatch({ type: "open", target: { kind: "memo" }, paneId });
+    },
+    [layout.activePaneId],
   );
 
   const guards = useRef(new Map<string, CloseGuard>());
@@ -364,6 +380,8 @@ export function WorkspaceProvider({
       relocate,
       importing,
       setImporting,
+      memoFocus,
+      openMemo,
     }),
     [
       project,
@@ -381,6 +399,8 @@ export function WorkspaceProvider({
       tabActionsOf,
       relocate,
       importing,
+      memoFocus,
+      openMemo,
     ],
   );
 

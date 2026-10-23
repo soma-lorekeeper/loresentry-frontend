@@ -238,7 +238,7 @@ function TooLarge({
 }
 
 export function ChatDock() {
-  const { projectId, user, open, narrow } = useWorkspace();
+  const { projectId, user, open, openMemo, narrow } = useWorkspace();
   const availability = useChatAvailability(projectId);
   const unavailable = isUnavailable(availability.error);
   const tooLarge = availability.data?.status === "too-large";
@@ -405,7 +405,7 @@ export function ChatDock() {
   const openCitation = (citation: ChatCitation) => {
     if (citation.kind === "document")
       open({ kind: "file", fileId: citation.fileId });
-    else open({ kind: "memo" });
+    else openMemo(citation.memoId);
     if (narrow) setWindowOpen(false);
   };
 

@@ -10,9 +10,11 @@ export function useMemos(
   projectId: string,
   scope: MemoScope,
   fileId: string | null = null,
+  enabled = true,
 ) {
   const services = useServices();
   return useQuery({
+    enabled,
     queryKey: queryKeys.memos(projectId, scope, fileId),
     queryFn: () => services.memos.list(projectId, scope, fileId ?? undefined),
   });

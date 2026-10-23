@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from "react";
 
-import { Icon, Segmented } from "@/design-system/primitives";
+import { Icon, Segmented, InlineNotice } from "@/design-system/primitives";
+import { QueryFailure } from "@/features/common/query-failure";
 import { DOCUMENT_TYPE_META } from "@/domain/document-types";
 import type { Memo, MemoScope } from "@/domain/models";
 import { indexNodes, isDocument } from "@/features/workspace/model/tree";
@@ -11,6 +12,7 @@ import { useWorkspace } from "@/features/workspace/workspace-context";
 import { t } from "@/i18n";
 
 import { MemoList } from "./memo-list";
+import { useMemos } from "./queries";
 import styles from "./memo-view.module.css";
 
 const SCOPES = [
@@ -27,9 +29,28 @@ const SCOPES = [
  * <p>문서 메모는 여기서 새로 만들 수 없다 — 어느 문서에 붙일지 고를 수 없기 때문이다. 문서를 열면
  * 그 문서의 메모 패널에서 만든다.
  */
-export function MemoView() {
-  const { projectId, open } = useWorkspace();
-  const [scope, setScope] = useState<MemoScope>("file");
+export function MemoView({
+  paneId,
+  active = true,
+}: { paneId?: string; active?: boolean } = {}) {
+  const { projectId, open, memoFocus, activePane } = useWorkspace();
+  const focus =
+    memoFocus?.paneId === (paneId ?? activePane.id) ? memoFocus : null;
+  const [choice, setChoice] = useState<{
+    scope: MemoScope;
+    sequence: number | null;
+  }>({ scope: "file", sequence: null });
+  const projectMemos = useMemos(projectId, "project", null, Boolean(focus));
+  const fileMemos = useMemos(projectId, "file", null, Boolean(focus));
+  const target =
+    projectMemos.data?.find((m) => m.id === focus?.id) ??
+    fileMemos.data?.find((m) => m.id === focus?.id);
+  const scope =
+    focus && target && choice.sequence !== focus.sequence
+      ? target.scope
+      : choice.scope;
+  const setScope = (scope: MemoScope) =>
+    setChoice({ scope, sequence: focus?.sequence ?? null });
   const tree = useFileTree(projectId);
   const index = useMemo(() => indexNodes(tree.data ?? []), [tree.data]);
 
@@ -95,7 +116,20 @@ export function MemoView() {
         />
       </header>
 
-      {scope === "file" ? (
+      {focus && !target && (projectMemos.isError || fileMemos.isError) ? (
+        <QueryFailure
+          title={t("인용한 메모를 불러오지 못했어요")}
+          retrying={projectMemos.isFetching || fileMemos.isFetching}
+          onRetry={() => {
+            void projectMemos.refetch();
+            void fileMemos.refetch();
+          }}
+        />
+      ) : focus && !target && projectMemos.isSuccess && fileMemos.isSuccess ? (
+        <InlineNotice icon="circle-alert">
+          {t("인용한 메모를 찾을 수 없어요. 삭제됐을 수 있어요.")}
+        </InlineNotice>
+      ) : scope === "file" ? (
         <MemoList
           projectId={projectId}
           scope="file"
@@ -106,11 +140,15 @@ export function MemoView() {
             "문서를 열어 메모 패널에서 적으면 여기에 모여요.",
           )}
           context={fileContext}
+          focusMemoId={active ? focus?.id : undefined}
+          focusSequence={focus?.sequence}
         />
       ) : (
         <MemoList
           projectId={projectId}
           scope="project"
+          focusMemoId={active ? focus?.id : undefined}
+          focusSequence={focus?.sequence}
           addLabel={t("메모 추가")}
           emptyTitle={t("작품 메모가 없어요")}
           emptyDescription={t("작품 전체에 걸친 생각을 적어 두세요.")}

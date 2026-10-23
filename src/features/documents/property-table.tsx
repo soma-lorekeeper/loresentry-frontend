@@ -452,7 +452,9 @@ export function PropertyTable({
 
   const replace = (id: string, next: DocumentProperty) =>
     onChange(
-      properties.map((property) => (property.id === id ? next : property)),
+      properties.some((property) => property.id === id)
+        ? properties.map((property) => (property.id === id ? next : property))
+        : [...properties, next],
     );
   const remove = (id: string) =>
     onChange(properties.filter((property) => property.id !== id));
@@ -504,6 +506,15 @@ export function PropertyTable({
   const description = properties.filter(
     (p) => p.kind === "text" && p.key === "description",
   );
+  if (description.length === 0 && docType !== "manuscript") {
+    description.push({
+      id: `${fileId}:description`,
+      kind: "text",
+      key: "description",
+      label: t("설명"),
+      value: "",
+    });
+  }
   const rest = properties.filter(
     (p) => !(p.kind === "text" && p.key === "description"),
   );
