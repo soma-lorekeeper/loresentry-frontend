@@ -313,8 +313,6 @@ export default {
     "Locked until the graph refresh results are applied",
   "잠긴 문서를 다시 편집할 수 있어요. 반영한 내용은 버전 기록에 남아요.":
     "Locked documents can be edited again. What you applied is kept in version history.",
-  "제안을 받지 않으려면 ‘현재 버전 전체 반영’ 후 반영 확정":
-    "To accept nothing, use current for all, then apply",
   "결과를 확정할 때까지 관련 문서는 잠겨 있어요.":
     "Related documents stay locked until you apply the results.",
 } satisfies Messages;
