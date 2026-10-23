@@ -14,6 +14,7 @@ import {
 } from "@/design-system/primitives";
 import type { Project, User } from "@/domain/models";
 import { t } from "@/i18n";
+import { localeHref } from "@/i18n/preference";
 import { relativeTime } from "@/shared/format";
 
 import {
@@ -26,7 +27,7 @@ import { ProjectShell } from "./project-shell";
 import { useProjects } from "./queries";
 
 export function workspaceHref(projectId: string) {
-  return `/workspace?projectId=${encodeURIComponent(projectId)}`;
+  return localeHref(`/workspace?projectId=${encodeURIComponent(projectId)}`);
 }
 
 function ProjectCard({

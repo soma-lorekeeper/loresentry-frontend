@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import type { User } from "@/domain/models";
 import type { Locale } from "@/i18n";
-import { switchLocale } from "@/i18n/preference";
+import { setLocaleSync, switchLocale } from "@/i18n/preference";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 
@@ -18,16 +18,20 @@ export function useLocaleSwitch() {
   const queryClient = useQueryClient();
   const [pending, setPending] = useState(false);
   const switchTo = async (locale: Locale) => {
+    if (pending) return;
     setPending(true);
     const user = queryClient.getQueryData<User | null>(queryKeys.session);
     if (user) {
       try {
-        await services.account.updateLocale(locale);
+        const updated = await services.account.updateLocale(locale);
+        queryClient.setQueryData(queryKeys.session, updated);
+        setLocaleSync(null);
       } catch {
-        // 위 주석대로 이 기기의 선택은 그대로 진행한다.
+        setLocaleSync({ userId: user.id, locale });
       }
     }
     switchLocale(locale);
+    setPending(false);
   };
   return { switchTo, pending };
 }

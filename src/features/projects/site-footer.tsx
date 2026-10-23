@@ -3,6 +3,7 @@
 import { useRuntimeConfig } from "@/app/providers";
 import { LanguageSwitch } from "@/features/locale/language-switch";
 import { t } from "@/i18n";
+import { policyHref } from "@/i18n/preference";
 
 import styles from "./site-footer.module.css";
 
@@ -22,7 +23,7 @@ export function SiteFooter() {
           {termsOfServiceUrl && (
             <a
               className={styles.link}
-              href={termsOfServiceUrl}
+              href={policyHref(termsOfServiceUrl)}
               target="_blank"
               rel="noreferrer"
             >
@@ -32,7 +33,7 @@ export function SiteFooter() {
           {privacyPolicyUrl && (
             <a
               className={styles.link}
-              href={privacyPolicyUrl}
+              href={policyHref(privacyPolicyUrl)}
               target="_blank"
               rel="noreferrer"
             >

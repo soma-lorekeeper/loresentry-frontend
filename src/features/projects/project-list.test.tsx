@@ -59,7 +59,7 @@ describe("ProjectListPage", () => {
     const created = getDb().projects.find((p) => p.title === "새벽의 지도");
     expect(created).toBeDefined();
     expect(routerMock.push).toHaveBeenCalledWith(
-      `/workspace?projectId=${created!.id}`,
+      `/ko/workspace?projectId=${created!.id}`,
     );
   });
 

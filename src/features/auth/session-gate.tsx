@@ -16,6 +16,7 @@ import {
 import type { User } from "@/domain/models";
 import { LOCALE, t } from "@/i18n";
 import { QueryFailure } from "@/features/common/query-failure";
+import { LocaleSyncNotice } from "@/features/locale/locale-sync-notice";
 import { followAccountLocale } from "@/i18n/preference";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
@@ -63,7 +64,7 @@ function useAccountLocale(user: User | null | undefined) {
   useEffect(() => {
     if (!id) return;
     if (locale) {
-      followAccountLocale(locale);
+      followAccountLocale(locale, id);
       return;
     }
     services.account.updateLocale(LOCALE).then(
@@ -123,5 +124,10 @@ export function SessionGate({
       </main>
     );
   if (!session.data) return null;
-  return <Fragment key={session.data.id}>{children(session.data)}</Fragment>;
+  return (
+    <Fragment key={session.data.id}>
+      {children(session.data)}
+      <LocaleSyncNotice user={session.data} />
+    </Fragment>
+  );
 }

@@ -66,7 +66,7 @@ jobs:
           for locale in ko en; do
             aws s3 sync "dist/$locale/" "s3://$S3_BUCKET/$locale/" --delete \
               --exclude "_next/*" --exclude "config.json" \
-              --cache-control "public,max-age=60,must-revalidate" \
+              --cache-control "public,max-age=0,s-maxage=60,must-revalidate" \
               --only-show-errors
           done
           # 버킷 맨 위는 언어를 고르는 함수를 켜기 전까지 쓰이는 자리이자 오류 페이지(/404.html)를 찾는
@@ -74,7 +74,7 @@ jobs:
           aws s3 sync dist/ko/ "s3://$S3_BUCKET/" --delete \
             --exclude "_next/*" --exclude "config.json" \
             --exclude "ko/*" --exclude "en/*" \
-            --cache-control "public,max-age=60,must-revalidate" \
+            --cache-control "public,max-age=0,s-maxage=60,must-revalidate" \
             --only-show-errors
 
       - name: Upload runtime config

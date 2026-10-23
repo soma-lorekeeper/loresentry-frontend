@@ -35,7 +35,7 @@ export function explicitLocaleOf(pathname: string): Locale | null {
   return match ? (match[1] as Locale) : null;
 }
 
-/** 언어를 붙인 주소라면 떼어 낸다. 언어는 쿠키가 고른다. */
+/** 언어를 붙인 주소라면 떼어 낸다. */
 export function withoutLocalePrefix(pathname: string): string {
   const explicit = explicitLocaleOf(pathname);
   if (!explicit) return pathname;
@@ -43,8 +43,27 @@ export function withoutLocalePrefix(pathname: string): string {
   return rest.startsWith("/") ? rest : `/${rest}`;
 }
 
-function reloadInto(pathname: string) {
-  const target = `${withoutLocalePrefix(pathname)}${location.search}${location.hash}`;
+export function localeHref(path: string, locale: Locale = LOCALE): string {
+  return `/${locale}${withoutLocalePrefix(path)}`;
+}
+
+/** 외부 정책 문서는 그대로 두고, 자체 정책 문서는 현재 언어의 고유 주소로 연다. */
+export function policyHref(href: string): string {
+  if (href.startsWith("/") && !href.startsWith("//")) return localeHref(href);
+  try {
+    const url = new URL(href);
+    if (
+      url.origin === "https://loresentry.com" ||
+      url.origin === "https://www.loresentry.com"
+    ) {
+      return `${localeHref(url.pathname)}${url.search}${url.hash}`;
+    }
+  } catch {}
+  return href;
+}
+
+function reloadInto(pathname: string, locale: Locale) {
+  const target = `${localeHref(pathname, locale)}${location.search}${location.hash}`;
   if (target === `${location.pathname}${location.search}${location.hash}`) {
     location.reload();
   } else {
@@ -57,7 +76,7 @@ function reloadInto(pathname: string) {
 /** 사용자가 언어를 골랐다. 쿠키를 고치고 그 언어판으로 다시 연다. */
 export function switchLocale(locale: Locale) {
   writeLocaleCookie(locale);
-  if (locale !== LOCALE) reloadInto(location.pathname);
+  if (locale !== LOCALE) reloadInto(location.pathname, locale);
 }
 
 /**
@@ -65,7 +84,10 @@ export function switchLocale(locale: Locale) {
  * 언어로 보여야 한다. 쿠키만 고치고 다시 여는 것은 탭마다 한 번뿐이라, CDN 이 쿠키를 무시하는 환경에서도
  * 새로고침이 되풀이되지 않는다.
  */
-export function followAccountLocale(locale: Locale) {
+export function followAccountLocale(locale: Locale, userId?: string) {
+  const pending = readLocaleSync(userId);
+  if (pending?.locale === locale) setLocaleSync(null);
+  else if (pending) locale = pending.locale;
   if (locale === LOCALE) return;
   if (explicitLocaleOf(location.pathname)) return;
   try {
@@ -75,7 +97,45 @@ export function followAccountLocale(locale: Locale) {
     return;
   }
   writeLocaleCookie(locale);
-  reloadInto(location.pathname);
+  reloadInto(location.pathname, locale);
+}
+
+const SYNC_KEY = "loresentry.locale-sync";
+export type LocaleSync = { userId: string; locale: Locale };
+
+export function localeSyncSnapshot(): string | null {
+  try {
+    return localStorage.getItem(SYNC_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function readLocaleSync(userId?: string): LocaleSync | null {
+  try {
+    const value = JSON.parse(localeSyncSnapshot() ?? "null");
+    return value?.userId === userId && isLocale(value?.locale) ? value : null;
+  } catch {
+    return null;
+  }
+}
+
+/** 계정 저장 실패만 기록한다. 다른 사용자의 계정에는 이 기기 선택을 적용하지 않는다. */
+export function setLocaleSync(value: LocaleSync | null) {
+  try {
+    if (value) localStorage.setItem(SYNC_KEY, JSON.stringify(value));
+    else localStorage.removeItem(SYNC_KEY);
+    window.dispatchEvent(new Event(SYNC_KEY));
+  } catch {}
+}
+
+export function subscribeLocaleSync(listener: () => void) {
+  window.addEventListener(SYNC_KEY, listener);
+  window.addEventListener("storage", listener);
+  return () => {
+    window.removeEventListener(SYNC_KEY, listener);
+    window.removeEventListener("storage", listener);
+  };
 }
 
 /**
@@ -84,5 +144,5 @@ export function followAccountLocale(locale: Locale) {
  * 남이 보낸 링크 한 번으로 언어가 굳으면 안 된다. `<head>` 에서 그리기 전에 돈다.
  */
 export function createLocaleScript() {
-  return `(function(){var l=${JSON.stringify(LOCALE)},p=location.pathname;if(p==="/"+l||p.indexOf("/"+l+"/")===0){document.cookie=${JSON.stringify(`${LOCALE_COOKIE}=`)}+l+"; Path=/; SameSite=Lax"+(location.protocol==="https:"?"; Secure":"")}})();`;
+  return `(function(){var l=${JSON.stringify(LOCALE)},p=location.pathname,c=document.cookie.split(";").some(function(v){return v.trim()===${JSON.stringify(`${LOCALE_COOKIE}=`)}+l});if(!c&&(p==="/"+l||p.indexOf("/"+l+"/")===0)){document.cookie=${JSON.stringify(`${LOCALE_COOKIE}=`)}+l+"; Path=/; SameSite=Lax"+(location.protocol==="https:"?"; Secure":"")}})();`;
 }

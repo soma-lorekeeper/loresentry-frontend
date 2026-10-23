@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useRuntimeConfig } from "@/app/providers";
 import { Icon, StatusNotice } from "@/design-system/primitives";
 import { LanguageSwitch } from "@/features/locale/language-switch";
+import { policyHref } from "@/i18n/preference";
 import { t } from "@/i18n";
 import { finishAuthNavigation } from "@/services/api/auth-transition";
 import type { AuthFailure } from "@/services/ports";
@@ -231,7 +232,9 @@ export function LoginPage() {
 
         {showTerms && (
           <TermsConsent
-            privacyUrl={config.privacyPolicyUrl || "/policies/privacy/"}
+            privacyUrl={policyHref(
+              config.privacyPolicyUrl || "/policies/privacy/",
+            )}
             onClose={closeTerms}
             onComplete={() => router.replace(returnTo ?? "/projects")}
           />
@@ -241,11 +244,11 @@ export function LoginPage() {
       <div className={styles.footer}>
         <nav className={styles.policyLinks} aria-label={t("정책")}>
           <PolicyLink
-            href={config.termsOfServiceUrl || "/policies/terms/"}
+            href={policyHref(config.termsOfServiceUrl || "/policies/terms/")}
             label={t("이용약관")}
           />
           <PolicyLink
-            href={config.privacyPolicyUrl || "/policies/privacy/"}
+            href={policyHref(config.privacyPolicyUrl || "/policies/privacy/")}
             label={t("개인정보처리방침")}
           />
         </nav>

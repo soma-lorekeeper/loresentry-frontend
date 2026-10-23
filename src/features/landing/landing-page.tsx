@@ -9,6 +9,7 @@ import { DOCUMENT_TYPES, DOCUMENT_TYPE_META } from "@/domain/document-types";
 import { GoogleMark } from "@/features/auth/google-mark";
 import { useSession } from "@/features/auth/session-gate";
 import { LanguageSwitch } from "@/features/locale/language-switch";
+import { policyHref } from "@/i18n/preference";
 import { t, tRich } from "@/i18n";
 import { cx } from "@/shared/cx";
 
@@ -197,10 +198,18 @@ function Footer({
               {t("문의하기 · {email}", { email: contactEmail })}
             </button>
           )}
-          <a href={termsOfServiceUrl} target="_blank" rel="noreferrer">
+          <a
+            href={policyHref(termsOfServiceUrl)}
+            target="_blank"
+            rel="noreferrer"
+          >
             {t("랜딩::이용약관")}
           </a>
-          <a href={privacyPolicyUrl} target="_blank" rel="noreferrer">
+          <a
+            href={policyHref(privacyPolicyUrl)}
+            target="_blank"
+            rel="noreferrer"
+          >
             {t("랜딩::개인정보처리방침")}
           </a>
         </nav>

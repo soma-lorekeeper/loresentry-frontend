@@ -33,6 +33,9 @@ export default {
   더보기: "More",
   선택: "Optional",
   "언어 바꾸기": "Change language",
+  "이 기기의 언어는 변경했지만 계정에 저장하지 못했어요.":
+    "The language changed on this device, but couldn't be saved to your account.",
+  "계정 언어 다시 저장": "Retry saving account language",
   "{title} 더보기": "More actions for {title}",
   "{title} 메뉴": "{title} menu",
   "잠시 후 다시 시도해 주세요.": "Try again in a moment.",

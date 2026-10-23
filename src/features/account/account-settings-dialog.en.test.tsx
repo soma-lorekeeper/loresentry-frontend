@@ -66,21 +66,20 @@ describe("AccountSettingsDialog (English build)", () => {
   });
 
   it("switches to Korean right away and records it on the account", async () => {
-    const reload = vi.fn();
+    const assign = vi.fn();
     vi.spyOn(window, "location", "get").mockReturnValue({
       ...window.location,
       pathname: "/projects/",
       search: "",
       hash: "",
-      reload,
-      assign: vi.fn(),
+      assign,
     } as Location);
     const actor = userEvent.setup();
     const dialog = open();
 
     await actor.click(within(dialog).getByRole("radio", { name: "한국어" }));
 
-    await waitFor(() => expect(reload).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(assign).toHaveBeenCalledWith("/ko/projects/"));
     expect(readLocaleCookie()).toBe("ko");
     expect(getDb().user.locale).toBe("ko");
     expect(within(dialog).getByRole("radio", { name: "한국어" })).toBeChecked();
