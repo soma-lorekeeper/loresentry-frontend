@@ -1,4 +1,4 @@
-import { screen, waitFor } from "@testing-library/react";
+import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
@@ -14,6 +14,35 @@ afterEach(() => {
 });
 
 describe("LoginPage", () => {
+  it("allows another login after returning from Google through the back cache", async () => {
+    const startGoogleLogin = vi.fn(() => new Promise<void>(() => {}));
+    renderWithServices(<LoginPage />, {
+      auth: { getSession: async () => null, startGoogleLogin },
+    });
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Google로 계속하기" }),
+    );
+    expect(
+      screen.getByRole("button", { name: "Google 로그인으로 이동 중…" }),
+    ).toBeDisabled();
+    act(() => {
+      window.dispatchEvent(new PageTransitionEvent("pageshow"));
+    });
+    expect(startGoogleLogin).toHaveBeenCalledTimes(1);
+    expect(
+      screen.getByRole("button", { name: "Google 로그인으로 이동 중…" }),
+    ).toBeDisabled();
+    act(() => {
+      window.dispatchEvent(
+        new PageTransitionEvent("pageshow", { persisted: true }),
+      );
+    });
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Google로 다시 계속하기" }),
+    );
+    expect(startGoogleLogin).toHaveBeenCalledTimes(2);
+    expect(routerMock.replace).not.toHaveBeenCalled();
+  });
   it("keeps the original destination when retrying a canceled OAuth round trip", async () => {
     const path = "/en/workspace/?projectId=qa&open=file:one";
     rememberOAuthReturnTo(path);

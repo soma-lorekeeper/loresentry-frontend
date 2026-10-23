@@ -77,26 +77,54 @@ export async function withAuthTransition<T>(
   run: () => Promise<T>,
   navigation = false,
 ): Promise<T> {
+  let departed = false;
   const execute = async (drain: boolean) => {
     const token = crypto.randomUUID();
-    publish(`${token}:${navigation ? "navigation" : "pending"}`);
-    // Fallback also waits for response headers; aborting fetch is not sufficient.
-    if (drain) await Promise.allSettled([...active]);
-    try {
-      return await run();
-    } finally {
+    let release!: (value: T) => void;
+    const departure = new Promise<T>((resolve) => {
+      release = resolve;
+    });
+    const leave = () => {
+      departed = true;
+      release(undefined as T);
+    };
+    const restore = (event: PageTransitionEvent) => {
+      if (!event.persisted || !departed) return;
+      window.removeEventListener("pageshow", restore);
+      // A newer login in another tab owns its own marker.
       if (marker().startsWith(token)) publish(`${token}:complete`);
+    };
+    if (navigation) {
+      window.addEventListener("pagehide", leave, { once: true });
+      window.addEventListener("pageshow", restore);
+    }
+    publish(`${token}:${navigation ? "navigation" : "pending"}`);
+    try {
+      // Fallback also waits for response headers; aborting fetch is not sufficient.
+      if (drain) await Promise.allSettled([...active]);
+      return await (navigation ? Promise.race([run(), departure]) : run());
+    } finally {
+      window.removeEventListener("pagehide", leave);
+      if (!departed) {
+        window.removeEventListener("pageshow", restore);
+        if (marker().startsWith(token)) publish(`${token}:complete`);
+      }
     }
   };
+  let result: T;
   if (typeof navigator !== "undefined" && navigator.locks) {
-    return navigator.locks.request(LOCK, { mode: "exclusive" }, () =>
+    result = await navigator.locks.request(LOCK, { mode: "exclusive" }, () =>
       execute(false),
     );
+  } else {
+    const task = fallbackTail.then(
+      () => execute(true),
+      () => execute(true),
+    );
+    fallbackTail = task.catch(() => {});
+    result = await task;
   }
-  const task = fallbackTail.then(
-    () => execute(true),
-    () => execute(true),
-  );
-  fallbackTail = task.catch(() => {});
-  return task;
+  // Release the lock at pagehide, but never resume the caller's post-login routing
+  // when the old document is restored from the browser's back/forward cache.
+  return departed ? new Promise<T>(() => {}) : result;
 }

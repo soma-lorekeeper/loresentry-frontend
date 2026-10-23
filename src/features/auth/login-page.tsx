@@ -3,7 +3,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useRuntimeConfig } from "@/app/providers";
 import { Icon, StatusNotice } from "@/design-system/primitives";
@@ -129,6 +129,21 @@ export function LoginPage() {
   const status = requested;
   const copy = COPY[status];
   const processing = status === "processing";
+  const navigating = useRef(false);
+
+  useEffect(() => {
+    const restore = (event: PageTransitionEvent) => {
+      if (!event.persisted || !navigating.current) return;
+      navigating.current = false;
+      setRequested("canceled");
+      // Let the navigation owner restore its marker before querying the session.
+      queueMicrotask(() => {
+        void queryClient.invalidateQueries({ queryKey: queryKeys.session });
+      });
+    };
+    window.addEventListener("pageshow", restore);
+    return () => window.removeEventListener("pageshow", restore);
+  }, [queryClient]);
 
   useEffect(() => {
     if (loginResult) finishAuthNavigation();
@@ -167,14 +182,17 @@ export function LoginPage() {
   }, [session.data, returnTo, router, holdSession, termsEntry, loginResult]);
 
   const start = async () => {
+    navigating.current = true;
     setRequested("processing");
     try {
       // 실제 로그인은 BFF 로의 페이지 이동이므로 여기서 돌아오지 않는다. mock 은 즉시
       // 돌아오므로 아래 두 줄이 그때의 흐름을 유지한다.
       await services.auth.startGoogleLogin(returnTo ?? "/projects");
+      navigating.current = false;
       await queryClient.invalidateQueries({ queryKey: queryKeys.session });
       router.replace(returnTo ?? "/projects");
     } catch {
+      navigating.current = false;
       setRequested("failed");
     }
   };
