@@ -256,9 +256,8 @@ describe("DocumentView graph refresh lock", () => {
       }),
     });
 
-    const notice = (
-      await screen.findByText("그래프 최신화 결과 확정 전까지 잠김")
-    ).parentElement!;
+    const notice = (await screen.findByText("그래프 최신화가 잠근 문서예요."))
+      .parentElement!;
     expect(
       await within(notice).findByRole("button", { name: "검토하기" }),
     ).toBeInTheDocument();

@@ -51,7 +51,7 @@ describe("file tree locks", () => {
 
     expect(
       await within(tree).findByRole("img", {
-        name: "그래프 최신화로 잠김 · 결과를 확정하면 풀림",
+        name: "그래프 최신화로 잠김",
       }),
     ).toBeInTheDocument();
     expect(within(tree).getByRole("img", { name: "잠김" })).toBeInTheDocument();

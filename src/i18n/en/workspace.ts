@@ -330,6 +330,4 @@ export default {
   "최신화 시작": "Start refresh",
   "결과를 확정할 때까지 편집할 수 없어요.":
     "They can't be edited until you apply the results.",
-  "그래프 최신화로 잠김 · 결과를 확정하면 풀림":
-    "Locked by graph refresh · unlocks when results are applied",
 } satisfies Messages;

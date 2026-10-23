@@ -589,7 +589,7 @@ export function DocumentView({
               <Icon name="lock" size={15} />
               <span>
                 {reviewReady
-                  ? t("그래프 최신화 결과 확정 전까지 잠김")
+                  ? t("그래프 최신화가 잠근 문서예요.")
                   : t("그래프 최신화 결과 기다리는 중 · 확정 전까지 잠김")}
               </span>
               {reviewReady && (

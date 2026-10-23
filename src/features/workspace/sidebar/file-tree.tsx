@@ -297,13 +297,11 @@ function Row({
 
 /**
  * 잠긴 문서 표시. 검색 결과의 잠김 표시와 같은 12px 자물쇠다. 최신화가 잠근 문서는 사용자가 풀 수
- * 없으므로, 언제 풀리는지 설명(툴팁·스크린 리더 이름)으로 알린다.
+ * 없으므로, 누가 잠갔는지를 설명(툴팁·스크린 리더 이름)으로 구분한다.
  */
 function LockMark({ refreshLocked }: { refreshLocked: boolean }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const label = refreshLocked
-    ? t("그래프 최신화로 잠김 · 결과를 확정하면 풀림")
-    : t("잠김");
+  const label = refreshLocked ? t("그래프 최신화로 잠김") : t("잠김");
   return (
     <>
       <span ref={ref} role="img" aria-label={label} className={styles.lock}>
