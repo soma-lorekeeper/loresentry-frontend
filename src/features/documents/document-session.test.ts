@@ -124,6 +124,37 @@ describe("DocumentSession", () => {
     expect(session.getSnapshot().contentVersion).toBe(version);
   });
 
+  it("keeps a conflict unresolved across background saves and further typing", async () => {
+    const { session } = await hydrated();
+    const original = session.getSnapshot().draft!;
+    const other = await mockDocuments.get(fileId);
+    await mockDocuments.save(fileId, {
+      draft: { ...original, body: bodyFromPlainText("먼저 저장한 다른 탭") },
+      ifMatchRevision: other.revisionNo,
+      saveId: "other-tab",
+    });
+    session.update({ body: bodyFromPlainText("해결하지 않은 내 초안") });
+    await vi.advanceTimersByTimeAsync(SAVE_IDLE_MS);
+    expect(session.getSnapshot().status).toBe("conflict");
+
+    await session.save();
+    await session.dispose();
+    session.update({ body: bodyFromPlainText("계속 쓰고 있는 내 초안") });
+    await vi.advanceTimersByTimeAsync(SAVE_MAX_WAIT_MS);
+    expect(session.getSnapshot().status).toBe("conflict");
+    expect(bodyToPlainText((await mockDocuments.get(fileId)).body)).toBe(
+      "먼저 저장한 다른 탭",
+    );
+    expect(bodyToPlainText(session.getSnapshot().draft!.body)).toBe(
+      "계속 쓰고 있는 내 초안",
+    );
+
+    await session.keepMine();
+    expect(bodyToPlainText((await mockDocuments.get(fileId)).body)).toBe(
+      "계속 쓰고 있는 내 초안",
+    );
+  });
+
   it("ignores updates that change nothing and returns to saved after undoing", async () => {
     const { session } = await hydrated();
     const original = session.getSnapshot().draft!;
@@ -141,6 +172,18 @@ describe("DocumentSession", () => {
     expect(session.getSnapshot()).toMatchObject({ status: "locked" });
     expect(bodyToPlainText(session.getSnapshot().draft!.body)).not.toBe(
       "잠긴 문서",
+    );
+  });
+
+  it("still reports an unsaved draft if another tab locks the document", async () => {
+    const { session } = await hydrated();
+    session.update({ body: bodyFromPlainText("잠금 전에 쓰던 초안") });
+    await mockDocuments.setLocked(fileId, true);
+    await session.save();
+    expect(session.getSnapshot().status).toBe("locked");
+    expect(session.hasUnsavedChanges).toBe(true);
+    expect(bodyToPlainText(session.getSnapshot().draft!.body)).toBe(
+      "잠금 전에 쓰던 초안",
     );
   });
 

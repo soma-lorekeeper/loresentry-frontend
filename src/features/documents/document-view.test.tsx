@@ -6,7 +6,10 @@ import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
 import { renderWithServices, routerMock } from "@/test/render";
 
 import { createLayout } from "../workspace/model/layout";
-import { WorkspaceProvider } from "../workspace/workspace-context";
+import {
+  useWorkspace,
+  WorkspaceProvider,
+} from "../workspace/workspace-context";
 import { DocumentView } from "./document-view";
 
 vi.mock("next/navigation", () => ({
@@ -22,6 +25,19 @@ const user = {
   onboardingCompleted: true,
 };
 
+function OpenMemo() {
+  const { dispatch } = useWorkspace();
+  return (
+    <button
+      onClick={() =>
+        dispatch({ type: "setPanels", panels: { memoOpen: true } })
+      }
+    >
+      메모 패널 열기
+    </button>
+  );
+}
+
 function renderDocument(fileId: string) {
   return renderWithServices(
     <WorkspaceProvider
@@ -29,12 +45,38 @@ function renderDocument(fileId: string) {
       user={user}
       initialLayout={createLayout({ kind: "file", fileId })}
     >
+      <OpenMemo />
       <DocumentView fileId={fileId} paneId="pane-1" active />
     </WorkspaceProvider>,
   );
 }
 
 describe("DocumentView format", () => {
+  it("restores an unsaved memo after explicitly closing and reopening its panel", async () => {
+    const actor = userEvent.setup();
+    renderDocument("glass-garden:ch-12");
+    await screen.findByRole("toolbar", { name: "편집 도구" });
+    await actor.click(screen.getByRole("button", { name: "메모 패널 열기" }));
+    await actor.click(
+      await screen.findByRole("button", { name: /메모 추가$/ }),
+    );
+    await actor.type(
+      await screen.findByRole("textbox", { name: "메모 내용" }),
+      "아직 저장하지 않은 메모",
+    );
+    await actor.click(screen.getByRole("button", { name: "메모 닫기" }));
+    expect(
+      screen.queryByRole("textbox", { name: "메모 내용" }),
+    ).not.toBeInTheDocument();
+    await actor.click(screen.getByRole("button", { name: "메모 패널 열기" }));
+    expect(
+      await screen.findByRole("textbox", { name: "메모 내용" }),
+    ).toHaveValue("아직 저장하지 않은 메모");
+    expect(
+      getDb().memos.some((memo) => memo.body === "아직 저장하지 않은 메모"),
+    ).toBe(false);
+  });
+
   it("changes the font of the open document only", async () => {
     const actor = userEvent.setup();
     renderDocument("glass-garden:ch-12");

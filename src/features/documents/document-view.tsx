@@ -454,8 +454,7 @@ export function DocumentView({
             await doc.session.save();
             // 저장은 실패해도 조용히 끝난다(상태로만 알린다). 서버에 닿지 못한 글이 남았는지를
             // 돌려줘야, 탭을 옮기는 쪽이 그 글을 잃지 않게 멈출 수 있다.
-            const status = doc.session.getSnapshot().status;
-            return status !== "error" && status !== "conflict";
+            return !doc.session.hasUnsavedChanges;
           },
           find: () => setFindOpen(true),
           exportPdf: () => void exportAs("pdf"),
@@ -611,33 +610,31 @@ export function DocumentView({
           </div>
         </div>
         {/*
-          좁아서 접을 때는 떼어 내지 않고 감추기만 한다. 떼어 내면 적던 메모가 사라지는데, 창을
-          나누거나 폭을 줄이는 것만으로도 접히기 때문에 작가는 그 일이 메모를 버린다고 생각하지 못한다.
+          패널 닫기와 공간 부족 접힘 모두 편집 상태를 보존한다. 메모를 버리는 동작은 편집기의 취소다.
         */}
-        {panels.memoOpen && (
-          <MemoPanel
-            hidden={memoCollapsed}
-            projectId={projectId}
-            fileId={fileId}
-            fileTitle={draft.title || t("제목 없음")}
-            docType={docType}
-            dock={panels.memoDock}
-            size={memoSize}
-            onResize={(size) =>
-              dispatch({
-                type: "setPanels",
-                panels:
-                  panels.memoDock === "right"
-                    ? { memoRightWidth: size }
-                    : { memoBelowHeight: size },
-              })
-            }
-            onDock={(memoDock) =>
-              dispatch({ type: "setPanels", panels: { memoDock } })
-            }
-            onClose={closeMemo}
-          />
-        )}
+        <MemoPanel
+          open={panels.memoOpen}
+          hidden={memoCollapsed}
+          projectId={projectId}
+          fileId={fileId}
+          fileTitle={draft.title || t("제목 없음")}
+          docType={docType}
+          dock={panels.memoDock}
+          size={memoSize}
+          onResize={(size) =>
+            dispatch({
+              type: "setPanels",
+              panels:
+                panels.memoDock === "right"
+                  ? { memoRightWidth: size }
+                  : { memoBelowHeight: size },
+            })
+          }
+          onDock={(memoDock) =>
+            dispatch({ type: "setPanels", panels: { memoDock } })
+          }
+          onClose={closeMemo}
+        />
       </div>
       <VersionHistoryModal
         open={versionsOpen}

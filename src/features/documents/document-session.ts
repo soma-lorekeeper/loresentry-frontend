@@ -95,6 +95,10 @@ export class DocumentSession {
     return this.revision;
   }
 
+  get hasUnsavedChanges() {
+    return this.dirty;
+  }
+
   hydrate(content: DocumentContent) {
     if (content.revisionNo < this.revision) return;
     const incoming = toDraft(content);
@@ -131,6 +135,11 @@ export class DocumentSession {
     if (!current || this.snapshot.status === "locked") return;
     const draft = { ...current, ...patch };
     if (sameDraft(draft, current)) return;
+    // 충돌 안내 중에도 계속 쓸 수 있지만, 사용자가 해결 방법을 고르기 전에는 보내지 않는다.
+    if (this.snapshot.status === "conflict") {
+      this.set({ draft });
+      return;
+    }
     if (this.base && sameDraft(draft, this.base) && !this.inFlight) {
       this.clearTimers();
       this.set({ draft, status: "saved" });
@@ -155,6 +164,13 @@ export class DocumentSession {
 
   save(): Promise<void> {
     this.clearTimers();
+    // visibilitychange·unmount·닫기 전 저장도 이 경로를 쓴다. 충돌은 keepMine/takeTheirs로만 푼다.
+    if (
+      this.snapshot.status === "conflict" ||
+      this.snapshot.status === "locked"
+    ) {
+      return Promise.resolve();
+    }
     if (this.inFlight) {
       return this.inFlight.then(() => (this.dirty ? this.save() : undefined));
     }
@@ -240,6 +256,7 @@ export class DocumentSession {
   }
 
   retry() {
+    if (this.snapshot.status === "conflict") return Promise.resolve();
     this.set({ status: "dirty" });
     return this.save();
   }

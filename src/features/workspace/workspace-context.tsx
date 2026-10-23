@@ -238,15 +238,57 @@ export function WorkspaceProvider({
     [],
   );
 
-  const closeTab = useCallback((paneId: string, tabId: string) => {
-    const proceed = () => dispatch({ type: "close", paneId, tabId });
-    const guard = guards.current.get(tabKey(paneId, tabId));
-    if (guard?.(proceed)) {
-      dispatch({ type: "activate", paneId, tabId });
-      return;
-    }
-    proceed();
-  }, []);
+  const closing = useRef(new Set<string>());
+  const closeTab = useCallback(
+    (paneId: string, tabId: string) => {
+      const key = tabKey(paneId, tabId);
+      const proceed = () => {
+        const save = tabActions.current.get(key)?.save;
+        if (!save) {
+          dispatch({ type: "close", paneId, tabId });
+          return;
+        }
+        if (closing.current.has(key)) return;
+        closing.current.add(key);
+        let timeout: number;
+        const saved = Promise.resolve()
+          .then(() => save())
+          .then(
+            (result) => result !== false,
+            () => false,
+          );
+        const waited = new Promise<false>((resolve) => {
+          timeout = window.setTimeout(
+            () => resolve(false),
+            RELOCATE_SAVE_WAIT_MS,
+          );
+        });
+        void Promise.race([saved, waited])
+          .then((safe) => {
+            if (safe) {
+              dispatch({ type: "close", paneId, tabId });
+            } else {
+              toast({
+                icon: "triangle-alert",
+                title: t("쓰던 글이 아직 저장되지 않아 탭을 닫지 않았어요."),
+                description: t("저장된 뒤에 다시 닫아 주세요."),
+              });
+            }
+          })
+          .finally(() => {
+            window.clearTimeout(timeout);
+            closing.current.delete(key);
+          });
+      };
+      const guard = guards.current.get(key);
+      if (guard?.(proceed)) {
+        dispatch({ type: "activate", paneId, tabId });
+        return;
+      }
+      proceed();
+    },
+    [toast],
+  );
 
   const relocate = useCallback(
     (action: RelocateAction) => {

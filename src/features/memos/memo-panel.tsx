@@ -66,6 +66,7 @@ function MemoResizeHandle({
 }
 
 export function MemoPanel({
+  open = true,
   hidden,
   projectId,
   fileId,
@@ -77,6 +78,7 @@ export function MemoPanel({
   onDock,
   onClose,
 }: {
+  open?: boolean;
   /** 자리가 모자라 잠시 접었는가. 감추기만 하므로 적던 메모와 보던 탭이 그대로 남는다 */
   hidden?: boolean;
   projectId: string;
@@ -94,11 +96,16 @@ export function MemoPanel({
   // 추가 단추는 디자인처럼 탭 줄에 있다. 누르면 지금 보는 목록의 맨 위에 적는 칸이 열린다.
   // 메모는 그 칸에서 저장할 때 생긴다(memo-list.tsx).
   const [composing, setComposing] = useState(false);
+  // 처음 열기 전에는 목록을 조회하지 않고, 한 번 연 뒤에는 닫아도 편집 상태를 보존한다.
+  const [hasOpened, setHasOpened] = useState(open);
+  if (open && !hasOpened) setHasOpened(true);
   const typeLabel = DOCUMENT_TYPE_META[docType].label;
+
+  if (!hasOpened) return null;
 
   return (
     <aside
-      hidden={hidden}
+      hidden={!open || hidden}
       className={cx(styles.panel, dock === "below" && styles.below)}
       style={dock === "right" ? { width: size } : { height: size }}
       aria-label={t("작업공간::메모")}

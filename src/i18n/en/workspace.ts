@@ -56,6 +56,9 @@ export default {
   "쓰던 글이 아직 저장되지 않아 탭을 옮기지 않았어요.":
     "The tab wasn't moved because your writing isn't saved yet.",
   "저장된 뒤에 다시 옮겨 주세요.": "Move it again once it's saved.",
+  "쓰던 글이 아직 저장되지 않아 탭을 닫지 않았어요.":
+    "The tab stayed open because your writing hasn't been saved yet.",
+  "저장된 뒤에 다시 닫아 주세요.": "Close it again once it's saved.",
   "키보드 단축키": "Keyboard shortcuts",
   "단축키::지금 저장": "Save now",
   "단축키::문서에서 찾기": "Find in document",

@@ -96,15 +96,34 @@ export function blockToPlainText(node: JSONContent): string {
   return children.map(blockToPlainText).join(nested ? "\n" : "");
 }
 
-/**
- * 같은 본문인가. 저장할 것이 있는지 판단한다.
- *
- * <p>직렬화 비교다. 키 순서가 다르면 다른 것으로 보지만, 같은 에디터가 만든 값끼리는 순서가 같다.
- */
+/** 서버가 JSON 객체의 키 순서를 바꿔도 같은 내용이다. 배열의 순서는 보존한다. */
+function sameValue(a: unknown, b: unknown): boolean {
+  if (a === b) return true;
+  if (!a || !b || typeof a !== "object" || typeof b !== "object") return false;
+  if (Array.isArray(a)) {
+    return (
+      Array.isArray(b) &&
+      a.length === b.length &&
+      a.every((item, i) => sameValue(item, b[i]))
+    );
+  }
+  if (Array.isArray(b)) return false;
+  const left = a as Record<string, unknown>;
+  const right = b as Record<string, unknown>;
+  const keys = Object.keys(left);
+  return (
+    keys.length === Object.keys(right).length &&
+    keys.every(
+      (key) => Object.hasOwn(right, key) && sameValue(left[key], right[key]),
+    )
+  );
+}
+
+/** 같은 본문인가. 저장할 것이 있는지 판단한다. */
 export function sameBody(a: DocumentBody, b: DocumentBody): boolean {
-  return JSON.stringify(a.doc) === JSON.stringify(b.doc);
+  return sameValue(a.doc, b.doc);
 }
 
 export function sameBlock(a: JSONContent, b: JSONContent): boolean {
-  return JSON.stringify(a) === JSON.stringify(b);
+  return sameValue(a, b);
 }
