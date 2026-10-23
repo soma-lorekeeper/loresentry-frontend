@@ -41,6 +41,17 @@ export function useRefreshActions(projectId: string) {
         await invalidateProjectContent(queryClient, projectId);
         await queryClient.invalidateQueries({ queryKey: ["document"] });
       },
+      onError: async () => {
+        // An apply can fail after saving some documents. Reload its checkpoint
+        // and the changed content before offering a retry.
+        await Promise.all([
+          queryClient.invalidateQueries({
+            queryKey: queryKeys.refresh(projectId),
+          }),
+          invalidateProjectContent(queryClient, projectId),
+          queryClient.invalidateQueries({ queryKey: ["document"] }),
+        ]);
+      },
     }),
     discard: useMutation({
       mutationFn: (runId: string) => services.refresh.discard(projectId, runId),

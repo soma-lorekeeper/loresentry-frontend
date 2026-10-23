@@ -119,23 +119,24 @@ export function RefreshReview({
         >
           {t("반영 확정")}
         </Button>
-        <Button size="sm" onClick={() => adoptAll("left")}>
+        <Button size="sm" disabled={applying} onClick={() => adoptAll("left")}>
           {t("현재 버전 전체 반영")}
         </Button>
-        <Button size="sm" onClick={() => adoptAll("right")}>
+        <Button size="sm" disabled={applying} onClick={() => adoptAll("right")}>
           {t("신규 버전 전체 반영")}
         </Button>
-        <Button size="sm" onClick={() => onChange(start)}>
+        <Button size="sm" disabled={applying} onClick={() => onChange(start)}>
           {t("변경 사항::되돌리기")}
         </Button>
         <IconButton
           icon="x"
           iconSize={16}
           label={t("변경 사항 닫기")}
+          disabled={applying}
           onClick={onClose}
         />
       </header>
-      <div className={styles.layout}>
+      <div className={styles.layout} inert={applying}>
         <nav
           className={styles.list}
           aria-label={t("달라진 문서")}

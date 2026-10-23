@@ -27,6 +27,7 @@ export const EXTRACTION_MS = 3500;
 
 interface StoredRun extends RefreshRun {
   readyAt: number | null;
+  done?: string[];
 }
 
 function idle(projectId: string): StoredRun {
@@ -196,9 +197,12 @@ function currentRun(projectId: string): StoredRun {
 }
 
 function publicRun(run: StoredRun): RefreshRun {
-  const { readyAt, ...rest } = run;
+  const { readyAt, done = [], ...rest } = run;
   void readyAt;
-  return rest;
+  return {
+    ...rest,
+    proposals: rest.proposals.filter((p) => !done.includes(p.id)),
+  };
 }
 
 export const mockRefresh: RefreshService = {
@@ -250,11 +254,13 @@ export const mockRefresh: RefreshService = {
     simulate(
       "refresh.apply",
       async () => {
-        const run = currentRun(projectId);
+        let run = currentRun(projectId);
         if (run.id !== runId || run.status !== "READY") {
           throw new ServiceError("validation", t("반영할 변경 사항이 없어요."));
         }
-        for (const proposal of run.proposals) {
+        const done = new Set(run.done ?? []);
+        const pending = run.proposals.filter((p) => !done.has(p.id));
+        for (const proposal of pending) {
           if (!(proposal.id in resolved)) {
             throw new ServiceError(
               "validation",
@@ -263,8 +269,14 @@ export const mockRefresh: RefreshService = {
           }
         }
         // 서버 가정(TABLE_AND_LOGIC §7.6): 추출 뒤 실제 문서가 또 바뀌었으면 덮어쓰지 않는다(STALE).
-        for (const proposal of run.proposals) {
+        for (const proposal of pending) {
           if (proposal.kind !== "modified" || proposal.baseRevisionNo === null)
+            continue;
+          if (
+            !resolved[proposal.id] ||
+            JSON.stringify(resolved[proposal.id]) ===
+              JSON.stringify(proposal.current)
+          )
             continue;
           const node = getDb().files.find((f) => f.id === proposal.fileId);
           if (
@@ -281,7 +293,7 @@ export const mockRefresh: RefreshService = {
             );
           }
         }
-        for (const proposal of run.proposals) {
+        for (const proposal of pending) {
           const final = resolved[proposal.id];
           if (proposal.kind === "added") {
             if (!final) continue;
@@ -295,8 +307,11 @@ export const mockRefresh: RefreshService = {
             });
             writeDocument(created.id, final);
           } else if (proposal.kind === "removed") {
-            if (!final) await mockFiles.moveToTrash(proposal.fileId);
+            if (final) continue;
+            await mockFiles.moveToTrash(proposal.fileId);
           } else if (final) {
+            if (JSON.stringify(final) === JSON.stringify(proposal.current))
+              continue;
             writeDocument(proposal.fileId, final);
             getDb().versions.push({
               id: nextId("ver"),
@@ -306,7 +321,11 @@ export const mockRefresh: RefreshService = {
               createdAt: new Date().toISOString(),
               snapshot: { ...final, docType: proposal.docType },
             });
-          }
+          } else continue;
+          done.add(proposal.id);
+          run = { ...run, partiallyApplied: true, done: [...done] };
+          getDb().refreshRuns[projectId] = run;
+          persistDb();
         }
         const db = getDb();
         db.refreshRuns[projectId] = {

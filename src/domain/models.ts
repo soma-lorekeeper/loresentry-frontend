@@ -312,6 +312,8 @@ export interface RefreshRun {
   sourceFileIds: string[];
   proposals: RefreshProposal[];
   preview?: boolean;
+  /** A previous apply saved documents; proposals contains only unfinished work. */
+  partiallyApplied?: boolean;
 }
 
 export type ExportFormat = "pdf" | "docx" | "md" | "txt" | "hwp";

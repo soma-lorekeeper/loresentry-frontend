@@ -1,4 +1,5 @@
 import type { DocumentType } from "@/domain/document-types";
+import { emptyBody } from "@/domain/document-body";
 import type {
   DocumentContent,
   DocumentDraft,
@@ -30,6 +31,14 @@ interface StoredRun {
   run: RefreshRun;
   readyAt: number | null;
   done: string[];
+}
+
+function publicRun({ run, done }: StoredRun): RefreshRun {
+  return {
+    ...run,
+    ...(done.length > 0 ? { partiallyApplied: true } : {}),
+    proposals: run.proposals.filter((p) => !done.includes(p.id)),
+  };
 }
 
 export interface RunStore {
@@ -198,7 +207,7 @@ export function createApiRefresh({
     const stored = store.read(projectId);
     if (!stored) return idle(projectId);
     const { run, readyAt } = stored;
-    if (run.status !== "RUNNING") return run;
+    if (run.status !== "RUNNING") return publicRun(stored);
     const pending = generation(run);
     if (readyAt !== null && now() < readyAt) return run;
 
@@ -243,21 +252,42 @@ export function createApiRefresh({
 
     apply: async (projectId, runId, resolved) => {
       const stored = store.read(projectId);
-      const run = stored?.run;
-      if (!stored || !run || run.id !== runId || run.status !== "READY") {
+      const initial = stored?.run;
+      if (
+        !stored ||
+        !initial ||
+        initial.id !== runId ||
+        initial.status !== "READY"
+      ) {
         throw new ServiceError("validation", t("반영할 변경 사항이 없어요."));
       }
-      if (run.proposals.some((proposal) => !(proposal.id in resolved))) {
+      let run = initial;
+      const done = new Set(stored.done);
+      const pending = run.proposals.filter((p) => !done.has(p.id));
+      if (pending.some((proposal) => !(proposal.id in resolved))) {
         throw new ServiceError(
           "validation",
           t("아직 결정하지 않은 변경이 있어요."),
         );
       }
 
-      const done = new Set(stored.done);
       const remember = () =>
-        store.write(projectId, { ...stored, done: [...done] });
-      const pending = run.proposals.filter((p) => !done.has(p.id));
+        store.write(projectId, { ...stored, run, done: [...done] });
+      const finish = (
+        proposal: RefreshProposal,
+        final: DocumentDraft | null,
+      ) => {
+        // Keep the actual accepted draft for relation pairing on a resumed apply.
+        run = {
+          ...run,
+          partiallyApplied: true,
+          proposals: run.proposals.map((p) =>
+            p.id === proposal.id ? { ...p, proposed: final } : p,
+          ),
+        };
+        done.add(proposal.id);
+        remember();
+      };
       const modified = pending.filter(
         (proposal) =>
           proposal.kind === "modified" &&
@@ -291,6 +321,11 @@ export function createApiRefresh({
         }
       };
 
+      for (const proposal of run.proposals) {
+        if (done.has(proposal.id) && proposal.proposed)
+          record(proposal, proposal.proposed);
+      }
+
       for (const proposal of modified) {
         const final = dropPairs(
           keepPairs(
@@ -312,8 +347,7 @@ export function createApiRefresh({
           throw cause;
         }
         record(proposal, final);
-        done.add(proposal.id);
-        remember();
+        finish(proposal, final);
       }
 
       for (const proposal of pending) {
@@ -327,6 +361,29 @@ export function createApiRefresh({
             docType: proposal.docType,
           });
           if (created.kind === "document") {
+            // POST succeeded even if the following PUT fails. Persist its real
+            // identity before another request so retry/reload cannot create it twice.
+            run = {
+              ...run,
+              partiallyApplied: true,
+              proposals: run.proposals.map((p) =>
+                p.id === proposal.id
+                  ? {
+                      ...p,
+                      kind: "modified",
+                      fileId: created.id,
+                      baseRevisionNo: created.revisionNo,
+                      current: {
+                        title: created.title,
+                        body: emptyBody(),
+                        properties: [],
+                      },
+                      proposed: final,
+                    }
+                  : p,
+              ),
+            };
+            remember();
             await documents.save(created.id, {
               draft: final,
               ifMatchRevision: created.revisionNo,
@@ -338,8 +395,7 @@ export function createApiRefresh({
         } else {
           continue;
         }
-        done.add(proposal.id);
-        remember();
+        finish(proposal, final);
       }
 
       const applied: RefreshRun = { ...run, status: "APPLIED", proposals: [] };

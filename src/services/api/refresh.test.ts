@@ -205,48 +205,69 @@ describe("graph refresh preview", () => {
     ]);
   });
 
-  it("does not let a later save undo a link an earlier one made", async () => {
-    const saved: Record<string, DocumentDraft> = {};
-    const refresh = refreshWith({
-      get: mockDocuments.get,
-      save: async (fileId, input) => {
-        saved[fileId] = input.draft;
-        return mockDocuments.save(fileId, input);
-      },
-    });
-    const harinId = `${GLASS_GARDEN_ID}:c-harin`;
-    const lensId = `${GLASS_GARDEN_ID}:i-lens`;
-    const harin = readDocument(harinId);
-    const lens = readDocument(lensId);
-    const run = readyRun([
-      modified(harinId, {
-        ...harin,
-        properties: [
-          ...harin.properties.filter((p) => p.key !== "related_item"),
-          {
-            id: "relation:related_item",
-            kind: "relation",
-            key: "related_item",
-            label: "관련 아이템",
-            targetType: "item",
-            targetIds: [lensId],
-            descriptions: { [lensId]: "렌즈를 쥐었다." },
-          },
-        ],
-      }),
-      modified(lensId, { ...lens, body: bodyFromPlainText("금이 갔다.") }),
-    ]);
+  it.each([false, true])(
+    "preserves relation pairs across saves (resumed: %s)",
+    async (resumed) => {
+      const saved: Record<string, DocumentDraft> = {};
+      let failed = false;
+      let saves = 0;
+      const refresh = refreshWith({
+        get: mockDocuments.get,
+        save: async (fileId, input) => {
+          saves += 1;
+          if (resumed && saves === 2 && !failed) {
+            failed = true;
+            throw new Error("offline");
+          }
+          saved[fileId] = input.draft;
+          return mockDocuments.save(fileId, input);
+        },
+      });
+      const harinId = `${GLASS_GARDEN_ID}:c-harin`;
+      const lensId = `${GLASS_GARDEN_ID}:i-lens`;
+      const harin = readDocument(harinId);
+      const lens = readDocument(lensId);
+      const run = readyRun([
+        modified(harinId, {
+          ...harin,
+          properties: [
+            ...harin.properties.filter((p) => p.key !== "related_item"),
+            {
+              id: "relation:related_item",
+              kind: "relation",
+              key: "related_item",
+              label: "관련 아이템",
+              targetType: "item",
+              targetIds: [lensId],
+              descriptions: { [lensId]: "렌즈를 쥐었다." },
+            },
+          ],
+        }),
+        modified(lensId, { ...lens, body: bodyFromPlainText("금이 갔다.") }),
+      ]);
 
-    await refresh.apply(GLASS_GARDEN_ID, run.id, acceptAll(run));
+      if (resumed) {
+        await expect(
+          refresh.apply(GLASS_GARDEN_ID, run.id, acceptAll(run)),
+        ).rejects.toThrow("offline");
+        const remaining = await refresh.current(GLASS_GARDEN_ID);
+        expect(remaining.proposals).toHaveLength(1);
+        await refresh.apply(GLASS_GARDEN_ID, run.id, acceptAll(remaining));
+      } else {
+        await refresh.apply(GLASS_GARDEN_ID, run.id, acceptAll(run));
+      }
 
-    expect(saved[lensId].properties).toContainEqual(
-      expect.objectContaining({
-        key: "related_character",
-        targetIds: expect.arrayContaining([harinId]),
-        descriptions: expect.objectContaining({ [harinId]: "렌즈를 쥐었다." }),
-      }),
-    );
-  });
+      expect(saved[lensId].properties).toContainEqual(
+        expect.objectContaining({
+          key: "related_character",
+          targetIds: expect.arrayContaining([harinId]),
+          descriptions: expect.objectContaining({
+            [harinId]: "렌즈를 쥐었다.",
+          }),
+        }),
+      );
+    },
+  );
 
   it("creates an accepted new document under the folder it was proposed for", async () => {
     const refresh = refreshWith(mockDocuments);
@@ -280,6 +301,100 @@ describe("graph refresh preview", () => {
     expect(created).toMatchObject({ parentId: folder.id, docType: "event" });
     expect(bodyToPlainText(readDocument(created.id).body)).toBe("문이 열렸다.");
   });
+
+  it.each([false, true])(
+    "resumes a created document after a failed body save (edited meanwhile: %s)",
+    async (editedMeanwhile) => {
+      const create = vi.fn(mockFiles.create);
+      const save = vi
+        .fn(mockDocuments.save)
+        .mockRejectedValueOnce(new Error("offline"));
+      const dependencies = {
+        files: { ...mockFiles, create },
+        documents: { get: mockDocuments.get, save },
+        versions: mockVersions,
+        store,
+      };
+      const refresh = createApiRefresh(dependencies);
+      const folder = getDb().files.find(
+        (node) => node.kind === "folder" && node.category === "event",
+      )!;
+      const draft: DocumentDraft = {
+        title: "재시도할 사건",
+        body: bodyFromPlainText("원래 제안"),
+        properties: [],
+      };
+      const approved = {
+        ...draft,
+        body: bodyFromPlainText("검토하면서 고친 본문"),
+      };
+      const run = readyRun([
+        {
+          id: "new-event",
+          kind: "added",
+          fileId: `new:${folder.id}:retry`,
+          title: draft.title,
+          docType: "event",
+          baseRevisionNo: null,
+          current: null,
+          proposed: draft,
+        },
+      ]);
+
+      await expect(
+        refresh.apply(GLASS_GARDEN_ID, run.id, { "new-event": approved }),
+      ).rejects.toThrow("offline");
+      // A new service instance reads the checkpoint just as a reloaded page does.
+      const resumed = createApiRefresh(dependencies);
+      const pending = await resumed.current(GLASS_GARDEN_ID);
+      const created = getDb().files.find((node) => node.title === draft.title)!;
+      const createdRevision = readDocument(created.id).revisionNo;
+      expect(pending).toMatchObject({
+        status: "READY",
+        partiallyApplied: true,
+      });
+      expect(pending.proposals).toEqual([
+        expect.objectContaining({
+          id: "new-event",
+          kind: "modified",
+          fileId: created.id,
+          baseRevisionNo: createdRevision,
+          proposed: approved,
+        }),
+      ]);
+      if (editedMeanwhile) {
+        await mockDocuments.save(created.id, {
+          draft: {
+            ...approved,
+            body: bodyFromPlainText("내가 나중에 쓴 본문"),
+          },
+          ifMatchRevision: createdRevision,
+          saveId: "manual-edit",
+        });
+        await expect(
+          resumed.apply(GLASS_GARDEN_ID, run.id, acceptAll(pending)),
+        ).rejects.toMatchObject({ code: "validation" });
+        expect(bodyToPlainText(readDocument(created.id).body)).toBe(
+          "내가 나중에 쓴 본문",
+        );
+        await resumed.discard(GLASS_GARDEN_ID, run.id);
+        expect((await resumed.current(GLASS_GARDEN_ID)).status).toBe("IDLE");
+      } else {
+        expect(
+          (await resumed.apply(GLASS_GARDEN_ID, run.id, acceptAll(pending)))
+            .status,
+        ).toBe("APPLIED");
+        expect(bodyToPlainText(readDocument(created.id).body)).toBe(
+          "검토하면서 고친 본문",
+        );
+        expect(readDocument(created.id).revisionNo).toBe(createdRevision + 1);
+      }
+      expect(create).toHaveBeenCalledTimes(1);
+      expect(
+        getDb().files.filter((node) => node.title === draft.title),
+      ).toHaveLength(1);
+    },
+  );
 
   it("asks for every proposal to be decided and forgets a discarded run", async () => {
     const { refresh, run } = await ready();

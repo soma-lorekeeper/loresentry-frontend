@@ -216,6 +216,15 @@ export default {
   "신규 버전 반영": "Use proposed",
   "변경 사항을 반영하지 못했어요.": "Couldn't apply the changes.",
   "고른 내용은 그대로 남아 있어요.": "Your choices are still here.",
+  "결과를 확인 처리하지 못했어요. 잠시 후 다시 시도해 주세요.":
+    "Couldn't mark this result as reviewed. Please try again shortly.",
+  "일부 문서는 이미 저장됐어요. 남은 변경 사항만 다시 반영할 수 있어요.":
+    "Some documents have already been saved. You can retry the remaining changes.",
+  "남은 변경 사항을 버리면 새로 최신화할 수 있어요. 이미 저장된 문서는 유지돼요.":
+    "Discard the remaining changes to start a new refresh. Documents already saved will be kept.",
+  "남은 변경 사항 버리기": "Discard remaining changes",
+  "변경 사항을 버리지 못했어요. 잠시 후 다시 시도해 주세요.":
+    "Couldn't discard the changes. Please try again shortly.",
 
   "(에피소드 없음)": "(No episode)",
   "{number}화": "Ch. {number}",

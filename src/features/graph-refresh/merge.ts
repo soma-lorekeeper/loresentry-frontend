@@ -54,6 +54,29 @@ export function initMerge(inputs: readonly MergeInput[]): MergeState {
   return { left, right };
 }
 
+/** Preserve review choices when completed proposals disappear or a created file gets its real ID. */
+export function resumeMerge(
+  state: MergeState,
+  previous: readonly (MergeInput & { id: string })[],
+  next: readonly (MergeInput & { id: string })[],
+): MergeState {
+  const left = new Map<string, DocumentDraft>();
+  const right = new Map<string, DocumentDraft>();
+  for (const proposal of next) {
+    const before = previous.find((p) => p.id === proposal.id);
+    if (before) {
+      const l = state.left.get(before.fileId);
+      const r = state.right.get(before.fileId);
+      if (l) left.set(proposal.fileId, l);
+      if (r) right.set(proposal.fileId, r);
+    } else {
+      if (proposal.current) left.set(proposal.fileId, proposal.current);
+      if (proposal.proposed) right.set(proposal.fileId, proposal.proposed);
+    }
+  }
+  return { left, right };
+}
+
 /** 미는 방향에서 가져올 쪽과 받을 쪽 */
 function ends(direction: Direction): { from: SideName; to: SideName } {
   return direction === ">>"

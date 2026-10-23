@@ -16,6 +16,7 @@ import { createLayout } from "@/features/workspace/model/layout";
 import { WorkspaceProvider } from "@/features/workspace/workspace-context";
 
 import { GraphDiffModal } from "./graph-diff-modal";
+import { useRefreshRun } from "./queries";
 import { bodyFromPlainText } from "@/domain/document-body";
 
 vi.mock("next/navigation", () => ({
@@ -266,5 +267,136 @@ describe("GraphDiffModal", () => {
     await actor.click(within(dialog).getByRole("button", { name: "확인" }));
     await waitFor(() => expect(onClose).toHaveBeenCalled());
     expect(discard).toHaveBeenCalledWith(GLASS_GARDEN_ID, "run-empty");
+  });
+
+  it("keeps an empty result open after failed confirmation and lets the user retry", async () => {
+    let reject!: (reason: Error) => void;
+    const discard = vi
+      .fn()
+      .mockImplementationOnce(
+        () =>
+          new Promise((_, fail) => {
+            reject = fail;
+          }),
+      )
+      .mockResolvedValue({
+        id: "idle",
+        projectId: GLASS_GARDEN_ID,
+        status: "IDLE",
+        proposals: [],
+      });
+    const onClose = vi.fn();
+    const actor = userEvent.setup();
+    const run: RefreshRun = {
+      id: "empty",
+      projectId: GLASS_GARDEN_ID,
+      status: "READY",
+      startedAt: null,
+      sourceFileIds: [],
+      proposals: [],
+    };
+    renderWithServices(
+      <WorkspaceProvider
+        project={getDb().projects.find((p) => p.id === GLASS_GARDEN_ID)!}
+        user={user}
+        initialLayout={createLayout()}
+      >
+        <GraphDiffModal run={run} open onClose={onClose} />
+      </WorkspaceProvider>,
+      { refresh: { discard } },
+    );
+    const dialog = await screen.findByRole("dialog");
+    const confirm = within(dialog).getByRole("button", { name: "확인" });
+    await actor.click(confirm);
+    await waitFor(() => expect(confirm).toBeDisabled());
+    await actor.keyboard("{Escape}");
+    expect(onClose).not.toHaveBeenCalled();
+    reject(new Error("offline"));
+    await within(dialog).findByText(/결과를 확인 처리하지 못했어요/);
+    expect(onClose).not.toHaveBeenCalled();
+    await actor.click(confirm);
+    await waitFor(() => expect(onClose).toHaveBeenCalledTimes(1));
+    expect(discard).toHaveBeenCalledTimes(2);
+  });
+
+  it("refreshes unfinished proposals after partial failure while keeping the reviewed draft", async () => {
+    const actor = userEvent.setup();
+    const draft = {
+      title: "새 사건",
+      body: bodyFromPlainText("내가 검토한 글"),
+      properties: [],
+    };
+    let run: RefreshRun = {
+      id: "partial",
+      projectId: GLASS_GARDEN_ID,
+      status: "READY",
+      startedAt: null,
+      sourceFileIds: [],
+      proposals: [
+        {
+          id: "new",
+          fileId: "new:events:1",
+          kind: "added",
+          title: draft.title,
+          docType: "event",
+          baseRevisionNo: null,
+          current: null,
+          proposed: draft,
+        },
+      ],
+    };
+    const apply = vi
+      .fn()
+      .mockImplementationOnce(async () => {
+        run = {
+          ...run,
+          partiallyApplied: true,
+          proposals: [
+            {
+              ...run.proposals[0],
+              kind: "modified",
+              fileId: "created-event",
+              baseRevisionNo: 0,
+              current: { ...draft, body: bodyFromPlainText("") },
+            },
+          ],
+        };
+        throw new Error("offline");
+      })
+      .mockResolvedValue({ ...run, status: "APPLIED", proposals: [] });
+    const current = vi.fn(async () => run);
+    const onClose = vi.fn();
+    function Review() {
+      const query = useRefreshRun(GLASS_GARDEN_ID);
+      return query.data ? (
+        <GraphDiffModal run={query.data} open onClose={onClose} />
+      ) : null;
+    }
+    renderWithServices(
+      <WorkspaceProvider
+        project={getDb().projects.find((p) => p.id === GLASS_GARDEN_ID)!}
+        user={user}
+        initialLayout={createLayout()}
+      >
+        <Review />
+      </WorkspaceProvider>,
+      { refresh: { current, apply } },
+    );
+    const dialog = await screen.findByRole("dialog");
+    await actor.click(
+      within(dialog).getByRole("button", { name: "신규 버전 전체 반영" }),
+    );
+    await actor.click(
+      within(dialog).getByRole("button", { name: "반영 확정" }),
+    );
+    await within(dialog).findByText(/일부 문서는 이미 저장됐어요/);
+    expect(onClose).not.toHaveBeenCalled();
+    await actor.click(
+      within(dialog).getByRole("button", { name: "반영 확정" }),
+    );
+    await waitFor(() => expect(onClose).toHaveBeenCalledTimes(1));
+    expect(apply).toHaveBeenLastCalledWith(GLASS_GARDEN_ID, "partial", {
+      new: draft,
+    });
   });
 });

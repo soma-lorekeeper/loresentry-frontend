@@ -350,6 +350,47 @@ describe("mock search and graph", () => {
 });
 
 describe("mock graph refresh", () => {
+  it("resumes only unfinished proposals after a partial failure", async () => {
+    await services.refresh.start(GLASS_GARDEN_ID);
+    (
+      getDb().refreshRuns[GLASS_GARDEN_ID] as unknown as { readyAt: number }
+    ).readyAt = 0;
+    const run = await services.refresh.current(GLASS_GARDEN_ID);
+    const first = run.proposals[0];
+    const originalRevision = (await services.documents.get(first.fileId))
+      .revisionNo;
+    const accepted = Object.fromEntries(
+      run.proposals.map((p) => [p.id, p.proposed]),
+    );
+    setMockRule("files.create", "once");
+
+    await expect(
+      services.refresh.apply(GLASS_GARDEN_ID, run.id, accepted),
+    ).rejects.toThrow();
+    const pending = await services.refresh.current(GLASS_GARDEN_ID);
+    expect(pending).toMatchObject({ status: "READY", partiallyApplied: true });
+    expect(pending.proposals.map((p) => p.id)).toEqual(
+      run.proposals.slice(1).map((p) => p.id),
+    );
+    const applied = await createMockServices().refresh.apply(
+      GLASS_GARDEN_ID,
+      run.id,
+      Object.fromEntries(pending.proposals.map((p) => [p.id, p.proposed])),
+    );
+    expect(applied.status).toBe("APPLIED");
+    expect((await services.documents.get(first.fileId)).revisionNo).toBe(
+      originalRevision + 1,
+    );
+    expect(
+      getDb().versions.filter(
+        (v) => v.fileId === first.fileId && v.kind === "AI_APPLY",
+      ),
+    ).toHaveLength(1);
+    expect(
+      getDb().files.filter((node) => node.title === run.proposals[1].title),
+    ).toHaveLength(1);
+  });
+
   it("refuses a second run while extracting and becomes ready later", async () => {
     const run = await services.refresh.start(GLASS_GARDEN_ID);
     expect(run.status).toBe("RUNNING");
