@@ -53,6 +53,13 @@
   white-space: nowrap;
 }
 
+/* 잠긴 문서의 자물쇠. 제목 뒤에 작게, 종류 색이 아닌 보조 글자색으로 선다 */
+.lock {
+  display: inline-flex;
+  flex: none;
+  color: var(--lk-color-text-secondary);
+}
+
 .row[data-drop-target="true"] {
   background: var(--lk-color-state-selected);
   box-shadow: inset 0 0 0 1px var(--lk-color-accent-primary);

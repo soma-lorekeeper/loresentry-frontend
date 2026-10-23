@@ -12,6 +12,7 @@ import {
 import {
   Icon,
   Menu,
+  Tooltip,
   type IconName,
   type MenuEntry,
 } from "@/design-system/primitives";
@@ -258,6 +259,9 @@ function Row({
     >
       <Icon name={nodeIcon(item.node, open)} size={15} />
       <span className={styles.label}>{item.node.title}</span>
+      {isDocument(item.node) && item.node.locked && (
+        <LockMark refreshLocked={item.node.refreshLocked} />
+      )}
       <button
         ref={moreRef}
         type="button"
@@ -288,6 +292,25 @@ function Row({
         />
       )}
     </div>
+  );
+}
+
+/**
+ * 잠긴 문서 표시. 검색 결과의 잠김 표시와 같은 12px 자물쇠다. 최신화가 잠근 문서는 사용자가 풀 수
+ * 없으므로, 언제 풀리는지 설명(툴팁·스크린 리더 이름)으로 알린다.
+ */
+function LockMark({ refreshLocked }: { refreshLocked: boolean }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const label = refreshLocked
+    ? t("그래프 최신화로 잠김 · 결과를 확정하면 풀림")
+    : t("잠김");
+  return (
+    <>
+      <span ref={ref} role="img" aria-label={label} className={styles.lock}>
+        <Icon name="lock" size={12} />
+      </span>
+      <Tooltip anchorRef={ref} label={label} />
+    </>
   );
 }
 

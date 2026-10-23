@@ -21,6 +21,8 @@ import {
 } from "@/design-system/primitives";
 import type { DocumentType } from "@/domain/document-types";
 import type { ExportFormat, FolderNode } from "@/domain/models";
+import { useRefreshRun } from "@/features/graph-refresh/queries";
+import { requestRefreshReview } from "@/features/graph-refresh/review-request";
 import { MemoPanel } from "@/features/memos/memo-panel";
 import { ReauthNotice } from "@/features/auth/reauth-notice";
 import { VersionHistoryModal } from "@/features/versions/version-history-modal";
@@ -232,6 +234,8 @@ export function DocumentView({
   const move = useMoveFile(projectId);
   const deviceFormat = useDeviceFormat();
   const doc = useDocumentSession(fileId);
+  // 최신화가 잠근 문서의 안내가 "검토하기"를 보일지 정한다(결과를 검토 중일 때만).
+  const refreshRun = useRefreshRun(projectId);
   const format = formatOf(doc.draft?.body.doc, deviceFormat);
   // 웹 글꼴은 처음 고를 때 받는다. 오기 전에는 기기의 비슷한 글꼴로 그린다(editor-fonts.ts).
   const fontStack = useEditorFontStack(format.font);
@@ -324,7 +328,33 @@ export function DocumentView({
     if (editor && !locked) setDocumentFormat(editor, { ...format, ...patch });
   };
 
+  // 결과가 와서 검토할 수 있는가. 그 전에는 기다릴 일, 그 뒤에는 작가가 확정할 일이다.
+  const reviewReady = refreshRun.data?.status === "READY";
+  /**
+   * 최신화가 잠근 문서는 사용자가 풀 수 없다. 잠금은 어느 단계든 "결과를 확정하면" 풀린다 — 결과가
+   * 도착해도(READY) 확정 전까지는 잠겨 있으므로 "끝나면 풀린다"고 말하지 않는다.
+   */
+  const refreshLockNotice = () =>
+    toast({
+      icon: "lock",
+      title: t("그래프 최신화가 잠근 문서예요."),
+      description: reviewReady
+        ? t("검토에서 ‘반영 확정’을 누르면 풀려요.")
+        : t("결과가 오면 검토해 확정할 때 풀려요."),
+      ...(reviewReady && {
+        action: {
+          label: t("검토하기"),
+          icon: "arrow-right" as const,
+          onSelect: requestRefreshReview,
+        },
+      }),
+    });
+
   const toggleLock = async () => {
+    if (content.refreshLocked) {
+      refreshLockNotice();
+      return;
+    }
     setLockPending(true);
     try {
       await doc.session.save();
@@ -345,7 +375,15 @@ export function DocumentView({
               description: t("이제 다시 편집할 수 있어요."),
             },
       );
-    } catch {
+    } catch (error) {
+      // 그 사이에 최신화가 이 문서를 잠갔다. 지금 상태를 다시 읽어 안내와 단추를 맞춘다.
+      if (isServiceError(error) && error.code === "refresh-locked") {
+        refreshLockNotice();
+        void queryClient.invalidateQueries({
+          queryKey: queryKeys.document(fileId),
+        });
+        return;
+      }
       toast({
         icon: "triangle-alert",
         title: t("잠금 상태를 바꾸지 못했어요."),
@@ -531,6 +569,7 @@ export function DocumentView({
               <FileHeader
                 memoOpen={panels.memoOpen}
                 locked={locked}
+                refreshLocked={content.refreshLocked}
                 lockPending={lockPending}
                 exportPending={exportPending}
                 onToggleMemo={() =>
@@ -545,6 +584,25 @@ export function DocumentView({
               />
             }
           />
+          {content.refreshLocked && (
+            <div className={styles.lockedNotice} role="status">
+              <Icon name="lock" size={15} />
+              <span>
+                {reviewReady
+                  ? t("그래프 최신화 결과 확정 전까지 잠김")
+                  : t("그래프 최신화 결과 기다리는 중 · 확정 전까지 잠김")}
+              </span>
+              {reviewReady && (
+                <Button
+                  size="md"
+                  icon="git-compare-arrows"
+                  onClick={requestRefreshReview}
+                >
+                  {t("검토하기")}
+                </Button>
+              )}
+            </div>
+          )}
           {doc.status === "expired" && <ReauthNotice fileId={fileId} unsaved />}
           {memoCollapsed && (
             <div className={styles.collapsedNotice} role="status">

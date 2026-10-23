@@ -6,6 +6,7 @@ import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
 import { renderWithServices, routerMock } from "@/test/render";
 import { setMockLatency, setMockRule } from "@/services/mock/control";
 import { mockDocuments } from "@/services/mock/documents";
+import type { RefreshService } from "@/services/ports";
 
 import { createLayout } from "../workspace/model/layout";
 import {
@@ -183,5 +184,89 @@ describe("DocumentView format", () => {
     expect(getDb().documents["glass-garden:c-lena"].body.doc.attrs).toBe(
       undefined,
     );
+  });
+});
+
+describe("DocumentView graph refresh lock", () => {
+  const LOCKED = "glass-garden:ch-12";
+
+  function renderRefreshLocked(refresh: Partial<RefreshService> = {}) {
+    return renderWithServices(
+      <WorkspaceProvider
+        project={getDb().projects.find((p) => p.id === GLASS_GARDEN_ID)!}
+        user={user}
+        initialLayout={createLayout({ kind: "file", fileId: LOCKED })}
+      >
+        <DocumentView fileId={LOCKED} paneId="pane-1" active />
+      </WorkspaceProvider>,
+      {
+        refresh,
+        // 그래프 최신화가 이 원고를 읽는 중이다.
+        before: () => {
+          const node = getDb().files.find((f) => f.id === LOCKED);
+          if (node?.kind === "document") node.refreshLocked = true;
+        },
+      },
+    );
+  }
+
+  it("explains instead of unlocking a document a refresh holds", async () => {
+    const actor = userEvent.setup();
+    const setLocked = vi.spyOn(mockDocuments, "setLocked");
+    try {
+      renderRefreshLocked();
+
+      expect(
+        await screen.findByText(
+          "그래프 최신화 결과 기다리는 중 · 확정 전까지 잠김",
+        ),
+      ).toBeInTheDocument();
+      await actor.click(
+        screen.getByRole("button", { name: "그래프 최신화로 잠김" }),
+      );
+
+      expect(
+        await screen.findByText("그래프 최신화가 잠근 문서예요."),
+      ).toBeVisible();
+      // 결과가 와도 확정 전까지는 잠겨 있으므로, "끝나면 풀린다"고 말하지 않는다.
+      expect(
+        screen.getByText("결과가 오면 검토해 확정할 때 풀려요."),
+      ).toBeVisible();
+      expect(setLocked).not.toHaveBeenCalled();
+      expect(screen.getByRole("textbox", { name: "제목" })).toHaveAttribute(
+        "readonly",
+      );
+    } finally {
+      setLocked.mockRestore();
+    }
+  });
+
+  it("points to the review while the refresh result waits for it", async () => {
+    const actor = userEvent.setup();
+    renderRefreshLocked({
+      latest: async () => ({
+        id: "run-1",
+        projectId: GLASS_GARDEN_ID,
+        status: "READY",
+        startedAt: null,
+        readyAt: null,
+        completedAt: null,
+        error: null,
+        counts: { total: 1, matched: 0, created: 0 },
+      }),
+    });
+
+    const notice = (
+      await screen.findByText("그래프 최신화 결과 확정 전까지 잠김")
+    ).parentElement!;
+    expect(
+      await within(notice).findByRole("button", { name: "검토하기" }),
+    ).toBeInTheDocument();
+    await actor.click(
+      screen.getByRole("button", { name: "그래프 최신화로 잠김" }),
+    );
+    expect(
+      await screen.findByText("검토에서 ‘반영 확정’을 누르면 풀려요."),
+    ).toBeVisible();
   });
 });
