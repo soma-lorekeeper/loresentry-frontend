@@ -107,7 +107,7 @@ const ALIGN_VIEW: Record<TextAlignment, { label: string; icon: IconName }> = {
 };
 
 /** 입력하는 동안 오가는 상태. 가장 긴 문구만큼 자리를 잡아 도구 줄이 들썩이지 않게 한다. */
-const ROUTINE_STATUSES: Exclude<SaveStatus, "error">[] = [
+const ROUTINE_STATUSES: Exclude<SaveStatus, "error" | "expired">[] = [
   "dirty",
   "saving",
   "saved",
@@ -239,19 +239,21 @@ function SaveState({
   onRetry: () => void;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  if (status === "error") {
+  if (status === "error" || status === "expired") {
     return (
       <span className={styles.saveError} role="alert">
         <Icon name="cloud-off" size={15} />
-        {t("저장하지 못했어요")}
+        {status === "expired"
+          ? t("다시 로그인해 주세요")
+          : t("저장하지 못했어요")}
         <button type="button" className={styles.retry} onClick={onRetry}>
-          {t("다시 시도")}
+          {status === "expired" ? t("다시 저장") : t("다시 시도")}
         </button>
       </span>
     );
   }
   const view: Record<
-    Exclude<SaveStatus, "error">,
+    Exclude<SaveStatus, "error" | "expired">,
     { icon: IconName; label: string }
   > = {
     loading: { icon: "loader-circle", label: t("불러오는 중") },

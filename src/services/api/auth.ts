@@ -1,5 +1,6 @@
 import type { User, WithdrawalSurvey } from "@/domain/models";
 import { isLocale, LOCALE, t } from "@/i18n";
+import { rememberOAuthReturnTo } from "@/features/auth/return-to";
 
 import { ServiceError } from "../errors";
 import type { AccountService, AuthService, TermsView } from "../ports";
@@ -127,7 +128,7 @@ export function createApiAuth(client: ApiClient): AuthService {
      * 사용자는 Google 에 닿지 못한다. mock 은 즉시 돌아오므로 그 흐름은 그대로 둔다.
      */
     startGoogleLogin: (returnTo) => {
-      void returnTo;
+      rememberOAuthReturnTo(returnTo);
       return withAuthTransition(() => {
         // eslint-disable-next-line @next/next/no-location-assign-relative-destination
         window.location.assign(`${client.baseUrl}/auth/oauth/google/prepare`);

@@ -2,7 +2,12 @@
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useSyncExternalStore, type ReactNode } from "react";
+import {
+  Fragment,
+  useEffect,
+  useSyncExternalStore,
+  type ReactNode,
+} from "react";
 
 import {
   authTransitionPending,
@@ -90,17 +95,17 @@ export function SessionGate({
     !onboarding && session.data?.onboardingCompleted === false;
   useAccountLocale(session.data);
   useEffect(() => {
-    if (!signedOut) return;
+    if (!signedOut || transitionPending) return;
     const query = searchParams.toString();
     const returnTo = `${pathname}${query ? `?${query}` : ""}`;
     router.replace(`/login?returnTo=${encodeURIComponent(returnTo)}`);
-  }, [signedOut, pathname, searchParams, router]);
+  }, [signedOut, transitionPending, pathname, searchParams, router]);
 
   useEffect(() => {
-    if (needsOnboarding) router.replace("/welcome/");
-  }, [needsOnboarding, router]);
+    if (needsOnboarding && !transitionPending) router.replace("/welcome/");
+  }, [needsOnboarding, transitionPending, router]);
 
-  if (transitionPending || needsOnboarding) return null;
+  if (needsOnboarding) return null;
   if (session.isError && !session.data)
     return (
       <main>
@@ -118,5 +123,5 @@ export function SessionGate({
       </main>
     );
   if (!session.data) return null;
-  return children(session.data);
+  return <Fragment key={session.data.id}>{children(session.data)}</Fragment>;
 }

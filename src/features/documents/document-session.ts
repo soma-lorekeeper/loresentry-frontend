@@ -11,7 +11,14 @@ export const SAVE_IDLE_MS = 800;
 export const SAVE_MAX_WAIT_MS = 5000;
 
 export type SaveStatus =
-  "loading" | "saved" | "dirty" | "saving" | "error" | "conflict" | "locked";
+  | "loading"
+  | "saved"
+  | "dirty"
+  | "saving"
+  | "error"
+  | "conflict"
+  | "locked"
+  | "expired";
 
 export interface DocumentSessionSnapshot {
   draft: DocumentDraft | null;
@@ -136,7 +143,10 @@ export class DocumentSession {
     const draft = { ...current, ...patch };
     if (sameDraft(draft, current)) return;
     // 충돌 안내 중에도 계속 쓸 수 있지만, 사용자가 해결 방법을 고르기 전에는 보내지 않는다.
-    if (this.snapshot.status === "conflict") {
+    if (
+      this.snapshot.status === "conflict" ||
+      this.snapshot.status === "expired"
+    ) {
       this.set({ draft });
       return;
     }
@@ -167,7 +177,8 @@ export class DocumentSession {
     // visibilitychange·unmount·닫기 전 저장도 이 경로를 쓴다. 충돌은 keepMine/takeTheirs로만 푼다.
     if (
       this.snapshot.status === "conflict" ||
-      this.snapshot.status === "locked"
+      this.snapshot.status === "locked" ||
+      this.snapshot.status === "expired"
     ) {
       return Promise.resolve();
     }
@@ -181,7 +192,7 @@ export class DocumentSession {
       this.inFlight = null;
     });
     return this.inFlight.then(() => {
-      const settled = ["error", "conflict", "locked"].includes(
+      const settled = ["error", "conflict", "locked", "expired"].includes(
         this.snapshot.status,
       );
       return this.dirty && !settled ? this.save() : undefined;
@@ -212,6 +223,11 @@ export class DocumentSession {
       }
       if (isServiceError(error) && error.code === "locked") {
         this.set({ status: "locked" });
+        return;
+      }
+      if (isServiceError(error) && error.requiresLogin) {
+        this.clearTimers();
+        this.set({ status: "expired" });
         return;
       }
       this.set({ status: "error" });
@@ -257,7 +273,7 @@ export class DocumentSession {
 
   retry() {
     if (this.snapshot.status === "conflict") return Promise.resolve();
-    this.set({ status: "dirty" });
+    this.set({ status: this.dirty ? "dirty" : "saved" });
     return this.save();
   }
 

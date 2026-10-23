@@ -22,6 +22,7 @@ import {
 import type { DocumentType } from "@/domain/document-types";
 import type { ExportFormat, FolderNode } from "@/domain/models";
 import { MemoPanel } from "@/features/memos/memo-panel";
+import { ReauthNotice } from "@/features/auth/reauth-notice";
 import { VersionHistoryModal } from "@/features/versions/version-history-modal";
 import { isServiceError } from "@/services/errors";
 import { invalidateProjectContent, queryKeys } from "@/services/query-keys";
@@ -263,17 +264,28 @@ export function DocumentView({
   if (doc.query.isError) {
     const missing =
       isServiceError(doc.query.error) && doc.query.error.code === "not-found";
+    const expired =
+      isServiceError(doc.query.error) && doc.query.error.requiresLogin;
     return (
       <div className={styles.state}>
         <EmptyState
+          role="alert"
           icon={missing ? "file-x" : "cloud-off"}
           title={
-            missing ? t("문서를 찾을 수 없어요") : t("문서를 불러오지 못했어요")
+            expired
+              ? t("다시 로그인해 주세요")
+              : missing
+                ? t("문서를 찾을 수 없어요")
+                : t("문서를 불러오지 못했어요")
           }
           description={
-            missing
-              ? t("휴지통으로 옮겨졌거나 삭제된 문서예요.")
-              : t("잠시 후 다시 시도해 주세요.")
+            expired ? (
+              <ReauthNotice fileId={fileId} />
+            ) : missing ? (
+              t("휴지통으로 옮겨졌거나 삭제된 문서예요.")
+            ) : (
+              t("잠시 후 다시 시도해 주세요.")
+            )
           }
           action={
             missing ? undefined : (
@@ -451,7 +463,12 @@ export function DocumentView({
           save: async (options) => {
             // 보여 주는 것은 여기서 시작하고, 저장은 기다리지 않고 바로 보낸다.
             if (options?.acknowledge) saveEcho.play();
-            await doc.session.save();
+            if (
+              options?.acknowledge &&
+              doc.session.getSnapshot().status === "expired"
+            )
+              await doc.session.retry();
+            else await doc.session.save();
             // 저장은 실패해도 조용히 끝난다(상태로만 알린다). 서버에 닿지 못한 글이 남았는지를
             // 돌려줘야, 탭을 옮기는 쪽이 그 글을 잃지 않게 멈출 수 있다.
             return !doc.session.hasUnsavedChanges;
@@ -508,6 +525,7 @@ export function DocumentView({
               />
             }
           />
+          {doc.status === "expired" && <ReauthNotice fileId={fileId} unsaved />}
           {memoCollapsed && (
             <div className={styles.collapsedNotice} role="status">
               <Icon name="panel-right-close" size={15} />
@@ -642,7 +660,11 @@ export function DocumentView({
         title={draft.title || t("제목 없음")}
         current={{ ...draft, docType }}
         locked={locked}
-        unsaved={doc.status === "error" || doc.status === "conflict"}
+        unsaved={
+          doc.status === "error" ||
+          doc.status === "conflict" ||
+          doc.status === "expired"
+        }
         index={index}
         onClose={() => setVersionsOpen(false)}
         beforeSave={() => doc.session.save()}

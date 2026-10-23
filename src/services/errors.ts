@@ -20,6 +20,7 @@ export class ServiceError extends Error {
     readonly code: ServiceErrorCode,
     message: string,
     readonly operation?: string,
+    readonly requiresLogin = code === "unauthenticated",
   ) {
     super(message);
     this.name = "ServiceError";

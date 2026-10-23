@@ -29,14 +29,15 @@ function publish(value: string) {
 export function authTransitionPending() {
   return marker().endsWith(":pending") || marker().endsWith(":navigation");
 }
-export function subscribeAuthTransition(listener: () => void) {
+export function subscribeAuthTransition(listener: (external: boolean) => void) {
+  const local = () => listener(false);
   const storage = (event: StorageEvent) => {
-    if (event.key === MARKER) listener();
+    if (event.key === MARKER) listener(true);
   };
-  window.addEventListener(EVENT, listener);
+  window.addEventListener(EVENT, local);
   window.addEventListener("storage", storage);
   return () => {
-    window.removeEventListener(EVENT, listener);
+    window.removeEventListener(EVENT, local);
     window.removeEventListener("storage", storage);
   };
 }

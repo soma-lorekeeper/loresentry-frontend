@@ -25,7 +25,12 @@ import { createServices } from "@/services/create-services";
 import { deferServices } from "@/services/deferred-services";
 import { createMockServices } from "@/services/mock";
 import { applyMockParam } from "@/services/mock/control";
-import { subscribeAuthTransition } from "@/services/api/auth-transition";
+import {
+  authTransitionPending,
+  subscribeAuthTransition,
+} from "@/services/api/auth-transition";
+import type { User } from "@/domain/models";
+import { queryKeys } from "@/services/query-keys";
 import { ServicesProvider } from "@/services/services-context";
 
 const RuntimeConfigContext = createContext<RuntimeConfig>(
@@ -70,13 +75,36 @@ export function AppProviders({ children }: { children: ReactNode }) {
   // 화면에 건네는 서비스. mock 에서는 포트와 함수의 이름만 빌리고, 호출은 아래 settle 이 넘긴
   // 서비스로만 간다.
   const [deferred] = useState(() => deferServices(createMockServices()));
-  useEffect(
-    () =>
-      subscribeAuthTransition(() => {
-        queryClient.clear();
-      }),
-    [queryClient],
-  );
+  useEffect(() => {
+    let active = true;
+    const unsubscribe = subscribeAuthTransition((external) => {
+      // Local forms own success navigation. Pending/failed mutations must not
+      // erase their state. Confirm identity after another tab changes the cookie.
+      if (!external || authTransitionPending()) return;
+      const previous = queryClient.getQueryData<User | null>(queryKeys.session);
+      void deferred.services.auth.getSession().then(
+        (next) => {
+          if (!active) return;
+          if (previous?.id !== next?.id) {
+            // Keep the observed session query so its identity change reaches
+            // mounted gates; remove all work belonging to the previous user.
+            queryClient.removeQueries({
+              predicate: (query) =>
+                query.queryKey.length !== queryKeys.session.length ||
+                query.queryKey[0] !== queryKeys.session[0],
+            });
+            queryClient.getMutationCache().clear();
+          }
+          queryClient.setQueryData(queryKeys.session, next);
+        },
+        () => {},
+      );
+    });
+    return () => {
+      active = false;
+      unsubscribe();
+    };
+  }, [queryClient, deferred]);
 
   // effect 가 돈다는 것은 스크립트가 다 와서 화면이 동작하기 시작했다는 뜻이다. 웹 글꼴은 이때부터
   // 받는다. 더 일찍 받으면 글꼴이 스크립트를 앞질러, 버튼이 보이는데 눌리지 않는 시간이 길어진다.

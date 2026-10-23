@@ -7,6 +7,7 @@ import {
 } from "@/services/mock/control";
 import { GLASS_GARDEN_ID, resetDb } from "@/services/mock/db";
 import { mockDocuments } from "@/services/mock/documents";
+import { ServiceError } from "@/services/errors";
 
 import {
   DocumentSession,
@@ -36,6 +37,37 @@ afterEach(() => {
 });
 
 describe("DocumentSession", () => {
+  it("keeps an expired-session draft without background saves until an explicit retry", async () => {
+    const save = vi
+      .fn(mockDocuments.save)
+      .mockRejectedValueOnce(
+        new ServiceError("unauthenticated", "login required"),
+      );
+    const session = new DocumentSession(
+      fileId,
+      { ...mockDocuments, save },
+      vi.fn(),
+    );
+    session.hydrate(await mockDocuments.get(fileId));
+    session.update({ body: bodyFromPlainText("로그인 만료 전 초안") });
+    await session.save();
+    expect(session.getSnapshot().status).toBe("expired");
+    session.update({ body: bodyFromPlainText("로그인 만료 후에도 지킨 초안") });
+    await vi.advanceTimersByTimeAsync(SAVE_MAX_WAIT_MS + SAVE_IDLE_MS);
+    await session.save();
+    await session.dispose();
+    expect(save).toHaveBeenCalledTimes(1);
+    expect(session.hasUnsavedChanges).toBe(true);
+    expect(bodyToPlainText(session.getSnapshot().draft!.body)).toBe(
+      "로그인 만료 후에도 지킨 초안",
+    );
+    await session.retry();
+    expect(save).toHaveBeenCalledTimes(2);
+    expect(session.getSnapshot().status).toBe("saved");
+    expect(bodyToPlainText((await mockDocuments.get(fileId)).body)).toBe(
+      "로그인 만료 후에도 지킨 초안",
+    );
+  });
   it("saves after the idle delay", async () => {
     const { session, saved } = await hydrated();
     session.update({ body: bodyFromPlainText("새 문장") });

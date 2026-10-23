@@ -1,12 +1,21 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
+import { useQueryClient, type QueryClient } from "@tanstack/react-query";
 import userEvent from "@testing-library/user-event";
 import { useEffect, useState } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { mockProjects } from "@/services/mock/projects";
+import { SessionGate } from "@/features/auth/session-gate";
+import { routerMock } from "@/test/render";
 import { useServices } from "@/services/services-context";
 
 import { AppProviders } from "./providers";
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => routerMock,
+  useSearchParams: () => new URLSearchParams(),
+  usePathname: () => "/workspace",
+}));
 
 const BASE = "https://api.test.invalid";
 
@@ -25,6 +34,7 @@ let mockList: ReturnType<typeof vi.spyOn>;
 const toApi = () => requested.filter((url) => url.startsWith(BASE));
 
 beforeEach(() => {
+  window.localStorage.removeItem("ls.auth-transition");
   requested = [];
   window.sessionStorage.clear();
   window.history.replaceState({}, "", "/");
@@ -63,6 +73,151 @@ afterEach(() => {
 });
 
 describe("AppProviders", () => {
+  it.each([false, true])(
+    "confirms another tab's identity before clearing cached work (changed: %s)",
+    async (changed) => {
+      let identity = "user-a";
+      let reads = 0;
+      let client!: QueryClient;
+      vi.stubGlobal("fetch", (url: string) => {
+        const body = String(url).endsWith("/config.json")
+          ? { apiBaseUrl: BASE, dataSource: "api" }
+          : (reads++,
+            {
+              id: identity,
+              display_name: "QA",
+              email: "qa@example.test",
+              onboarding_completed: true,
+              locale: "ko",
+            });
+        return Promise.resolve(
+          new Response(JSON.stringify(body), { status: 200 }),
+        );
+      });
+      function Form() {
+        const currentClient = useQueryClient();
+        useEffect(() => {
+          client = currentClient;
+        }, [currentClient]);
+        return (
+          <SessionGate>
+            {(user) => (
+              <>
+                <p>{user.id}</p>
+                <input aria-label="draft" />
+              </>
+            )}
+          </SessionGate>
+        );
+      }
+      render(
+        <AppProviders>
+          <Form />
+        </AppProviders>,
+      );
+      const input = await screen.findByRole("textbox", { name: "draft" });
+      await userEvent.type(input, "private draft");
+      client.setQueryData(["private-record"], { owner: "user-a" });
+      const external = (phase: string) =>
+        act(() => {
+          window.localStorage.setItem(
+            "ls.auth-transition",
+            `external:${phase}`,
+          );
+          window.dispatchEvent(
+            new StorageEvent("storage", {
+              key: "ls.auth-transition",
+              newValue: `external:${phase}`,
+            }),
+          );
+        });
+      external("pending");
+      expect(input).toHaveValue("private draft");
+      identity = changed ? "user-b" : "user-a";
+      external("complete");
+      await waitFor(() => expect(reads).toBeGreaterThan(1));
+      await waitFor(() =>
+        expect(screen.getByText(identity)).toBeInTheDocument(),
+      );
+      if (changed) {
+        expect(client.getQueryData(["private-record"])).toBeUndefined();
+        expect(screen.getByRole("textbox", { name: "draft" })).toHaveValue("");
+      } else {
+        expect(client.getQueryData(["private-record"])).toEqual({
+          owner: "user-a",
+        });
+        expect(screen.getByRole("textbox", { name: "draft" })).toHaveValue(
+          "private draft",
+        );
+      }
+    },
+  );
+  it("keeps a protected form mounted through a failed API auth transition", async () => {
+    let finish!: (response: Response) => void;
+    const held = new Promise<Response>((resolve) => {
+      finish = resolve;
+    });
+    const response = (body: unknown, status = 200) =>
+      new Response(JSON.stringify(body), {
+        status,
+        headers: { "Content-Type": "application/json" },
+      });
+    vi.stubGlobal("fetch", (url: string) => {
+      if (String(url).endsWith("/config.json"))
+        return Promise.resolve(
+          response({ apiBaseUrl: BASE, dataSource: "api" }),
+        );
+      if (String(url).endsWith("/auth/sessions/revoke")) return held;
+      return Promise.resolve(
+        response({
+          id: "qa-user",
+          display_name: "QA",
+          email: "qa@example.test",
+          onboarding_completed: true,
+          locale: "ko",
+        }),
+      );
+    });
+    function Form() {
+      const services = useServices();
+      const [failed, setFailed] = useState(false);
+      return (
+        <SessionGate>
+          {() => (
+            <>
+              <input aria-label="draft" />
+              <button
+                onClick={() =>
+                  void services.auth.logout().catch(() => setFailed(true))
+                }
+              >
+                logout
+              </button>
+              {failed && <p>logout failed</p>}
+            </>
+          )}
+        </SessionGate>
+      );
+    }
+    render(
+      <AppProviders>
+        <Form />
+      </AppProviders>,
+    );
+    const input = await screen.findByRole("textbox", { name: "draft" });
+    const actor = userEvent.setup();
+    await actor.type(input, "keep this draft");
+    await actor.click(screen.getByRole("button", { name: "logout" }));
+    try {
+      expect(input).toBeInTheDocument();
+    } finally {
+      finish(response({ code: "SESSION_UNAVAILABLE" }, 500));
+    }
+    await screen.findByText("logout failed");
+    expect(screen.getByRole("textbox", { name: "draft" })).toHaveValue(
+      "keep this draft",
+    );
+  });
   /**
    * 서비스를 기본 설정으로 먼저 만들면 데이터 출처가 mock 으로 굳는다. 그러면 `config.json` 이
    * `api` 여도 앱은 끝까지 mock 으로 돌고, mock 은 씨앗 사용자를 로그인된 것으로 보고한다 —

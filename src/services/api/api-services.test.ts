@@ -140,6 +140,21 @@ describe("identity and transport", () => {
     }
   });
 
+  it.each([
+    [401, "NONE", true],
+    [403, "NONE", false],
+    [403, "RELOGIN", true],
+  ] as const)(
+    "distinguishes required login from a forbidden request (%s, %s)",
+    async (status, nextAction, requiresLogin) => {
+      reply(status, { code: "SESSION_REQUIRED", next_action: nextAction });
+      const error = await services()
+        .projects!.get("p-1")
+        .catch((cause: unknown) => cause);
+      expect(error).toMatchObject({ code: "unauthenticated", requiresLogin });
+    },
+  );
+
   it("falls back on the status when the code is one it has never seen", async () => {
     reply(409, { code: "SOMETHING_NEW_FROM_THE_SERVER" });
     const error = await services()
@@ -1217,6 +1232,9 @@ describe("auth", () => {
 
     // fetch 로 부르면 302 를 브라우저가 따라가지 않아 Google 로 가지 못한다.
     expect(assign).toHaveBeenCalledWith(`${BASE}/auth/oauth/google/prepare`);
+    expect(window.sessionStorage.getItem("loresentry.oauth.return-to")).toBe(
+      "/workspace",
+    );
     expect(calls).toHaveLength(0);
     expect(settled).toBe("still going");
   });

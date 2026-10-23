@@ -17,7 +17,11 @@ import { useServices } from "@/services/services-context";
 import { TermsConsent } from "./terms-consent";
 import { GoogleMark } from "./google-mark";
 import styles from "./login-page.module.css";
-import { safeReturnTo } from "./return-to";
+import {
+  clearOAuthReturnTo,
+  readOAuthReturnTo,
+  safeReturnTo,
+} from "./return-to";
 import { useSession } from "./session-gate";
 
 type LoginStatus = "idle" | "processing" | AuthFailure;
@@ -110,7 +114,16 @@ export function LoginPage() {
     params.delete("result");
     router.replace(`/login${params.size ? `?${params}` : ""}`);
   };
-  const returnTo = safeReturnTo(searchParams.get("returnTo"));
+  const [oauthReturnTo] = useState(readOAuthReturnTo);
+  const requestedReturnTo = searchParams.get("returnTo");
+  const returnTo =
+    requestedReturnTo !== null
+      ? safeReturnTo(requestedReturnTo)
+      : loginResult === "success" ||
+          termsEntry ||
+          resultStatus(loginResult ?? "") !== null
+        ? oauthReturnTo
+        : null;
 
   const status = requested;
   const copy = COPY[status];
@@ -131,6 +144,7 @@ export function LoginPage() {
           return;
         }
         queryClient.setQueryData(queryKeys.session, user);
+        clearOAuthReturnTo();
         router.replace(returnTo ?? "/projects");
       } catch {
         if (active) setRequested("failed");

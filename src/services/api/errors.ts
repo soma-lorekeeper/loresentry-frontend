@@ -150,7 +150,13 @@ export function toServiceError(
     (code ? CODE_MESSAGES[code] : undefined) ??
     MESSAGES[mapped] ??
     t("알 수 없는 오류가 발생했어요.");
-  return new ServiceError(mapped, message, operation);
+  return new ServiceError(
+    mapped,
+    message,
+    operation,
+    mapped === "unauthenticated" &&
+      (status === 401 || body?.next_action === "RELOGIN"),
+  );
 }
 
 /** 표에 없는 코드이거나 본문이 오지 않은 경우, 상태 코드만으로 판단한다. */

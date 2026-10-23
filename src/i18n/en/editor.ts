@@ -216,6 +216,12 @@ export default {
   "신규 버전 반영": "Use proposed",
   "변경 사항을 반영하지 못했어요.": "Couldn't apply the changes.",
   "고른 내용은 그대로 남아 있어요.": "Your choices are still here.",
+  "새 탭에서 로그인": "Sign in in a new tab",
+  "다시 저장": "Save again",
+  "로그인이 만료되어 저장하지 못했어요. 변경한 내용은 이 화면에 남아 있어요. 새 탭에서 로그인한 뒤 다시 저장해 주세요.":
+    "Your session expired, so the changes haven't been saved. Your draft is still on this screen. Sign in in a new tab, then save again.",
+  "다시 로그인이 필요해요. 새 탭에서 로그인한 뒤 문서를 다시 불러와 주세요.":
+    "Please sign in again in a new tab, then reload the document.",
   "결과를 확인 처리하지 못했어요. 잠시 후 다시 시도해 주세요.":
     "Couldn't mark this result as reviewed. Please try again shortly.",
   "일부 문서는 이미 저장됐어요. 남은 변경 사항만 다시 반영할 수 있어요.":
