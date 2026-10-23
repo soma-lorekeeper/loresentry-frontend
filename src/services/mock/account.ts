@@ -4,7 +4,7 @@ import type { AccountService, AuthService, TermsView } from "../ports";
 import { ServiceError } from "../errors";
 
 import { simulate } from "./control";
-import { buildSeedDb, getDb, persistDb, resetDb } from "./db";
+import { buildSeedDb, getDb, persistDb, flushDb, resetDb } from "./db";
 import { SEED } from "./seed-world";
 
 export const DISPLAY_NAME_MAX = 20;
@@ -82,7 +82,7 @@ export const mockAccount: AccountService = {
     simulate("account.updateLocale", () => {
       const db = getDb();
       db.user = { ...db.user, locale };
-      persistDb();
+      flushDb();
       return db.user;
     }),
   updateDisplayName: (displayName) =>

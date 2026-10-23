@@ -656,11 +656,17 @@ export function getDb(): MockDb {
 export function persistDb() {
   if (typeof window === "undefined" || !current) return;
   if (saveTimer) clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
-    } catch {}
-  }, 150);
+  saveTimer = setTimeout(flushDb, 150);
+}
+
+/** 언어 전환처럼 곧 문서를 떠나는 작업은 지연 타이머를 기다리지 않고 저장한다. */
+export function flushDb() {
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = null;
+  if (typeof window === "undefined" || !current) return;
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
+  } catch {}
 }
 
 export function resetDb(seed?: MockDb) {

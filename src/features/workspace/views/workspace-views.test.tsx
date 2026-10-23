@@ -324,6 +324,39 @@ describe("workspace views", () => {
     );
   });
 
+  it("reports the actual category destination when a restored manuscript's parent is gone", async () => {
+    const actor = userEvent.setup();
+    let title = "",
+      id = "";
+    renderInWorkspace("trash", <FileTrashView />, () => {
+      const node = getDb().files.find(
+        (n) =>
+          n.projectId === GLASS_GARDEN_ID &&
+          n.kind === "document" &&
+          n.docType === "manuscript" &&
+          n.trashedAt,
+      )!;
+      node.parentId = "qa-deleted-episode";
+      title = node.title;
+      id = node.id;
+    });
+    const row = (await screen.findByText(title)).closest("li")!;
+    await actor.click(within(row).getByRole("button", { name: "복원" }));
+    expect(
+      await screen.findByText("휴지통에서 복원했어요."),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(`‘${title}’을 ‘원고’에 복원했어요.`),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("원래 위치로 복원했어요.")).toBeNull();
+    const node = getDb().files.find((n) => n.id === id)!;
+    expect(getDb().files.find((n) => n.id === node.parentId)).toMatchObject({
+      kind: "folder",
+      role: "category",
+      category: "manuscript",
+    });
+  });
+
   it("asks before closing project settings with unsaved changes", async () => {
     const actor = userEvent.setup();
     renderInWorkspace(

@@ -36,6 +36,10 @@ export default {
   "이 기기의 언어는 변경했지만 계정에 저장하지 못했어요.":
     "The language changed on this device, but couldn't be saved to your account.",
   "계정 언어 다시 저장": "Retry saving account language",
+  "내보내기 중…": "Exporting…",
+  "휴지통에서 복원했어요.": "Restored from trash.",
+  "‘{title}’을 ‘{location}’에 복원했어요.":
+    "Restored ‘{title}’ to ‘{location}’.",
   "인용한 메모를 불러오지 못했어요": "Couldn't load the cited note",
   "인용한 메모를 찾을 수 없어요. 삭제됐을 수 있어요.":
     "The cited note couldn't be found. It may have been deleted.",

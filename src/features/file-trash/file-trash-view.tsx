@@ -17,6 +17,7 @@ import {
   useDeleteFile,
   useFileTrash,
   useRestoreFile,
+  useFileTree,
 } from "@/features/workspace/queries";
 import { ViewPage, ViewPanel } from "@/features/workspace/views/view-page";
 import { useWorkspace } from "@/features/workspace/workspace-context";
@@ -118,6 +119,7 @@ export function FileTrashView() {
   const toast = useToast();
   const trash = useFileTrash(projectId);
   const restore = useRestoreFile(projectId);
+  const tree = useFileTree(projectId);
   const [failedId, setFailedId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<TrashEntry | null>(null);
 
@@ -128,13 +130,19 @@ export function FileTrashView() {
   const restoreEntry = (entry: TrashEntry) => {
     setFailedId(null);
     restore.mutate(entry.node.id, {
-      onSuccess: (node) =>
+      onSuccess: (node) => {
+        const parent = tree.data?.find((parent) => parent.id === node.parentId);
         toast({
           icon: "circle-check",
-          title: t("원래 위치로 복원했어요."),
+          title: t("휴지통에서 복원했어요."),
           description:
             node.kind === "document"
-              ? t("‘{title}’을 다시 열 수 있어요.", { title: node.title })
+              ? parent
+                ? t("‘{title}’을 ‘{location}’에 복원했어요.", {
+                    title: node.title,
+                    location: parent.title,
+                  })
+                : t("‘{title}’을 다시 열 수 있어요.", { title: node.title })
               : t("‘{title}’ 폴더를 파일 목록에 되돌렸어요.", {
                   title: node.title,
                 }),
@@ -146,7 +154,8 @@ export function FileTrashView() {
                   onSelect: () => open({ kind: "file", fileId: node.id }),
                 }
               : undefined,
-        }),
+        });
+      },
       onError: () => setFailedId(entry.node.id),
     });
   };

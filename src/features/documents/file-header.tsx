@@ -46,6 +46,7 @@ interface FileHeaderProps {
   memoOpen: boolean;
   locked: boolean;
   lockPending: boolean;
+  exportPending?: boolean;
   onToggleMemo: () => void;
   onOpenVersions: () => void;
   onExport: (format: ExportFormat) => void;
@@ -89,6 +90,7 @@ export function FileHeader({
   memoOpen,
   locked,
   lockPending,
+  exportPending = false,
   onToggleMemo,
   onOpenVersions,
   onExport,
@@ -102,7 +104,7 @@ export function FileHeader({
     icon: option.icon,
     // PDF 는 단축키로도 내보낸다(workspace/shell/shortcuts.ts).
     hint: option.format === "pdf" ? shortcutKeys("exportPdf") : undefined,
-    disabled: option.pending,
+    disabled: option.pending || exportPending,
     onSelect: () => onExport(option.format),
   }));
 
@@ -119,7 +121,9 @@ export function FileHeader({
       <Action
         ref={exportRef}
         icon="download"
-        label={t("내보내기")}
+        label={exportPending ? t("내보내기 중…") : t("내보내기")}
+        disabled={exportPending}
+        aria-busy={exportPending || undefined}
         aria-haspopup="menu"
         aria-expanded={exportOpen}
         onClick={() => setExportOpen((open) => !open)}

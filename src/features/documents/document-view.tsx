@@ -247,6 +247,7 @@ export function DocumentView({
   // 내보내기가 진행 중인가. 저장과 글꼴을 기다리는 동안에는 `printing` 이 아직 비어 있어,
   // 그것만 보면 그 사이에 한 번 더 불렸을 때(단축키를 누르고 있을 때) 인쇄 창이 두 번 뜬다.
   const exporting = useRef(false);
+  const [exportPending, setExportPending] = useState(false);
   const [workArea, setWorkArea] = useState<HTMLDivElement | null>(null);
   const workSize = useElementSize(workArea);
 
@@ -365,6 +366,7 @@ export function DocumentView({
     // 이미 내보내는 중이면(준비 중이거나 대화상자가 떠 있으면) 다시 시작하지 않는다.
     if (exporting.current || !editor) return;
     exporting.current = true;
+    setExportPending(true);
     await doc.session.save();
     // 지면이 실제로 그려진 뒤에 인쇄해야 한다. 상태만 바꾸고 바로 인쇄하면 빈 종이가 나온다.
     flushSync(() => setPrinting(editor.getHTML()));
@@ -382,6 +384,7 @@ export function DocumentView({
       document.title = pageTitle;
       setPrinting(null);
       exporting.current = false;
+      setExportPending(false);
     };
     window.addEventListener("afterprint", restore);
     window.print();
@@ -389,9 +392,22 @@ export function DocumentView({
 
   const exportAs = async (format: ExportFormat) => {
     if (format === "pdf") {
-      await exportPdf();
+      try {
+        await exportPdf();
+      } catch {
+        exporting.current = false;
+        setExportPending(false);
+        toast({
+          icon: "triangle-alert",
+          title: t("내보내지 못했어요."),
+          description: t("잠시 후 다시 시도해 주세요."),
+        });
+      }
       return;
     }
+    if (exporting.current) return;
+    exporting.current = true;
+    setExportPending(true);
     try {
       await doc.session.save();
       const result = await services.documents.export(fileId, format);
@@ -417,6 +433,9 @@ export function DocumentView({
         title: t("내보내지 못했어요."),
         description: t("잠시 후 다시 시도해 주세요."),
       });
+    } finally {
+      exporting.current = false;
+      setExportPending(false);
     }
   };
 
@@ -513,6 +532,7 @@ export function DocumentView({
                 memoOpen={panels.memoOpen}
                 locked={locked}
                 lockPending={lockPending}
+                exportPending={exportPending}
                 onToggleMemo={() =>
                   dispatch({
                     type: "setPanels",

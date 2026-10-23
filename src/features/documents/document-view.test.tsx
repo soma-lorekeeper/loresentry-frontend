@@ -1,10 +1,11 @@
-import { cleanup, screen, waitFor, within } from "@testing-library/react";
+import { act, cleanup, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterAll, describe, expect, it, vi } from "vitest";
 
 import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
 import { renderWithServices, routerMock } from "@/test/render";
 import { setMockLatency, setMockRule } from "@/services/mock/control";
+import { mockDocuments } from "@/services/mock/documents";
 
 import { createLayout } from "../workspace/model/layout";
 import {
@@ -56,6 +57,42 @@ function renderDocument(fileId: string) {
 }
 
 describe("DocumentView format", () => {
+  it("serializes export attempts, shows progress, and allows retry after failure", async () => {
+    const actor = userEvent.setup();
+    let reject!: (error: Error) => void;
+    const request = new Promise<{ fileName: string; url: string }>((_, no) => {
+      reject = no;
+    });
+    const exportFile = vi
+      .spyOn(mockDocuments, "export")
+      .mockReturnValueOnce(request)
+      .mockResolvedValueOnce({ fileName: "qa.md", url: "" });
+    try {
+      renderDocument("glass-garden:ch-12");
+      await screen.findByRole("toolbar", { name: "편집 도구" });
+      await actor.click(screen.getByRole("button", { name: "내보내기" }));
+      await actor.click(
+        screen.getByRole("menuitem", { name: "마크다운 (.md)" }),
+      );
+      await waitFor(() => expect(exportFile).toHaveBeenCalledTimes(1));
+      const busy = screen.getByRole("button", { name: "내보내기 중…" });
+      expect(busy).toBeDisabled();
+      await actor.click(busy);
+      expect(exportFile).toHaveBeenCalledTimes(1);
+      await act(async () => reject(new Error("QA export failure")));
+      expect(await screen.findByText("내보내지 못했어요.")).toBeInTheDocument();
+      await actor.click(screen.getByRole("button", { name: "내보내기" }));
+      await actor.click(
+        screen.getByRole("menuitem", { name: "마크다운 (.md)" }),
+      );
+      await waitFor(() => expect(exportFile).toHaveBeenCalledTimes(2));
+      await waitFor(() =>
+        expect(screen.getByRole("button", { name: "내보내기" })).toBeEnabled(),
+      );
+    } finally {
+      exportFile.mockRestore();
+    }
+  });
   it("blocks another favorite change while pending, keeps the previous state on failure, and retries", async () => {
     const actor = userEvent.setup();
     const fileId = "glass-garden:ch-12";
