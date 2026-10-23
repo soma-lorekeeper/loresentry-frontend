@@ -30,6 +30,7 @@ import {
   PreparingState,
   isUnavailable,
 } from "@/features/common/preparing-state";
+import { QueryFailure } from "@/features/common/query-failure";
 import { t } from "@/i18n";
 import { cx } from "@/shared/cx";
 import { formatNumber, relativeTime } from "@/shared/format";
@@ -487,7 +488,7 @@ export function ChatDock() {
               onChange={(event) => setQuery(event.target.value)}
               onClear={() => setQuery("")}
               onKeyDown={(event) => {
-                const first = search.data?.[0];
+                const first = search.isSuccess ? search.data?.[0] : undefined;
                 if (event.key === "Enter" && first) {
                   goTo({ kind: "session", id: first.session.id });
                   setTerm(needle);
@@ -499,7 +500,14 @@ export function ChatDock() {
               }}
             />
             {needle ? (
-              search.data && search.data.length > 0 ? (
+              search.isError ? (
+                <QueryFailure
+                  compact
+                  title={t("대화 검색을 마치지 못했어요")}
+                  retrying={search.isFetching}
+                  onRetry={() => void search.refetch()}
+                />
+              ) : search.data && search.data.length > 0 ? (
                 <>
                   <p className={styles.resultCount} role="status">
                     {t("대화 {count}개", { count: search.data.length })}
@@ -527,6 +535,17 @@ export function ChatDock() {
                   </p>
                 )
               )
+            ) : sessions.isError ? (
+              <QueryFailure
+                compact
+                title={t("대화 목록을 불러오지 못했어요")}
+                retrying={sessions.isFetching}
+                onRetry={() => void sessions.refetch()}
+              />
+            ) : sessions.isPending ? (
+              <p className={styles.noResult} role="status" aria-busy="true">
+                {t("대화를 불러오는 중…")}
+              </p>
             ) : recent.length > 0 ? (
               <ul className={styles.sessionList}>
                 {recent.map((candidate) => (
@@ -586,7 +605,15 @@ export function ChatDock() {
         )}
         {closeButton}
       </header>
-      {session ? (
+      {messages.isError ? (
+        <div className={styles.scroll}>
+          <QueryFailure
+            title={t("대화 내용을 불러오지 못했어요")}
+            retrying={messages.isFetching}
+            onRetry={() => void messages.refetch()}
+          />
+        </div>
+      ) : session ? (
         <Conversation
           key={`${session.id}:${term}`}
           session={session}

@@ -10,6 +10,7 @@ import {
   type DocumentType,
 } from "@/domain/document-types";
 import type { DocumentNode } from "@/domain/models";
+import { QueryFailure } from "@/features/common/query-failure";
 import { t } from "@/i18n";
 import { relativeTime } from "@/shared/format";
 
@@ -52,6 +53,23 @@ export function NewTabView() {
       { onSuccess: (node) => open({ kind: "file", fileId: node.id }) },
     );
   };
+
+  if (tree.isError)
+    return (
+      <div className={styles.view}>
+        <QueryFailure
+          title={t("파일 목록을 불러오지 못했어요")}
+          retrying={tree.isFetching}
+          onRetry={() => void tree.refetch()}
+        />
+      </div>
+    );
+  if (tree.isPending)
+    return (
+      <div className={styles.view} role="status" aria-busy="true">
+        {t("파일을 불러오는 중…")}
+      </div>
+    );
 
   return (
     <div className={styles.view}>

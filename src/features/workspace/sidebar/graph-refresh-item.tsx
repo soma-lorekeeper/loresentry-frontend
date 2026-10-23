@@ -6,6 +6,7 @@ import { SidebarButton, useToast } from "@/design-system/primitives";
 import { GraphDiffModal } from "@/features/graph-refresh/graph-diff-modal";
 import { onTourEnd } from "@/features/tour/tour-state";
 import { isUnavailable } from "@/features/common/preparing-state";
+import { QueryFailure } from "@/features/common/query-failure";
 import {
   useRefreshActions,
   useRefreshRun,
@@ -47,6 +48,25 @@ export function GraphRefreshItem() {
       />
     );
   }
+
+  if (run.isError)
+    return (
+      <QueryFailure
+        compact
+        title={t("최신화 상태를 불러오지 못했어요")}
+        retrying={run.isFetching}
+        onRetry={() => void run.refetch()}
+      />
+    );
+  if (run.isPending)
+    return (
+      <SidebarButton
+        icon="loader-circle"
+        label={t("최신화 상태를 불러오는 중…")}
+        disabled
+        aria-busy="true"
+      />
+    );
 
   if (status === "RUNNING" || start.isPending) {
     return (

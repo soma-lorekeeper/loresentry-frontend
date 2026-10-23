@@ -7,6 +7,7 @@ import type { RefreshRun } from "@/domain/models";
 import { createLayout } from "@/features/workspace/model/layout";
 import { WorkspaceProvider } from "@/features/workspace/workspace-context";
 import { setMockLatency } from "@/services/mock/control";
+import { setMockRule } from "@/services/mock/control";
 import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
 import { announceTourEnd } from "@/features/tour/tour-state";
 import { renderWithServices, routerMock } from "@/test/render";
@@ -33,6 +34,26 @@ const draft = (text: string) => ({
 });
 
 describe("GraphRefreshItem", () => {
+  it("distinguishes a failed status read from an idle run and retries", async () => {
+    const actor = userEvent.setup();
+    renderWithServices(
+      <WorkspaceProvider
+        project={getDb().projects.find((p) => p.id === GLASS_GARDEN_ID)!}
+        user={user}
+        initialLayout={createLayout()}
+      >
+        <GraphRefreshItem />
+      </WorkspaceProvider>,
+      { before: () => setMockRule("refresh.current", "once") },
+    );
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent("최신화 상태를 불러오지 못했어요");
+    expect(screen.queryByRole("button", { name: "그래프 최신화" })).toBeNull();
+    await actor.click(within(alert).getByRole("button", { name: "다시 시도" }));
+    expect(
+      await screen.findByRole("button", { name: "그래프 최신화" }),
+    ).toBeEnabled();
+  });
   it("confirms the apply with a toast and does not reopen for the next run", async () => {
     const actor = userEvent.setup();
     let run: RefreshRun = {

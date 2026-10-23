@@ -9,7 +9,8 @@ import {
   subscribeAuthTransition,
 } from "@/services/api/auth-transition";
 import type { User } from "@/domain/models";
-import { LOCALE } from "@/i18n";
+import { LOCALE, t } from "@/i18n";
+import { QueryFailure } from "@/features/common/query-failure";
 import { followAccountLocale } from "@/i18n/preference";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
@@ -99,6 +100,23 @@ export function SessionGate({
     if (needsOnboarding) router.replace("/welcome/");
   }, [needsOnboarding, router]);
 
-  if (!session.data || transitionPending || needsOnboarding) return null;
+  if (transitionPending || needsOnboarding) return null;
+  if (session.isError && !session.data)
+    return (
+      <main>
+        <QueryFailure
+          title={t("로그인 정보를 불러오지 못했어요")}
+          retrying={session.isFetching}
+          onRetry={() => void session.refetch()}
+        />
+      </main>
+    );
+  if (session.isPending)
+    return (
+      <main role="status" aria-busy="true">
+        {t("로그인 정보를 확인하고 있어요.")}
+      </main>
+    );
+  if (!session.data) return null;
   return children(session.data);
 }

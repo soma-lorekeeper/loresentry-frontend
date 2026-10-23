@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 
 import { EmptyState } from "@/design-system/primitives";
 import type { User } from "@/domain/models";
+import { QueryFailure } from "@/features/common/query-failure";
 import { t } from "@/i18n";
 import { useServices } from "@/services/services-context";
 
@@ -61,6 +62,16 @@ function WorkspaceLoader({
   const layout = useRestoredLayout(projectId);
 
   if (project.isError) return <Unavailable />;
+  if (layout.isError && !layout.data)
+    return (
+      <main className={styles.shell}>
+        <QueryFailure
+          title={t("작업공간 배치를 불러오지 못했어요")}
+          retrying={layout.isFetching}
+          onRetry={() => void layout.refetch()}
+        />
+      </main>
+    );
   if (!project.data || !layout.data)
     return <main className={styles.shell} aria-busy="true" />;
 

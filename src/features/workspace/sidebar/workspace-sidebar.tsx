@@ -22,6 +22,7 @@ import {
 import type { FileNode, FolderNode } from "@/domain/models";
 import { UserMenu } from "@/features/projects/user-menu";
 import { t } from "@/i18n";
+import { QueryFailure } from "@/features/common/query-failure";
 import { isServiceError } from "@/services/errors";
 
 import { activeTabOf, type WorkspaceViewKind } from "../model/layout";
@@ -523,7 +524,22 @@ export function WorkspaceSidebar() {
               }
             }}
           />
-          {favoriteNodes.length === 0 ? (
+          {favorites.isError ? (
+            <QueryFailure
+              compact
+              title={t("즐겨찾기를 불러오지 못했어요")}
+              retrying={favorites.isFetching}
+              onRetry={() => void favorites.refetch()}
+            />
+          ) : tree.isError ? (
+            <p className={styles.empty}>
+              {t("파일 목록을 다시 불러오면 즐겨찾기도 확인할 수 있어요.")}
+            </p>
+          ) : favorites.isPending || tree.isPending ? (
+            <p className={styles.empty} role="status" aria-busy="true">
+              {t("즐겨찾기를 불러오는 중…")}
+            </p>
+          ) : favoriteNodes.length === 0 ? (
             <p className={styles.empty}>
               {t("문서의 별을 눌러 즐겨찾기에 추가하세요.")}
             </p>
@@ -543,11 +559,24 @@ export function WorkspaceSidebar() {
         </section>
         <section className={styles.section} aria-label={t("작업공간::파일")}>
           <SectionHeader title={t("작업공간::파일")} entries={filesMenu} />
-          <FileTree
-            items={fileRoots}
-            label={t("작업공간::파일")}
-            {...treeProps}
-          />
+          {tree.isError ? (
+            <QueryFailure
+              compact
+              title={t("파일 목록을 불러오지 못했어요")}
+              retrying={tree.isFetching}
+              onRetry={() => void tree.refetch()}
+            />
+          ) : tree.isPending ? (
+            <p className={styles.empty} role="status" aria-busy="true">
+              {t("파일을 불러오는 중…")}
+            </p>
+          ) : (
+            <FileTree
+              items={fileRoots}
+              label={t("작업공간::파일")}
+              {...treeProps}
+            />
+          )}
         </section>
       </div>
       <div className={styles.utility}>

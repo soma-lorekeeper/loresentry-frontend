@@ -2,6 +2,7 @@ import { act, fireEvent, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ServiceError } from "@/services/errors";
+import { setMockRule } from "@/services/mock/control";
 import {
   CHAT_DAILY_LIMIT,
   setMockChatLimit,
@@ -43,6 +44,53 @@ async function flush(ms = 0) {
 }
 
 describe("ChatDock", () => {
+  it.each(["sessions", "search", "messages"] as const)(
+    "shows a %s read failure and retries the same view",
+    async (operation) => {
+      renderDock({ before: () => setMockRule(`chat.${operation}`, "once") });
+      await flush();
+      await flush();
+      fireEvent.click(screen.getByRole("button", { name: /^AI 챗 열기/ }));
+      await flush();
+      const chat = screen.getByRole("dialog", { name: "AI 챗" });
+      const first = getDb().chatSessions.find(
+        (s) => s.projectId === GLASS_GARDEN_ID && s.preview,
+      )!;
+      if (operation === "search") {
+        fireEvent.change(
+          within(chat).getByRole("searchbox", { name: "대화 검색" }),
+          { target: { value: first.title } },
+        );
+        await flush();
+      } else if (operation === "messages") {
+        fireEvent.click(within(chat).getByText(first.title));
+        await flush();
+      }
+      const error = within(chat).getByRole("alert");
+      expect(error).toHaveTextContent(
+        operation === "sessions"
+          ? "대화 목록을 불러오지 못했어요"
+          : operation === "search"
+            ? "대화 검색을 마치지 못했어요"
+            : "대화 내용을 불러오지 못했어요",
+      );
+      expect(within(chat).queryByText("아직 나눈 대화가 없어요")).toBeNull();
+      fireEvent.click(within(error).getByRole("button", { name: "다시 시도" }));
+      await flush();
+      expect(within(chat).queryByRole("alert")).toBeNull();
+      if (operation === "search") {
+        expect(
+          within(chat).getByRole("searchbox", { name: "대화 검색" }),
+        ).toHaveValue(first.title);
+        expect(within(chat).getByText(/대화 \d+개/)).toBeInTheDocument();
+      } else if (operation === "sessions") {
+        expect(within(chat).getByText(first.title)).toBeInTheDocument();
+      } else {
+        expect(within(chat).getByText(first.title)).toBeInTheDocument();
+        expect(within(chat).queryByText("이렇게 물어보세요")).toBeNull();
+      }
+    },
+  );
   beforeEach(() => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     window.matchMedia = ((query: string) => ({
