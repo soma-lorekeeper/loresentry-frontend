@@ -327,7 +327,6 @@ export default {
   "그래프 최신화를 시작할까요?": "Start a graph refresh?",
   "지난 최신화 뒤 고친 원고와 설정 문서를 AI가 읽어요. 읽는 문서는 결과를 확정할 때까지 편집할 수 없어요.":
     "AI reads the chapters and setting documents you changed since the last refresh. The documents it reads can't be edited until you apply the results.",
-  "보통 몇 분 · 최대 1시간": "Usually a few minutes · up to an hour",
   "최신화 시작": "Start refresh",
   "결과를 확정할 때까지 편집할 수 없어요.":
     "They can't be edited until you apply the results.",

@@ -105,7 +105,6 @@ describe("GraphRefreshItem", () => {
     const dialog = await screen.findByRole("dialog", {
       name: "그래프 최신화를 시작할까요?",
     });
-    expect(dialog).toHaveTextContent("보통 몇 분 · 최대 1시간");
     await actor.click(within(dialog).getByRole("button", { name: "취소" }));
     expect(start).not.toHaveBeenCalled();
   });

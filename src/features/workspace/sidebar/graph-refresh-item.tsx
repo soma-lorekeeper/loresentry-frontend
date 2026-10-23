@@ -172,7 +172,6 @@ export function GraphRefreshItem() {
         description={t(
           "지난 최신화 뒤 고친 원고와 설정 문서를 AI가 읽어요. 읽는 문서는 결과를 확정할 때까지 편집할 수 없어요.",
         )}
-        footerHint={t("보통 몇 분 · 최대 1시간")}
         actions={
           <>
             <Button size="md" icon="x" onClick={() => setConfirming(false)}>
