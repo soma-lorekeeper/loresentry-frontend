@@ -307,8 +307,8 @@ export default {
     "It unlocks when the results arrive and you apply them.",
   "검토에서 ‘반영 확정’을 누르면 풀려요.":
     "It unlocks when you select ‘Apply changes’ in the review.",
-  "그래프 최신화 결과 기다리는 중 · 확정 전까지 잠김":
-    "Waiting for graph refresh results · locked until applied",
+  "그래프 최신화 결과를 기다리고 있어요. 확정할 때까지 잠겨 있어요.":
+    "Waiting for graph refresh results. It stays locked until you apply them.",
   "잠긴 문서를 다시 편집할 수 있어요. 반영한 내용은 버전 기록에 남아요.":
     "Locked documents can be edited again. What you applied is kept in version history.",
   "결과를 확정할 때까지 관련 문서는 잠겨 있어요.":

@@ -218,7 +218,7 @@ describe("DocumentView graph refresh lock", () => {
 
       expect(
         await screen.findByText(
-          "그래프 최신화 결과 기다리는 중 · 확정 전까지 잠김",
+          "그래프 최신화 결과를 기다리고 있어요. 확정할 때까지 잠겨 있어요.",
         ),
       ).toBeInTheDocument();
       await actor.click(
