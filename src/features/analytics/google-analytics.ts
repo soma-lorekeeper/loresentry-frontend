@@ -1,4 +1,4 @@
-import type { RuntimeConfig } from "@/config/runtime-config";
+import { usesApiData, type RuntimeConfig } from "@/config/runtime-config";
 
 export const ANALYTICS_HOSTNAME = "loresentry.com";
 
@@ -16,7 +16,7 @@ declare global {
 export function analyticsEnabled(config: RuntimeConfig, hostname: string) {
   return (
     config.gaMeasurementId !== "" &&
-    config.dataSource === "api" &&
+    usesApiData(config) &&
     hostname === ANALYTICS_HOSTNAME
   );
 }
@@ -33,6 +33,20 @@ export function pageLocation(href: string) {
   return url.toString();
 }
 
+/** 첫 페이지에도 원래 referrer가 자동으로 실리지 않도록 명시적으로 덮어쓴다. */
+export function pageReferrer(href: string) {
+  if (!href) return "";
+  try {
+    const url = new URL(href);
+    if (url.protocol !== "https:" && url.protocol !== "http:") return "";
+    return url.hostname === ANALYTICS_HOSTNAME
+      ? pageLocation(href)
+      : `${url.origin}/`;
+  } catch {
+    return "";
+  }
+}
+
 export function installGoogleAnalytics(measurementId: string): Gtag {
   if (window.gtag) return window.gtag;
   const dataLayer = (window.dataLayer ??= []);
@@ -42,7 +56,10 @@ export function installGoogleAnalytics(measurementId: string): Gtag {
   };
   window.gtag = gtag;
   gtag("js", new Date());
-  gtag("set", { page_location: pageLocation(window.location.href) });
+  gtag("set", {
+    page_location: pageLocation(window.location.href),
+    page_referrer: pageReferrer(document.referrer),
+  });
   gtag("config", measurementId, { send_page_view: false });
   const script = document.createElement("script");
   script.async = true;

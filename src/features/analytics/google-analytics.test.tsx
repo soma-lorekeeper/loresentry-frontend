@@ -10,6 +10,7 @@ import {
   analyticsEnabled,
   installGoogleAnalytics,
   pageLocation,
+  pageReferrer,
 } from "./google-analytics";
 import { GoogleAnalyticsTracker } from "./google-analytics-tracker";
 
@@ -53,6 +54,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  vi.restoreAllMocks();
   navigate("/");
 });
 
@@ -60,6 +62,7 @@ describe("analyticsEnabled", () => {
   const config = {
     ...DEFAULT_RUNTIME_CONFIG,
     dataSource: "api" as const,
+    apiBaseUrl: "https://api.loresentry.com",
     gaMeasurementId: ID,
   };
 
@@ -72,6 +75,31 @@ describe("analyticsEnabled", () => {
     expect(
       analyticsEnabled({ ...config, gaMeasurementId: "" }, "loresentry.com"),
     ).toBe(false);
+  });
+
+  it.each(["", "not-a-url", "javascript:alert(1)"])(
+    "does not measure API configuration that falls back to mock: %s",
+    (apiBaseUrl) => {
+      expect(
+        analyticsEnabled({ ...config, apiBaseUrl }, "loresentry.com"),
+      ).toBe(false);
+    },
+  );
+});
+
+describe("pageReferrer", () => {
+  it("removes private query values before the first event", () => {
+    expect(
+      pageReferrer(
+        "https://loresentry.com/workspace/?projectId=secret&q=private#draft",
+      ),
+    ).toBe("https://loresentry.com/workspace/");
+    expect(pageReferrer("https://example.com/private-path?q=private")).toBe(
+      "https://example.com/",
+    );
+    expect(pageReferrer("")).toBe("");
+    expect(pageReferrer("invalid")).toBe("");
+    expect(pageReferrer("javascript:alert(1)")).toBe("");
   });
 });
 
@@ -107,7 +135,10 @@ describe("installGoogleAnalytics", () => {
       `https://www.googletagmanager.com/gtag/js?id=${ID}`,
     );
     expect(calls().slice(1)).toEqual([
-      ["set", { page_location: "http://localhost/workspace/" }],
+      [
+        "set",
+        { page_location: "http://localhost/workspace/", page_referrer: "" },
+      ],
       ["config", ID, { send_page_view: false }],
     ]);
   });
@@ -124,12 +155,31 @@ describe("GoogleAnalyticsTracker", () => {
     rerender(<GoogleAnalyticsTracker measurementId={ID} />);
 
     expect(pageViews().map(([, , params]) => params)).toEqual([
-      { page_location: "http://localhost/projects/" },
+      { page_location: "http://localhost/projects/", page_referrer: "" },
       {
         page_location: "http://localhost/workspace/",
         page_referrer: "http://localhost/projects/",
       },
     ]);
+  });
+
+  it("sanitizes the initial document referrer before config and page_view", () => {
+    vi.spyOn(document, "referrer", "get").mockReturnValue(
+      "https://loresentry.com/workspace/?projectId=private-project&q=private-text#draft",
+    );
+    render(<GoogleAnalyticsTracker measurementId={ID} />);
+    expect(calls().find(([command]) => command === "set")).toEqual([
+      "set",
+      {
+        page_location: "http://localhost/projects/",
+        page_referrer: "https://loresentry.com/workspace/",
+      },
+    ]);
+    expect(pageViews()[0][2]).toEqual({
+      page_location: "http://localhost/projects/",
+      page_referrer: "https://loresentry.com/workspace/",
+    });
+    expect(JSON.stringify(calls())).not.toContain("private-");
   });
 });
 

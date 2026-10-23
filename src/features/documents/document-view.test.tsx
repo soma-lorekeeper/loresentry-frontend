@@ -1,6 +1,6 @@
 import { cleanup, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { afterAll, describe, expect, it, vi } from "vitest";
 
 import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
 import { renderWithServices, routerMock } from "@/test/render";
@@ -17,6 +17,9 @@ vi.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(),
   usePathname: () => "/",
 }));
+
+// Tiptap은 unmount 다음 tick에 에디터를 해제한다. jsdom이 사라지기 전에 마치게 한다.
+afterAll(() => new Promise((resolve) => setTimeout(resolve, 5)));
 
 const user = {
   id: "user-1",

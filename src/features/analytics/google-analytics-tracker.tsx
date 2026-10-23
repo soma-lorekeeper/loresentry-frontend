@@ -3,7 +3,11 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 
-import { installGoogleAnalytics, pageLocation } from "./google-analytics";
+import {
+  installGoogleAnalytics,
+  pageLocation,
+  pageReferrer,
+} from "./google-analytics";
 
 export function GoogleAnalyticsTracker({
   measurementId,
@@ -20,7 +24,7 @@ export function GoogleAnalyticsTracker({
     if (location === previous.current) return;
     const page = {
       page_location: location,
-      ...(previous.current ? { page_referrer: previous.current } : {}),
+      page_referrer: previous.current ?? pageReferrer(document.referrer),
     };
     gtag("set", page);
     gtag("event", "page_view", page);

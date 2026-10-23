@@ -1,4 +1,4 @@
-import type { RuntimeConfig } from "@/config/runtime-config";
+import { usesApiData, type RuntimeConfig } from "@/config/runtime-config";
 
 import { createApiServices } from "./api";
 import { createMockServices } from "./mock";
@@ -14,9 +14,9 @@ export function createServices(config: RuntimeConfig): Services {
   const mock = createMockServices();
   if (config.dataSource !== "api") return mock;
 
-  if (!config.apiBaseUrl) {
+  if (!usesApiData(config)) {
     console.warn(
-      "dataSource=api without apiBaseUrl; falling back to mock data.",
+      "dataSource=api without a valid apiBaseUrl; falling back to mock data.",
     );
     return mock;
   }

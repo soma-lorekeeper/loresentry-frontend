@@ -34,6 +34,13 @@ function absoluteHttpUrl(value: unknown) {
   }
 }
 
+/** 서비스와 통계가 같은 기준으로 실제 API 사용 여부를 판단한다. */
+export function usesApiData(config: RuntimeConfig) {
+  return (
+    config.dataSource === "api" && absoluteHttpUrl(config.apiBaseUrl) !== ""
+  );
+}
+
 /** 주소처럼 보이지 않는 값은 버린다. 링크로 만들면 죽은 링크가 된다. */
 function emailAddress(value: unknown) {
   if (typeof value !== "string") return "";

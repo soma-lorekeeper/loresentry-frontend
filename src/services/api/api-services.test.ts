@@ -1000,19 +1000,23 @@ describe("wiring", () => {
     expect(wired.help).not.toBe(mock.help);
   });
 
-  it("stays on mock when the base url is missing, rather than requesting nowhere", () => {
-    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-    const wired = createServices({
-      ...DEFAULT_RUNTIME_CONFIG,
-      dataSource: "api",
-    });
+  it.each(["", "not-a-url", "javascript:alert(1)"])(
+    "stays on mock when the base url is unusable: %s",
+    (apiBaseUrl) => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      const wired = createServices({
+        ...DEFAULT_RUNTIME_CONFIG,
+        dataSource: "api",
+        apiBaseUrl,
+      });
 
-    expect(wired.projects).toBe(
-      createServices(DEFAULT_RUNTIME_CONFIG).projects,
-    );
-    expect(warn).toHaveBeenCalled();
-    warn.mockRestore();
-  });
+      expect(wired.projects).toBe(
+        createServices(DEFAULT_RUNTIME_CONFIG).projects,
+      );
+      expect(warn).toHaveBeenCalled();
+      warn.mockRestore();
+    },
+  );
 });
 
 describe("memos", () => {
