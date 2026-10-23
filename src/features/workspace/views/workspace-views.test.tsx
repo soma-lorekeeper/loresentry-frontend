@@ -1,7 +1,7 @@
 import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { WorkspaceHelpView } from "@/features/help/workspace-help-view";
 import { MemoView } from "@/features/memos/memo-view";
@@ -88,6 +88,72 @@ function renderSearch(before?: () => void) {
 }
 
 describe("project search", () => {
+  afterEach(() => {
+    delete window.gtag;
+  });
+
+  it("measures completed searches once with result presence and without the original text", async () => {
+    const tag = vi.fn();
+    window.gtag = tag;
+    const actor = userEvent.setup();
+    renderSearch();
+    const input = screen.getByRole("searchbox", { name: "프로젝트에서 검색" });
+    await actor.type(input, "균열");
+    await screen.findByRole("list", { name: "검색 결과" });
+    await waitFor(() =>
+      expect(tag).toHaveBeenCalledWith("event", "project_search", {
+        has_results: true,
+      }),
+    );
+    await actor.click(screen.getByRole("radio", { name: "이름순" }));
+    expect(tag).toHaveBeenCalledTimes(1);
+    await actor.clear(input);
+    await actor.type(input, "QA_PRIVATE_SEARCH_NO_MATCH");
+    await screen.findByText("일치하는 문서가 없어요");
+    await waitFor(() =>
+      expect(tag).toHaveBeenLastCalledWith("event", "project_search", {
+        has_results: false,
+      }),
+    );
+    expect(tag).toHaveBeenCalledTimes(2);
+    expect(JSON.stringify(tag.mock.calls)).not.toMatch(
+      /균열|QA_PRIVATE_SEARCH_NO_MATCH/,
+    );
+  });
+
+  it("does not count an error as empty results and counts a successful retry once", async () => {
+    const tag = vi.fn();
+    window.gtag = tag;
+    const actor = userEvent.setup();
+    renderSearch(() => setMockRule("search.query", "fail"));
+    await actor.type(
+      screen.getByRole("searchbox", { name: "프로젝트에서 검색" }),
+      "균열",
+    );
+    const alert = await screen.findByRole("alert");
+    expect(tag).not.toHaveBeenCalled();
+    clearMockRules();
+    await actor.click(within(alert).getByRole("button", { name: "다시 시도" }));
+    await screen.findByRole("list", { name: "검색 결과" });
+    await waitFor(() => expect(tag).toHaveBeenCalledTimes(1));
+    expect(tag).toHaveBeenLastCalledWith("event", "project_search", {
+      has_results: true,
+    });
+  });
+
+  it("counts a new search after clearing, including a cached result for the same text", async () => {
+    const tag = vi.fn();
+    window.gtag = tag;
+    const actor = userEvent.setup();
+    renderSearch();
+    const input = screen.getByRole("searchbox", { name: "프로젝트에서 검색" });
+    await actor.type(input, "균열");
+    await waitFor(() => expect(tag).toHaveBeenCalledTimes(1));
+    await actor.click(screen.getByRole("button", { name: "검색어 지우기" }));
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    await actor.type(input, "균열");
+    await waitFor(() => expect(tag).toHaveBeenCalledTimes(2));
+  });
   it("lists documents that match the title or the body", async () => {
     const actor = userEvent.setup();
     renderSearch();

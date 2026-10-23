@@ -1,5 +1,7 @@
 import { usesApiData, type RuntimeConfig } from "@/config/runtime-config";
 
+import { installSearchUrlRedaction } from "./search-url-redaction";
+
 export const ANALYTICS_HOSTNAME = "loresentry.com";
 
 const KEPT_PARAMS = ["open", "topic"];
@@ -48,6 +50,7 @@ export function pageReferrer(href: string) {
 }
 
 export function installGoogleAnalytics(measurementId: string): Gtag {
+  installSearchUrlRedaction();
   if (window.gtag) return window.gtag;
   const dataLayer = (window.dataLayer ??= []);
   const gtag: Gtag = function () {
@@ -66,4 +69,11 @@ export function installGoogleAnalytics(measurementId: string): Gtag {
   script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
   document.head.appendChild(script);
   return gtag;
+}
+
+/** 완료된 검색 한 번당 결과 유무만 집계한다. 검색어·문서·프로젝트는 받지 않는다. */
+export function trackProjectSearch(hasResults: boolean) {
+  if (typeof window === "undefined") return;
+  // API 운영 환경에서 설치한 태그가 있을 때만 기록한다. MOCK에서 태그를 만들지 않는다.
+  window.gtag?.("event", "project_search", { has_results: hasResults });
 }

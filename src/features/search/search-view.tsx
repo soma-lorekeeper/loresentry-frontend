@@ -19,6 +19,7 @@ import {
 } from "@/design-system/primitives";
 import { DOCUMENT_TYPE_META } from "@/domain/document-types";
 import type { SearchHit } from "@/domain/models";
+import { trackProjectSearch } from "@/features/analytics/google-analytics";
 import { indexNodes, isDocument } from "@/features/workspace/model/tree";
 import { useFavorites, useFileTree } from "@/features/workspace/queries";
 import type { WorkspaceViewProps } from "@/features/workspace/views/view-types";
@@ -157,6 +158,7 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
   const { projectId, open, activePane } = useWorkspace();
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  const measuredSearch = useRef({ term: "", reported: false });
   const [query, setQuery] = useState("");
   const [requested, setRequested] = useState("");
   const [shown, setShown] = useState<Shown | null>(null);
@@ -186,6 +188,23 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
   useEffect(() => {
     if (focused) inputRef.current?.focus();
   }, [focused]);
+
+  useEffect(() => {
+    if (measuredSearch.current.term !== requested) {
+      measuredSearch.current = { term: requested, reported: false };
+    }
+    if (
+      !requested ||
+      requested !== term ||
+      !search.isSuccess ||
+      search.isFetching ||
+      measuredSearch.current.reported
+    ) {
+      return;
+    }
+    measuredSearch.current.reported = true;
+    trackProjectSearch(search.data.length > 0);
+  }, [requested, term, search.data, search.isSuccess, search.isFetching]);
 
   if (
     term &&

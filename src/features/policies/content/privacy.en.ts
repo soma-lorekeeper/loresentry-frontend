@@ -163,8 +163,9 @@ To improve the service, usage statistics are collected with Google Analytics.
 
 The items collected are the addresses of pages visited, device and browser information, approximate
 location at the country and city level, referral source, and usage behavior such as scrolling and
-clicks on external links. Project and file identifiers are removed from page addresses before they
-are sent, and manuscripts, emails and display names are not sent. Information stored in Google
+clicks on external links, completed search counts and whether those searches have results.
+Project and file identifiers are removed from page addresses before they are sent. Original search
+terms, manuscripts, emails and display names are not sent. Information stored in Google
 Analytics is deleted once the retention period set by the Operator (up to 14 months) has passed.
 Google signals data for advertising purposes and ads personalization are not used.
 

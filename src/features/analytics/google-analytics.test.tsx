@@ -11,8 +11,10 @@ import {
   installGoogleAnalytics,
   pageLocation,
   pageReferrer,
+  trackProjectSearch,
 } from "./google-analytics";
 import { GoogleAnalyticsTracker } from "./google-analytics-tracker";
+import { installSearchUrlRedaction } from "./search-url-redaction";
 
 const navigation = vi.hoisted(() => ({
   pathname: "/projects/",
@@ -54,6 +56,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  installSearchUrlRedaction()();
   vi.restoreAllMocks();
   navigate("/");
 });
@@ -122,6 +125,12 @@ describe("pageLocation", () => {
 });
 
 describe("installGoogleAnalytics", () => {
+  it("removes search terms before the tag can inspect the real page URL", () => {
+    navigate("/workspace/", "projectId=p-1&open=search&q=private-original");
+    installGoogleAnalytics(ID);
+    expect(window.location.search).toBe("?projectId=p-1&open=search");
+    expect(JSON.stringify(calls())).not.toContain("private-original");
+  });
   it("loads gtag.js once and turns off the automatic page view", () => {
     navigate("/workspace/", "projectId=p-1");
     installGoogleAnalytics(ID);
@@ -140,6 +149,25 @@ describe("installGoogleAnalytics", () => {
         { page_location: "http://localhost/workspace/", page_referrer: "" },
       ],
       ["config", ID, { send_page_view: false }],
+    ]);
+  });
+});
+
+describe("project search measurement", () => {
+  it("does not install analytics when it is absent, including MOCK", () => {
+    trackProjectSearch(true);
+    expect(window.gtag).toBeUndefined();
+    expect(window.dataLayer).toBeUndefined();
+    expect(document.querySelector("script[src*=googletagmanager]")).toBeNull();
+  });
+
+  it("accepts result presence only and sends no search term or identifiers", () => {
+    installGoogleAnalytics(ID);
+    trackProjectSearch(true);
+    trackProjectSearch(false);
+    expect(calls().filter(([, name]) => name === "project_search")).toEqual([
+      ["event", "project_search", { has_results: true }],
+      ["event", "project_search", { has_results: false }],
     ]);
   });
 });
