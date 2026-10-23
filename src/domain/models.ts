@@ -67,6 +67,8 @@ export interface DocumentNode extends FileNodeBase {
   kind: "document";
   docType: DocumentType;
   locked: boolean;
+  /** 그래프 최신화가 잠갔다. `locked` 도 함께 참이고, 최신화가 끝나야 풀린다(사용자가 풀 수 없다) */
+  refreshLocked: boolean;
   revisionNo: number;
   updatedAt: IsoDateTime;
 }
@@ -109,6 +111,8 @@ export interface DocumentContent {
   body: DocumentBody;
   properties: DocumentProperty[];
   locked: boolean;
+  /** 그래프 최신화가 잠갔다. `locked` 도 함께 참이고, 최신화가 끝나야 풀린다(사용자가 풀 수 없다) */
+  refreshLocked: boolean;
   revisionNo: number;
   updatedAt: IsoDateTime;
 }
@@ -286,20 +290,40 @@ export interface ProjectSettings {
   description: string;
 }
 
-// 서버 가정(DOCUMENT_EDITING_PROPOSAL §4.3): 그래프 최신화는 run → proposal → change
-// 3층이고, 확정 전에는 실제 문서를 바꾸지 않는다.
+/**
+ * 그래프 최신화 한 번(run)의 상태. 서버(content 의 graph-refresh API)가 갖는다.
+ *
+ * <ul>
+ *   <li>IDLE: 이 프로젝트에서 최신화를 한 적이 없다
+ *   <li>RUNNING: graph-rag 결과를 기다린다(서버의 GENERATING). 보낸 문서는 잠겨 있다
+ *   <li>READY: 결과가 와서 검토 중이다. 확정할 때까지 관련 문서가 잠겨 있다
+ *   <li>NO_CHANGE · FAILED · APPLIED: 끝났다. 잠금이 풀렸다
+ * </ul>
+ */
 export type RefreshRunStatus =
-  "IDLE" | "RUNNING" | "READY" | "APPLIED" | "FAILED";
+  "IDLE" | "RUNNING" | "READY" | "NO_CHANGE" | "FAILED" | "APPLIED";
 
-export type ProposalKind = "modified" | "added" | "removed";
+/** 고칠 기존 문서(modified)인가, 새로 만들 설정 문서(added)인가 */
+export type ProposalKind = "modified" | "added";
 
+/**
+ * 검토 작업본 하나. 왼쪽(current)은 지금 문서, 오른쪽(proposed)은 AI 제안이고 둘 다 고칠 수 있다.
+ * 두 쪽이 같아지면 정해진 것이고, 모든 작업본이 정해져야 확정할 수 있다.
+ */
 export interface RefreshProposal {
+  /** 작업본 id. 자동 저장이 이것으로 가리킨다 */
   id: string;
   kind: ProposalKind;
+  /** 기존 문서 id. 새 문서 제안이면 서버가 준 후보 id(`new:…`)다 */
   fileId: string;
   title: string;
   docType: DocumentType;
-  baseRevisionNo: number | null;
+  /** 자동 저장의 충돌 방지 번호. 저장할 때 그대로 돌려보낸다 */
+  draftRevision: number;
+  /** 서버가 본 두 쪽이 같은가. 모두 참이어야 확정된다 */
+  matched: boolean;
+  /** AI 가 읽은 뒤 문서가 바뀌었다. 제안이 지금 문서와 어긋날 수 있다 */
+  baseMismatch: boolean;
   current: DocumentDraft | null;
   proposed: DocumentDraft | null;
 }
@@ -309,11 +333,17 @@ export interface RefreshRun {
   projectId: string;
   status: RefreshRunStatus;
   startedAt: IsoDateTime | null;
-  sourceFileIds: string[];
+  readyAt: IsoDateTime | null;
+  completedAt: IsoDateTime | null;
+  /** 실패했을 때의 서버 코드(`TIMED_OUT` 등)와 진단용 설명 */
+  error: { code: string; message: string | null } | null;
+  /** 열린 작업본 수. READY 가 아니면 모두 0 이다 */
+  counts: { total: number; matched: number; created: number };
+}
+
+/** 검토 화면이 읽는 run 과 그 작업본 전부 */
+export interface RefreshRunDetail extends RefreshRun {
   proposals: RefreshProposal[];
-  preview?: boolean;
-  /** A previous apply saved documents; proposals contains only unfinished work. */
-  partiallyApplied?: boolean;
 }
 
 export type ExportFormat = "pdf" | "docx" | "md" | "txt" | "hwp";

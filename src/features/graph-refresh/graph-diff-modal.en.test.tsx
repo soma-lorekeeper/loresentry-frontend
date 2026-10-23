@@ -7,7 +7,7 @@ import { setMockLatency } from "@/services/mock/control";
 import { GLASS_GARDEN_ID, getDb, resetDb } from "@/services/mock/db";
 import { mockRefresh } from "@/services/mock/refresh";
 import { renderWithServices, routerMock } from "@/test/render";
-import type { RefreshRun } from "@/domain/models";
+import type { RefreshRunDetail } from "@/domain/models";
 
 import { createLayout } from "../workspace/model/layout";
 import { WorkspaceProvider } from "../workspace/workspace-context";
@@ -26,14 +26,13 @@ const user = {
   onboardingCompleted: true,
 };
 
-async function readyRun(): Promise<RefreshRun> {
+async function readyRun(): Promise<RefreshRunDetail> {
   resetDb();
   setMockLatency(0);
   await mockRefresh.start(GLASS_GARDEN_ID);
-  (
-    getDb().refreshRuns[GLASS_GARDEN_ID] as unknown as { readyAt: number }
-  ).readyAt = 0;
-  return mockRefresh.current(GLASS_GARDEN_ID);
+  getDb().refreshRuns[GLASS_GARDEN_ID].readyAt = 0;
+  const run = await mockRefresh.latest(GLASS_GARDEN_ID);
+  return mockRefresh.review(GLASS_GARDEN_ID, run.id);
 }
 
 describe("GraphDiffModal (English build)", () => {
@@ -47,13 +46,15 @@ describe("GraphDiffModal (English build)", () => {
         user={user}
         initialLayout={createLayout()}
       >
-        <GraphDiffModal run={run} open onClose={() => {}} />
+        <GraphDiffModal runId={run.id} open onClose={() => {}} />
       </WorkspaceProvider>,
+      // 화면을 그리기 전에 저장소를 비우므로, 미리 만든 작업본을 그대로 돌려준다.
+      { refresh: { review: async () => run } },
     );
 
     const dialog = await screen.findByRole("dialog");
     expect(
-      within(dialog).getByRole("heading", {
+      await within(dialog).findByRole("heading", {
         name: `Changes ${count} documents`,
       }),
     ).toBeInTheDocument();

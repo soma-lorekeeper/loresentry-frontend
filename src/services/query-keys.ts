@@ -23,6 +23,9 @@ export const queryKeys = {
     ["search", projectId, query] as const,
   graph: (projectId: string) => ["graph", projectId] as const,
   refresh: (projectId: string) => ["refresh", projectId] as const,
+  // 상태(refresh)와 따로 둔다. 상태를 다시 읽을 때 검토 중인 작업본까지 다시 읽으면 고르던 화면이 처음으로 돌아간다.
+  refreshReview: (projectId: string, runId: string) =>
+    ["refresh-review", projectId, runId] as const,
   guides: ["help", "guides"] as const,
   chatAvailability: (projectId: string) =>
     ["chat", projectId, "availability"] as const,

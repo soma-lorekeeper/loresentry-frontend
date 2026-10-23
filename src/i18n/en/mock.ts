@@ -60,10 +60,6 @@ export default {
 
   "이미 그래프 최신화를 진행하고 있어요.":
     "A graph refresh is already running.",
-  "반영할 변경 사항이 없어요.": "There are no changes to apply.",
-  "아직 결정하지 않은 변경이 있어요.": "Some changes haven't been decided yet.",
-  "‘{title}’이 추출 뒤에 수정됐어요. 그래프를 다시 최신화해 주세요.":
-    "“{title}” was edited after extraction. Refresh the graph again.",
 
   "대화를 찾을 수 없어요.": "Couldn't find this conversation.",
   "응답 생성을 중단했어요.": "Stopped generating the response.",

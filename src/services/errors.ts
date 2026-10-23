@@ -10,6 +10,8 @@ export type ServiceErrorCode =
   | "validation"
   | "duplicate"
   | "locked"
+  // 그래프 최신화가 잠근 문서다. 최신화가 끝나야 풀리고, 사용자가 풀 수 없다.
+  | "refresh-locked"
   | "busy"
   // 서버에 그 기능이 아직 없다. 재시도해도 달라지지 않는다.
   | "unavailable"

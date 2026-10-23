@@ -46,7 +46,9 @@ export function readDocument(fileId: string): DocumentContent {
     docType: node.docType,
     body: stored.body,
     properties: stored.properties,
-    locked: node.locked,
+    // 서버처럼 사용자 잠금과 최신화 잠금을 합친 것이 실효 잠금이다.
+    locked: node.locked || node.refreshLocked,
+    refreshLocked: node.refreshLocked,
     revisionNo: node.revisionNo,
     updatedAt: node.updatedAt,
   };
@@ -214,7 +216,7 @@ export const mockDocuments: DocumentService = {
       const db = getDb();
       if (db.saveReceipts[saveId] !== undefined) return readDocument(fileId);
       const node = requireDocument(fileId);
-      if (node.locked) {
+      if (node.locked || node.refreshLocked) {
         throw new ServiceError(
           "locked",
           t("mock::잠긴 문서는 편집할 수 없어요."),
@@ -239,7 +241,15 @@ export const mockDocuments: DocumentService = {
 
   setLocked: (fileId, locked) =>
     simulate("documents.lock", () => {
-      requireDocument(fileId).locked = locked;
+      const node = requireDocument(fileId);
+      // 최신화가 잠근 문서는 그 최신화가 끝나야 풀린다. 잠그기도 풀기도 거절한다.
+      if (node.refreshLocked) {
+        throw new ServiceError(
+          "refresh-locked",
+          t("그래프 최신화 결과를 확정해야 잠금이 풀려요."),
+        );
+      }
+      node.locked = locked;
       persistDb();
       return readDocument(fileId);
     }),
@@ -275,7 +285,8 @@ export const mockVersions: VersionService = {
 
   saveNamed: (fileId) =>
     simulate("versions.save", () => {
-      if (requireDocument(fileId).locked) {
+      const node = requireDocument(fileId);
+      if (node.locked || node.refreshLocked) {
         throw new ServiceError(
           "locked",
           t("잠긴 문서는 새 버전을 저장할 수 없어요."),
@@ -289,7 +300,7 @@ export const mockVersions: VersionService = {
   restore: (fileId, versionId, ifMatchRevision) =>
     simulate("versions.restore", () => {
       const node = requireDocument(fileId);
-      if (node.locked) {
+      if (node.locked || node.refreshLocked) {
         throw new ServiceError(
           "locked",
           t("잠긴 문서는 버전을 복원할 수 없어요."),

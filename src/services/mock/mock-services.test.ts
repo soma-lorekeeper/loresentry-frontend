@@ -1,6 +1,10 @@
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { ConflictError } from "../ports";
+import {
+  ConflictError,
+  RefreshConfirmError,
+  RefreshDraftConflict,
+} from "../ports";
 import { isServiceError } from "../errors";
 
 import { clearMockRules, setMockLatency, setMockRule } from "./control";
@@ -350,81 +354,106 @@ describe("mock search and graph", () => {
 });
 
 describe("mock graph refresh", () => {
-  it("resumes only unfinished proposals after a partial failure", async () => {
-    await services.refresh.start(GLASS_GARDEN_ID);
-    (
-      getDb().refreshRuns[GLASS_GARDEN_ID] as unknown as { readyAt: number }
-    ).readyAt = 0;
-    const run = await services.refresh.current(GLASS_GARDEN_ID);
-    const first = run.proposals[0];
-    const originalRevision = (await services.documents.get(first.fileId))
-      .revisionNo;
-    const accepted = Object.fromEntries(
-      run.proposals.map((p) => [p.id, p.proposed]),
-    );
-    setMockRule("files.create", "once");
+  const ready = async () => {
+    const started = await services.refresh.start(GLASS_GARDEN_ID);
+    getDb().refreshRuns[GLASS_GARDEN_ID].readyAt = 0;
+    const run = await services.refresh.latest(GLASS_GARDEN_ID);
+    return { started, run };
+  };
 
-    await expect(
-      services.refresh.apply(GLASS_GARDEN_ID, run.id, accepted),
-    ).rejects.toThrow();
-    const pending = await services.refresh.current(GLASS_GARDEN_ID);
-    expect(pending).toMatchObject({ status: "READY", partiallyApplied: true });
-    expect(pending.proposals.map((p) => p.id)).toEqual(
-      run.proposals.slice(1).map((p) => p.id),
+  it("locks what it reads and refuses another run until the review is confirmed", async () => {
+    const started = await services.refresh.start(GLASS_GARDEN_ID);
+    expect(started.run?.status).toBe("RUNNING");
+    expect(started.lockedFileIds).toHaveLength(3);
+    const chapter = await services.documents.get(started.lockedFileIds[0]);
+    expect(chapter).toMatchObject({ locked: true, refreshLocked: true });
+    const unlock = await rejection(
+      services.documents.setLocked(started.lockedFileIds[0], false),
     );
-    const applied = await createMockServices().refresh.apply(
-      GLASS_GARDEN_ID,
-      run.id,
-      Object.fromEntries(pending.proposals.map((p) => [p.id, p.proposed])),
+    expect(isServiceError(unlock) && unlock.code).toBe("refresh-locked");
+    const busy = await rejection(services.refresh.start(GLASS_GARDEN_ID));
+    expect(isServiceError(busy) && busy.code).toBe("busy");
+
+    getDb().refreshRuns[GLASS_GARDEN_ID].readyAt = Date.now() - EXTRACTION_MS;
+    const run = await services.refresh.latest(GLASS_GARDEN_ID);
+    expect(run).toMatchObject({
+      status: "READY",
+      counts: { total: 3, matched: 0, created: 1 },
+    });
+    const review = await services.refresh.review(GLASS_GARDEN_ID, run.id);
+    expect(review.proposals.map((p) => p.kind)).toEqual([
+      "modified",
+      "added",
+      "modified",
+    ]);
+    // 제안이 온 문서도 검토가 끝날 때까지 잠긴다.
+    expect(
+      (await services.documents.get(review.proposals[0].fileId)).refreshLocked,
+    ).toBe(true);
+    const pending = await rejection(services.refresh.start(GLASS_GARDEN_ID));
+    expect(isServiceError(pending) && pending.code).toBe("busy");
+  });
+
+  it("applies only after every draft's two sides match, then unlocks", async () => {
+    const { started, run } = await ready();
+    const review = await services.refresh.review(GLASS_GARDEN_ID, run.id);
+    const harin = review.proposals[0];
+    const originalRevision = (await services.documents.get(harin.fileId))
+      .revisionNo;
+
+    const early = await rejection(
+      services.refresh.confirm(GLASS_GARDEN_ID, run.id),
     );
-    expect(applied.status).toBe("APPLIED");
-    expect((await services.documents.get(first.fileId)).revisionNo).toBe(
+    expect(early).toBeInstanceOf(RefreshConfirmError);
+    expect((await services.documents.get(harin.fileId)).revisionNo).toBe(
+      originalRevision,
+    );
+
+    for (const proposal of review.proposals) {
+      const saved = await services.refresh.saveDraft(
+        GLASS_GARDEN_ID,
+        run.id,
+        proposal.id,
+        {
+          draftRevision: proposal.draftRevision,
+          current: proposal.proposed,
+          proposed: proposal.proposed,
+        },
+      );
+      expect(saved.matched).toBe(true);
+    }
+    await services.refresh.confirm(GLASS_GARDEN_ID, run.id);
+
+    expect(await services.refresh.latest(GLASS_GARDEN_ID)).toMatchObject({
+      status: "APPLIED",
+    });
+    expect((await services.documents.get(harin.fileId)).revisionNo).toBe(
       originalRevision + 1,
     );
     expect(
       getDb().versions.filter(
-        (v) => v.fileId === first.fileId && v.kind === "AI_APPLY",
+        (v) => v.fileId === harin.fileId && v.kind === "AI_APPLY",
       ),
     ).toHaveLength(1);
     expect(
-      getDb().files.filter((node) => node.title === run.proposals[1].title),
+      getDb().files.filter((node) => node.title === review.proposals[1].title),
     ).toHaveLength(1);
+    for (const fileId of [...started.lockedFileIds, harin.fileId])
+      expect((await services.documents.get(fileId)).locked).toBe(false);
   });
 
-  it("refuses a second run while extracting and becomes ready later", async () => {
-    const run = await services.refresh.start(GLASS_GARDEN_ID);
-    expect(run.status).toBe("RUNNING");
-    const busy = await rejection(services.refresh.start(GLASS_GARDEN_ID));
-    expect(isServiceError(busy) && busy.code).toBe("busy");
-    const stored = getDb().refreshRuns[GLASS_GARDEN_ID] as unknown as {
-      readyAt: number;
-    };
-    stored.readyAt = Date.now() - EXTRACTION_MS;
-    const ready = await services.refresh.current(GLASS_GARDEN_ID);
-    expect(ready.status).toBe("READY");
-    expect(ready.proposals.map((p) => p.kind)).toEqual([
-      "modified",
-      "added",
-      "removed",
-      "modified",
-    ]);
-  });
-
-  it("does not touch documents until every proposal is resolved", async () => {
-    await services.refresh.start(GLASS_GARDEN_ID);
-    (
-      getDb().refreshRuns[GLASS_GARDEN_ID] as unknown as { readyAt: number }
-    ).readyAt = 0;
-    const ready = await services.refresh.current(GLASS_GARDEN_ID);
-    const harin = ready.proposals[0];
-    const partial = await rejection(
-      services.refresh.apply(GLASS_GARDEN_ID, ready.id, {
-        [harin.id]: harin.proposed,
+  it("refuses a draft saved from a stale revision", async () => {
+    const { run } = await ready();
+    const [harin] = (await services.refresh.review(GLASS_GARDEN_ID, run.id))
+      .proposals;
+    const conflict = await rejection(
+      services.refresh.saveDraft(GLASS_GARDEN_ID, run.id, harin.id, {
+        draftRevision: harin.draftRevision + 1,
+        current: harin.current,
+        proposed: harin.current,
       }),
     );
-    expect(isServiceError(partial)).toBe(true);
-    const unchanged = await services.documents.get(harin.fileId);
-    expect(unchanged.body).toEqual(harin.current?.body);
+    expect(conflict).toBeInstanceOf(RefreshDraftConflict);
   });
 });
 

@@ -1,102 +1,97 @@
-import type { DocumentType } from "@/domain/document-types";
-import { emptyBody } from "@/domain/document-body";
+import { BODY_SCHEMA_VERSION } from "@/domain/document-body";
 import type {
-  DocumentContent,
   DocumentDraft,
   RefreshProposal,
   RefreshRun,
+  RefreshRunStatus,
 } from "@/domain/models";
 import { t } from "@/i18n";
 
 import { ServiceError } from "../errors";
 import {
-  ConflictError,
-  type DocumentService,
-  type FileService,
+  RefreshConfirmError,
+  RefreshDraftConflict,
   type RefreshService,
-  type VersionService,
+  type SavedRefreshDraft,
 } from "../ports";
 
+import { toBody, type ApiBody } from "./documents";
+import { toServiceError } from "./errors";
+import type { ApiClient } from "./http";
 import {
-  buildProposals,
-  parentOfAdded,
-  pickSources,
-  pickTargets,
-  withRelation,
-} from "./refresh-proposals";
+  documentTypeOf,
+  fromProperties,
+  toProperties,
+  type ApiTextProperty,
+} from "./mapping";
 
-export const EXTRACTION_MS = 4000;
+/**
+ * 그래프 최신화 API(content 가 갖고 BFF 가 그대로 중계한다).
+ *
+ * <p>흐름은 요청 → 결과 기다리기(폴링) → 검토 작업본 자동 저장 → 확정이다. 상태는 모두 서버에 있어서
+ * 다른 브라우저나 새로 로그인한 곳에서도 이어서 볼 수 있다.
+ */
 
-interface StoredRun {
-  run: RefreshRun;
-  readyAt: number | null;
-  done: string[];
+interface ApiRunSummary {
+  request_id: string;
+  /** GENERATING(결과 대기) · READY(검토 중) · NO_CHANGE · FAILED · APPLIED */
+  status: string;
+  started_at: string;
+  ready_at: string | null;
+  completed_at: string | null;
+  error: { code: string; message: string | null } | null;
+  draft_counts: { total: number; matched: number; new: number };
 }
 
-function publicRun({ run, done }: StoredRun): RefreshRun {
-  return {
-    ...run,
-    ...(done.length > 0 ? { partiallyApplied: true } : {}),
-    proposals: run.proposals.filter((p) => !done.includes(p.id)),
-  };
-}
-
-export interface RunStore {
-  read(projectId: string): StoredRun | null;
-  write(projectId: string, value: StoredRun): void;
-  clear(projectId: string): void;
-}
-
-const STORAGE_PREFIX = "loresentry.refresh.";
-
-export function browserRunStore(): RunStore {
-  const memory = new Map<string, StoredRun>();
-  return {
-    read(projectId) {
-      try {
-        const raw = window.localStorage.getItem(STORAGE_PREFIX + projectId);
-        if (raw) return JSON.parse(raw) as StoredRun;
-      } catch {
-        return memory.get(projectId) ?? null;
-      }
-      return memory.get(projectId) ?? null;
-    },
-    write(projectId, value) {
-      memory.set(projectId, value);
-      try {
-        window.localStorage.setItem(
-          STORAGE_PREFIX + projectId,
-          JSON.stringify(value),
-        );
-      } catch {
-        return;
-      }
-    },
-    clear(projectId) {
-      memory.delete(projectId);
-      try {
-        window.localStorage.removeItem(STORAGE_PREFIX + projectId);
-      } catch {
-        return;
-      }
-    },
-  };
-}
-
-export interface RefreshDependencies {
-  files: Pick<FileService, "tree" | "create" | "moveToTrash">;
-  documents: Pick<DocumentService, "get" | "save">;
-  versions: Pick<VersionService, "saveNamed">;
-  store?: RunStore;
-  now?: () => number;
-  newId?: () => string;
-}
-
-interface Pair {
-  id: string;
-  type: DocumentType;
+/** 작업본 한 쪽의 관계. 대상은 기존 문서이거나 이번 최신화가 제안한 새 문서(후보) 둘 중 하나다 */
+interface ApiDraftRelation {
+  relation_key: string;
+  target_document_id: string | null;
+  target_candidate_id: string | null;
   description: string;
 }
+
+interface ApiDraftSnapshot {
+  title: string;
+  body: ApiBody | null;
+  legacy_body_md: string | null;
+  properties: ApiTextProperty[];
+  relations: ApiDraftRelation[];
+}
+
+interface ApiDraft {
+  id: string;
+  kind: "EDIT" | "NEW";
+  draft_revision: number;
+  matched: boolean;
+  document: { id: string; title: string; folder_code: string } | null;
+  candidate: { candidate_id: string; folder_code: string; name: string } | null;
+  base_mismatch: boolean;
+  left_snapshot: ApiDraftSnapshot | null;
+  right_snapshot: ApiDraftSnapshot | null;
+}
+
+interface ApiRunDetail extends ApiRunSummary {
+  drafts: ApiDraft[];
+}
+
+interface ApiStarted {
+  request_id: string | null;
+  status: "GENERATING" | "NO_CHANGES";
+  files: { file_id: string; revision_no: number }[];
+}
+
+interface ApiSavedDraft {
+  draft_revision: number;
+  matched: boolean;
+  left_snapshot: ApiDraftSnapshot | null;
+  right_snapshot: ApiDraftSnapshot | null;
+}
+
+/** 서버의 새 문서 후보 id 는 이렇게 시작한다. 화면은 이 id 를 그대로 관계 대상으로 쓴다 */
+const CANDIDATE_PREFIX = "new:";
+
+const NO_DRAFTS = { total: 0, matched: 0, created: 0 };
 
 function idle(projectId: string): RefreshRun {
   return {
@@ -104,308 +99,224 @@ function idle(projectId: string): RefreshRun {
     projectId,
     status: "IDLE",
     startedAt: null,
-    sourceFileIds: [],
-    proposals: [],
-    preview: true,
+    readyAt: null,
+    completedAt: null,
+    error: null,
+    counts: NO_DRAFTS,
   };
 }
 
-function same(a: DocumentDraft | null, b: DocumentDraft | null): boolean {
-  return JSON.stringify(a) === JSON.stringify(b);
+/** 서버의 GENERATING 이 화면의 RUNNING 이다. 나머지 이름은 같다 */
+function statusOf(status: string): RefreshRunStatus {
+  if (
+    status === "READY" ||
+    status === "NO_CHANGE" ||
+    status === "FAILED" ||
+    status === "APPLIED"
+  )
+    return status;
+  return "RUNNING";
 }
 
-function stale(title: string) {
-  return new ServiceError(
-    "validation",
-    t("‘{title}’이 추출 뒤에 수정됐어요. 그래프를 다시 최신화해 주세요.", {
-      title,
-    }),
-  );
-}
-
-function relationTargets(draft: DocumentDraft | null): Map<string, string> {
-  const targets = new Map<string, string>();
-  for (const property of draft?.properties ?? []) {
-    if (property.kind !== "relation") continue;
-    for (const id of property.targetIds)
-      targets.set(id, property.descriptions[id] ?? "");
-  }
-  return targets;
-}
-
-function keepPairs(draft: DocumentDraft, pairs: Pair[] | undefined) {
-  const present = relationTargets(draft);
-  return (pairs ?? []).reduce(
-    (acc, pair) =>
-      present.has(pair.id)
-        ? acc
-        : withRelation(acc, pair.type, pair.id, pair.description),
-    draft,
-  );
-}
-
-function dropPairs(
-  draft: DocumentDraft,
-  current: DocumentDraft | null,
-  dropped: Set<string> | undefined,
-): DocumentDraft {
-  const before = relationTargets(current);
-  const gone = [...(dropped ?? [])].filter((id) => before.has(id));
-  if (gone.length === 0) return draft;
+function toRun(projectId: string, api: ApiRunSummary): RefreshRun {
   return {
-    ...draft,
-    properties: draft.properties.map((property) =>
-      property.kind === "relation"
-        ? {
-            ...property,
-            targetIds: property.targetIds.filter((id) => !gone.includes(id)),
-          }
-        : property,
-    ),
+    id: api.request_id,
+    projectId,
+    status: statusOf(api.status),
+    startedAt: api.started_at,
+    readyAt: api.ready_at,
+    completedAt: api.completed_at,
+    error: api.error,
+    counts: {
+      total: api.draft_counts.total,
+      matched: api.draft_counts.matched,
+      created: api.draft_counts.new,
+    },
   };
 }
 
-async function settled<T>(tasks: Promise<T>[]): Promise<T[]> {
-  const results = await Promise.allSettled(tasks);
-  return results.flatMap((result) =>
-    result.status === "fulfilled" ? [result.value] : [],
-  );
-}
+export function createApiRefresh(client: ApiClient): RefreshService {
+  /**
+   * 화면 모델 → 서버가 준 원래 스냅샷. 화면 모델로 바꿨다가 되돌리면 본문 JSON 의 사소한 모양이 달라질
+   * 수 있다. 그러면 사용자가 손대지 않은 쪽도 "바뀐 문서"가 되어 확정 때 새 revision 이 생긴다. 그래서
+   * 읽은 그대로인 쪽은 원래 스냅샷을 돌려보낸다. 검토를 다시 읽을 때마다 새로 채운다.
+   */
+  const originals = new Map<string, ApiDraftSnapshot>();
 
-export function createApiRefresh({
-  files,
-  documents,
-  versions,
-  store = browserRunStore(),
-  now = Date.now,
-  newId = () => crypto.randomUUID(),
-}: RefreshDependencies): RefreshService {
-  const generating = new Map<string, Promise<RefreshProposal[]>>();
-
-  const generate = async (run: RefreshRun) => {
-    const tree = await files.tree(run.projectId);
-    const sources = (
-      await Promise.all(run.sourceFileIds.map((id) => documents.get(id)))
-    ).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
-    const targets: DocumentContent[] = await settled(
-      pickTargets(tree, sources).map((node) => documents.get(node.id)),
-    );
-    return buildProposals({ tree, sources, targets, newId });
+  const toDraft = (snapshot: ApiDraftSnapshot | null): DocumentDraft | null => {
+    if (!snapshot) return null;
+    const draft: DocumentDraft = {
+      title: snapshot.title,
+      body: toBody(snapshot.body, snapshot.legacy_body_md),
+      // 후보를 가리키는 관계도 화면에서는 다른 관계와 같다 — 대상 id 자리에 후보 id 를 둔다.
+      properties: toProperties(
+        snapshot.properties,
+        snapshot.relations.map((relation) => ({
+          relation_key: relation.relation_key,
+          target_document_id:
+            relation.target_document_id ?? relation.target_candidate_id ?? "",
+          description: relation.description,
+        })),
+      ),
+    };
+    originals.set(JSON.stringify(draft), snapshot);
+    return draft;
   };
 
-  const generation = (run: RefreshRun) => {
-    let pending = generating.get(run.id);
-    if (!pending) {
-      pending = generate(run);
-      pending.catch(() => {});
-      generating.set(run.id, pending);
-    }
-    return pending;
+  const toSnapshot = (draft: DocumentDraft | null): ApiDraftSnapshot | null => {
+    if (!draft) return null;
+    const original = originals.get(JSON.stringify(draft));
+    if (original) return original;
+    const { properties, relations } = fromProperties(draft.properties);
+    return {
+      title: draft.title,
+      body: { schema_version: BODY_SCHEMA_VERSION, doc: draft.body.doc },
+      legacy_body_md: null,
+      properties,
+      relations: relations.map((relation) => {
+        const candidate =
+          relation.target_document_id.startsWith(CANDIDATE_PREFIX);
+        return {
+          relation_key: relation.relation_key,
+          target_document_id: candidate ? null : relation.target_document_id,
+          target_candidate_id: candidate ? relation.target_document_id : null,
+          description: relation.description ?? "",
+        };
+      }),
+    };
   };
 
-  const current = async (projectId: string): Promise<RefreshRun> => {
-    const stored = store.read(projectId);
-    if (!stored) return idle(projectId);
-    const { run, readyAt } = stored;
-    if (run.status !== "RUNNING") return publicRun(stored);
-    const pending = generation(run);
-    if (readyAt !== null && now() < readyAt) return run;
+  const toSaved = (api: ApiSavedDraft): SavedRefreshDraft => ({
+    draftRevision: api.draft_revision,
+    matched: api.matched,
+    current: toDraft(api.left_snapshot),
+    proposed: toDraft(api.right_snapshot),
+  });
 
-    let next: RefreshRun;
-    try {
-      next = { ...run, status: "READY", proposals: await pending };
-    } catch {
-      next = { ...run, status: "FAILED" };
-    }
-    generating.delete(run.id);
-    const latest = store.read(projectId);
-    if (!latest || latest.run.id !== run.id || latest.run.status !== "RUNNING")
-      return latest?.run ?? idle(projectId);
-    store.write(projectId, { run: next, readyAt: null, done: [] });
-    return next;
+  const toProposal = (draft: ApiDraft): RefreshProposal => {
+    const folderCode =
+      draft.document?.folder_code ?? draft.candidate?.folder_code ?? "";
+    return {
+      id: draft.id,
+      kind: draft.kind === "NEW" ? "added" : "modified",
+      fileId: draft.document?.id ?? draft.candidate?.candidate_id ?? draft.id,
+      title:
+        draft.document?.title ??
+        draft.right_snapshot?.title ??
+        draft.candidate?.name ??
+        "",
+      docType: documentTypeOf(folderCode),
+      draftRevision: draft.draft_revision,
+      matched: draft.matched,
+      baseMismatch: draft.base_mismatch,
+      current: toDraft(draft.left_snapshot),
+      proposed: toDraft(draft.right_snapshot),
+    };
   };
 
   return {
-    current,
+    latest: async (projectId) => {
+      const result = await client.requestAllowing<ApiRunSummary>(
+        `/projects/${projectId}/graph-refresh`,
+        [404],
+        { operation: "refresh.latest" },
+      );
+      if (result.ok) return toRun(projectId, result.data);
+      const code = result.failure.body?.code;
+      if (code === "REFRESH_NOT_FOUND") return idle(projectId);
+      if (code === "PROJECT_NOT_FOUND")
+        throw toServiceError(result.failure.body, 404, "refresh.latest");
+      // 경로가 없다 — 서버가 아직 최신화를 모른다. 누르면 실패할 버튼 대신 "준비 중"을 보인다.
+      throw new ServiceError(
+        "unavailable",
+        t("이 기능은 아직 준비되지 않았어요."),
+        "refresh.latest",
+      );
+    },
 
     start: async (projectId) => {
-      if ((await current(projectId)).status === "RUNNING") {
-        throw new ServiceError(
-          "busy",
-          t("이미 그래프 최신화를 진행하고 있어요."),
-        );
-      }
-      const tree = await files.tree(projectId);
-      const run: RefreshRun = {
-        id: newId(),
-        projectId,
-        status: "RUNNING",
-        startedAt: new Date(now()).toISOString(),
-        sourceFileIds: pickSources(tree),
-        proposals: [],
-        preview: true,
+      const started = await client.request<ApiStarted>(
+        `/projects/${projectId}/graph-refresh`,
+        { method: "POST", operation: "refresh.start" },
+      );
+      if (started.status !== "GENERATING" || !started.request_id)
+        return { run: null, lockedFileIds: [] };
+      return {
+        run: {
+          ...idle(projectId),
+          id: started.request_id,
+          status: "RUNNING",
+          startedAt: new Date().toISOString(),
+        },
+        lockedFileIds: started.files.map((file) => file.file_id),
       };
-      store.write(projectId, { run, readyAt: now() + EXTRACTION_MS, done: [] });
-      generation(run);
-      return run;
     },
 
-    apply: async (projectId, runId, resolved) => {
-      const stored = store.read(projectId);
-      const initial = stored?.run;
-      if (
-        !stored ||
-        !initial ||
-        initial.id !== runId ||
-        initial.status !== "READY"
-      ) {
-        throw new ServiceError("validation", t("반영할 변경 사항이 없어요."));
-      }
-      let run = initial;
-      const done = new Set(stored.done);
-      const pending = run.proposals.filter((p) => !done.has(p.id));
-      if (pending.some((proposal) => !(proposal.id in resolved))) {
-        throw new ServiceError(
-          "validation",
-          t("아직 결정하지 않은 변경이 있어요."),
-        );
-      }
-
-      const remember = () =>
-        store.write(projectId, { ...stored, run, done: [...done] });
-      const finish = (
-        proposal: RefreshProposal,
-        final: DocumentDraft | null,
-      ) => {
-        // Keep the actual accepted draft for relation pairing on a resumed apply.
-        run = {
-          ...run,
-          partiallyApplied: true,
-          proposals: run.proposals.map((p) =>
-            p.id === proposal.id ? { ...p, proposed: final } : p,
-          ),
-        };
-        done.add(proposal.id);
-        remember();
-      };
-      const modified = pending.filter(
-        (proposal) =>
-          proposal.kind === "modified" &&
-          resolved[proposal.id] !== null &&
-          !same(resolved[proposal.id], proposal.current),
+    review: async (projectId, runId) => {
+      const detail = await client.request<ApiRunDetail>(
+        `/projects/${projectId}/graph-refresh/${runId}`,
+        { operation: "refresh.review" },
       );
-
-      const latest = await Promise.all(
-        modified.map((proposal) => documents.get(proposal.fileId)),
-      );
-      modified.forEach((proposal, index) => {
-        if (latest[index].revisionNo !== proposal.baseRevisionNo)
-          throw stale(proposal.title);
-      });
-
-      const pairs = new Map<string, Pair[]>();
-      const dropped = new Map<string, Set<string>>();
-      const record = (proposal: RefreshProposal, final: DocumentDraft) => {
-        const before = relationTargets(proposal.current);
-        const after = relationTargets(final);
-        for (const [id, description] of after) {
-          if (before.has(id)) continue;
-          pairs.set(id, [
-            ...(pairs.get(id) ?? []),
-            { id: proposal.fileId, type: proposal.docType, description },
-          ]);
-        }
-        for (const id of before.keys()) {
-          if (after.has(id)) continue;
-          dropped.set(id, (dropped.get(id) ?? new Set()).add(proposal.fileId));
-        }
+      originals.clear();
+      return {
+        ...toRun(projectId, detail),
+        proposals: detail.drafts.map(toProposal),
       };
-
-      for (const proposal of run.proposals) {
-        if (done.has(proposal.id) && proposal.proposed)
-          record(proposal, proposal.proposed);
-      }
-
-      for (const proposal of modified) {
-        const final = dropPairs(
-          keepPairs(
-            resolved[proposal.id] as DocumentDraft,
-            pairs.get(proposal.fileId),
-          ),
-          proposal.current,
-          dropped.get(proposal.fileId),
-        );
-        await versions.saveNamed(proposal.fileId, t("그래프 최신화 반영 전"));
-        try {
-          await documents.save(proposal.fileId, {
-            draft: final,
-            ifMatchRevision: proposal.baseRevisionNo as number,
-            saveId: newId(),
-          });
-        } catch (cause) {
-          if (cause instanceof ConflictError) throw stale(proposal.title);
-          throw cause;
-        }
-        record(proposal, final);
-        finish(proposal, final);
-      }
-
-      for (const proposal of pending) {
-        const final = resolved[proposal.id];
-        if (proposal.kind === "added" && final) {
-          const created = await files.create({
-            projectId,
-            parentId: parentOfAdded(proposal.fileId),
-            kind: "document",
-            title: final.title,
-            docType: proposal.docType,
-          });
-          if (created.kind === "document") {
-            // POST succeeded even if the following PUT fails. Persist its real
-            // identity before another request so retry/reload cannot create it twice.
-            run = {
-              ...run,
-              partiallyApplied: true,
-              proposals: run.proposals.map((p) =>
-                p.id === proposal.id
-                  ? {
-                      ...p,
-                      kind: "modified",
-                      fileId: created.id,
-                      baseRevisionNo: created.revisionNo,
-                      current: {
-                        title: created.title,
-                        body: emptyBody(),
-                        properties: [],
-                      },
-                      proposed: final,
-                    }
-                  : p,
-              ),
-            };
-            remember();
-            await documents.save(created.id, {
-              draft: final,
-              ifMatchRevision: created.revisionNo,
-              saveId: newId(),
-            });
-          }
-        } else if (proposal.kind === "removed" && !final) {
-          await files.moveToTrash(proposal.fileId);
-        } else {
-          continue;
-        }
-        finish(proposal, final);
-      }
-
-      const applied: RefreshRun = { ...run, status: "APPLIED", proposals: [] };
-      store.write(projectId, { run: applied, readyAt: null, done: [] });
-      return applied;
     },
 
-    discard: async (projectId, runId) => {
-      if (store.read(projectId)?.run.id === runId) store.clear(projectId);
-      return idle(projectId);
+    saveDraft: async (projectId, runId, draftId, input) => {
+      const result = await client.requestAllowing<ApiSavedDraft>(
+        `/projects/${projectId}/graph-refresh/${runId}/drafts/${draftId}`,
+        [409],
+        {
+          method: "PATCH",
+          body: {
+            draft_revision: input.draftRevision,
+            left_snapshot: toSnapshot(input.current),
+            right_snapshot: toSnapshot(input.proposed),
+          },
+          operation: "refresh.saveDraft",
+        },
+      );
+      if (result.ok) return toSaved(result.data);
+      const body = result.failure.body;
+      if (body?.code === "REFRESH_DRAFT_CONFLICT" && body.current)
+        throw new RefreshDraftConflict(toSaved(body.current as ApiSavedDraft));
+      throw toServiceError(body, 409, "refresh.saveDraft");
+    },
+
+    confirm: async (projectId, runId) => {
+      const result = await client.requestAllowing<unknown>(
+        `/projects/${projectId}/graph-refresh/${runId}/confirm`,
+        [409],
+        { method: "POST", operation: "refresh.confirm" },
+      );
+      if (result.ok) return;
+      const body = result.failure.body;
+      switch (body?.code) {
+        case "REFRESH_DRAFTS_UNMATCHED":
+          throw new RefreshConfirmError(body.code, body.drafts ?? [], []);
+        case "REFRESH_DOCUMENTS_CHANGED":
+          throw new RefreshConfirmError(
+            body.code,
+            (body.documents ?? []).map((document) => document.draft_id),
+            [],
+          );
+        case "REFRESH_DRAFTS_INVALID":
+          throw new RefreshConfirmError(
+            body.code,
+            [],
+            (body.problems ?? []).map((problem) => ({
+              code: problem.code,
+              target: problem.target,
+              draftId: problem.draft_id,
+              one: problem.one,
+              other: problem.other,
+            })),
+          );
+        default:
+          throw toServiceError(body, 409, "refresh.confirm");
+      }
     },
   };
 }

@@ -5,6 +5,9 @@ import { ServiceError, type ServiceErrorCode } from "../errors";
 /**
  * 서버 오류 본문은 `{ code, message, next_action }` 이고, 충돌만 `current`·`base` 를 더 싣는다.
  * `code` 가 계약이고 `message` 는 진단용 영어라 화면에 띄우지 않는다 — 사용자 문구는 여기서 고른다.
+ *
+ * <p>그래프 최신화 확정이 거절되면 그 까닭이 함께 온다: 맞추지 않은 작업본(`drafts`), 작업본을 뜬
+ * 뒤 바뀐 문서(`documents`), 그대로 쓸 수 없는 이유(`problems`).
  */
 export interface ApiErrorBody {
   code?: string;
@@ -13,6 +16,9 @@ export interface ApiErrorBody {
   upstream?: string;
   current?: unknown;
   base?: unknown;
+  drafts?: string[];
+  documents?: { draft_id: string; file_id: string }[];
+  problems?: Record<string, string>[];
 }
 
 /**
@@ -45,6 +51,15 @@ const CODE_TO_SERVICE_ERROR: Record<string, ServiceErrorCode> = {
   VERSION_NOT_FOUND: "not-found",
   NOT_FOUND: "not-found",
   DOCUMENT_LOCKED: "locked",
+  DOCUMENT_REFRESH_LOCKED: "refresh-locked",
+  // 그래프 최신화. 결과를 기다리거나 검토를 기다리는 run 이 있으면 새로 시작할 수 없다.
+  REFRESH_IN_PROGRESS: "busy",
+  REFRESH_REVIEW_PENDING: "busy",
+  REFRESH_UNAVAILABLE: "network",
+  REFRESH_NOT_FOUND: "not-found",
+  // 검토가 이미 끝났거나(확정·실패) 작업본이 없다. 화면은 상태를 다시 읽는다.
+  REFRESH_DRAFT_NOT_FOUND: "not-found",
+  REFRESH_NOT_READY: "not-found",
   MEMO_NOT_FOUND: "not-found",
   INVALID_MEMO: "validation",
   IMAGE_NOT_FOUND: "not-found",
@@ -86,6 +101,7 @@ const MESSAGES: Partial<Record<ServiceErrorCode, string>> = {
   duplicate: t("같은 이름이 이미 있어요."),
   "not-found": t("찾을 수 없어요."),
   locked: t("잠긴 문서는 편집할 수 없어요."),
+  "refresh-locked": t("그래프 최신화 결과를 확정해야 잠금이 풀려요."),
   busy: t("처리 중이에요. 잠시 뒤 다시 시도해 주세요."),
   network: t("서버에 연결할 수 없어요."),
   unavailable: t("이 기능은 아직 준비되지 않았어요."),
@@ -112,6 +128,11 @@ const CODE_MESSAGES: Record<string, string> = {
   PROJECT_NOT_TRASHED: t("휴지통으로 옮긴 뒤에 삭제할 수 있어요."),
   FILE_NOT_TRASHED: t("휴지통으로 옮긴 뒤에 삭제할 수 있어요."),
   DOCUMENT_LOCKED: t("잠긴 문서는 편집할 수 없어요."),
+  REFRESH_IN_PROGRESS: t("이미 그래프 최신화를 진행하고 있어요."),
+  REFRESH_REVIEW_PENDING: t("검토를 기다리는 최신화 결과가 있어요."),
+  REFRESH_UNAVAILABLE: t("잠시 뒤 다시 시도해 주세요."),
+  REFRESH_NOT_READY: t("이미 끝난 최신화예요."),
+  REFRESH_DRAFT_NOT_FOUND: t("이미 끝난 최신화예요."),
   USER_CONTEXT_REQUIRED: t("로그인이 필요해요."),
   INVALID_MEMO: t("메모를 확인해 주세요."),
   MEMO_NOT_FOUND: t("메모를 찾을 수 없어요."),

@@ -29,6 +29,7 @@ const doc = (id: string, parentId: string): FileNode => ({
   docType: "manuscript",
   rank: "1",
   locked: false,
+  refreshLocked: false,
   revisionNo: 1,
   updatedAt: "2026-09-18T00:00:00Z",
   trashedAt: null,

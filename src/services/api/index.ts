@@ -43,7 +43,7 @@ export function createApiServices(baseUrl: string): Partial<Services> {
     graph: createApiGraph(client),
     feedback: createApiFeedback(client),
     help: createApiHelp(),
-    refresh: createApiRefresh({ files, documents, versions }),
+    refresh: createApiRefresh(client),
     chat: createApiChat(client),
   };
 }

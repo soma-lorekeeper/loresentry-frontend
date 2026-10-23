@@ -4,10 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import type { FileNode } from "@/domain/models";
 import { isUnavailable } from "@/features/common/preparing-state";
-import {
-  useRefreshActions,
-  useRefreshRun,
-} from "@/features/graph-refresh/queries";
+import { useRefreshRun } from "@/features/graph-refresh/queries";
 import type {
   WorkspaceLayout,
   WorkspaceTarget,
@@ -19,6 +16,7 @@ import { t } from "@/i18n";
 
 import { CoachMark } from "./coach-mark";
 import type { Placement, Rect } from "./place-card";
+import { TourRefreshExample } from "./refresh-example";
 import {
   announceTourEnd,
   onTourRequest,
@@ -45,6 +43,8 @@ interface TourStep {
    * 단계에서 그대로 넘어가면, 다음 단계가 가리킬 화면이 그 대화상자에 가려진다.
    */
   dismiss?: string;
+  /** 이 단계 동안 그래프 최신화의 예시 검토 창을 띄운다(실제 최신화는 시작하지 않는다) */
+  example?: boolean;
 }
 
 const FIND_TIMEOUT_MS = 2500;
@@ -195,50 +195,21 @@ function buildSteps(
     refreshAvailable && {
       title: t("새 회차를 쓴 다음엔"),
       body: t(
-        "그래프 최신화가 최근 원고를 읽고 설정 문서에 바뀔 점을 찾아요. 받을지는 작가가 골라요.",
+        "그래프 최신화가 바뀐 원고를 읽고 설정 문서에 더할 점을 찾아요. 결과를 확정할 때까지 읽은 문서는 잠겨요.",
       ),
-      action: t("‘그래프 최신화’를 눌러 보세요."),
-      target: "refresh-start",
+      action: t("다음을 누르면 예시 결과를 열어요."),
+      // 단추 하나가 아니라 그 자리를 가리킨다. 최신화가 이미 돌거나 검토를 기다리면 단추 모양이 바뀐다.
+      target: "refresh",
       chapter: 3,
       sidebar: true,
-      press: "refresh-start",
-      advanceOn: ["refresh-running", "refresh-review"],
-      when: "refresh-start",
-      placement: ["right", "bottom"],
-    },
-    refreshAvailable && {
-      title: t("원고를 읽고 있어요"),
-      body: t("끝나면 이 버튼이 ‘변경 사항 반영’으로 바뀌어요."),
-      action: t("몇 초면 끝나요."),
-      waiting: true,
-      target: "refresh-running",
-      chapter: 3,
-      sidebar: true,
-      advanceOn: ["refresh-review"],
-      when: "refresh-running",
-      placement: ["right", "bottom"],
-    },
-    refreshAvailable && {
-      title: t("바뀔 점을 찾았어요"),
-      body: t("제안은 아직 문서에 들어가지 않았어요. 열어서 하나씩 확인해요."),
-      action: t("‘변경 사항 반영’을 눌러 보세요."),
-      target: "refresh-review",
-      chapter: 3,
-      sidebar: true,
-      press: "refresh-review",
-      advanceOn: ["diff-list", "diff-empty"],
-      when: "refresh-review",
       placement: ["right", "bottom"],
     },
     refreshAvailable && {
       title: t("달라진 문서가 모여요"),
-      body: t("‘~’는 고칠 문서, ‘+’는 새로 만들 문서, ‘−’는 지울 문서예요."),
-      action: t("문서 하나를 골라 보세요."),
+      body: t("예시 결과예요. ‘~’는 고칠 문서, ‘+’는 새로 만들 문서예요."),
       target: "diff-list",
       chapter: 3,
-      press: "diff-list",
-      advanceOn: ["diff-compare"],
-      when: "diff-list",
+      example: true,
       placement: ["right", "bottom"],
     },
     refreshAvailable && {
@@ -248,28 +219,18 @@ function buildSteps(
       ),
       target: "diff-compare",
       chapter: 3,
-      when: "diff-compare",
+      example: true,
       placement: ["top", "bottom", "left"],
     },
     refreshAvailable && {
       title: t("다 정하면 반영해요"),
       body: t(
-        "모든 문서를 정하면 ‘반영 확정’이 켜지고, 반영 전 상태는 버전 기록에 남아요. 완료하면 이 창을 닫고 처음 화면으로 돌아가요.",
+        "모든 문서를 정하면 ‘반영 확정’이 켜지고, 확정하면 잠긴 문서가 풀려요. 반영한 내용은 버전 기록에 남아요.",
       ),
       target: "diff-confirm",
       chapter: 3,
-      when: "diff-list",
+      example: true,
       placement: ["bottom", "left"],
-    },
-    refreshAvailable && {
-      title: t("이번엔 바뀔 점이 없어요"),
-      body: t(
-        "원고를 더 쓴 뒤 다시 최신화하면 이 창에 제안이 모여요. 완료하면 이 창을 닫고 처음 화면으로 돌아가요.",
-      ),
-      target: "diff-empty",
-      chapter: 3,
-      when: "diff-empty",
-      placement: ["bottom", "top"],
     },
   ];
   return steps.filter((step): step is TourStep => step !== false);
@@ -460,7 +421,6 @@ export function WorkspaceTour() {
   } = useWorkspace();
   const tree = useFileTree(projectId);
   const refresh = useRefreshRun(projectId);
-  const { discard } = useRefreshActions(projectId);
   const refreshAvailable = !isUnavailable(refresh.error);
   const [index, setIndex] = useState<number | null>(null);
   const steps = useMemo(
@@ -472,7 +432,6 @@ export function WorkspaceTour() {
     layout: WorkspaceLayout;
     // 좁은 창에서는 서랍의 열림이 배치와 따로 간다. 투어가 끝나면 이것도 되돌린다.
     sidebarVisible: boolean;
-    runId: string | null;
   } | null>(null);
   const snapshot = () => ({
     open,
@@ -481,8 +440,6 @@ export function WorkspaceTour() {
     // 사이드바가 실제로 보이는가. 좁은 창에서는 `layout.sidebarOpen` 과 다를 수 있다.
     sidebarVisible,
     setSidebarVisible,
-    run: refresh.data ?? null,
-    discard: discard.mutate,
   });
   const latest = useRef(snapshot());
 
@@ -495,7 +452,6 @@ export function WorkspaceTour() {
     before.current = {
       layout: current.layout,
       sidebarVisible: current.sidebarVisible,
-      runId: current.run?.id ?? null,
     };
     openedSidebar.current = false;
     setIndex(0);
@@ -537,14 +493,6 @@ export function WorkspaceTour() {
     setIndex(null);
     announceTourEnd();
     const current = latest.current;
-    const run = current.run;
-    if (
-      run &&
-      (run.status === "RUNNING" || run.status === "READY") &&
-      run.id !== before.current?.runId
-    ) {
-      current.discard(run.id);
-    }
     if (before.current) {
       current.dispatch({ type: "replace", layout: before.current.layout });
       // 넓은 창에서는 위의 배치 복원과 같은 값이라 아무 일도 없고, 좁은 창에서는 서랍을 되돌린다.
@@ -611,6 +559,19 @@ export function WorkspaceTour() {
     forward();
   }, [forward, index, leave, pressedAt, step]);
 
+  /**
+   * 예시 창을 확정하거나 닫았다. 예시 창을 가리키는 단계를 건너 다음 장으로 간다 — 창이 닫혔는데 남은
+   * 예시 단계가 빈자리를 가리키면 안 된다.
+   */
+  const leaveExample = useCallback(() => {
+    if (index === null) return;
+    let following = nextIndex(steps, index);
+    while (following !== null && steps[following].example)
+      following = nextIndex(steps, following);
+    if (following === null) end();
+    else setIndex(following);
+  }, [end, index, steps]);
+
   const back = useCallback(() => {
     if (index === null) return;
     const previous = previousIndex(steps, index);
@@ -622,21 +583,24 @@ export function WorkspaceTour() {
   if (!step || index === null) return null;
 
   return (
-    <CoachMark
-      ready={ready}
-      target={rect}
-      step={index}
-      chapters={steps.map((item) => item.chapter)}
-      last={!hasNext(steps, index, sidebarVisible)}
-      title={step.title}
-      body={step.body}
-      round={step.round}
-      action={step.action}
-      waiting={step.waiting}
-      placement={step.placement}
-      onBack={previousIndex(steps, index) === null ? null : back}
-      onNext={next}
-      onSkip={end}
-    />
+    <>
+      <TourRefreshExample open={!!step.example} onDone={leaveExample} />
+      <CoachMark
+        ready={ready}
+        target={rect}
+        step={index}
+        chapters={steps.map((item) => item.chapter)}
+        last={!hasNext(steps, index, sidebarVisible)}
+        title={step.title}
+        body={step.body}
+        round={step.round}
+        action={step.action}
+        waiting={step.waiting}
+        placement={step.placement}
+        onBack={previousIndex(steps, index) === null ? null : back}
+        onNext={next}
+        onSkip={end}
+      />
+    </>
   );
 }

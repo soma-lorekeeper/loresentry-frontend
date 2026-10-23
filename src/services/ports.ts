@@ -23,6 +23,7 @@ import type {
   ProjectGraph,
   ProjectSettings,
   RefreshRun,
+  RefreshRunDetail,
   SearchHit,
   TrashEntry,
   User,
@@ -173,16 +174,95 @@ export interface GraphService {
   getProjectGraph(projectId: string): Promise<ProjectGraph>;
 }
 
+/** 최신화 요청의 결과 */
+export interface RefreshStarted {
+  /** 결과를 기다리는 새 run. 지난 최신화 뒤 바뀐 문서가 없어 시작하지 않았으면 null 이다 */
+  run: RefreshRun | null;
+  /** 이번 최신화가 잠근 문서. 결과를 검토해 확정할 때까지(또는 실패할 때까지) 편집할 수 없다 */
+  lockedFileIds: string[];
+}
+
+/** 작업본 한 개의 두 쪽. 새 문서 작업본은 한쪽이나 둘 다 null 일 수 있다(null/null 은 "만들지 않음") */
+export interface RefreshDraftSides {
+  current: DocumentDraft | null;
+  proposed: DocumentDraft | null;
+}
+
+/** 서버가 저장한 작업본. 두 쪽은 서버가 정규형으로 맞춘 값이다 */
+export interface SavedRefreshDraft extends RefreshDraftSides {
+  draftRevision: number;
+  matched: boolean;
+}
+
 export interface RefreshService {
-  current(projectId: string): Promise<RefreshRun>;
+  /** 가장 최근 최신화. 한 번도 하지 않았으면 IDLE 이다. 결과를 기다리는 동안 화면이 다시 읽는다 */
+  latest(projectId: string): Promise<RefreshRun>;
   // 요구사항 §8.2: 추출 중에는 같은 요청을 중복 실행할 수 없다.
-  start(projectId: string): Promise<RefreshRun>;
-  apply(
+  start(projectId: string): Promise<RefreshStarted>;
+  /** 검토할 run 과 그 작업본 전부 */
+  review(projectId: string, runId: string): Promise<RefreshRunDetail>;
+  /**
+   * 작업본 한 개의 자동 저장. `draftRevision` 은 마지막으로 읽은 값이다. 다른 곳이 먼저 저장했으면
+   * {@link RefreshDraftConflict} 를 던진다.
+   */
+  saveDraft(
     projectId: string,
     runId: string,
-    resolved: Record<string, DocumentDraft | null>,
-  ): Promise<RefreshRun>;
-  discard(projectId: string, runId: string): Promise<RefreshRun>;
+    draftId: string,
+    input: RefreshDraftSides & { draftRevision: number },
+  ): Promise<SavedRefreshDraft>;
+  /**
+   * 모든 작업본의 두 쪽이 같을 때 한 번에 반영한다. 반영할 수 없으면 {@link RefreshConfirmError} 를
+   * 던진다. 성공하면 run 은 APPLIED 이고 잠금이 풀린다. 상태는 {@link latest} 로 다시 읽는다.
+   */
+  confirm(projectId: string, runId: string): Promise<void>;
+}
+
+/** 작업본을 다른 탭·기기가 먼저 저장했다. `current` 가 서버의 지금 모습이다 */
+export class RefreshDraftConflict extends Error {
+  constructor(readonly current: SavedRefreshDraft) {
+    super(t("다른 곳에서 먼저 고친 내용으로 바꿨어요."));
+    this.name = "RefreshDraftConflict";
+  }
+}
+
+/**
+ * 확정이 거절된 까닭 하나. `code` 는 서버 코드다.
+ * <ul>
+ *   <li>REJECTED_CANDIDATE: 만들지 않기로 한 새 문서를 가리키는 관계가 남아 있다(`target`)
+ *   <li>INVALID_RELATION_TARGET: 관계 대상이 없거나 휴지통에 있다(`target`)
+ *   <li>BODY_REQUIRED: 옛 형식 문서의 본문이 비어 있어 쓸 수 없다(`draftId`)
+ *   <li>RELATION_CONFLICT: 같은 두 문서 사이 관계를 한쪽은 더하고 한쪽은 뺐다(`one`, `other`)
+ * </ul>
+ */
+export interface RefreshProblem {
+  code: string;
+  target?: string;
+  draftId?: string;
+  one?: string;
+  other?: string;
+}
+
+/**
+ * 확정이 거절됐다. 아무것도 반영되지 않았다.
+ * <ul>
+ *   <li>REFRESH_DRAFTS_UNMATCHED: 아직 두 쪽을 맞추지 않은 작업본이 있다(`draftIds`)
+ *   <li>REFRESH_DOCUMENTS_CHANGED: 작업본을 뜬 뒤 문서가 바뀌었다(`draftIds`)
+ *   <li>REFRESH_DRAFTS_INVALID: 맞춘 내용을 그대로 쓸 수 없다(`problems`)
+ * </ul>
+ */
+export class RefreshConfirmError extends Error {
+  constructor(
+    readonly code:
+      | "REFRESH_DRAFTS_UNMATCHED"
+      | "REFRESH_DOCUMENTS_CHANGED"
+      | "REFRESH_DRAFTS_INVALID",
+    readonly draftIds: string[],
+    readonly problems: RefreshProblem[],
+  ) {
+    super(t("변경 사항을 반영하지 못했어요."));
+    this.name = "RefreshConfirmError";
+  }
 }
 
 export interface ChatStreamHandlers {

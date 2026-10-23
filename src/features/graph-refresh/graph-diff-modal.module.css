@@ -93,17 +93,43 @@
   overflow-y: auto;
 }
 
-.previewNote {
-  margin: auto 0 0;
-  padding: var(--lk-space-3) var(--lk-space-4) var(--lk-space-4);
-  color: var(--lk-color-text-secondary);
-  font-size: var(--lk-font-size-label);
-  line-height: 1.5;
+/* 작업본을 불러오는 동안 창의 자리. 창 크기는 그대로 둔다 */
+.loading {
+  flex: 1;
 }
 
-.emptyModal {
-  width: min(440px, calc(100vw - 32px));
-  padding: var(--lk-space-7) var(--lk-space-6);
+/* 확정이 거절된 까닭들. 알림 바로 아래에 늘어놓고, 문서 이름을 누르면 그 문서를 고른다 */
+.problems {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-1);
+  margin: 0;
+  padding: 0 var(--lk-space-3) 0 var(--lk-space-6);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  list-style: disc;
+}
+
+.problem {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--lk-color-accent-primary);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.problem:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.problem:focus-visible {
+  border-radius: var(--lk-radius-control);
+  outline: none;
+  box-shadow: var(--lk-focus-ring);
 }
 
 .item {
@@ -182,6 +208,19 @@
   color: var(--lk-color-text-secondary);
   font-size: var(--lk-font-size-label);
   font-weight: 600;
+}
+
+/* AI 가 읽은 뒤 문서가 바뀌었다는 표시. 제안이 지금 문서와 어긋날 수 있다 */
+.mismatch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lk-space-1);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}
+
+.mismatch > svg {
+  color: var(--lk-color-accent-primary);
 }
 
 .status {

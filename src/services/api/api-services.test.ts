@@ -963,18 +963,21 @@ describe("wiring", () => {
     expect(calls[0].credentials).toBe("include");
   });
 
-  it("runs graph refresh in the browser as a preview until the AI server exists", async () => {
+  it("reads graph refresh state from the server through the BFF", async () => {
     const wired = createServices({
       ...DEFAULT_RUNTIME_CONFIG,
       dataSource: "api",
       apiBaseUrl: BASE,
     });
-
-    expect(await wired.refresh.current("p-1")).toMatchObject({
-      status: "IDLE",
-      preview: true,
+    reply(404, {
+      code: "REFRESH_NOT_FOUND",
+      message: "Graph refresh was not found.",
+      next_action: "NONE",
     });
-    expect(calls).toHaveLength(0);
+
+    expect(await wired.refresh.latest("p-1")).toMatchObject({ status: "IDLE" });
+    expect(calls[0].url).toBe(`${BASE}/projects/p-1/graph-refresh`);
+    expect(calls[0].credentials).toBe("include");
   });
 
   it("serves the user guide from the bundled articles without a request", async () => {

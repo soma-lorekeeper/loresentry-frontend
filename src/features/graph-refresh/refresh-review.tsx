@@ -30,13 +30,11 @@ import {
 const KIND_BADGE: Record<RefreshProposal["kind"], string> = {
   modified: t("변경 종류::수정"),
   added: t("변경 종류::추가"),
-  removed: t("변경 종류::삭제"),
 };
 
 const KIND_MARK: Record<RefreshProposal["kind"], string> = {
   modified: "~",
   added: "+",
-  removed: "−",
 };
 
 /**
@@ -45,16 +43,16 @@ const KIND_MARK: Record<RefreshProposal["kind"], string> = {
  * <p><b>화면만 그린다.</b> 무엇을 보일지(제안, 지금까지 고른 상태)와 눌렀을 때 할 일은 모두
  * 바깥에서 받는다. 그래서 두 곳이 같은 화면을 쓴다:
  * <ul>
- *   <li>실제 창(graph-diff-modal.tsx) — 서버의 제안을 받아 대화상자 안에 그리고, 확정하면 반영한다.
+ *   <li>실제 창(graph-diff-modal.tsx) — 서버의 작업본을 받아 대화상자 안에 그리고, 확정하면 반영한다.
  *   <li>랜딩과 온보딩의 예시 화면(onboarding/refresh-preview.tsx) — 꾸며 낸 제안을 그려 보이기만
  *       한다. 예시를 따로 만들어 두면 실제 창이 바뀔 때마다 예시가 뒤처진다 — 실제로 그랬다.
+ *   <li>투어의 예시 창(tour/refresh-example.tsx) — 같은 꾸민 제안으로 화살표와 확정을 해 보게 한다.
  * </ul>
  *
  * @param state 지금까지 고른 상태. `start` 는 처음 상태(되돌리기의 기준)다
  * @param selectedId 비교해 보고 있는 문서. 없으면 목록에서 고르라는 안내가 보인다
- * @param preview 미리보기 제안인가. 목록 아래에 그 사실을 적는다
  * @param applying 확정한 것을 반영하는 중인가
- * @param notice 비교 아래에 덧붙일 알림(반영 실패 등)
+ * @param notice 비교 위에 띄울 알림(저장·확정 실패 등). 머리의 확정 단추 가까이에 보이게 맨 위에 둔다
  */
 export function RefreshReview({
   titleId,
@@ -62,7 +60,6 @@ export function RefreshReview({
   state,
   start,
   selectedId,
-  preview,
   applying = false,
   notice,
   lookup,
@@ -77,7 +74,6 @@ export function RefreshReview({
   state: MergeState;
   start: MergeState;
   selectedId: string | null;
-  preview?: boolean;
   applying?: boolean;
   notice?: ReactNode;
   lookup: Lookup;
@@ -185,15 +181,9 @@ export function RefreshReview({
               );
             })}
           </ul>
-          {preview && (
-            <p className={styles.previewNote}>
-              {t(
-                "미리보기 제안이에요. 지금은 최근 원고에서 문서 이름이 나온 문장을 모아 만들어요.",
-              )}
-            </p>
-          )}
         </nav>
         <div className={styles.main}>
+          {notice}
           {!selected ? (
             <EmptyState
               icon="git-compare-arrows"
@@ -206,6 +196,12 @@ export function RefreshReview({
                   <span>
                     {t("가운데 화살표로 옮기거나 양쪽을 직접 고칠 수 있어요.")}
                   </span>
+                  {/* 제안을 하나도 받지 않는 길도 확정이다. 따로 버리는 단추는 없다. */}
+                  <span>
+                    {t(
+                      "제안을 받지 않으려면 ‘현재 버전 전체 반영’ 후 반영 확정",
+                    )}
+                  </span>
                 </>
               }
             />
@@ -216,6 +212,12 @@ export function RefreshReview({
                 <span className={styles.badge}>
                   {KIND_BADGE[selected.kind]}
                 </span>
+                {selected.baseMismatch && (
+                  <span className={styles.mismatch}>
+                    <Icon name="info" size={14} />
+                    {t("AI가 읽은 뒤 바뀐 문서")}
+                  </span>
+                )}
               </div>
               <div className={styles.status} role="status">
                 <span>
@@ -260,7 +262,6 @@ export function RefreshReview({
               />
             </>
           )}
-          {notice}
         </div>
       </div>
     </div>

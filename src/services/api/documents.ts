@@ -37,7 +37,7 @@ import {
   type ApiTextProperty,
 } from "./mapping";
 
-interface ApiBody {
+export interface ApiBody {
   schema_version: number;
   doc: JSONContent;
 }
@@ -53,6 +53,8 @@ interface ApiContent {
   properties: ApiTextProperty[];
   relations: ApiRelation[];
   locked: boolean;
+  /** 그래프 최신화가 잠갔다. 이때 `locked` 도 참이다 */
+  refresh_locked: boolean;
   char_count: number;
   revision_no: number;
   updated_at: string;
@@ -82,7 +84,10 @@ interface ApiVersion {
  * <p><b>Markdown 을 해석하는 곳은 여기다.</b> 서버는 그것을 모르고, 화면 모델에는 항상
  * `DocumentBody` 만 올라간다. 그 문서를 다음에 저장하면 JSON 으로 저장되며 변환이 끝난다.
  */
-function toBody(body: ApiBody | null, legacy: string | null): DocumentBody {
+export function toBody(
+  body: ApiBody | null,
+  legacy: string | null,
+): DocumentBody {
   if (body?.doc) return bodyOf(body.doc);
   if (legacy) return markdownToBody(legacy);
   return emptyBody();
@@ -97,6 +102,7 @@ function toContent(api: ApiContent): DocumentContent {
     body: toBody(api.body, api.legacy_body_md),
     properties: toProperties(api.properties, api.relations),
     locked: api.locked,
+    refreshLocked: api.refresh_locked,
     revisionNo: api.revision_no,
     updatedAt: api.updated_at,
   };
