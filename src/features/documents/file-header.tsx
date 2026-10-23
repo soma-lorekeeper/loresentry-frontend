@@ -45,6 +45,8 @@ const EXPORT_OPTIONS: Array<{
 interface FileHeaderProps {
   memoOpen: boolean;
   locked: boolean;
+  /** 그래프 최신화가 잠갔다. 눌러도 풀리지 않고, 왜 그런지 알린다 */
+  refreshLocked: boolean;
   lockPending: boolean;
   exportPending?: boolean;
   onToggleMemo: () => void;
@@ -89,6 +91,7 @@ function Action({
 export function FileHeader({
   memoOpen,
   locked,
+  refreshLocked,
   lockPending,
   exportPending = false,
   onToggleMemo,
@@ -140,7 +143,13 @@ export function FileHeader({
       />
       <Action
         icon={locked ? "lock" : "lock-open"}
-        label={locked ? t("잠금 해제") : t("잠금")}
+        label={
+          refreshLocked
+            ? t("그래프 최신화로 잠김")
+            : locked
+              ? t("잠금 해제")
+              : t("잠금")
+        }
         pressed={locked}
         disabled={lockPending}
         onClick={onToggleLock}

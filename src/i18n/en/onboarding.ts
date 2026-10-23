@@ -69,30 +69,11 @@ export default {
   "캐릭터나 장소 문서를 만들면 속성 표에서 관련 원고와 인물을 이을 수 있어요.":
     "Create a character or place document, then link related chapters and characters in its property table.",
   "새 회차를 쓴 다음엔": "After you write a new chapter",
-  "그래프 최신화가 최근 원고를 읽고 설정 문서에 바뀔 점을 찾아요. 받을지는 작가가 골라요.":
-    "Graph refresh reads your recent chapters and finds what should change in your setting documents. You choose what to accept.",
-  "‘그래프 최신화’를 눌러 보세요.": "Click ‘Graph refresh’.",
-  "원고를 읽고 있어요": "Reading your chapters",
-  "끝나면 이 버튼이 ‘변경 사항 반영’으로 바뀌어요.":
-    "When it's done, this button turns into ‘Apply changes’.",
-  "몇 초면 끝나요.": "This takes a few seconds.",
-  "바뀔 점을 찾았어요": "Changes found",
-  "제안은 아직 문서에 들어가지 않았어요. 열어서 하나씩 확인해요.":
-    "Nothing has gone into your documents yet. Open them and check each one.",
-  "‘변경 사항 반영’을 눌러 보세요.": "Click ‘Apply changes’.",
   "달라진 문서가 모여요": "Changed documents are listed here",
-  "‘~’는 고칠 문서, ‘+’는 새로 만들 문서, ‘−’는 지울 문서예요.":
-    "‘~’ marks a document to change, ‘+’ a new one, ‘−’ one to remove.",
-  "문서 하나를 골라 보세요.": "Pick a document.",
   "왼쪽은 지금, 오른쪽은 제안": "Current on the left, proposed on the right",
   "가운데 화살표로 한 줄씩 옮기거나 양쪽을 직접 고쳐요. 두 쪽이 같아지면 그 문서는 정해져요.":
     "Move lines across with the arrows in the middle, or edit either side. A document is settled once both sides match.",
   "다 정하면 반영해요": "Apply once everything is settled",
-  "모든 문서를 정하면 ‘반영 확정’이 켜지고, 반영 전 상태는 버전 기록에 남아요. 완료하면 이 창을 닫고 처음 화면으로 돌아가요.":
-    "‘Apply changes’ turns on once every document is settled, and each document keeps its earlier state in its version history. Done closes this window and takes you back to where you started.",
-  "이번엔 바뀔 점이 없어요": "Nothing to change this time",
-  "원고를 더 쓴 뒤 다시 최신화하면 이 창에 제안이 모여요. 완료하면 이 창을 닫고 처음 화면으로 돌아가요.":
-    "Write more, refresh again, and suggestions will gather here. Done closes this window and takes you back to where you started.",
   "이은 관계는 그래프로 봐요": "See your links as a graph",
   "속성 표에서 이은 문서가 그래프의 점과 선이 돼요.":
     "Documents you link in property tables become the graph's nodes and lines.",
@@ -187,7 +168,7 @@ export default {
   "무대::타임라인": "Timeline",
   "무대::메모": "Notes",
   "무대::그래프 최신화": "Graph refresh",
-  "무대::그래프 추출 중…": "Extracting graph…",
+  "무대::그래프 최신화 중…": "Refreshing graph…",
   "무대::변경 사항 반영": "Apply changes",
   "무대::즐겨찾기": "Favorites",
   "무대::파일": "Files",
@@ -212,4 +193,14 @@ export default {
   "무대::1,284자": "1,284 characters",
   "무대::문서": "Document",
   "무대::작품": "Project",
+
+  "그래프 최신화가 바뀐 원고를 읽고 설정 문서에 더할 점을 찾아요. 결과를 확정할 때까지 읽은 문서는 잠겨요.":
+    "Graph refresh reads the chapters you changed and finds what to add to your setting documents. The documents it read stay locked until you confirm the results.",
+  "다음을 누르면 예시 결과를 열어요.": "Click Next to open an example result.",
+  "예시 결과예요. ‘~’는 고칠 문서, ‘+’는 새로 만들 문서예요.":
+    "This is an example result. ‘~’ marks documents to edit and ‘+’ new documents to create.",
+  "모든 문서를 정하면 ‘반영 확정’이 켜지고, 확정하면 잠긴 문서가 풀려요. 반영한 내용은 버전 기록에 남아요.":
+    "Once every document is settled, ‘Apply changes’ turns on, and applying unlocks the documents. What you apply is kept in version history.",
+  "투어용 예시 · 실제 문서에는 반영되지 않음":
+    "Tour example · not applied to your documents",
 } satisfies Messages;

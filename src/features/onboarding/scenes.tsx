@@ -189,7 +189,7 @@ function RefreshItem({ scene }: { scene: Scene }) {
       </span>
       <span className={cx(styles.refreshState, styles.refreshRunning)}>
         <Icon name="loader-circle" size={13} className={styles.spin} />
-        {t("무대::그래프 추출 중…")}
+        {t("무대::그래프 최신화 중…")}
       </span>
       <span className={cx(styles.refreshState, styles.refreshReady)}>
         <Icon name="git-compare-arrows" size={13} />

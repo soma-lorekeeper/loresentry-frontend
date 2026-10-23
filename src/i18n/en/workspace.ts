@@ -122,7 +122,6 @@ export default {
   "섹션 삭제": "Delete section",
 
   "그래프 최신화 (준비 중)": "Graph refresh (soon)",
-  "작업공간::그래프 추출 중…": "Extracting graph…",
   "작업공간::변경 사항 반영": "Apply changes",
   "작업공간::그래프 최신화": "Graph refresh",
   "그래프 최신화를 시작하지 못했어요.": "Couldn't start the graph refresh.",
@@ -315,4 +314,20 @@ export default {
   "검색::잠김": "Locked",
   "검색::즐겨찾기": "Favorite",
   "검색::마지막 수정 {date}": "Last edited {date}",
+
+  "문서 {count}개를 잠갔어요.": plural(
+    "Locked {count} document.",
+    "Locked {count} documents.",
+  ),
+  "최신화할 변경이 없어요.": "Nothing to refresh.",
+  "지난 최신화 뒤 고친 문서가 없어요.":
+    "No documents changed since the last refresh.",
+  "그래프 최신화 중…": "Refreshing graph…",
+  "그래프 최신화 중… {minutes}분": "Refreshing graph… {minutes} min",
+  "그래프 최신화를 시작할까요?": "Start a graph refresh?",
+  "지난 최신화 뒤 고친 원고와 설정 문서를 AI가 읽어요. 읽는 문서는 결과를 확정할 때까지 편집할 수 없어요.":
+    "AI reads the chapters and setting documents you changed since the last refresh. The documents it reads can't be edited until you apply the results.",
+  "최신화 시작": "Start refresh",
+  "결과를 확정할 때까지 편집할 수 없어요.":
+    "They can't be edited until you apply the results.",
 } satisfies Messages;

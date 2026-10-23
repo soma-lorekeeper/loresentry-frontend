@@ -16,6 +16,7 @@ function place(id: string, title: string): DocumentNode {
     docType: "place",
     rank: "1024",
     locked: false,
+    refreshLocked: false,
     revisionNo: 1,
     updatedAt: "2026-01-01T00:00:00Z",
     trashedAt: null,

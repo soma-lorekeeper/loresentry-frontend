@@ -11,8 +11,6 @@ import { GLASS_GARDEN_ID, getDb } from "@/services/mock/db";
 import { renderWithServices, routerMock } from "@/test/render";
 import { TourStage } from "@/test/tour-stage";
 import { ServiceError } from "@/services/errors";
-import type { RefreshRun } from "@/domain/models";
-import { useRefreshActions } from "@/features/graph-refresh/queries";
 
 import { requestTour } from "./tour-state";
 import { WorkspaceTour } from "./workspace-tour";
@@ -31,8 +29,7 @@ const user = {
 };
 
 function SidebarProbe() {
-  const { layout, projectId } = useWorkspace();
-  const { start } = useRefreshActions(projectId);
+  const { layout } = useWorkspace();
   const tabs = layout.panes.flatMap((pane) => pane.tabs);
   return (
     <>
@@ -40,9 +37,6 @@ function SidebarProbe() {
       <output data-testid="tabs">
         {tabs.map((tab) => tab.target.kind).join(",")}
       </output>
-      <button type="button" onClick={() => start.mutate()}>
-        stage real refresh
-      </button>
     </>
   );
 }
@@ -96,7 +90,7 @@ describe("WorkspaceTour", () => {
     renderTour();
 
     await card("원고는 여기서 써요");
-    expect(screen.getByRole("list", { name: "17단계 중 1단계" })).toBeVisible();
+    expect(screen.getByRole("list", { name: "14단계 중 1단계" })).toBeVisible();
     await actor.click(screen.getByRole("button", { name: "다음" }));
     await throughImport(actor);
     await card("속성 표로 문서를 이어요");
@@ -119,15 +113,14 @@ describe("WorkspaceTour", () => {
     expect(chat).toHaveTextContent("원고 문장을 드래그하면");
     await actor.click(screen.getByRole("button", { name: "다음" }));
 
+    // 실제 최신화를 시작하지 않는다. 단추를 가리킨 뒤 예시 검토 창을 띄운다.
     await card("새 회차를 쓴 다음엔");
-    await actor.click(screen.getByRole("button", { name: "stage refresh" }));
-    await card("원고를 읽고 있어요");
-    expect(screen.queryByRole("button", { name: "다음" })).toBeNull();
-    expect(screen.getByRole("button", { name: "건너뛰기" })).toBeVisible();
-    await card("바뀔 점을 찾았어요");
-    await actor.click(screen.getByRole("button", { name: "stage review" }));
+    await actor.click(screen.getByRole("button", { name: "다음" }));
     await card("달라진 문서가 모여요");
-    await actor.click(screen.getByRole("button", { name: "stage document" }));
+    expect(
+      screen.getByText("투어용 예시 · 실제 문서에는 반영되지 않음"),
+    ).toBeInTheDocument();
+    await actor.click(screen.getByRole("button", { name: "다음" }));
     await card("왼쪽은 지금, 오른쪽은 제안");
     await actor.click(screen.getByRole("button", { name: "다음" }));
 
@@ -221,68 +214,63 @@ describe("WorkspaceTour", () => {
     ).toBeInTheDocument();
   }, 15_000);
 
-  it("puts the workspace back as it was and drops the refresh it started", async () => {
+  it("puts the workspace back as it was and never starts a real refresh", async () => {
     window.localStorage.setItem("loresentry.tour.workspace", "pending");
     const actor = userEvent.setup();
-    const idle: RefreshRun = {
-      id: "run-idle",
-      projectId: GLASS_GARDEN_ID,
-      status: "IDLE",
-      startedAt: null,
-      sourceFileIds: [],
-      proposals: [],
-    };
-    let run = idle;
-    const discard = vi.fn(async () => (run = idle));
-    renderTour({
-      refresh: {
-        current: async () => run,
-        start: async () => (run = { ...idle, id: "run-tour", status: "READY" }),
-        discard,
-      },
-    });
+    const start = vi.fn();
+    renderTour({ refresh: { start } });
 
     await card("원고는 여기서 써요");
     await actor.click(screen.getByRole("button", { name: "다음" }));
     await throughImport(actor);
     await card("속성 표로 문서를 이어요");
     expect(screen.getByTestId("tabs").textContent).toBe("file,file");
-    await actor.click(
-      screen.getByRole("button", { name: "stage real refresh" }),
-    );
-    await waitFor(() => expect(run.id).toBe("run-tour"));
     await actor.keyboard("{Escape}");
 
     await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
-    await waitFor(() =>
-      expect(discard).toHaveBeenCalledWith(GLASS_GARDEN_ID, "run-tour"),
-    );
     expect(screen.getByTestId("tabs").textContent).toBe("new");
+    expect(start).not.toHaveBeenCalled();
   });
 
-  it("keeps a refresh that was there before the tour", async () => {
+  it("closes the example review and ends the tour once it is applied", async () => {
     window.localStorage.setItem("loresentry.tour.workspace", "pending");
     const actor = userEvent.setup();
-    const discard = vi.fn();
-    renderTour({
-      refresh: {
-        current: async () => ({
-          id: "run-earlier",
-          projectId: GLASS_GARDEN_ID,
-          status: "READY",
-          startedAt: null,
-          sourceFileIds: [],
-          proposals: [],
-        }),
-        discard,
-      },
-    });
+    const start = vi.fn();
+    renderTour({ refresh: { start } });
 
     await card("원고는 여기서 써요");
-    await actor.keyboard("{Escape}");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await throughImport(actor);
+    await card("속성 표로 문서를 이어요");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("이은 관계는 그래프로 봐요");
+    await actor.click(screen.getByRole("button", { name: "stage graph" }));
+    await card("한 문서에 집중해요");
+    await actor.click(screen.getByRole("button", { name: "stage node" }));
+    await card("이어진 문서가 모여요");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("회차별 등장은 타임라인에서");
+    await actor.click(screen.getByRole("button", { name: "stage timeline" }));
+    await card("줄은 문서, 칸은 회차예요");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("작품을 아는 AI 챗");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("새 회차를 쓴 다음엔");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("달라진 문서가 모여요");
+
+    // 예시 창의 화살표와 확정은 실제처럼 움직이고, 확정하면 투어가 끝난다.
+    await actor.click(
+      screen.getByRole("button", { name: "신규 버전 전체 반영" }),
+    );
+    await actor.click(screen.getByRole("button", { name: "반영 확정" }));
+
     await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
-    expect(discard).not.toHaveBeenCalled();
-  });
+    expect(window.localStorage.getItem("loresentry.tour.workspace")).toBe(
+      "done",
+    );
+    expect(start).not.toHaveBeenCalled();
+  }, 15_000);
 
   it("leaves out graph refresh while the server has no refresh", async () => {
     window.localStorage.setItem("loresentry.tour.workspace", "pending");
@@ -290,7 +278,7 @@ describe("WorkspaceTour", () => {
     renderTour(
       {
         refresh: {
-          current: () =>
+          latest: () =>
             Promise.reject(new ServiceError("unavailable", "준비 중")),
         },
       },
@@ -321,7 +309,7 @@ describe("WorkspaceTour", () => {
     renderTour(
       {
         refresh: {
-          current: () =>
+          latest: () =>
             Promise.reject(new ServiceError("unavailable", "준비 중")),
         },
       },

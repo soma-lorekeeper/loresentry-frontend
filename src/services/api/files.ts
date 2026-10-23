@@ -33,6 +33,8 @@ interface ApiDocument {
   episode_id: string | null;
   rank: string;
   locked: boolean;
+  /** 그래프 최신화가 잠갔다. 이때 `locked` 도 참이다 */
+  refresh_locked: boolean;
   char_count: number;
   revision_no: number;
   trashed_at: string | null;
@@ -108,6 +110,7 @@ function toDocumentNode(projectId: string, document: ApiDocument): FileNode {
     rank: document.rank,
     trashedAt: document.trashed_at,
     locked: document.locked,
+    refreshLocked: document.refresh_locked,
     revisionNo: document.revision_no,
     updatedAt: document.updated_at,
   };
@@ -209,6 +212,7 @@ export function createApiFiles(
             rank: "",
             trashedAt: entry.trashed_at,
             locked: false,
+            refreshLocked: false,
             revisionNo: 0,
             updatedAt: entry.trashed_at,
           },

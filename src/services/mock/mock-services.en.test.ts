@@ -178,14 +178,12 @@ describe("English mock services", () => {
 
   it("proposes English graph refresh changes", async () => {
     await services.refresh.start(GLASS_GARDEN_ID);
-    (
-      getDb().refreshRuns[GLASS_GARDEN_ID] as unknown as { readyAt: number }
-    ).readyAt = 0;
-    const ready = await services.refresh.current(GLASS_GARDEN_ID);
+    getDb().refreshRuns[GLASS_GARDEN_ID].readyAt = 0;
+    const run = await services.refresh.latest(GLASS_GARDEN_ID);
+    const ready = await services.refresh.review(GLASS_GARDEN_ID, run.id);
     expect(ready.proposals.map((p) => p.title)).toEqual([
       "Harin",
       "The Ashen Lighthouse",
-      "Lost Route",
       "Seoyun",
     ]);
     expect(hangulOutsideDomainLabels(ready.proposals)).toEqual([]);

@@ -184,10 +184,7 @@ export default {
     "This document was removed in the proposed version.",
   "변경 종류::수정": "Modified",
   "변경 종류::추가": "Added",
-  "변경 종류::삭제": "Removed",
   "변경 사항을 반영했어요.": "Changes applied.",
-  "반영 전 상태는 각 문서의 버전 기록에 남아 있어요.":
-    "Each document's version history keeps its state from before the changes.",
   "변경 사항": "Changes",
   "문서 {count}개": plural("{count} document", "{count} documents"),
   "반영 확정": "Apply changes",
@@ -215,22 +212,12 @@ export default {
   "현재 버전 반영": "Use current",
   "신규 버전 반영": "Use proposed",
   "변경 사항을 반영하지 못했어요.": "Couldn't apply the changes.",
-  "고른 내용은 그대로 남아 있어요.": "Your choices are still here.",
   "새 탭에서 로그인": "Sign in in a new tab",
   "다시 저장": "Save again",
   "로그인이 만료되어 저장하지 못했어요. 변경한 내용은 이 화면에 남아 있어요. 새 탭에서 로그인한 뒤 다시 저장해 주세요.":
     "Your session expired, so the changes haven't been saved. Your draft is still on this screen. Sign in in a new tab, then save again.",
   "다시 로그인이 필요해요. 새 탭에서 로그인한 뒤 문서를 다시 불러와 주세요.":
     "Please sign in again in a new tab, then reload the document.",
-  "결과를 확인 처리하지 못했어요. 잠시 후 다시 시도해 주세요.":
-    "Couldn't mark this result as reviewed. Please try again shortly.",
-  "일부 문서는 이미 저장됐어요. 남은 변경 사항만 다시 반영할 수 있어요.":
-    "Some documents have already been saved. You can retry the remaining changes.",
-  "남은 변경 사항을 버리면 새로 최신화할 수 있어요. 이미 저장된 문서는 유지돼요.":
-    "Discard the remaining changes to start a new refresh. Documents already saved will be kept.",
-  "남은 변경 사항 버리기": "Discard remaining changes",
-  "변경 사항을 버리지 못했어요. 잠시 후 다시 시도해 주세요.":
-    "Couldn't discard the changes. Please try again shortly.",
 
   "(에피소드 없음)": "(No episode)",
   "{number}화": "Ch. {number}",
@@ -277,14 +264,53 @@ export default {
     "Some edits aren't saved yet. Save them before you restore.",
   "버전 저장": "Save version",
   "이 버전으로 복원": "Restore this version",
-  "‘{chapter}’에서: {sentence}": "In ‘{chapter}’: {sentence}",
-  "{chapter}에서 생긴 일": "What happened in {chapter}",
-  "‘{chapter}’에서 정리했어요.": "Summarized from ‘{chapter}’.",
-  "그래프 최신화 반영 전": "Before graph refresh",
-  "새로 반영할 내용이 없어요": "Nothing new to apply",
-  "최근 원고에서 설정 문서에 더할 내용을 찾지 못했어요. 원고를 더 쓴 뒤 다시 최신화해 주세요.":
-    "Your recent chapters don't add anything to your setting documents yet. Write more, then refresh again.",
-  "미리보기 제안이에요. 지금은 최근 원고에서 문서 이름이 나온 문장을 모아 만들어요.":
-    "These are preview suggestions, built from sentences in your recent chapters that mention a document by name.",
   "그래프 최신화를 마치지 못했어요.": "Graph refresh didn't finish.",
+
+  // 그래프 최신화 잠금과 검토
+  "그래프 최신화로 잠김": "Locked by graph refresh",
+  검토하기: "Review",
+  "최신화 결과가 도착했어요.": "The refresh results are in.",
+  "새로 반영할 내용이 없어요.": "Nothing new to apply.",
+  "잠근 문서를 다시 편집할 수 있어요.": "Locked documents can be edited again.",
+  "한 시간 안에 결과가 오지 않았어요. 잠근 문서는 다시 편집할 수 있어요.":
+    "No results came within an hour. Locked documents can be edited again.",
+  "잠근 문서는 다시 편집할 수 있어요. 잠시 후 다시 시도해 주세요.":
+    "Locked documents can be edited again. Try again later.",
+  "이미 끝난 최신화예요.": "This refresh has already ended.",
+  "변경 사항을 불러오지 못했어요": "Couldn't load the changes",
+  "다른 곳에서 먼저 고친 내용으로 바꿨어요.":
+    "Updated with changes saved elsewhere.",
+  "고친 내용을 저장하지 못했어요. 화면의 내용은 그대로예요.":
+    "Couldn't save your edits. What's on screen is kept.",
+  "그대로 반영할 수 없는 곳이 있어요. 고친 뒤 다시 확정해 주세요.":
+    "Some parts can't be applied as they are. Fix them and apply again.",
+  "검토하는 동안 바뀐 문서가 있어 다시 불러왔어요.":
+    "Some documents changed during the review, so they were reloaded.",
+  "아직 저장되지 않은 문서가 있어 다시 불러왔어요.":
+    "Some documents weren't saved yet, so they were reloaded.",
+  "변경 사항을 반영하지 못했어요. 고른 내용은 그대로 남아 있어요.":
+    "Couldn't apply the changes. Your choices are kept.",
+  "이름 없는 문서": "Untitled document",
+  "만들지 않기로 한 ‘{title}’에 이어진 관계가 남아 있어요.":
+    "A link to ‘{title}’, which you chose not to create, is still there.",
+  "‘{title}’에는 이을 수 없어요. 없거나 휴지통에 있는 문서예요.":
+    "Can't link to ‘{title}’. It doesn't exist or is in the trash.",
+  "‘{title}’은 본문까지 함께 정해야 반영할 수 있어요.":
+    "Settle the body of ‘{title}’ too before applying.",
+  "‘{one}’과 ‘{other}’ 사이 관계를 한쪽에서는 더하고 다른 쪽에서는 뺐어요.":
+    "The link between ‘{one}’ and ‘{other}’ is added on one side and removed on the other.",
+  "그대로 반영할 수 없는 내용이 있어요.":
+    "Something can't be applied as it is.",
+  "AI가 읽은 뒤 바뀐 문서": "Changed after the AI read it",
+  "그래프 최신화가 잠근 문서예요.": "Graph refresh locked this document.",
+  "결과가 오면 검토해 확정할 때 풀려요.":
+    "It unlocks when the results arrive and you apply them.",
+  "검토에서 ‘반영 확정’을 누르면 풀려요.":
+    "It unlocks when you select ‘Apply changes’ in the review.",
+  "그래프 최신화 결과 기다리는 중 · 확정 전까지 잠김":
+    "Waiting for graph refresh results · locked until applied",
+  "잠긴 문서를 다시 편집할 수 있어요. 반영한 내용은 버전 기록에 남아요.":
+    "Locked documents can be edited again. What you applied is kept in version history.",
+  "결과를 확정할 때까지 관련 문서는 잠겨 있어요.":
+    "Related documents stay locked until you apply the results.",
 } satisfies Messages;

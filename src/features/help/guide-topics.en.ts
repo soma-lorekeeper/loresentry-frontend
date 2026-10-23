@@ -170,7 +170,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "lock",
         title: "Lock a document",
-        body: "Select Lock in the file tools to save any remaining changes and lock the document. A locked document's title, body, properties and formatting can't be changed, and versions can't be saved or restored. Use it to keep a finished chapter from accidental edits. Select Unlock to edit again.",
+        body: "Select Lock in the file tools to save any remaining changes and lock the document. A locked document's title, body, properties and formatting can't be changed, and versions can't be saved or restored. Use it to keep a finished chapter from accidental edits. Select Unlock to edit again.\n\nDocuments a graph refresh reads are locked too. That lock is lifted only when you confirm the refresh results or the refresh fails, and Unlock can't lift it. A note above the editor says so.",
       },
       {
         id: "export",
@@ -228,34 +228,34 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
     id: "refresh",
     title: "Graph refresh",
     summary: "Review and apply what's new in your chapters",
-    lead: "Graph refresh reads your chapters and proposes details and relationships to add to your setting documents. Nothing changes until you review the proposals and confirm them, and the state before applying is kept in each document's version history.",
-    updatedAt: "2026-10-22",
+    lead: "Graph refresh has AI read the chapters and setting documents you changed and propose details and relationships to add to your setting documents. Nothing changes until you review the proposals and confirm them, and every applied document is kept in its version history.",
+    updatedAt: "2026-10-24",
     readMinutes: 4,
     facts: [
       { label: "Start from", value: "Graph refresh in the sidebar" },
       { label: "Applying", value: "After you review" },
-      { label: "Undo", value: "Version history" },
+      { label: "Locked", value: "Until you confirm" },
     ],
     sections: [
       {
         id: "run",
         title: "Start a refresh",
-        body: "Select Graph refresh in the sidebar to start extracting; the item changes to Extracting graph…. When it finishes it changes to Apply changes, which opens the review.\n\nThis is a preview for now. Proposals are built from sentences in your 3 most recently edited chapters that mention a setting document by name, and locked documents are left out.",
+        body: "Select Graph refresh in the sidebar and confirm with Start refresh. What you're writing is saved, the chapters and setting documents changed since the last refresh are sent, and the item changes to Refreshing graph… with the time waited so far. The documents sent stay locked until you confirm the results, so they can't be edited, renamed, moved or trashed.\n\nA refresh can take a few minutes. It keeps going if you switch views or browsers, and when it finishes you're notified and the item changes to Apply changes. Nothing starts if no document changed. If no result comes within an hour or the refresh fails, you're notified and the locks are lifted.",
       },
       {
         id: "review",
         title: "Review the proposals",
-        body: "The list on the left shows each document that would change, marked modified (~), added (+) or removed (−). Pick one to see Current and Proposed side by side with the differences marked.\n\n- The arrow on each row copies that value to the other side. The Whole document arrow copies the entire document.\n- You can edit the title, properties, relationships and body directly on either side.\n- Use current keeps the document as it is, and Use proposed accepts the proposal. Reset returns that document to where it started.\n\nWhen both sides match, the document is settled and gets a check in the list.",
+        body: "The list on the left shows each document that would change, marked modified (~) or added (+). Documents changed after the AI read them are marked as such. Pick one to see Current and Proposed side by side with the differences marked.\n\n- The arrow on each row copies that value to the other side. The Whole document arrow copies the entire document.\n- You can edit the title, properties, relationships and body directly on either side.\n- Use current keeps the document as it is, and Use proposed accepts the proposal. Reset returns that document to where it started.\n\nWhen both sides match, the document is settled and gets a check in the list.",
       },
       {
         id: "apply",
         title: "Apply the changes",
-        body: "Apply changes turns on once every document is settled. What gets applied is the final state of Current, on the left. To accept a proposal, bring it to the left with Use proposed or an arrow. A document that disappears from the left moves to the trash.\n\nBefore applying, each changed document saves a Before graph refresh version, so you can always restore it from version history. If a chapter changed after extraction, the changes aren't applied and you're asked to refresh again.",
+        body: "Apply changes turns on once every document is settled. What gets applied is the state both sides agree on. A proposed new document is created when you bring it to the left, and isn't created if you remove it from the right.\n\nEach applied document gets a From graph refresh version in its history, and confirming lifts every lock. If something can't be applied as it is, such as a relationship to a new document you chose not to create, you're told what's wrong and nothing is applied.",
       },
       {
         id: "later",
         title: "Finish later",
-        body: "Closing the review keeps the proposals. Select Apply changes in the sidebar again in the same browser to pick up where you left off. If there is nothing new to apply, select OK to finish.",
+        body: "Your choices are saved as you go. Close the review or open it in another browser or device, and select Apply changes in the sidebar to pick up where you left off. A new refresh can't start until you confirm the review.",
       },
     ],
     related: ["explore", "writing"],

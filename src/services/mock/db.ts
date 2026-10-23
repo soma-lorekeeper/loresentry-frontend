@@ -15,10 +15,11 @@ import type {
   FolderNode,
   Memo,
   Project,
-  RefreshRun,
   User,
 } from "@/domain/models";
 import type { WorkspaceLayout } from "@/features/workspace/model/layout";
+
+import type { StoredRefreshRun } from "./refresh";
 
 import {
   bodyFromParagraphs,
@@ -56,7 +57,7 @@ export interface MockDb {
   chatSessions: ChatSession[];
   chatMessages: ChatMessage[];
   workspaceStates: Record<string, WorkspaceLayout>;
-  refreshRuns: Record<string, RefreshRun>;
+  refreshRuns: Record<string, StoredRefreshRun>;
   saveReceipts: Record<string, number>;
   sequence: number;
 }
@@ -192,6 +193,7 @@ function buildGlassGarden(
         docType: "manuscript",
         rank: String((chapterIndex + 1) * 1024),
         locked: false,
+        refreshLocked: false,
         revisionNo: 1 + Math.floor(rand() * 30),
         updatedAt: minutes(
           now,
@@ -228,6 +230,7 @@ function buildGlassGarden(
         docType: type,
         rank: String((index + 1) * 1024),
         locked: false,
+        refreshLocked: false,
         revisionNo: 1 + Math.floor(rand() * 12),
         updatedAt: minutes(now, (minuteOffset += 131)),
         trashedAt: null,
@@ -313,6 +316,7 @@ function buildGlassGarden(
       docType: "manuscript",
       rank: "99999",
       locked: false,
+      refreshLocked: false,
       revisionNo: 3,
       updatedAt: minutes(now, 60 * 30),
       trashedAt: minutes(now, 2),
@@ -337,6 +341,7 @@ function buildGlassGarden(
       docType: "place",
       rank: "1024",
       locked: false,
+      refreshLocked: false,
       revisionNo: 2,
       updatedAt: minutes(now, 60 * 24 * 5),
       trashedAt: minutes(now, 60 * 24 * 3),
@@ -532,6 +537,7 @@ function buildOtherProject(now: number, db: MockDb, seed: SeedOtherProject) {
     docType: seed.lastFileType,
     rank: "1024",
     locked: false,
+    refreshLocked: false,
     revisionNo: 1,
     updatedAt: minutes(now, seed.lastWorkedMinutesAgo),
     trashedAt: null,

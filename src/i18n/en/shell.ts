@@ -295,4 +295,9 @@ export default {
   "{date} 시행": "Effective {date}",
   "게시 전 초안입니다. 최초 공개·시행일은 운영 원문 등록 시 확정합니다.":
     "This is a draft before publication. The first publication and effective date will be set when the official text is registered.",
+
+  "검토를 기다리는 최신화 결과가 있어요.":
+    "A refresh result is waiting for review.",
+  "그래프 최신화 결과를 확정해야 잠금이 풀려요.":
+    "It unlocks only when the graph refresh results are applied.",
 } satisfies Messages;

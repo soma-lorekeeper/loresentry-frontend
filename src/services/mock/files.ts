@@ -64,7 +64,14 @@ function touchProject(projectId: string, file?: DocumentNode) {
 
 export const mockFiles: FileService = {
   tree: (projectId) =>
-    simulate("files.tree", () => orderedTree(activeFiles(getDb(), projectId))),
+    simulate("files.tree", () =>
+      // 서버처럼 최신화 잠금도 잠금으로 보인다.
+      orderedTree(activeFiles(getDb(), projectId)).map((node) =>
+        node.kind === "document" && node.refreshLocked
+          ? { ...node, locked: true }
+          : node,
+      ),
+    ),
 
   create: ({ projectId, parentId, kind, title, docType }) =>
     simulate("files.create", () => {
@@ -139,6 +146,7 @@ export const mockFiles: FileService = {
         docType: type,
         rank: nextRank(db, parentId, projectId),
         locked: false,
+        refreshLocked: false,
         revisionNo: 1,
         updatedAt: now,
         trashedAt: null,
