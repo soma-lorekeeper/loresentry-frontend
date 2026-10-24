@@ -38,6 +38,9 @@ export function useRefreshReview(
     // 작업본은 자동 저장으로 바뀌므로, 창을 다시 열 때마다 서버의 지금 모습을 읽는다.
     staleTime: 0,
     gcTime: 0,
+    // 검토 중 입력은 로컬에 있을 수 있다. 재로그인한 탭에서 돌아와도 덮어쓰지 않는다.
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 }
 
@@ -52,6 +55,18 @@ export async function refreshLocksChanged(
   await Promise.all([
     invalidateProjectContent(queryClient, projectId),
     queryClient.invalidateQueries({ queryKey: ["document"] }),
+  ]);
+}
+
+/** 적용 완료를 확인한 뒤 문서·그래프·잠금·버전 기록을 함께 갱신한다. */
+export async function refreshApplied(
+  queryClient: ReturnType<typeof useQueryClient>,
+  projectId: string,
+) {
+  await Promise.all([
+    queryClient.invalidateQueries({ queryKey: queryKeys.refresh(projectId) }),
+    queryClient.invalidateQueries({ queryKey: ["versions"] }),
+    refreshLocksChanged(queryClient, projectId),
   ]);
 }
 
@@ -73,10 +88,7 @@ export function useRefreshActions(projectId: string) {
     }),
     confirm: useMutation({
       mutationFn: (runId: string) => services.refresh.confirm(projectId, runId),
-      onSuccess: async () => {
-        await reload();
-        await refreshLocksChanged(queryClient, projectId);
-      },
+      onSuccess: () => refreshApplied(queryClient, projectId),
     }),
   };
 }

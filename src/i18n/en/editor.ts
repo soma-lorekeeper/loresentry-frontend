@@ -313,4 +313,18 @@ export default {
     "Locked documents can be edited again. What you applied is kept in version history.",
   "결과를 확정할 때까지 관련 문서는 잠겨 있어요.":
     "Related documents stay locked until you apply the results.",
+  "문서를 저장하지 못해 최신화를 시작하지 않았어요.":
+    "Refresh wasn't started because some documents couldn't be saved.",
+  "저장하지 못한 문서를 확인하고 다시 시도해 주세요.":
+    "Check the unsaved documents and try again.",
+  "서버 내용으로 다시 불러오기": "Reload the server version",
+  "다른 계정으로 로그인되어 있어요. 처음 검토하던 계정으로 로그인해 주세요.":
+    "You're signed in to a different account. Sign in to the account that started this review.",
+  "다른 곳에서 검토 내용이 바뀌었어요. 다시 불러오면 이 화면의 미저장 수정은 사라져요.":
+    "The review changed elsewhere. Reloading will discard unsaved edits on this screen.",
+  "같은 계정으로 로그인한 뒤 다시 저장해 주세요.":
+    "Sign in to the same account, then save again.",
+  "결과 다시 확인": "Check result again",
+  "적용 결과를 확인하지 못했어요. 결과를 확인하기 전에는 다시 적용하지 않아요.":
+    "Couldn't verify the result. Changes won't be applied again until the result is checked.",
 } satisfies Messages;

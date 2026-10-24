@@ -61,6 +61,7 @@ export function RefreshReview({
   start,
   selectedId,
   applying = false,
+  confirmDisabled = false,
   notice,
   lookup,
   candidatesOf,
@@ -75,6 +76,7 @@ export function RefreshReview({
   start: MergeState;
   selectedId: string | null;
   applying?: boolean;
+  confirmDisabled?: boolean;
   notice?: ReactNode;
   lookup: Lookup;
   candidatesOf: (type: DocumentType, exceptId: string) => DocumentNode[];
@@ -109,7 +111,7 @@ export function RefreshReview({
           size="sm"
           variant={allResolved ? "primary" : "outline"}
           data-tour="diff-confirm"
-          disabled={!allResolved}
+          disabled={!allResolved || confirmDisabled}
           busy={applying}
           onClick={onConfirm}
         >

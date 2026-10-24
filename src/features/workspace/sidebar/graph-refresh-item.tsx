@@ -124,7 +124,14 @@ export function GraphRefreshItem() {
     // 쓰던 글을 먼저 저장한다. 서버는 저장된 문서만 보내고, 보낸 문서는 곧바로 잠근다.
     setSaving(true);
     try {
-      await saveOpenDocuments();
+      if (!(await saveOpenDocuments())) {
+        toast({
+          icon: "triangle-alert",
+          title: t("문서를 저장하지 못해 최신화를 시작하지 않았어요."),
+          description: t("저장하지 못한 문서를 확인하고 다시 시도해 주세요."),
+        });
+        return;
+      }
     } finally {
       setSaving(false);
     }

@@ -1,8 +1,12 @@
-import { act, screen, within } from "@testing-library/react";
+import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { bodyFromPlainText } from "@/domain/document-body";
+import { DocumentSession } from "@/features/documents/document-session";
+import { trackSession } from "@/features/documents/open-sessions";
+import { ServiceError } from "@/services/errors";
+import { mockDocuments } from "@/services/mock/documents";
 import type { RefreshRun, RefreshRunDetail } from "@/domain/models";
 import { RefreshWatcher } from "@/features/graph-refresh/refresh-watcher";
 import { createLayout } from "@/features/workspace/model/layout";
@@ -82,6 +86,56 @@ afterEach(() => {
 });
 
 describe("GraphRefreshItem", () => {
+  it("blocks refresh on an unsaved document and starts after a successful retry", async () => {
+    const actor = userEvent.setup();
+    const start = vi.fn<RefreshService["start"]>().mockResolvedValue({
+      run: null,
+      lockedFileIds: [],
+    });
+    renderRefresh({ refresh: { start } });
+    const fileId = `${GLASS_GARDEN_ID}:ch-12`;
+    const save = vi
+      .fn(mockDocuments.save)
+      .mockRejectedValueOnce(new ServiceError("unknown", "save failed"));
+    const session = new DocumentSession(
+      fileId,
+      { ...mockDocuments, save },
+      vi.fn(),
+    );
+    session.hydrate(await mockDocuments.get(fileId));
+    session.update({ body: bodyFromPlainText("저장되어야 할 새 원고") });
+    const untrack = trackSession(session);
+    try {
+      await actor.click(
+        await screen.findByRole("button", { name: "그래프 최신화" }),
+      );
+      await actor.click(
+        await screen.findByRole("button", { name: "최신화 시작" }),
+      );
+      expect(
+        await screen.findByText(
+          "문서를 저장하지 못해 최신화를 시작하지 않았어요.",
+        ),
+      ).toBeVisible();
+      expect(start).not.toHaveBeenCalled();
+      expect(session.hasUnsavedChanges).toBe(true);
+      expect(session.getSnapshot().draft?.body).toEqual(
+        bodyFromPlainText("저장되어야 할 새 원고"),
+      );
+      await actor.click(
+        await screen.findByRole("button", { name: "그래프 최신화" }),
+      );
+      await actor.click(
+        await screen.findByRole("button", { name: "최신화 시작" }),
+      );
+      await waitFor(() => expect(start).toHaveBeenCalledOnce());
+      expect(session.hasUnsavedChanges).toBe(false);
+      expect(save).toHaveBeenCalledTimes(2);
+    } finally {
+      untrack();
+      await session.dispose();
+    }
+  });
   it("distinguishes a failed status read from an idle run and retries", async () => {
     const actor = userEvent.setup();
     renderRefresh({ before: () => setMockRule("refresh.latest", "once") });

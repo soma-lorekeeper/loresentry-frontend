@@ -1,7 +1,14 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { useId, useMemo, useState } from "react";
+import {
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  type RefObject,
+} from "react";
 
 import {
   Button,
@@ -11,6 +18,7 @@ import {
 } from "@/design-system/primitives";
 import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
 import type { RefreshProposal, RefreshRunDetail } from "@/domain/models";
+import { ReauthNotice } from "@/features/auth/reauth-notice";
 import { QueryFailure } from "@/features/common/query-failure";
 import { indexNodes, isDocument } from "@/features/workspace/model/tree";
 import { useFileTree } from "@/features/workspace/queries";
@@ -19,11 +27,12 @@ import { t } from "@/i18n";
 import { isServiceError } from "@/services/errors";
 import { RefreshConfirmError, type RefreshProblem } from "@/services/ports";
 import { queryKeys } from "@/services/query-keys";
+import { useServices } from "@/services/services-context";
 
 import type { Lookup } from "./document-compare";
 import styles from "./graph-diff-modal.module.css";
 import { initMerge, type MergeState } from "./merge";
-import { useRefreshActions, useRefreshReview } from "./queries";
+import { refreshApplied, useRefreshActions, useRefreshReview } from "./queries";
 import { RefreshReview } from "./refresh-review";
 import { useDraftAutosave } from "./use-draft-autosave";
 
@@ -52,8 +61,16 @@ export function GraphDiffModal({
   const [confirmError, setConfirmError] = useState<unknown>(null);
   // 확정하는 동안에는 닫지 않는다. 닫아도 서버는 반영을 마치지만, 결과를 알릴 창이 사라진다.
   const [confirming, setConfirming] = useState(false);
-  const close = () => {
-    if (!confirming) onClose();
+  const closeGuardRef = useRef<(() => Promise<boolean>) | null>(null);
+  const closing = useRef(false);
+  const close = async () => {
+    if (confirming || closing.current) return;
+    closing.current = true;
+    try {
+      if (!closeGuardRef.current || (await closeGuardRef.current())) onClose();
+    } finally {
+      closing.current = false;
+    }
   };
 
   // 확정했거나 실패해 검토가 이미 끝났다. 지금 상태를 다시 읽어 맞는 버튼을 보인다.
@@ -75,7 +92,7 @@ export function GraphDiffModal({
       className={styles.modal}
       dismissible={!confirming}
     >
-      {review.isError ? (
+      {review.isError && !review.data ? (
         <QueryFailure
           title={t("변경 사항을 불러오지 못했어요")}
           retrying={review.isFetching}
@@ -96,6 +113,8 @@ export function GraphDiffModal({
           onReload={() => void review.refetch()}
           onEnded={ended}
           onClose={onClose}
+          onRequestClose={() => void close()}
+          closeGuardRef={closeGuardRef}
         />
       )}
     </Modal>
@@ -112,6 +131,8 @@ function ReviewSession({
   onReload,
   onEnded,
   onClose,
+  onRequestClose,
+  closeGuardRef,
 }: {
   titleId: string;
   detail: RefreshRunDetail;
@@ -122,10 +143,16 @@ function ReviewSession({
   onReload: () => void;
   onEnded: () => void;
   onClose: () => void;
+  onRequestClose: () => void;
+  closeGuardRef: RefObject<(() => Promise<boolean>) | null>;
 }) {
   const toast = useToast();
-  const { projectId } = useWorkspace();
+  const { projectId, user } = useWorkspace();
+  const services = useServices();
+  const queryClient = useQueryClient();
   const actions = useRefreshActions(projectId);
+  const [uncertain, setUncertain] = useState(false);
+  const busy = useRef(false);
   const tree = useFileTree(projectId);
   const index = useMemo(() => indexNodes(tree.data ?? []), [tree.data]);
   const proposals = detail.proposals;
@@ -145,6 +172,7 @@ function ReviewSession({
   const autosave = useDraftAutosave({
     projectId,
     runId: detail.id,
+    userId: user.id,
     proposals,
     state,
     onConflict: () => {
@@ -156,6 +184,26 @@ function ReviewSession({
     },
     onEnded,
   });
+
+  const { flush } = autosave;
+  useEffect(() => {
+    const guard = async () => !uncertain && (await flush());
+    closeGuardRef.current = guard;
+    return () => {
+      if (closeGuardRef.current === guard) closeGuardRef.current = null;
+    };
+  }, [flush, closeGuardRef, uncertain]);
+
+  // 브라우저를 떠나면 메모리의 미저장 입력을 잃는다. 창 닫기도 위 guard로 먼저 저장한다.
+  useEffect(() => {
+    if (!autosave.pending) return;
+    const warn = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [autosave.pending]);
 
   const lookup: Lookup = (id) => {
     const node = index.get(id);
@@ -182,24 +230,67 @@ function ReviewSession({
   const candidatesOf = (type: DocumentType, exceptId: string) =>
     documents.filter((node) => node.docType === type && node.id !== exceptId);
 
+  const applied = () => {
+    onClose();
+    toast({
+      icon: "circle-check",
+      title: t("변경 사항을 반영했어요."),
+      description: t(
+        "잠긴 문서를 다시 편집할 수 있어요. 반영한 내용은 버전 기록에 남아요.",
+      ),
+    });
+  };
+
+  const checkResult = async () => {
+    try {
+      // 검토 Query를 갱신하면 로컬 선택이 사라진다. 해당 요청만 직접 재조회한다.
+      const current = await services.refresh.review(projectId, detail.id);
+      if (current.status === "APPLIED") {
+        await refreshApplied(queryClient, projectId);
+        setUncertain(false);
+        applied();
+      } else if (current.status === "READY") {
+        setUncertain(false);
+      } else {
+        setUncertain(false);
+        onEnded();
+      }
+    } catch (error) {
+      if (isServiceError(error) && error.requiresLogin) autosave.expire();
+      // 결과를 확인하지 못했으므로 확정 요청은 다시 보내지 않는다.
+      setUncertain(true);
+    }
+  };
+
+  const recheck = async () => {
+    if (busy.current) return;
+    busy.current = true;
+    onConfirming(true);
+    try {
+      await checkResult();
+    } finally {
+      busy.current = false;
+      onConfirming(false);
+    }
+  };
+
   const confirm = async () => {
+    if (busy.current || uncertain || autosave.expired) return;
+    busy.current = true;
     onConfirmError(null);
     onConfirming(true);
     try {
       // 마지막으로 고친 것이 아직 저장되지 않았을 수 있다. 다 저장한 뒤에 확정한다.
       if (!(await autosave.flush())) return;
       await actions.confirm.mutateAsync(detail.id);
-      onClose();
-      toast({
-        icon: "circle-check",
-        title: t("변경 사항을 반영했어요."),
-        description: t(
-          "잠긴 문서를 다시 편집할 수 있어요. 반영한 내용은 버전 기록에 남아요.",
-        ),
-      });
+      applied();
     } catch (error) {
       if (isServiceError(error) && error.code === "not-found") {
         onEnded();
+        return;
+      }
+      if (isServiceError(error) && error.requiresLogin) {
+        autosave.expire();
         return;
       }
       onConfirmError(error);
@@ -209,7 +300,15 @@ function ReviewSession({
         error.code !== "REFRESH_DRAFTS_INVALID"
       )
         onReload();
+      else if (
+        !(error instanceof RefreshConfirmError) &&
+        (!isServiceError(error) || ["network", "unknown"].includes(error.code))
+      ) {
+        setUncertain(true);
+        await checkResult();
+      }
     } finally {
+      busy.current = false;
       onConfirming(false);
     }
   };
@@ -227,15 +326,59 @@ function ReviewSession({
       start={start}
       selectedId={selectedId}
       applying={confirming}
+      confirmDisabled={autosave.expired || uncertain}
       lookup={lookup}
       candidatesOf={candidatesOf}
       onSelect={setSelectedId}
       onChange={setState}
       onConfirm={() => void confirm()}
-      onClose={onClose}
+      onClose={onRequestClose}
       notice={
         <>
-          {autosave.failed && (
+          {autosave.expired && (
+            <>
+              <ReauthNotice unsaved />
+              <InlineNotice
+                icon="lock"
+                action={
+                  autosave.recoveryIssue === "changed" ? (
+                    <Button size="sm" onClick={onReload}>
+                      {t("서버 내용으로 다시 불러오기")}
+                    </Button>
+                  ) : (
+                    <Button size="sm" onClick={() => void autosave.retry()}>
+                      {t("다시 저장")}
+                    </Button>
+                  )
+                }
+              >
+                {autosave.recoveryIssue === "account"
+                  ? t(
+                      "다른 계정으로 로그인되어 있어요. 처음 검토하던 계정으로 로그인해 주세요.",
+                    )
+                  : autosave.recoveryIssue === "changed"
+                    ? t(
+                        "다른 곳에서 검토 내용이 바뀌었어요. 다시 불러오면 이 화면의 미저장 수정은 사라져요.",
+                      )
+                    : t("같은 계정으로 로그인한 뒤 다시 저장해 주세요.")}
+              </InlineNotice>
+            </>
+          )}
+          {uncertain && (
+            <InlineNotice
+              icon="circle-alert"
+              action={
+                <Button size="sm" onClick={() => void recheck()}>
+                  {t("결과 다시 확인")}
+                </Button>
+              }
+            >
+              {t(
+                "적용 결과를 확인하지 못했어요. 결과를 확인하기 전에는 다시 적용하지 않아요.",
+              )}
+            </InlineNotice>
+          )}
+          {autosave.failed && !autosave.expired && (
             <InlineNotice
               icon="circle-alert"
               action={
@@ -251,7 +394,7 @@ function ReviewSession({
               {t("고친 내용을 저장하지 못했어요. 화면의 내용은 그대로예요.")}
             </InlineNotice>
           )}
-          {confirmError !== null && (
+          {confirmError !== null && !uncertain && !autosave.expired && (
             <InlineNotice icon="circle-alert">
               {confirmMessage(confirmError)}
             </InlineNotice>

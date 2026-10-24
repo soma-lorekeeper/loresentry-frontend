@@ -77,6 +77,192 @@ function renderModal(runId: string, services: Services = createMockServices()) {
 }
 
 describe("GraphDiffModal", () => {
+  it("keeps expired review edits, blocks closing and saves after same-account login", async () => {
+    const actor = userEvent.setup();
+    const review = await readyReview();
+    const services = createMockServices();
+    const save = vi
+      .fn(services.refresh.saveDraft)
+      .mockRejectedValueOnce(
+        new ServiceError("unauthenticated", "session expired"),
+      );
+    const getSession = vi
+      .fn()
+      .mockResolvedValueOnce({ ...user, id: "other-user" })
+      .mockResolvedValue(user);
+    services.auth = { ...services.auth, getSession };
+    services.refresh = { ...services.refresh, saveDraft: save };
+    const { onClose } = renderModal(review.id, services);
+    const dialog = await screen.findByRole("dialog");
+    const proposal = review.proposals.find((p) => p.kind === "modified")!;
+    await actor.click(
+      await within(dialog).findByRole("button", {
+        name: new RegExp(proposal.title),
+      }),
+    );
+    const description = within(dialog).getByRole("textbox", {
+      name: "신규 버전 설명",
+    });
+    await actor.clear(description);
+    await actor.type(description, "로그인 후에도 보존할 검토 내용");
+    expect(
+      await within(dialog).findByText(
+        /로그인이 만료되어 저장하지 못했어요/,
+        {},
+        { timeout: 3000 },
+      ),
+    ).toBeVisible();
+    expect(description).toHaveValue("로그인 후에도 보존할 검토 내용");
+    expect(
+      within(dialog).getByRole("link", { name: "새 탭에서 로그인" }),
+    ).toHaveAttribute("target", "_blank");
+    expect(
+      within(dialog).getByRole("button", { name: "반영 확정" }),
+    ).toBeDisabled();
+    await actor.keyboard("{Escape}");
+    await actor.click(
+      within(dialog).getByRole("button", { name: "변경 사항 닫기" }),
+    );
+    expect(onClose).not.toHaveBeenCalled();
+    await actor.click(
+      within(dialog).getByRole("button", { name: "다시 저장" }),
+    );
+    expect(
+      await within(dialog).findByText(/다른 계정으로 로그인되어 있어요/),
+    ).toBeVisible();
+    expect(save).toHaveBeenCalledOnce();
+    expect(description).toHaveValue("로그인 후에도 보존할 검토 내용");
+    await actor.click(
+      within(dialog).getByRole("button", { name: "다시 저장" }),
+    );
+    await waitFor(() => expect(save).toHaveBeenCalledTimes(2));
+    await waitFor(() =>
+      expect(
+        within(dialog).queryByRole("link", { name: "새 탭에서 로그인" }),
+      ).toBeNull(),
+    );
+    const saved = (
+      await mockRefresh.review(GLASS_GARDEN_ID, review.id)
+    ).proposals.find((p) => p.id === proposal.id)!;
+    expect(saved.proposed?.properties).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ value: "로그인 후에도 보존할 검토 내용" }),
+      ]),
+    );
+    expect(description).toHaveValue("로그인 후에도 보존할 검토 내용");
+  });
+
+  it("preserves local input and warns before reloading a review changed during reauthentication", async () => {
+    const actor = userEvent.setup();
+    const review = await readyReview();
+    const services = createMockServices();
+    services.auth = { ...services.auth, getSession: async () => user };
+    const save = vi
+      .fn()
+      .mockRejectedValue(new ServiceError("unauthenticated", "expired"));
+    services.refresh = { ...services.refresh, saveDraft: save };
+    renderModal(review.id, services);
+    const dialog = await screen.findByRole("dialog");
+    await actor.click(
+      await within(dialog).findByRole("button", {
+        name: "신규 버전 전체 반영",
+      }),
+    );
+    await within(dialog).findByRole(
+      "link",
+      { name: "새 탭에서 로그인" },
+      { timeout: 3000 },
+    );
+    const previousSaves = save.mock.calls.length;
+    getDb().refreshRuns[GLASS_GARDEN_ID].proposals[0].draftRevision += 1;
+    await actor.click(
+      within(dialog).getByRole("button", { name: "다시 저장" }),
+    );
+    expect(
+      await within(dialog).findByText(
+        /다시 불러오면 이 화면의 미저장 수정은 사라져요/,
+      ),
+    ).toBeVisible();
+    expect(save).toHaveBeenCalledTimes(previousSaves);
+    expect(
+      within(dialog).getByRole("button", {
+        name: "서버 내용으로 다시 불러오기",
+      }),
+    ).toBeVisible();
+    expect(
+      within(dialog).getByRole("button", { name: "반영 확정" }),
+    ).toBeDisabled();
+  });
+
+  it("recognizes a server apply after its response is lost without posting twice", async () => {
+    const actor = userEvent.setup();
+    const review = await readyReview();
+    const services = createMockServices();
+    const originalConfirm = services.refresh.confirm;
+    const confirm = vi.fn(async (projectId: string, runId: string) => {
+      await originalConfirm(projectId, runId);
+      throw new ServiceError("network", "response lost");
+    });
+    services.refresh = { ...services.refresh, confirm };
+    const { onClose } = renderModal(review.id, services);
+    const dialog = await screen.findByRole("dialog");
+    await actor.click(
+      await within(dialog).findByRole("button", {
+        name: "신규 버전 전체 반영",
+      }),
+    );
+    await actor.click(
+      within(dialog).getByRole("button", { name: "반영 확정" }),
+    );
+    expect(await screen.findByText("변경 사항을 반영했어요.")).toBeVisible();
+    expect(onClose).toHaveBeenCalledOnce();
+    expect(confirm).toHaveBeenCalledOnce();
+    expect((await mockRefresh.latest(GLASS_GARDEN_ID)).status).toBe("APPLIED");
+  });
+
+  it("blocks duplicate confirmation while result checks fail and only checks again", async () => {
+    const actor = userEvent.setup();
+    const review = await readyReview();
+    const services = createMockServices();
+    let unreachable = false;
+    const confirm = vi.fn(async () => {
+      unreachable = true;
+      throw new ServiceError("network", "connection lost");
+    });
+    services.refresh = {
+      ...services.refresh,
+      confirm,
+      review: async (...args) => {
+        if (unreachable) throw new ServiceError("network", "offline");
+        return mockRefresh.review(...args);
+      },
+    };
+    const { onClose } = renderModal(review.id, services);
+    const dialog = await screen.findByRole("dialog");
+    await actor.click(
+      await within(dialog).findByRole("button", {
+        name: "신규 버전 전체 반영",
+      }),
+    );
+    const apply = within(dialog).getByRole("button", { name: "반영 확정" });
+    await actor.click(apply);
+    expect(
+      await within(dialog).findByText(/적용 결과를 확인하지 못했어요/),
+    ).toBeVisible();
+    expect(apply).toBeDisabled();
+    await actor.click(
+      within(dialog).getByRole("button", { name: "결과 다시 확인" }),
+    );
+    expect(confirm).toHaveBeenCalledOnce();
+    await actor.keyboard("{Escape}");
+    expect(onClose).not.toHaveBeenCalled();
+    unreachable = false;
+    await actor.click(
+      within(dialog).getByRole("button", { name: "결과 다시 확인" }),
+    );
+    await waitFor(() => expect(apply).toBeEnabled());
+    expect(confirm).toHaveBeenCalledOnce();
+  });
   it("enables confirmation only after every document is resolved", async () => {
     const actor = userEvent.setup();
     const review = await readyReview();

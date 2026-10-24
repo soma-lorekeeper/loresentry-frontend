@@ -10,5 +10,15 @@ export function trackSession(session: DocumentSession) {
 }
 
 export async function saveOpenDocuments() {
-  await Promise.allSettled([...open].map((session) => session.save()));
+  const sessions = [...open];
+  const results = await Promise.allSettled(
+    sessions.map((session) => session.save()),
+  );
+  // save()는 실패를 상태로 알린다. 완료된 Promise만으로 저장 성공을 판단하지 않는다.
+  return (
+    results.every((result) => result.status === "fulfilled") &&
+    [...new Set([...sessions, ...open])].every(
+      (session) => !session.hasUnsavedChanges,
+    )
+  );
 }

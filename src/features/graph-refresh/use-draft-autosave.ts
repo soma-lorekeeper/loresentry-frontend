@@ -53,6 +53,7 @@ function sidesOf(state: MergeState, proposal: RefreshProposal) {
 export function useDraftAutosave({
   projectId,
   runId,
+  userId,
   proposals,
   state,
   onConflict,
@@ -60,6 +61,7 @@ export function useDraftAutosave({
 }: {
   projectId: string;
   runId: string;
+  userId: string;
   proposals: readonly RefreshProposal[];
   state: MergeState;
   onConflict: () => void;
@@ -68,6 +70,15 @@ export function useDraftAutosave({
   const services = useServices();
   const [, rerender] = useReducer((n: number) => n + 1, 0);
   const [failed, setFailed] = useState(false);
+  const [expired, setExpired] = useState(false);
+  const [recoveryIssue, setRecoveryIssue] = useState<
+    "account" | "changed" | null
+  >(null);
+  const paused = useRef(false);
+  const expire = useCallback(() => {
+    paused.current = true;
+    setExpired(true);
+  }, []);
   const callbacks = useRef({ onConflict, onEnded });
   useEffect(() => {
     callbacks.current = { onConflict, onEnded };
@@ -104,10 +115,11 @@ export function useDraftAutosave({
       const entry = entries.get(draftId);
       if (!entry) return Promise.resolve();
       if (entry.inFlight) return entry.inFlight;
+      if (paused.current) return Promise.resolve();
       if (entry.wantedKey === entry.saved) return Promise.resolve();
       const save = async () => {
         // 기다리는 동안 또 고쳤으면 끝난 뒤 마지막 값을 이어서 보낸다.
-        while (entry.wantedKey !== entry.saved) {
+        while (!paused.current && entry.wantedKey !== entry.saved) {
           const key = entry.wantedKey;
           try {
             const saved = await services.refresh.saveDraft(
@@ -121,7 +133,8 @@ export function useDraftAutosave({
             entry.saved = key;
             setFailed(false);
           } catch (error) {
-            if (error instanceof RefreshDraftConflict)
+            if (isServiceError(error) && error.requiresLogin) expire();
+            else if (error instanceof RefreshDraftConflict)
               callbacks.current.onConflict();
             else if (isServiceError(error) && error.code === "not-found")
               callbacks.current.onEnded();
@@ -137,7 +150,7 @@ export function useDraftAutosave({
       rerender();
       return entry.inFlight;
     },
-    [entries, projectId, runId, services],
+    [entries, expire, projectId, runId, services],
   );
 
   useEffect(() => {
@@ -173,6 +186,7 @@ export function useDraftAutosave({
 
   /** 기다리는 저장을 모두 보내고 끝날 때까지 기다린다. 하나라도 실패하면 false 다 */
   const flush = useCallback(async () => {
+    if (paused.current) return false;
     const all = [...entries];
     for (const [, entry] of all) {
       if (entry.timer === null) continue;
@@ -183,6 +197,45 @@ export function useDraftAutosave({
     return all.every(([, entry]) => entry.wantedKey === entry.saved);
   }, [entries, send]);
 
+  const retry = useCallback(async () => {
+    if (!paused.current) return flush();
+    setRecoveryIssue(null);
+    try {
+      await Promise.all([...entries.values()].map((entry) => entry.inFlight));
+      // 캐시에는 재로그인 전 계정이 남아 있으므로 실제 세션을 먼저 확인한다.
+      const user = await services.auth.getSession();
+      if (!user) return false;
+      if (user.id !== userId) {
+        setRecoveryIssue("account");
+        return false;
+      }
+      // 검토 Query를 갱신하면 입력 상태가 초기화되므로 서버 값과 직접 비교한다.
+      const fresh = await services.refresh.review(projectId, runId);
+      if (fresh.status !== "READY") {
+        callbacks.current.onEnded();
+        return false;
+      }
+      if (
+        fresh.proposals.length !== entries.size ||
+        fresh.proposals.some(
+          (proposal) =>
+            entries.get(proposal.id)?.revision !== proposal.draftRevision,
+        )
+      ) {
+        setRecoveryIssue("changed");
+        return false;
+      }
+      paused.current = false;
+      setExpired(false);
+      return flush();
+    } catch (error) {
+      if (isServiceError(error) && error.code === "not-found")
+        callbacks.current.onEnded();
+      else if (!(isServiceError(error) && error.requiresLogin)) setFailed(true);
+      return false;
+    }
+  }, [entries, flush, projectId, runId, services, userId]);
+
   const values = [...entries.values()];
   return {
     /** 서버에 아직 닿지 않은 고침이 있다 */
@@ -191,6 +244,10 @@ export function useDraftAutosave({
     ),
     /** 마지막 저장이 실패했다. `flush` 로 다시 보낸다 */
     failed,
+    expired,
+    recoveryIssue,
+    expire,
+    retry,
     /** 서버가 본 두 쪽이 모든 작업본에서 같다 */
     allMatched: values.every((entry) => entry.matched),
     flush,

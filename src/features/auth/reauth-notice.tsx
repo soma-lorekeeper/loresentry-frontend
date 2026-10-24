@@ -11,12 +11,12 @@ export function ReauthNotice({
   fileId,
   unsaved = false,
 }: {
-  fileId: string;
+  fileId?: string;
   unsaved?: boolean;
 }) {
   const pathname = usePathname();
   const params = new URLSearchParams(useSearchParams().toString());
-  params.set("open", `file:${fileId}`);
+  if (fileId) params.set("open", `file:${fileId}`);
   const returnTo = safeReturnTo(`${pathname}?${params}`) ?? "/projects";
   return (
     <InlineNotice
