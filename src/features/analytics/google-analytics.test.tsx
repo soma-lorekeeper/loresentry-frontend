@@ -122,6 +122,19 @@ describe("pageLocation", () => {
       pageLocation("https://loresentry.com/projects/guide/?topic=graph"),
     ).toBe("https://loresentry.com/projects/guide/?topic=graph");
   });
+
+  it("keeps campaign parameters so ad clicks are attributed", () => {
+    expect(
+      pageLocation(
+        "https://loresentry.com/?utm_source=google&utm_medium=cpc&utm_campaign=123&utm_term=%EC%86%8C%EC%84%A4+%EC%97%90%EB%94%94%ED%84%B0&utm_content=a:b&gclid=Cj0K-x_1&projectId=p-1",
+      ),
+    ).toBe(
+      "https://loresentry.com/?utm_source=google&utm_medium=cpc&utm_campaign=123&utm_term=%EC%86%8C%EC%84%A4+%EC%97%90%EB%94%94%ED%84%B0&utm_content=a%3Ab&gclid=Cj0K-x_1",
+    );
+    expect(
+      pageLocation("https://loresentry.com/en/?gbraid=abc&wbraid=def"),
+    ).toBe("https://loresentry.com/en/?gbraid=abc&wbraid=def");
+  });
 });
 
 describe("installGoogleAnalytics", () => {

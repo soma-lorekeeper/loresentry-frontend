@@ -18,6 +18,7 @@ import {
   TextField,
 } from "@/design-system/primitives";
 import type { User } from "@/domain/models";
+import { useRecordAcquisition } from "@/features/analytics/use-record-acquisition";
 import {
   useCompleteOnboarding,
   useCreateSampleProject,
@@ -342,6 +343,7 @@ export function OnboardingPage({
   const [step, setStep] = useState(0);
   const [name, setName] = useState(user.displayName);
   const complete = useCompleteOnboarding();
+  useRecordAcquisition(!replay && !user.onboardingCompleted);
   const createSample = useCreateSampleProject();
   const rename = useUpdateAccount();
   const current = steps[step];

@@ -5,6 +5,16 @@ import { installSearchUrlRedaction } from "./search-url-redaction";
 export const ANALYTICS_HOSTNAME = "loresentry.com";
 
 const KEPT_PARAMS = ["open", "topic"];
+const CAMPAIGN_PARAMS = [
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_term",
+  "utm_content",
+  "gclid",
+  "gbraid",
+  "wbraid",
+];
 
 type Gtag = (...args: unknown[]) => void;
 
@@ -29,6 +39,10 @@ export function pageLocation(href: string) {
   for (const name of KEPT_PARAMS) {
     const value = url.searchParams.get(name);
     if (value) kept.set(name, value.split(":")[0]);
+  }
+  for (const name of CAMPAIGN_PARAMS) {
+    const value = url.searchParams.get(name);
+    if (value) kept.set(name, value);
   }
   url.search = kept.toString();
   url.hash = "";

@@ -107,6 +107,7 @@ export const mockAccount: AccountService = {
       db.user = { ...db.user, onboardingCompleted: true };
       persistDb();
     }),
+  recordAcquisition: () => simulate("account.recordAcquisition", () => {}),
   deleteAccount: (confirmationEmail) =>
     simulate("account.delete", () => {
       const db = getDb();

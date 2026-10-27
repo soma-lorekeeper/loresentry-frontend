@@ -32,6 +32,23 @@ export interface WithdrawalSurvey {
   comment: string;
 }
 
+export const CLICK_ID_TYPES = ["gclid", "gbraid", "wbraid"] as const;
+
+export type ClickIdType = (typeof CLICK_ID_TYPES)[number];
+
+export interface Acquisition {
+  utmSource: string | null;
+  utmMedium: string | null;
+  utmCampaign: string | null;
+  utmTerm: string | null;
+  utmContent: string | null;
+  clickId: string | null;
+  clickIdType: ClickIdType | null;
+  referrerHost: string | null;
+  landingPath: string | null;
+  landedAt: IsoDateTime | null;
+}
+
 export interface Project {
   id: string;
   title: string;
