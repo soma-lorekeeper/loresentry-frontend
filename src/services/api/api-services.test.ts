@@ -1294,6 +1294,40 @@ describe("auth", () => {
     expect(calls[0].body).toBeUndefined();
   });
 
+  it("records where the account came from with a CSRF-protected PUT", async () => {
+    reply(204);
+    await services().account!.recordAcquisition({
+      utmSource: "google",
+      utmMedium: "cpc",
+      utmCampaign: null,
+      utmTerm: "소설 에디터",
+      utmContent: null,
+      clickId: "Cj0K",
+      clickIdType: "gclid",
+      referrerHost: "www.google.com",
+      landingPath: "/",
+      landedAt: "2026-10-27T01:02:03.000Z",
+    });
+
+    expect(calls[0].url).toBe(`${BASE}/auth/users/me/acquisition`);
+    expect(calls[0].method).toBe("PUT");
+    expect(calls[0].headers["X-LS-CSRF"]).toBe("1");
+    expect(calls[0].body).toEqual({
+      utm_source: "google",
+      utm_medium: "cpc",
+      utm_term: "소설 에디터",
+      click_id: "Cj0K",
+      click_id_type: "gclid",
+      referrer_host: "www.google.com",
+      landing_path: "/",
+      landed_at: "2026-10-27T01:02:03.000Z",
+    });
+
+    reply(204);
+    await services().account!.recordAcquisition(null);
+    expect(calls[1].body).toEqual({});
+  });
+
   it("asks the server for the sample project", async () => {
     reply(201, { ...apiProject, id: "p-sample" });
     const project = await services().projects!.createSample();

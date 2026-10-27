@@ -3,6 +3,7 @@ import { Geist_Mono } from "next/font/google";
 
 import { createThemeScript } from "@/design-system/theme/theme-script";
 import { createWebFontScript } from "@/design-system/theme/web-fonts";
+import { createLandingScript } from "@/features/analytics/acquisition";
 import { createSessionHintScript } from "@/features/auth/session-hint";
 import { LOCALE, t } from "@/i18n";
 import { createLocaleScript } from "@/i18n/preference";
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script
           dangerouslySetInnerHTML={{ __html: createSessionHintScript() }}
         />
+        <script dangerouslySetInnerHTML={{ __html: createLandingScript() }} />
       </head>
       <body>
         <AppProviders>{children}</AppProviders>
