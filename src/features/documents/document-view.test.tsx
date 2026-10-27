@@ -218,15 +218,15 @@ describe("DocumentView graph refresh lock", () => {
 
       expect(
         await screen.findByText(
-          "그래프 최신화 결과를 기다리고 있어요. 확정할 때까지 잠겨 있어요.",
+          "설정 문서 최신화 결과를 기다리고 있어요. 확정할 때까지 잠겨 있어요.",
         ),
       ).toBeInTheDocument();
       await actor.click(
-        screen.getByRole("button", { name: "그래프 최신화로 잠김" }),
+        screen.getByRole("button", { name: "설정 문서 최신화로 잠김" }),
       );
 
       expect(
-        await screen.findByText("그래프 최신화가 잠근 문서예요."),
+        await screen.findByText("설정 문서 최신화가 잠근 문서예요."),
       ).toBeVisible();
       // 결과가 와도 확정 전까지는 잠겨 있으므로, "끝나면 풀린다"고 말하지 않는다.
       expect(
@@ -256,13 +256,14 @@ describe("DocumentView graph refresh lock", () => {
       }),
     });
 
-    const notice = (await screen.findByText("그래프 최신화가 잠근 문서예요."))
-      .parentElement!;
+    const notice = (
+      await screen.findByText("설정 문서 최신화가 잠근 문서예요.")
+    ).parentElement!;
     expect(
       await within(notice).findByRole("button", { name: "검토하기" }),
     ).toBeInTheDocument();
     await actor.click(
-      screen.getByRole("button", { name: "그래프 최신화로 잠김" }),
+      screen.getByRole("button", { name: "설정 문서 최신화로 잠김" }),
     );
     expect(
       await screen.findByText("검토에서 ‘반영 확정’을 누르면 풀려요."),

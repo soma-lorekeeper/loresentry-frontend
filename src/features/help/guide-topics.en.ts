@@ -27,7 +27,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "layout",
         title: "Find your way around",
-        body: "The sidebar on the left holds, from top to bottom:\n\n- The account menu and project switcher: jump to another project or back to your project list.\n- Search · Graph · Timeline · Notes: views across the whole project.\n- Graph refresh: finds new details and relationships in your chapters and proposes them.\n- Favorites: the documents you open most.\n- Files: chapters and setting documents, grouped in category folders.\n- Import · Trash · Settings · Help\n\nSelect Tour the workspace in Help to see the guided tour of the screen again.",
+        body: "The sidebar on the left holds, from top to bottom:\n\n- The account menu and project switcher: jump to another project or back to your project list.\n- Search · Relationship map · Timeline · Notes: views across the whole project.\n- Refresh setting docs: finds new details and relationships in your chapters and proposes them.\n- Favorites: the documents you open most.\n- Files: chapters and setting documents, grouped in category folders.\n- Import · Trash · Settings · Help\n\nSelect Tour the workspace in Help to see the guided tour of the screen again.",
       },
       {
         id: "write",
@@ -63,7 +63,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "split",
         title: "Split the window",
-        body: "Drag a document, or the Search, Graph, Timeline or Notes button, from the sidebar to an edge of the work area and a second pane opens on that side. You can also drag a tab onto the other pane's tab bar to move it there. If your writing hasn't saved yet, it saves before the tab moves.\n\nDrag the handle between the panes to resize them. When the window is 900px wide or less, only one pane shows and the sidebar opens as a drawer.",
+        body: "Drag a document, or the Search, Relationship map, Timeline or Notes button, from the sidebar to an edge of the work area and a second pane opens on that side. You can also drag a tab onto the other pane's tab bar to move it there. If your writing hasn't saved yet, it saves before the tab moves.\n\nDrag the handle between the panes to resize them. When the window is 900px wide or less, only one pane shows and the sidebar opens as a drawer.",
       },
       {
         id: "keyboard",
@@ -73,7 +73,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "restore",
         title: "How your layout comes back",
-        body: "Open tabs, split panes, whether the sidebar and notes panel are open, and the graph's category filter and episode choice are saved per project whenever they change. Opening the same project on another device starts with the same layout. The sidebar width is remembered only in this browser.",
+        body: "Open tabs, split panes, whether the sidebar and notes panel are open, and the relationship map's category filter and episode choice are saved per project whenever they change. Opening the same project on another device starts with the same layout. The sidebar width is remembered only in this browser.",
       },
     ],
     related: ["start", "explore"],
@@ -82,7 +82,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
     id: "files",
     title: "Files and setting documents",
     summary: "Create setting documents and link them with properties",
-    lead: "Setting documents such as characters, places, organizations, items, events and worldbuilding have a title, a property table and a body. Relationships you link in the property table are what the graph, the timeline and AI chat read.",
+    lead: "Setting documents such as characters, places, organizations, items, events and worldbuilding have a title, a property table and a body. Relationships you link in the property table are what the relationship map, the timeline and AI chat read.",
     updatedAt: "2026-10-22",
     readMinutes: 4,
     facts: [
@@ -114,7 +114,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "link",
         title: "Link documents and describe the link",
-        body: "Select + on a relationship row, search for a document and pick it to add a chip. Select the chip's title to open that document, or × to unlink it. To remove the whole row, choose Delete property from the row icon's menu.\n\nHover over a chip and a Note button appears. Select it, describe the relationship (for example ‘mentor and student’) and press Enter; the note shows inside the chip and on the line in the graph. Clear the note and press Enter to remove it.",
+        body: "Select + on a relationship row, search for a document and pick it to add a chip. Select the chip's title to open that document, or × to unlink it. To remove the whole row, choose Delete property from the row icon's menu.\n\nHover over a chip and a Note button appears. Select it, describe the relationship (for example ‘mentor and student’) and press Enter; the note shows inside the chip and on the line in the relationship map. Clear the note and press Enter to remove it.",
       },
       {
         id: "status",
@@ -140,7 +140,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "episode",
         title: "Group chapters into episodes",
-        body: "Choose Add episode from the Manuscript folder's more menu to create an episode folder. Add chapters to it with Add manuscript from the episode's more menu, or drag chapters onto it. You can also move a chapter from the Episode row of its property table.\n\nEpisodes set the column order of the timeline and the episode range in the graph.",
+        body: "Choose Add episode from the Manuscript folder's more menu to create an episode folder. Add chapters to it with Add manuscript from the episode's more menu, or drag chapters onto it. You can also move a chapter from the Episode row of its property table.\n\nEpisodes set the column order of the timeline and the episode range in the relationship map.",
       },
       {
         id: "import",
@@ -170,7 +170,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "lock",
         title: "Lock a document",
-        body: "Select Lock in the file tools to save any remaining changes and lock the document. A locked document's title, body, properties and formatting can't be changed, and versions can't be saved or restored. Use it to keep a finished chapter from accidental edits. Select Unlock to edit again.\n\nDocuments a graph refresh reads are locked too. That lock is lifted only when you confirm the refresh results or the refresh fails, and Unlock can't lift it. A note above the editor says so.",
+        body: "Select Lock in the file tools to save any remaining changes and lock the document. A locked document's title, body, properties and formatting can't be changed, and versions can't be saved or restored. Use it to keep a finished chapter from accidental edits. Select Unlock to edit again.\n\nDocuments a setting document refresh reads are locked too. That lock is lifted only when you confirm the refresh results or the refresh fails, and Unlock can't lift it. A note above the editor says so.",
       },
       {
         id: "export",
@@ -180,16 +180,16 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "version",
         title: "Version history",
-        body: "Select Version history in the file tools. Pick a version on the left to compare it side by side with the current document.\n\n- Save version keeps the current state as a version.\n- Restore this version goes back to the selected version. The state just before restoring is kept as a Before restore version, so a restore can be undone too.\n\nVersions are labeled with how they were made, such as Autosave, Saved manually, Before restore or From graph refresh. If an edit couldn't be saved, save it before restoring.",
+        body: "Select Version history in the file tools. Pick a version on the left to compare it side by side with the current document.\n\n- Save version keeps the current state as a version.\n- Restore this version goes back to the selected version. The state just before restoring is kept as a Before restore version, so a restore can be undone too.\n\nVersions are labeled with how they were made, such as Autosave, Saved manually, Before restore or From refresh. If an edit couldn't be saved, save it before restoring.",
       },
     ],
     related: ["files", "memo"],
   },
   {
     id: "explore",
-    title: "Search and graph",
+    title: "Search and relationship map",
     summary: "Find anything in the project and explore relationships",
-    lead: "Search finds text in the titles and bodies of your chapters and setting documents, and the graph shows the relationships you linked in property tables as a map.",
+    lead: "Search finds text in the titles and bodies of your chapters and setting documents, and the relationship map shows the relationships you linked in property tables.",
     updatedAt: "2026-10-22",
     readMinutes: 4,
     facts: [
@@ -197,7 +197,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
         label: "Search covers",
         value: "Titles and text of chapters and settings",
       },
-      { label: "Graph source", value: "Property relationships" },
+      { label: "Relationship map source", value: "Property relationships" },
       { label: "Restores", value: "Category filter · Episode choice" },
     ],
     sections: [
@@ -208,7 +208,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       },
       {
         id: "graph",
-        title: "Explore the graph",
+        title: "Explore the relationship map",
         body: "Nodes are documents and lines are the relationships linked in property tables. A document with more relationships has a bigger node, and favorite documents carry a star at the top right of their node.\n\nSelecting a node highlights the documents directly connected to it, and the Selected node panel on the right describes it and its neighbors. Select a card in the panel to open that document. Select more nodes to highlight each one's connections together, or select an empty spot to clear the selection. The words on a line are the note you wrote for that relationship in the property table.\n\nUse the zoom buttons to change the scale and Fit to screen to see everything again.",
       },
       {
@@ -226,13 +226,13 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
   },
   {
     id: "refresh",
-    title: "Graph refresh",
+    title: "Setting document refresh",
     summary: "Review and apply what's new in your chapters",
-    lead: "Graph refresh has AI read the chapters and setting documents you changed and propose details and relationships to add to your setting documents. Nothing changes until you review the proposals and confirm them, and every applied document is kept in its version history.",
+    lead: "Setting document refresh has AI read the chapters and setting documents you changed and propose details and relationships to add to your setting documents. Nothing changes until you review the proposals and confirm them, and every applied document is kept in its version history.",
     updatedAt: "2026-10-24",
     readMinutes: 4,
     facts: [
-      { label: "Start from", value: "Graph refresh in the sidebar" },
+      { label: "Start from", value: "Refresh setting docs in the sidebar" },
       { label: "Applying", value: "After you review" },
       { label: "Locked", value: "Until you confirm" },
     ],
@@ -240,7 +240,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "run",
         title: "Start a refresh",
-        body: "Select Graph refresh in the sidebar and confirm with Start refresh. What you're writing is saved, the chapters and setting documents changed since the last refresh are sent, and the item changes to Refreshing graph… with the time waited so far. The documents sent stay locked until you confirm the results, so they can't be edited, renamed, moved or trashed.\n\nA refresh can take a few minutes. It keeps going if you switch views or browsers, and when it finishes you're notified and the item changes to Apply changes. Nothing starts if no document changed. If no result comes within an hour or the refresh fails, you're notified and the locks are lifted.",
+        body: "Select Refresh setting docs in the sidebar and confirm with Start refresh. What you're writing is saved, the chapters and setting documents changed since the last refresh are sent, and the item changes to Refreshing docs… with the time waited so far. The documents sent stay locked until you confirm the results, so they can't be edited, renamed, moved or trashed.\n\nA refresh can take a few minutes. It keeps going if you switch views or browsers, and when it finishes you're notified and the item changes to Apply changes. Nothing starts if no document changed. If no result comes within an hour or the refresh fails, you're notified and the locks are lifted.",
       },
       {
         id: "review",
@@ -250,7 +250,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "apply",
         title: "Apply the changes",
-        body: "Apply changes turns on once every document is settled. What gets applied is the state both sides agree on. A proposed new document is created when you bring it to the left, and isn't created if you remove it from the right.\n\nEach applied document gets a From graph refresh version in its history, and confirming lifts every lock. If something can't be applied as it is, such as a relationship to a new document you chose not to create, you're told what's wrong and nothing is applied.",
+        body: "Apply changes turns on once every document is settled. What gets applied is the state both sides agree on. A proposed new document is created when you bring it to the left, and isn't created if you remove it from the right.\n\nEach applied document gets a From refresh version in its history, and confirming lifts every lock. If something can't be applied as it is, such as a relationship to a new document you chose not to create, you're told what's wrong and nothing is applied.",
       },
       {
         id: "later",

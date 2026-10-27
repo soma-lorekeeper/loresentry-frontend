@@ -163,7 +163,7 @@ export function GraphView() {
       <div
         className={styles.toolbar}
         role="toolbar"
-        aria-label={t("그래프 도구")}
+        aria-label={t("관계도 도구")}
       >
         <button
           ref={episodeRef}
@@ -225,12 +225,12 @@ export function GraphView() {
           {graph.isPending ? (
             <div className={styles.canvasLoading} aria-busy="true" />
           ) : isUnavailable(graph.error) ? (
-            <PreparingState what={t("관계 그래프")} />
+            <PreparingState what={t("관계도")} />
           ) : !data || !renderGraph ? (
             <EmptyState
               role="alert"
               icon="triangle-alert"
-              title={t("그래프를 불러오지 못했어요")}
+              title={t("관계도를 불러오지 못했어요")}
               description={t("연결을 확인한 뒤 다시 시도해 주세요.")}
               action={
                 <Button

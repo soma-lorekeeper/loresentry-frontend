@@ -96,8 +96,8 @@ describe("WorkspaceTour", () => {
     await card("속성 표로 문서를 이어요");
     await actor.click(screen.getByRole("button", { name: "다음" }));
 
-    await card("이은 관계는 그래프로 봐요");
-    expect(screen.getByText("‘그래프’를 눌러 보세요.")).toBeVisible();
+    await card("이은 관계는 관계도로 봐요");
+    expect(screen.getByText("‘관계도’를 눌러 보세요.")).toBeVisible();
     await actor.click(screen.getByRole("button", { name: "stage graph" }));
     await card("한 문서에 집중해요");
     await actor.click(screen.getByRole("button", { name: "stage node" }));
@@ -143,7 +143,7 @@ describe("WorkspaceTour", () => {
     await throughImport(actor);
     await card("속성 표로 문서를 이어요");
     await actor.click(screen.getByRole("button", { name: "다음" }));
-    await card("이은 관계는 그래프로 봐요");
+    await card("이은 관계는 관계도로 봐요");
     await actor.click(screen.getByRole("button", { name: "다음" }));
     await card("한 문서에 집중해요");
     await actor.click(screen.getByRole("button", { name: "다음" }));
@@ -173,7 +173,7 @@ describe("WorkspaceTour", () => {
     expect(screen.queryByRole("button", { name: "stage cancel" })).toBeNull();
     await waitFor(() => expect(sidebar()).toBe("false"));
     await actor.click(screen.getByRole("button", { name: "다음" }));
-    await card("이은 관계는 그래프로 봐요");
+    await card("이은 관계는 관계도로 봐요");
     expect(sidebar()).toBe("true");
     await actor.click(screen.getByRole("button", { name: "stage graph" }));
     await card("한 문서에 집중해요");
@@ -195,7 +195,7 @@ describe("WorkspaceTour", () => {
     await throughImport(actor);
     await card("속성 표로 문서를 이어요");
     await actor.click(screen.getByRole("button", { name: "다음" }));
-    await card("이은 관계는 그래프로 봐요");
+    await card("이은 관계는 관계도로 봐요");
     await actor.click(screen.getByRole("button", { name: "stage graph" }));
     await card("한 문서에 집중해요");
     await actor.click(screen.getByRole("button", { name: "다음" }));
@@ -243,7 +243,7 @@ describe("WorkspaceTour", () => {
     await throughImport(actor);
     await card("속성 표로 문서를 이어요");
     await actor.click(screen.getByRole("button", { name: "다음" }));
-    await card("이은 관계는 그래프로 봐요");
+    await card("이은 관계는 관계도로 봐요");
     await actor.click(screen.getByRole("button", { name: "stage graph" }));
     await card("한 문서에 집중해요");
     await actor.click(screen.getByRole("button", { name: "stage node" }));
@@ -291,7 +291,7 @@ describe("WorkspaceTour", () => {
       "쓰던 원고는 가져와요",
       "올려 두고, 확인하고, 가져와요",
       "속성 표로 문서를 이어요",
-      "이은 관계는 그래프로 봐요",
+      "이은 관계는 관계도로 봐요",
       "한 문서에 집중해요",
       "회차별 등장은 타임라인에서",
       "줄은 문서, 칸은 회차예요",
@@ -323,7 +323,7 @@ describe("WorkspaceTour", () => {
       "쓰던 원고는 가져와요",
       "올려 두고, 확인하고, 가져와요",
       "속성 표로 문서를 이어요",
-      "이은 관계는 그래프로 봐요",
+      "이은 관계는 관계도로 봐요",
       "한 문서에 집중해요",
       "회차별 등장은 타임라인에서",
       "줄은 문서, 칸은 회차예요",

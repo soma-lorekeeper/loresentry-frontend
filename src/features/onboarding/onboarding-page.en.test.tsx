@@ -47,9 +47,9 @@ describe("OnboardingPage (English)", () => {
     for (const title of [
       "Write chapters here, too",
       "Link documents with properties",
-      "See links as a graph",
+      "See links on one map",
       "Who appears in which chapter",
-      "New chapter? Refresh the graph",
+      "New chapter? Refresh setting docs",
       "AI chat that knows your story",
       "Choose your pen name",
     ]) {
@@ -115,7 +115,7 @@ describe("AppWindow (English)", () => {
     const text = container.textContent ?? "";
     expect(hangul(text)).toEqual([]);
     expect(text).toContain("The Glass Garden Records");
-    expect(text).toContain("Graph refresh");
+    expect(text).toContain("Refresh setting docs");
     expect(text).toContain("Favorites");
   });
 

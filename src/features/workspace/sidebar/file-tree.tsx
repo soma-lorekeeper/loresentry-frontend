@@ -301,7 +301,7 @@ function Row({
  */
 function LockMark({ refreshLocked }: { refreshLocked: boolean }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const label = refreshLocked ? t("그래프 최신화로 잠김") : t("잠김");
+  const label = refreshLocked ? t("설정 문서 최신화로 잠김") : t("잠김");
   return (
     <>
       <span ref={ref} role="img" aria-label={label} className={styles.lock}>

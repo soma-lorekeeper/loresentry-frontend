@@ -58,8 +58,8 @@ export default {
 
   "mock::메모를 찾을 수 없어요.": "Couldn't find this note.",
 
-  "이미 그래프 최신화를 진행하고 있어요.":
-    "A graph refresh is already running.",
+  "이미 설정 문서 최신화를 진행하고 있어요.":
+    "A setting document refresh is already running.",
 
   "대화를 찾을 수 없어요.": "Couldn't find this conversation.",
   "응답 생성을 중단했어요.": "Stopped generating the response.",

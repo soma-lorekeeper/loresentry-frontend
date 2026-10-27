@@ -298,6 +298,6 @@ export default {
 
   "검토를 기다리는 최신화 결과가 있어요.":
     "A refresh result is waiting for review.",
-  "그래프 최신화 결과를 확정해야 잠금이 풀려요.":
-    "It unlocks only when the graph refresh results are applied.",
+  "설정 문서 최신화 결과를 확정해야 잠금이 풀려요.":
+    "It unlocks only when the setting document refresh results are applied.",
 } satisfies Messages;

@@ -55,7 +55,7 @@ describe("WorkspaceTour (English)", () => {
       "Bring in what you've already written",
       "Add files, check the list, then import",
       "Link documents in the property table",
-      "See your links as a graph",
+      "See your links on the relationship map",
       "Focus on one document",
       "Track appearances in the timeline",
       "Rows are documents, columns are chapters",

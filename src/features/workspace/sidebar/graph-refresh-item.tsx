@@ -66,7 +66,7 @@ export function GraphRefreshItem() {
     return (
       <SidebarButton
         icon="clock-3"
-        label={t("그래프 최신화 (준비 중)")}
+        label={t("설정 문서 최신화 (준비 중)")}
         disabled
       />
     );
@@ -97,8 +97,8 @@ export function GraphRefreshItem() {
         icon="loader-circle"
         label={
           minutes > 0
-            ? t("그래프 최신화 중… {minutes}분", { minutes })
-            : t("그래프 최신화 중…")
+            ? t("설정 문서 최신화 중… {minutes}분", { minutes })
+            : t("설정 문서 최신화 중…")
         }
         data-tour="refresh-running"
         disabled
@@ -155,7 +155,7 @@ export function GraphRefreshItem() {
       onError: (error) =>
         toast({
           icon: "triangle-alert",
-          title: t("그래프 최신화를 시작하지 못했어요."),
+          title: t("설정 문서 최신화를 시작하지 못했어요."),
           description: isServiceError(error)
             ? error.message
             : t("작업공간::잠시 후 다시 시도해 주세요."),
@@ -167,7 +167,7 @@ export function GraphRefreshItem() {
     <>
       <SidebarButton
         icon="refresh-cw"
-        label={t("작업공간::그래프 최신화")}
+        label={t("작업공간::설정 문서 최신화")}
         data-tour="refresh-start"
         onClick={() => setConfirming(true)}
       />
@@ -175,7 +175,7 @@ export function GraphRefreshItem() {
       <DialogCard
         open={confirming}
         onClose={() => setConfirming(false)}
-        title={t("그래프 최신화를 시작할까요?")}
+        title={t("설정 문서 최신화를 시작할까요?")}
         description={t(
           "지난 최신화 뒤 고친 원고와 설정 문서를 AI가 읽어요. 읽는 문서는 결과를 확정할 때까지 편집할 수 없어요.",
         )}

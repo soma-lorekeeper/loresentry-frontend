@@ -107,7 +107,7 @@ describe("GraphRefreshItem", () => {
     const untrack = trackSession(session);
     try {
       await actor.click(
-        await screen.findByRole("button", { name: "그래프 최신화" }),
+        await screen.findByRole("button", { name: "설정 문서 최신화" }),
       );
       await actor.click(
         await screen.findByRole("button", { name: "최신화 시작" }),
@@ -123,7 +123,7 @@ describe("GraphRefreshItem", () => {
         bodyFromPlainText("저장되어야 할 새 원고"),
       );
       await actor.click(
-        await screen.findByRole("button", { name: "그래프 최신화" }),
+        await screen.findByRole("button", { name: "설정 문서 최신화" }),
       );
       await actor.click(
         await screen.findByRole("button", { name: "최신화 시작" }),
@@ -141,10 +141,12 @@ describe("GraphRefreshItem", () => {
     renderRefresh({ before: () => setMockRule("refresh.latest", "once") });
     const alert = await screen.findByRole("alert");
     expect(alert).toHaveTextContent("최신화 상태를 불러오지 못했어요");
-    expect(screen.queryByRole("button", { name: "그래프 최신화" })).toBeNull();
+    expect(
+      screen.queryByRole("button", { name: "설정 문서 최신화" }),
+    ).toBeNull();
     await actor.click(within(alert).getByRole("button", { name: "다시 시도" }));
     expect(
-      await screen.findByRole("button", { name: "그래프 최신화" }),
+      await screen.findByRole("button", { name: "설정 문서 최신화" }),
     ).toBeEnabled();
   });
 
@@ -154,10 +156,10 @@ describe("GraphRefreshItem", () => {
     renderRefresh({ refresh: { start } });
 
     await actor.click(
-      await screen.findByRole("button", { name: "그래프 최신화" }),
+      await screen.findByRole("button", { name: "설정 문서 최신화" }),
     );
     const dialog = await screen.findByRole("dialog", {
-      name: "그래프 최신화를 시작할까요?",
+      name: "설정 문서 최신화를 시작할까요?",
     });
     await actor.click(within(dialog).getByRole("button", { name: "취소" }));
     expect(start).not.toHaveBeenCalled();
@@ -168,7 +170,7 @@ describe("GraphRefreshItem", () => {
     renderRefresh();
 
     await actor.click(
-      await screen.findByRole("button", { name: "그래프 최신화" }),
+      await screen.findByRole("button", { name: "설정 문서 최신화" }),
     );
     await actor.click(
       await screen.findByRole("button", { name: "최신화 시작" }),
@@ -176,7 +178,7 @@ describe("GraphRefreshItem", () => {
 
     expect(await screen.findByText("문서 3개를 잠갔어요.")).toBeVisible();
     expect(
-      await screen.findByRole("button", { name: /^그래프 최신화 중…/ }),
+      await screen.findByRole("button", { name: /^설정 문서 최신화 중…/ }),
     ).toBeDisabled();
   });
 
@@ -191,7 +193,7 @@ describe("GraphRefreshItem", () => {
     });
 
     expect(
-      await screen.findByRole("button", { name: "그래프 최신화 중… 3분" }),
+      await screen.findByRole("button", { name: "설정 문서 최신화 중… 3분" }),
     ).toBeDisabled();
   });
 
@@ -204,7 +206,7 @@ describe("GraphRefreshItem", () => {
     renderRefresh({ refresh: { latest } });
 
     expect(
-      await screen.findByRole("button", { name: /^그래프 최신화 중…/ }),
+      await screen.findByRole("button", { name: /^설정 문서 최신화 중…/ }),
     ).toBeInTheDocument();
     await act(() => vi.advanceTimersByTimeAsync(5000));
 
@@ -219,9 +221,11 @@ describe("GraphRefreshItem", () => {
     renderRefresh({ refresh: { latest: async () => run("FAILED") } });
 
     expect(
-      await screen.findByRole("button", { name: "그래프 최신화" }),
+      await screen.findByRole("button", { name: "설정 문서 최신화" }),
     ).toBeInTheDocument();
-    expect(screen.queryByText("그래프 최신화를 마치지 못했어요.")).toBeNull();
+    expect(
+      screen.queryByText("설정 문서 최신화를 마치지 못했어요."),
+    ).toBeNull();
   });
 
   it("opens the review from the sidebar", async () => {

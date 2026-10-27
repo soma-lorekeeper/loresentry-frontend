@@ -246,7 +246,7 @@ export const mockDocuments: DocumentService = {
       if (node.refreshLocked) {
         throw new ServiceError(
           "refresh-locked",
-          t("그래프 최신화 결과를 확정해야 잠금이 풀려요."),
+          t("설정 문서 최신화 결과를 확정해야 잠금이 풀려요."),
         );
       }
       node.locked = locked;

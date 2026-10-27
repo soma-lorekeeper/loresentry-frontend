@@ -62,7 +62,9 @@ describe("WorkspaceHelpView (English build)", () => {
       name: "Related articles",
     });
     expect(
-      within(related).getByRole("button", { name: "Search and graph" }),
+      within(related).getByRole("button", {
+        name: "Search and relationship map",
+      }),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "All topics" })).toBeVisible();
     expect(document.body.textContent).not.toMatch(HANGUL);
