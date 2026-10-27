@@ -65,7 +65,14 @@ export interface ToastInput {
   title: string;
   description?: string;
   durationMs?: number;
-  action?: { label: string; icon?: IconName; onSelect: () => void };
+  action?: {
+    label: string;
+    icon?: IconName;
+    onSelect: () => void;
+    primary?: boolean;
+  };
+  /** 권하는 일을 미루는 단추의 이름(나중에). 있으면 단추가 글 아래 한 줄로 내려간다 */
+  dismiss?: string;
 }
 
 interface ToastEntry extends ToastInput {
@@ -94,36 +101,51 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     <ToastContext.Provider value={value}>
       {children}
       <div className={styles.toastRegion} role="status" aria-live="polite">
-        {toasts.map((toast) => (
-          <div key={toast.id} className={styles.toast}>
-            <div className={styles.toastIcon}>
-              <Icon name={toast.icon ?? "info"} size={17} />
+        {toasts.map((toast) => {
+          const remove = () =>
+            setToasts((current) => current.filter((t) => t.id !== toast.id));
+          const action = toast.action && (
+            <Button
+              size={toast.dismiss ? "sm" : "md"}
+              variant={toast.action.primary ? "primary" : "outline"}
+              icon={toast.action.icon}
+              className={toast.action.primary ? undefined : styles.toastAction}
+              onClick={() => {
+                toast.action?.onSelect();
+                remove();
+              }}
+            >
+              {toast.action.label}
+            </Button>
+          );
+          return (
+            <div
+              key={toast.id}
+              className={cx(styles.toast, toast.dismiss && styles.toastStacked)}
+            >
+              <div className={styles.toastIcon}>
+                <Icon name={toast.icon ?? "info"} size={17} />
+              </div>
+              <div className={styles.toastCopy}>
+                <span className={styles.toastTitle}>{toast.title}</span>
+                {toast.description && (
+                  <span className={styles.toastDescription}>
+                    {toast.description}
+                  </span>
+                )}
+                {toast.dismiss && (
+                  <div className={styles.toastActions}>
+                    <Button size="sm" variant="ghost" onClick={remove}>
+                      {toast.dismiss}
+                    </Button>
+                    {action}
+                  </div>
+                )}
+              </div>
+              {!toast.dismiss && action}
             </div>
-            <div className={styles.toastCopy}>
-              <span className={styles.toastTitle}>{toast.title}</span>
-              {toast.description && (
-                <span className={styles.toastDescription}>
-                  {toast.description}
-                </span>
-              )}
-            </div>
-            {toast.action && (
-              <Button
-                size="md"
-                icon={toast.action.icon}
-                className={styles.toastAction}
-                onClick={() => {
-                  toast.action?.onSelect();
-                  setToasts((current) =>
-                    current.filter((t) => t.id !== toast.id),
-                  );
-                }}
-              >
-                {toast.action.label}
-              </Button>
-            )}
-          </div>
-        ))}
+          );
+        })}
       </div>
     </ToastContext.Provider>
   );

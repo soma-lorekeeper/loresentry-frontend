@@ -198,6 +198,32 @@
   pointer-events: none;
 }
 
+/*
+ * 중요 설정으로 표시한 문단. 들어간 면 위에 놓고 왼쪽 여백에 핀을 세운다. 글자는 다른 문단과 같은
+ * 자리에서 시작하도록 면을 바깥으로 넓힌다.
+ */
+.editor :global(.ProseMirror > [data-core="true"]) {
+  position: relative;
+  margin-right: calc(var(--lk-space-3) * -1);
+  margin-left: calc(var(--lk-space-3) * -1);
+  padding: var(--lk-space-3);
+  border-radius: 10px;
+  background: var(--lk-color-surface-sunken);
+}
+
+.editor :global(.ProseMirror > [data-core="true"])::before {
+  position: absolute;
+  top: calc(var(--lk-space-3) + 0.5lh - 7px);
+  left: -18px;
+  width: 14px;
+  height: 14px;
+  background: var(--lk-color-accent-primary);
+  content: "";
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 17v5'/%3E%3Cpath d='M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  pointer-events: none;
+}
+
 .editor :global(.lk-find-match) {
   border-radius: 2px;
   background: var(--lk-color-diff-modify-bg);

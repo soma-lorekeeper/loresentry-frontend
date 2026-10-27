@@ -5,6 +5,7 @@ import { WorkspaceHelpView } from "@/features/help/workspace-help-view";
 import { MemoView } from "@/features/memos/memo-view";
 import { ProjectSettingsView } from "@/features/project-settings/project-settings-view";
 import { SearchView } from "@/features/search/search-view";
+import { SettingCheckView } from "@/features/setting-check/setting-check-view";
 import { t } from "@/i18n";
 
 import type { WorkspaceViewKind } from "../model/layout";
@@ -44,6 +45,12 @@ export const WORKSPACE_VIEWS: Record<
     icon: "notebook-pen",
     title: t("작업공간::메모"),
     render: (props) => <MemoView paneId={props.paneId} active={props.active} />,
+  },
+  "setting-check": {
+    kind: "setting-check",
+    icon: "scan-text",
+    title: t("설정 오류 점검"),
+    render: (props) => <SettingCheckView {...props} />,
   },
   trash: {
     kind: "trash",

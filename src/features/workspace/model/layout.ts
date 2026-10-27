@@ -4,6 +4,7 @@ export const WORKSPACE_VIEW_KINDS = [
   "graph",
   "timeline",
   "memo",
+  "setting-check",
   "trash",
   "settings",
   "help",
@@ -156,6 +157,11 @@ export type LayoutAction =
       to: string;
       beforeId?: string | null;
     }
+  /**
+   * `from` 창 옆에 연다. 다른 창에 이미 있으면 그 탭으로 가고, `from` 창에만 있으면 옆 창으로
+   * 옮긴다. 창이 하나면 오른쪽에 새 창을 세운다.
+   */
+  | { type: "openBeside"; target: WorkspaceTarget; from: string }
   | { type: "setSplitRatio"; ratio: number }
   | { type: "focusPane"; paneId: string }
   | { type: "closeFiles"; fileIds: string[] }
@@ -383,6 +389,28 @@ function moveTab(
   return { ...layout, panes, activePaneId: to };
 }
 
+function openBeside(
+  layout: WorkspaceLayout,
+  target: WorkspaceTarget,
+  from: string,
+): WorkspaceLayout {
+  const id = tabIdFor(target);
+  const other = layout.panes.find((p) => p.id !== from);
+  if (!other) return splitAt(layout, "right", target, from);
+  if (other.tabs.some((t) => t.id === id)) {
+    return layoutReducer(layout, {
+      type: "activate",
+      paneId: other.id,
+      tabId: id,
+    });
+  }
+  const source = layout.panes.find((p) => p.id === from);
+  if (source?.tabs.some((t) => t.id === id)) {
+    return moveTab(layout, from, id, other.id, undefined);
+  }
+  return layoutReducer(layout, { type: "open", target, paneId: other.id });
+}
+
 export function layoutReducer(
   layout: WorkspaceLayout,
   action: LayoutAction,
@@ -421,6 +449,8 @@ export function layoutReducer(
     }
     case "split":
       return splitAt(layout, action.edge, action.target, action.from);
+    case "openBeside":
+      return openBeside(layout, action.target, action.from);
     case "moveTab":
       return moveTab(
         layout,

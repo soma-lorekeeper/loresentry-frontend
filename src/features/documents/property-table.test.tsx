@@ -97,3 +97,45 @@ describe("PropertyTable relations", () => {
     ]);
   });
 });
+
+describe("PropertyTable key settings", () => {
+  const table = (docType: "place" | "manuscript", coreCount: number) => {
+    const onRevealCore = vi.fn();
+    render(
+      <PropertyTable
+        fileId="north"
+        docType={docType}
+        properties={[]}
+        nodes={[]}
+        episode={null}
+        episodes={[]}
+        readOnly={false}
+        coreCount={coreCount}
+        onRevealCore={onRevealCore}
+        onChange={() => {}}
+        onChangeType={() => {}}
+        onMoveToEpisode={() => {}}
+        onOpenFile={() => {}}
+      />,
+    );
+    return onRevealCore;
+  };
+
+  it("counts the marked paragraphs and jumps to the first one", async () => {
+    const onRevealCore = table("place", 2);
+    await userEvent.click(
+      screen.getByRole("button", { name: "중요 설정 2개 · 첫 문단으로 가기" }),
+    );
+    expect(onRevealCore).toHaveBeenCalledTimes(1);
+  });
+
+  it("has no row when nothing is marked or the document is a manuscript", () => {
+    table("place", 0);
+    expect(screen.queryByText("중요 설정")).toBeNull();
+  });
+
+  it("never shows the row on a manuscript", () => {
+    table("manuscript", 3);
+    expect(screen.queryByText("중요 설정")).toBeNull();
+  });
+});

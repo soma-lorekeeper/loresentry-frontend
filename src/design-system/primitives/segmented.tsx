@@ -12,6 +12,8 @@ export interface SegmentedOption<T extends string> {
   label: string;
   icon?: IconName;
   lang?: string;
+  /** 이름 뒤에 약하게 붙는 개수 */
+  count?: number;
 }
 
 export function Segmented<T extends string>({
@@ -72,6 +74,9 @@ export function Segmented<T extends string>({
           >
             {option.icon && <Icon name={option.icon} size={14} />}
             {option.label}
+            {option.count !== undefined && (
+              <span className={styles.count}>{option.count}</span>
+            )}
           </button>
         );
       })}

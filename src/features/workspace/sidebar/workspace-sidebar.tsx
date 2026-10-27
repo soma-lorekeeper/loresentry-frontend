@@ -21,6 +21,7 @@ import {
 } from "@/domain/document-types";
 import type { FileNode, FolderNode } from "@/domain/models";
 import { UserMenu } from "@/features/projects/user-menu";
+import { SettingCheckItem } from "@/features/setting-check/setting-check-item";
 import { t } from "@/i18n";
 import { QueryFailure } from "@/features/common/query-failure";
 import { isServiceError } from "@/services/errors";
@@ -526,6 +527,7 @@ export function WorkspaceSidebar() {
         <div data-tour="refresh">
           <GraphRefreshItem />
         </div>
+        <SettingCheckItem />
       </div>
       <div className={styles.scroll}>
         <section

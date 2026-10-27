@@ -29,7 +29,7 @@ const CHAT_LENA =
   "주요 인물 가운데 [[doc:레나 아르벨]]에 이어 둔 문서가 가장 많아요. 속성 표에서 다섯 개가 이어져 있어요.\n- **조직** [[doc:은빛 항해단|마지막 항해사]] 항해단은 레나를 ‘마지막 항해사’라 불러요.\n- **장소** [[doc:유리 산맥|처음 각성한 곳]] 레나가 처음 각성한 곳이에요.\n- **이벤트** [[doc:각성|각성한 당사자]] 레나가 이 사건의 당사자예요.\n- **원고** [[doc:11화 · 유리 정원|첫 등장]]에서 처음 나오고, [[doc:12화 · 균열의 밤|북쪽 온실에 도착]]에서 북쪽 온실에 닿아요.\n설정 본문에는 기억을 읽을 때마다 대가를 치른다고 적혀 있지만, 그 대가가 원고에 나온 회차는 아직 없어요. [[doc:레나 아르벨|기억을 읽는 일은 언제나 대가를 요구한다.]]";
 
 const CHAT_OPEN =
-  "본문이 있는 회차 가운데서는 **12화에서 북쪽 문 손잡이를 잡는 순간**이 처음이에요. [[doc:12화 · 균열의 밤|손잡이에 손을 얹자 차가운 진동이 손목을 타고 올라왔다.]]\n그때까지 서윤은 세 번의 순찰 내내 균열을 지켜보는 기록관으로만 그려져요. 이 장면에서 처음 망설이고, 등불을 바닥에 내려놓은 뒤 ‘천천히’ 문을 미는 동작이 그 망설임을 보여 줘요.\n조금 더 이른 후보도 있어요. 11화에서 하린과 금 간 창을 올려다보는 장면은 말이 없어서, 흔들림보다는 불안의 예고에 가까워요. [[doc:11화 · 유리 정원|둘은 말없이 금이 간 창을 올려다보았다.]]\n1–10화는 본문이 비어 있어서 판단에서 뺐어요. 그 회차를 쓰시면 다시 물어봐 주세요.";
+  "본문이 있는 회차 가운데서는 **12화에서 북쪽 문 손잡이를 잡는 순간**이 처음이에요. [[doc:12화 · 균열의 밤|손잡이에 손을 얹자 차가운 진동이 손목을 타고 올라왔다.]]\n그때까지 서윤은 세 번의 순찰 내내 균열을 지켜보는 기록관으로만 그려져요. 이 장면에서 처음 망설이고, 등불을 바닥에 내려놓은 뒤 ‘천천히’ 문을 미는 동작이 그 망설임을 보여 줘요.\n조금 더 이른 후보도 있어요. 11화에서 하린과 금 간 창을 올려다보는 장면은 말이 없어서, 흔들림보다는 불안의 예고에 가까워요. [[doc:11화 · 유리 정원|둘은 말없이 금이 간 창을 올려다보았다.]]\n1–8화와 10화는 본문이 비어 있어서 판단에서 뺐어요. 그 회차를 쓰시면 다시 물어봐 주세요.";
 
 const EPISODES: SeedEpisode[] = [
   {
@@ -56,7 +56,12 @@ const EPISODES: SeedEpisode[] = [
     title: "Episode 3. 기억 항로",
     chapters: [
       chapter(8, "은빛 항구", "은빛 항해단과 처음 마주친다"),
-      chapter(9, "각성", "서윤이 기억의 방향을 처음 읽어 낸다"),
+      chapter(
+        9,
+        "각성",
+        "서윤이 기억의 방향을 처음 읽어 낸다",
+        "다섯 번째 순찰을 마친 새벽이었다. 서윤은 유리에 남은 빛을 따라 걷다가, 그 빛이 누군가의 기억이 남긴 방향이라는 것을 처음으로 알아차렸다.\n\n방향은 언제나 북쪽 온실을 가리켰다.",
+      ),
       chapter(10, "파편 나침반", "나침반이 가리키는 곳"),
       chapter(
         11,
@@ -100,6 +105,7 @@ const SETTINGS: Record<SettingDocumentType, SeedEntity[]> = {
       key: "c-harin",
       title: "하린",
       description: "북쪽 온실을 관리하는 정원사",
+      body: "하린은 북쪽 온실을 맡은 정원사다.\n\n하린은 매일 새벽 북쪽 온실을 돈다. 손에는 늘 젖은 천이 들려 있다.",
     },
     { key: "c-kairon", title: "카이론", description: "남부 출신의 검술가" },
     {
@@ -124,6 +130,7 @@ const SETTINGS: Record<SettingDocumentType, SeedEntity[]> = {
       key: "p-north",
       title: "북쪽 온실",
       description: "오래 잠겨 있던 정원의 북쪽 끝",
+      body: "북쪽 문은 낡은 열쇠 없이는 열리지 않는다. 열쇠는 기록단 결성 이후 한 번도 정원 안에 들어온 적이 없다.\n\n하린은 매일 새벽 온실 둘레를 돌며 유리에 맺힌 이슬을 닦는다. 문 앞까지는 다가가지 않는다.\n\n온실의 유리는 정원 기록단만 손볼 수 있다.",
     },
     {
       key: "p-garden",
@@ -459,6 +466,126 @@ export const KO_SEED: MockSeed = {
     { between: ["c-lena", "ch-12"], note: "북쪽 온실에 도착" },
     { between: ["ch-12", "p-north"], note: "이야기의 무대" },
   ],
+  settingCheck: {
+    core: { "p-north": [0, 2], "w-law": [0], "i-key": [0] },
+    chapter: "ch-12",
+    findings: [
+      {
+        key: "door",
+        kind: "SETTING",
+        core: true,
+        source: "p-north",
+        summary:
+          "북쪽 문은 낡은 열쇠로만 열리는데, 서윤이 열쇠 없이 문을 밀어요",
+        direction: "12화까지 서윤이 낡은 열쇠를 손에 넣는 장면이 없어요.",
+        quote: "서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다.",
+        sourceQuote: "북쪽 문은 낡은 열쇠 없이는 열리지 않는다.",
+      },
+      {
+        key: "patrol",
+        kind: "MANUSCRIPT",
+        source: "ch-9",
+        summary:
+          "9화에서 이미 다섯 번째 순찰인데, 12화는 세 번째 순찰이라고 해요",
+        direction:
+          "12화의 ‘세 번째 순찰’이 그날 밤에 돈 횟수인지 원고에서 알 수 없어요.",
+        quote:
+          "서윤은 그 선들이 모두 한곳을 가리키고 있다는 사실을 세 번째 순찰에서야 알아차렸다.",
+        sourceQuote: "다섯 번째 순찰을 마친 새벽이었다.",
+      },
+      {
+        key: "harin",
+        kind: "SETTING",
+        confidence: "LOW",
+        source: "c-harin",
+        summary:
+          "하린이 매일 새벽 북쪽 온실을 도는데, 문 앞 발자국이 하나뿐이에요",
+        direction:
+          "그날 새벽 하린이 온실을 돌지 않았다거나 문 앞까지는 가지 않는다는 문장이 없어요.",
+        quote: "오래 잠겨 있던 북쪽 문 앞에는 발자국이 하나뿐이었다.",
+        sourceQuote: "하린은 매일 새벽 북쪽 온실을 돈다.",
+      },
+      {
+        key: "crack",
+        kind: "MANUSCRIPT",
+        source: "ch-11",
+        summary: "11화에서 이미 자란 균열을 12화가 처음 드러나는 것처럼 그려요",
+        direction: "12화에 11화의 균열과 같은 것인지 밝히는 문장이 없어요.",
+        quote:
+          "달빛이 온실의 지붕을 훑고 지나갈 때마다, 금이 간 창마다 은빛 선이 번졌다.",
+        sourceQuote: "균열은 어젯밤보다 한 뼘 더 자라 있었다.",
+        verdict: {
+          verdict: "INTENDED",
+          reason: "11화의 균열이 밤사이 온실 전체로 번진 거예요.",
+        },
+      },
+    ],
+    earlier: [
+      {
+        key: "lantern",
+        kind: "SETTING",
+        source: "i-lantern",
+        summary:
+          "은빛 등불은 기억의 빛을 비추는데, 서윤이 등불을 끄고 들어가요",
+        direction: "등불을 끈 뒤 무엇으로 문 너머를 보는지 나오지 않아요.",
+        quote: "서윤은 등불을 끄고 천천히 문을 밀었다.",
+        sourceQuote: "기억의 빛을 비추는 등불.",
+      },
+      {
+        key: "law",
+        kind: "SETTING",
+        core: true,
+        source: "w-law",
+        summary: "균열은 기억의 방향인데, 12화는 균열을 문이라고 불러요",
+        direction: "균열을 문으로 부르는 까닭이 12화에 없어요.",
+        quote: "균열은 곧 문이었다.",
+        sourceQuote: "균열은 문이 아니라 기억의 방향이다.",
+      },
+    ],
+    chapters: [
+      { chapter: "ch-11", daysAgo: 3, findings: [] },
+      {
+        chapter: "ch-10",
+        daysAgo: 7,
+        edited: true,
+        findings: [
+          {
+            key: "compass",
+            kind: "SETTING",
+            source: "i-compass",
+            summary:
+              "파편 나침반은 기억의 흔적을 가리키는데, 10화는 보통 나침반처럼 써요",
+            direction: "10화에 나침반이 무엇을 따라 움직이는지 나오지 않아요.",
+            quote: "나침반이 가리키는 곳.",
+            sourceQuote: "기억의 흔적을 가리키는 항해 도구.",
+            verdict: {
+              verdict: "NOT_CONFLICT",
+              reason: "기억의 흔적이 마침 북쪽에 있어서 북쪽을 가리켜요.",
+            },
+          },
+        ],
+      },
+      {
+        chapter: "ch-9",
+        daysAgo: 8,
+        findings: [
+          {
+            key: "awaken",
+            kind: "SETTING",
+            source: "e-awaken",
+            summary: "각성은 밤에 일어난 일인데, 9화는 새벽에 처음 읽어 내요",
+            direction: "밤 순찰이 새벽까지 이어졌다는 문장이 없어요.",
+            quote: "다섯 번째 순찰을 마친 새벽이었다.",
+            sourceQuote: "잃어버린 기억의 방향을 처음 읽어 낸 밤.",
+            verdict: {
+              verdict: "INTENDED",
+              reason: "밤 순찰이 새벽까지 이어진 거예요.",
+            },
+          },
+        ],
+      },
+    ],
+  },
   refresh: {
     harinDescription: "북쪽 온실의 문이 열린 뒤 기록단에 합류한 정원사",
     harinBodyAddition:

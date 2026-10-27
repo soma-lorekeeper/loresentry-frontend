@@ -28,7 +28,7 @@ const CHAT_LENA =
   "Among the main characters, [[doc:Lena Arbel]] has the most links: five documents in her property table.\n- **Organization** [[doc:Silver Voyagers|Their last navigator]] The Voyagers call Lena their last navigator.\n- **Place** [[doc:Glass Mountains|Where she first awakened]] Where Lena first awakened.\n- **Event** [[doc:Awakening|The one who awakened]] Lena is the one it happened to.\n- **Manuscript** She first appears in [[doc:Ch. 11 · The Glass Garden|First appearance]] and reaches the North Greenhouse in [[doc:Ch. 12 · Night of the Fracture|Arrives at the greenhouse]].\nHer setting says every memory she reads comes at a price, but no chapter has shown that price yet. [[doc:Lena Arbel|Reading memories always demands a price.]]";
 
 const CHAT_OPEN =
-  "Among the chapters that have text, the first is **the moment in Ch. 12 when she grips the handle of the North Door**. [[doc:Ch. 12 · Night of the Fracture|When she laid her hand on the handle, a cold tremor climbed up her wrist.]]\nUp to that point Seoyun is drawn only as a recorder watching the fractures over three patrols. Here she hesitates for the first time, and setting the lantern down before she “slowly” pushes the door shows it.\nThere is an earlier candidate. In Ch. 11 she and Harin look up at the cracked pane in silence, which reads more like a warning of unease than wavering. [[doc:Ch. 11 · The Glass Garden|The two of them looked up at the cracked pane without a word.]]\nCh. 1–10 have no text yet, so I left them out. Ask again once you've written them.";
+  "Among the chapters that have text, the first is **the moment in Ch. 12 when she grips the handle of the North Door**. [[doc:Ch. 12 · Night of the Fracture|When she laid her hand on the handle, a cold tremor climbed up her wrist.]]\nUp to that point Seoyun is drawn only as a recorder watching the fractures over three patrols. Here she hesitates for the first time, and setting the lantern down before she “slowly” pushes the door shows it.\nThere is an earlier candidate. In Ch. 11 she and Harin look up at the cracked pane in silence, which reads more like a warning of unease than wavering. [[doc:Ch. 11 · The Glass Garden|The two of them looked up at the cracked pane without a word.]]\nCh. 1–8 and 10 have no text yet, so I left them out. Ask again once you've written them.";
 
 const EPISODES: SeedEpisode[] = [
   {
@@ -83,6 +83,7 @@ const EPISODES: SeedEpisode[] = [
         9,
         "Awakening",
         "Seoyun reads the direction of a memory for the first time",
+        "It was dawn, after the fifth patrol. Following the light left on the glass, Seoyun realized for the first time that it was a direction left behind by someone's memory.\n\nThe direction always pointed to the North Greenhouse.",
       ),
       chapter(10, "The Shard Compass", "Where the compass points"),
       chapter(
@@ -136,6 +137,7 @@ const SETTINGS: Record<SettingDocumentType, SeedEntity[]> = {
       key: "c-harin",
       title: "Harin",
       description: "The gardener who tends the North Greenhouse",
+      body: "Harin is the gardener in charge of the North Greenhouse.\n\nHarin walks around the North Greenhouse every dawn. She always carries a damp cloth.",
     },
     {
       key: "c-kairon",
@@ -168,6 +170,7 @@ const SETTINGS: Record<SettingDocumentType, SeedEntity[]> = {
       key: "p-north",
       title: "North Greenhouse",
       description: "The northern end of the garden, locked for a long time",
+      body: "The North Door will not open without the old key. The key has not been inside the garden since the Recorders were founded.\n\nEvery dawn Harin walks around the greenhouse, wiping the dew from the glass. She never goes as far as the door.\n\nOnly the Garden Recorders may repair the greenhouse glass.",
     },
     {
       key: "p-garden",
@@ -516,6 +519,138 @@ export const EN_SEED: MockSeed = {
     { between: ["c-lena", "ch-12"], note: "Arrives at the greenhouse" },
     { between: ["ch-12", "p-north"], note: "Where the chapter is set" },
   ],
+  settingCheck: {
+    core: { "p-north": [0, 2], "w-law": [0], "i-key": [0] },
+    chapter: "ch-12",
+    findings: [
+      {
+        key: "door",
+        kind: "SETTING",
+        core: true,
+        source: "p-north",
+        summary:
+          "The North Door opens only with the old key, but Seoyun pushes it open without one",
+        direction:
+          "Up to Ch. 12, there is no scene where Seoyun gets the old key.",
+        quote:
+          "Seoyun set the lantern down on the ground and slowly pushed the door open.",
+        sourceQuote: "The North Door will not open without the old key.",
+      },
+      {
+        key: "patrol",
+        kind: "MANUSCRIPT",
+        source: "ch-9",
+        summary:
+          "Ch. 9 already counts a fifth patrol, but Ch. 12 calls it the third",
+        direction:
+          "The manuscript doesn't say whether the “third patrol” in Ch. 12 counts only that night.",
+        quote:
+          "Only on the third patrol did Seoyun realize that all of those lines pointed to the same place.",
+        sourceQuote: "It was dawn, after the fifth patrol.",
+      },
+      {
+        key: "harin",
+        kind: "SETTING",
+        confidence: "LOW",
+        source: "c-harin",
+        summary:
+          "Harin walks around the North Greenhouse every dawn, yet there is only one set of footprints at the door",
+        direction:
+          "Nothing says Harin skipped her round that dawn or that she never goes as far as the door.",
+        quote:
+          "In front of the long-locked North Door there was only a single set of footprints.",
+        sourceQuote: "Harin walks around the North Greenhouse every dawn.",
+      },
+      {
+        key: "crack",
+        kind: "MANUSCRIPT",
+        source: "ch-11",
+        summary:
+          "The fracture already grew in Ch. 11, but Ch. 12 shows it as if it appears for the first time",
+        direction:
+          "Ch. 12 doesn't say whether this is the same fracture as in Ch. 11.",
+        quote:
+          "Each time the moonlight swept across the greenhouse roofs, silver lines spread through every cracked pane.",
+        sourceQuote:
+          "The fracture had grown a hand's span longer since the night before.",
+        verdict: {
+          verdict: "INTENDED",
+          reason:
+            "The fracture from Ch. 11 spread through the whole greenhouse overnight.",
+        },
+      },
+    ],
+    earlier: [
+      {
+        key: "lantern",
+        kind: "SETTING",
+        source: "i-lantern",
+        summary:
+          "The Silver Lantern casts the light of memory, but Seoyun puts it out before going in",
+        direction:
+          "It doesn't say how she sees past the door once the lantern is out.",
+        quote: "Seoyun put out the lantern and slowly pushed the door open.",
+        sourceQuote: "A lantern that casts the light of memory.",
+      },
+      {
+        key: "law",
+        kind: "SETTING",
+        core: true,
+        source: "w-law",
+        summary:
+          "A fracture is the direction of a memory, but Ch. 12 calls it a door",
+        direction: "Ch. 12 doesn't say why the fracture is called a door.",
+        quote: "The fracture was a door.",
+        sourceQuote: "A fracture is not a door but the direction of a memory.",
+      },
+    ],
+    chapters: [
+      { chapter: "ch-11", daysAgo: 3, findings: [] },
+      {
+        chapter: "ch-10",
+        daysAgo: 7,
+        edited: true,
+        findings: [
+          {
+            key: "compass",
+            kind: "SETTING",
+            source: "i-compass",
+            summary:
+              "The Shard Compass points to traces of memory, but Ch. 10 uses it like an ordinary compass",
+            direction: "Ch. 10 doesn't say what the compass follows.",
+            quote: "Where the compass points.",
+            sourceQuote: "A navigation tool that points to traces of memory.",
+            verdict: {
+              verdict: "NOT_CONFLICT",
+              reason:
+                "The traces of memory happen to lie north, so it points north.",
+            },
+          },
+        ],
+      },
+      {
+        chapter: "ch-9",
+        daysAgo: 8,
+        findings: [
+          {
+            key: "awaken",
+            kind: "SETTING",
+            source: "e-awaken",
+            summary:
+              "The Awakening happened at night, but in Ch. 9 Seoyun first reads the direction at dawn",
+            direction: "Nothing says the night patrol ran on until dawn.",
+            quote: "It was dawn, after the fifth patrol.",
+            sourceQuote:
+              "The night the direction of a lost memory was first read.",
+            verdict: {
+              verdict: "INTENDED",
+              reason: "The night patrol ran on until dawn.",
+            },
+          },
+        ],
+      },
+    ],
+  },
   refresh: {
     harinDescription:
       "The gardener who joined the Recorders after the North Greenhouse door opened",

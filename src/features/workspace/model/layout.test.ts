@@ -514,3 +514,74 @@ describe("split ratio and sidebar", () => {
     ).toBe(false);
   });
 });
+
+describe("opening beside a pane", () => {
+  const check = { kind: "setting-check" as const };
+
+  it("deep-links to the setting check view", () => {
+    expect(parseTabId("setting-check")).toEqual(check);
+  });
+
+  it("splits off a new pane when there is only one", () => {
+    const start = layoutReducer(createLayout(file("a")), {
+      type: "open",
+      target: check,
+    });
+    const next = layoutReducer(start, {
+      type: "openBeside",
+      target: file("b"),
+      from: "pane-1",
+    });
+    expect(next.panes).toHaveLength(2);
+    expect(tabIds(next, 0)).toEqual(["file:a", "setting-check"]);
+    expect(activeTabOf(next.panes[0]).id).toBe("setting-check");
+    expect(tabIds(next, 1)).toEqual(["file:b"]);
+    expect(next.activePaneId).toBe(next.panes[1].id);
+  });
+
+  it("moves the document out of the same pane instead of hiding the view", () => {
+    const start = layoutReducer(createLayout(file("a")), {
+      type: "open",
+      target: check,
+    });
+    const next = layoutReducer(start, {
+      type: "openBeside",
+      target: file("a"),
+      from: "pane-1",
+    });
+    expect(tabIds(next, 0)).toEqual(["setting-check"]);
+    expect(tabIds(next, 1)).toEqual(["file:a"]);
+  });
+
+  it("goes to the tab when the other pane already has it", () => {
+    const start = layoutReducer(sideBySide(), {
+      type: "open",
+      target: check,
+      paneId: "pane-1",
+    });
+    const next = layoutReducer(start, {
+      type: "openBeside",
+      target: file("c"),
+      from: "pane-1",
+    });
+    expect(next.panes).toHaveLength(2);
+    expect(tabIds(next, 1)).toEqual(["file:c"]);
+    expect(next.activePaneId).toBe("pane-2");
+    expect(activeTabOf(next.panes[0]).id).toBe("setting-check");
+  });
+
+  it("opens in the other pane otherwise", () => {
+    const start = layoutReducer(sideBySide(), {
+      type: "open",
+      target: check,
+      paneId: "pane-1",
+    });
+    const next = layoutReducer(start, {
+      type: "openBeside",
+      target: file("d"),
+      from: "pane-1",
+    });
+    expect(tabIds(next, 1)).toEqual(["file:c", "file:d"]);
+    expect(activeTabOf(next.panes[1]).id).toBe("file:d");
+  });
+});

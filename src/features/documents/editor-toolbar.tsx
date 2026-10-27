@@ -848,7 +848,11 @@ function FindBar({
     },
   });
 
-  useEffect(() => () => void editor.commands.setFindQuery(""), [editor]);
+  useEffect(() => {
+    // 점검 결과에서 짚어 둔 문장이 칠해져 있을 수 있다. 찾기 막대는 빈 검색어로 시작한다.
+    editor.commands.setFindQuery("");
+    return () => void editor.commands.setFindQuery("");
+  }, [editor]);
 
   return (
     <div

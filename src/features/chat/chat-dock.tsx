@@ -817,9 +817,12 @@ export function ChatDock() {
           else openWindow();
         }}
       />
-      {ready && (
-        <SelectionAsk onAttach={attach} onAsk={askAbout} resting={resting} />
-      )}
+      <SelectionAsk
+        onAttach={attach}
+        onAsk={askAbout}
+        resting={resting}
+        ai={ready}
+      />
     </>
   );
 }

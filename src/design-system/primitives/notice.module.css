@@ -109,3 +109,18 @@
 .toastAction {
   background: var(--lk-color-surface-default);
 }
+
+.toastStacked {
+  align-items: flex-start;
+}
+
+.toastStacked .toastIcon {
+  margin-top: 1px;
+}
+
+.toastActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: var(--lk-space-1);
+}

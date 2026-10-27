@@ -68,6 +68,23 @@ export function versionTimeLabel(iso: string, now = Date.now()): string {
   return `${date.getMonth() + 1}월 ${date.getDate()}일 ${clockTime(iso)}`;
 }
 
+/** 점검 시각. 오늘·어제는 시각까지, 그 전은 날짜만 적는다. 막 끝났으면 "방금" 이다 */
+export function checkTimeLabel(iso: string, now = Date.now()): string {
+  const en = LOCALE === "en";
+  const time = new Date(iso).getTime();
+  if (now - time < MINUTE) return en ? "Just now" : "방금";
+  const today = startOfDay(new Date(now));
+  if (time >= today) return `${en ? "Today" : "오늘"} ${clockTime(iso)}`;
+  if (time >= today - 24 * HOUR)
+    return `${en ? "Yesterday" : "어제"} ${clockTime(iso)}`;
+  const date = new Date(time);
+  const sameYear = date.getFullYear() === new Date(now).getFullYear();
+  if (en) return (sameYear ? monthDay : monthDayYear).format(date);
+  return sameYear
+    ? `${date.getMonth() + 1}월 ${date.getDate()}일`
+    : `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
+}
+
 export function initialsOf(name: string): string {
   const trimmed = name.replace(/\s+/g, "");
   if (!trimmed) return "?";
