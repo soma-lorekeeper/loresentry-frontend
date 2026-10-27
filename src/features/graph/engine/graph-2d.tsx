@@ -52,8 +52,17 @@ const LABEL_MIN_SCREEN_RADIUS = 3.5;
 const RICH_NODE_LIMIT = 600;
 // 실험 레포는 4 였다. 서비스 시드는 노드가 수십 개라 화면 맞춤 배율이 1 근처에 머물고,
 // 그 크기에서는 분류 아이콘이 그려지는 컷(ICON_MIN_SCREEN_RADIUS)에 닿지 않는다.
-// 와이어프레임 145 처럼 노드 안의 아이콘이 보이도록 기본 크기를 키운다.
-const NODE_REL_SIZE = 6;
+// 와이어프레임 145 처럼 노드 안의 아이콘이 보이도록 6 으로 키웠고, 문서 이미지가 들어간 뒤
+// 사진이 읽히도록 다시 두 배로 키웠다(NODE_DRAW_SCALE).
+const NODE_REL_SIZE = 12;
+/**
+ * 그리는 크기가 배치 크기의 몇 배인가.
+ *
+ * 노드만 키우고 배치는 그대로 둔다. 배치 간격까지 같이 키우면 화면 맞춤이 그만큼 물러나서
+ * 화면에서는 노드가 1.5배 남짓밖에 커지지 않는다. 겹침 반경(physics.ts)도 배치 크기를 쓴다 —
+ * 그리는 크기를 넘기면 쉬고 있는 원까지 밀어내 그래프가 부푼다(COLLIDE_RADIUS_SCALE 주석).
+ */
+const NODE_DRAW_SCALE = 2;
 /**
  * 차수가 반지름을 키우는 정도.
  *
@@ -68,7 +77,9 @@ const NODE_DEGREE_WEIGHT = 0.22;
  * pensiv 그래프에서 가장 큰 노드가 가장 작은 노드의 3배쯤이다. 이 상한을 두면 회차가
  * 200 화로 늘어 허브 차수가 아무리 커져도 그 비율이 유지된다.
  */
-const NODE_MAX_RADIUS = 15;
+const NODE_MAX_RADIUS = 30;
+/** 배치와 겹침 계산에 쓰는 가장 큰 노드의 반지름. 그리는 상한을 NODE_DRAW_SCALE 로 나눈 값이다 */
+const LAYOUT_MAX_RADIUS = NODE_MAX_RADIUS / NODE_DRAW_SCALE;
 /**
  * 노드 안에 분류 아이콘을 그리기 시작하는 화면 반지름(px).
  *
@@ -141,6 +152,11 @@ interface Props {
 function nodeRadius(node: { degree: number }) {
   const grown = Math.sqrt(1 + node.degree * NODE_DEGREE_WEIGHT) * NODE_REL_SIZE;
   return Math.min(grown, NODE_MAX_RADIUS);
+}
+
+/** 배치와 겹침 계산의 반지름. 노드를 키우기 전의 크기라, 그래프의 퍼짐은 예전과 같다 */
+function layoutRadius(node: { degree: number }) {
+  return nodeRadius(node) / NODE_DRAW_SCALE;
 }
 
 /**
@@ -520,7 +536,7 @@ export function Graph2D({
       applyPackedLayout(graph, {
         // 자리 크기를 하나로 고정해야 간격이 균일해진다. 가장 큰 노드를 기준으로 잡아
         // 어떤 노드도 이웃과 겹치지 않게 한다.
-        nodeRadius: NODE_MAX_RADIUS,
+        nodeRadius: LAYOUT_MAX_RADIUS,
         centerIds,
       }),
     [centerIds, graph],
@@ -569,9 +585,9 @@ export function Graph2D({
         // 엣지마다의 기준 거리를 배치가 준 길이로 잡는다 — 그래야 배치 자체가
         // 힘의 평형점이 되어 원이 유지된다(physics.ts 머리 주석 참고).
         home: layout.home,
-        spacing: spacingFor(NODE_MAX_RADIUS),
-        // 화면에 그리는 것과 같은 함수를 넘긴다 — 큰 노드는 그만큼 넓게 밀어낸다.
-        nodeRadius,
+        spacing: spacingFor(LAYOUT_MAX_RADIUS),
+        // 큰 노드는 그만큼 넓게 밀어낸다. 그리는 크기가 아니라 배치 크기를 넘긴다(NODE_DRAW_SCALE).
+        nodeRadius: layoutRadius,
       });
     }
 

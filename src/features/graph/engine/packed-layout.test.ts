@@ -17,7 +17,7 @@ import {
 import { sampleRenderGraph as getRenderGraph } from "./sample-graph";
 import type { RenderGraph } from "./render-graph";
 
-/** graph-2d.tsx 의 NODE_MAX_RADIUS 와 같은 값 */
+/** graph-2d.tsx 의 LAYOUT_MAX_RADIUS 와 같은 값 */
 const NODE_RADIUS = 15;
 /** packed-layout.ts 의 GAP 을 더한 중심 간 최소 거리 */
 const SPACING = 2 * NODE_RADIUS + 52;
