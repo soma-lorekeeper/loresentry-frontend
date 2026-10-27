@@ -10,6 +10,8 @@ interface ApiNode {
   title: string;
   folder_code: string;
   description: string;
+  /** 대표 이미지 주소. 없으면 null */
+  image_url: string | null;
 }
 
 interface ApiEdge {
@@ -54,6 +56,7 @@ export function createApiGraph(client: ApiClient): GraphService {
           title: node.title,
           docType: documentTypeOf(node.folder_code),
           description: node.description,
+          imageUrl: node.image_url ?? null,
         })),
         edges: body.edges.map((edge) => ({
           id: edge.id,

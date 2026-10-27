@@ -39,17 +39,6 @@
   gap: var(--lk-space-1);
 }
 
-/* 제목 앞의 점은 문서 종류 색이다. 종류 이름은 바로 아래 속성 표의 분류 줄이 말한다. */
-.titleRow::before {
-  flex: none;
-  width: 10px;
-  height: 10px;
-  margin-right: var(--lk-space-3);
-  border-radius: 50%;
-  background: var(--kind, var(--lk-color-border-default));
-  content: "";
-}
-
 .title {
   min-width: 2ch;
   max-width: 100%;

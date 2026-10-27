@@ -1,9 +1,9 @@
 "use client";
 
-import { Icon, IconButton } from "@/design-system/primitives";
-import { DOCUMENT_TYPE_META } from "@/domain/document-types";
+import { IconButton } from "@/design-system/primitives";
 import type { GraphNode, ProjectGraph } from "@/domain/models";
 import { t } from "@/i18n";
+import { DocumentAvatar } from "@/features/common/document-avatar";
 import { cx } from "@/shared/cx";
 
 import styles from "./graph-view.module.css";
@@ -45,7 +45,11 @@ function Card({
         onClick={onOpen}
       >
         <span className={styles.cardTitle}>
-          <Icon name={DOCUMENT_TYPE_META[node.docType].entityIcon} size={15} />
+          <DocumentAvatar
+            docType={node.docType}
+            imageUrl={node.imageUrl}
+            size={18}
+          />
           {node.title}
         </span>
         {node.description && (

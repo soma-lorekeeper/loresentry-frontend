@@ -7,6 +7,7 @@ import type { CreateFileInput, FileService } from "../ports";
 
 import type { FavoriteStore } from "./favorites";
 import type { ApiClient } from "./http";
+import { uploadImage } from "./images";
 import {
   categoryNodeId,
   documentTypeOf,
@@ -37,6 +38,8 @@ interface ApiDocument {
   refresh_locked: boolean;
   char_count: number;
   revision_no: number;
+  /** 대표 이미지 주소. 없으면 null */
+  image_url: string | null;
   trashed_at: string | null;
   updated_at: string;
 }
@@ -113,6 +116,7 @@ function toDocumentNode(projectId: string, document: ApiDocument): FileNode {
     refreshLocked: document.refresh_locked,
     revisionNo: document.revision_no,
     updatedAt: document.updated_at,
+    imageUrl: document.image_url ?? null,
   };
 }
 
@@ -331,6 +335,26 @@ export function createApiFiles(
       });
       episodeIds.delete(episodeId);
     },
+
+    setImage: async (fileId, image) => {
+      const projectId = projectOf(fileId);
+      const imageId = await uploadImage(client, projectId, image);
+      const document = await client.request<ApiDocument>(
+        `/files/${fileId}/image`,
+        {
+          method: "PUT",
+          body: { image_id: imageId },
+          operation: "files.setImage",
+        },
+      );
+      return toDocumentNode(projectId, document);
+    },
+
+    clearImage: (fileId) =>
+      client.request<void>(`/files/${fileId}/image`, {
+        method: "DELETE",
+        operation: "files.clearImage",
+      }),
   };
 
   function resolveTarget(

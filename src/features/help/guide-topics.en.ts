@@ -83,8 +83,8 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
     title: "Files and setting documents",
     summary: "Create setting documents and link them with properties",
     lead: "Setting documents such as characters, places, organizations, items, events and worldbuilding have a title, a property table and a body. Relationships you link in the property table are what the relationship map, the timeline and AI chat read.",
-    updatedAt: "2026-10-22",
-    readMinutes: 4,
+    updatedAt: "2026-10-27",
+    readMinutes: 5,
     facts: [
       { label: "Categories", value: "Manuscript + 6 setting kinds" },
       { label: "Create in", value: "Files in the sidebar" },
@@ -115,6 +115,11 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
         id: "link",
         title: "Link documents and describe the link",
         body: "Select + on a relationship row, search for a document and pick it to add a chip. Select the chip's title to open that document, or × to unlink it. To remove the whole row, choose Delete property from the row icon's menu.\n\nHover over a chip and a Note button appears. Select it, describe the relationship (for example ‘mentor and student’) and press Enter; the note shows inside the chip and on the line in the relationship map. Clear the note and press Enter to remove it.",
+      },
+      {
+        id: "image",
+        title: "Document image",
+        body: "Select the circle left of the title to choose an image, or drop an image file onto it. PNG, JPG, WEBP and GIF work. In the window that opens, drag the picture to frame what goes inside the circle and zoom with the wheel or the slider.\n\nThe image also shows on the document's node in the relationship map, in the selected-node list, in the timeline's name column and in search results. Select the circle again to choose Change image or Remove image.\n\nAn image isn't part of the document's content: it isn't kept in version history, and restoring a version doesn't change it. A locked document's image can't be changed.",
       },
       {
         id: "status",

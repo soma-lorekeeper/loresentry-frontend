@@ -329,4 +329,23 @@ export default {
   "결과 다시 확인": "Check result again",
   "적용 결과를 확인하지 못했어요. 결과를 확인하기 전에는 다시 적용하지 않아요.":
     "Couldn't verify the result. Changes won't be applied again until the result is checked.",
+  // 문서 대표 이미지
+  "대표 이미지": "Document image",
+  "‘{title}’에 이미지 넣기": "Add an image to ‘{title}’",
+  "‘{title}’ 이미지 바꾸기": "Change the image of ‘{title}’",
+  "이미지 바꾸기": "Change image",
+  "이미지 지우기": "Remove image",
+  "이미지를 바꾸지 못했어요. 다시 시도해 주세요.":
+    "Couldn't change the image. Please try again.",
+  "PNG·JPG·WEBP·GIF 이미지만 올릴 수 있어요.":
+    "Only PNG, JPG, WEBP and GIF images can be added.",
+  "20MB 이하의 이미지만 올릴 수 있어요.": "Images must be 20 MB or smaller.",
+  "이미지를 열지 못했어요. 다른 파일을 골라 주세요.":
+    "Couldn't open this image. Please choose another file.",
+  "이미지 위치 맞추기": "Position the image",
+  "이미지 위치": "Image position",
+  "끌어서 옮기고, 휠이나 막대로 키워요.":
+    "Drag to move. Zoom with the wheel or the slider.",
+  "이미지::제목 옆": "Title",
+  "이미지::관계도": "Map",
 } satisfies Messages;

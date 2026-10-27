@@ -17,6 +17,7 @@ import {
 } from "./physics";
 import { startReveal } from "./reveal";
 import { drawFavoriteStar, drawKindIcon } from "./kind-icon";
+import { loadedNodeImage, useNodeImages } from "./node-images";
 import { drawCanvasGrid } from "./canvas-grid";
 import { createLabelPacker } from "./label-layout";
 import type { Highlight } from "./highlight";
@@ -76,6 +77,15 @@ const NODE_MAX_RADIUS = 15;
  */
 const ICON_MIN_SCREEN_RADIUS = 9;
 const FAVORITE_MIN_SCREEN_SIZE = ICON_MIN_SCREEN_RADIUS * 0.95;
+/**
+ * 문서 이미지를 그리기 시작하는 화면 반지름(px).
+ *
+ * 아이콘보다 낮다. 선 아이콘은 작아지면 점으로 뭉개지지만, 사진은 지름 10px 에서도 색과 윤곽으로
+ * 누구인지 짐작된다. 그보다 작으면 분류 색 점이 더 많은 것을 말한다.
+ */
+const IMAGE_MIN_SCREEN_RADIUS = 5;
+/** 흐림 상태의 이미지 불투명도. 밝혀진 이웃이 먼저 읽히도록 회색 원 위에 옅게만 남긴다 */
+const IMAGE_DIM_ALPHA = 0.28;
 /*
  * 엣지에는 화살표를 그리지 않는다. 관계는 대칭이라 source·target 은 그리기 순서일 뿐
  * 방향이 아니다(domain/models.ts 의 GraphEdge). 화살표를 붙이면 없는 방향을 말하게 된다.
@@ -194,6 +204,8 @@ export function Graph2D({
     maxY: Infinity,
   });
 
+  const imageVersion = useNodeImages(graph.nodes);
+
   /** 이번 프레임에 이미 그린 라벨들. 겹치는 이름을 걸러내는 데 쓴다 */
   const labelPacker = useMemo(() => createLabelPacker(), []);
 
@@ -234,9 +246,17 @@ export function Graph2D({
       // 번짐이 남아 있으면 이후에 그리는 테두리와 글자에도 묻는다.
       ctx.shadowBlur = 0;
 
-      // 충분히 큰 노드에만 분류 아이콘을 얹는다. 원 안에 들어가야 하므로 지름의
-      // 60% 정도로 잡는다 — 꽉 채우면 테두리에 붙어 원이 아이콘 액자처럼 보인다.
-      if (lit && radius * globalScale >= ICON_MIN_SCREEN_RADIUS) {
+      // 문서 이미지가 있으면 원 안을 그것으로 채우고, 아이콘이 빠진 자리를 분류 색 테두리가 대신한다.
+      // 아직 불러오는 중이거나 실패했으면 아래의 분류 아이콘으로 남는다.
+      const image = loadedNodeImage(node.imageUrl);
+      if (image && radius * globalScale >= IMAGE_MIN_SCREEN_RADIUS) {
+        drawNodeImage(ctx, image, x, y, radius, globalScale, {
+          ring: base,
+          alpha: lit ? 1 : IMAGE_DIM_ALPHA,
+        });
+      } else if (lit && radius * globalScale >= ICON_MIN_SCREEN_RADIUS) {
+        // 충분히 큰 노드에만 분류 아이콘을 얹는다. 원 안에 들어가야 하므로 지름의
+        // 60% 정도로 잡는다 — 꽉 채우면 테두리에 붙어 원이 아이콘 액자처럼 보인다.
         drawKindIcon(ctx, node.kind, x, y, radius * 1.2, palette.nodeIcon);
       }
 
@@ -264,7 +284,10 @@ export function Graph2D({
         ctx.stroke();
       }
     },
-    [activeIds, favorites, hoveredId, isLit, palette, rich],
+    // imageVersion 은 그리는 값에 쓰이지 않는다. 이미지가 도착하면 이 함수의 identity 를 바꿔
+    // force-graph 가 다시 그리게 하는 신호다.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [activeIds, favorites, hoveredId, isLit, palette, rich, imageVersion],
   );
 
   /**
@@ -665,4 +688,34 @@ export function Graph2D({
       )}
     </div>
   );
+}
+
+/**
+ * 원 모양으로 자른 문서 이미지와 분류 색 테두리.
+ *
+ * 테두리는 화면에서 2px 안팎이다. 노드가 작을 때는 반지름의 1/5 을 넘지 않게 해 사진을 덮지 않는다.
+ */
+function drawNodeImage(
+  ctx: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  x: number,
+  y: number,
+  radius: number,
+  globalScale: number,
+  { ring, alpha }: { ring: string; alpha: number },
+) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, 2 * Math.PI);
+  ctx.clip();
+  ctx.globalAlpha = alpha;
+  ctx.drawImage(image, x - radius, y - radius, radius * 2, radius * 2);
+  ctx.restore();
+
+  const width = Math.min(2 / globalScale, radius * 0.2);
+  ctx.beginPath();
+  ctx.arc(x, y, radius - width / 2, 0, 2 * Math.PI);
+  ctx.lineWidth = width;
+  ctx.strokeStyle = ring;
+  ctx.stroke();
 }

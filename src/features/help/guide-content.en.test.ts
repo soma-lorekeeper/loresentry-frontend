@@ -50,6 +50,7 @@ describe("guide content (English build)", () => {
 
   it("searches the English text", () => {
     expect(searchTopics("version history").map((topic) => topic.id)).toEqual([
+      "files",
       "writing",
       "refresh",
     ]);

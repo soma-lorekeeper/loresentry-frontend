@@ -48,6 +48,8 @@ export interface TimelineRow {
   nodeId: string;
   name: string;
   kind: NodeKind;
+  /** 문서의 대표 이미지. 이름 칸에서 분류 아이콘 대신 보인다 */
+  imageUrl?: string | null;
   /** 이 노드가 나온 열 순번들. 오름차순 */
   columns: number[];
   /** 연속 등장을 묶은 막대들 */
@@ -198,6 +200,7 @@ export function buildTimelineTable(
       nodeId: node.id,
       name: node.title,
       kind: node.docType,
+      imageUrl: node.imageUrl ?? null,
       columns: columnIndexes,
       runs: toRuns(columnIndexes),
       first: columnIndexes[0] ?? -1,

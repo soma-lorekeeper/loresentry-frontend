@@ -231,6 +231,7 @@ export default {
     "You're logged out, but the server didn't confirm it.",
   "서버 응답을 확인할 수 없어요.": "Couldn't read the server's response.",
   "서버에 연결할 수 없어요.": "Can't connect to the server.",
+  "이미지를 올리지 못했어요.": "Couldn't upload the image.",
   "문서가 다른 곳에서 먼저 저장됐어요.":
     "This document was saved somewhere else first.",
   "내보내기::분류": "Category",

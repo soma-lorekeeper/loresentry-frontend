@@ -27,6 +27,8 @@ export interface RenderNode {
   baseId: string;
   kind: NodeKind;
   name: string;
+  /** 문서의 대표 이미지. 있으면 원 안에 분류 아이콘 대신 그린다 */
+  imageUrl?: string | null;
   degree: number;
   /** 소속 회차 덩어리. 그래프 뷰는 쓰지 않는다 */
   cluster: number;
@@ -63,6 +65,7 @@ export function buildRenderGraph(graph: ProjectGraph): RenderGraph {
     baseId: node.id,
     kind: node.docType,
     name: node.title,
+    imageUrl: node.imageUrl ?? null,
     degree: adjacency.degree.get(node.id) ?? 0,
     cluster: 0,
   }));
