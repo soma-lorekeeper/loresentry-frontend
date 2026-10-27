@@ -38,7 +38,9 @@ describe("GraphView (English build)", () => {
       </WorkspaceProvider>,
     );
 
-    const toolbar = await screen.findByRole("toolbar", { name: "Graph tools" });
+    const toolbar = await screen.findByRole("toolbar", {
+      name: "Relationship map tools",
+    });
     expect(
       within(toolbar).getByRole("button", { name: /^Episode\s*All/ }),
     ).toBeInTheDocument();

@@ -307,7 +307,7 @@ describe("WorkspaceShell drag and drop", () => {
     renderShell(twoTabs());
     await screen.findByRole("tab", { name: /메모/ });
     const sidebar = screen.getByRole("navigation", { name: "작업공간" });
-    const graph = within(sidebar).getByRole("button", { name: "그래프" });
+    const graph = within(sidebar).getByRole("button", { name: "관계도" });
 
     fireEvent.dragStart(graph, {
       dataTransfer: { setData: () => {}, effectAllowed: "none" },
@@ -317,7 +317,7 @@ describe("WorkspaceShell drag and drop", () => {
     fireEvent.drop(tablist, { dataTransfer: { dropEffect: "none" } });
 
     await waitFor(() =>
-      expect(tabNames(panes()[0])).toEqual(["휴지통", "메모", "그래프"]),
+      expect(tabNames(panes()[0])).toEqual(["휴지통", "메모", "관계도"]),
     );
     expect(panes()).toHaveLength(1);
   });

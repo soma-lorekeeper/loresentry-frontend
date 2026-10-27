@@ -138,15 +138,15 @@ export default {
   즐겨찾기: "Favorites",
   전체: "All",
   "{count}개 선택": "{count} selected",
-  "그래프 도구": "Graph tools",
+  "관계도 도구": "Relationship map tools",
   "에피소드 선택": "Choose episodes",
   "확대/축소": "Zoom",
   축소: "Zoom out",
   "100%로 보기": "Zoom to 100%",
   확대: "Zoom in",
   "화면 맞춤": "Fit to screen",
-  "관계 그래프": "The relationship graph",
-  "그래프를 불러오지 못했어요": "Couldn't load the graph",
+  관계도: "The relationship map",
+  "관계도를 불러오지 못했어요": "Couldn't load the relationship map",
   "연결을 확인한 뒤 다시 시도해 주세요.":
     "Check your connection and try again.",
   "표시할 노드가 없어요": "No nodes to show",
@@ -242,7 +242,7 @@ export default {
   "수동 저장": "Saved manually",
   "복원 전 상태": "State before restore",
   복원됨: "Restored",
-  "그래프 반영": "From graph refresh",
+  "최신화 반영": "From refresh",
   "복원 전": "Before restore",
   "삭제된 파일": "Deleted file",
   "버전을 복원하지 못했어요. 문서가 잠겨 있거나 다른 곳에서 먼저 바뀌었을 수 있어요.":
@@ -264,10 +264,11 @@ export default {
     "Some edits aren't saved yet. Save them before you restore.",
   "버전 저장": "Save version",
   "이 버전으로 복원": "Restore this version",
-  "그래프 최신화를 마치지 못했어요.": "Graph refresh didn't finish.",
+  "설정 문서 최신화를 마치지 못했어요.":
+    "Setting document refresh didn't finish.",
 
   // 그래프 최신화 잠금과 검토
-  "그래프 최신화로 잠김": "Locked by graph refresh",
+  "설정 문서 최신화로 잠김": "Locked by setting document refresh",
   검토하기: "Review",
   "최신화 결과가 도착했어요.": "The refresh results are in.",
   "새로 반영할 내용이 없어요.": "Nothing new to apply.",
@@ -302,13 +303,14 @@ export default {
   "그대로 반영할 수 없는 내용이 있어요.":
     "Something can't be applied as it is.",
   "AI가 읽은 뒤 바뀐 문서": "Changed after the AI read it",
-  "그래프 최신화가 잠근 문서예요.": "Graph refresh locked this document.",
+  "설정 문서 최신화가 잠근 문서예요.":
+    "Setting document refresh locked this document.",
   "결과가 오면 검토해 확정할 때 풀려요.":
     "It unlocks when the results arrive and you apply them.",
   "검토에서 ‘반영 확정’을 누르면 풀려요.":
     "It unlocks when you select ‘Apply changes’ in the review.",
-  "그래프 최신화 결과를 기다리고 있어요. 확정할 때까지 잠겨 있어요.":
-    "Waiting for graph refresh results. It stays locked until you apply them.",
+  "설정 문서 최신화 결과를 기다리고 있어요. 확정할 때까지 잠겨 있어요.":
+    "Waiting for setting document refresh results. It stays locked until you apply them.",
   "잠긴 문서를 다시 편집할 수 있어요. 반영한 내용은 버전 기록에 남아요.":
     "Locked documents can be edited again. What you applied is kept in version history.",
   "결과를 확정할 때까지 관련 문서는 잠겨 있어요.":

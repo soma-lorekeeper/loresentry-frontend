@@ -1,0 +1,54 @@
+[2026-10-27T08:06:50.188Z] [info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[2026-10-27T08:06:50.281Z] [log] [HMR] connected
+[2026-10-27T08:06:57.967Z] [log] [Fast Refresh] rebuilding
+[2026-10-27T08:06:58.282Z] [log] [Fast Refresh] done in 424ms
+[2026-10-27T08:07:05.060Z] [log] [Fast Refresh] rebuilding
+[2026-10-27T08:07:05.239Z] [error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[2026-10-27T08:07:05.294Z] [log] [Fast Refresh] done in 337ms
+[2026-10-27T08:07:05.300Z] [error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[2026-10-27T08:07:05.331Z] [info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[2026-10-27T08:07:05.343Z] [log] [HMR] connected
+[2026-10-27T08:07:10.870Z] [log] [Fast Refresh] rebuilding
+[2026-10-27T08:07:11.545Z] [log] [Fast Refresh] done in 776ms
+[2026-10-27T08:07:11.594Z] [info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[2026-10-27T08:07:11.617Z] [log] [HMR] connected
+[2026-10-27T08:07:52.619Z] [log] [Fast Refresh] rebuilding
+[2026-10-27T08:07:52.620Z] [warning] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree.
+[2026-10-27T08:07:52.623Z] [log] [Fast Refresh] done in 10ms
+[2026-10-27T08:07:52.669Z] [log] [Fast Refresh] done in 10ms
+[2026-10-27T08:07:52.714Z] [log] [Fast Refresh] done in 10ms
+[2026-10-27T08:07:52.857Z] [info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[2026-10-27T08:07:52.876Z] [log] [HMR] connected
+[2026-10-27T08:08:02.344Z] [log] [Fast Refresh] rebuilding
+[2026-10-27T08:08:02.344Z] [warning] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree.
+[2026-10-27T08:08:02.397Z] [log] [Fast Refresh] done in 11ms
+[2026-10-27T08:08:02.604Z] [info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[2026-10-27T08:08:02.619Z] [log] [HMR] connected
+[2026-10-27T08:09:48.626Z] [error] WebSocket connection to 'ws://localhost:3311/_next/hmr?id=6z8UHNpfOnP966Stkq8Hd' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED
+[2026-10-27T08:09:49.612Z] [error] WebSocket connection to 'ws://localhost:3311/_next/hmr?id=6z8UHNpfOnP966Stkq8Hd' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED
+[2026-10-27T08:09:50.619Z] [error] WebSocket connection to 'ws://localhost:3311/_next/hmr?id=6z8UHNpfOnP966Stkq8Hd' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED
+[2026-10-27T08:09:51.664Z] [error] WebSocket connection to 'ws://localhost:3311/_next/hmr?id=6z8UHNpfOnP966Stkq8Hd' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED
+[2026-10-27T08:09:52.625Z] [error] WebSocket connection to 'ws://localhost:3311/_next/hmr?id=6z8UHNpfOnP966Stkq8Hd' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED
+[2026-10-27T08:09:55.759Z] [info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[2026-10-27T08:09:55.829Z] [log] [HMR] connected
+[2026-10-27T08:10:02.513Z] [info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[2026-10-27T08:10:02.520Z] [log] [HMR] connected
+[2026-10-27T08:10:30.707Z] [log] [Fast Refresh] rebuilding
+[2026-10-27T08:10:31.247Z] [info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[2026-10-27T08:10:31.258Z] [log] [HMR] connected
+[2026-10-27T08:11:30.726Z] [log] [Fast Refresh] rebuilding
+[2026-10-27T08:11:30.853Z] [log] [Fast Refresh] done in 239ms

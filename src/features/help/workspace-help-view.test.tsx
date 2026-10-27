@@ -30,7 +30,7 @@ describe("WorkspaceHelpView", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole("navigation", { name: "관련 문서" }),
-    ).toHaveTextContent("관련 문서원고 작성검색과 그래프");
+    ).toHaveTextContent("관련 문서원고 작성검색과 관계도");
   });
 
   it("opens the AI chat topic from the list", async () => {

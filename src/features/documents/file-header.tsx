@@ -145,7 +145,7 @@ export function FileHeader({
         icon={locked ? "lock" : "lock-open"}
         label={
           refreshLocked
-            ? t("그래프 최신화로 잠김")
+            ? t("설정 문서 최신화로 잠김")
             : locked
               ? t("잠금 해제")
               : t("잠금")

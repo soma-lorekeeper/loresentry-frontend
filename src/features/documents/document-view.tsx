@@ -337,7 +337,7 @@ export function DocumentView({
   const refreshLockNotice = () =>
     toast({
       icon: "lock",
-      title: t("그래프 최신화가 잠근 문서예요."),
+      title: t("설정 문서 최신화가 잠근 문서예요."),
       description: reviewReady
         ? t("검토에서 ‘반영 확정’을 누르면 풀려요.")
         : t("결과가 오면 검토해 확정할 때 풀려요."),
@@ -589,9 +589,9 @@ export function DocumentView({
               <Icon name="lock" size={15} />
               <span>
                 {reviewReady
-                  ? t("그래프 최신화가 잠근 문서예요.")
+                  ? t("설정 문서 최신화가 잠근 문서예요.")
                   : t(
-                      "그래프 최신화 결과를 기다리고 있어요. 확정할 때까지 잠겨 있어요.",
+                      "설정 문서 최신화 결과를 기다리고 있어요. 확정할 때까지 잠겨 있어요.",
                     )}
               </span>
               {reviewReady && (

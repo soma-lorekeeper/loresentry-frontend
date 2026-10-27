@@ -111,7 +111,7 @@ function buildSteps(
       ? {
           title: t("속성 표로 문서를 이어요"),
           body: t(
-            "관련 원고와 인물, 장소를 고르면 그 관계가 그래프와 타임라인이 돼요.",
+            "관련 원고와 인물, 장소를 고르면 그 관계가 관계도와 타임라인이 돼요.",
           ),
           target: "properties",
           chapter: 0,
@@ -129,9 +129,9 @@ function buildSteps(
           placement: ["bottom", "right", "top"],
         },
     {
-      title: t("이은 관계는 그래프로 봐요"),
-      body: t("속성 표에서 이은 문서가 그래프의 점과 선이 돼요."),
-      action: t("‘그래프’를 눌러 보세요."),
+      title: t("이은 관계는 관계도로 봐요"),
+      body: t("속성 표에서 이은 문서가 관계도의 점과 선이 돼요."),
+      action: t("‘관계도’를 눌러 보세요."),
       target: "graph",
       chapter: 1,
       sidebar: true,
@@ -195,7 +195,7 @@ function buildSteps(
     refreshAvailable && {
       title: t("새 회차를 쓴 다음엔"),
       body: t(
-        "그래프 최신화가 바뀐 원고를 읽고 설정 문서에 더할 점을 찾아요. 결과를 확정할 때까지 읽은 문서는 잠겨요.",
+        "설정 문서 최신화가 바뀐 원고를 읽고 설정 문서에 더할 점을 찾아요. 결과를 확정할 때까지 읽은 문서는 잠겨요.",
       ),
       action: t("다음을 누르면 예시 결과를 열어요."),
       // 단추 하나가 아니라 그 자리를 가리킨다. 최신화가 이미 돌거나 검토를 기다리면 단추 모양이 바뀐다.

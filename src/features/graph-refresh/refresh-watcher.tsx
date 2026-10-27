@@ -35,7 +35,7 @@ function finishedNotice(run: RefreshRun) {
     case "FAILED":
       return {
         icon: "triangle-alert" as const,
-        title: t("그래프 최신화를 마치지 못했어요."),
+        title: t("설정 문서 최신화를 마치지 못했어요."),
         description:
           run.error?.code === "TIMED_OUT"
             ? t(

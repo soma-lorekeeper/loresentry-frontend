@@ -123,7 +123,7 @@ describe("workspace (English build)", () => {
 
     const nav = screen.getByRole("navigation", { name: "Workspace" });
     for (const label of [
-      "Graph",
+      "Relationship map",
       "Timeline",
       "Notes",
       "Import",
@@ -136,7 +136,9 @@ describe("workspace (English build)", () => {
       ).toBeInTheDocument();
     }
     expect(
-      await within(nav).findByRole("button", { name: "Graph refresh" }),
+      await within(nav).findByRole("button", {
+        name: "Refresh setting docs",
+      }),
     ).toBeInTheDocument();
     expect(
       within(nav).getByRole("region", { name: "Favorites" }),

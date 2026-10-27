@@ -26,7 +26,7 @@ function count(value: string | number | undefined, one: string, other: string) {
 export default {
   "작업공간::새 탭": "New tab",
   "작업공간::검색": "Search",
-  "작업공간::그래프": "Graph",
+  "작업공간::관계도": "Relationship map",
   "작업공간::타임라인": "Timeline",
   "작업공간::메모": "Notes",
   "작업공간::휴지통": "Trash",
@@ -121,10 +121,11 @@ export default {
   ),
   "섹션 삭제": "Delete section",
 
-  "그래프 최신화 (준비 중)": "Graph refresh (soon)",
+  "설정 문서 최신화 (준비 중)": "Refresh setting docs (soon)",
   "작업공간::변경 사항 반영": "Apply changes",
-  "작업공간::그래프 최신화": "Graph refresh",
-  "그래프 최신화를 시작하지 못했어요.": "Couldn't start the graph refresh.",
+  "작업공간::설정 문서 최신화": "Refresh setting docs",
+  "설정 문서 최신화를 시작하지 못했어요.":
+    "Couldn't start the setting document refresh.",
 
   "작업공간::도움말": "Help",
   "도움말 메뉴": "Help menu",
@@ -322,9 +323,9 @@ export default {
   "최신화할 변경이 없어요.": "Nothing to refresh.",
   "지난 최신화 뒤 고친 문서가 없어요.":
     "No documents changed since the last refresh.",
-  "그래프 최신화 중…": "Refreshing graph…",
-  "그래프 최신화 중… {minutes}분": "Refreshing graph… {minutes} min",
-  "그래프 최신화를 시작할까요?": "Start a graph refresh?",
+  "설정 문서 최신화 중…": "Refreshing docs…",
+  "설정 문서 최신화 중… {minutes}분": "Refreshing docs… {minutes} min",
+  "설정 문서 최신화를 시작할까요?": "Start a setting document refresh?",
   "지난 최신화 뒤 고친 원고와 설정 문서를 AI가 읽어요. 읽는 문서는 결과를 확정할 때까지 편집할 수 없어요.":
     "AI reads the chapters and setting documents you changed since the last refresh. The documents it reads can't be edited until you apply the results.",
   "최신화 시작": "Start refresh",

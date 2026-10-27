@@ -8,15 +8,15 @@ export default {
   "회차를 열면 이 창에서 바로 쓰고, 쓰는 대로 저장돼요.":
     "Open a chapter and write right in this window. It saves as you type.",
   "속성 표로\n문서를 이어요": "Link documents\nwith properties",
-  "관련 원고와 장소, 조직을 고르면 그 관계가 그래프와 타임라인이 돼요.":
-    "Pick related chapters, places and organizations, and those links become your graph and timeline.",
-  "관계는\n그래프로": "See links\nas a graph",
+  "관련 원고와 장소, 조직을 고르면 그 관계가 관계도와 타임라인이 돼요.":
+    "Pick related chapters, places and organizations, and those links become your relationship map and timeline.",
+  "관계도로\n한눈에": "See links\non one map",
   "문서를 고르면 바로 이어진 문서만 밝아져요.":
     "Select a document and only the ones directly linked to it light up.",
   "누가 몇 화에\n나오는지": "Who appears\nin which chapter",
   "회차를 열로, 인물과 장소를 행으로 놓고 등장한 회차를 막대로 그려요.":
     "Chapters run across as columns, characters and places down as rows, and bars mark where each one appears.",
-  "새 회차를 쓰면\n그래프 최신화": "New chapter?\nRefresh the graph",
+  "새 회차를 쓰면\n설정 문서 최신화": "New chapter?\nRefresh setting docs",
   "AI가 설정 문서에 바뀔 점을 찾고, 고르는 건 작가예요. 원고는 고치지 않아요.":
     "AI finds what should change in your setting documents, and you decide what to keep. Your manuscript stays untouched.",
   "작품을 아는\nAI 챗": "AI chat that\nknows your story",
@@ -64,8 +64,8 @@ export default {
   "올린 파일은 목록에 먼저 담겨요. ‘가져오기’를 눌러야 원고 폴더에 원고로 만들어져요.":
     "Files you add go into the list first. They become chapters in the Manuscripts folder only when you press ‘Import’.",
   "속성 표로 문서를 이어요": "Link documents in the property table",
-  "관련 원고와 인물, 장소를 고르면 그 관계가 그래프와 타임라인이 돼요.":
-    "Pick related chapters, characters and places, and those links become your graph and timeline.",
+  "관련 원고와 인물, 장소를 고르면 그 관계가 관계도와 타임라인이 돼요.":
+    "Pick related chapters, characters and places, and those links become your relationship map and timeline.",
   "캐릭터나 장소 문서를 만들면 속성 표에서 관련 원고와 인물을 이을 수 있어요.":
     "Create a character or place document, then link related chapters and characters in its property table.",
   "새 회차를 쓴 다음엔": "After you write a new chapter",
@@ -74,10 +74,10 @@ export default {
   "가운데 화살표로 한 줄씩 옮기거나 양쪽을 직접 고쳐요. 두 쪽이 같아지면 그 문서는 정해져요.":
     "Move lines across with the arrows in the middle, or edit either side. A document is settled once both sides match.",
   "다 정하면 반영해요": "Apply once everything is settled",
-  "이은 관계는 그래프로 봐요": "See your links as a graph",
-  "속성 표에서 이은 문서가 그래프의 점과 선이 돼요.":
-    "Documents you link in property tables become the graph's nodes and lines.",
-  "‘그래프’를 눌러 보세요.": "Click ‘Graph’.",
+  "이은 관계는 관계도로 봐요": "See your links on the relationship map",
+  "속성 표에서 이은 문서가 관계도의 점과 선이 돼요.":
+    "Documents you link in property tables become the relationship map's nodes and lines.",
+  "‘관계도’를 눌러 보세요.": "Click ‘Relationship map’.",
   "한 문서에 집중해요": "Focus on one document",
   "노드를 누르면 바로 이어진 문서만 진하게 남아요. 더 누르면 함께 보이고, 빈 곳을 누르면 풀려요.":
     "Click a node to keep only its direct links bold. Click more to add theirs, or the empty canvas to let go.",
@@ -164,11 +164,11 @@ export default {
   "무대::균열의 방향": "Direction of the fracture",
 
   "무대::검색": "Search",
-  "무대::그래프": "Graph",
+  "무대::관계도": "Relationship map",
   "무대::타임라인": "Timeline",
   "무대::메모": "Notes",
-  "무대::그래프 최신화": "Graph refresh",
-  "무대::그래프 최신화 중…": "Refreshing graph…",
+  "무대::설정 문서 최신화": "Refresh setting docs",
+  "무대::설정 문서 최신화 중…": "Refreshing docs…",
   "무대::변경 사항 반영": "Apply changes",
   "무대::즐겨찾기": "Favorites",
   "무대::파일": "Files",
@@ -194,8 +194,8 @@ export default {
   "무대::문서": "Document",
   "무대::작품": "Project",
 
-  "그래프 최신화가 바뀐 원고를 읽고 설정 문서에 더할 점을 찾아요. 결과를 확정할 때까지 읽은 문서는 잠겨요.":
-    "Graph refresh reads the chapters you changed and finds what to add to your setting documents. The documents it read stay locked until you confirm the results.",
+  "설정 문서 최신화가 바뀐 원고를 읽고 설정 문서에 더할 점을 찾아요. 결과를 확정할 때까지 읽은 문서는 잠겨요.":
+    "Setting document refresh reads the chapters you changed and finds what to add to your setting documents. The documents it read stay locked until you confirm the results.",
   "다음을 누르면 예시 결과를 열어요.": "Click Next to open an example result.",
   "예시 결과예요. ‘~’는 고칠 문서, ‘+’는 새로 만들 문서예요.":
     "This is an example result. ‘~’ marks documents to edit and ‘+’ new documents to create.",

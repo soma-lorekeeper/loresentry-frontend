@@ -336,7 +336,7 @@ export const mockRefresh: RefreshService = {
       if (entry?.run.status === "RUNNING") {
         throw new ServiceError(
           "busy",
-          t("이미 그래프 최신화를 진행하고 있어요."),
+          t("이미 설정 문서 최신화를 진행하고 있어요."),
         );
       }
       if (entry?.run.status === "READY") {

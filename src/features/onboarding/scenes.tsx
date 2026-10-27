@@ -179,17 +179,17 @@ function SideItem({
 
 function RefreshItem({ scene }: { scene: Scene }) {
   if (scene !== "refresh") {
-    return <SideItem icon="refresh-cw" label={t("무대::그래프 최신화")} />;
+    return <SideItem icon="refresh-cw" label={t("무대::설정 문서 최신화")} />;
   }
   return (
     <div className={styles.refreshItem} data-focus="refresh">
       <span className={cx(styles.refreshState, styles.refreshIdle)}>
         <Icon name="refresh-cw" size={13} />
-        {t("무대::그래프 최신화")}
+        {t("무대::설정 문서 최신화")}
       </span>
       <span className={cx(styles.refreshState, styles.refreshRunning)}>
         <Icon name="loader-circle" size={13} className={styles.spin} />
-        {t("무대::그래프 최신화 중…")}
+        {t("무대::설정 문서 최신화 중…")}
       </span>
       <span className={cx(styles.refreshState, styles.refreshReady)}>
         <Icon name="git-compare-arrows" size={13} />
@@ -256,7 +256,7 @@ function Sidebar({ scene, userName }: { scene: Scene; userName: string }) {
         <SideItem icon="search" label={t("무대::검색")} />
         <SideItem
           icon="waypoints"
-          label={t("무대::그래프")}
+          label={t("무대::관계도")}
           active={scene === "graph"}
         />
         <SideItem
@@ -303,9 +303,9 @@ const TABS: Record<
   workspace: { icon: "home", label: t("무대::새 탭") },
   name: { icon: "home", label: t("무대::새 탭") },
   relations: { icon: iconOf("character"), label: LENA, kind: "character" },
-  graph: { icon: "waypoints", label: t("무대::그래프") },
+  graph: { icon: "waypoints", label: t("무대::관계도") },
   timeline: { icon: "chart-no-axes-gantt", label: t("무대::타임라인") },
-  refresh: { icon: "waypoints", label: t("무대::그래프") },
+  refresh: { icon: "waypoints", label: t("무대::관계도") },
   editor: { icon: "file-text", label: CH12, kind: "manuscript" },
   chat: { icon: "file-text", label: CH12, kind: "manuscript" },
   files: { icon: "file-text", label: CH12, kind: "manuscript" },

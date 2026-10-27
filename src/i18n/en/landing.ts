@@ -59,8 +59,8 @@ export default {
     "Add a description to a chip, like “first appearance” or “hometown”.",
 
   "이어진 문서만\n밝아져요": "Only connected documents light up",
-  "관계 그래프. 레나 아르벨과 바로 이어진 원고, 장소, 조직만 밝게 보인다.":
-    "The relation graph. Only the chapters, places and organizations directly linked to Lena Arbel are lit.",
+  "관계도. 레나 아르벨과 바로 이어진 원고, 장소, 조직만 밝게 보인다.":
+    "The relationship map. Only the chapters, places and organizations directly linked to Lena Arbel are lit.",
   "문서는 노드, 관계는 선이 돼요. 레나를 고르면 바로 이어진 원고와 장소, 조직만 드러나고, 에피소드 범위와 문서 종류로 걸러 볼 수 있어요.":
     "Documents become nodes and relations become lines. Select Lena and only the chapters, places and organizations directly linked to her stand out. You can also filter by episode range and document kind.",
 
@@ -76,9 +76,9 @@ export default {
   "지금 만들고 있는 기능이에요": "We're still building this",
   "AI가 새로 쓴 원고를 읽고, 그 회차 때문에 달라져야 할 설정 문서의 갱신안을 만들어요. 고치는 건 설정 문서뿐이고 원고는 그대로예요.":
     "AI reads your new chapter and drafts updates to the setting documents that chapter should change. Only setting documents are edited. Your manuscript stays exactly as it is.",
-  "그래프 최신화의 변경 사항 창. 레나 아르벨의 현재 버전과 신규 버전이 나란히 놓이고, 바뀐 설명과 관련 장소가 표시된다.":
-    "The changes window of graph refresh. The current and new versions of Lena Arbel sit side by side, with the changed description and related places marked.",
-  "그래프 최신화를 눌러요": "Click Graph refresh",
+  "설정 문서 최신화의 변경 사항 창. 레나 아르벨의 현재 버전과 신규 버전이 나란히 놓이고, 바뀐 설명과 관련 장소가 표시된다.":
+    "The changes window of setting document refresh. The current and new versions of Lena Arbel sit side by side, with the changed description and related places marked.",
+  "설정 문서 최신화를 눌러요": "Click Refresh setting docs",
   "AI가 새 원고를 읽는 동안에도 계속 쓸 수 있어요.":
     "You can keep writing while AI reads the new chapter.",
   "현재 버전과 신규 버전을 나란히 봐요":

@@ -369,7 +369,7 @@ export function LandingPage() {
               scene="graph"
               className={styles.wideFrame}
               label={t(
-                "관계 그래프. 레나 아르벨과 바로 이어진 원고, 장소, 조직만 밝게 보인다.",
+                "관계도. 레나 아르벨과 바로 이어진 원고, 장소, 조직만 밝게 보인다.",
               )}
             />
           }
@@ -426,12 +426,12 @@ export function LandingPage() {
             focus={[446, 976]}
             className={styles.refreshFrame}
             label={t(
-              "그래프 최신화의 변경 사항 창. 레나 아르벨의 현재 버전과 신규 버전이 나란히 놓이고, 바뀐 설명과 관련 장소가 표시된다.",
+              "설정 문서 최신화의 변경 사항 창. 레나 아르벨의 현재 버전과 신규 버전이 나란히 놓이고, 바뀐 설명과 관련 장소가 표시된다.",
             )}
           />
           <ol className={styles.steps}>
             <li>
-              <b>{t("그래프 최신화를 눌러요")}</b>
+              <b>{t("설정 문서 최신화를 눌러요")}</b>
               {t("AI가 새 원고를 읽는 동안에도 계속 쓸 수 있어요.")}
             </li>
             <li>

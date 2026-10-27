@@ -30,12 +30,12 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     id: "relations",
     title: t("속성 표로\n문서를 이어요"),
     body: t(
-      "관련 원고와 장소, 조직을 고르면 그 관계가 그래프와 타임라인이 돼요.",
+      "관련 원고와 장소, 조직을 고르면 그 관계가 관계도와 타임라인이 돼요.",
     ),
   },
   {
     id: "graph",
-    title: t("관계는\n그래프로"),
+    title: t("관계도로\n한눈에"),
     body: t("문서를 고르면 바로 이어진 문서만 밝아져요."),
   },
   {
@@ -47,7 +47,7 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
   },
   {
     id: "refresh",
-    title: t("새 회차를 쓰면\n그래프 최신화"),
+    title: t("새 회차를 쓰면\n설정 문서 최신화"),
     body: t(
       "AI가 설정 문서에 바뀔 점을 찾고, 고르는 건 작가예요. 원고는 고치지 않아요.",
     ),

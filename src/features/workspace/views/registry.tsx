@@ -30,7 +30,7 @@ export const WORKSPACE_VIEWS: Record<
   graph: {
     kind: "graph",
     icon: "waypoints",
-    title: t("작업공간::그래프"),
+    title: t("작업공간::관계도"),
     render: () => <GraphView />,
   },
   timeline: {
