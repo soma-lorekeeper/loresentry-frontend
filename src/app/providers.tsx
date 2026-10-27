@@ -18,6 +18,7 @@ import {
 } from "@/config/runtime-config";
 import { ToastProvider } from "@/design-system/primitives";
 import { enableWebFonts } from "@/design-system/theme/web-fonts";
+import { settleLandings } from "@/features/analytics/acquisition";
 import { analyticsEnabled } from "@/features/analytics/google-analytics";
 import { GoogleAnalyticsTracker } from "@/features/analytics/google-analytics-tracker";
 import { FeedbackProvider } from "@/features/feedback/feedback-provider";
@@ -109,6 +110,8 @@ export function AppProviders({ children }: { children: ReactNode }) {
   // effect 가 돈다는 것은 스크립트가 다 와서 화면이 동작하기 시작했다는 뜻이다. 웹 글꼴은 이때부터
   // 받는다. 더 일찍 받으면 글꼴이 스크립트를 앞질러, 버튼이 보이는데 눌리지 않는 시간이 길어진다.
   useEffect(enableWebFonts, []);
+
+  useEffect(() => settleLandings(), []);
 
   useEffect(() => {
     applyMockParam(new URLSearchParams(window.location.search).get("mock"));

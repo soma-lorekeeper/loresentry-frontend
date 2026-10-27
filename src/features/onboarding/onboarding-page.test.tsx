@@ -1,9 +1,10 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { renderWithServices, routerMock } from "@/test/render";
 
+import { ACQUISITION_STORAGE_KEY } from "@/features/analytics/acquisition";
 import { SessionGate } from "@/features/auth/session-gate";
 import { setMockRule } from "@/services/mock/control";
 import { getDb } from "@/services/mock/db";
@@ -22,6 +23,74 @@ const signIn = (onboardingCompleted: boolean) => () => {
   db.signedIn = true;
   db.user = { ...db.user, onboardingCompleted };
 };
+
+const adClick = {
+  utmSource: "google",
+  utmMedium: "cpc",
+  utmCampaign: null,
+  utmTerm: "소설 에디터",
+  utmContent: null,
+  clickId: "Cj0K",
+  clickIdType: "gclid",
+  referrerHost: "www.google.com",
+  landingPath: "/",
+  landedAt: "2026-10-27T01:02:03.000Z",
+};
+
+function keepAdClick() {
+  localStorage.setItem(
+    ACQUISITION_STORAGE_KEY,
+    JSON.stringify({ acquisition: adClick, savedAt: Date.now() }),
+  );
+}
+
+describe("OnboardingPage acquisition", () => {
+  it("sends where a newcomer came from once and forgets it after the server keeps it", async () => {
+    keepAdClick();
+    const recordAcquisition = vi.fn().mockResolvedValue(undefined);
+    renderWithServices(<OnboardingPage user={newcomer} replay={false} />, {
+      account: { recordAcquisition },
+    });
+
+    await waitFor(() =>
+      expect(localStorage.getItem(ACQUISITION_STORAGE_KEY)).toBeNull(),
+    );
+    expect(recordAcquisition).toHaveBeenCalledTimes(1);
+    expect(recordAcquisition).toHaveBeenCalledWith(adClick);
+  });
+
+  it("keeps the source for the next visit when sending fails", async () => {
+    keepAdClick();
+    const recordAcquisition = vi.fn().mockRejectedValue(new Error("offline"));
+    renderWithServices(<OnboardingPage user={newcomer} replay={false} />, {
+      account: { recordAcquisition },
+    });
+
+    await waitFor(() => expect(recordAcquisition).toHaveBeenCalledTimes(1));
+    await Promise.resolve();
+    expect(localStorage.getItem(ACQUISITION_STORAGE_KEY)).not.toBeNull();
+  });
+
+  it("does not send on a replay or for a finished account", () => {
+    keepAdClick();
+    const recordAcquisition = vi.fn().mockResolvedValue(undefined);
+    const { unmount } = renderWithServices(
+      <OnboardingPage user={newcomer} replay />,
+      { account: { recordAcquisition } },
+    );
+    unmount();
+    renderWithServices(
+      <OnboardingPage
+        user={{ ...newcomer, onboardingCompleted: true }}
+        replay={false}
+      />,
+      { account: { recordAcquisition } },
+    );
+
+    expect(recordAcquisition).not.toHaveBeenCalled();
+    expect(localStorage.getItem(ACQUISITION_STORAGE_KEY)).not.toBeNull();
+  });
+});
 
 describe("OnboardingPage", () => {
   it("walks the four scenes with buttons and keys", async () => {

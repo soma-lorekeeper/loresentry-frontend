@@ -1,4 +1,4 @@
-import type { User, WithdrawalSurvey } from "@/domain/models";
+import type { Acquisition, User, WithdrawalSurvey } from "@/domain/models";
 import { isLocale, LOCALE, t } from "@/i18n";
 import { rememberOAuthReturnTo } from "@/features/auth/return-to";
 
@@ -168,6 +168,25 @@ function surveyBody(survey: WithdrawalSurvey | undefined) {
   return { survey: { reasons: survey.reasons, comment: comment || null } };
 }
 
+function acquisitionBody(acquisition: Acquisition | null) {
+  if (!acquisition) return {};
+  const body = {
+    utm_source: acquisition.utmSource,
+    utm_medium: acquisition.utmMedium,
+    utm_campaign: acquisition.utmCampaign,
+    utm_term: acquisition.utmTerm,
+    utm_content: acquisition.utmContent,
+    click_id: acquisition.clickId,
+    click_id_type: acquisition.clickIdType,
+    referrer_host: acquisition.referrerHost,
+    landing_path: acquisition.landingPath,
+    landed_at: acquisition.landedAt,
+  };
+  return Object.fromEntries(
+    Object.entries(body).filter(([, value]) => value !== null),
+  );
+}
+
 export function createApiAccount(client: ApiClient): AccountService {
   return {
     getAccount: async () =>
@@ -199,6 +218,15 @@ export function createApiAccount(client: ApiClient): AccountService {
       await client.request<void>("/auth/users/me/onboarding", {
         method: "PUT",
         operation: "account.completeOnboarding",
+        expectedStatus: 204,
+      });
+    },
+
+    recordAcquisition: async (acquisition) => {
+      await client.request<void>("/auth/users/me/acquisition", {
+        method: "PUT",
+        body: acquisitionBody(acquisition),
+        operation: "account.recordAcquisition",
         expectedStatus: 204,
       });
     },

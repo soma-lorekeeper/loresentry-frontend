@@ -2,6 +2,7 @@ import { t } from "@/i18n";
 import type { Locale } from "@/i18n/locale";
 import type { DocumentType } from "@/domain/document-types";
 import type {
+  Acquisition,
   ChatActivity,
   ChatAvailability,
   ChatCitation,
@@ -58,6 +59,7 @@ export interface AccountService {
   updateDisplayName(displayName: string): Promise<User>;
   updateLocale(locale: Locale): Promise<User>;
   completeOnboarding(): Promise<void>;
+  recordAcquisition(acquisition: Acquisition | null): Promise<void>;
   deleteAccount(
     confirmationEmail: string,
     survey?: WithdrawalSurvey,

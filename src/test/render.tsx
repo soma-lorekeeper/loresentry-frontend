@@ -1,4 +1,5 @@
 import type {
+  AccountService,
   AuthService,
   ChatService,
   RefreshService,
@@ -41,6 +42,7 @@ export function renderWithServices(
   options: {
     before?: () => void;
     auth?: Partial<AuthService>;
+    account?: Partial<AccountService>;
     refresh?: Partial<RefreshService>;
     chat?: Partial<ChatService>;
     queryClient?: QueryClient;
@@ -61,6 +63,7 @@ export function renderWithServices(
     });
   const services = createMockServices();
   services.auth = { ...services.auth, ...options.auth };
+  services.account = { ...services.account, ...options.account };
   services.refresh = { ...services.refresh, ...options.refresh };
   services.chat = { ...services.chat, ...options.chat };
   return render(
