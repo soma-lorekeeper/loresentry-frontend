@@ -48,6 +48,7 @@ import {
 import { tabIdFor } from "../workspace/model/layout";
 import { useWorkspace, type TabActions } from "../workspace/workspace-context";
 import styles from "./document.module.css";
+import { DocumentImageSlot } from "./document-image";
 import { EditorToolbar } from "./editor-toolbar";
 import { useEditorFontStack } from "./editor-fonts";
 import {
@@ -650,6 +651,14 @@ export function DocumentView({
                 data-file-title={draft.title}
               >
                 <div className={styles.titleRow}>
+                  <DocumentImageSlot
+                    projectId={projectId}
+                    fileId={fileId}
+                    title={draft.title || t("제목 없음")}
+                    docType={docType}
+                    imageUrl={isDocument(node) ? (node.imageUrl ?? null) : null}
+                    readOnly={locked}
+                  />
                   <input
                     className={styles.title}
                     value={draft.title}

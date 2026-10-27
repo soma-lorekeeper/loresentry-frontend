@@ -1,0 +1,104 @@
+/*
+ * 제목 왼쪽의 원. 비어 있으면 들어간 면 위에 종류 아이콘, 차 있으면 이미지와 종류 색 테두리다.
+ * 지름은 제목 글자(34px)보다 조금 크다 — 같으면 사진이 글자 높이에 눌려 보인다.
+ */
+.slot {
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  margin-right: var(--lk-space-3);
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 50%;
+  color: var(--kind, var(--lk-color-icon-default));
+  background: var(--lk-color-surface-sunken);
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 테두리는 사진 위에 그린다. 원의 inset 그림자로 두르면 사진에 덮인다. */
+.filled::after,
+.dragging::after {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px var(--kind, var(--lk-color-border-default));
+  content: "";
+  pointer-events: none;
+}
+
+.dragging::after {
+  box-shadow: inset 0 0 0 2px var(--lk-color-accent-primary);
+}
+
+.interactive {
+  cursor: pointer;
+}
+
+.interactive:focus-visible {
+  outline: none;
+  box-shadow: var(--lk-focus-ring);
+}
+
+.interactive:disabled {
+  cursor: progress;
+}
+
+/* 가리키면 무엇을 하는 자리인지 드러난다. 비어 있을 때는 종류 아이콘 위에, 차 있을 때는 사진 위에 얹힌다. */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--lk-color-text-primary);
+  background: var(--lk-color-surface-sunken);
+  opacity: 0;
+  transition: opacity 160ms var(--lk-ease);
+}
+
+.filled .overlay {
+  color: var(--lk-color-text-on-accent);
+  background: var(--lk-color-scrim-strong);
+}
+
+.interactive:hover .overlay,
+.interactive:focus-visible .overlay,
+.dragging .overlay,
+.interactive[aria-busy="true"] .overlay {
+  opacity: 1;
+}
+
+.spin {
+  animation: spin 900ms linear infinite;
+}
+
+.input {
+  display: none;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    transition: none;
+  }
+
+  .spin {
+    animation-duration: 2400ms;
+  }
+}

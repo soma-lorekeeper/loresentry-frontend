@@ -1,0 +1,9 @@
+/* 원은 아바타·종류 점·관계도 노드가 쓰는 모양이다. 테두리는 그 문서의 종류 색이다. */
+.avatar {
+  flex: none;
+  box-sizing: border-box;
+  border: 1.5px solid var(--kind, var(--lk-color-border-default));
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--lk-color-surface-sunken);
+}

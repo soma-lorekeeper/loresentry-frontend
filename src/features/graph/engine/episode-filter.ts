@@ -51,6 +51,7 @@ function build(
       baseId: node.id,
       kind: node.docType,
       name: node.title,
+      imageUrl: node.imageUrl ?? null,
       degree: adjacency.degree.get(node.id) ?? 0,
       cluster: (chapter && clusterOf.get(chapter)) || 0,
     });

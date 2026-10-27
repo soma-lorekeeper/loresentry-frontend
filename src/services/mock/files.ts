@@ -25,6 +25,25 @@ function requireNode(fileId: string) {
   return node;
 }
 
+/** 이미지를 바꿀 수 있는 문서. 서버처럼 잠긴 문서는 거절한다. */
+function requireDocument(fileId: string) {
+  const node = requireNode(fileId);
+  if (node.kind !== "document")
+    throw new ServiceError("not-found", t("mock::파일을 찾을 수 없어요."));
+  if (node.locked)
+    throw new ServiceError("locked", t("mock::잠긴 문서는 편집할 수 없어요."));
+  return node;
+}
+
+function readAsDataUrl(image: Blob) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(image);
+  });
+}
+
 function validateTitle(title: string) {
   const trimmed = title.trim();
   if (!trimmed)
@@ -335,6 +354,22 @@ export const mockFiles: FileService = {
         : current.filter((id) => id !== fileId);
       persistDb();
       return db.favorites[projectId];
+    }),
+
+  setImage: (fileId, image) =>
+    simulate("files.setImage", async () => {
+      const node = requireDocument(fileId);
+      // 서버에는 S3 주소가 들어간다. mock 은 같은 자리에 data URL 을 둔다 — 화면은 둘을 구분하지 않는다.
+      node.imageUrl = await readAsDataUrl(image);
+      persistDb();
+      return node;
+    }),
+
+  clearImage: (fileId) =>
+    simulate("files.clearImage", () => {
+      const node = requireDocument(fileId);
+      node.imageUrl = null;
+      persistDb();
     }),
 
   deleteEpisode: (episodeId) =>

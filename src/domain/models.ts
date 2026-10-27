@@ -71,6 +71,12 @@ export interface DocumentNode extends FileNodeBase {
   refreshLocked: boolean;
   revisionNo: number;
   updatedAt: IsoDateTime;
+  /**
+   * 문서의 대표 이미지 주소. 없으면 화면은 분류 아이콘을 그린다.
+   *
+   * <p>문서 내용이 아니다. 버전·최신화 비교에 들지 않고, 바꿔도 `revisionNo` 가 오르지 않는다.
+   */
+  imageUrl?: string | null;
 }
 
 export type FileNode = FolderNode | DocumentNode;
@@ -252,6 +258,8 @@ export interface GraphNode {
   title: string;
   docType: DocumentType;
   description: string;
+  /** 문서의 대표 이미지. 있으면 노드 원 안에 분류 아이콘 대신 그린다 */
+  imageUrl?: string | null;
 }
 
 // 서버 가정(GRAPH_INBOX_PATTERN §3): 엣지는 document_relations 의 한 쌍이다.

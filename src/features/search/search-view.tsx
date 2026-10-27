@@ -17,10 +17,10 @@ import {
   Segmented,
   type SegmentedOption,
 } from "@/design-system/primitives";
-import { DOCUMENT_TYPE_META } from "@/domain/document-types";
 import type { SearchHit } from "@/domain/models";
 import { trackProjectSearch } from "@/features/analytics/google-analytics";
 import { indexNodes, isDocument } from "@/features/workspace/model/tree";
+import { DocumentAvatar } from "@/features/common/document-avatar";
 import { useFavorites, useFileTree } from "@/features/workspace/queries";
 import type { WorkspaceViewProps } from "@/features/workspace/views/view-types";
 import { ViewPage, ViewPanel } from "@/features/workspace/views/view-page";
@@ -85,6 +85,7 @@ function ResultRow({
   term,
   locked,
   favorite,
+  imageUrl,
   onOpen,
   onKeyDown,
 }: {
@@ -92,10 +93,11 @@ function ResultRow({
   term: string;
   locked: boolean;
   favorite: boolean;
+  /** 문서의 대표 이미지. 사이드바가 불러 둔 파일 트리에서 온다 */
+  imageUrl: string | null;
   onOpen: () => void;
   onKeyDown: (event: KeyboardEvent<HTMLButtonElement>) => void;
 }) {
-  const meta = DOCUMENT_TYPE_META[hit.docType];
   const snippet = hit.snippet ? displaySnippet(hit.snippet) : null;
   return (
     <li>
@@ -106,7 +108,12 @@ function ResultRow({
         onClick={onOpen}
         onKeyDown={onKeyDown}
       >
-        <Icon name={meta.entityIcon} size={16} className={styles.icon} />
+        <DocumentAvatar
+          docType={hit.docType}
+          imageUrl={imageUrl}
+          size={16}
+          className={styles.icon}
+        />
         <span className={styles.copy}>
           <span className={styles.head}>
             <span className={styles.title}>{highlight(hit.title, term)}</span>
@@ -256,6 +263,11 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
     return isDocument(node) && node.locked;
   };
 
+  const imageOf = (fileId: string) => {
+    const node = nodes.get(fileId);
+    return isDocument(node) ? (node.imageUrl ?? null) : null;
+  };
+
   const openHit = (hit: SearchHit) =>
     open({ kind: "file", fileId: hit.fileId });
 
@@ -354,6 +366,7 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
                 term={shown?.term ?? term}
                 locked={lockedOf(hit.fileId)}
                 favorite={favoriteIds.has(hit.fileId)}
+                imageUrl={imageOf(hit.fileId)}
                 onOpen={() => openHit(hit)}
                 onKeyDown={onRowKeyDown}
               />

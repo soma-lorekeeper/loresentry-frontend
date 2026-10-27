@@ -24,6 +24,7 @@ export function buildProjectGraph(db: MockDb, projectId: string): ProjectGraph {
       title: doc.title,
       docType: doc.docType,
       description: description?.kind === "text" ? description.value : "",
+      imageUrl: doc.imageUrl ?? null,
     };
   });
   // 관계는 양쪽 문서에 한 행씩 저장되지만 엣지는 **한 쌍에 하나**다(GraphEdge 주석). 서버가

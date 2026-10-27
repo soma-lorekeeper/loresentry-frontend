@@ -16,6 +16,7 @@ import {
   Popover,
 } from "@/design-system/primitives";
 import { DOCUMENT_TYPE_META } from "@/domain/document-types";
+import { DocumentAvatar } from "@/features/common/document-avatar";
 import { kindColor } from "@/features/graph/graph-tools";
 import { useProjectGraph } from "@/features/graph/queries";
 import { useFavorites } from "@/features/workspace/queries";
@@ -511,9 +512,10 @@ export function TimelineView() {
                             open({ kind: "file", fileId: row.nodeId })
                           }
                         >
-                          <Icon
-                            name={DOCUMENT_TYPE_META[row.kind].entityIcon}
-                            size={15}
+                          <DocumentAvatar
+                            docType={row.kind}
+                            imageUrl={row.imageUrl}
+                            size={18}
                           />
                           <span>{row.name}</span>
                         </button>

@@ -61,6 +61,7 @@ import {
   History,
   Home,
   Image,
+  ImagePlus,
   Info,
   Italic,
   KeyRound,
@@ -143,6 +144,8 @@ import {
   Waypoints,
   X,
   Zap,
+  ZoomIn,
+  ZoomOut,
   type LucideIcon,
 } from "lucide-react";
 
@@ -209,6 +212,7 @@ export const ICONS = {
   history: History,
   home: Home,
   image: Image,
+  "image-plus": ImagePlus,
   info: Info,
   italic: Italic,
   "key-round": KeyRound,
@@ -291,6 +295,8 @@ export const ICONS = {
   waypoints: Waypoints,
   x: X,
   zap: Zap,
+  "zoom-in": ZoomIn,
+  "zoom-out": ZoomOut,
 } satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof ICONS;

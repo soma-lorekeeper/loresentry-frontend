@@ -1,0 +1,109 @@
+.body {
+  display: flex;
+  gap: var(--lk-space-4);
+  align-items: flex-start;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-2);
+  align-items: stretch;
+}
+
+/* 원 밖은 어둡게 덮는다. 정사각형 창 전체가 아니라 원 안이 저장될 모습이다. */
+.stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-color-surface-sunken);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.stage:active {
+  cursor: grabbing;
+}
+
+.stage:focus-visible {
+  outline: none;
+  box-shadow: var(--lk-focus-ring);
+}
+
+.placed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: none;
+  transform-origin: 0 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.mask {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 999px var(--lk-color-scrim-strong);
+  pointer-events: none;
+}
+
+.hint {
+  margin: 0;
+  color: var(--lk-color-text-secondary);
+  font-size: 12px;
+}
+
+.zoom {
+  display: flex;
+  gap: var(--lk-space-1);
+  align-items: center;
+}
+
+.slider {
+  flex: 1;
+  min-width: 0;
+  accent-color: var(--lk-color-accent-primary);
+}
+
+.previews {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-4);
+  align-items: center;
+  padding-top: var(--lk-space-2);
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-1);
+  align-items: center;
+}
+
+/* 실제 화면처럼 종류 색 대신 중립 테두리를 둔다. 미리보기는 모양만 보여 준다. */
+.previewCircle {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--lk-color-surface-sunken);
+  box-shadow: 0 0 0 1.5px var(--lk-color-border-default);
+}
+
+.previewLabel {
+  color: var(--lk-color-text-secondary);
+  font-size: 12px;
+}
+
+@media (width <= 440px) {
+  .body {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .previews {
+    flex-direction: row;
+    padding-top: 0;
+  }
+}

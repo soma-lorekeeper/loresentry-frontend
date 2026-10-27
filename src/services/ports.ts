@@ -107,6 +107,13 @@ export interface FileService {
   ): Promise<string[]>;
   // 와이어프레임 166: 에피소드 폴더를 지우면 폴더만 사라지고 회차는 원고 폴더로 돌아간다.
   deleteEpisode(episodeId: string): Promise<void>;
+  /**
+   * 문서의 대표 이미지를 올리고 붙인다. `image` 는 화면이 이미 정사각형으로 잘라 줄인 것이다.
+   * 이전 이미지는 서버가 지운다. 잠긴 문서는 `locked` 로 거절한다.
+   */
+  setImage(fileId: string, image: Blob): Promise<FileNode>;
+  /** 대표 이미지를 뗀다. 없었어도 성공이다. */
+  clearImage(fileId: string): Promise<void>;
 }
 
 export class ConflictError extends Error {
