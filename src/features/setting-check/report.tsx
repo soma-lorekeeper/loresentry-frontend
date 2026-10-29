@@ -92,11 +92,6 @@ export function Report({
         <h1 className={styles.chapterName} data-kind="manuscript">
           {chapter.title}
         </h1>
-        {done && !changed && (
-          <Button icon="rotate-cw" busy={starting} onClick={onStart}>
-            {t("다시 점검")}
-          </Button>
-        )}
       </div>
       {changed && (
         <div className={styles.strip} role="status">
