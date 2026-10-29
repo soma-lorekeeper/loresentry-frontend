@@ -1,12 +1,9 @@
 import type { DocumentType } from "@/domain/document-types";
 import type { DocumentNode, FileNode, FolderNode } from "@/domain/models";
 import type {
-  SettingCheckRead,
   SettingCheckRun,
-  SettingCheckStage,
   SettingCheckSummary,
 } from "@/domain/setting-check";
-import { t } from "@/i18n";
 
 export interface LedgerGroup {
   id: string;
@@ -88,18 +85,39 @@ export function openCount(summary: SettingCheckSummary | undefined): number {
   );
 }
 
-/** 처음 열 때 고를 회차: 점검 중인 회차, 가장 최근에 점검한 회차, 맨 위 회차 순이다 */
-export function defaultChapter(
-  chapters: readonly DocumentNode[],
+/**
+ * 처음 화면의 지난 점검. 회차마다 가장 최근 점검을 최근 순으로 놓고, 휴지통에 간 회차는 뺀다.
+ * 도는 점검이 요약의 회차 목록보다 새로우면 그것이 그 회차의 줄이 된다.
+ */
+export function historyOf(
   summary: SettingCheckSummary | undefined,
-): string | null {
-  const ids = new Set(chapters.map((chapter) => chapter.id));
-  if (summary?.running && ids.has(summary.running.documentId))
-    return summary.running.documentId;
-  const recent = [...(summary?.chapters ?? [])]
-    .filter((chapter) => ids.has(chapter.documentId))
-    .sort((a, b) => b.latest.createdAt.localeCompare(a.latest.createdAt))[0];
-  return recent?.documentId ?? chapters[0]?.id ?? null;
+  chapters: readonly DocumentNode[],
+): Array<{ chapter: DocumentNode; run: SettingCheckRun }> {
+  const byId = new Map(chapters.map((chapter) => [chapter.id, chapter]));
+  const latest = new Map<string, SettingCheckRun>();
+  for (const { documentId, latest: run } of summary?.chapters ?? [])
+    latest.set(documentId, run);
+  const running = summary?.running;
+  if (running) latest.set(running.documentId, running);
+  return [...latest.values()]
+    .filter((run) => byId.has(run.documentId))
+    .sort(
+      (a, b) =>
+        b.createdAt.localeCompare(a.createdAt) || b.id.localeCompare(a.id),
+    )
+    .map((run) => ({ chapter: byId.get(run.documentId)!, run }));
+}
+
+/** 회차의 가장 최근 점검. 도는 점검이 있으면 그것이다 */
+export function latestRun(
+  summary: SettingCheckSummary | undefined,
+  documentId: string,
+): SettingCheckRun | null {
+  if (summary?.running?.documentId === documentId) return summary.running;
+  return (
+    summary?.chapters.find((chapter) => chapter.documentId === documentId)
+      ?.latest ?? null
+  );
 }
 
 /** "12화 · 균열의 밤" 처럼 회차 번호가 앞에 붙은 원고 제목은 번호만 쓴다 */
@@ -107,32 +125,4 @@ export function shortTitle(title: string, docType: DocumentType): string {
   if (docType !== "manuscript") return title;
   const [head] = title.split(" · ");
   return head && head !== title ? head : title;
-}
-
-export function stageLabel(stage: SettingCheckStage | null): string {
-  if (stage === "FINDING") return t("어긋남 찾는 중");
-  if (stage === "JUDGING") return t("다시 확인하는 중");
-  return t("앞 회차 읽는 중");
-}
-
-function rangeLabel(read: SettingCheckRead) {
-  const from = read.fromOrdinal || 1;
-  const to = read.toOrdinal || read.manuscripts;
-  return from === to
-    ? t("{number}화", { number: from })
-    : t("{from}–{to}화", { from, to });
-}
-
-/** 점검하는 동안 무엇을 읽고 있는지 */
-export function readLabel(read: SettingCheckRead): string {
-  if (read.manuscripts > 0)
-    return t("{range}와 설정 문서 {count}개를 읽고 있어요.", {
-      range: rangeLabel(read),
-      count: read.settings,
-    });
-  return t("설정 문서 {count}개를 읽고 있어요.", { count: read.settings });
-}
-
-export function readStarted(read: SettingCheckRead) {
-  return read.settings > 0 || read.manuscripts > 0;
 }

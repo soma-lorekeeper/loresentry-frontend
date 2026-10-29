@@ -89,6 +89,9 @@ export interface SeedSettingFinding {
   direction: string;
   quote: string;
   sourceQuote: string;
+  /** 인용 가운데 어긋나는 표현 */
+  quoteFocus?: string;
+  sourceFocus?: string;
   verdict?: { verdict: "INTENDED" | "NOT_CONFLICT"; reason: string | null };
 }
 

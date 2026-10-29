@@ -50,15 +50,15 @@ function Harness() {
   );
 }
 
-/** 요약 → 기록 → 결과를 차례로 읽어야 결과가 보인다. 느린 기계에서도 기다리게 넉넉히 둔다 */
+/** 요약 → 점검 → 원고를 차례로 읽어야 결과가 보인다. 느린 기계에서도 기다리게 넉넉히 둔다 */
 const LOADED = { timeout: 4000 };
 
-function row(title: string) {
-  return screen.getByRole("button", { name: new RegExp(`^${title}`) });
+function openCard(name: RegExp) {
+  return screen.getByRole("button", { name, expanded: true });
 }
 
 describe("setting check view", () => {
-  beforeEach(() => focusChapter(GLASS_GARDEN_ID, "glass-garden:ch-12"));
+  beforeEach(() => focusChapter(GLASS_GARDEN_ID, null));
 
   it("is a workspace view with its own tab", () => {
     expect(WORKSPACE_VIEWS["setting-check"]).toMatchObject({
@@ -67,59 +67,88 @@ describe("setting check view", () => {
     });
   });
 
-  it("lists chapters by episode with their last check and opens the latest result", async () => {
+  it("opens on a chapter picker with the latest check of each checked chapter", async () => {
     renderWithServices(<Harness />);
-    const ledger = await screen.findByRole(
-      "navigation",
-      { name: "회차" },
-      LOADED,
+    expect(
+      await screen.findByRole(
+        "heading",
+        { name: "설정 오류 점검", level: 1 },
+        LOADED,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "점검할 원고: 14화 · 축제의 정전" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "점검" })).toBeEnabled();
+
+    const history = screen.getByRole("list");
+    const rows = within(history).getAllByRole("button");
+    expect(rows[0]).toHaveTextContent(/^12화 · 균열의 밤어긋남 3/);
+    expect(
+      within(history).getByRole("button", {
+        name: /^11화 · 유리 정원어긋남 없음/,
+      }),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("점검 안 함")).not.toBeInTheDocument();
+  });
+
+  it("puts the sources beside the manuscript and opens the first in reading order", async () => {
+    renderWithServices(<Harness />);
+    await userEvent.click(
+      await screen.findByRole(
+        "button",
+        { name: /^12화 · 균열의 밤어긋남 3/ },
+        LOADED,
+      ),
     );
 
-    await waitFor(
-      () =>
-        expect(within(ledger).getByText(/^어긋남 3 · /)).toBeInTheDocument(),
-      LOADED,
-    );
-    expect(within(ledger).getByText(/^어긋남 없음 · /)).toBeInTheDocument();
-    expect(within(ledger).getByText(/^점검 뒤 고침 · /)).toBeInTheDocument();
-    expect(within(ledger).getByText(/^의도함 1 · /)).toBeInTheDocument();
-    expect(within(ledger).getAllByText("점검 안 함").length).toBeGreaterThan(0);
     expect(
-      within(ledger)
-        .getAllByRole("heading", { level: 2 })
-        .map((heading) => heading.textContent),
-    ).toEqual([
-      "Episode 4. 새 원고",
-      "Episode 3. 기억 항로",
-      "Episode 2. 북쪽 문",
-      "Episode 1. 유리의 계절",
+      await screen.findByRole(
+        "heading",
+        { name: "12화 · 균열의 밤", level: 1 },
+        LOADED,
+      ),
+    ).toBeInTheDocument();
+    const sources = await screen.findByRole("list", { name: "근거" }, LOADED);
+    const heads = within(sources).getAllByRole("button", { expanded: false });
+    expect(heads.map((head) => head.textContent)).toEqual([
+      "하린확신 낮음 · 매일 새벽 북쪽 온실을 돈다",
+      "북쪽 온실낡은 열쇠 없이는 열리지 않는다",
     ]);
-    expect(
-      within(ledger).getByRole("button", { name: "13화 · 돌아온 목소리 점검" }),
-    ).toBeInTheDocument();
+    expect(openCard(/^9화다섯 번째 순찰/)).toBeInTheDocument();
+    expect(screen.getByRole("radio", { name: "확인할 것3" })).toBeChecked();
 
-    expect(screen.getByLabelText("확인할 것 3개")).toHaveTextContent("3");
+    const manuscript = screen.getByLabelText("대상 원고");
+    const marks = [...manuscript.querySelectorAll("mark")];
+    expect(marks.map((mark) => mark.textContent)).toEqual([
+      "서윤은 그 선들이 모두 한곳을 가리키고 있다는 사실을 세 번째 순찰에서야 알아차렸다",
+      "오래 잠겨 있던 북쪽 문 앞에는 발자국이 하나뿐이었다",
+      "서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다",
+    ]);
+    expect(marks[0]).toHaveAttribute("data-on");
+
+    await userEvent.click(marks[1]);
+    expect(openCard(/^하린확신 낮음/)).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "다음 어긋남" }));
+    expect(openCard(/^북쪽 온실.*낡은 열쇠/)).toBeInTheDocument();
+
+    await userEvent.click(
+      screen.getByRole("button", { name: "설정 오류 점검" }),
+    );
     expect(
-      screen.getByRole("heading", { name: "12화 · 균열의 밤", level: 2 }),
+      await screen.findByRole("heading", { name: "설정 오류 점검", level: 1 }),
     ).toBeInTheDocument();
-    expect(
-      await screen.findByRole("radio", { name: "확인할 것3" }, LOADED),
-    ).toBeChecked();
-    expect(
-      screen.getByText("서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다."),
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole("button", { name: /^기록/ }),
-    ).not.toBeInTheDocument();
   });
 
   it("moves a finding to intended with a reason and back again", async () => {
+    focusChapter(GLASS_GARDEN_ID, "glass-garden:ch-12");
     renderWithServices(<Harness />);
     await userEvent.click(
       await screen.findByRole("button", { name: "의도한 거예요" }, LOADED),
     );
     const reason = screen.getByRole("textbox", { name: "의도한 이유" });
-    await userEvent.type(reason, "9화에서 열쇠를 받은 뒤예요");
+    await userEvent.type(reason, "그날 밤 세 번째 순찰이에요");
     await userEvent.click(
       screen.getByRole("button", { name: "의도한 거예요" }),
     );
@@ -136,12 +165,10 @@ describe("setting check view", () => {
     expect(screen.getByLabelText("확인할 것 2개")).toHaveTextContent("2");
 
     await userEvent.click(screen.getByRole("radio", { name: "의도함2" }));
-    const reasons = await screen.findByText(
-      "9화에서 열쇠를 받은 뒤예요",
-      {},
-      LOADED,
-    );
-    expect(reasons).toBeInTheDocument();
+    await userEvent.click(await screen.findByRole("button", { name: /^9화/ }));
+    expect(
+      await screen.findByText("그날 밤 세 번째 순찰이에요", {}, LOADED),
+    ).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "되돌리기" }));
 
     await waitFor(
@@ -154,72 +181,80 @@ describe("setting check view", () => {
     expect(screen.getByText("확인할 것으로 되돌렸어요.")).toBeInTheDocument();
   });
 
-  it("starts a check from a chapter row and can cancel it", async () => {
+  it("starts a check on the picked chapter and can cancel it", async () => {
     renderWithServices(<Harness />);
     await userEvent.click(
       await screen.findByRole(
         "button",
-        { name: "13화 · 돌아온 목소리 점검" },
+        { name: "점검할 원고: 14화 · 축제의 정전" },
         LOADED,
       ),
     );
+    await userEvent.click(
+      screen.getByRole("menuitemradio", { name: "13화 · 돌아온 목소리" }),
+    );
+    await userEvent.click(screen.getByRole("button", { name: "점검" }));
 
     expect(
       await screen.findByRole(
         "heading",
-        { name: "13화 · 돌아온 목소리", level: 2 },
+        { name: "13화 · 돌아온 목소리", level: 1 },
         LOADED,
       ),
     ).toBeInTheDocument();
-    await waitFor(
-      () =>
-        expect(
-          screen.getAllByText("점검 중 · 앞 회차 읽는 중").length,
-        ).toBeGreaterThan(0),
-      LOADED,
-    );
+    expect(
+      await screen.findByText("어긋나 보이는 곳을 찾고 있어요", {}, LOADED),
+    ).toBeInTheDocument();
     expect(screen.getByText(/보통 1–3분 걸려요/)).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole("button", { name: "취소" }));
+    await userEvent.click(
+      await screen.findByRole("button", { name: "취소" }, LOADED),
+    );
     expect(
       await screen.findByText("점검을 취소했어요", {}, LOADED),
     ).toBeInTheDocument();
-    expect(row("13화 · 돌아온 목소리")).toHaveTextContent(/취소함 · /);
+
+    await userEvent.click(
+      screen.getByRole("button", { name: "설정 오류 점검" }),
+    );
+    expect(
+      await screen.findByRole(
+        "button",
+        { name: /^13화 · 돌아온 목소리취소함/ },
+        LOADED,
+      ),
+    ).toBeInTheDocument();
   });
 
-  it("opens the quoted chapter beside the report and asks it to show the sentence", async () => {
+  it("opens the source beside the report and asks it to show the sentence", async () => {
+    focusChapter(GLASS_GARDEN_ID, "glass-garden:ch-12");
     renderWithServices(<Harness />);
     await userEvent.click(
       await screen.findByRole(
         "button",
-        { name: /^12화 · 균열의 밤에서 보기: 서윤은 등불을/ },
+        { name: /^9화 · 각성에서 보기: 다섯 번째 순찰/ },
         LOADED,
       ),
     );
     expect(screen.getByLabelText("창")).toHaveTextContent(
-      "setting-check,file:glass-garden:ch-12",
+      "setting-check,file:glass-garden:ch-9",
     );
-    expect(takeReveal("glass-garden:ch-12")).toBe(
-      "서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다.",
+    expect(takeReveal("glass-garden:ch-9")).toBe(
+      "다섯 번째 순찰을 마친 새벽이었다.",
     );
   });
 
   it("shows a chapter that was never checked with a way to start", async () => {
+    focusChapter(GLASS_GARDEN_ID, "glass-garden:ch-14");
     renderWithServices(<Harness />);
-    await userEvent.click(
-      await screen.findByRole(
-        "button",
-        { name: /^14화 · 축제의 정전점검 안 함/ },
-        LOADED,
-      ),
-    );
     expect(
       await screen.findByText("아직 점검하지 않았어요", {}, LOADED),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "점검" })).toBeInTheDocument();
   });
 
-  it("explains a failed check without hiding the previous one", async () => {
+  it("explains a failed check", async () => {
+    focusChapter(GLASS_GARDEN_ID, "glass-garden:ch-12");
     renderWithServices(<Harness />, {
       before: () => {
         const db = getDb();
@@ -236,15 +271,5 @@ describe("setting check view", () => {
     ).toBeInTheDocument();
     expect(screen.getByText(/다시 시도해도 같아요/)).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "다시 시도" })).toBeNull();
-    expect(
-      await screen.findByText(/^지난 점검 · /, {}, LOADED),
-    ).toBeInTheDocument();
-    expect(
-      await screen.findByText(
-        "북쪽 문은 낡은 열쇠로만 열리는데, 서윤이 열쇠 없이 문을 밀어요",
-        {},
-        LOADED,
-      ),
-    ).toBeInTheDocument();
   });
 });

@@ -1,18 +1,10 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo } from "react";
 
-import {
-  Button,
-  EmptyState,
-  Icon,
-  Menu,
-  type MenuEntry,
-} from "@/design-system/primitives";
-import { DOCUMENT_TYPE_META } from "@/domain/document-types";
+import { EmptyState } from "@/design-system/primitives";
 import type { DocumentContent, DocumentNode } from "@/domain/models";
-import type { SettingCheckSummary } from "@/domain/setting-check";
 import {
   isUnavailable,
   PreparingState,
@@ -24,152 +16,17 @@ import { useWorkspace } from "@/features/workspace/workspace-context";
 import { t } from "@/i18n";
 import { queryKeys } from "@/services/query-keys";
 
-import { ChapterStatusLine, statusView } from "./chapter-status";
 import { useFocusedChapter } from "./focus";
-import {
-  chapterStatus,
-  defaultChapter,
-  ledgerGroups,
-  type ChapterStatus,
-  type LedgerGroup,
-} from "./ledger";
+import { Home } from "./home";
+import { historyOf, ledgerGroups } from "./ledger";
 import { useSettingCheckSummary } from "./queries";
 import { Report } from "./report";
 import styles from "./setting-check.module.css";
 import { useStartSettingCheck } from "./use-start-check";
 
-function groupTitle(group: LedgerGroup) {
-  return group.episode?.title ?? DOCUMENT_TYPE_META.manuscript.label;
-}
-
-function Ledger({
-  groups,
-  selectedId,
-  statusOf,
-  starting,
-  onSelect,
-  onStart,
-}: {
-  groups: LedgerGroup[];
-  selectedId: string | null;
-  statusOf: (chapter: DocumentNode) => ChapterStatus;
-  starting: string | null;
-  onSelect: (documentId: string) => void;
-  onStart: (documentId: string) => void;
-}) {
-  return (
-    <nav className={styles.ledger} aria-label={t("회차")}>
-      <h1 className={styles.title}>{t("설정 오류 점검")}</h1>
-      {groups.map((group) => (
-        <section key={group.id} aria-label={groupTitle(group)}>
-          <h2 className={styles.episode}>{groupTitle(group)}</h2>
-          <ul className={styles.chapters}>
-            {group.chapters.map((chapter) => {
-              const status = statusOf(chapter);
-              const startable = status.kind === "unchecked";
-              return (
-                <li
-                  key={chapter.id}
-                  className={styles.chapter}
-                  data-startable={startable || undefined}
-                >
-                  <button
-                    type="button"
-                    className={styles.chapterButton}
-                    data-kind="manuscript"
-                    aria-current={chapter.id === selectedId || undefined}
-                    onClick={() => onSelect(chapter.id)}
-                  >
-                    <Icon name="file-text" size={15} />
-                    <span className={styles.chapterTitle}>{chapter.title}</span>
-                    <ChapterStatusLine status={status} />
-                  </button>
-                  {startable && (
-                    <Button
-                      icon="scan-text"
-                      className={styles.start}
-                      busy={starting === chapter.id}
-                      aria-label={t("{title} 점검", { title: chapter.title })}
-                      onClick={() => onStart(chapter.id)}
-                    >
-                      {t("점검")}
-                    </Button>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-      ))}
-    </nav>
-  );
-}
-
-function ChapterPicker({
-  groups,
-  selected,
-  statusOf,
-  onSelect,
-}: {
-  groups: LedgerGroup[];
-  selected: DocumentNode;
-  statusOf: (chapter: DocumentNode) => ChapterStatus;
-  onSelect: (documentId: string) => void;
-}) {
-  const ref = useRef<HTMLButtonElement>(null);
-  const [open, setOpen] = useState(false);
-  const entries: MenuEntry[] = groups.flatMap((group) => [
-    {
-      type: "group" as const,
-      id: `group-${group.id}`,
-      label: groupTitle(group),
-    },
-    ...group.chapters.map((chapter) => ({
-      id: chapter.id,
-      label: chapter.title,
-      icon: "file-text" as const,
-      kind: "manuscript",
-      hint: statusView(statusOf(chapter)).text,
-      checked: chapter.id === selected.id,
-      onSelect: () => onSelect(chapter.id),
-    })),
-  ]);
-  return (
-    <div className={styles.narrowHead}>
-      <h1 className={styles.title}>{t("설정 오류 점검")}</h1>
-      <button
-        ref={ref}
-        type="button"
-        className={styles.picker}
-        data-kind="manuscript"
-        aria-haspopup="menu"
-        aria-expanded={open}
-        aria-label={t("회차 고르기: {title}", { title: selected.title })}
-        onClick={() => setOpen((value) => !value)}
-      >
-        <Icon name="file-text" size={15} />
-        <span className={styles.pickerText}>
-          <span className={styles.chapterTitle}>{selected.title}</span>
-          <ChapterStatusLine status={statusOf(selected)} />
-        </span>
-        <Icon name="chevron-down" size={15} />
-      </button>
-      <Menu
-        anchorRef={ref}
-        open={open}
-        onOpenChange={setOpen}
-        label={t("회차")}
-        placement="bottom-start"
-        width={340}
-        entries={entries}
-      />
-    </div>
-  );
-}
-
 /**
- * 설정 오류 점검 탭. 왼쪽은 원고 회차와 그 회차의 마지막 점검, 오른쪽은 고른 회차의 결과다.
- * 창이 좁으면 회차 목록이 결과 위의 고르기 단추로 접힌다.
+ * 설정 오류 점검 탭. 처음 화면에서 원고를 골라 점검하면 그 회차의 화면이 분석 중을 거쳐 결과로 바뀐다.
+ * 보는 회차는 탭 밖(원고 도구 막대, 알림)에서도 고르므로 프로젝트마다 하나씩 둔다(focus.ts).
  */
 export function SettingCheckView({ paneId, active }: WorkspaceViewProps) {
   const { projectId } = useWorkspace();
@@ -178,7 +35,6 @@ export function SettingCheckView({ paneId, active }: WorkspaceViewProps) {
   const summary = useSettingCheckSummary(projectId);
   const [focused, setFocused] = useFocusedChapter(projectId);
   const start = useStartSettingCheck();
-  const [starting, setStarting] = useState<string | null>(null);
 
   // 본문만 고친 저장은 파일 트리를 다시 읽게 하지 않는다. 탭에 올 때 회차의 판을 새로 맞춘다.
   useEffect(() => {
@@ -226,55 +82,37 @@ export function SettingCheckView({ paneId, active }: WorkspaceViewProps) {
       </div>
     );
 
-  const data: SettingCheckSummary = summary.data;
+  const data = summary.data;
   const revisionOf = (chapter: DocumentNode) =>
     Math.max(
       chapter.revisionNo,
       queryClient.getQueryData<DocumentContent>(queryKeys.document(chapter.id))
         ?.revisionNo ?? 0,
     );
-  const statusOf = (chapter: DocumentNode) =>
-    chapterStatus(chapter.id, revisionOf(chapter), data);
-  const selectedId =
-    focused && chapters.some((chapter) => chapter.id === focused)
-      ? focused
-      : defaultChapter(chapters, data);
-  const selected = chapters.find((chapter) => chapter.id === selectedId)!;
+  const chapter = chapters.find((item) => item.id === focused);
 
-  const begin = (documentId: string) => {
-    setStarting(documentId);
-    void start.begin(documentId).finally(() => setStarting(null));
-  };
+  if (!chapter)
+    return (
+      <Home
+        groups={groups}
+        history={historyOf(data, chapters)}
+        running={data.running}
+        pending={start.pending}
+        onStart={(documentId) => void start.begin(documentId)}
+        onOpen={setFocused}
+      />
+    );
 
   return (
-    <div className={styles.view}>
-      <Ledger
-        groups={groups}
-        selectedId={selected.id}
-        statusOf={statusOf}
-        starting={starting}
-        onSelect={setFocused}
-        onStart={begin}
-      />
-      <div className={styles.report}>
-        <div className={styles.reportInner}>
-          <ChapterPicker
-            groups={groups}
-            selected={selected}
-            statusOf={statusOf}
-            onSelect={setFocused}
-          />
-          <Report
-            key={selected.id}
-            chapter={selected}
-            revisionNo={revisionOf(selected)}
-            summary={data}
-            paneId={paneId}
-            starting={start.pending}
-            onStart={() => begin(selected.id)}
-          />
-        </div>
-      </div>
-    </div>
+    <Report
+      key={chapter.id}
+      chapter={chapter}
+      revisionNo={revisionOf(chapter)}
+      summary={data}
+      paneId={paneId}
+      starting={start.pending}
+      onStart={() => void start.begin(chapter.id)}
+      onBack={() => setFocused(null)}
+    />
   );
 }

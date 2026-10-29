@@ -535,6 +535,8 @@ export const EN_SEED: MockSeed = {
         quote:
           "Seoyun set the lantern down on the ground and slowly pushed the door open.",
         sourceQuote: "The North Door will not open without the old key.",
+        quoteFocus: "slowly pushed the door open",
+        sourceFocus: "will not open without the old key",
       },
       {
         key: "patrol",
@@ -547,6 +549,8 @@ export const EN_SEED: MockSeed = {
         quote:
           "Only on the third patrol did Seoyun realize that all of those lines pointed to the same place.",
         sourceQuote: "It was dawn, after the fifth patrol.",
+        quoteFocus: "third patrol",
+        sourceFocus: "fifth patrol",
       },
       {
         key: "harin",
@@ -560,6 +564,8 @@ export const EN_SEED: MockSeed = {
         quote:
           "In front of the long-locked North Door there was only a single set of footprints.",
         sourceQuote: "Harin walks around the North Greenhouse every dawn.",
+        quoteFocus: "only a single set of footprints",
+        sourceFocus: "walks around the North Greenhouse every dawn",
       },
       {
         key: "crack",

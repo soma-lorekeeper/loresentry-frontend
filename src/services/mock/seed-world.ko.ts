@@ -480,6 +480,8 @@ export const KO_SEED: MockSeed = {
         direction: "12화까지 서윤이 낡은 열쇠를 손에 넣는 장면이 없어요.",
         quote: "서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다.",
         sourceQuote: "북쪽 문은 낡은 열쇠 없이는 열리지 않는다.",
+        quoteFocus: "천천히 문을 밀었다",
+        sourceFocus: "낡은 열쇠 없이는 열리지 않는다",
       },
       {
         key: "patrol",
@@ -492,6 +494,8 @@ export const KO_SEED: MockSeed = {
         quote:
           "서윤은 그 선들이 모두 한곳을 가리키고 있다는 사실을 세 번째 순찰에서야 알아차렸다.",
         sourceQuote: "다섯 번째 순찰을 마친 새벽이었다.",
+        quoteFocus: "세 번째 순찰",
+        sourceFocus: "다섯 번째 순찰",
       },
       {
         key: "harin",
@@ -504,6 +508,8 @@ export const KO_SEED: MockSeed = {
           "그날 새벽 하린이 온실을 돌지 않았다거나 문 앞까지는 가지 않는다는 문장이 없어요.",
         quote: "오래 잠겨 있던 북쪽 문 앞에는 발자국이 하나뿐이었다.",
         sourceQuote: "하린은 매일 새벽 북쪽 온실을 돈다.",
+        quoteFocus: "발자국이 하나뿐이었다",
+        sourceFocus: "매일 새벽 북쪽 온실을 돈다",
       },
       {
         key: "crack",

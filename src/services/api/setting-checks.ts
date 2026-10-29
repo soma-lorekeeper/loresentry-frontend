@@ -42,12 +42,14 @@ interface ApiFinding {
   summary: string;
   direction: string;
   quote: string;
+  quote_focus?: string | null;
   source: {
     document_id: string;
     title: string;
     doc_type: string;
     ordinal: number | null;
     quote: string;
+    quote_focus?: string | null;
   };
   verdict: SettingCheckVerdict | null;
   reason: string | null;
@@ -99,12 +101,14 @@ function toFinding(api: ApiFinding): SettingCheckFinding {
     summary: api.summary,
     direction: api.direction,
     quote: api.quote,
+    quoteFocus: api.quote_focus ?? null,
     source: {
       documentId: api.source.document_id,
       title: api.source.title,
       docType: sourceType(api),
       ordinal: api.source.ordinal,
       quote: api.source.quote,
+      quoteFocus: api.source.quote_focus ?? null,
     },
     verdict: api.verdict,
     reason: api.reason,

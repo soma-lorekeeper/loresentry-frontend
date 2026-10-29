@@ -129,6 +129,7 @@ export function storedFinding(
     summary: seed.summary,
     direction: seed.direction,
     quote: seed.quote,
+    quoteFocus: seed.quoteFocus ?? null,
     source: {
       documentId: sourceId,
       title: source.title,
@@ -136,6 +137,7 @@ export function storedFinding(
       ordinal:
         source.docType === "manuscript" && ordinal >= 0 ? ordinal + 1 : null,
       quote: seed.sourceQuote,
+      quoteFocus: seed.sourceFocus ?? null,
     },
     fingerprint: fingerprintOf(seed.kind, sourceId, seed.key),
   };

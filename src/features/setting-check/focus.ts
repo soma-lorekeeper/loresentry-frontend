@@ -3,8 +3,8 @@
 import { useCallback, useSyncExternalStore } from "react";
 
 /**
- * 점검 탭에서 고른 회차. 도구 막대·알림처럼 탭 밖에서 점검을 시작한 곳도 그 회차를 고르게 해야 해서
- * 탭 안의 상태가 아니라 프로젝트마다 하나씩 둔다.
+ * 점검 탭이 보여 주는 회차. 없으면 처음 화면이다. 도구 막대·알림처럼 탭 밖에서 점검을 시작한 곳도
+ * 그 회차를 열어야 해서 탭 안의 상태가 아니라 프로젝트마다 하나씩 둔다.
  */
 const focused = new Map<string, string>();
 const listeners = new Set<() => void>();
@@ -16,22 +16,23 @@ function subscribe(listener: () => void) {
   };
 }
 
-export function focusChapter(projectId: string, documentId: string) {
-  if (focused.get(projectId) === documentId) return;
-  focused.set(projectId, documentId);
+export function focusChapter(projectId: string, documentId: string | null) {
+  if ((focused.get(projectId) ?? null) === documentId) return;
+  if (documentId === null) focused.delete(projectId);
+  else focused.set(projectId, documentId);
   listeners.forEach((listener) => listener());
 }
 
 export function useFocusedChapter(
   projectId: string,
-): [string | null, (documentId: string) => void] {
+): [string | null, (documentId: string | null) => void] {
   const value = useSyncExternalStore(
     subscribe,
     () => focused.get(projectId) ?? null,
     () => null,
   );
   const set = useCallback(
-    (documentId: string) => focusChapter(projectId, documentId),
+    (documentId: string | null) => focusChapter(projectId, documentId),
     [projectId],
   );
   return [value, set];

@@ -8,10 +8,10 @@ import type {
 
 import {
   chapterStatus,
-  defaultChapter,
+  historyOf,
+  latestRun,
   ledgerGroups,
   openCount,
-  readLabel,
   shortTitle,
 } from "./ledger";
 import { previousChapter } from "./setting-check-watcher";
@@ -163,20 +163,41 @@ describe("openCount", () => {
   });
 });
 
-describe("defaultChapter", () => {
+describe("history", () => {
   const chapters = ledgerGroups(nodes).flatMap((group) => group.chapters);
 
-  it("prefers the running chapter, then the latest checked, then the top one", () => {
-    expect(
-      defaultChapter(
-        chapters,
-        summary(run({ documentId: "9화", status: "RUNNING" })),
+  it("lists each checked chapter once with its latest check, newest first", () => {
+    const history = historyOf(
+      summary(
+        run({ id: "a", documentId: "8화", createdAt: "2026-10-20T00:00:00Z" }),
+        run({ id: "b", documentId: "12화", createdAt: "2026-10-27T00:00:00Z" }),
+        run({ id: "c", documentId: "gone", createdAt: "2026-10-28T00:00:00Z" }),
       ),
-    ).toBe("9화");
-    expect(defaultChapter(chapters, summary(run({ documentId: "8화" })))).toBe(
-      "8화",
+      chapters,
     );
-    expect(defaultChapter(chapters, summary())).toBe("13화");
+    expect(history.map((item) => [item.chapter.id, item.run.id])).toEqual([
+      ["12화", "b"],
+      ["8화", "a"],
+    ]);
+  });
+
+  it("puts a running check in place of the chapter's older one", () => {
+    const older = run({ id: "old", documentId: "9화" });
+    const running = run({
+      id: "new",
+      documentId: "9화",
+      status: "RUNNING",
+      createdAt: "2026-10-28T00:00:00Z",
+    });
+    const data: SettingCheckSummary = {
+      running,
+      chapters: [{ documentId: "9화", latest: older }],
+    };
+    expect(historyOf(data, chapters).map((item) => item.run.id)).toEqual([
+      "new",
+    ]);
+    expect(latestRun(data, "9화")?.id).toBe("new");
+    expect(latestRun(data, "13화")).toBeNull();
   });
 });
 
@@ -185,30 +206,6 @@ describe("labels", () => {
     expect(shortTitle("12화 · 균열의 밤", "manuscript")).toBe("12화");
     expect(shortTitle("프롤로그", "manuscript")).toBe("프롤로그");
     expect(shortTitle("북쪽 · 온실", "place")).toBe("북쪽 · 온실");
-  });
-
-  it("says what is being read", () => {
-    expect(readLabel(run({}).read)).toBe(
-      "1–11화와 설정 문서 21개를 읽고 있어요.",
-    );
-    expect(
-      readLabel({
-        manuscripts: 0,
-        fromOrdinal: null,
-        toOrdinal: null,
-        settings: 4,
-        coreFacts: 0,
-      }),
-    ).toBe("설정 문서 4개를 읽고 있어요.");
-    expect(
-      readLabel({
-        manuscripts: 1,
-        fromOrdinal: 1,
-        toOrdinal: 1,
-        settings: 4,
-        coreFacts: 0,
-      }),
-    ).toBe("1화와 설정 문서 4개를 읽고 있어요.");
   });
 });
 

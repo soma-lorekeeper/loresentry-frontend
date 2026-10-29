@@ -47,6 +47,8 @@ export interface SettingCheckSource {
   docType: DocumentType;
   ordinal: number | null;
   quote: string;
+  /** 근거 문장 가운데 어긋나는 표현. 문장 안에서 찾지 못하면 null 이다 */
+  quoteFocus: string | null;
 }
 
 export interface SettingCheckFinding {
@@ -58,6 +60,8 @@ export interface SettingCheckFinding {
   direction: string;
   /** 점검한 회차의 문장 */
   quote: string;
+  /** 회차 문장 가운데 어긋나는 표현 */
+  quoteFocus: string | null;
   source: SettingCheckSource;
   verdict: SettingCheckVerdict | null;
   reason: string | null;

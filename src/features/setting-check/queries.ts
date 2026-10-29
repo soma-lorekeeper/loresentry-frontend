@@ -25,14 +25,6 @@ export function useSettingCheckSummary(projectId: string) {
   });
 }
 
-export function useSettingCheckRuns(projectId: string, documentId: string) {
-  const services = useServices();
-  return useQuery({
-    queryKey: queryKeys.settingCheckRuns(projectId, documentId),
-    queryFn: () => services.settingChecks.runs(projectId, documentId),
-  });
-}
-
 export function useSettingCheckRun(runId: string | null) {
   const services = useServices();
   return useQuery({

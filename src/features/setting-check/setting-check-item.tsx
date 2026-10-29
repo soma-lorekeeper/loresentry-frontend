@@ -6,6 +6,7 @@ import { activeTabOf } from "@/features/workspace/model/layout";
 import { useWorkspace } from "@/features/workspace/workspace-context";
 import { t } from "@/i18n";
 
+import { focusChapter } from "./focus";
 import { openCount } from "./ledger";
 import { useSettingCheckSummary } from "./queries";
 import styles from "./setting-check-item.module.css";
@@ -34,7 +35,10 @@ export function SettingCheckItem() {
       selected={selected}
       aria-busy={running || undefined}
       className={running ? styles.running : undefined}
-      onClick={() => open({ kind: "setting-check" })}
+      onClick={() => {
+        focusChapter(projectId, summary.data?.running?.documentId ?? null);
+        open({ kind: "setting-check" });
+      }}
       trailing={
         count > 0 ? (
           <span
