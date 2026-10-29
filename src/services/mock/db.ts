@@ -40,7 +40,7 @@ import { chatPreview, compileChatMarkup } from "./chat-markup";
 import { SEED } from "./seed-world";
 import type { MockSeed, SeedOtherProject } from "./seed-types";
 
-export const MOCK_DB_VERSION = 14;
+export const MOCK_DB_VERSION = 15;
 const STORAGE_KEY =
   LOCALE === "ko" ? "loresentry.mock.db" : `loresentry.mock.db.${LOCALE}`;
 

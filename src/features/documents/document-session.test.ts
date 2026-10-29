@@ -109,7 +109,11 @@ describe("DocumentSession", () => {
       draft: {
         ...original,
         body: bodyFromPlainText(
-          [paragraphs[0], paragraphs[1], "다른 탭의 셋째 문단"].join("\n"),
+          [
+            ...paragraphs.slice(0, 2),
+            "다른 탭의 셋째 문단",
+            ...paragraphs.slice(3),
+          ].join("\n"),
         ),
       },
       ifMatchRevision: other.revisionNo,
@@ -117,14 +121,19 @@ describe("DocumentSession", () => {
     });
     session.update({
       body: bodyFromPlainText(
-        ["이 탭의 첫 문단", paragraphs[1], paragraphs[2]].join("\n"),
+        ["이 탭의 첫 문단", ...paragraphs.slice(1)].join("\n"),
       ),
     });
     await vi.advanceTimersByTimeAsync(SAVE_IDLE_MS);
     await vi.runAllTimersAsync();
     const final = await mockDocuments.get(fileId);
     expect(bodyToPlainText(final.body)).toBe(
-      ["이 탭의 첫 문단", paragraphs[1], "다른 탭의 셋째 문단"].join("\n"),
+      [
+        "이 탭의 첫 문단",
+        paragraphs[1],
+        "다른 탭의 셋째 문단",
+        ...paragraphs.slice(3),
+      ].join("\n"),
     );
     expect(session.getSnapshot().status).toBe("saved");
   });
@@ -228,16 +237,14 @@ describe("DocumentSession", () => {
     other.hydrate(await mockDocuments.get(fileId));
     other.update({
       body: bodyFromPlainText(
-        [paragraphs[0], paragraphs[1], "다른 창에서 고친 마지막 문단"].join(
-          "\n",
-        ),
+        [...paragraphs.slice(0, -1), "다른 창에서 고친 마지막 문단"].join("\n"),
       ),
     });
     await vi.advanceTimersByTimeAsync(SAVE_IDLE_MS);
 
     session.update({
       body: bodyFromPlainText(
-        ["이 창에서 고친 첫 문단", paragraphs[1], paragraphs[2]].join("\n"),
+        ["이 창에서 고친 첫 문단", ...paragraphs.slice(1)].join("\n"),
       ),
     });
     session.hydrate(await mockDocuments.get(fileId));

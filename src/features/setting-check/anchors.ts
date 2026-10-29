@@ -115,3 +115,40 @@ export function sameSource(
       folded(other.source.quote.replace(EDGE, "")).text === quote,
   );
 }
+
+export interface Fold {
+  start: number;
+  end: number;
+}
+
+/**
+ * 긴 원고에서 접을 문단 구간. 어긋난 문장이 있는 문단과 그 앞뒤 `context` 문단은 남기고,
+ * `least` 문단보다 짧은 구간은 접지 않는다 — 한두 문단을 접으면 펼치는 손이 더 든다.
+ */
+export function foldsOf(
+  count: number,
+  anchors: readonly Anchor[],
+  context = 1,
+  least = 3,
+): Fold[] {
+  if (anchors.length === 0) return [];
+  const keep = new Array<boolean>(count).fill(false);
+  for (const anchor of anchors)
+    for (
+      let i = anchor.paragraph - context;
+      i <= anchor.paragraph + context;
+      i += 1
+    )
+      if (i >= 0 && i < count) keep[i] = true;
+  const folds: Fold[] = [];
+  let start = -1;
+  for (let i = 0; i <= count; i += 1) {
+    if (i < count && !keep[i]) {
+      if (start < 0) start = i;
+      continue;
+    }
+    if (start >= 0 && i - start >= least) folds.push({ start, end: i });
+    start = -1;
+  }
+  return folds;
+}

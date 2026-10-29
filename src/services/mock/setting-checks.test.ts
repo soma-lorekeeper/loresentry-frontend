@@ -34,7 +34,7 @@ describe("mock setting checks", () => {
 
     expect(summary.running).toBeNull();
     expect(latest("ch-12")?.counts).toEqual({
-      open: 3,
+      open: 6,
       intended: 1,
       notConflict: 0,
     });
@@ -53,6 +53,9 @@ describe("mock setting checks", () => {
       "MANUSCRIPT",
       "SETTING",
       "MANUSCRIPT",
+      "SETTING",
+      "SETTING",
+      "SETTING",
     ]);
     expect(detail.findings[0]).toMatchObject({
       core: true,
@@ -93,9 +96,9 @@ describe("mock setting checks", () => {
     const done = await checks.run(started.id);
     expect(done.status).toBe("DONE");
     expect(done.finishedAt).not.toBeNull();
-    expect(done.findings).toHaveLength(4);
+    expect(done.findings).toHaveLength(7);
     // 판정은 근거 문장에 붙어 있어 새 점검에서도 그대로다.
-    expect(done.counts).toEqual({ open: 3, intended: 1, notConflict: 0 });
+    expect(done.counts).toEqual({ open: 6, intended: 1, notConflict: 0 });
     expect((await checks.summary(GLASS_GARDEN_ID)).running).toBeNull();
   });
 
@@ -169,7 +172,7 @@ describe("mock setting checks", () => {
       (await checks.summary(GLASS_GARDEN_ID)).chapters.find(
         (chapter) => chapter.documentId === doc("ch-12"),
       )?.latest.counts,
-    ).toEqual({ open: 2, intended: 1, notConflict: 1 });
+    ).toEqual({ open: 5, intended: 1, notConflict: 1 });
 
     const cleared = await checks.clearVerdict(door.id);
     expect(cleared).toMatchObject({ verdict: null, reason: null });

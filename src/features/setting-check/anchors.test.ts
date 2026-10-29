@@ -2,7 +2,13 @@ import { describe, expect, it } from "vitest";
 
 import type { SettingCheckFinding } from "@/domain/setting-check";
 
-import { anchorFindings, focusIn, locate, sameSource } from "./anchors";
+import {
+  anchorFindings,
+  focusIn,
+  foldsOf,
+  locate,
+  sameSource,
+} from "./anchors";
 
 function finding(
   id: string,
@@ -94,5 +100,30 @@ describe("anchorFindings", () => {
     );
     const c = finding("c", "발자국이 하나뿐이었다.", "다른 문장.");
     expect(sameSource(a, [a, b, c]).map((item) => item.id)).toEqual(["b"]);
+  });
+});
+
+describe("foldsOf", () => {
+  const at = (paragraph: number) => ({
+    key: String(paragraph),
+    paragraph,
+    start: 0,
+    end: 1,
+    findingIds: [],
+  });
+
+  it("keeps each conflict with one paragraph around it and folds long stretches", () => {
+    expect(foldsOf(22, [at(0), at(1), at(2), at(7), at(18)])).toEqual([
+      { start: 9, end: 17 },
+    ]);
+    expect(foldsOf(30, [at(15)])).toEqual([
+      { start: 0, end: 14 },
+      { start: 17, end: 30 },
+    ]);
+  });
+
+  it("leaves a short manuscript or one without conflicts whole", () => {
+    expect(foldsOf(3, [at(0)])).toEqual([]);
+    expect(foldsOf(40, [])).toEqual([]);
   });
 });

@@ -482,6 +482,65 @@
   margin-top: 18px;
 }
 
+.fold {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  margin: 18px 0;
+  padding: 6px 12px;
+  border-radius: var(--lk-radius-control);
+  background: var(--lk-color-surface-sunken);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+  transition:
+    background-color 140ms var(--lk-ease),
+    color 140ms var(--lk-ease);
+}
+
+.fold:first-child {
+  margin-top: 0;
+}
+
+.fold:last-child {
+  margin-bottom: 0;
+}
+
+.fold:hover {
+  background: var(--lk-color-surface-track);
+  color: var(--lk-color-text-primary);
+}
+
+.fold:focus-visible,
+.foldAll:focus-visible {
+  outline: none;
+  box-shadow: var(--lk-focus-ring);
+}
+
+.columnHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lk-space-3);
+  max-width: 680px;
+}
+
+.foldAll {
+  padding: 0 4px;
+  border-radius: 4px;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+  transition: color 140ms var(--lk-ease);
+}
+
+.foldAll:hover {
+  color: var(--lk-color-text-primary);
+}
+
 .mark {
   padding: 2px 1px;
   border-radius: 4px;
@@ -760,6 +819,12 @@
 
 .spacer {
   flex: 1;
+}
+
+.verdicts {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
 }
 
 .reasonField {

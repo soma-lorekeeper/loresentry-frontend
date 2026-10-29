@@ -23,6 +23,12 @@ export default {
     "It usually takes 1–3 minutes and keeps going while you work on something else.",
   근거: "Source",
   "대상 원고": "Chapter",
+  "문단 {count}개 펼치기": plural(
+    "Show {count} paragraph",
+    "Show {count} paragraphs",
+  ),
+  "전체 펼치기": "Show all",
+  "다시 접기": "Fold again",
   "이전 어긋남": "Previous conflict",
   "다음 어긋남": "Next conflict",
   "확신 낮음 · {text}": "Low confidence · {text}",

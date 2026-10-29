@@ -29,7 +29,13 @@ import { useWorkspace } from "@/features/workspace/workspace-context";
 import { t } from "@/i18n";
 import { isServiceError } from "@/services/errors";
 
-import { anchorFindings, focusIn, sameSource, type Anchor } from "./anchors";
+import {
+  anchorFindings,
+  focusIn,
+  foldsOf,
+  sameSource,
+  type Anchor,
+} from "./anchors";
 import {
   emptyDescription,
   filterOf,
@@ -195,21 +201,22 @@ function Card({
                   {t("같은 근거와 부딪히는 곳 {count}", { count: others })}
                 </Button>
               )}
-              <span className={styles.spacer} />
-              {finding.verdict ? (
-                <Button icon="undo-2" busy={pending} onClick={onUndo}>
-                  {t("되돌리기")}
-                </Button>
-              ) : (
-                <>
-                  <Button onClick={() => onEdit("NOT_CONFLICT")}>
-                    {t("충돌 아니에요")}
+              <span className={styles.verdicts}>
+                {finding.verdict ? (
+                  <Button icon="undo-2" busy={pending} onClick={onUndo}>
+                    {t("되돌리기")}
                   </Button>
-                  <Button onClick={() => onEdit("INTENDED")}>
-                    {t("의도한 거예요")}
-                  </Button>
-                </>
-              )}
+                ) : (
+                  <>
+                    <Button onClick={() => onEdit("NOT_CONFLICT")}>
+                      {t("충돌 아니에요")}
+                    </Button>
+                    <Button onClick={() => onEdit("INTENDED")}>
+                      {t("의도한 거예요")}
+                    </Button>
+                  </>
+                )}
+              </span>
             </div>
           )}
         </div>
@@ -250,6 +257,8 @@ export function Board({
   const [announcement, setAnnouncement] = useState("");
   const [layout, setLayout] = useState<Layout>(EMPTY_LAYOUT);
   const [scroll, setScroll] = useState({ top: 0, height: 1, client: 1 });
+  const [opened, setOpened] = useState<ReadonlySet<number>>(() => new Set());
+  const [showAll, setShowAll] = useState(false);
 
   const counts: Record<Filter, number> = {
     open: 0,
@@ -265,6 +274,11 @@ export function Board({
     () => anchorFindings(paragraphs, visible),
     [paragraphs, visible],
   );
+  const folds = useMemo(
+    () => foldsOf(paragraphs.length, anchors),
+    [paragraphs.length, anchors],
+  );
+  const closed = showAll ? [] : folds.filter((fold) => !opened.has(fold.start));
   const active =
     ordered.find((finding) => finding.id === activeId) ?? ordered[0] ?? null;
   const activeKey = active ? anchorOf.get(active.id)?.key : undefined;
@@ -497,6 +511,28 @@ export function Board({
     return <p key={at}>{parts}</p>;
   };
 
+  const manuscript: ReactNode[] = [];
+  for (let at = 0; at < paragraphs.length; at += 1) {
+    const fold = closed.find((item) => item.start === at);
+    if (!fold) {
+      manuscript.push(paragraph(paragraphs[at], at));
+      continue;
+    }
+    manuscript.push(
+      <button
+        key={`fold-${fold.start}`}
+        type="button"
+        className={styles.fold}
+        onClick={() => setOpened((prev) => new Set(prev).add(fold.start))}
+      >
+        <Icon name="chevrons-up-down" size={14} />
+        {t("문단 {count}개 펼치기", { count: fold.end - fold.start })}
+      </button>,
+    );
+    at = fold.end - 1;
+  }
+  const folded = closed.length > 0;
+
   let body: ReactNode;
   if (run.findings.length === 0) {
     body = (
@@ -604,7 +640,7 @@ export function Board({
               className={styles.manuscript}
               aria-label={t("대상 원고")}
             >
-              {paragraphs.map(paragraph)}
+              {manuscript}
             </div>
             <span />
             <svg className={styles.wire} aria-hidden="true">
@@ -657,6 +693,7 @@ export function Board({
               value={filter}
               onChange={(next) => {
                 setFilter(next);
+                setOpened(new Set());
                 activate(null);
               }}
               options={[
@@ -695,10 +732,24 @@ export function Board({
           </div>
         )}
         {ordered.length > 0 && (
-          <div className={styles.columns} aria-hidden="true">
+          <div className={styles.columns}>
             <span className={styles.label}>{t("근거")}</span>
             <span />
-            <span className={styles.label}>{t("대상 원고")}</span>
+            <span className={styles.columnHead}>
+              <span className={styles.label}>{t("대상 원고")}</span>
+              {folds.length > 0 && (
+                <button
+                  type="button"
+                  className={styles.foldAll}
+                  onClick={() => {
+                    setShowAll(folded);
+                    setOpened(new Set());
+                  }}
+                >
+                  {folded ? t("전체 펼치기") : t("다시 접기")}
+                </button>
+              )}
+            </span>
             <span />
           </div>
         )}

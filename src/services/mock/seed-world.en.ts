@@ -102,7 +102,7 @@ const EPISODES: SeedEpisode[] = [
         12,
         "Night of the Fracture",
         "The night the fracture first shows itself in the greenhouses",
-        "When night came, the garden held its breath before the glass did. Each time the moonlight swept across the greenhouse roofs, silver lines spread through every cracked pane. Only on the third patrol did Seoyun realize that all of those lines pointed to the same place.\n\nIn front of the long-locked North Door there was only a single set of footprints. There were signs of someone going in, but none of anyone coming back out. When she laid her hand on the handle, a cold tremor climbed up her wrist. A sentence she had written in her notes the night before came back to her: “A fracture is not a door but the direction of a memory.”\n\nSeoyun set the lantern down on the ground and slowly pushed the door open. From beyond the darkness, a familiar voice called her name. It was exactly the way it had been called the last time, long ago, by someone who had left this garden.",
+        "When night came, the garden held its breath before the glass did. Each time the moonlight swept across the greenhouse roofs, silver lines spread through every cracked pane. Only on the third patrol did Seoyun realize that all of those lines pointed to the same place.\n\nIn front of the long-locked North Door there was only a single set of footprints. There were signs of someone going in, but none of anyone coming back out. When she laid her hand on the handle, a cold tremor climbed up her wrist. A sentence she had written in her notes the night before came back to her: “A fracture is not a door but the direction of a memory.”\n\nSeoyun set the lantern down on the ground and slowly pushed the door open. From beyond the darkness, a familiar voice called her name. It was exactly the way it had been called the last time, long ago, by someone who had left this garden.\n\nThe voice did not come again. Instead, the air inside the door was warmer than outside. As if someone had been there only a moment ago, a round mark was left in the dust on the floor.\n\nSeoyun did not cross the threshold. A recorder's work was to watch, not to enter. She opened her notebook and wrote down the time the door opened and the direction the voice had come from.\n\nThe lantern's wick flickered briefly. There was no wind. Beyond the glass roof, clouds half covered the moon and then let it go.\n\n“Is anyone there?” Her voice came out smaller than she expected. Instead of an answer, the sound of dripping water went on somewhere inside.\n\nThen glass shattered behind her. Kairon had pressed his palm against a cracked pane and was pushing the jutting shard back into place. “If we leave it like this, it won't last until morning.”\n\nA line of blood ran down his palm, but he paid it no mind. To a swordsman from the south, a few shards of glass were hardly a wound.\n\n“We have to call the Recorders,” Seoyun said. Kairon shook his head. “It'll fall before they get here.”\n\nFor a while the two of them looked up at the pane without a word. The silver lines had grown denser and now covered the whole roof like a spider's web.\n\nSeoyun turned back the pages of her notebook. Notes from three patrols filled them: the day the fracture first appeared, the direction the silver lines spread, and the light that pointed north every time.\n\nFollowing the notes led to a single conclusion. The fracture had not come in from outside the garden; it had spread out from inside the North Greenhouse.\n\n“We need to know what's in there,” Kairon said. Seoyun didn't answer and lifted the lantern again. Wherever the light touched, the silver lines gathered in one direction.\n\nSomething glinted at the end of that direction. It was a glass bottle the size of a palm. Inside it, a light as dim as smoke was trapped.\n\nWhen Seoyun picked up the bottle, the light struck its walls with a faint sound. It was the same pitch as the voice that had called her name.\n\n“It's a memory bottle,” Kairon said quietly. “Someone left their memory here.”\n\nSeoyun tucked the bottle into her coat. A recorder kept records, not memories, but this was something she could not leave behind.\n\nWhen the two of them stepped back out of the doorway, the door closed without a sound. Before Seoyun could take hold of the handle again, the door swung open by itself.\n\nThis time no sound came from inside. The first light of dawn seeped through the open gap.\n\nThe garden bell rang five times. Soon it would be time for Harin to come and wipe the dew.\n\nSeoyun closed her notebook. Tonight's record ended here.",
       ),
       chapter(
         13,
@@ -237,6 +237,7 @@ const SETTINGS: Record<SettingDocumentType, SeedEntity[]> = {
       key: "i-key",
       title: "Old Key",
       description: "The key that opens the North Door",
+      body: "The old key has not been inside the garden since the Recorders were founded.\n\nOnly the head of the Recorders knows where it is.",
     },
     {
       key: "i-bottle",
@@ -584,6 +585,53 @@ export const EN_SEED: MockSeed = {
           reason:
             "The fracture from Ch. 11 spread through the whole greenhouse overnight.",
         },
+      },
+      {
+        key: "key",
+        kind: "SETTING",
+        core: true,
+        source: "i-key",
+        summary:
+          "The old key has never been inside the garden, yet Seoyun opens the North Door",
+        direction:
+          "There's no scene of the key entering the garden, and nothing says why the door opened without it.",
+        quote:
+          "Seoyun set the lantern down on the ground and slowly pushed the door open.",
+        sourceQuote:
+          "The old key has not been inside the garden since the Recorders were founded.",
+        quoteFocus: "pushed the door open",
+        sourceFocus: "has not been inside the garden",
+      },
+      {
+        key: "glass",
+        kind: "SETTING",
+        core: true,
+        source: "p-north",
+        summary:
+          "Only the Recorders may repair the greenhouse glass, yet Kairon fixes a broken pane",
+        direction:
+          "Nothing says Kairon joined the Recorders or had their leave.",
+        quote:
+          "Kairon had pressed his palm against a cracked pane and was pushing the jutting shard back into place.",
+        sourceQuote:
+          "Only the Garden Recorders may repair the greenhouse glass.",
+        quoteFocus: "pushing the jutting shard back into place",
+        sourceFocus: "Only the Garden Recorders may repair",
+      },
+      {
+        key: "reopen",
+        kind: "SETTING",
+        core: true,
+        source: "p-north",
+        summary:
+          "The North Door opens only with the old key, yet it swings open by itself",
+        direction:
+          "The manuscript doesn't say why the door opened without the key.",
+        quote:
+          "Before Seoyun could take hold of the handle again, the door swung open by itself.",
+        sourceQuote: "The North Door will not open without the old key.",
+        quoteFocus: "the door swung open by itself",
+        sourceFocus: "will not open without the old key",
       },
     ],
     earlier: [
