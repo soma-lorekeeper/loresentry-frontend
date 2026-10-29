@@ -187,8 +187,10 @@ describe("labels", () => {
     expect(shortTitle("북쪽 · 온실", "place")).toBe("북쪽 · 온실");
   });
 
-  it("says what was read", () => {
-    expect(readLabel(run({}).read)).toBe("1–11화와 설정 문서 21개를 읽었어요");
+  it("says what is being read", () => {
+    expect(readLabel(run({}).read)).toBe(
+      "1–11화와 설정 문서 21개를 읽고 있어요.",
+    );
     expect(
       readLabel({
         manuscripts: 0,
@@ -197,18 +199,15 @@ describe("labels", () => {
         settings: 4,
         coreFacts: 0,
       }),
-    ).toBe("설정 문서 4개를 읽었어요");
+    ).toBe("설정 문서 4개를 읽고 있어요.");
     expect(
-      readLabel(
-        {
-          manuscripts: 1,
-          fromOrdinal: 1,
-          toOrdinal: 1,
-          settings: 4,
-          coreFacts: 0,
-        },
-        true,
-      ),
+      readLabel({
+        manuscripts: 1,
+        fromOrdinal: 1,
+        toOrdinal: 1,
+        settings: 4,
+        coreFacts: 0,
+      }),
     ).toBe("1화와 설정 문서 4개를 읽고 있어요.");
   });
 });

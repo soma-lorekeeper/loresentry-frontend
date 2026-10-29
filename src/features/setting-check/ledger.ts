@@ -123,21 +123,14 @@ function rangeLabel(read: SettingCheckRead) {
     : t("{from}–{to}화", { from, to });
 }
 
-/** 무엇을 읽었는지. "찾지 않은 것" 과 "없는 것" 을 가르는 줄이다 */
-export function readLabel(read: SettingCheckRead, reading = false): string {
+/** 점검하는 동안 무엇을 읽고 있는지 */
+export function readLabel(read: SettingCheckRead): string {
   if (read.manuscripts > 0)
-    return reading
-      ? t("{range}와 설정 문서 {count}개를 읽고 있어요.", {
-          range: rangeLabel(read),
-          count: read.settings,
-        })
-      : t("{range}와 설정 문서 {count}개를 읽었어요", {
-          range: rangeLabel(read),
-          count: read.settings,
-        });
-  return reading
-    ? t("설정 문서 {count}개를 읽고 있어요.", { count: read.settings })
-    : t("설정 문서 {count}개를 읽었어요", { count: read.settings });
+    return t("{range}와 설정 문서 {count}개를 읽고 있어요.", {
+      range: rangeLabel(read),
+      count: read.settings,
+    });
+  return t("설정 문서 {count}개를 읽고 있어요.", { count: read.settings });
 }
 
 export function readStarted(read: SettingCheckRead) {

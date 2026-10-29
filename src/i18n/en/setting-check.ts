@@ -7,6 +7,14 @@ export default {
   "설정 오류 점검 (준비 중)": "Setting check (coming soon)",
   "확인할 것 {count}개": plural("{count} to review", "{count} to review"),
   "점검 중 · 결과 보기": "Checking · View results",
+  "설정 오류 점검을 시작할까요?": "Start a setting check?",
+  "점검 시작": "Start check",
+  "{title} 점검이 끝나면 시작할 수 있어요.":
+    "You can start once the check on {title} finishes.",
+  "중요 설정으로 표시한 문단은 꼭 지킬 사실로 봐요":
+    "Paragraphs marked as key settings are treated as must-keep facts",
+  "보통 1–3분 걸려요. 그동안 계속 쓸 수 있어요":
+    "Usually takes 1–3 minutes. You can keep writing meanwhile",
 
   회차: "Chapters",
   "회차 고르기: {title}": "Choose a chapter: {title}",
@@ -33,17 +41,9 @@ export default {
   "점검 결과를 불러오지 못했어요": "Couldn't load the check results",
 
   "{from}–{to}화": "Ch. {from}–{to}",
-  "{range}와 설정 문서 {count}개를 읽었어요": plural(
-    "Read {range} and {count} setting document",
-    "Read {range} and {count} setting documents",
-  ),
   "{range}와 설정 문서 {count}개를 읽고 있어요.": plural(
     "Reading {range} and {count} setting document.",
     "Reading {range} and {count} setting documents.",
-  ),
-  "설정 문서 {count}개를 읽었어요": plural(
-    "Read {count} setting document",
-    "Read {count} setting documents",
   ),
   "설정 문서 {count}개를 읽고 있어요.": plural(
     "Reading {count} setting document.",
@@ -52,9 +52,6 @@ export default {
   "앞 회차와 설정 문서를 읽고 있어요.":
     "Reading earlier chapters and setting documents.",
   "보통 1–3분 걸려요.": "It usually takes 1–3 minutes.",
-  "{time} 점검 · {read}": "Checked {time} · {read}",
-  "점검 기록": "Check history",
-  "기록 {count}": "History {count}",
   "점검 중": "Checking",
   "점검하지 못함": "Failed",
   취소함: "Canceled",

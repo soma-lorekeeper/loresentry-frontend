@@ -1,15 +1,8 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useRef, useState } from "react";
 
-import {
-  Button,
-  EmptyState,
-  Icon,
-  Menu,
-  type MenuEntry,
-} from "@/design-system/primitives";
+import { Button, EmptyState, Icon } from "@/design-system/primitives";
 import { bodyToPlainText } from "@/domain/document-body";
 import type { DocumentNode } from "@/domain/models";
 import type {
@@ -31,15 +24,6 @@ import {
   useSettingCheckRuns,
 } from "./queries";
 import styles from "./setting-check.module.css";
-
-function runHint(run: SettingCheckRun) {
-  if (run.status === "RUNNING") return t("점검 중");
-  if (run.status === "FAILED") return t("점검하지 못함");
-  if (run.status === "CANCELLED") return t("취소함");
-  return run.counts.open > 0
-    ? t("어긋남 {count}", { count: run.counts.open })
-    : t("어긋남 없음");
-}
 
 function timeOf(run: SettingCheckRun) {
   return checkTimeLabel(run.finishedAt ?? run.createdAt);
@@ -76,52 +60,6 @@ function failureCopy(code: string | null) {
         retry: true,
       };
   }
-}
-
-function HistoryMenu({
-  runs,
-  shownId,
-  onPick,
-}: {
-  runs: SettingCheckRun[];
-  shownId: string | null;
-  onPick: (runId: string) => void;
-}) {
-  const ref = useRef<HTMLButtonElement>(null);
-  const [open, setOpen] = useState(false);
-  const entries: MenuEntry[] = [
-    { type: "group", id: "history", label: t("점검 기록") },
-    ...runs.map((run) => ({
-      id: run.id,
-      label: timeOf(run),
-      hint: runHint(run),
-      checked: run.id === shownId,
-      onSelect: () => onPick(run.id),
-    })),
-  ];
-  return (
-    <>
-      <Button
-        ref={ref}
-        icon="history"
-        aria-haspopup="menu"
-        aria-expanded={open}
-        aria-pressed={open || undefined}
-        onClick={() => setOpen((value) => !value)}
-      >
-        {t("기록 {count}", { count: runs.length })}
-      </Button>
-      <Menu
-        anchorRef={ref}
-        open={open}
-        onOpenChange={setOpen}
-        label={t("점검 기록")}
-        placement="bottom-end"
-        width={248}
-        entries={entries}
-      />
-    </>
-  );
 }
 
 function Bones() {
@@ -166,25 +104,15 @@ export function Report({
   const services = useServices();
   const runs = useSettingCheckRuns(projectId, chapter.id);
   const { cancel } = useSettingCheckActions(projectId);
-  const [picked, setPicked] = useState<string | null>(null);
   const runningHere =
     summary.running?.documentId === chapter.id ? summary.running : null;
-  const [seenRunning, setSeenRunning] = useState(runningHere?.id ?? null);
-  if ((runningHere?.id ?? null) !== seenRunning) {
-    setSeenRunning(runningHere?.id ?? null);
-    if (runningHere) setPicked(null);
-  }
 
   const listed = runs.data ?? [];
   const history =
     runningHere && !listed.some((run) => run.id === runningHere.id)
       ? [runningHere, ...listed]
       : listed;
-  const chosen =
-    (picked && history.find((run) => run.id === picked)) ||
-    runningHere ||
-    history[0] ||
-    null;
+  const chosen = runningHere || history[0] || null;
   const detail = useSettingCheckRun(chosen?.id ?? null);
   const run: SettingCheckRun | null =
     detail.data?.id === chosen?.id ? (detail.data ?? chosen) : chosen;
@@ -209,21 +137,15 @@ export function Report({
       : null;
 
   const running = run?.status === "RUNNING";
-  const meta = !run
-    ? null
-    : running
+  const meta =
+    run && running
       ? [
           readStarted(run.read)
-            ? readLabel(run.read, true)
+            ? readLabel(run.read)
             : t("앞 회차와 설정 문서를 읽고 있어요."),
           t("보통 1–3분 걸려요."),
         ].join(" ")
-      : run.status === "DONE"
-        ? t("{time} 점검 · {read}", {
-            time: timeOf(run),
-            read: readLabel(run.read),
-          })
-        : null;
+      : null;
 
   const retry = (
     <Button icon="rotate-cw" busy={starting} onClick={onStart}>
@@ -387,19 +309,12 @@ export function Report({
               {t("취소")}
             </Button>
           ) : (
-            history.length > 0 && (
-              <>
-                <HistoryMenu
-                  runs={history}
-                  shownId={run?.id ?? null}
-                  onPick={setPicked}
-                />
-                {!changed && !stopped && (
-                  <Button icon="rotate-cw" busy={starting} onClick={onStart}>
-                    {t("다시 점검")}
-                  </Button>
-                )}
-              </>
+            history.length > 0 &&
+            !changed &&
+            !stopped && (
+              <Button icon="rotate-cw" busy={starting} onClick={onStart}>
+                {t("다시 점검")}
+              </Button>
             )
           )}
         </div>

@@ -103,19 +103,14 @@ describe("setting check view", () => {
       screen.getByRole("heading", { name: "12화 · 균열의 밤", level: 2 }),
     ).toBeInTheDocument();
     expect(
-      await screen.findByText(
-        /점검 · 1–11화와 설정 문서 \d+개를 읽었어요/,
-        {},
-        LOADED,
-      ),
-    ).toBeInTheDocument();
-    expect(
       await screen.findByRole("radio", { name: "확인할 것3" }, LOADED),
     ).toBeChecked();
     expect(
       screen.getByText("서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다."),
     ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "기록 3" })).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /^기록/ }),
+    ).not.toBeInTheDocument();
   });
 
   it("moves a finding to intended with a reason and back again", async () => {
