@@ -96,14 +96,14 @@ export function Report({
       {changed && (
         <div className={styles.strip} role="status">
           <Icon name="pencil-line" size={14} />
-          <span>{t("점검한 뒤 이 회차를 고쳤어요")}</span>
+          <span>{t("점검한 뒤 원고가 바뀌었어요")}</span>
           <Button
             variant="primary"
             icon="rotate-cw"
             busy={starting}
             onClick={onStart}
           >
-            {t("다시 점검")}
+            {t("다시 점검하기")}
           </Button>
         </div>
       )}
@@ -121,7 +121,6 @@ export function Report({
         key={latest.id}
         run={detail.data}
         paragraphs={paragraphs}
-        changed={changed}
         paneId={paneId}
         header={header}
       />
@@ -184,7 +183,7 @@ export function Report({
         <div className={styles.noticeBody}>
           <span className={styles.noticeTitle}>{t("점검을 취소했어요")}</span>
           <Button icon="rotate-cw" busy={starting} onClick={onStart}>
-            {t("다시 점검")}
+            {t("다시 점검하기")}
           </Button>
         </div>
       </div>

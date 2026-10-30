@@ -31,6 +31,7 @@ import type {
   WithdrawalSurvey,
 } from "@/domain/models";
 import type {
+  SettingCheckDecision,
   SettingCheckFinding,
   SettingCheckRun,
   SettingCheckRunDetail,
@@ -327,6 +328,8 @@ export interface SettingCheckService {
   /** 그 회차의 점검 기록. 최근 것이 앞이고 어긋남은 싣지 않는다 */
   runs(projectId: string, documentId: string): Promise<SettingCheckRun[]>;
   run(runId: string): Promise<SettingCheckRunDetail>;
+  /** 프로젝트의 판정 기록. 최근에 판정한 것이 앞이다 */
+  verdicts(projectId: string): Promise<SettingCheckDecision[]>;
   start(projectId: string, documentId: string): Promise<SettingCheckRun>;
   cancel(runId: string): Promise<void>;
   setVerdict(

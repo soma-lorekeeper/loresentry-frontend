@@ -85,8 +85,8 @@ export interface SeedSettingFinding {
   confidence?: "HIGH" | "LOW";
   /** 근거 문서의 key */
   source: string;
-  summary: string;
-  direction: string;
+  /** 충돌로 본 근거. 서버의 판정처럼 서너 문장 */
+  explanation: string;
   quote: string;
   sourceQuote: string;
   /** 인용 가운데 어긋나는 표현 */

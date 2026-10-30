@@ -1,5 +1,6 @@
 import { isDocumentType, type DocumentType } from "@/domain/document-types";
 import type {
+  SettingCheckDecision,
   SettingCheckFinding,
   SettingCheckRun,
   SettingCheckRunDetail,
@@ -39,8 +40,7 @@ interface ApiFinding {
   kind: SettingCheckFinding["kind"];
   core: boolean;
   confidence: SettingCheckFinding["confidence"];
-  summary: string;
-  direction: string;
+  explanation: string;
   quote: string;
   quote_focus?: string | null;
   source: {
@@ -53,6 +53,13 @@ interface ApiFinding {
   };
   verdict: SettingCheckVerdict | null;
   reason: string | null;
+}
+
+interface ApiDecision {
+  document_id: string;
+  document_title: string;
+  decided_at: string;
+  finding: ApiFinding;
 }
 
 interface ApiRunDetail extends ApiRun {
@@ -98,8 +105,7 @@ function toFinding(api: ApiFinding): SettingCheckFinding {
     kind: api.kind,
     core: api.core,
     confidence: api.confidence,
-    summary: api.summary,
-    direction: api.direction,
+    explanation: api.explanation,
     quote: api.quote,
     quoteFocus: api.quote_focus ?? null,
     source: {
@@ -151,6 +157,19 @@ export function createApiSettingChecks(client: ApiClient): SettingCheckService {
           operation: "settingChecks.run",
         }),
       ),
+
+    verdicts: async (projectId) =>
+      (
+        await client.request<{ verdicts: ApiDecision[] }>(
+          `/projects/${projectId}/setting-checks/verdicts`,
+          { operation: "settingChecks.verdicts" },
+        )
+      ).verdicts.map((api): SettingCheckDecision => ({
+        documentId: api.document_id,
+        documentTitle: api.document_title,
+        decidedAt: api.decided_at,
+        finding: toFinding(api.finding),
+      })),
 
     start: async (projectId, documentId) =>
       toRun(

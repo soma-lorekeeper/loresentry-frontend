@@ -56,8 +56,8 @@ export interface SettingCheckFinding {
   kind: SettingCheckFindingKind;
   core: boolean;
   confidence: "HIGH" | "LOW";
-  summary: string;
-  direction: string;
+  /** 충돌로 본 근거. 근거 문서가 정한 것, 회차가 보인 것, 둘이 함께 성립하지 않는 까닭을 서너 문장으로 */
+  explanation: string;
   /** 점검한 회차의 문장 */
   quote: string;
   /** 회차 문장 가운데 어긋나는 표현 */
@@ -69,6 +69,14 @@ export interface SettingCheckFinding {
 
 export interface SettingCheckRunDetail extends SettingCheckRun {
   findings: SettingCheckFinding[];
+}
+
+/** 판정 기록의 한 줄. 판정이 붙은 가장 최근 점검의 어긋남과 그 회차다 */
+export interface SettingCheckDecision {
+  documentId: string;
+  documentTitle: string;
+  decidedAt: IsoDateTime;
+  finding: SettingCheckFinding;
 }
 
 export interface SettingCheckSummary {

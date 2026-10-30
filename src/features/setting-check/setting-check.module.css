@@ -35,6 +35,17 @@
   padding: 112px var(--lk-space-6) 64px;
 }
 
+.homeHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lk-space-4);
+}
+
+.homeHead > button {
+  flex: none;
+}
+
 .lede {
   margin: 10px 0 28px;
   color: var(--lk-color-text-secondary);
@@ -514,31 +525,9 @@
   color: var(--lk-color-text-primary);
 }
 
-.fold:focus-visible,
-.foldAll:focus-visible {
+.fold:focus-visible {
   outline: none;
   box-shadow: var(--lk-focus-ring);
-}
-
-.columnHead {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--lk-space-3);
-  max-width: 680px;
-}
-
-.foldAll {
-  padding: 0 4px;
-  border-radius: 4px;
-  color: var(--lk-color-text-secondary);
-  font-size: var(--lk-font-size-label);
-  font-weight: 600;
-  transition: color 140ms var(--lk-ease);
-}
-
-.foldAll:hover {
-  color: var(--lk-color-text-primary);
 }
 
 .mark {
@@ -709,14 +698,28 @@
   padding: 0 14px 14px;
 }
 
+/* 근거 문장은 진하게, 앞뒤 문맥은 흐리게. 문맥은 근거를 읽는 자리를 잡아 줄 뿐이다 */
 .quote {
   margin: -3px -6px;
   padding: 3px 6px;
   border-radius: var(--lk-radius-control);
+  color: var(--lk-color-text-secondary);
   font-size: var(--lk-font-size-body);
   line-height: 1.7;
   text-align: left;
   transition: background-color 140ms var(--lk-ease);
+}
+
+.excerptLine {
+  display: block;
+}
+
+.excerptLine + .excerptLine {
+  margin-top: 6px;
+}
+
+.quote .sourceMark {
+  color: var(--lk-color-text-primary);
 }
 
 .quote:hover {
@@ -757,57 +760,22 @@
   text-decoration-color: var(--lk-color-diff-modify);
 }
 
-.summary {
+.explanation {
   font-size: var(--lk-font-size-body);
-  font-weight: 600;
-  line-height: var(--lk-line-height-body);
+  line-height: 1.7;
 }
 
-.cardType {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--lk-color-text-secondary);
-  font-size: var(--lk-font-size-label);
-  font-weight: 600;
-}
-
-.cardType > svg {
-  flex: none;
-  color: var(--lk-color-icon-default);
-}
-
-.cardType[data-core] > svg {
-  color: var(--lk-color-accent-primary);
-}
-
-.changed {
-  display: inline-block;
-  margin-left: 6px;
-  padding: 0 7px;
-  border-radius: 999px;
-  background: var(--lk-color-surface-track);
-  color: var(--lk-color-text-secondary);
-  font-size: var(--lk-font-size-label);
-  font-weight: 600;
-}
-
-.direction {
+.reason {
   display: flex;
   gap: 6px;
-  color: var(--lk-color-text-secondary);
   font-size: var(--lk-font-size-label);
   line-height: 1.55;
 }
 
-.direction > svg {
+.reason > svg {
   flex: none;
   margin-top: 2px;
   color: var(--lk-color-icon-default);
-}
-
-.direction[data-reason] {
-  color: var(--lk-color-text-primary);
 }
 
 .actions {
@@ -823,8 +791,140 @@
 
 .verdicts {
   display: flex;
+  align-items: center;
   gap: 6px;
   margin-left: auto;
+}
+
+.help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--lk-radius-control);
+  color: var(--lk-color-icon-default);
+  cursor: help;
+  transition:
+    background-color 140ms var(--lk-ease),
+    color 140ms var(--lk-ease);
+}
+
+.help:hover {
+  background: var(--lk-color-state-hover);
+  color: var(--lk-color-text-primary);
+}
+
+.help:focus-visible {
+  outline: none;
+  box-shadow: var(--lk-focus-ring);
+}
+
+/* 판정 기록 */
+
+.decisions {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  list-style: none;
+}
+
+.decision {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 0;
+  border-top: 1px solid var(--lk-color-border-subtle);
+}
+
+.decision:first-child {
+  border-top: 0;
+}
+
+.decisionHead {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-3);
+  min-height: 28px;
+}
+
+.decisionChapter {
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.decisionVerdict,
+.decisionTime {
+  flex: none;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+}
+
+.decisionTime {
+  margin-left: auto;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.decisionHead > button {
+  flex: none;
+  margin-right: -8px;
+}
+
+.decisionQuote {
+  margin: -3px -6px;
+  padding: 3px 6px;
+  border-radius: var(--lk-radius-control);
+  font-size: var(--lk-font-size-body);
+  line-height: 1.7;
+  text-align: left;
+}
+
+button.decisionQuote {
+  transition: background-color 140ms var(--lk-ease);
+}
+
+button.decisionQuote:hover {
+  background: var(--lk-color-state-hover);
+}
+
+button.decisionQuote:focus-visible {
+  outline: none;
+  box-shadow: var(--lk-focus-ring);
+}
+
+.targetMark {
+  padding: 2px 1px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--lk-color-diff-modify) 10%, transparent);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.targetMark .focus {
+  text-decoration-color: var(--lk-color-diff-modify);
+}
+
+.decisionSource {
+  display: flex;
+  gap: 6px;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  line-height: 1.55;
+}
+
+.decisionSource > svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--kind, var(--lk-color-icon-default));
+}
+
+.decisionSource b {
+  color: var(--lk-color-text-primary);
+  font-weight: 600;
 }
 
 .reasonField {
@@ -948,5 +1048,13 @@
 
   .historyTime {
     display: none;
+  }
+
+  .decisionTime {
+    display: none;
+  }
+
+  .decisionVerdict {
+    margin-right: auto;
   }
 }

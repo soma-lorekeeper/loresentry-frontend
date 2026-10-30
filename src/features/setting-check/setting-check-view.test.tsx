@@ -2,6 +2,7 @@ import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import type { DocumentNode } from "@/domain/models";
 import { takeReveal } from "@/features/documents/reveal-request";
 import { createLayout } from "@/features/workspace/model/layout";
 import { WORKSPACE_VIEWS } from "@/features/workspace/views/registry";
@@ -134,12 +135,9 @@ describe("setting check view", () => {
 
     const fold = screen.getByRole("button", { name: "문단 8개 펼치기" });
     expect(manuscript).not.toHaveTextContent("기억 유리병이야");
+    expect(screen.queryByRole("button", { name: "전체 펼치기" })).toBeNull();
     await userEvent.click(fold);
     expect(manuscript).toHaveTextContent("기억 유리병이야");
-    await userEvent.click(screen.getByRole("button", { name: "다시 접기" }));
-    expect(
-      screen.getByRole("button", { name: "문단 8개 펼치기" }),
-    ).toBeInTheDocument();
 
     await userEvent.click(marks[1]);
     expect(openCard(/^하린확신 낮음/)).toBeInTheDocument();
@@ -148,16 +146,25 @@ describe("setting check view", () => {
     expect(openCard(/^북쪽 온실.*낡은 열쇠/)).toBeInTheDocument();
     expect(
       screen.getByText(
-        "북쪽 문은 낡은 열쇠로만 열리는데, 서윤이 열쇠 없이 문을 밀어요",
+        /^‘북쪽 온실’ 설정은 .*등불을 내려놓고 빈손으로 문을 밀어요\./,
       ),
     ).toBeInTheDocument();
-    await userEvent.click(
-      screen.getByRole("button", { name: "같은 근거와 부딪히는 곳 1" }),
+    const source = screen.getByRole("button", {
+      name: "북쪽 온실에서 보기: 북쪽 문은 낡은 열쇠 없이는 열리지 않는다.",
+    });
+    await waitFor(
+      () =>
+        expect(source).toHaveTextContent(
+          "열쇠는 기록단 결성 이후 한 번도 정원 안에 들어온 적이 없다.",
+        ),
+      LOADED,
     );
-    expect(openCard(/^북쪽 온실.*낡은 열쇠/)).toBeInTheDocument();
     expect(
-      screen.getByText("북쪽 문은 낡은 열쇠로만 열리는데, 문이 저절로 열려요"),
-    ).toBeInTheDocument();
+      screen.getByRole("button", { name: "판정 단추 설명" }),
+    ).toHaveAccessibleDescription(/점검이 잘못 짚었어요/);
+    expect(
+      screen.queryByRole("button", { name: /같은 근거와 부딪히는 곳/ }),
+    ).toBeNull();
 
     await userEvent.click(
       screen.getByRole("button", { name: "설정 오류 점검" }),
@@ -205,6 +212,75 @@ describe("setting check view", () => {
       LOADED,
     );
     expect(screen.getByText("확인할 것으로 되돌렸어요.")).toBeInTheDocument();
+  });
+
+  it("keeps the project's verdicts in a ledger that can undo them", async () => {
+    renderWithServices(<Harness />);
+    await userEvent.click(
+      await screen.findByRole("button", { name: "판정 기록 3" }, LOADED),
+    );
+    expect(
+      screen.getByRole("heading", { name: "판정 기록", level: 1 }),
+    ).toBeInTheDocument();
+    const ledger = await screen.findByRole("list", {}, LOADED);
+    const items = within(ledger).getAllByRole("listitem");
+    expect(items.map((item) => item.firstElementChild?.textContent)).toEqual([
+      expect.stringMatching(/^12화 · 균열의 밤의도함/),
+      expect.stringMatching(/^10화 · 파편 나침반충돌 아님/),
+      expect.stringMatching(/^9화 · 각성의도함/),
+    ]);
+    expect(items[0]).toHaveTextContent(
+      "11화의 균열이 밤사이 온실 전체로 번진 거예요.",
+    );
+
+    await userEvent.click(
+      within(items[0]).getByRole("button", {
+        name: /^12화 · 균열의 밤에서 보기/,
+      }),
+    );
+    expect(screen.getByLabelText("창")).toHaveTextContent(
+      "setting-check,file:glass-garden:ch-12",
+    );
+
+    await userEvent.click(
+      within(items[0]).getByRole("button", { name: "되돌리기" }),
+    );
+    await waitFor(
+      () => expect(within(ledger).getAllByRole("listitem")).toHaveLength(2),
+      LOADED,
+    );
+    expect(screen.getByText("확인할 것으로 되돌렸어요.")).toBeInTheDocument();
+
+    await userEvent.click(
+      screen.getByRole("button", { name: "설정 오류 점검" }),
+    );
+    expect(
+      await screen.findByRole("button", { name: "판정 기록 2" }, LOADED),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /^12화 · 균열의 밤어긋남 7/ }),
+    ).toBeInTheDocument();
+  });
+
+  it("says the chapter changed after the check and offers to check again", async () => {
+    focusChapter(GLASS_GARDEN_ID, "glass-garden:ch-12");
+    renderWithServices(<Harness />, {
+      before: () => {
+        const node = getDb().files.find(
+          (file): file is DocumentNode =>
+            file.id === "glass-garden:ch-12" && file.kind === "document",
+        )!;
+        node.revisionNo += 1;
+      },
+    });
+    await screen.findByRole("list", { name: "근거" }, LOADED);
+    expect(screen.getByText("점검한 뒤 원고가 바뀌었어요")).toBeInTheDocument();
+    await userEvent.click(
+      screen.getByRole("button", { name: "다시 점검하기" }),
+    );
+    expect(
+      await screen.findByText("어긋나 보이는 곳을 찾고 있어요", {}, LOADED),
+    ).toBeInTheDocument();
   });
 
   it("starts a check on the picked chapter and can cancel it", async () => {

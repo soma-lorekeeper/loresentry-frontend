@@ -33,6 +33,7 @@ export interface StoredSettingCheckRun {
 export interface StoredSettingVerdict {
   verdict: SettingCheckVerdict;
   reason: string | null;
+  decidedAt: string;
 }
 
 export interface MockSettingChecks {
@@ -126,8 +127,7 @@ export function storedFinding(
     kind: seed.kind,
     core: seed.core ?? false,
     confidence: seed.confidence ?? "HIGH",
-    summary: seed.summary,
-    direction: seed.direction,
+    explanation: seed.explanation,
     quote: seed.quote,
     quoteFocus: seed.quoteFocus ?? null,
     source: {
@@ -199,6 +199,7 @@ export function seedSettingChecks(
       );
       db.settingChecks.verdicts[verdictKey(projectId, fingerprint)] = {
         ...finding.verdict,
+        decidedAt: new Date(createdAt + 5 * 60_000).toISOString(),
       };
     }
   };

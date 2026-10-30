@@ -27,7 +27,7 @@ const TEXT_FIELDS = new Set([
   "preview",
   "documentTitle",
   "summary",
-  "direction",
+  "explanation",
   "reason",
 ]);
 

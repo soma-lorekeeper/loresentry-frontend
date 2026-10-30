@@ -102,18 +102,89 @@ export function focusIn(text: string, focus: string | null): Span | null {
   return locate(text, focus);
 }
 
-/** 같은 근거 문장이 원고 여러 곳과 어긋나면 그 다른 곳들 */
-export function sameSource(
-  finding: SettingCheckFinding,
-  findings: readonly SettingCheckFinding[],
-): SettingCheckFinding[] {
-  const quote = folded(finding.source.quote.replace(EDGE, "")).text;
-  return findings.filter(
-    (other) =>
-      other.id !== finding.id &&
-      other.source.documentId === finding.source.documentId &&
-      folded(other.source.quote.replace(EDGE, "")).text === quote,
+export interface ExcerptLine {
+  text: string;
+  /** 근거 문장의 자리. 근거가 걸린 문단의 줄에만 있다 */
+  mark: Span | null;
+}
+
+const SENTENCE = /[^.!?…。]+(?:[.!?…。]+["'”’」』)]*|$)/g;
+
+/** 근거 앞뒤로 붙이는 문맥. 한쪽에 문장을 둘까지, 이만큼 차면 더 붙이지 않는다 */
+const CONTEXT_SENTENCES = 2;
+const CONTEXT_CHARS = 60;
+
+function sentencesOf(text: string): Span[] {
+  const spans: Span[] = [];
+  for (const match of text.matchAll(SENTENCE)) {
+    const body = match[0].trim();
+    if (!body) continue;
+    const start = match.index + match[0].indexOf(body);
+    spans.push({ start, end: start + body.length });
+  }
+  return spans;
+}
+
+/**
+ * 근거 문서에서 근거 문장과 그 앞뒤 문장. 문단이 바뀌면 줄을 나눈다.
+ * 문서에서 근거 문장을 찾지 못하면(문서를 고쳤거나 속성 값에서 온 근거) null 이다.
+ */
+export function excerptOf(
+  paragraphs: readonly string[],
+  quote: string,
+): ExcerptLine[] | null {
+  let at = -1;
+  let hit: Span | null = null;
+  for (let p = 0; p < paragraphs.length && !hit; p += 1) {
+    hit = locate(paragraphs[p], quote);
+    if (hit) at = p;
+  }
+  if (!hit) return null;
+  const span = hit;
+  const all = paragraphs.flatMap((text, paragraph) =>
+    sentencesOf(text).map((sentence) => ({ ...sentence, paragraph })),
   );
+  const first = all.findIndex(
+    (sentence) => sentence.paragraph === at && sentence.end > span.start,
+  );
+  if (first < 0) return null;
+  let last = first;
+  while (all[last + 1]?.paragraph === at && all[last + 1].start < span.end)
+    last += 1;
+  let from = first;
+  for (
+    let count = 0, chars = 0;
+    from > 0 && count < CONTEXT_SENTENCES && chars < CONTEXT_CHARS;
+    count += 1
+  ) {
+    from -= 1;
+    chars += all[from].end - all[from].start;
+  }
+  let to = last;
+  for (
+    let count = 0, chars = 0;
+    to < all.length - 1 && count < CONTEXT_SENTENCES && chars < CONTEXT_CHARS;
+    count += 1
+  ) {
+    to += 1;
+    chars += all[to].end - all[to].start;
+  }
+  const lines: Array<Span & { paragraph: number }> = [];
+  for (const sentence of all.slice(from, to + 1)) {
+    const line = lines[lines.length - 1];
+    if (line?.paragraph === sentence.paragraph) line.end = sentence.end;
+    else lines.push({ ...sentence });
+  }
+  return lines.map(({ paragraph, start, end }) => ({
+    text: paragraphs[paragraph].slice(start, end),
+    mark:
+      paragraph === at
+        ? {
+            start: Math.max(span.start, start) - start,
+            end: Math.min(span.end, end) - start,
+          }
+        : null,
+  }));
 }
 
 export interface Fold {

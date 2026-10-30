@@ -100,15 +100,20 @@ export function Home({
   history,
   running,
   pending,
+  decided,
   onStart,
   onOpen,
+  onLedger,
 }: {
   groups: LedgerGroup[];
   history: Array<{ chapter: DocumentNode; run: SettingCheckRun }>;
   running: SettingCheckRun | null;
   pending: boolean;
+  /** 판정 기록에 남은 곳의 수. 아직 읽지 못했으면 undefined */
+  decided: number | undefined;
   onStart: (documentId: string) => void;
   onOpen: (documentId: string) => void;
+  onLedger: () => void;
 }) {
   const chapters = groups.flatMap((group) => group.chapters);
   const [picked, setPicked] = useState(chapters[0].id);
@@ -118,7 +123,14 @@ export function Home({
   return (
     <div className={styles.page}>
       <div className={styles.home}>
-        <h1 className={styles.title}>{t("설정 오류 점검")}</h1>
+        <div className={styles.homeHead}>
+          <h1 className={styles.title}>{t("설정 오류 점검")}</h1>
+          <Button variant="ghost" icon="notebook-pen" onClick={onLedger}>
+            {decided
+              ? t("판정 기록 {count}", { count: decided })
+              : t("판정 기록")}
+          </Button>
+        </div>
         <p className={styles.lede}>
           {t(
             "원고 한 편을 앞 회차와 설정 문서에 대조해 어긋나 보이는 곳을 찾아요.",

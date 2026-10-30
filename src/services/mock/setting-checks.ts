@@ -3,6 +3,7 @@ import type { DocumentNode } from "@/domain/models";
 import {
   SETTING_CHECK_REASON_MAX,
   type SettingCheckCounts,
+  type SettingCheckDecision,
   type SettingCheckFinding,
   type SettingCheckRun,
   type SettingCheckRunDetail,
@@ -204,6 +205,34 @@ export const mockSettingChecks: SettingCheckService = {
       return toDetail(db, requireRun(db, runId, "settingChecks.run"));
     }),
 
+  verdicts: (projectId) =>
+    simulate("settingChecks.verdicts", () => {
+      const db = getDb();
+      advance(db);
+      const runs = db.settingChecks.runs
+        .filter((stored) => stored.run.projectId === projectId)
+        .sort(newest);
+      const decisions: SettingCheckDecision[] = [];
+      for (const [key, verdict] of Object.entries(db.settingChecks.verdicts)) {
+        if (!key.startsWith(`${projectId}|`)) continue;
+        const fingerprint = key.slice(projectId.length + 1);
+        for (const stored of runs) {
+          const finding = stored.findings.find(
+            (item) => item.fingerprint === fingerprint,
+          );
+          if (!finding) continue;
+          decisions.push({
+            documentId: stored.run.documentId,
+            documentTitle: stored.run.documentTitle,
+            decidedAt: verdict.decidedAt,
+            finding: toFinding(db, projectId, finding),
+          });
+          break;
+        }
+      }
+      return decisions.sort((a, b) => b.decidedAt.localeCompare(a.decidedAt));
+    }),
+
   start: (projectId, documentId) =>
     simulate("settingChecks.start", () => {
       const db = getDb();
@@ -287,7 +316,7 @@ export const mockSettingChecks: SettingCheckService = {
         );
       db.settingChecks.verdicts[
         verdictKey(stored.run.projectId, finding.fingerprint)
-      ] = { verdict, reason: trimmed };
+      ] = { verdict, reason: trimmed, decidedAt: new Date().toISOString() };
       persistDb();
       return toFinding(db, stored.run.projectId, finding);
     }),

@@ -71,8 +71,8 @@ const apiFinding = {
   kind: "SETTING",
   core: true,
   confidence: "HIGH",
-  summary: "북쪽 문은 낡은 열쇠로만 열리는데, 서윤이 열쇠 없이 문을 밀어요",
-  direction: "12화까지 서윤이 낡은 열쇠를 손에 넣는 장면이 없어요.",
+  explanation:
+    "‘북쪽 온실’은 북쪽 문이 낡은 열쇠 없이는 열리지 않는다고 정해 두었어요. 그런데 서윤은 열쇠 없이 문을 밀어요.",
   quote: "서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다.",
   quote_focus: "천천히 문을 밀었다",
   source: {
@@ -153,8 +153,7 @@ describe("setting check adapter", () => {
       kind: "SETTING",
       core: true,
       confidence: "HIGH",
-      summary: apiFinding.summary,
-      direction: apiFinding.direction,
+      explanation: apiFinding.explanation,
       quote: apiFinding.quote,
       quoteFocus: "천천히 문을 밀었다",
       source: {
@@ -168,6 +167,38 @@ describe("setting check adapter", () => {
       verdict: null,
       reason: null,
     });
+  });
+
+  it("reads the project's verdict ledger with each finding's chapter", async () => {
+    replies.push({
+      status: 200,
+      body: {
+        verdicts: [
+          {
+            document_id: "d-12",
+            document_title: "12화 · 균열의 밤",
+            decided_at: "2026-10-27T12:50:00Z",
+            finding: { ...apiFinding, verdict: "INTENDED", reason: "일부러" },
+          },
+        ],
+      },
+    });
+    const ledger = await api().verdicts("p-1");
+
+    expect(calls[0].url).toBe(`${BASE}/projects/p-1/setting-checks/verdicts`);
+    expect(ledger).toEqual([
+      {
+        documentId: "d-12",
+        documentTitle: "12화 · 균열의 밤",
+        decidedAt: "2026-10-27T12:50:00Z",
+        finding: expect.objectContaining({
+          id: "f-1",
+          explanation: apiFinding.explanation,
+          verdict: "INTENDED",
+          reason: "일부러",
+        }),
+      },
+    ]);
   });
 
   it("falls back to the default kind for a document type it does not know", async () => {

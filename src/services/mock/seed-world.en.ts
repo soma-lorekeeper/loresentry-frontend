@@ -529,10 +529,8 @@ export const EN_SEED: MockSeed = {
         kind: "SETTING",
         core: true,
         source: "p-north",
-        summary:
-          "The North Door opens only with the old key, but Seoyun pushes it open without one",
-        direction:
-          "Up to Ch. 12, there is no scene where Seoyun gets the old key.",
+        explanation:
+          "The North Greenhouse sets down that the North Door will not open without the old key. In Ch. 12, Seoyun sets the lantern down and pushes the door open with empty hands. Nothing up to Ch. 11 shows Seoyun receiving or finding the old key, so the manuscript never explains how the door opened. Both can only hold if an earlier scene gives Seoyun the key or something else opens the door.",
         quote:
           "Seoyun set the lantern down on the ground and slowly pushed the door open.",
         sourceQuote: "The North Door will not open without the old key.",
@@ -543,10 +541,8 @@ export const EN_SEED: MockSeed = {
         key: "patrol",
         kind: "MANUSCRIPT",
         source: "ch-9",
-        summary:
-          "Ch. 9 already counts a fifth patrol, but Ch. 12 calls it the third",
-        direction:
-          "The manuscript doesn't say whether the “third patrol” in Ch. 12 counts only that night.",
+        explanation:
+          "Ch. 9 says Seoyun first noticed the direction of the light at dawn, after the fifth patrol. Ch. 12 says Seoyun only realized the lines all pointed to one place on the third patrol. If both scenes describe the same realization, the patrol counts do not match. If Ch. 12's third patrol counts only that night's rounds, nothing in the manuscript says so.",
         quote:
           "Only on the third patrol did Seoyun realize that all of those lines pointed to the same place.",
         sourceQuote: "It was dawn, after the fifth patrol.",
@@ -558,10 +554,8 @@ export const EN_SEED: MockSeed = {
         kind: "SETTING",
         confidence: "LOW",
         source: "c-harin",
-        summary:
-          "Harin walks around the North Greenhouse every dawn, yet there is only one set of footprints at the door",
-        direction:
-          "Nothing says Harin skipped her round that dawn or that she never goes as far as the door.",
+        explanation:
+          "Harin's profile says Harin walks around the North Greenhouse every dawn. In Ch. 12, there is only one set of footprints in front of the long-locked North Door. If Harin made the rounds that dawn too, Harin's footprints could be there as well. The profile never says Harin goes up to the door, though, so this is not a clear contradiction.",
         quote:
           "In front of the long-locked North Door there was only a single set of footprints.",
         sourceQuote: "Harin walks around the North Greenhouse every dawn.",
@@ -572,10 +566,8 @@ export const EN_SEED: MockSeed = {
         key: "crack",
         kind: "MANUSCRIPT",
         source: "ch-11",
-        summary:
-          "The fracture already grew in Ch. 11, but Ch. 12 shows it as if it appears for the first time",
-        direction:
-          "Ch. 12 doesn't say whether this is the same fracture as in Ch. 11.",
+        explanation:
+          "In Ch. 11, Seoyun and Harin see that the fracture in the central greenhouse has grown a hand's width since last night. Ch. 12 draws silver lines spreading across every cracked pane as if the fracture were appearing for the first time. Ch. 12 never says whether this is the same fracture or one that spread through the greenhouse overnight. As it stands, readers may feel they meet the same fracture for the first time twice.",
         quote:
           "Each time the moonlight swept across the greenhouse roofs, silver lines spread through every cracked pane.",
         sourceQuote:
@@ -591,10 +583,8 @@ export const EN_SEED: MockSeed = {
         kind: "SETTING",
         core: true,
         source: "i-key",
-        summary:
-          "The old key has never been inside the garden, yet Seoyun opens the North Door",
-        direction:
-          "There's no scene of the key entering the garden, and nothing says why the door opened without it.",
+        explanation:
+          "The Old Key sets down that the key has never entered the garden since the Record Keepers were founded. In Ch. 12, Seoyun pushes open the North Door, which stands inside the garden. That door opens only with this key, so it could not open if the key never came into the garden. The manuscript shows neither the key entering the garden nor another reason the door opened.",
         quote:
           "Seoyun set the lantern down on the ground and slowly pushed the door open.",
         sourceQuote:
@@ -607,10 +597,8 @@ export const EN_SEED: MockSeed = {
         kind: "SETTING",
         core: true,
         source: "p-north",
-        summary:
-          "Only the Recorders may repair the greenhouse glass, yet Kairon fixes a broken pane",
-        direction:
-          "Nothing says Kairon joined the Recorders or had their leave.",
+        explanation:
+          "The North Greenhouse sets down that only the Garden Record Keepers may mend the greenhouse glass. In Ch. 12, Kairon presses a palm to a cracked pane and pushes the jutting shard back into place. No earlier chapter shows Kairon joining the Record Keepers or getting their permission, so nothing explains why Kairon may touch the glass. If Kairon is breaking the rule here, no one in the scene reacts to show it.",
         quote:
           "Kairon had pressed his palm against a cracked pane and was pushing the jutting shard back into place.",
         sourceQuote:
@@ -623,10 +611,8 @@ export const EN_SEED: MockSeed = {
         kind: "SETTING",
         core: true,
         source: "p-north",
-        summary:
-          "The North Door opens only with the old key, yet it swings open by itself",
-        direction:
-          "The manuscript doesn't say why the door opened without the key.",
+        explanation:
+          "The North Greenhouse sets down that the North Door will not open without the old key. Late in Ch. 12, the door opens by itself before Seoyun can grab the handle again. No one uses the key here either, so the manuscript gives no reason for the door to open. If a door opening on its own is an exception to the rule, that reason needs to show somewhere.",
         quote:
           "Before Seoyun could take hold of the handle again, the door swung open by itself.",
         sourceQuote: "The North Door will not open without the old key.",
@@ -639,10 +625,8 @@ export const EN_SEED: MockSeed = {
         key: "lantern",
         kind: "SETTING",
         source: "i-lantern",
-        summary:
-          "The Silver Lantern casts the light of memory, but Seoyun puts it out before going in",
-        direction:
-          "It doesn't say how she sees past the door once the lantern is out.",
+        explanation:
+          "The Silver Lantern sets down that the lantern casts the light of memory. In this version of Ch. 12, Seoyun puts out the lantern and then pushes the door open. If the scene beyond the door depends on reading the light of memory, the chapter never says what Seoyun sees by without it.",
         quote: "Seoyun put out the lantern and slowly pushed the door open.",
         sourceQuote: "A lantern that casts the light of memory.",
       },
@@ -651,9 +635,8 @@ export const EN_SEED: MockSeed = {
         kind: "SETTING",
         core: true,
         source: "w-law",
-        summary:
-          "A fracture is the direction of a memory, but Ch. 12 calls it a door",
-        direction: "Ch. 12 doesn't say why the fracture is called a door.",
+        explanation:
+          "The Law of Fractures states plainly that a fracture is not a door but the direction of a memory. This version of Ch. 12 says the fracture was a door. Even as a figure of speech, it repeats the very claim the setting denies, so readers may take the fracture for a door.",
         quote: "The fracture was a door.",
         sourceQuote: "A fracture is not a door but the direction of a memory.",
       },
@@ -669,9 +652,8 @@ export const EN_SEED: MockSeed = {
             key: "compass",
             kind: "SETTING",
             source: "i-compass",
-            summary:
-              "The Shard Compass points to traces of memory, but Ch. 10 uses it like an ordinary compass",
-            direction: "Ch. 10 doesn't say what the compass follows.",
+            explanation:
+              "The Shard Compass sets down that the compass points to traces of memory. Ch. 10 describes where the compass points as if it were an ordinary compass showing a bearing. Nothing in Ch. 10 hints that the needle follows traces of memory, so it reads like a different object from the one in the setting.",
             quote: "Where the compass points.",
             sourceQuote: "A navigation tool that points to traces of memory.",
             verdict: {
@@ -690,9 +672,8 @@ export const EN_SEED: MockSeed = {
             key: "awaken",
             kind: "SETTING",
             source: "e-awaken",
-            summary:
-              "The Awakening happened at night, but in Ch. 9 Seoyun first reads the direction at dawn",
-            direction: "Nothing says the night patrol ran on until dawn.",
+            explanation:
+              "The Awakening sets down that the direction of a lost memory was first read at night. Ch. 9 says that realization came at dawn, after the fifth patrol. Nothing says the night patrol ran on until dawn, so the time of day does not match.",
             quote: "It was dawn, after the fifth patrol.",
             sourceQuote:
               "The night the direction of a lost memory was first read.",

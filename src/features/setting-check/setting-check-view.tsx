@@ -1,7 +1,7 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { EmptyState } from "@/design-system/primitives";
 import type { DocumentContent, DocumentNode } from "@/domain/models";
@@ -19,14 +19,16 @@ import { queryKeys } from "@/services/query-keys";
 import { useFocusedChapter } from "./focus";
 import { Home } from "./home";
 import { historyOf, ledgerGroups } from "./ledger";
-import { useSettingCheckSummary } from "./queries";
+import { useSettingCheckSummary, useSettingCheckVerdicts } from "./queries";
 import { Report } from "./report";
 import styles from "./setting-check.module.css";
 import { useStartSettingCheck } from "./use-start-check";
+import { VerdictLedger } from "./verdict-ledger";
 
 /**
  * 설정 오류 점검 탭. 처음 화면에서 원고를 골라 점검하면 그 회차의 화면이 분석 중을 거쳐 결과로 바뀐다.
  * 보는 회차는 탭 밖(원고 도구 막대, 알림)에서도 고르므로 프로젝트마다 하나씩 둔다(focus.ts).
+ * 판정 기록은 처음 화면에서 들어가는 한 장이다.
  */
 export function SettingCheckView({ paneId, active }: WorkspaceViewProps) {
   const { projectId } = useWorkspace();
@@ -34,6 +36,8 @@ export function SettingCheckView({ paneId, active }: WorkspaceViewProps) {
   const tree = useFileTree(projectId);
   const summary = useSettingCheckSummary(projectId);
   const [focused, setFocused] = useFocusedChapter(projectId);
+  const [ledgerOpen, setLedgerOpen] = useState(false);
+  const verdicts = useSettingCheckVerdicts(projectId);
   const start = useStartSettingCheck();
 
   // 본문만 고친 저장은 파일 트리를 다시 읽게 하지 않는다. 탭에 올 때 회차의 판을 새로 맞춘다.
@@ -91,6 +95,15 @@ export function SettingCheckView({ paneId, active }: WorkspaceViewProps) {
     );
   const chapter = chapters.find((item) => item.id === focused);
 
+  if (!chapter && ledgerOpen)
+    return (
+      <VerdictLedger
+        chapterIds={new Set(chapters.map((item) => item.id))}
+        paneId={paneId}
+        onBack={() => setLedgerOpen(false)}
+      />
+    );
+
   if (!chapter)
     return (
       <Home
@@ -98,8 +111,10 @@ export function SettingCheckView({ paneId, active }: WorkspaceViewProps) {
         history={historyOf(data, chapters)}
         running={data.running}
         pending={start.pending}
+        decided={verdicts.data?.length}
         onStart={(documentId) => void start.begin(documentId)}
         onOpen={setFocused}
+        onLedger={() => setLedgerOpen(true)}
       />
     );
 

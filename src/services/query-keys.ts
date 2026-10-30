@@ -40,6 +40,8 @@ export const queryKeys = {
   settingCheckRuns: (projectId: string, documentId: string) =>
     ["setting-checks", projectId, "runs", documentId] as const,
   settingCheckRun: (runId: string) => ["setting-check-run", runId] as const,
+  settingCheckVerdicts: (projectId: string) =>
+    ["setting-checks", projectId, "verdicts"] as const,
 };
 
 export async function invalidateProjectContent(

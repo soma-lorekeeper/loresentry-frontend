@@ -1,7 +1,9 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import {
   useCallback,
+  useId,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -16,26 +18,25 @@ import {
   Icon,
   IconButton,
   Segmented,
+  Tooltip,
   useToast,
 } from "@/design-system/primitives";
+import { blockToPlainText, bodyBlocks } from "@/domain/document-body";
 import { DOCUMENT_TYPE_META } from "@/domain/document-types";
 import type {
   SettingCheckFinding,
   SettingCheckRunDetail,
+  SettingCheckSource,
   SettingCheckVerdict,
 } from "@/domain/setting-check";
 import { requestReveal } from "@/features/documents/reveal-request";
 import { useWorkspace } from "@/features/workspace/workspace-context";
 import { t } from "@/i18n";
 import { isServiceError } from "@/services/errors";
+import { queryKeys } from "@/services/query-keys";
+import { useServices } from "@/services/services-context";
 
-import {
-  anchorFindings,
-  focusIn,
-  foldsOf,
-  sameSource,
-  type Anchor,
-} from "./anchors";
+import { anchorFindings, excerptOf, foldsOf, type Anchor } from "./anchors";
 import {
   emptyDescription,
   filterOf,
@@ -43,6 +44,7 @@ import {
   type Filter,
 } from "./findings";
 import { shortTitle } from "./ledger";
+import { Marked } from "./marked";
 import { useSettingCheckActions } from "./queries";
 import styles from "./setting-check.module.css";
 
@@ -72,14 +74,87 @@ function reducedMotion() {
   );
 }
 
-function Marked({ text, focus }: { text: string; focus: string | null }) {
-  const span = focusIn(text, focus);
-  if (!span) return <>{text}</>;
+/** 근거 문장과 그 앞뒤 문장. 근거 문서를 읽기 전이나 문서에서 찾지 못하면 근거 문장만 둔다 */
+function SourceExcerpt({
+  source,
+  onReveal,
+}: {
+  source: SettingCheckSource;
+  onReveal: () => void;
+}) {
+  const services = useServices();
+  const doc = useQuery({
+    queryKey: queryKeys.document(source.documentId),
+    queryFn: () => services.documents.get(source.documentId),
+    retry: false,
+  });
+  const lines = useMemo(
+    () =>
+      (doc.data &&
+        excerptOf(
+          bodyBlocks(doc.data.body)
+            .map(blockToPlainText)
+            .filter((text) => text.trim()),
+          source.quote,
+        )) || [
+        { text: source.quote, mark: { start: 0, end: source.quote.length } },
+      ],
+    [doc.data, source.quote],
+  );
+  return (
+    <button
+      type="button"
+      className={styles.quote}
+      aria-label={t("{title}에서 보기: {quote}", {
+        title: source.title,
+        quote: source.quote,
+      })}
+      onClick={onReveal}
+    >
+      {lines.map((line, index) => (
+        <span key={index} className={styles.excerptLine}>
+          {line.mark ? (
+            <>
+              {line.text.slice(0, line.mark.start)}
+              <span className={styles.sourceMark}>
+                <Marked
+                  text={line.text.slice(line.mark.start, line.mark.end)}
+                  focus={source.quoteFocus}
+                />
+              </span>
+              {line.text.slice(line.mark.end)}
+            </>
+          ) : (
+            line.text
+          )}
+        </span>
+      ))}
+    </button>
+  );
+}
+
+/** 판정 단추 옆의 설명. 두 단추가 무엇을 남기고 다음 점검에 어떻게 쓰이는지 */
+function VerdictHelp() {
+  const ref = useRef<HTMLButtonElement>(null);
+  const id = useId();
+  const help = t(
+    "충돌 아니에요 · 점검이 잘못 짚었어요. 두 내용은 함께 성립해요.\n의도한 거예요 · 설정과 다른 걸 알고 일부러 썼어요.\n\n어느 쪽이든 다음 점검부터 같은 곳은 확인할 것에 올리지 않고, 남긴 이유는 AI가 참고해요. 판정 기록에서 되돌릴 수 있어요.",
+  );
   return (
     <>
-      {text.slice(0, span.start)}
-      <span className={styles.focus}>{text.slice(span.start, span.end)}</span>
-      {text.slice(span.end)}
+      <button
+        ref={ref}
+        type="button"
+        className={styles.help}
+        aria-label={t("판정 단추 설명")}
+        aria-describedby={id}
+      >
+        <Icon name="info" size={15} />
+      </button>
+      <span id={id} hidden>
+        {help}
+      </span>
+      <Tooltip anchorRef={ref} label={help} multiline />
     </>
   );
 }
@@ -90,8 +165,6 @@ function Card({
   active,
   hot,
   loose,
-  changed,
-  others,
   editing,
   pending,
   cardRef,
@@ -100,15 +173,12 @@ function Card({
   onEdit,
   onDecide,
   onUndo,
-  onOther,
 }: {
   finding: SettingCheckFinding;
   top: number | undefined;
   active: boolean;
   hot: boolean;
   loose: boolean;
-  changed: boolean;
-  others: number;
   editing: SettingCheckVerdict | null;
   pending: boolean;
   cardRef: (element: HTMLElement | null) => void;
@@ -117,7 +187,6 @@ function Card({
   onEdit: (verdict: SettingCheckVerdict | null) => void;
   onDecide: (verdict: SettingCheckVerdict, reason: string | null) => void;
   onUndo: () => void;
-  onOther: () => void;
 }) {
   const source = finding.source;
   const key = source.quoteFocus ?? source.quote;
@@ -155,34 +224,15 @@ function Card({
       </button>
       {active && (
         <div id={bodyId} className={styles.cardBody}>
-          <button
-            type="button"
-            className={styles.quote}
-            aria-label={t("{title}에서 보기: {quote}", {
-              title: source.title,
-              quote: source.quote,
-            })}
-            onClick={onReveal}
-          >
-            <span className={styles.sourceMark}>
-              <Marked text={source.quote} focus={source.quoteFocus} />
-            </span>
-          </button>
+          <SourceExcerpt source={source} onReveal={onReveal} />
           <p className={styles.targetQuote}>
             <span className={styles.sourceMark}>
               <Marked text={finding.quote} focus={finding.quoteFocus} />
             </span>
-            {loose && changed && (
-              <span className={styles.changed}>{t("바뀐 문장")}</span>
-            )}
           </p>
-          <p className={styles.summary}>{finding.summary}</p>
-          <p className={styles.direction}>
-            <Icon name="compass" size={14} />
-            {finding.direction}
-          </p>
+          <p className={styles.explanation}>{finding.explanation}</p>
           {finding.verdict && finding.reason && (
-            <p className={styles.direction} data-reason>
+            <p className={styles.reason}>
               <Icon name="pen-line" size={14} />
               {finding.reason}
             </p>
@@ -196,11 +246,6 @@ function Card({
             />
           ) : (
             <div className={styles.actions}>
-              {others > 0 && (
-                <Button variant="ghost" icon="arrow-down" onClick={onOther}>
-                  {t("같은 근거와 부딪히는 곳 {count}", { count: others })}
-                </Button>
-              )}
               <span className={styles.verdicts}>
                 {finding.verdict ? (
                   <Button icon="undo-2" busy={pending} onClick={onUndo}>
@@ -208,6 +253,7 @@ function Card({
                   </Button>
                 ) : (
                   <>
+                    <VerdictHelp />
                     <Button onClick={() => onEdit("NOT_CONFLICT")}>
                       {t("충돌 아니에요")}
                     </Button>
@@ -232,14 +278,12 @@ function Card({
 export function Board({
   run,
   paragraphs,
-  changed,
   paneId,
   header,
 }: {
   run: SettingCheckRunDetail;
   /** 지금 원고의 문단. 고친 원고에서 인용을 찾지 못한 어긋남은 자리 없이 맨 위에 선다 */
   paragraphs: readonly string[];
-  changed: boolean;
   paneId: string;
   header: ReactNode;
 }) {
@@ -258,7 +302,6 @@ export function Board({
   const [layout, setLayout] = useState<Layout>(EMPTY_LAYOUT);
   const [scroll, setScroll] = useState({ top: 0, height: 1, client: 1 });
   const [opened, setOpened] = useState<ReadonlySet<number>>(() => new Set());
-  const [showAll, setShowAll] = useState(false);
 
   const counts: Record<Filter, number> = {
     open: 0,
@@ -278,7 +321,7 @@ export function Board({
     () => foldsOf(paragraphs.length, anchors),
     [paragraphs.length, anchors],
   );
-  const closed = showAll ? [] : folds.filter((fold) => !opened.has(fold.start));
+  const closed = folds.filter((fold) => !opened.has(fold.start));
   const active =
     ordered.find((finding) => finding.id === activeId) ?? ordered[0] ?? null;
   const activeKey = active ? anchorOf.get(active.id)?.key : undefined;
@@ -531,7 +574,6 @@ export function Board({
     );
     at = fold.end - 1;
   }
-  const folded = closed.length > 0;
 
   let body: ReactNode;
   if (run.findings.length === 0) {
@@ -591,8 +633,6 @@ export function Board({
                     hover !== null && anchorOf.get(finding.id)?.key === hover
                   }
                   loose={!anchorOf.has(finding.id)}
-                  changed={changed}
-                  others={sameSource(finding, ordered).length}
                   editing={editing?.id === finding.id ? editing.verdict : null}
                   pending={busyId === finding.id}
                   cardRef={(element) => {
@@ -608,14 +648,6 @@ export function Board({
                     decide(finding, verdict, reason)
                   }
                   onUndo={() => undo(finding)}
-                  onOther={() => {
-                    const others = sameSource(finding, ordered);
-                    const after = others.find(
-                      (other) =>
-                        ordered.indexOf(other) > ordered.indexOf(finding),
-                    );
-                    activate((after ?? others[0]).id);
-                  }}
                 />
               ))}
             </div>
@@ -735,21 +767,7 @@ export function Board({
           <div className={styles.columns}>
             <span className={styles.label}>{t("근거")}</span>
             <span />
-            <span className={styles.columnHead}>
-              <span className={styles.label}>{t("대상 원고")}</span>
-              {folds.length > 0 && (
-                <button
-                  type="button"
-                  className={styles.foldAll}
-                  onClick={() => {
-                    setShowAll(folded);
-                    setOpened(new Set());
-                  }}
-                >
-                  {folded ? t("전체 펼치기") : t("다시 접기")}
-                </button>
-              )}
-            </span>
+            <span className={styles.label}>{t("대상 원고")}</span>
             <span />
           </div>
         )}

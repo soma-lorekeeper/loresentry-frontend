@@ -36,6 +36,14 @@ export function useSettingCheckRun(runId: string | null) {
   });
 }
 
+export function useSettingCheckVerdicts(projectId: string) {
+  const services = useServices();
+  return useQuery({
+    queryKey: queryKeys.settingCheckVerdicts(projectId),
+    queryFn: () => services.settingChecks.verdicts(projectId),
+  });
+}
+
 function patchFinding(
   detail: SettingCheckRunDetail | undefined,
   finding: SettingCheckFinding,

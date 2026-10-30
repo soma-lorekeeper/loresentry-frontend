@@ -165,7 +165,7 @@ describe("mock setting checks", () => {
       reason: "열쇠는 9화에서 받아요",
     });
     const sameInEarlier = (await checks.run(earlier.id)).findings.find(
-      (finding) => finding.summary === door.summary,
+      (finding) => finding.explanation === door.explanation,
     );
     expect(sameInEarlier?.verdict).toBe("NOT_CONFLICT");
     expect(
@@ -176,6 +176,36 @@ describe("mock setting checks", () => {
 
     const cleared = await checks.clearVerdict(door.id);
     expect(cleared).toMatchObject({ verdict: null, reason: null });
+  });
+
+  it("keeps a ledger of verdicts with the newest finding of each", async () => {
+    const seeded = await checks.verdicts(GLASS_GARDEN_ID);
+    expect(seeded.map((decision) => decision.documentId)).toEqual([
+      doc("ch-12"),
+      doc("ch-10"),
+      doc("ch-9"),
+    ]);
+    const [latest] = await checks.runs(GLASS_GARDEN_ID, doc("ch-12"));
+    const { findings } = await checks.run(latest.id);
+    expect(seeded[0].finding).toEqual(
+      findings.find((finding) => finding.verdict === "INTENDED"),
+    );
+
+    later(60_000);
+    const door = findings[0];
+    await checks.setVerdict(door.id, "NOT_CONFLICT", null);
+    const ledger = await checks.verdicts(GLASS_GARDEN_ID);
+    expect(ledger).toHaveLength(4);
+    expect(ledger[0]).toMatchObject({
+      documentId: doc("ch-12"),
+      documentTitle: latest.documentTitle,
+      decidedAt: new Date(Date.now()).toISOString(),
+      finding: { id: door.id, verdict: "NOT_CONFLICT", reason: null },
+    });
+
+    await checks.clearVerdict(door.id);
+    expect(await checks.verdicts(GLASS_GARDEN_ID)).toEqual(seeded);
+    expect(await checks.verdicts("other-project")).toEqual([]);
   });
 
   it("rejects a reason longer than the server allows", async () => {

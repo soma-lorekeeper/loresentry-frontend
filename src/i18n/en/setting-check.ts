@@ -27,15 +27,9 @@ export default {
     "Show {count} paragraph",
     "Show {count} paragraphs",
   ),
-  "전체 펼치기": "Show all",
-  "다시 접기": "Fold again",
   "이전 어긋남": "Previous conflict",
   "다음 어긋남": "Next conflict",
   "확신 낮음 · {text}": "Low confidence · {text}",
-  "같은 근거와 부딪히는 곳 {count}": plural(
-    "{count} more place conflicts with this source",
-    "{count} more places conflict with this source",
-  ),
   "{title} 점검이 끝나면 시작할 수 있어요.":
     "You can start once the check on {title} finishes.",
   "중요 설정으로 표시한 문단은 꼭 지킬 사실로 봐요":
@@ -56,7 +50,7 @@ export default {
   취소함: "Canceled",
   "어긋남 {count}": plural("{count} conflict", "{count} conflicts"),
   "어긋남 없음": "No conflicts",
-  "다시 점검": "Check again",
+  "다시 점검하기": "Check again",
   "아직 점검하지 않았어요": "Not checked yet",
   "이 회차를 앞 회차와 설정 문서에 대조해 어긋나 보이는 곳을 찾아요.":
     "Compares this chapter with earlier chapters and your setting documents to find places that seem to conflict.",
@@ -70,14 +64,13 @@ export default {
   "이 회차와 설정 문서가 한 번에 읽을 수 있는 양을 넘어요. 다시 시도해도 같아요. 회차나 설정 문서를 줄이면 점검할 수 있어요.":
     "This chapter and your setting documents are more than can be read at once. Trying again won't help; shorten the chapter or setting documents to check it.",
   "점검을 취소했어요": "Check canceled",
-  "점검한 뒤 이 회차를 고쳤어요": "You edited this chapter after the check",
+  "점검한 뒤 원고가 바뀌었어요": "The chapter changed after this check",
 
   "어긋남 걸러 보기": "Filter conflicts",
   "확인할 것": "To review",
   의도함: "Intended",
   "충돌 아님": "Not a conflict",
   "{title}에서 보기: {quote}": "Show in {title}: {quote}",
-  "바뀐 문장": "Changed",
   "충돌 아니에요": "Not a conflict",
   "의도한 거예요": "It's intended",
   "의도한 이유": "Why it's intended",
@@ -88,6 +81,17 @@ export default {
   "충돌 아님으로 옮겼어요.": "Moved to Not a conflict.",
   "확인할 것으로 되돌렸어요.": "Moved back to To review.",
   "판정을 저장하지 못했어요.": "Couldn't save your decision.",
+  "판정 단추 설명": "What these buttons do",
+  "충돌 아니에요 · 점검이 잘못 짚었어요. 두 내용은 함께 성립해요.\n의도한 거예요 · 설정과 다른 걸 알고 일부러 썼어요.\n\n어느 쪽이든 다음 점검부터 같은 곳은 확인할 것에 올리지 않고, 남긴 이유는 AI가 참고해요. 판정 기록에서 되돌릴 수 있어요.":
+    "Not a conflict · The check got it wrong. Both can be true.\nIt's intended · You know it differs from the setting and wrote it on purpose.\n\nEither way, the next check won't list this place to review again, and the AI takes your reason into account. You can undo it from Decisions.",
+  "판정 기록": "Decisions",
+  "판정 기록 {count}": "Decisions {count}",
+  "판정 기록을 불러오지 못했어요": "Couldn't load your decisions",
+  "남긴 판정이 없어요": "No decisions yet",
+  "점검 결과에서 ‘충돌 아니에요’나 ‘의도한 거예요’를 고르면 여기에 모여요.":
+    "When you mark a result as “Not a conflict” or “It's intended,” it's collected here.",
+  "‘충돌 아니에요’나 ‘의도한 거예요’로 남긴 곳이에요. 다음 점검은 이 판정을 따르고, 되돌리면 다시 확인할 것으로 올라와요.":
+    "Places you marked as “Not a conflict” or “It's intended.” Later checks follow these decisions; undo one and it comes back to review.",
   "어긋나 보이는 곳이 없어요": "Nothing seems to conflict",
   "어긋나 보이는 곳이 없어요.": "Nothing seems to conflict.",
   "중요 설정 {count}개와 앞 회차의 사실을 모두 지켰어요.": plural(

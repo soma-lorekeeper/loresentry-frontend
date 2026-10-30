@@ -2,13 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import type { SettingCheckFinding } from "@/domain/setting-check";
 
-import {
-  anchorFindings,
-  focusIn,
-  foldsOf,
-  locate,
-  sameSource,
-} from "./anchors";
+import { anchorFindings, excerptOf, focusIn, foldsOf, locate } from "./anchors";
 
 function finding(
   id: string,
@@ -21,8 +15,7 @@ function finding(
     kind: "SETTING",
     core: false,
     confidence: "HIGH",
-    summary: id,
-    direction: id,
+    explanation: id,
     quote,
     quoteFocus: null,
     source: {
@@ -90,16 +83,56 @@ describe("anchorFindings", () => {
     expect(anchorOf.get("door")?.findingIds).toEqual(["key", "door"]);
     expect(anchorOf.has("lost")).toBe(false);
   });
+});
 
-  it("finds other places that conflict with the same source sentence", () => {
-    const a = finding("a", "천천히 문을 밀었다.");
-    const b = finding(
-      "b",
-      "발자국이 하나뿐이었다.",
-      " 북쪽 문은 낡은 열쇠 없이는  열리지 않는다",
+describe("excerptOf", () => {
+  const north = [
+    "유리 지붕이 금 간 온실.",
+    "북쪽 문은 낡은 열쇠 없이는 열리지 않는다. 열쇠는 기록단 결성 이후 한 번도 정원 안에 들어온 적이 없다.",
+    "하린은 매일 새벽 온실 둘레를 돌며 유리에 맺힌 이슬을 닦는다. 문 앞까지는 다가가지 않는다.",
+    "온실의 유리는 정원 기록단만 손볼 수 있다.",
+  ];
+
+  it("keeps the sentences around the quote and marks the quote", () => {
+    const lines = excerptOf(north, "북쪽 문은 낡은 열쇠 없이는 열리지 않는다")!;
+
+    expect(lines.map((line) => line.text)).toEqual([
+      "유리 지붕이 금 간 온실.",
+      north[1],
+      "하린은 매일 새벽 온실 둘레를 돌며 유리에 맺힌 이슬을 닦는다.",
+    ]);
+    const [, marked] = lines;
+    expect(lines[0].mark).toBeNull();
+    expect(marked.text.slice(marked.mark!.start, marked.mark!.end)).toBe(
+      "북쪽 문은 낡은 열쇠 없이는 열리지 않는다",
     );
-    const c = finding("c", "발자국이 하나뿐이었다.", "다른 문장.");
-    expect(sameSource(a, [a, b, c]).map((item) => item.id)).toEqual(["b"]);
+  });
+
+  it("adds two sentences a side at most, fewer once a side is long", () => {
+    const long = "가".repeat(70) + ".";
+    const lines = excerptOf(
+      [`앞. ${long} 근거 문장이다. 하나. 둘. 셋.`],
+      "근거 문장이다.",
+    )!;
+
+    expect(lines).toHaveLength(1);
+    expect(lines[0].text).toBe(`${long} 근거 문장이다. 하나. 둘.`);
+    expect(lines[0].text.slice(lines[0].mark!.start, lines[0].mark!.end)).toBe(
+      "근거 문장이다",
+    );
+  });
+
+  it("marks a quote that starts inside a sentence", () => {
+    const [line] = excerptOf(["그날 밤, 문은 저절로 열렸다."], "문은 저절로")!;
+    expect(line.text.slice(line.mark!.start, line.mark!.end)).toBe(
+      "문은 저절로",
+    );
+    expect(line.text).toBe("그날 밤, 문은 저절로 열렸다.");
+  });
+
+  it("gives nothing when the document no longer has the quote", () => {
+    expect(excerptOf(north, "기억의 빛을 비추는 등불.")).toBeNull();
+    expect(excerptOf([], "아무 문장")).toBeNull();
   });
 });
 
