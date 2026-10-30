@@ -980,6 +980,28 @@ describe("wiring", () => {
     expect(calls[0].credentials).toBe("include");
   });
 
+  it("returns only validated confirmation counts and omits malformed lists", async () => {
+    const wired = createServices({
+      ...DEFAULT_RUNTIME_CONFIG,
+      dataSource: "api",
+      apiBaseUrl: BASE,
+    });
+    reply(200, {
+      status: "APPLIED",
+      created: [{ draft_id: "d1", file_id: "f1", candidate_id: "c1" }],
+      updated: [],
+    });
+    expect(await wired.refresh.confirm("p-1", "r-1")).toEqual({
+      createdDocumentCount: 1,
+      updatedDocumentCount: 0,
+    });
+    reply(200, { created: [{ draft_id: "d1" }], updated: null });
+    expect(await wired.refresh.confirm("p-1", "r-2")).toEqual({
+      createdDocumentCount: undefined,
+      updatedDocumentCount: undefined,
+    });
+  });
+
   it("serves the user guide from the bundled articles without a request", async () => {
     const wired = createServices({
       ...DEFAULT_RUNTIME_CONFIG,

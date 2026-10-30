@@ -29,6 +29,14 @@ vi.mock("next/navigation", () => ({
   usePathname: () => "/",
 }));
 
+const analytics = vi.hoisted(() => vi.fn());
+vi.mock("@/features/analytics/refresh-analytics", async (importOriginal) => ({
+  ...(await importOriginal<
+    typeof import("@/features/analytics/refresh-analytics")
+  >()),
+  useRefreshAnalytics: () => analytics,
+}));
+
 const user = {
   id: "user-1",
   displayName: "서윤주",
@@ -194,7 +202,41 @@ describe("GraphDiffModal", () => {
     ).toBeDisabled();
   });
 
+  it("reports confirmed result counts without document identifiers", async () => {
+    analytics.mockClear();
+    const actor = userEvent.setup();
+    const review = await readyReview();
+    const services = createMockServices();
+    const original = services.refresh.confirm;
+    services.refresh = {
+      ...services.refresh,
+      confirm: async (...args) => {
+        await original(...args);
+        return { createdDocumentCount: 1, updatedDocumentCount: 2 };
+      },
+    };
+    renderModal(review.id, services);
+    const dialog = await screen.findByRole("dialog");
+    await actor.click(
+      await within(dialog).findByRole("button", {
+        name: "신규 버전 전체 반영",
+      }),
+    );
+    await actor.click(
+      within(dialog).getByRole("button", { name: "반영 확정" }),
+    );
+    await screen.findByText("변경 사항을 반영했어요.");
+    expect(analytics).toHaveBeenCalledWith("refresh_apply_click");
+    expect(analytics).toHaveBeenCalledWith("refresh_applied", {
+      draft_count: review.counts.total,
+      new_document_draft_count: review.counts.created,
+      created_document_count: 1,
+      updated_document_count: 2,
+    });
+  });
+
   it("recognizes a server apply after its response is lost without posting twice", async () => {
+    analytics.mockClear();
     const actor = userEvent.setup();
     const review = await readyReview();
     const services = createMockServices();
@@ -217,6 +259,13 @@ describe("GraphDiffModal", () => {
     expect(await screen.findByText("변경 사항을 반영했어요.")).toBeVisible();
     expect(onClose).toHaveBeenCalledOnce();
     expect(confirm).toHaveBeenCalledOnce();
+    expect(analytics).toHaveBeenCalledWith("refresh_applied", {
+      draft_count: review.counts.total,
+      new_document_draft_count: review.counts.created,
+    });
+    expect(
+      analytics.mock.calls.filter(([event]) => event === "refresh_applied"),
+    ).toHaveLength(1);
     expect((await mockRefresh.latest(GLASS_GARDEN_ID)).status).toBe("APPLIED");
   });
 

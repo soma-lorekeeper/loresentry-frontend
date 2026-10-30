@@ -24,6 +24,14 @@ vi.mock("next/navigation", () => ({
   usePathname: () => "/",
 }));
 
+const analytics = vi.hoisted(() => vi.fn());
+vi.mock("@/features/analytics/refresh-analytics", async (importOriginal) => ({
+  ...(await importOriginal<
+    typeof import("@/features/analytics/refresh-analytics")
+  >()),
+  useRefreshAnalytics: () => analytics,
+}));
+
 const user = {
   id: "user-1",
   displayName: "서윤주",
@@ -166,6 +174,7 @@ describe("GraphRefreshItem", () => {
   });
 
   it("tells how many documents a new refresh locked", async () => {
+    analytics.mockClear();
     const actor = userEvent.setup();
     renderRefresh();
 
@@ -177,6 +186,10 @@ describe("GraphRefreshItem", () => {
     );
 
     expect(await screen.findByText("문서 3개를 잠갔어요.")).toBeVisible();
+    expect(analytics).toHaveBeenCalledWith("refresh_start_click");
+    expect(analytics).toHaveBeenCalledWith("refresh_started", {
+      input_document_count: 3,
+    });
     expect(
       await screen.findByRole("button", { name: /^설정 문서 최신화 중…/ }),
     ).toBeDisabled();
@@ -198,6 +211,7 @@ describe("GraphRefreshItem", () => {
   });
 
   it("keeps polling a refresh that was already running on entry and announces its result", async () => {
+    analytics.mockClear();
     vi.useFakeTimers({ shouldAdvanceTime: true });
     const latest = vi
       .fn<RefreshService["latest"]>()
@@ -215,6 +229,10 @@ describe("GraphRefreshItem", () => {
       await screen.findByRole("button", { name: "변경 사항 반영" }),
     ).toBeInTheDocument();
     expect(latest).toHaveBeenCalledTimes(2);
+    expect(analytics).toHaveBeenCalledWith("refresh_result_ready", {
+      draft_count: 0,
+      new_document_draft_count: 0,
+    });
   });
 
   it("does not announce a refresh that had already ended before entry", async () => {

@@ -18,6 +18,10 @@ import {
 } from "@/design-system/primitives";
 import { DOCUMENT_TYPE_META, type DocumentType } from "@/domain/document-types";
 import type { RefreshProposal, RefreshRunDetail } from "@/domain/models";
+import {
+  refreshDraftCounts,
+  useRefreshAnalytics,
+} from "@/features/analytics/refresh-analytics";
 import { ReauthNotice } from "@/features/auth/reauth-notice";
 import { QueryFailure } from "@/features/common/query-failure";
 import { indexNodes, isDocument } from "@/features/workspace/model/tree";
@@ -146,6 +150,7 @@ function ReviewSession({
   onRequestClose: () => void;
   closeGuardRef: RefObject<(() => Promise<boolean>) | null>;
 }) {
+  const trackRefresh = useRefreshAnalytics();
   const toast = useToast();
   const { projectId, user } = useWorkspace();
   const services = useServices();
@@ -153,6 +158,7 @@ function ReviewSession({
   const actions = useRefreshActions(projectId);
   const [uncertain, setUncertain] = useState(false);
   const busy = useRef(false);
+  const appliedTracked = useRef(false);
   const tree = useFileTree(projectId);
   const index = useMemo(() => indexNodes(tree.data ?? []), [tree.data]);
   const proposals = detail.proposals;
@@ -230,7 +236,19 @@ function ReviewSession({
   const candidatesOf = (type: DocumentType, exceptId: string) =>
     documents.filter((node) => node.docType === type && node.id !== exceptId);
 
-  const applied = () => {
+  const applied = (counts?: {
+    createdDocumentCount?: number;
+    updatedDocumentCount?: number;
+  }) => {
+    if (!appliedTracked.current) {
+      appliedTracked.current = true;
+      const params = refreshDraftCounts(detail);
+      if (counts?.createdDocumentCount !== undefined)
+        params.created_document_count = counts.createdDocumentCount;
+      if (counts?.updatedDocumentCount !== undefined)
+        params.updated_document_count = counts.updatedDocumentCount;
+      trackRefresh("refresh_applied", params);
+    }
     onClose();
     toast({
       icon: "circle-check",
@@ -277,14 +295,26 @@ function ReviewSession({
   const confirm = async () => {
     if (busy.current || uncertain || autosave.expired) return;
     busy.current = true;
+    appliedTracked.current = false;
+    trackRefresh("refresh_apply_click");
     onConfirmError(null);
     onConfirming(true);
     try {
       // 마지막으로 고친 것이 아직 저장되지 않았을 수 있다. 다 저장한 뒤에 확정한다.
-      if (!(await autosave.flush())) return;
-      await actions.confirm.mutateAsync(detail.id);
-      applied();
+      if (!(await autosave.flush())) {
+        trackRefresh("refresh_apply_failed", { failure_stage: "save_draft" });
+        return;
+      }
+      const counts = await actions.confirm.mutateAsync(detail.id);
+      applied(counts || undefined);
     } catch (error) {
+      if (
+        error instanceof RefreshConfirmError ||
+        (isServiceError(error) && !["network", "unknown"].includes(error.code))
+      )
+        trackRefresh("refresh_apply_failed", {
+          failure_stage: "confirm_request",
+        });
       if (isServiceError(error) && error.code === "not-found") {
         onEnded();
         return;

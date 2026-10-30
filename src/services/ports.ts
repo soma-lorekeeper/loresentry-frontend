@@ -232,7 +232,13 @@ export interface RefreshService {
    * 모든 작업본의 두 쪽이 같을 때 한 번에 반영한다. 반영할 수 없으면 {@link RefreshConfirmError} 를
    * 던진다. 성공하면 run 은 APPLIED 이고 잠금이 풀린다. 상태는 {@link latest} 로 다시 읽는다.
    */
-  confirm(projectId: string, runId: string): Promise<void>;
+  confirm(
+    projectId: string,
+    runId: string,
+  ): Promise<{
+    createdDocumentCount?: number;
+    updatedDocumentCount?: number;
+  } | void>;
 }
 
 /** 작업본을 다른 탭·기기가 먼저 저장했다. `current` 가 서버의 지금 모습이다 */

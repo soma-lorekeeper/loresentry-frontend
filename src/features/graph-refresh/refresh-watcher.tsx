@@ -5,6 +5,10 @@ import { useEffect, useRef, useState } from "react";
 
 import { useToast } from "@/design-system/primitives";
 import type { RefreshRun } from "@/domain/models";
+import {
+  refreshReadyParameters,
+  useRefreshAnalytics,
+} from "@/features/analytics/refresh-analytics";
 import { useWorkspace } from "@/features/workspace/workspace-context";
 import { t } from "@/i18n";
 
@@ -62,32 +66,52 @@ function finishedNotice(run: RefreshRun) {
  * </ul>
  */
 export function RefreshWatcher() {
+  const trackRefresh = useRefreshAnalytics();
   const { projectId } = useWorkspace();
   const toast = useToast();
   const queryClient = useQueryClient();
   const run = useRefreshRun(projectId);
   const data = run.data;
   const [reviewing, setReviewing] = useState<string | null>(null);
-  const previous = useRef<RefreshRun["status"] | null>(null);
+  const previous = useRef<{ id: string; status: RefreshRun["status"] } | null>(
+    null,
+  );
 
   useEffect(() => {
     if (!data) return;
     const before = previous.current;
-    previous.current = data.status;
-    if (before !== "RUNNING" || data.status === "RUNNING") return;
+    previous.current = { id: data.id, status: data.status };
+    if (
+      !before ||
+      before.id !== data.id ||
+      before.status !== "RUNNING" ||
+      data.status === "RUNNING"
+    )
+      return;
+    if (data.status === "READY")
+      trackRefresh("refresh_result_ready", refreshReadyParameters(data));
+    else if (data.status === "NO_CHANGE")
+      trackRefresh("refresh_result_no_change");
+    else if (data.status === "FAILED")
+      trackRefresh("refresh_result_failed", {
+        failure_reason: data.error?.code === "TIMED_OUT" ? "timeout" : "other",
+      });
     void refreshLocksChanged(queryClient, projectId);
     const notice = finishedNotice(data);
     if (notice) toast(notice);
-  }, [data, projectId, queryClient, toast]);
+  }, [data, projectId, queryClient, toast, trackRefresh]);
 
   const readyId = data?.status === "READY" ? data.id : null;
 
   useEffect(
     () =>
       onRefreshReviewRequest(() => {
-        if (readyId) setReviewing(readyId);
+        if (readyId && reviewing !== readyId) {
+          trackRefresh("refresh_review_opened");
+          setReviewing(readyId);
+        }
       }),
-    [readyId],
+    [readyId, reviewing, trackRefresh],
   );
 
   if (!readyId) return null;

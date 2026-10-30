@@ -291,7 +291,26 @@ export function createApiRefresh(client: ApiClient): RefreshService {
         [409],
         { method: "POST", operation: "refresh.confirm" },
       );
-      if (result.ok) return;
+      if (result.ok) {
+        const response = result.data;
+        if (!response || typeof response !== "object") return {};
+        const body = response as Record<string, unknown>;
+        const count = (value: unknown) =>
+          Array.isArray(value) &&
+          value.every(
+            (entry) =>
+              entry &&
+              typeof entry === "object" &&
+              typeof entry.draft_id === "string" &&
+              typeof entry.file_id === "string",
+          )
+            ? value.length
+            : undefined;
+        return {
+          createdDocumentCount: count(body.created),
+          updatedDocumentCount: count(body.updated),
+        };
+      }
       const body = result.failure.body;
       switch (body?.code) {
         case "REFRESH_DRAFTS_UNMATCHED":

@@ -1,5 +1,7 @@
 "use client";
 
+import { useRefreshAnalytics } from "@/features/analytics/refresh-analytics";
+
 import { useEffect, useState } from "react";
 
 import {
@@ -51,6 +53,7 @@ function useElapsedMinutes(startedAt: string | null, running: boolean) {
  * 알림과 검토 창은 작업공간의 RefreshWatcher 가 맡는다.
  */
 export function GraphRefreshItem() {
+  const trackRefresh = useRefreshAnalytics();
   const { projectId } = useWorkspace();
   const toast = useToast();
   const run = useRefreshRun(projectId);
@@ -125,6 +128,9 @@ export function GraphRefreshItem() {
     setSaving(true);
     try {
       if (!(await saveOpenDocuments())) {
+        trackRefresh("refresh_start_failed", {
+          failure_stage: "save_documents",
+        });
         toast({
           icon: "triangle-alert",
           title: t("문서를 저장하지 못해 최신화를 시작하지 않았어요."),
@@ -136,7 +142,12 @@ export function GraphRefreshItem() {
       setSaving(false);
     }
     start.mutate(undefined, {
-      onSuccess: ({ run: started, lockedFileIds }) =>
+      onSuccess: ({ run: started, lockedFileIds }) => {
+        if (started)
+          trackRefresh("refresh_started", {
+            input_document_count: lockedFileIds.length,
+          });
+        else trackRefresh("refresh_no_changes");
         toast(
           started
             ? {
@@ -151,15 +162,20 @@ export function GraphRefreshItem() {
                 title: t("최신화할 변경이 없어요."),
                 description: t("지난 최신화 뒤 고친 문서가 없어요."),
               },
-        ),
-      onError: (error) =>
+        );
+      },
+      onError: (error) => {
+        trackRefresh("refresh_start_failed", {
+          failure_stage: "start_request",
+        });
         toast({
           icon: "triangle-alert",
           title: t("설정 문서 최신화를 시작하지 못했어요."),
           description: isServiceError(error)
             ? error.message
             : t("작업공간::잠시 후 다시 시도해 주세요."),
-        }),
+        });
+      },
     });
   };
 
@@ -188,7 +204,10 @@ export function GraphRefreshItem() {
               size="md"
               variant="primary"
               icon="refresh-cw"
-              onClick={() => void begin()}
+              onClick={() => {
+                trackRefresh("refresh_start_click");
+                void begin();
+              }}
             >
               {t("최신화 시작")}
             </Button>
