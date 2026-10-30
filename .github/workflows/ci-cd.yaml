@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - dev
   workflow_dispatch:
 
 permissions:
@@ -11,15 +12,15 @@ permissions:
   id-token: write
 
 concurrency:
-  group: deploy-${{ github.repository }}
+  group: deploy-${{ github.repository }}-${{ github.ref_name }}
   cancel-in-progress: true
 
 env:
   AWS_REGION: ap-northeast-2
   AWS_ACCOUNT_ID: "197179613039"
 
-  S3_BUCKET: loresentry-web-prod-197179613039
-  CLOUDFRONT_DISTRIBUTION_ID: E3L6QXQGVEJTYQ
+  S3_BUCKET: ${{ github.ref_name == 'dev' && 'loresentry-web-dev-197179613039' || 'loresentry-web-prod-197179613039' }}
+  CLOUDFRONT_DISTRIBUTION_ID: ${{ github.ref_name == 'dev' && 'E11G1LAW9XKBGB' || 'E3L6QXQGVEJTYQ' }}
 
 jobs:
   build-verify-deploy:
@@ -43,6 +44,17 @@ jobs:
 
       - name: Verify and build the Korean and English editions
         run: pnpm check:cdn
+
+      - name: Point the dev edition at the dev cluster
+        if: github.ref_name == 'dev'
+        run: |
+          for locale in ko en; do
+            jq '.apiBaseUrl = "https://api-dev.loresentry.com" | .gaMeasurementId = ""' \
+              "dist/$locale/config.json" > "dist/$locale/config.json.tmp"
+            mv "dist/$locale/config.json.tmp" "dist/$locale/config.json"
+            printf 'User-agent: *\nDisallow: /\n' > "dist/$locale/robots.txt"
+          done
+          cat dist/ko/config.json
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6.2.3
