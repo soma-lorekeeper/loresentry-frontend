@@ -7,6 +7,7 @@ import { useToast } from "@/design-system/primitives";
 import type { DocumentNode, FileNode } from "@/domain/models";
 import type { SettingCheckSummary } from "@/domain/setting-check";
 import { onFileCreated } from "@/features/workspace/file-events";
+import { inTreeOrder } from "@/features/workspace/model/tree";
 import { useWorkspace } from "@/features/workspace/workspace-context";
 import { t } from "@/i18n";
 import { queryKeys } from "@/services/query-keys";
@@ -34,7 +35,7 @@ export function previousChapter(
   };
   let previous: DocumentNode | null = null;
   let entered = false;
-  for (const node of nodes) {
+  for (const node of inTreeOrder(nodes)) {
     const within = inside(node);
     if (entered && !within) break;
     if (within) entered = true;

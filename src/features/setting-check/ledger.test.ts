@@ -103,6 +103,27 @@ describe("ledgerGroups", () => {
     expect(groups[0].chapters.map((item) => item.id)).toEqual(["13화", "12화"]);
     expect(groups.flatMap((group) => group.chapters)).toHaveLength(4);
   });
+
+  it("follows the tree even when the server lists folders and documents apart", () => {
+    const [manuscripts, ep3, ch8, ch9, ep4, ch12, ch13, place] = nodes;
+    const groups = ledgerGroups([
+      manuscripts,
+      ep3,
+      ep4,
+      ch8,
+      ch12,
+      ch9,
+      place,
+      ch13,
+    ]);
+    expect(groups.map((group) => group.episode?.id)).toEqual(["ep-4", "ep-3"]);
+    expect(
+      groups.map((group) => group.chapters.map((item) => item.id)),
+    ).toEqual([
+      ["13화", "12화"],
+      ["9화", "8화"],
+    ]);
+  });
 });
 
 describe("chapterStatus", () => {
@@ -213,6 +234,13 @@ describe("previousChapter", () => {
   it("is the last chapter of the folder the new one joins", () => {
     expect(previousChapter(nodes, chapter("14화", "ep-4"))?.id).toBe("13화");
     expect(previousChapter(nodes, chapter("10화", "ep-3"))?.id).toBe("9화");
+  });
+
+  it("reads the tree, not the order the server lists nodes in", () => {
+    const [manuscripts, ep3, ch8, ch9, ep4, ch12, ch13, place] = nodes;
+    const apart = [manuscripts, ep3, ep4, ch12, ch8, ch13, place, ch9];
+    expect(previousChapter(apart, chapter("14화", "ep-4"))?.id).toBe("13화");
+    expect(previousChapter(apart, chapter("10화", "ep-3"))?.id).toBe("9화");
   });
 
   it("falls back to the chapter just before an empty folder", () => {
