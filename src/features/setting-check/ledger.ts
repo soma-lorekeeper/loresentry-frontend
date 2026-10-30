@@ -4,6 +4,7 @@ import type {
   SettingCheckRun,
   SettingCheckSummary,
 } from "@/domain/setting-check";
+import { inTreeOrder } from "@/features/workspace/model/tree";
 
 export interface LedgerGroup {
   id: string;
@@ -19,7 +20,7 @@ export interface LedgerGroup {
 export function ledgerGroups(nodes: readonly FileNode[]): LedgerGroup[] {
   const byId = new Map(nodes.map((node) => [node.id, node]));
   const groups: LedgerGroup[] = [];
-  for (const node of nodes) {
+  for (const node of inTreeOrder(nodes)) {
     if (node.kind !== "document" || node.docType !== "manuscript") continue;
     const parent = node.parentId ? byId.get(node.parentId) : undefined;
     const episode =

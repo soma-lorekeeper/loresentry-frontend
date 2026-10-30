@@ -23,6 +23,19 @@ export function buildTree(nodes: readonly FileNode[]): TreeItem[] {
   return build(null, 0);
 }
 
+/** 트리를 위에서 아래로 읽는 순서. 서버는 폴더·에피소드·문서를 따로 보내므로 받은 순서는 트리 순서가 아니다 */
+export function inTreeOrder(nodes: readonly FileNode[]): FileNode[] {
+  const ordered: FileNode[] = [];
+  const walk = (items: TreeItem[]) => {
+    for (const item of items) {
+      ordered.push(item.node);
+      walk(item.children);
+    }
+  };
+  walk(buildTree(nodes));
+  return ordered;
+}
+
 export function isDocument(node: FileNode | undefined): node is DocumentNode {
   return node?.kind === "document";
 }
