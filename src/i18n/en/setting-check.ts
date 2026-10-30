@@ -90,8 +90,6 @@ export default {
   "남긴 판정이 없어요": "No decisions yet",
   "점검 결과에서 ‘충돌 아니에요’나 ‘의도한 거예요’를 고르면 여기에 모여요.":
     "When you mark a result as “Not a conflict” or “It's intended,” it's collected here.",
-  "‘충돌 아니에요’나 ‘의도한 거예요’로 남긴 곳이에요. 다음 점검은 이 판정을 따르고, 되돌리면 다시 확인할 것으로 올라와요.":
-    "Places you marked as “Not a conflict” or “It's intended.” Later checks follow these decisions; undo one and it comes back to review.",
   "어긋나 보이는 곳이 없어요": "Nothing seems to conflict",
   "어긋나 보이는 곳이 없어요.": "Nothing seems to conflict.",
   "중요 설정 {count}개와 앞 회차의 사실을 모두 지켰어요.": plural(

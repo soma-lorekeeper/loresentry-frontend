@@ -169,12 +169,9 @@ export function VerdictLedger({
           <Icon name="chevron-left" size={16} />
           {t("설정 오류 점검")}
         </button>
-        <h1 className={styles.title}>{t("판정 기록")}</h1>
-        <p className={styles.lede}>
-          {t(
-            "‘충돌 아니에요’나 ‘의도한 거예요’로 남긴 곳이에요. 다음 점검은 이 판정을 따르고, 되돌리면 다시 확인할 것으로 올라와요.",
-          )}
-        </p>
+        <h1 className={`${styles.title} ${styles.ledgerTitle}`}>
+          {t("판정 기록")}
+        </h1>
         {body}
       </div>
       <p className={styles.srOnly} role="status">

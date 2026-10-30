@@ -822,6 +822,10 @@
 
 /* 판정 기록 */
 
+.ledgerTitle {
+  margin-bottom: var(--lk-space-6);
+}
+
 .decisions {
   display: flex;
   flex-direction: column;
