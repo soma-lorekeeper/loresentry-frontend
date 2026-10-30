@@ -53,6 +53,8 @@ interface FileHeaderProps {
   onOpenVersions: () => void;
   onExport: (format: ExportFormat) => void;
   onToggleLock: () => void;
+  /** 원고에만 있다. 이 회차를 설정 오류 점검에 맡긴다 */
+  settingCheck?: { running: boolean; pending: boolean; onClick: () => void };
 }
 
 /** 파일 도구의 아이콘 단추. 이름은 호버 설명으로 보인다. */
@@ -98,7 +100,9 @@ export function FileHeader({
   onOpenVersions,
   onExport,
   onToggleLock,
+  settingCheck,
 }: FileHeaderProps) {
+  const checkRef = useRef<HTMLButtonElement>(null);
   const exportRef = useRef<HTMLButtonElement>(null);
   const [exportOpen, setExportOpen] = useState(false);
   const entries: MenuEntry[] = EXPORT_OPTIONS.map((option) => ({
@@ -113,6 +117,36 @@ export function FileHeader({
 
   return (
     <div className={styles.header} role="group" aria-label={t("파일 도구")}>
+      {settingCheck && (
+        <>
+          <button
+            ref={checkRef}
+            type="button"
+            className={styles.check}
+            aria-label={t("설정 오류 점검")}
+            aria-busy={
+              settingCheck.running || settingCheck.pending || undefined
+            }
+            disabled={settingCheck.pending}
+            onClick={settingCheck.onClick}
+          >
+            <Icon
+              name={settingCheck.running ? "loader-circle" : "scan-text"}
+              size={15}
+              className={settingCheck.running ? styles.spin : undefined}
+            />
+            <span className={styles.checkLabel}>{t("설정 오류 점검")}</span>
+          </button>
+          <Tooltip
+            anchorRef={checkRef}
+            label={
+              settingCheck.running
+                ? t("점검 중 · 결과 보기")
+                : t("설정 오류 점검")
+            }
+          />
+        </>
+      )}
       <Action
         icon="notebook-pen"
         label={t("메모")}

@@ -5,6 +5,7 @@ import { Fragment, useEffect, useRef, type CSSProperties } from "react";
 import { Icon, ResizeHandle } from "@/design-system/primitives";
 import { ChatDock } from "@/features/chat/chat-dock";
 import { RefreshWatcher } from "@/features/graph-refresh/refresh-watcher";
+import { SettingCheckWatcher } from "@/features/setting-check/setting-check-watcher";
 import { onTourEnd } from "@/features/tour/tour-state";
 import { WorkspaceTour } from "@/features/tour/workspace-tour";
 import { t } from "@/i18n";
@@ -323,6 +324,7 @@ export function WorkspaceShell() {
       <WorkspaceTour />
       {/* 그래프 최신화의 폴링·알림·검토 창. 사이드바가 접혀도 계속 돈다. */}
       <RefreshWatcher />
+      <SettingCheckWatcher />
       <ChatDock />
     </div>
   );

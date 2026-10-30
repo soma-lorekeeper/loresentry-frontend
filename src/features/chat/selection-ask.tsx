@@ -3,7 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
+import type { Editor } from "@tiptap/core";
+
+import { Icon } from "@/design-system/primitives";
 import { isDocumentType } from "@/domain/document-types";
+import {
+  coreTargetsOf,
+  toggleCore,
+} from "@/features/documents/editor/core-setting";
+import { editorOf } from "@/features/documents/editor/editor-registry";
 import type { ChatIntent, ChatQuote } from "@/domain/models";
 import { t } from "@/i18n";
 
@@ -13,6 +21,8 @@ import styles from "./chat.module.css";
 interface Picked {
   rect: DOMRect;
   quote: ChatQuote;
+  /** 설정 문서의 최상위 문단을 골랐을 때만 있다. 이미 모두 표시돼 있으면 `marked` 다 */
+  core: { editor: Editor; marked: boolean } | null;
 }
 
 export type QuickIntent = Exclude<ChatIntent, "ask">;
@@ -31,6 +41,15 @@ export function quickQuestion(intent: QuickIntent) {
 
 const QUICK: QuickIntent[] = ["explain", "related", "flow"];
 const MAX_QUOTE = 400;
+
+/** 설정 문서의 본문에서 최상위 문단을 골랐을 때 중요 설정 표시를 내준다 */
+function coreOf(element: Element, docType: string | undefined): Picked["core"] {
+  if (!isDocumentType(docType) || docType === "manuscript") return null;
+  const editor = editorOf(element);
+  if (!editor || !editor.isEditable) return null;
+  const targets = coreTargetsOf(editor.state);
+  return targets ? { editor, marked: targets.marked } : null;
+}
 
 function readSelection(): Picked | null {
   const selection = window.getSelection();
@@ -55,6 +74,7 @@ function readSelection(): Picked | null {
       docType: isDocumentType(kind) ? kind : "manuscript",
       text: text.length > MAX_QUOTE ? `${text.slice(0, MAX_QUOTE)}…` : text,
     },
+    core: coreOf(editor, kind),
   };
 }
 
@@ -62,10 +82,13 @@ export function SelectionAsk({
   onAttach,
   onAsk,
   resting = false,
+  ai = true,
 }: {
   onAttach: (quote: ChatQuote) => void;
   onAsk: (quote: ChatQuote, intent: QuickIntent) => void;
   resting?: boolean;
+  /** AI 챗을 쓸 수 없으면 AI 동작을 빼고, 설정 문서의 중요 설정 표시만 남긴다 */
+  ai?: boolean;
 }) {
   const [picked, setPicked] = useState<Picked | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -96,7 +119,7 @@ export function SelectionAsk({
     };
   }, []);
 
-  if (!picked) return null;
+  if (!picked || (!ai && !picked.core)) return null;
 
   const above = picked.rect.top > 80;
   const style = {
@@ -118,42 +141,59 @@ export function SelectionAsk({
     <div
       ref={panelRef}
       role="toolbar"
-      aria-label={t("선택한 부분으로 AI에게 묻기")}
+      aria-label={ai ? t("선택한 부분으로 AI에게 묻기") : t("선택한 문단")}
       className={styles.selectionBar}
       data-above={above || undefined}
       data-resting={resting || undefined}
       style={style}
       onMouseDown={(event) => event.preventDefault()}
     >
-      <button
-        type="button"
-        className={styles.selectionMain}
-        aria-disabled={resting || undefined}
-        onClick={() => {
-          if (resting) return;
-          onAttach(picked.quote);
-          close();
-        }}
-      >
-        <AiMark size={15} />
-        {t("AI에게 묻기")}
-      </button>
-      {QUICK.map((intent) => (
+      {picked.core && (
         <button
-          key={intent}
           type="button"
-          className={styles.selectionQuick}
-          aria-disabled={resting || undefined}
+          className={styles.selectionCore}
           onClick={() => {
-            if (resting) return;
-            onAsk(picked.quote, intent);
+            if (picked.core) toggleCore(picked.core.editor);
             close();
           }}
         >
-          {quickLabel(intent)}
+          <Icon name={picked.core.marked ? "pin-off" : "pin"} size={15} />
+          {picked.core.marked ? t("표시 풀기") : t("중요 설정으로 표시")}
         </button>
-      ))}
-      {resting && (
+      )}
+      {ai && (
+        <button
+          type="button"
+          className={styles.selectionMain}
+          data-secondary={picked.core ? true : undefined}
+          aria-disabled={resting || undefined}
+          onClick={() => {
+            if (resting) return;
+            onAttach(picked.quote);
+            close();
+          }}
+        >
+          <AiMark size={15} />
+          {t("AI에게 묻기")}
+        </button>
+      )}
+      {ai &&
+        QUICK.map((intent) => (
+          <button
+            key={intent}
+            type="button"
+            className={styles.selectionQuick}
+            aria-disabled={resting || undefined}
+            onClick={() => {
+              if (resting) return;
+              onAsk(picked.quote, intent);
+              close();
+            }}
+          >
+            {quickLabel(intent)}
+          </button>
+        ))}
+      {ai && resting && (
         <p className={styles.selectionNote} role="status">
           {t("오늘 사용량을 다 썼어요")} <span>{t("자정에 비워져요")}</span>
         </p>

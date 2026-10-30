@@ -3,6 +3,7 @@ import { Markdown } from "@tiptap/markdown";
 import { Placeholder } from "@tiptap/extensions";
 import StarterKit from "@tiptap/starter-kit";
 
+import { CoreSetting } from "./core-setting";
 import { FindReplace } from "./find-replace";
 import { FormattedDocument } from "./formatted-document";
 import { DocumentTextAlign } from "./text-align";
@@ -22,6 +23,7 @@ export function createDocumentExtensions(
     Markdown,
     FormattedDocument,
     DocumentTextAlign,
+    CoreSetting,
     Placeholder.configure({ placeholder: options.placeholder ?? "" }),
     FindReplace,
   ];

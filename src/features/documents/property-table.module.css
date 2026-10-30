@@ -232,6 +232,18 @@
   background: var(--lk-color-state-hover);
 }
 
+.coreValue {
+  flex: 1;
+  min-width: 0;
+  height: 26px;
+  color: var(--lk-color-text-primary);
+  text-align: left;
+}
+
+.coreValue:focus-visible {
+  outline: none;
+}
+
 .emptyValue {
   color: var(--lk-color-text-secondary);
 }

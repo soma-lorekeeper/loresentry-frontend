@@ -34,6 +34,14 @@ export const queryKeys = {
   chatSearch: (projectId: string, query: string) =>
     ["chat", projectId, "search", query] as const,
   chatMessages: (sessionId: string) => ["chat-messages", sessionId] as const,
+  settingChecks: (projectId: string) => ["setting-checks", projectId] as const,
+  settingCheckSummary: (projectId: string) =>
+    ["setting-checks", projectId, "summary"] as const,
+  settingCheckRuns: (projectId: string, documentId: string) =>
+    ["setting-checks", projectId, "runs", documentId] as const,
+  settingCheckRun: (runId: string) => ["setting-check-run", runId] as const,
+  settingCheckVerdicts: (projectId: string) =>
+    ["setting-checks", projectId, "verdicts"] as const,
 };
 
 export async function invalidateProjectContent(

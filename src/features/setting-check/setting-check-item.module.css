@@ -1,0 +1,31 @@
+.badge {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--lk-color-state-selected);
+  color: var(--lk-color-accent-primary);
+  font-size: var(--lk-font-size-label);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.running > svg:first-child {
+  color: var(--lk-color-accent-primary);
+  animation: spin 900ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .running > svg:first-child {
+    animation-duration: 2400ms;
+  }
+}

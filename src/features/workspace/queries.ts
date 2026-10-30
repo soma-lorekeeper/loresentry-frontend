@@ -8,6 +8,8 @@ import { t } from "@/i18n";
 import { invalidateProjectContent, queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 
+import { announceFileCreated } from "./file-events";
+
 export function useProject(projectId: string) {
   const services = useServices();
   return useQuery({
@@ -57,12 +59,16 @@ export function useCreateFile(projectId: string) {
   const services = useServices();
   return useFileMutation(
     projectId,
-    (input: {
+    async (input: {
       parentId: string | null;
       kind: "document" | "folder";
       title: string;
       docType?: DocumentType;
-    }) => services.files.create({ projectId, ...input }),
+    }) => {
+      const node = await services.files.create({ projectId, ...input });
+      announceFileCreated(node);
+      return node;
+    },
   );
 }
 

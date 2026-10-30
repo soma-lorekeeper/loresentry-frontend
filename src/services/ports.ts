@@ -30,6 +30,14 @@ import type {
   User,
   WithdrawalSurvey,
 } from "@/domain/models";
+import type {
+  SettingCheckDecision,
+  SettingCheckFinding,
+  SettingCheckRun,
+  SettingCheckRunDetail,
+  SettingCheckSummary,
+  SettingCheckVerdict,
+} from "@/domain/setting-check";
 import type { GuideTopic } from "@/features/help/guide-content";
 import type { WorkspaceLayout } from "@/features/workspace/model/layout";
 
@@ -311,6 +319,27 @@ export interface ChatService {
   ): Promise<ChatTurn>;
 }
 
+/**
+ * 설정 오류 점검. 원고 회차 하나를 앞 회차와 설정 문서에 대조한다. 점검은 서버에서 몇 분 걸리는
+ * 작업이라, 시작하면 RUNNING 인 run 을 받고 끝날 때까지 다시 읽는다. 프로젝트마다 한 번에 하나만 돈다.
+ */
+export interface SettingCheckService {
+  summary(projectId: string): Promise<SettingCheckSummary>;
+  /** 그 회차의 점검 기록. 최근 것이 앞이고 어긋남은 싣지 않는다 */
+  runs(projectId: string, documentId: string): Promise<SettingCheckRun[]>;
+  run(runId: string): Promise<SettingCheckRunDetail>;
+  /** 프로젝트의 판정 기록. 최근에 판정한 것이 앞이다 */
+  verdicts(projectId: string): Promise<SettingCheckDecision[]>;
+  start(projectId: string, documentId: string): Promise<SettingCheckRun>;
+  cancel(runId: string): Promise<void>;
+  setVerdict(
+    findingId: string,
+    verdict: SettingCheckVerdict,
+    reason: string | null,
+  ): Promise<SettingCheckFinding>;
+  clearVerdict(findingId: string): Promise<SettingCheckFinding>;
+}
+
 export interface WorkspaceStateService {
   // 요구사항 §3: 프로젝트를 다시 열면 탭·활성 파일·패널 배치·그래프 보기를 복원한다.
   load(projectId: string): Promise<WorkspaceLayout | null>;
@@ -347,6 +376,7 @@ export interface Services {
   graph: GraphService;
   refresh: RefreshService;
   chat: ChatService;
+  settingChecks: SettingCheckService;
   workspaceState: WorkspaceStateService;
   help: HelpService;
   feedback: FeedbackService;

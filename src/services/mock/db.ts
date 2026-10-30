@@ -20,6 +20,11 @@ import type {
 import type { WorkspaceLayout } from "@/features/workspace/model/layout";
 
 import type { StoredRefreshRun } from "./refresh";
+import {
+  emptySettingChecks,
+  seedSettingChecks,
+  type MockSettingChecks,
+} from "./setting-checks-seed";
 
 import {
   bodyFromParagraphs,
@@ -35,7 +40,7 @@ import { chatPreview, compileChatMarkup } from "./chat-markup";
 import { SEED } from "./seed-world";
 import type { MockSeed, SeedOtherProject } from "./seed-types";
 
-export const MOCK_DB_VERSION = 13;
+export const MOCK_DB_VERSION = 16;
 const STORAGE_KEY =
   LOCALE === "ko" ? "loresentry.mock.db" : `loresentry.mock.db.${LOCALE}`;
 
@@ -58,6 +63,7 @@ export interface MockDb {
   chatMessages: ChatMessage[];
   workspaceStates: Record<string, WorkspaceLayout>;
   refreshRuns: Record<string, StoredRefreshRun>;
+  settingChecks: MockSettingChecks;
   saveReceipts: Record<string, number>;
   sequence: number;
 }
@@ -289,6 +295,14 @@ function buildGlassGarden(
       body: bodyFromParagraphs(bodies.get(key) ?? ""),
       properties,
     };
+  }
+
+  for (const [key, indexes] of Object.entries(seed.settingCheck.core)) {
+    const blocks = db.documents[docId(key)]?.body.doc.content ?? [];
+    for (const index of indexes) {
+      const block = blocks[index];
+      if (block) block.attrs = { ...block.attrs, core: true };
+    }
   }
 
   // 관계 설명. 관계는 양쪽 문서에 한 행씩 있으므로, 그 관계를 가진 쪽마다 같은 글을 적는다.
@@ -578,10 +592,12 @@ export function buildSeedDb(now = Date.now(), seed = SEED): MockDb {
     chatMessages: [],
     workspaceStates: {},
     refreshRuns: {},
+    settingChecks: emptySettingChecks(),
     saveReceipts: {},
     sequence: 1000,
   };
   buildGlassGarden(now, db, seed);
+  seedSettingChecks(db, GLASS_GARDEN_ID, seed, now);
   for (const other of seed.otherProjects) buildOtherProject(now, db, other);
   for (const trashed of seed.trashedProjects) {
     db.projects.push({

@@ -24,6 +24,10 @@ import type { ExportFormat, FolderNode } from "@/domain/models";
 import { useRefreshRun } from "@/features/graph-refresh/queries";
 import { requestRefreshReview } from "@/features/graph-refresh/review-request";
 import { MemoPanel } from "@/features/memos/memo-panel";
+import { focusChapter } from "@/features/setting-check/focus";
+import { useSettingCheckSummary } from "@/features/setting-check/queries";
+import { StartCheckDialog } from "@/features/setting-check/start-check-dialog";
+import { useStartSettingCheck } from "@/features/setting-check/use-start-check";
 import { ReauthNotice } from "@/features/auth/reauth-notice";
 import { VersionHistoryModal } from "@/features/versions/version-history-modal";
 import { isServiceError } from "@/services/errors";
@@ -56,7 +60,10 @@ import {
   useDeviceFormat,
   type DocumentFormat,
 } from "./document-format";
+import { coreBlockCount } from "./editor/core-setting";
+import { registerEditor } from "./editor/editor-registry";
 import { createDocumentExtensions } from "./editor/extensions";
+import { revealText } from "./editor/find-replace";
 import {
   replaceDocument,
   setDocumentFormat,
@@ -65,6 +72,7 @@ import { documentJSON } from "./editor/text-align";
 import { FileHeader } from "./file-header";
 import { PrintSheet, printRows } from "./print-sheet";
 import { PropertyTable } from "./property-table";
+import { onRevealRequest, takeReveal } from "./reveal-request";
 import type { SaveStatus } from "./document-session";
 import { useDocumentSession } from "./use-document-session";
 import { bodyOf, type DocumentBody } from "@/domain/document-body";
@@ -220,6 +228,7 @@ function download(url: string, fileName: string) {
 export function DocumentView({
   fileId,
   paneId,
+  active,
 }: {
   fileId: string;
   paneId: string;
@@ -229,6 +238,8 @@ export function DocumentView({
   const queryClient = useQueryClient();
   const toast = useToast();
   const { projectId, open, layout, dispatch } = useWorkspace();
+  const settingChecks = useSettingCheckSummary(projectId);
+  const startCheck = useStartSettingCheck();
   const tree = useFileTree(projectId);
   const favorites = useFavorites(projectId);
   const setFavorite = useSetFavorite(projectId);
@@ -245,6 +256,7 @@ export function DocumentView({
   const [editor, setEditor] = useState<Editor | null>(null);
   const [lockPending, setLockPending] = useState(false);
   const [versionsOpen, setVersionsOpen] = useState(false);
+  const [checkConfirmOpen, setCheckConfirmOpen] = useState(false);
   // 찾기 막대. 도구 막대의 단추와 단축키(문서에서 찾기)가 함께 여닫는다.
   const [findOpen, setFindOpen] = useState(false);
   // 인쇄 중일 때만 본문 HTML 이 들어 있다. 그동안에만 인쇄 지면을 그린다(print-sheet.tsx).
@@ -255,6 +267,28 @@ export function DocumentView({
   const [exportPending, setExportPending] = useState(false);
   const [workArea, setWorkArea] = useState<HTMLDivElement | null>(null);
   const workSize = useElementSize(workArea);
+
+  useEffect(() => (editor ? registerEditor(editor) : undefined), [editor]);
+
+  useEffect(() => {
+    if (!editor || !active) return;
+    const reveal = () => {
+      const text = takeReveal(fileId);
+      if (!text) return;
+      window.requestAnimationFrame(() => {
+        if (editor.isDestroyed || revealText(editor, text)) return;
+        toast({
+          icon: "search-x",
+          title: t("이 문장을 찾지 못했어요."),
+          description: t("점검한 뒤 고쳤을 수 있어요."),
+        });
+      });
+    };
+    reveal();
+    return onRevealRequest((id) => {
+      if (id === fileId) reveal();
+    });
+  }, [editor, active, fileId, toast]);
 
   const nodes = useMemo(() => tree.data ?? [], [tree.data]);
   const index = useMemo(() => indexNodes(nodes), [nodes]);
@@ -492,6 +526,31 @@ export function DocumentView({
     );
   };
 
+  const checkingHere = settingChecks.data?.running?.documentId === fileId;
+  const settingCheck =
+    docType === "manuscript"
+      ? {
+          running: checkingHere,
+          pending: startCheck.pending,
+          onClick: () => {
+            if (checkingHere) {
+              focusChapter(projectId, fileId);
+              open({ kind: "setting-check" });
+            } else setCheckConfirmOpen(true);
+          },
+        }
+      : undefined;
+  const coreCount = docType === "manuscript" ? 0 : coreBlockCount(draft.body);
+  const revealCore = () => {
+    const block = editor?.view.dom.querySelector(':scope > [data-core="true"]');
+    block?.scrollIntoView({
+      block: "center",
+      behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+    });
+  };
+
   const panels = layout.panels;
   const memoSize =
     panels.memoDock === "right"
@@ -582,6 +641,7 @@ export function DocumentView({
                 onOpenVersions={() => setVersionsOpen(true)}
                 onExport={exportAs}
                 onToggleLock={toggleLock}
+                settingCheck={settingCheck}
               />
             }
           />
@@ -697,6 +757,8 @@ export function DocumentView({
                   episode={episodeOf(index, fileId)}
                   episodes={episodes}
                   readOnly={locked}
+                  coreCount={coreCount}
+                  onRevealCore={revealCore}
                   movePending={move.isPending}
                   onChange={(properties) => doc.session.update({ properties })}
                   onChangeType={changeType}
@@ -746,6 +808,22 @@ export function DocumentView({
           onClose={closeMemo}
         />
       </div>
+      {settingCheck && (
+        <StartCheckDialog
+          open={checkConfirmOpen}
+          title={draft.title || t("제목 없음")}
+          runningTitle={
+            settingChecks.data?.running && !checkingHere
+              ? settingChecks.data.running.documentTitle
+              : null
+          }
+          onClose={() => setCheckConfirmOpen(false)}
+          onStart={() => {
+            setCheckConfirmOpen(false);
+            void startCheck.begin(fileId, { openTab: true });
+          }}
+        />
+      )}
       <VersionHistoryModal
         open={versionsOpen}
         fileId={fileId}

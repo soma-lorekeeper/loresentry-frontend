@@ -11,6 +11,7 @@ import { mockMemos } from "./memos";
 import { mockProjects } from "./projects";
 import { mockRefresh } from "./refresh";
 import { mockSearch } from "./search";
+import { mockSettingChecks } from "./setting-checks";
 
 export function createMockServices(): Services {
   return {
@@ -25,6 +26,7 @@ export function createMockServices(): Services {
     graph: mockGraph,
     refresh: mockRefresh,
     chat: mockChat,
+    settingChecks: mockSettingChecks,
     workspaceState: mockWorkspaceState,
     help: mockHelp,
     feedback: mockFeedback,

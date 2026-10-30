@@ -54,3 +54,10 @@
 .option > svg {
   flex: none;
 }
+
+.count {
+  margin-left: 2px;
+  color: var(--lk-color-text-secondary);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}

@@ -13,6 +13,7 @@ import { createApiMemos } from "./memos";
 import { createApiProjects } from "./projects";
 import { createApiRefresh } from "./refresh";
 import { createApiSearch } from "./search";
+import { createApiSettingChecks } from "./setting-checks";
 import { createApiWorkspaceState } from "./workspace-state";
 
 /**
@@ -45,5 +46,6 @@ export function createApiServices(baseUrl: string): Partial<Services> {
     help: createApiHelp(),
     refresh: createApiRefresh(client),
     chat: createApiChat(client),
+    settingChecks: createApiSettingChecks(client),
   };
 }

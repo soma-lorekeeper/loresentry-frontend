@@ -90,6 +90,10 @@ const CODE_TO_SERVICE_ERROR: Record<string, ServiceErrorCode> = {
   CHAT_CONTEXT_TOO_LARGE: "validation",
   CHAT_DAILY_LIMIT_REACHED: "busy",
   CHAT_MODEL_UNAVAILABLE: "network",
+  SETTING_CHECK_NOT_FOUND: "not-found",
+  SETTING_CHECK_FINDING_NOT_FOUND: "not-found",
+  SETTING_CHECK_DOCUMENT_NOT_FOUND: "not-found",
+  SETTING_CHECK_IN_PROGRESS: "busy",
 };
 
 const MESSAGES: Partial<Record<ServiceErrorCode, string>> = {
@@ -157,6 +161,14 @@ const CODE_MESSAGES: Record<string, string> = {
     "AI가 지금 답할 수 없어요. 잠시 뒤 다시 물어봐 주세요.",
   ),
   AI_CHAT_UNAVAILABLE: t("AI 챗 서버에 연결할 수 없어요."),
+  SETTING_CHECK_NOT_FOUND: t("점검 기록을 찾을 수 없어요."),
+  SETTING_CHECK_FINDING_NOT_FOUND: t(
+    "이 어긋남을 찾을 수 없어요. 다시 불러와 주세요.",
+  ),
+  SETTING_CHECK_DOCUMENT_NOT_FOUND: t("점검할 원고를 찾을 수 없어요."),
+  SETTING_CHECK_IN_PROGRESS: t(
+    "다른 회차를 점검하고 있어요. 끝난 뒤에 다시 시도해 주세요.",
+  ),
 };
 
 export function toServiceError(

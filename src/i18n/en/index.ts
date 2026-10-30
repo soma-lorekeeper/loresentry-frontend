@@ -5,6 +5,7 @@ import help from "./help";
 import landing from "./landing";
 import mock from "./mock";
 import onboarding from "./onboarding";
+import settingCheck from "./setting-check";
 import shell from "./shell";
 import workspace from "./workspace";
 
@@ -22,6 +23,7 @@ export const EN = {
   ...editor,
   ...help,
   ...chat,
+  ...settingCheck,
   ...mock,
 };
 
@@ -34,5 +36,6 @@ export const EN_AREAS = {
   editor,
   help,
   chat,
+  settingCheck,
   mock,
 };

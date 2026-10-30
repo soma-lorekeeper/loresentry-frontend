@@ -23,7 +23,12 @@ const TEXT_FIELDS = new Set([
   "label",
   "displayName",
   "quote",
+  "quoteFocus",
   "preview",
+  "documentTitle",
+  "summary",
+  "explanation",
+  "reason",
 ]);
 
 const domainLabels = DOCUMENT_TYPES.flatMap((type) => [

@@ -29,6 +29,8 @@ interface TooltipProps {
   label: string;
   /** 단축키 표기(예: ⌘B). 있으면 설명 뒤에 약하게 적는다 */
   shortcut?: string;
+  /** 이름이 아니라 몇 줄짜리 설명이다. 폭을 묶어 줄을 바꾸고, `\n` 에서도 줄을 바꾼다 */
+  multiline?: boolean;
 }
 
 /** 포인터를 올리고 이만큼 머물러야 뜬다. 지나가는 길에는 뜨지 않는다. */
@@ -51,7 +53,12 @@ function focusedByKeyboard(element: HTMLElement) {
   }
 }
 
-export function Tooltip({ anchorRef, label, shortcut }: TooltipProps) {
+export function Tooltip({
+  anchorRef,
+  label,
+  shortcut,
+  multiline,
+}: TooltipProps) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -101,10 +108,17 @@ export function Tooltip({ anchorRef, label, shortcut }: TooltipProps) {
   }, [anchorRef]);
 
   if (!open) return null;
-  return <Bubble anchorRef={anchorRef} label={label} shortcut={shortcut} />;
+  return (
+    <Bubble
+      anchorRef={anchorRef}
+      label={label}
+      shortcut={shortcut}
+      multiline={multiline}
+    />
+  );
 }
 
-function Bubble({ anchorRef, label, shortcut }: TooltipProps) {
+function Bubble({ anchorRef, label, shortcut, multiline }: TooltipProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState<{ top: number; left: number }>();
 
@@ -127,7 +141,7 @@ function Bubble({ anchorRef, label, shortcut }: TooltipProps) {
   return createPortal(
     <div
       ref={ref}
-      className={styles.tooltip}
+      className={`${styles.tooltip} ${multiline ? styles.multiline : ""}`}
       aria-hidden="true"
       style={{
         top: position?.top ?? 0,

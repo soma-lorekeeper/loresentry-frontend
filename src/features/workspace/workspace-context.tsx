@@ -65,6 +65,8 @@ interface WorkspaceContextValue {
   /** 사이드바를 열거나 닫는다. 좁은 창에서는 서랍만 여닫고 저장된 선호는 건드리지 않는다 */
   setSidebarVisible: (open: boolean) => void;
   open: (target: WorkspaceTarget, options?: { paneId?: string }) => void;
+  /** `fromPaneId` 창 옆에 연다. 좁은 창에서는 창이 하나라 그 창에 연다 */
+  openBeside: (target: WorkspaceTarget, fromPaneId: string) => void;
   closeTab: (paneId: string, tabId: string) => void;
   registerCloseGuard: (
     paneId: string,
@@ -206,6 +208,14 @@ export function WorkspaceProvider({
     if (target.kind === "memo") setMemoFocus(null);
     dispatch({ type: "open", target, paneId: options?.paneId });
   }, []);
+
+  const openBeside = useCallback<WorkspaceContextValue["openBeside"]>(
+    (target, fromPaneId) => {
+      if (narrow) dispatch({ type: "open", target, paneId: fromPaneId });
+      else dispatch({ type: "openBeside", target, from: fromPaneId });
+    },
+    [narrow],
+  );
 
   const openMemo = useCallback(
     (id: string) => {
@@ -373,6 +383,7 @@ export function WorkspaceProvider({
       sidebarVisible,
       setSidebarVisible,
       open,
+      openBeside,
       closeTab,
       registerCloseGuard,
       registerTabActions,
@@ -393,6 +404,7 @@ export function WorkspaceProvider({
       sidebarVisible,
       setSidebarVisible,
       open,
+      openBeside,
       closeTab,
       registerCloseGuard,
       registerTabActions,

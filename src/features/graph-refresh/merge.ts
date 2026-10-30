@@ -24,6 +24,7 @@ import {
   type DocumentBody,
 } from "@/domain/document-body";
 import type { DocumentDraft, DocumentProperty } from "@/domain/models";
+import { isCoreBlock } from "@/features/documents/editor/core-setting";
 
 import { applyHunk, lineDiff, type Hunk } from "../diff/line-diff";
 
@@ -144,7 +145,17 @@ function fromBodyLines(original: DocumentBody, text: string): DocumentBody {
 
   for (const hunk of lineDiff(before, text)) {
     if (!hunk.same) {
-      out.push(...hunk.rightLines.map(paragraph));
+      // 한 줄을 고쳐 쓴 것이면 그 문단의 중요 설정 표시를 이어 간다. 에디터에서 표시한 문단의 글을 고칠 때와 같다.
+      const paired = hunk.leftLines.length === hunk.rightLines.length;
+      out.push(
+        ...hunk.rightLines.map((value, offset) => {
+          const origin = paired ? starts.get(hunk.leftStart + offset) : null;
+          const block = paragraph(value);
+          return origin?.span === 1 && isCoreBlock(origin.block) && value
+            ? { ...block, attrs: { core: true } }
+            : block;
+        }),
+      );
       continue;
     }
     const end = hunk.leftStart + hunk.leftLines.length;
@@ -273,10 +284,38 @@ export function pushDocument(
   const { from, to } = ends(direction);
   const source = state[from].get(docId);
 
+  const target = state[to].get(docId);
   const docs = new Map(state[to]);
-  if (source) docs.set(docId, source);
+  if (source)
+    docs.set(
+      docId,
+      target ? { ...source, body: keepCore(target.body, source.body) } : source,
+    );
   else docs.delete(docId);
   return replace(state, to, docs);
+}
+
+/**
+ * 병합 화면은 본문을 줄 글로만 견주어 중요 설정 표시를 보이지 않는다. 그래서 받는 쪽에 있던 표시는
+ * 글이 같은 블록에 남긴다 — 보이지 않는 차이 때문에 작가가 고른 표시가 조용히 사라지면 안 된다.
+ */
+function keepCore(target: DocumentBody, next: DocumentBody): DocumentBody {
+  const marked = new Set(
+    bodyBlocks(target).filter(isCoreBlock).map(blockToPlainText),
+  );
+  if (marked.size === 0) return next;
+  let kept = false;
+  const blocks = bodyBlocks(next).map((block) => {
+    if (
+      isCoreBlock(block) ||
+      (block.type !== "paragraph" && block.type !== "heading") ||
+      !marked.has(blockToPlainText(block))
+    )
+      return block;
+    kept = true;
+    return { ...block, attrs: { ...block.attrs, core: true } };
+  });
+  return kept ? bodyFromBlocks(blocks, next.doc.attrs) : next;
 }
 
 /**

@@ -36,6 +36,9 @@ interface PropertyTableProps {
   episode: FolderNode | null;
   episodes: FolderNode[];
   readOnly: boolean;
+  /** 본문에서 중요 설정으로 표시한 문단 수. 설정 문서에서 하나라도 있으면 줄이 생긴다 */
+  coreCount?: number;
+  onRevealCore?: () => void;
   movePending?: boolean;
   onChange: (properties: DocumentProperty[]) => void;
   onChangeType: (type: DocumentType) => void;
@@ -382,6 +385,38 @@ function EpisodeRow({
   );
 }
 
+function CoreRow({
+  count,
+  onReveal,
+}: {
+  count: number;
+  onReveal?: () => void;
+}) {
+  return (
+    <div className={styles.row}>
+      <div className={styles.identity}>
+        <IconButton
+          icon="pin"
+          label={t("중요 설정")}
+          className={styles.identityButton}
+          tabIndex={-1}
+        />
+        <span className={styles.identityName}>{t("중요 설정")}</span>
+      </div>
+      <div className={styles.value}>
+        <button
+          type="button"
+          className={styles.coreValue}
+          aria-label={t("중요 설정 {count}개 · 첫 문단으로 가기", { count })}
+          onClick={onReveal}
+        >
+          {t("{count}개", { count })}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function TextRow({
   property,
   readOnly,
@@ -438,6 +473,8 @@ export function PropertyTable({
   episode,
   episodes,
   readOnly,
+  coreCount = 0,
+  onRevealCore,
   movePending = false,
   onChange,
   onChangeType,
@@ -595,6 +632,9 @@ export function PropertyTable({
           </div>
         </div>
         {description.map(renderProperty)}
+        {docType !== "manuscript" && coreCount > 0 && (
+          <CoreRow count={coreCount} onReveal={onRevealCore} />
+        )}
         {docType === "manuscript" && (
           <EpisodeRow
             episode={episode}
