@@ -3,10 +3,12 @@
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 import { EmptyState } from "@/design-system/primitives";
 import type { User } from "@/domain/models";
 import { QueryFailure } from "@/features/common/query-failure";
+import { useOnboardingAnalytics } from "@/features/analytics/onboarding-analytics";
 import { t } from "@/i18n";
 import { useServices } from "@/services/services-context";
 
@@ -60,6 +62,14 @@ function WorkspaceLoader({
   const searchParams = useSearchParams();
   const project = useProject(projectId);
   const layout = useRestoredLayout(projectId);
+  const track = useOnboardingAnalytics();
+  const tracked = useRef(false);
+  useEffect(() => {
+    if (!tracked.current && !project.isError && project.data && layout.data) {
+      tracked.current = true;
+      track("workspace_entered");
+    }
+  }, [project.data, project.isError, layout.data, track]);
 
   if (project.isError) return <Unavailable />;
   if (layout.isError && !layout.data)

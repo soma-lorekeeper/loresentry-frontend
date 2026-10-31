@@ -17,7 +17,9 @@ type Event =
   | "onboarding_start_selected"
   | "project_create_started"
   | "project_created"
-  | "project_create_failed";
+  | "project_create_failed"
+  | "workspace_entered"
+  | "manuscript_saved";
 
 type Parameters = Record<string, string>;
 
@@ -29,6 +31,8 @@ const journeyEvents = new Set<Event>([
   "project_create_started",
   "project_created",
   "project_create_failed",
+  "workspace_entered",
+  "manuscript_saved",
 ]);
 
 export function useOnboardingAnalytics() {

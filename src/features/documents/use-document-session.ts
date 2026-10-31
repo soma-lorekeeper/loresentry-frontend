@@ -5,12 +5,14 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 
 import { invalidateProjectContent, queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
+import { useOnboardingAnalytics } from "@/features/analytics/onboarding-analytics";
 
 import { DocumentSession } from "./document-session";
 import { trackSession } from "./open-sessions";
 
 export function useDocumentSession(fileId: string) {
   const services = useServices();
+  const track = useOnboardingAnalytics();
   const queryClient = useQueryClient();
   const query = useQuery({
     queryKey: queryKeys.document(fileId),
@@ -21,6 +23,7 @@ export function useDocumentSession(fileId: string) {
   const [session] = useState(
     () =>
       new DocumentSession(fileId, services.documents, (outcome) => {
+        if (outcome.content.docType === "manuscript") track("manuscript_saved");
         queryClient.setQueryData(queryKeys.document(fileId), outcome.content);
         const projectId = outcome.content.projectId;
         if (outcome.titleChanged || outcome.relationsChanged) {

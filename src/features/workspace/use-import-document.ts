@@ -6,6 +6,7 @@ import { t } from "@/i18n";
 import { useServices } from "@/services/services-context";
 import { bodyFromPlainText } from "@/domain/document-body";
 import { markdownToBody } from "@/features/documents/editor/body-markdown";
+import { useOnboardingAnalytics } from "@/features/analytics/onboarding-analytics";
 
 /** 파일 선택 창이 보여 줄 형식. 실제로 받을지는 {@link importFormatOf} 가 이름으로 다시 본다 */
 export const IMPORT_ACCEPT = ".txt,.md,.markdown,text/plain,text/markdown";
@@ -44,6 +45,7 @@ export function importTitleOf(fileName: string) {
  */
 export function useImportDocument(projectId: string) {
   const services = useServices();
+  const track = useOnboardingAnalytics();
 
   return useMemo(
     () => ({
@@ -75,8 +77,9 @@ export function useImportDocument(projectId: string) {
           ifMatchRevision: doc.revisionNo,
           saveId: crypto.randomUUID(),
         });
+        track("manuscript_saved");
       },
     }),
-    [projectId, services],
+    [projectId, services, track],
   );
 }
