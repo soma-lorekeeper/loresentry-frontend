@@ -1162,6 +1162,388 @@
   animation: spin 900ms linear infinite;
 }
 
+/* 설정 오류 점검. 결과가 뜨는 때(1400ms)는 scenes.tsx 의 CHECK_DONE_AT 과 같다 */
+
+.checkItem {
+  position: relative;
+  height: 26px;
+  border-radius: var(--lk-radius-control);
+}
+
+.checkRunning {
+  color: var(--lk-color-text-secondary);
+  animation: stateOut 200ms linear 1400ms forwards;
+}
+
+.checkRunning svg {
+  color: var(--lk-color-accent-primary);
+}
+
+.checkDone {
+  animation: stateIn 240ms linear 1400ms both;
+}
+
+.checkBadge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 18px;
+  height: 18px;
+  margin-left: auto;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--lk-color-state-selected);
+  color: var(--lk-color-accent-primary);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.check {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 18px 26px 0;
+  overflow: hidden;
+}
+
+.checkBack {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+}
+
+.checkTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 14px;
+  font-family: var(--lk-font-stack-display);
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.checkTitle::before {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--lk-color-node-manuscript);
+  content: "";
+}
+
+.checkBody {
+  display: grid;
+  min-height: 0;
+}
+
+.checkRunLayer,
+.checkResult {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+
+.checkRunLayer {
+  animation: stateOut 220ms linear 1400ms forwards;
+}
+
+.checkRun {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 20px;
+  border-radius: 12px;
+  background: var(--lk-color-surface-sunken);
+}
+
+.checkRunWhat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.checkRunWhat svg {
+  color: var(--lk-color-accent-primary);
+}
+
+.checkTrack {
+  display: block;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--lk-color-surface-track);
+}
+
+.checkTrack i {
+  display: block;
+  width: 84%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--lk-color-accent-primary);
+  animation: checkTrack 1300ms var(--ease) both;
+}
+
+.checkStages {
+  display: flex;
+  gap: 18px;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+}
+
+.checkStages > :first-child {
+  color: var(--lk-color-text-primary);
+}
+
+.checkStages > :nth-child(2) {
+  color: var(--lk-color-accent-primary);
+}
+
+.checkBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.checkFilter {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--lk-color-surface-sunken);
+  color: var(--lk-color-text-secondary);
+  font-size: 11.5px;
+}
+
+.checkFilter > span {
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.checkFilter b {
+  margin-left: 3px;
+  font-weight: 500;
+}
+
+.checkFilter > .checkFilterOn {
+  background: var(--lk-color-surface-pill);
+  box-shadow: var(--lk-shadow-pill);
+  color: var(--lk-color-text-primary);
+  font-weight: 600;
+}
+
+.checkStepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--lk-color-text-secondary);
+  font-size: 11.5px;
+}
+
+.checkStepper b {
+  color: var(--lk-color-text-primary);
+}
+
+.checkColumns,
+.checkRow {
+  display: grid;
+  grid-template-columns: 264px 36px minmax(0, 1fr);
+}
+
+.checkColumns {
+  padding-bottom: 6px;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-label);
+  font-weight: 600;
+}
+
+.checkRow + .checkRow {
+  margin-top: 10px;
+}
+
+.checkCard {
+  align-self: start;
+  min-width: 0;
+  border-radius: 9px;
+  background: var(--lk-color-surface-sunken);
+  font-size: 12px;
+}
+
+.checkCardOn {
+  position: relative;
+  z-index: 1;
+  background: var(--lk-color-surface-default);
+  box-shadow: var(--lk-shadow-raise);
+}
+
+.checkCardHead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+
+.checkCardHead > svg:first-child {
+  flex: none;
+  color: var(--kind);
+}
+
+.checkCardHead b {
+  flex: none;
+  font-weight: 600;
+}
+
+.checkCardHead .ellipsis {
+  color: var(--lk-color-text-secondary);
+}
+
+.checkCore {
+  flex: none;
+  color: var(--lk-color-accent-primary);
+}
+
+.checkCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 12px 12px;
+  font-size: 11.5px;
+  line-height: 1.65;
+}
+
+.checkQuote {
+  color: var(--lk-color-text-secondary);
+}
+
+.checkSource {
+  padding: 1px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--kind) 13%, transparent);
+  color: var(--lk-color-text-primary);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.checkFocus {
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+
+.checkSource .checkFocus {
+  text-decoration-color: var(--kind);
+}
+
+.checkActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.checkActions > svg {
+  margin-right: 2px;
+  color: var(--lk-color-icon-default);
+}
+
+.checkVerdict {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid var(--lk-color-border-default);
+  border-radius: var(--lk-radius-control);
+  font-weight: 600;
+}
+
+.checkGutter {
+  position: relative;
+}
+
+.checkTick {
+  position: absolute;
+  top: 9px;
+  right: 11px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--lk-color-diff-modify) 55%, transparent);
+}
+
+.checkTickOn {
+  top: 8px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  background: var(--lk-color-diff-modify);
+  animation: chipIn 260ms var(--ease) var(--d) both;
+}
+
+.checkWire {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 20px;
+  overflow: visible;
+}
+
+.checkWire path {
+  fill: none;
+  stroke: var(--lk-color-diff-modify);
+  stroke-width: 1.5;
+}
+
+.checkProse {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.8;
+}
+
+.checkMark {
+  padding: 1px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--lk-color-diff-modify) 8%, transparent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--lk-color-diff-modify) 45%,
+    transparent
+  );
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.checkMarkOn {
+  background: color-mix(in srgb, var(--lk-color-diff-modify) 17%, transparent);
+  text-decoration: none;
+  animation: checkMarkOn 360ms var(--ease) var(--d) both;
+}
+
+.checkMarkOn .checkFocus {
+  text-decoration-color: var(--lk-color-diff-modify);
+}
+
+@keyframes checkTrack {
+  from {
+    width: 8%;
+  }
+}
+
+@keyframes checkMarkOn {
+  from {
+    background: color-mix(in srgb, var(--lk-color-diff-modify) 8%, transparent);
+  }
+}
+
 /* 6. 원고 에디터 · 7. 원고와 설정 문서 (랜딩) */
 
 .editorSplit,
@@ -1923,6 +2305,20 @@
 
   .refreshReady {
     animation: none;
+  }
+
+  .checkRunning,
+  .checkDone,
+  .checkRunLayer,
+  .checkTrack i,
+  .checkTickOn,
+  .checkMarkOn {
+    animation: none;
+  }
+
+  .checkRunning,
+  .checkRunLayer {
+    opacity: 0;
   }
 
   .veil {

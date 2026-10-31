@@ -84,10 +84,10 @@ describe("setting check view", () => {
 
     const history = screen.getByRole("list");
     const rows = within(history).getAllByRole("button");
-    expect(rows[0]).toHaveTextContent(/^12화 · 균열의 밤어긋남 6/);
+    expect(rows[0]).toHaveTextContent(/^12화 · 균열의 밤설정 충돌 6/);
     expect(
       within(history).getByRole("button", {
-        name: /^11화 · 유리 정원어긋남 없음/,
+        name: /^11화 · 유리 정원설정 충돌 없음/,
       }),
     ).toBeInTheDocument();
     expect(screen.queryByText("점검 안 함")).not.toBeInTheDocument();
@@ -98,7 +98,7 @@ describe("setting check view", () => {
     await userEvent.click(
       await screen.findByRole(
         "button",
-        { name: /^12화 · 균열의 밤어긋남 6/ },
+        { name: /^12화 · 균열의 밤설정 충돌 6/ },
         LOADED,
       ),
     );
@@ -142,7 +142,9 @@ describe("setting check view", () => {
     await userEvent.click(marks[1]);
     expect(openCard(/^하린확신 낮음/)).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole("button", { name: "다음 어긋남" }));
+    await userEvent.click(
+      screen.getByRole("button", { name: "다음 설정 충돌" }),
+    );
     expect(openCard(/^북쪽 온실.*낡은 열쇠/)).toBeInTheDocument();
     expect(
       screen.getByText(
@@ -258,7 +260,7 @@ describe("setting check view", () => {
       await screen.findByRole("button", { name: "판정 기록 2" }, LOADED),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /^12화 · 균열의 밤어긋남 7/ }),
+      screen.getByRole("button", { name: /^12화 · 균열의 밤설정 충돌 7/ }),
     ).toBeInTheDocument();
   });
 
@@ -279,7 +281,7 @@ describe("setting check view", () => {
       screen.getByRole("button", { name: "다시 점검하기" }),
     );
     expect(
-      await screen.findByText("어긋나 보이는 곳을 찾고 있어요", {}, LOADED),
+      await screen.findByText("설정 충돌을 찾고 있어요", {}, LOADED),
     ).toBeInTheDocument();
   });
 
@@ -305,7 +307,7 @@ describe("setting check view", () => {
       ),
     ).toBeInTheDocument();
     expect(
-      await screen.findByText("어긋나 보이는 곳을 찾고 있어요", {}, LOADED),
+      await screen.findByText("설정 충돌을 찾고 있어요", {}, LOADED),
     ).toBeInTheDocument();
     expect(screen.getByText(/보통 1–3분 걸려요/)).toBeInTheDocument();
 

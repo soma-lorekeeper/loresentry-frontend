@@ -7,7 +7,7 @@ import { SITE, publicPage } from "./site-metadata";
 
 // 검색 결과의 설명과 아래 구조화 데이터가 같은 문구를 쓴다.
 const DESCRIPTION = t(
-  "웹소설 작가를 위한 집필 에디터이자 AI 에이전트예요. 회차를 쓰면 설정 문서에 바뀔 점을 AI가 찾아 두고, 반영은 작가가 골라요.",
+  "웹소설 작가를 위한 집필 에디터이자 AI 에이전트예요. 회차를 쓰면 AI가 설정 충돌을 짚고 설정 문서에 바뀔 점을 찾아 둬요. 고치고 반영하는 건 작가가 골라요.",
 );
 
 export const metadata: Metadata = {

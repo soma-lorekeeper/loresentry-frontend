@@ -9,15 +9,15 @@ export default {
   "점검 중 · 결과 보기": "Checking · View results",
   "설정 오류 점검을 시작할까요?": "Start a setting check?",
   "점검 시작": "Start check",
-  "원고 한 편을 앞 회차와 설정 문서에 대조해 어긋나 보이는 곳을 찾아요.":
-    "Compare one chapter with earlier chapters and your setting documents to find what seems to conflict.",
+  "원고 한 편을 앞 회차와 설정 문서에 대조해 설정 충돌을 찾아요.":
+    "Compare one chapter with earlier chapters and your setting documents to find setting conflicts.",
   "점검할 원고": "Chapter to check",
   "점검할 원고: {title}": "Chapter to check: {title}",
   "지난 점검": "Past checks",
   "분석 중": "Analyzing",
-  "어긋나 보이는 곳을 찾고 있어요": "Looking for what seems to conflict",
+  "설정 충돌을 찾고 있어요": "Looking for setting conflicts",
   "앞 회차와 설정 읽기": "Read earlier chapters and settings",
-  "어긋남 찾기": "Find conflicts",
+  "설정 충돌 찾기": "Find setting conflicts",
   "다시 확인": "Double-check",
   "보통 1–3분 걸려요. 다른 작업을 해도 계속돼요.":
     "It usually takes 1–3 minutes and keeps going while you work on something else.",
@@ -27,8 +27,8 @@ export default {
     "Show {count} paragraph",
     "Show {count} paragraphs",
   ),
-  "이전 어긋남": "Previous conflict",
-  "다음 어긋남": "Next conflict",
+  "이전 설정 충돌": "Previous conflict",
+  "다음 설정 충돌": "Next conflict",
   "확신 낮음 · {text}": "Low confidence · {text}",
   "{title} 점검이 끝나면 시작할 수 있어요.":
     "You can start once the check on {title} finishes.",
@@ -48,12 +48,12 @@ export default {
 
   "점검하지 못함": "Failed",
   취소함: "Canceled",
-  "어긋남 {count}": plural("{count} conflict", "{count} conflicts"),
-  "어긋남 없음": "No conflicts",
+  "설정 충돌 {count}": plural("{count} conflict", "{count} conflicts"),
+  "설정 충돌 없음": "No conflicts",
   "다시 점검하기": "Check again",
   "아직 점검하지 않았어요": "Not checked yet",
-  "이 회차를 앞 회차와 설정 문서에 대조해 어긋나 보이는 곳을 찾아요.":
-    "Compares this chapter with earlier chapters and your setting documents to find places that seem to conflict.",
+  "이 회차를 앞 회차와 설정 문서에 대조해 설정 충돌을 찾아요.":
+    "Compares this chapter with earlier chapters and your setting documents to find setting conflicts.",
   "점검하지 못했어요": "Couldn't finish the check",
   "원고는 바뀌지 않았어요. 잠시 뒤 다시 시도해 주세요.":
     "Your manuscript wasn't changed. Try again in a moment.",
@@ -66,7 +66,7 @@ export default {
   "점검을 취소했어요": "Check canceled",
   "점검한 뒤 원고가 바뀌었어요": "The chapter changed after this check",
 
-  "어긋남 걸러 보기": "Filter conflicts",
+  "설정 충돌 걸러 보기": "Filter conflicts",
   "확인할 것": "To review",
   의도함: "Intended",
   "충돌 아님": "Not a conflict",
@@ -82,16 +82,16 @@ export default {
   "확인할 것으로 되돌렸어요.": "Moved back to To review.",
   "판정을 저장하지 못했어요.": "Couldn't save your decision.",
   "판정 단추 설명": "What these buttons do",
-  "충돌 아니에요 · 점검이 잘못 짚었어요. 두 내용은 함께 성립해요.\n의도한 거예요 · 설정과 다른 걸 알고 일부러 썼어요.\n\n어느 쪽이든 다음 점검부터 같은 곳은 확인할 것에 올리지 않고, 남긴 이유는 AI가 참고해요. 판정 기록에서 되돌릴 수 있어요.":
-    "Not a conflict · The check got it wrong. Both can be true.\nIt's intended · You know it differs from the setting and wrote it on purpose.\n\nEither way, the next check won't list this place to review again, and the AI takes your reason into account. You can undo it from Decisions.",
+  "충돌 아니에요: 점검이 잘못 짚었어요. 두 내용은 함께 성립해요.\n의도한 거예요: 설정과 다른 걸 알고 일부러 썼어요.\n\n어느 쪽이든 다음 점검부터 같은 곳은 확인할 것에 올리지 않고, 남긴 이유는 AI가 참고해요. 판정 기록에서 되돌릴 수 있어요.":
+    "Not a conflict: The check got it wrong. Both can be true.\nIt's intended: You know it differs from the setting and wrote it on purpose.\n\nEither way, the next check won't list this place to review again, and the AI takes your reason into account. You can undo it from Decisions.",
   "판정 기록": "Decisions",
   "판정 기록 {count}": "Decisions {count}",
   "판정 기록을 불러오지 못했어요": "Couldn't load your decisions",
   "남긴 판정이 없어요": "No decisions yet",
   "점검 결과에서 ‘충돌 아니에요’나 ‘의도한 거예요’를 고르면 여기에 모여요.":
     "When you mark a result as “Not a conflict” or “It's intended,” it's collected here.",
-  "어긋나 보이는 곳이 없어요": "Nothing seems to conflict",
-  "어긋나 보이는 곳이 없어요.": "Nothing seems to conflict.",
+  "설정 충돌이 보이지 않아요": "No setting conflicts found",
+  "설정 충돌이 보이지 않아요.": "No setting conflicts found.",
   "중요 설정 {count}개와 앞 회차의 사실을 모두 지켰어요.": plural(
     "The chapter keeps {count} key setting and the facts of earlier chapters.",
     "The chapter keeps all {count} key settings and the facts of earlier chapters.",
@@ -104,8 +104,8 @@ export default {
     "The chapter keeps the facts of earlier chapters and setting documents.",
   "설정 문서의 사실을 모두 지켰어요.":
     "The chapter keeps the facts of your setting documents.",
-  "의도한 것으로 남긴 어긋남이 없어요.": "Nothing marked as intended.",
-  "충돌이 아니라고 남긴 어긋남이 없어요.": "Nothing marked as not a conflict.",
+  "의도한 것으로 남긴 설정 충돌이 없어요.": "Nothing marked as intended.",
+  "충돌이 아니라고 남긴 곳이 없어요.": "Nothing marked as not a conflict.",
   "확인할 것이 남지 않았어요.": "Nothing left to review.",
 
   "문서를 저장하지 못해 점검을 시작하지 않았어요.":
@@ -113,9 +113,9 @@ export default {
   "점검을 시작하지 못했어요.": "Couldn't start the check.",
   "{title} 점검을 마쳤어요.": "Finished checking {title}.",
   "{title} 점검을 마치지 못했어요.": "Couldn't finish checking {title}.",
-  "어긋나 보이는 곳 {count}개를 찾았어요.": plural(
-    "Found {count} place that seems to conflict.",
-    "Found {count} places that seem to conflict.",
+  "설정 충돌 {count}개를 찾았어요.": plural(
+    "Found {count} setting conflict.",
+    "Found {count} setting conflicts.",
   ),
   "원고는 바뀌지 않았어요.": "Your manuscript wasn't changed.",
   "결과 보기": "View results",
@@ -125,7 +125,7 @@ export default {
   "점검한 뒤 고쳤을 수 있어요.": "It may have been edited after the check.",
 
   "점검 기록을 찾을 수 없어요.": "The check couldn't be found.",
-  "이 어긋남을 찾을 수 없어요. 다시 불러와 주세요.":
+  "이 설정 충돌을 찾을 수 없어요. 다시 불러와 주세요.":
     "This conflict couldn't be found. Reload and try again.",
   "점검할 원고를 찾을 수 없어요.": "The chapter to check couldn't be found.",
   "다른 회차를 점검하고 있어요. 끝난 뒤에 다시 시도해 주세요.":

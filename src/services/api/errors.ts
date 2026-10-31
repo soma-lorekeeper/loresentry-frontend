@@ -163,7 +163,7 @@ const CODE_MESSAGES: Record<string, string> = {
   AI_CHAT_UNAVAILABLE: t("AI 챗 서버에 연결할 수 없어요."),
   SETTING_CHECK_NOT_FOUND: t("점검 기록을 찾을 수 없어요."),
   SETTING_CHECK_FINDING_NOT_FOUND: t(
-    "이 어긋남을 찾을 수 없어요. 다시 불러와 주세요.",
+    "이 설정 충돌을 찾을 수 없어요. 다시 불러와 주세요.",
   ),
   SETTING_CHECK_DOCUMENT_NOT_FOUND: t("점검할 원고를 찾을 수 없어요."),
   SETTING_CHECK_IN_PROGRESS: t(

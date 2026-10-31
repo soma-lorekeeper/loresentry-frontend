@@ -13,9 +13,9 @@ export interface Anchor extends Span {
 
 export interface ManuscriptAnchors {
   anchors: Anchor[];
-  /** 어긋남 → 원고 자리. 고친 원고에서 문장을 찾지 못한 어긋남은 없다 */
+  /** 설정 충돌 → 원고 자리. 고친 원고에서 문장을 찾지 못한 설정 충돌은 없다 */
   anchorOf: Map<string, Anchor>;
-  /** 원고 순서. 자리를 찾지 못한 어긋남이 맨 앞에 온다 */
+  /** 원고 순서. 자리를 찾지 못한 설정 충돌이 맨 앞에 온다 */
   ordered: SettingCheckFinding[];
 }
 
@@ -96,7 +96,7 @@ export function anchorFindings(
   };
 }
 
-/** 문장 안에서 어긋나는 표현의 자리. 표현이 없거나 문장에서 찾지 못하면 null 이다 */
+/** 문장 안에서 충돌하는 표현의 자리. 표현이 없거나 문장에서 찾지 못하면 null 이다 */
 export function focusIn(text: string, focus: string | null): Span | null {
   if (!focus) return null;
   return locate(text, focus);
@@ -193,7 +193,7 @@ export interface Fold {
 }
 
 /**
- * 긴 원고에서 접을 문단 구간. 어긋난 문장이 있는 문단과 그 앞뒤 `context` 문단은 남기고,
+ * 긴 원고에서 접을 문단 구간. 충돌하는 문장이 있는 문단과 그 앞뒤 `context` 문단은 남기고,
  * `least` 문단보다 짧은 구간은 접지 않는다 — 한두 문단을 접으면 펼치는 손이 더 든다.
  */
 export function foldsOf(

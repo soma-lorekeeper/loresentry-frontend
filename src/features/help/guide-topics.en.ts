@@ -27,7 +27,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "layout",
         title: "Find your way around",
-        body: "The sidebar on the left holds, from top to bottom:\n\n- The account menu and project switcher: jump to another project or back to your project list.\n- Search · Relationship map · Timeline · Notes: views across the whole project.\n- Refresh setting docs: finds new details and relationships in your chapters and proposes them.\n- Favorites: the documents you open most.\n- Files: chapters and setting documents, grouped in category folders.\n- Import · Trash · Settings · Help\n\nSelect Tour the workspace in Help to see the guided tour of the screen again.",
+        body: "The sidebar on the left holds, from top to bottom:\n\n- The account menu and project switcher: jump to another project or back to your project list.\n- Search · Relationship map · Timeline · Notes: views across the whole project.\n- Refresh setting docs: finds new details and relationships in your chapters and proposes them.\n- Setting check: compares a chapter with earlier chapters and your setting documents to find setting conflicts.\n- Favorites: the documents you open most.\n- Files: chapters and setting documents, grouped in category folders.\n- Import · Trash · Settings · Help\n\nSelect Tour the workspace in Help to see the guided tour of the screen again.",
       },
       {
         id: "write",
@@ -264,6 +264,47 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       },
     ],
     related: ["explore", "writing"],
+  },
+  {
+    id: "check",
+    title: "Setting check",
+    summary: "Check a chapter against your settings for conflicts",
+    lead: "Setting check compares one chapter with earlier chapters and your setting documents to find setting conflicts. Each conflict links the source sentence to its place in the chapter and explains why it conflicts. Your manuscript is never changed.",
+    updatedAt: "2026-10-31",
+    readMinutes: 3,
+    facts: [
+      { label: "Start from", value: "Chapter file tools · Sidebar" },
+      { label: "Takes", value: "Usually 1–3 minutes" },
+      { label: "Manuscript", value: "Never changed" },
+    ],
+    sections: [
+      {
+        id: "start",
+        title: "Start a check",
+        body: "Open a chapter and select Setting check in the file tools to open a confirmation. Select Start check: what you're writing is saved and the check begins. You can also open Setting check in the sidebar, pick a chapter, and select Check.\n\nA check usually takes 1–3 minutes. It keeps going while you write elsewhere or switch screens, and tells you how many setting conflicts it found when it finishes. A project checks one chapter at a time.",
+      },
+      {
+        id: "core",
+        title: "Mark key settings",
+        body: "In a setting document, drag to select a paragraph the story must keep and choose Mark as key setting. The check reads marked paragraphs as facts the chapter must keep, and cards based on them show a pin. Choose Unmark in the same place to undo it.",
+      },
+      {
+        id: "read",
+        title: "Read the result",
+        body: "The result shows source cards on the left and the checked chapter on the right. Select a card to expand the source sentence with the sentences around it and an explanation of the conflict. A line links it to the sentence in the chapter.\n\n- Filter by To review, Intended, and Not a conflict at the top.\n- Use the arrows to move to the previous or next conflict.\n- Select a source sentence to open its document beside the result, with the sentence highlighted.",
+      },
+      {
+        id: "verdict",
+        title: "Leave a verdict",
+        body: "If a flagged place isn't something to fix, leave a verdict with the buttons on its card. A reason is optional.\n\n- Not a conflict: the check got it wrong and both can be true.\n- It's intended: you know it differs from the setting and wrote it on purpose.\n\nEither way, the next check won't list the same place under To review, and the AI takes your reason into account. Your verdicts gather per project under Decisions on the Setting check home screen, where you can undo them.",
+      },
+      {
+        id: "changed",
+        title: "After you edit the chapter",
+        body: "If the chapter changes after a check, the result says so above the cards. Select Check again to check the current text.\n\nThe number next to Setting check in the sidebar adds up what's left to review in each chapter's latest check.",
+      },
+    ],
+    related: ["refresh", "files"],
   },
   {
     id: "memo",

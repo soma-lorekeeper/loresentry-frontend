@@ -35,6 +35,7 @@ import { t } from "@/i18n";
 import { isServiceError } from "@/services/errors";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
+import { cx } from "@/shared/cx";
 
 import { anchorFindings, excerptOf, foldsOf, type Anchor } from "./anchors";
 import {
@@ -138,7 +139,7 @@ function VerdictHelp() {
   const ref = useRef<HTMLButtonElement>(null);
   const id = useId();
   const help = t(
-    "충돌 아니에요 · 점검이 잘못 짚었어요. 두 내용은 함께 성립해요.\n의도한 거예요 · 설정과 다른 걸 알고 일부러 썼어요.\n\n어느 쪽이든 다음 점검부터 같은 곳은 확인할 것에 올리지 않고, 남긴 이유는 AI가 참고해요. 판정 기록에서 되돌릴 수 있어요.",
+    "충돌 아니에요: 점검이 잘못 짚었어요. 두 내용은 함께 성립해요.\n의도한 거예요: 설정과 다른 걸 알고 일부러 썼어요.\n\n어느 쪽이든 다음 점검부터 같은 곳은 확인할 것에 올리지 않고, 남긴 이유는 AI가 참고해요. 판정 기록에서 되돌릴 수 있어요.",
   );
   return (
     <>
@@ -273,16 +274,18 @@ function Card({
 
 /**
  * 끝난 점검의 결과. 왼쪽에 근거 카드, 오른쪽에 대상 원고를 두고 카드를 부딪히는 문장 높이에 붙인다.
- * 선은 고른 카드와, 마우스를 올린 원고 문장에 걸린 카드에만 긋는다 — 어긋남이 많아도 엉키지 않게.
+ * 선은 고른 카드와, 마우스를 올린 원고 문장에 걸린 카드에만 긋는다 — 설정 충돌이 많아도 엉키지 않게.
  */
 export function Board({
   run,
+  title,
   paragraphs,
   paneId,
   header,
 }: {
   run: SettingCheckRunDetail;
-  /** 지금 원고의 문단. 고친 원고에서 인용을 찾지 못한 어긋남은 자리 없이 맨 위에 선다 */
+  title: string;
+  /** 지금 원고의 문단. 고친 원고에서 인용을 찾지 못한 설정 충돌은 자리 없이 맨 위에 선다 */
   paragraphs: readonly string[];
   paneId: string;
   header: ReactNode;
@@ -582,7 +585,7 @@ export function Board({
         <div className={styles.empty}>
           <EmptyState
             icon="circle-check"
-            title={t("어긋나 보이는 곳이 없어요")}
+            title={t("설정 충돌이 보이지 않아요")}
             description={emptyDescription(run)}
           />
         </div>
@@ -593,9 +596,9 @@ export function Board({
       <div className={styles.reportBody}>
         <p className={styles.filterEmpty}>
           {filter === "intended"
-            ? t("의도한 것으로 남긴 어긋남이 없어요.")
+            ? t("의도한 것으로 남긴 설정 충돌이 없어요.")
             : filter === "notConflict"
-              ? t("충돌이 아니라고 남긴 어긋남이 없어요.")
+              ? t("충돌이 아니라고 남긴 곳이 없어요.")
               : t("확인할 것이 남지 않았어요.")}
         </p>
       </div>
@@ -721,7 +724,7 @@ export function Board({
         {run.findings.length > 0 && (
           <div className={styles.bar}>
             <Segmented<Filter>
-              label={t("어긋남 걸러 보기")}
+              label={t("설정 충돌 걸러 보기")}
               value={filter}
               onChange={(next) => {
                 setFilter(next);
@@ -746,7 +749,7 @@ export function Board({
               <div className={styles.stepper}>
                 <IconButton
                   icon="chevron-up"
-                  label={t("이전 어긋남")}
+                  label={t("이전 설정 충돌")}
                   disabled={index <= 0}
                   onClick={() => activate(ordered[index - 1].id)}
                 />
@@ -755,7 +758,7 @@ export function Board({
                 </span>
                 <IconButton
                   icon="chevron-down"
-                  label={t("다음 어긋남")}
+                  label={t("다음 설정 충돌")}
                   disabled={index >= ordered.length - 1}
                   onClick={() => activate(ordered[index + 1].id)}
                 />
@@ -767,7 +770,9 @@ export function Board({
           <div className={styles.columns}>
             <span className={styles.label}>{t("근거")}</span>
             <span />
-            <span className={styles.label}>{t("대상 원고")}</span>
+            <span className={cx(styles.label, styles.columnTitle)}>
+              {title}
+            </span>
             <span />
           </div>
         )}

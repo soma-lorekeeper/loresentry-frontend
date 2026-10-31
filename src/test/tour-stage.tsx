@@ -4,9 +4,11 @@ import { useWorkspace } from "@/features/workspace/workspace-context";
 
 export function TourStage({
   refresh = true,
+  check = true,
   drawer = false,
 }: {
   refresh?: boolean;
+  check?: boolean;
   drawer?: boolean;
 }) {
   const { sidebarVisible } = useWorkspace();
@@ -18,6 +20,11 @@ export function TourStage({
   return (
     <>
       <div data-tour="editor" />
+      {check && (
+        <button type="button" data-tour="check-start">
+          stage check
+        </button>
+      )}
       <div data-tour="properties" />
       {sidebar && (
         <button
@@ -62,6 +69,11 @@ export function TourStage({
         </button>
       )}
       {timeline && <div data-tour="timeline-grid" />}
+      {sidebar && check && (
+        <button type="button" data-tour="setting-check">
+          stage setting check
+        </button>
+      )}
       {/* 투어는 이 단추를 가리키기만 한다. 검토 화면은 투어가 띄우는 예시 창이 그린다. */}
       {sidebar && refresh && (
         <div data-tour="refresh">

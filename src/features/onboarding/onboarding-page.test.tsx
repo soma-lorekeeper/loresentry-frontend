@@ -120,9 +120,26 @@ describe("OnboardingPage", () => {
     );
   });
 
-  it("introduces AI chat, with drag-to-ask in the stage", () => {
+  it("shows a setting conflict linked to its source in the stage", () => {
     renderWithServices(<OnboardingPage user={newcomer} replay={false} />);
     for (let i = 0; i < 6; i++)
+      fireEvent.keyDown(window, { key: "ArrowRight" });
+
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "AI가 짚어요",
+    );
+    expect(screen.getByText("설정 충돌을 찾고 있어요")).toBeInTheDocument();
+    expect(screen.getAllByText("낡은 열쇠 없이는 열리지 않는다")).toHaveLength(
+      2,
+    );
+    expect(screen.getByText("천천히 문을 밀었다")).toBeInTheDocument();
+    expect(screen.getByText("충돌 아니에요")).toBeInTheDocument();
+    expect(screen.getByText("의도한 거예요")).toBeInTheDocument();
+  });
+
+  it("introduces AI chat, with drag-to-ask in the stage", () => {
+    renderWithServices(<OnboardingPage user={newcomer} replay={false} />);
+    for (let i = 0; i < 7; i++)
       fireEvent.keyDown(window, { key: "ArrowRight" });
 
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(

@@ -77,7 +77,7 @@ function toDetail(
   };
 }
 
-/** 서버의 인용 확인처럼, 인용이 지금 원고에 그대로 있는 어긋남만 낸다 */
+/** 서버의 인용 확인처럼, 인용이 지금 원고에 그대로 있는 설정 충돌만 낸다 */
 function detect(db: MockDb, stored: StoredSettingCheckRun) {
   const { projectId, documentId, id } = stored.run;
   const plan = SEED.settingCheck;
@@ -145,7 +145,7 @@ function requireFinding(db: MockDb, findingId: string, operation: string) {
     if (finding) return { stored, finding };
   }
   return notFound(
-    t("이 어긋남을 찾을 수 없어요. 다시 불러와 주세요."),
+    t("이 설정 충돌을 찾을 수 없어요. 다시 불러와 주세요."),
     operation,
   );
 }

@@ -124,6 +124,7 @@ export function FileHeader({
             type="button"
             className={styles.check}
             aria-label={t("설정 오류 점검")}
+            data-tour="check-start"
             aria-busy={
               settingCheck.running || settingCheck.pending || undefined
             }

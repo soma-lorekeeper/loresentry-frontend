@@ -332,7 +332,7 @@ export interface ChatService {
  */
 export interface SettingCheckService {
   summary(projectId: string): Promise<SettingCheckSummary>;
-  /** 그 회차의 점검 기록. 최근 것이 앞이고 어긋남은 싣지 않는다 */
+  /** 그 회차의 점검 기록. 최근 것이 앞이고 설정 충돌은 싣지 않는다 */
   runs(projectId: string, documentId: string): Promise<SettingCheckRun[]>;
   run(runId: string): Promise<SettingCheckRunDetail>;
   /** 프로젝트의 판정 기록. 최근에 판정한 것이 앞이다 */

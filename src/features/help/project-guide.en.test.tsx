@@ -28,7 +28,7 @@ describe("ProjectGuidePage (English build)", () => {
       screen.getByRole("button", { name: "Replay the intro" }),
     ).toBeInTheDocument();
     const list = screen.getByRole("list", { name: "Guide topics" });
-    expect(within(list).getAllByRole("link")).toHaveLength(10);
+    expect(within(list).getAllByRole("link")).toHaveLength(11);
     expect(list.textContent).not.toMatch(HANGUL);
     expect(within(list).getByRole("link", { name: /AI chat/ })).toHaveAttribute(
       "href",

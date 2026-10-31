@@ -15,7 +15,7 @@ const WIDTH: Record<SettingCheckStage, number> = {
 };
 
 function stageName(stage: SettingCheckStage) {
-  if (stage === "FINDING") return t("어긋남 찾기");
+  if (stage === "FINDING") return t("설정 충돌 찾기");
   if (stage === "JUDGING") return t("다시 확인");
   return t("앞 회차와 설정 읽기");
 }
@@ -35,7 +35,7 @@ export function RunPanel({
     <section className={styles.run} aria-busy="true">
       <p className={styles.runWhat} role="status">
         <Icon name="loader-circle" size={16} className={styles.spin} />
-        {t("어긋나 보이는 곳을 찾고 있어요")}
+        {t("설정 충돌을 찾고 있어요")}
       </p>
       <div className={styles.track} aria-hidden="true">
         <span style={{ width: `${WIDTH[current]}%` }} />

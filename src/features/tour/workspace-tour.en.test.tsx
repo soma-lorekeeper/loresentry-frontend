@@ -47,7 +47,7 @@ describe("WorkspaceTour (English)", () => {
     const first = await screen.findByRole("dialog", {
       name: "Write your chapters here",
     });
-    expect(screen.getByRole("list", { name: "Step 1 of 14" })).toBeVisible();
+    expect(screen.getByRole("list", { name: "Step 1 of 16" })).toBeVisible();
     expect(screen.getByRole("button", { name: "Skip" })).toBeInTheDocument();
     expect(first.textContent).not.toMatch(/[가-힣]/);
 
@@ -60,6 +60,8 @@ describe("WorkspaceTour (English)", () => {
       "Track appearances in the timeline",
       "Rows are documents, columns are chapters",
       "AI chat that knows your story",
+      "Check a finished chapter against your settings",
+      "Check results gather here",
       "After you write a new chapter",
       "Changed documents are listed here",
       "Current on the left, proposed on the right",

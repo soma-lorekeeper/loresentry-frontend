@@ -3,6 +3,7 @@ import type {
   AuthService,
   ChatService,
   RefreshService,
+  SettingCheckService,
 } from "@/services/ports";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render } from "@testing-library/react";
@@ -45,6 +46,7 @@ export function renderWithServices(
     account?: Partial<AccountService>;
     refresh?: Partial<RefreshService>;
     chat?: Partial<ChatService>;
+    settingChecks?: Partial<SettingCheckService>;
     queryClient?: QueryClient;
   } = {},
 ) {
@@ -66,6 +68,10 @@ export function renderWithServices(
   services.account = { ...services.account, ...options.account };
   services.refresh = { ...services.refresh, ...options.refresh };
   services.chat = { ...services.chat, ...options.chat };
+  services.settingChecks = {
+    ...services.settingChecks,
+    ...options.settingChecks,
+  };
   return render(
     <QueryClientProvider client={queryClient}>
       <ServicesProvider services={services}>
