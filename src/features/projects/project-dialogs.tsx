@@ -9,6 +9,10 @@ import {
   TextAreaField,
   TextField,
 } from "@/design-system/primitives";
+import {
+  projectFailureReason,
+  useOnboardingAnalytics,
+} from "@/features/analytics/onboarding-analytics";
 import type { Project } from "@/domain/models";
 import { t } from "@/i18n";
 import { isServiceError } from "@/services/errors";
@@ -59,6 +63,7 @@ function CreateProjectForm({
   onCreated: (project: Project) => void;
 }) {
   const create = useCreateProject();
+  const track = useOnboardingAnalytics();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [touched, setTouched] = useState(false);
@@ -68,9 +73,23 @@ function CreateProjectForm({
   const submit = () => {
     setTouched(true);
     if (empty || busy) return;
+    track("project_create_started", { project_type: "standard" });
     create.mutate(
       { title, description },
-      { onSuccess: (project) => onCreated(project) },
+      {
+        onSuccess: (project) => {
+          track("project_created", { project_type: "standard" });
+          onCreated(project);
+        },
+        onError: (error) => {
+          const reason = projectFailureReason(error);
+          if (reason)
+            track("project_create_failed", {
+              project_type: "standard",
+              failure_reason: reason,
+            });
+        },
+      },
     );
   };
 

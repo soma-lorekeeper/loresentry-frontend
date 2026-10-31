@@ -161,7 +161,9 @@ export class ApiClient {
       return { status: response.status, ok: response.ok, payload };
     };
     const route = path.split("?", 1)[0];
-    return options.authTransition || route === "/auth/terms"
+    return options.authTransition ||
+      route === "/auth/terms" ||
+      route === "/auth/terms/registration-analytics"
       ? exchange()
       : withSessionRequest(exchange);
   }

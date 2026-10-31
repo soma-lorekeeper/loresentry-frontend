@@ -30,6 +30,7 @@ function requirePending() {
 }
 
 export const mockAuth: AuthService = {
+  claimRegistrationAnalytics: async () => false,
   getTerms: () =>
     simulate("auth.terms", () => {
       requirePending();

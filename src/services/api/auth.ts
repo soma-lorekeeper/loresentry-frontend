@@ -82,6 +82,32 @@ function toTerms(value: unknown): TermsView {
 
 export function createApiAuth(client: ApiClient): AuthService {
   return {
+    claimRegistrationAnalytics: async (kind) => {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 2500);
+      try {
+        const response = await client.request<{ registered: unknown }>(
+          kind === "consent"
+            ? "/auth/terms/registration-analytics"
+            : "/auth/users/me/registration-analytics",
+          {
+            method: "POST",
+            body: {},
+            operation: "auth.registrationAnalytics",
+            expectedStatus: 200,
+            signal: controller.signal,
+          },
+        );
+        if (typeof response?.registered !== "boolean")
+          throw new ServiceError(
+            "unknown",
+            "Invalid registration analytics response.",
+          );
+        return response.registered;
+      } finally {
+        clearTimeout(timeout);
+      }
+    },
     getTerms: async () =>
       toTerms(
         await client.request<unknown>(`/auth/terms?locale=${LOCALE}`, {

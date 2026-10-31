@@ -6,6 +6,10 @@ import { Button, DialogCard, StatusNotice } from "@/design-system/primitives";
 import { INTL_LOCALE, LOCALE, t, tRich } from "@/i18n";
 import { useServices } from "@/services/services-context";
 import { ServiceError } from "@/services/errors";
+import {
+  useOnboardingAnalytics,
+  useRegistrationAnalytics,
+} from "@/features/analytics/onboarding-analytics";
 import type { TermsView } from "@/services/ports";
 import { queryKeys } from "@/services/query-keys";
 import styles from "./terms-consent.module.css";
@@ -28,6 +32,9 @@ export function TermsConsent({
 }) {
   const { auth } = useServices();
   const queryClient = useQueryClient();
+  const track = useOnboardingAnalytics();
+  const claimRegistration = useRegistrationAnalytics();
+  const termsTracked = useRef(false);
   const [terms, setTerms] = useState<TermsView | null>(null);
   const [checked, setChecked] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -58,22 +65,50 @@ export function TermsConsent({
     };
   }, [auth]);
 
+  useEffect(() => {
+    if (terms && !termsTracked.current) {
+      termsTracked.current = true;
+      track("signup_terms_viewed");
+    }
+  }, [terms, track]);
+
   const submit = async () => {
     if (!terms || !checked || sending.current) return;
     sending.current = true;
     setSubmitting(true);
     setError("");
+    let stage: "terms" | "session" = "terms";
     try {
       await auth.acceptTerms(terms.termsVersionId);
+      stage = "session";
       await queryClient.cancelQueries();
       queryClient.clear();
       const user = await auth.getSession();
-      if (!user) throw new Error("No confirmed session");
+      if (!user)
+        throw new ServiceError("unauthenticated", "No confirmed session");
       if (!alive.current) return;
       queryClient.setQueryData(queryKeys.session, user);
+      claimRegistration("session");
+      track("login", { method: "google" });
       onComplete();
     } catch (cause) {
       if (!alive.current) return;
+      if (
+        cause instanceof ServiceError &&
+        [
+          "terms-version-mismatch",
+          "validation",
+          "csrf-rejected",
+          "consent-invalid",
+          "unavailable",
+          "unauthenticated",
+        ].includes(cause.code)
+      )
+        track("auth_failed", {
+          failure_stage: stage,
+          failure_reason:
+            cause.code === "unavailable" ? "unavailable" : "rejected",
+        });
       setChecked(false);
       if (
         cause instanceof ServiceError &&

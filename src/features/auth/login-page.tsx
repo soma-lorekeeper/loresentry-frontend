@@ -6,6 +6,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { useRuntimeConfig } from "@/app/providers";
+import {
+  useOnboardingAnalytics,
+  useRegistrationAnalytics,
+} from "@/features/analytics/onboarding-analytics";
 import { Icon, StatusNotice } from "@/design-system/primitives";
 import { LanguageSwitch } from "@/features/locale/language-switch";
 import { policyHref } from "@/i18n/preference";
@@ -95,6 +99,23 @@ export function LoginPage() {
   const queryClient = useQueryClient();
   const config = useRuntimeConfig();
   const loginResult = searchParams.get("result");
+  const track = useOnboardingAnalytics();
+  const claimRegistration = useRegistrationAnalytics();
+  const authResultTracked = useRef(false);
+  useEffect(() => {
+    if (authResultTracked.current || !loginResult) return;
+    const reasons: Record<string, string> = {
+      cancelled: "canceled",
+      invalid: "expired",
+      unavailable: "unavailable",
+      failed: "other",
+    };
+    const reason = reasons[loginResult];
+    if (reason) {
+      authResultTracked.current = true;
+      track("auth_failed", { failure_stage: "oauth", failure_reason: reason });
+    }
+  }, [loginResult, track]);
   const [requested, setRequested] = useState<LoginStatus>(() => {
     // `result=success` 는 아직 증거가 아니므로 "확인 중"으로 시작한다. 아래 effect 가
     // 세션을 다시 물어 확정한다.
@@ -147,6 +168,7 @@ export function LoginPage() {
 
   useEffect(() => {
     if (loginResult) finishAuthNavigation();
+    if (loginResult === "terms_required") claimRegistration("consent");
     if (loginResult !== "success") return;
     let active = true;
     void (async () => {
@@ -156,10 +178,22 @@ export function LoginPage() {
         const user = await services.auth.getSession();
         if (!active) return;
         if (!user) {
+          if (!authResultTracked.current) {
+            authResultTracked.current = true;
+            track("auth_failed", {
+              failure_stage: "session",
+              failure_reason: "rejected",
+            });
+          }
           setRequested("failed");
           return;
         }
         queryClient.setQueryData(queryKeys.session, user);
+        claimRegistration("session");
+        if (!authResultTracked.current) {
+          authResultTracked.current = true;
+          track("login", { method: "google" });
+        }
         clearOAuthReturnTo();
         router.replace(returnTo ?? "/projects");
       } catch {
@@ -169,7 +203,15 @@ export function LoginPage() {
     return () => {
       active = false;
     };
-  }, [loginResult, queryClient, services.auth, router, returnTo]);
+  }, [
+    loginResult,
+    queryClient,
+    services.auth,
+    router,
+    returnTo,
+    track,
+    claimRegistration,
+  ]);
 
   useEffect(() => {
     if (
@@ -182,6 +224,7 @@ export function LoginPage() {
   }, [session.data, returnTo, router, holdSession, termsEntry, loginResult]);
 
   const start = async () => {
+    track("login_start", { method: "google" });
     navigating.current = true;
     setRequested("processing");
     try {

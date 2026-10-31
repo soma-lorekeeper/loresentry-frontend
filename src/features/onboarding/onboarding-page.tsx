@@ -18,6 +18,10 @@ import {
   TextField,
 } from "@/design-system/primitives";
 import type { User } from "@/domain/models";
+import {
+  projectFailureReason,
+  useOnboardingAnalytics,
+} from "@/features/analytics/onboarding-analytics";
 import { useRecordAcquisition } from "@/features/analytics/use-record-acquisition";
 import {
   useCompleteOnboarding,
@@ -343,6 +347,14 @@ export function OnboardingPage({
   const [step, setStep] = useState(0);
   const [name, setName] = useState(user.displayName);
   const complete = useCompleteOnboarding();
+  const track = useOnboardingAnalytics();
+  const onboardingTracked = useRef(false);
+  useEffect(() => {
+    if (!replay && !user.onboardingCompleted && !onboardingTracked.current) {
+      onboardingTracked.current = true;
+      track("tutorial_begin");
+    }
+  }, [replay, user.onboardingCompleted, track]);
   useRecordAcquisition(!replay && !user.onboardingCompleted);
   const createSample = useCreateSampleProject();
   const rename = useUpdateAccount();
@@ -418,10 +430,28 @@ export function OnboardingPage({
   }, [go, step, skipTo]);
 
   const finish = async (destination: "sample" | "new" | "later") => {
-    if (!replay && !user.onboardingCompleted) await complete.mutateAsync();
+    if (!replay)
+      track("onboarding_start_selected", { start_choice: destination });
+    if (!replay && !user.onboardingCompleted) {
+      await complete.mutateAsync();
+      track("tutorial_complete");
+    }
     if (!replay) writeTour("pending");
     if (destination === "sample") {
-      const project = await createSample.mutateAsync();
+      if (!replay) track("project_create_started", { project_type: "sample" });
+      let project;
+      try {
+        project = await createSample.mutateAsync();
+        if (!replay) track("project_created", { project_type: "sample" });
+      } catch (error) {
+        const reason = projectFailureReason(error);
+        if (!replay && reason)
+          track("project_create_failed", {
+            project_type: "sample",
+            failure_reason: reason,
+          });
+        throw error;
+      }
       router.push(`/workspace/?projectId=${encodeURIComponent(project.id)}`);
     } else if (destination === "new") {
       router.push("/projects/?create=1");

@@ -77,6 +77,27 @@ const apiProject = {
 };
 
 describe("identity and transport", () => {
+  it("claims registration with the appropriate cookie-backed endpoint and rejects invalid replies", async () => {
+    reply(200, { registered: true });
+    expect(await services().auth!.claimRegistrationAnalytics("consent")).toBe(
+      true,
+    );
+    expect(calls[0]).toMatchObject({
+      url: BASE + "/auth/terms/registration-analytics",
+      method: "POST",
+      credentials: "include",
+      headers: { "X-LS-CSRF": "1" },
+    });
+    reply(200, { registered: false });
+    expect(await services().auth!.claimRegistrationAnalytics("session")).toBe(
+      false,
+    );
+    expect(calls[1].url).toBe(BASE + "/auth/users/me/registration-analytics");
+    reply(200, { registered: "true" });
+    await expect(
+      services().auth!.claimRegistrationAnalytics("session"),
+    ).rejects.toThrow();
+  });
   it("sends cookies instead of an identity header", async () => {
     reply(200, { projects: [apiProject] });
     await services().projects!.list();

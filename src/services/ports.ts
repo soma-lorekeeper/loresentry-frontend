@@ -53,6 +53,7 @@ export interface TermsView {
 }
 
 export interface AuthService {
+  claimRegistrationAnalytics(kind: "consent" | "session"): Promise<boolean>;
   getTerms(): Promise<TermsView>;
   acceptTerms(termsVersionId: string): Promise<void>;
   getSession(): Promise<User | null>;
