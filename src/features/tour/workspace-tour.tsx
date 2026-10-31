@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { FileNode } from "@/domain/models";
 import { isUnavailable } from "@/features/common/preparing-state";
 import { useRefreshRun } from "@/features/graph-refresh/queries";
+import { useSettingCheckSummary } from "@/features/setting-check/queries";
 import type {
   WorkspaceLayout,
   WorkspaceTarget,
@@ -53,6 +54,7 @@ const PRESS_TIMEOUT_MS = 2500;
 function buildSteps(
   nodes: readonly FileNode[],
   refreshAvailable: boolean,
+  checkAvailable: boolean,
 ): TourStep[] {
   const documents = nodes.filter(isDocument);
   const manuscript = documents
@@ -192,6 +194,27 @@ function buildSteps(
       when: "ai-chat",
       placement: ["left", "top"],
     },
+    checkAvailable &&
+      manuscript !== undefined && {
+        title: t("다 쓴 회차는 설정과 대조해요"),
+        body: t(
+          "‘설정 오류 점검’을 누르면 이 회차를 앞 회차와 설정 문서에 대조해 설정 충돌을 찾아요. 점검하는 동안에도 계속 쓸 수 있어요.",
+        ),
+        target: "check-start",
+        chapter: 3,
+        open: { kind: "file", fileId: manuscript.id },
+        placement: ["bottom", "left", "top"],
+      },
+    checkAvailable && {
+      title: t("점검 결과는 여기 모여요"),
+      body: t(
+        "충돌마다 근거 문장과 원고의 자리를 나란히 보여 줘요. 확인할 것이 남으면 숫자가 붙어요.",
+      ),
+      target: "setting-check",
+      chapter: 3,
+      sidebar: true,
+      placement: ["right", "bottom"],
+    },
     refreshAvailable && {
       title: t("새 회차를 쓴 다음엔"),
       body: t(
@@ -200,7 +223,7 @@ function buildSteps(
       action: t("다음을 누르면 예시 결과를 열어요."),
       // 단추 하나가 아니라 그 자리를 가리킨다. 최신화가 이미 돌거나 검토를 기다리면 단추 모양이 바뀐다.
       target: "refresh",
-      chapter: 3,
+      chapter: 4,
       sidebar: true,
       placement: ["right", "bottom"],
     },
@@ -208,7 +231,7 @@ function buildSteps(
       title: t("달라진 문서가 모여요"),
       body: t("예시 결과예요. ‘~’는 고칠 문서, ‘+’는 새로 만들 문서예요."),
       target: "diff-list",
-      chapter: 3,
+      chapter: 4,
       example: true,
       placement: ["right", "bottom"],
     },
@@ -218,7 +241,7 @@ function buildSteps(
         "가운데 화살표로 한 줄씩 옮기거나 양쪽을 직접 고쳐요. 두 쪽이 같아지면 그 문서는 정해져요.",
       ),
       target: "diff-compare",
-      chapter: 3,
+      chapter: 4,
       example: true,
       placement: ["top", "bottom", "left"],
     },
@@ -228,7 +251,7 @@ function buildSteps(
         "모든 문서를 정하면 ‘반영 확정’이 켜지고, 확정하면 잠긴 문서가 풀려요. 반영한 내용은 버전 기록에 남아요.",
       ),
       target: "diff-confirm",
-      chapter: 3,
+      chapter: 4,
       example: true,
       placement: ["bottom", "left"],
     },
@@ -422,10 +445,12 @@ export function WorkspaceTour() {
   const tree = useFileTree(projectId);
   const refresh = useRefreshRun(projectId);
   const refreshAvailable = !isUnavailable(refresh.error);
+  const checkSummary = useSettingCheckSummary(projectId);
+  const checkAvailable = !isUnavailable(checkSummary.error);
   const [index, setIndex] = useState<number | null>(null);
   const steps = useMemo(
-    () => buildSteps(tree.data ?? [], refreshAvailable),
-    [tree.data, refreshAvailable],
+    () => buildSteps(tree.data ?? [], refreshAvailable, checkAvailable),
+    [tree.data, refreshAvailable, checkAvailable],
   );
   const openedSidebar = useRef(false);
   const before = useRef<{

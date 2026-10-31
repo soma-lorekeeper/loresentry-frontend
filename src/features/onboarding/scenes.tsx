@@ -199,6 +199,29 @@ function RefreshItem({ scene }: { scene: Scene }) {
   );
 }
 
+/** 점검이 끝나 결과가 뜨는 때. 사이드바 항목과 본문이 같은 때에 바뀐다 */
+const CHECK_DONE_AT = 1400;
+export const CHECK_WIRE_AT = CHECK_DONE_AT + 520;
+
+function CheckItem({ scene }: { scene: Scene }) {
+  if (scene !== "check") {
+    return <SideItem icon="scan-text" label={t("설정 오류 점검")} />;
+  }
+  return (
+    <div className={cx(styles.checkItem, styles.sideItemOn)} data-focus="check">
+      <span className={cx(styles.refreshState, styles.checkRunning)}>
+        <Icon name="loader-circle" size={13} className={styles.spin} />
+        {t("설정 오류 점검")}
+      </span>
+      <span className={cx(styles.refreshState, styles.checkDone)}>
+        <Icon name="scan-text" size={13} />
+        {t("설정 오류 점검")}
+        <span className={styles.checkBadge}>2</span>
+      </span>
+    </div>
+  );
+}
+
 function FolderChildren({ type, scene }: { type: DocumentType; scene: Scene }) {
   if (type === "manuscript") {
     const episode = OPEN_EPISODE[scene];
@@ -267,6 +290,7 @@ function Sidebar({ scene, userName }: { scene: Scene; userName: string }) {
         <SideItem icon="notebook-pen" label={t("무대::메모")} />
         <div className={styles.sideDivider} />
         <RefreshItem scene={scene} />
+        <CheckItem scene={scene} />
         <p className={styles.sideHeading}>{t("무대::즐겨찾기")}</p>
         <SideItem icon="file-text" label={FAVORITE} kind="manuscript" />
         <div className={styles.sideNav} data-focus="workspace">
@@ -306,6 +330,7 @@ const TABS: Record<
   graph: { icon: "waypoints", label: t("무대::관계도") },
   timeline: { icon: "chart-no-axes-gantt", label: t("무대::타임라인") },
   refresh: { icon: "waypoints", label: t("무대::관계도") },
+  check: { icon: "scan-text", label: t("설정 오류 점검") },
   editor: { icon: "file-text", label: CH12, kind: "manuscript" },
   chat: { icon: "file-text", label: CH12, kind: "manuscript" },
   files: { icon: "file-text", label: CH12, kind: "manuscript" },
@@ -852,7 +877,216 @@ function DiffModal() {
   );
 }
 
-/* 6. 원고 에디터 (랜딩) ------------------------------------------------- */
+/* 6. 설정 오류 점검 ---------------------------------------------------- */
+
+/*
+ * 실제 결과 화면(features/setting-check/board.tsx)을 줄여 옮긴 것이다. 왼쪽 근거 카드와 오른쪽
+ * 원고 문장을 선으로 잇는 배치와 단추 이름을 그대로 따른다. 예시는 챗 장면이 묻는 바로 그 문장이다.
+ */
+
+const CHECK_RULE = t("무대::낡은 열쇠 없이는 열리지 않는다");
+const CHECK_PATROL = t(
+  "무대::정원은 밤이 오면 유리보다 먼저 숨을 죽였다. 달빛이 온실의 지붕을 훑고 지나갈 때마다, 금이 간 창마다 은빛 선이 번졌다. 서윤은 그 선들이 모두 한곳을 가리키고 있다는 사실을 세 번째 순찰에서야 알아차렸다.",
+);
+
+/** 문장 안의 한 구절을 감싼다. 번역에서 구절을 찾지 못하면 문장을 그대로 둔다 */
+function Phrase({
+  text,
+  phrase,
+  className,
+}: {
+  text: string;
+  phrase: string;
+  className: string;
+}) {
+  const start = text.indexOf(phrase);
+  if (start < 0) return text;
+  return (
+    <>
+      {text.slice(0, start)}
+      <span className={className}>{phrase}</span>
+      {text.slice(start + phrase.length)}
+    </>
+  );
+}
+
+function CheckRun() {
+  return (
+    <div className={styles.checkRun}>
+      <p className={styles.checkRunWhat}>
+        <Icon name="loader-circle" size={14} className={styles.spin} />
+        {t("설정 충돌을 찾고 있어요")}
+      </p>
+      <span className={styles.checkTrack}>
+        <i />
+      </span>
+      <p className={styles.checkStages}>
+        <span>{t("앞 회차와 설정 읽기")}</span>
+        <span>{t("설정 충돌 찾기")}</span>
+        <span>{t("다시 확인")}</span>
+      </p>
+    </div>
+  );
+}
+
+function CheckView() {
+  const wire = { "--d": `${CHECK_WIRE_AT}ms` } as CSSProperties;
+  return (
+    <div className={styles.check}>
+      <span className={styles.checkBack}>
+        <Icon name="chevron-left" size={13} />
+        {t("설정 오류 점검")}
+      </span>
+      <h3 className={styles.checkTitle}>{CH12}</h3>
+      <div className={styles.checkBody}>
+        <div className={styles.checkRunLayer}>
+          <CheckRun />
+        </div>
+        <div className={styles.checkResult}>
+          <Enter delay={CHECK_DONE_AT} kind="fade" className={styles.checkBar}>
+            <span className={styles.checkFilter}>
+              <span className={styles.checkFilterOn}>
+                {t("확인할 것")} <b>2</b>
+              </span>
+              <span>
+                {t("의도함")} <b>1</b>
+              </span>
+              <span>
+                {t("충돌 아님")} <b>0</b>
+              </span>
+            </span>
+            <span className={styles.checkStepper}>
+              <Icon name="chevron-up" size={13} />
+              <b>2</b> / 2
+              <Icon name="chevron-down" size={13} />
+            </span>
+          </Enter>
+          <Enter
+            delay={CHECK_DONE_AT}
+            kind="fade"
+            className={styles.checkColumns}
+          >
+            <span>{t("근거")}</span>
+            <span />
+            <span className={styles.ellipsis}>{CH12}</span>
+          </Enter>
+          <div className={styles.checkRow}>
+            <Enter
+              delay={CHECK_DONE_AT + 60}
+              className={styles.checkCard}
+              style={{ ["--kind" as string]: nodeColor("manuscript") }}
+            >
+              <span className={styles.checkCardHead}>
+                <Icon name={iconOf("manuscript")} size={13} />
+                <b>{t("무대::{number}화", { number: 9 })}</b>
+                <span className={styles.ellipsis}>
+                  {t("무대::다섯 번째 순찰")}
+                </span>
+              </span>
+            </Enter>
+            <Enter
+              delay={CHECK_DONE_AT + 60}
+              kind="fade"
+              className={styles.checkGutter}
+            >
+              <i className={styles.checkTick} />
+            </Enter>
+            <Enter delay={CHECK_DONE_AT} kind="fade">
+              <p className={styles.checkProse}>
+                <Phrase
+                  text={CHECK_PATROL}
+                  phrase={t("무대::세 번째 순찰")}
+                  className={styles.checkMark}
+                />
+              </p>
+            </Enter>
+          </div>
+          <div className={styles.checkRow} data-focus="check-card">
+            <Enter
+              delay={CHECK_DONE_AT + 220}
+              kind="pop"
+              className={cx(styles.checkCard, styles.checkCardOn)}
+              style={{ ["--kind" as string]: nodeColor("place") }}
+            >
+              <span className={styles.checkCardHead}>
+                <Icon name={iconOf("place")} size={13} />
+                <b>{NORTH_GREENHOUSE}</b>
+                <Icon name="pin" size={12} className={styles.checkCore} />
+                <span className={styles.ellipsis}>{CHECK_RULE}</span>
+              </span>
+              <span className={styles.checkCardBody}>
+                <span className={styles.checkQuote}>
+                  <span className={styles.checkSource}>
+                    <Phrase
+                      text={t(
+                        "무대::북쪽 문은 낡은 열쇠 없이는 열리지 않는다.",
+                      )}
+                      phrase={CHECK_RULE}
+                      className={styles.checkFocus}
+                    />
+                  </span>{" "}
+                  {t(
+                    "무대::열쇠는 기록단 결성 이후 한 번도 정원 안에 들어온 적이 없다.",
+                  )}
+                </span>
+                <span className={styles.checkExplanation}>
+                  {t(
+                    "무대::‘북쪽 온실’ 설정은 북쪽 문이 낡은 열쇠 없이는 열리지 않는다고 정해 두었어요. 그런데 12화에서 서윤은 빈손으로 문을 밀어 열어요. 앞 회차에도 열쇠를 손에 넣는 장면이 없어서, 문이 어떻게 열렸는지 원고 안에서 설명되지 않아요.",
+                  )}
+                </span>
+                <span className={styles.checkActions}>
+                  <Icon name="info" size={13} />
+                  <span className={styles.checkVerdict}>
+                    {t("충돌 아니에요")}
+                  </span>
+                  <span className={styles.checkVerdict}>
+                    {t("의도한 거예요")}
+                  </span>
+                </span>
+              </span>
+            </Enter>
+            <span className={styles.checkGutter}>
+              <svg
+                className={styles.checkWire}
+                viewBox="0 0 36 20"
+                aria-hidden="true"
+              >
+                <path
+                  className={styles.drawLine}
+                  style={{ ...wire, ["--len" as string]: 24 }}
+                  d="M0 16 C10 16, 10 12, 18 12"
+                />
+              </svg>
+              <i
+                className={cx(styles.checkTick, styles.checkTickOn)}
+                style={wire}
+              />
+            </span>
+            <Enter delay={CHECK_DONE_AT} kind="fade">
+              <p className={styles.checkProse}>
+                <span
+                  className={cx(styles.checkMark, styles.checkMarkOn)}
+                  style={wire}
+                >
+                  <Phrase
+                    text={PICKED}
+                    phrase={t("무대::천천히 문을 밀었다")}
+                    className={styles.checkFocus}
+                  />
+                </span>{" "}
+                {t(
+                  "무대::어둠 너머에서 익숙한 목소리가 이름을 불렀다. 아주 오래전, 이 정원을 떠난 사람이 마지막으로 불렀던 방식 그대로였다.",
+                )}
+              </p>
+            </Enter>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* 7. 원고 에디터 (랜딩) ------------------------------------------------- */
 
 const ARRIVAL = t(
   "무대::안개가 걷히자 {name}은 북쪽 온실의 문 앞에 서 있었다.",
@@ -1064,7 +1298,7 @@ const CHAT_STEP = LOCALE === "en" ? 40 : 60;
 const PICKED = t("무대::서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다.");
 const EXPLAIN = t("이 부분을 설명해 줘");
 const [KEY_BEFORE, KEY_AFTER] = t(
-  "무대::열쇠 없이 연다는 점이 {chip} 설정과 어긋나지 않는지 확인해 보세요.",
+  "무대::열쇠 없이 연다는 점이 {chip} 설정과 충돌하지 않는지 확인해 보세요.",
 ).split("{chip}");
 const [ARRIVE_LEAD, ARRIVE_MID, ARRIVE_TAIL] = t(
   "무대::{who} 이 회차에서 {place}에 도착해요.",
@@ -1322,6 +1556,8 @@ function Content({ scene }: { scene: Scene }) {
       return <GraphView />;
     case "timeline":
       return <TimelineView />;
+    case "check":
+      return <CheckView />;
     case "refresh":
       return (
         <>

@@ -241,7 +241,7 @@ export function LandingPage() {
           </h1>
           <p className={styles.lede}>
             {tRich(
-              "웹소설 작가를 위한 집필 에디터이자 AI 에이전트예요.<br/>회차를 쓰면 설정 문서에 바뀔 점을 AI가 찾아 두고, 반영은 작가가 골라요.",
+              "웹소설 작가를 위한 집필 에디터이자 AI 에이전트예요.<br/>회차를 쓰면 AI가 설정 충돌을 짚고 설정 문서에 바뀔 점을 찾아 둬요. 고치고 반영하는 건 작가가 골라요.",
             )}
           </p>
           <div className={styles.ctaRow}>
@@ -444,6 +444,44 @@ export function LandingPage() {
             </li>
           </ol>
         </section>
+
+        <Chapter
+          id="check"
+          layout="windowLeft"
+          title={t("설정 충돌을\n근거와 함께 짚어요")}
+          aside={
+            <SceneFrame
+              scene="check"
+              className={styles.chapterFrame}
+              label={t(
+                "설정 오류 점검 결과 화면. 왼쪽 근거 카드 ‘북쪽 온실’이 12화의 문장 ‘서윤은 등불을 바닥에 내려놓고 천천히 문을 밀었다’와 선으로 이어지고, 왜 충돌인지 설명과 판정 단추가 붙어 있다.",
+              )}
+            />
+          }
+        >
+          <p className={styles.body}>
+            {t(
+              "회차 하나를 고르면 AI가 앞 회차와 설정 문서에 대조해 설정 충돌을 찾아요. 충돌마다 근거 문장과 원고의 자리를 선으로 잇고, 왜 충돌인지 서너 문장으로 설명해요. 원고는 고치지 않아요.",
+            )}
+          </p>
+          <ul className={styles.points}>
+            <Point icon="pin" title={t("중요 설정은 꼭 지켜요")}>
+              {t(
+                "설정 문서에서 중요 설정으로 고른 문단은 점검이 반드시 지킬 사실로 읽어요.",
+              )}
+            </Point>
+            <Point icon="circle-check" title={t("판정은 다음 점검이 기억해요")}>
+              {t(
+                "‘충돌 아니에요’나 ‘의도한 거예요’로 남기면 같은 곳을 다시 올리지 않고, 남긴 이유도 참고해요.",
+              )}
+            </Point>
+            <Point icon="pencil-line" title={t("원고를 고치면 알려 줘요")}>
+              {t(
+                "점검한 뒤 원고가 바뀌면 결과 위에 알리고, 그 자리에서 다시 점검해요.",
+              )}
+            </Point>
+          </ul>
+        </Chapter>
 
         <section id="chat" className={styles.chat} aria-labelledby="chat-title">
           <div className={styles.chatCopy}>

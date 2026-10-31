@@ -27,7 +27,7 @@ export function StartCheckDialog({
       onClose={onClose}
       title={t("설정 오류 점검을 시작할까요?")}
       description={t(
-        "이 회차를 앞 회차와 설정 문서에 대조해 어긋나 보이는 곳을 찾아요.",
+        "이 회차를 앞 회차와 설정 문서에 대조해 설정 충돌을 찾아요.",
       )}
       target={{ icon: "file-text", name: title, kind: "manuscript" }}
       actions={

@@ -19,6 +19,9 @@ export default {
   "새 회차를 쓰면\n설정 문서 최신화": "New chapter?\nRefresh setting docs",
   "AI가 설정 문서에 바뀔 점을 찾고, 고르는 건 작가예요. 원고는 고치지 않아요.":
     "AI finds what should change in your setting documents, and you decide what to keep. Your manuscript stays untouched.",
+  "설정 충돌은\nAI가 짚어요": "AI flags\nsetting conflicts",
+  "회차를 앞 회차와 설정 문서에 대조해, 충돌하는 원고 문장과 근거를 이어 보여 줘요. 고칠지는 작가가 정해요.":
+    "It compares a chapter with earlier chapters and your setting documents, then links each conflicting sentence to its source. You decide what to fix.",
   "작품을 아는\nAI 챗": "AI chat that\nknows your story",
   "원고·설정·메모를 모두 읽고 근거와 함께 답해요. 원고 문장을 드래그해서 바로 물어볼 수도 있어요.":
     "It reads your manuscript, settings and notes, and answers with its sources. You can also select a sentence in a chapter and ask about it.",
@@ -68,6 +71,13 @@ export default {
     "Pick related chapters, characters and places, and those links become your relationship map and timeline.",
   "캐릭터나 장소 문서를 만들면 속성 표에서 관련 원고와 인물을 이을 수 있어요.":
     "Create a character or place document, then link related chapters and characters in its property table.",
+  "다 쓴 회차는 설정과 대조해요":
+    "Check a finished chapter against your settings",
+  "‘설정 오류 점검’을 누르면 이 회차를 앞 회차와 설정 문서에 대조해 설정 충돌을 찾아요. 점검하는 동안에도 계속 쓸 수 있어요.":
+    "Press “Setting check” to compare this chapter with earlier chapters and your setting documents and find setting conflicts. You can keep writing while it runs.",
+  "점검 결과는 여기 모여요": "Check results gather here",
+  "충돌마다 근거 문장과 원고의 자리를 나란히 보여 줘요. 확인할 것이 남으면 숫자가 붙어요.":
+    "Each conflict shows its source sentence beside its place in the chapter. A number appears while there's something left to review.",
   "새 회차를 쓴 다음엔": "After you write a new chapter",
   "달라진 문서가 모여요": "Changed documents are listed here",
   "왼쪽은 지금, 오른쪽은 제안": "Current on the left, proposed on the right",
@@ -157,7 +167,7 @@ export default {
     "This is the moment Seoyun stops hesitating and opens the North Door.",
   "무대::{who} 이 회차에서 {place}에 도착해요.":
     "{who} arrives at {place} in this episode.",
-  "무대::열쇠 없이 연다는 점이 {chip} 설정과 어긋나지 않는지 확인해 보세요.":
+  "무대::열쇠 없이 연다는 점이 {chip} 설정과 충돌하지 않는지 확인해 보세요.":
     "She opens it without a key, so check this against {chip}.",
   "무대::문을 밀기 직전 떠올린 문장은 메모에도 적어 두셨어요.":
     "The line she recalls just before pushing the door is in your notes too.",
@@ -170,6 +180,16 @@ export default {
   "무대::설정 문서 최신화": "Refresh setting docs",
   "무대::설정 문서 최신화 중…": "Refreshing docs…",
   "무대::변경 사항 반영": "Apply changes",
+  "무대::낡은 열쇠 없이는 열리지 않는다": "won't open without the old key",
+  "무대::다섯 번째 순찰": "the fifth patrol",
+  "무대::세 번째 순찰": "third patrol",
+  "무대::천천히 문을 밀었다": "slowly pushed the door open",
+  "무대::북쪽 문은 낡은 열쇠 없이는 열리지 않는다.":
+    "The North Door won't open without the old key.",
+  "무대::열쇠는 기록단 결성 이후 한 번도 정원 안에 들어온 적이 없다.":
+    "The key hasn't been inside the garden since the Recorders were founded.",
+  "무대::‘북쪽 온실’ 설정은 북쪽 문이 낡은 열쇠 없이는 열리지 않는다고 정해 두었어요. 그런데 12화에서 서윤은 빈손으로 문을 밀어 열어요. 앞 회차에도 열쇠를 손에 넣는 장면이 없어서, 문이 어떻게 열렸는지 원고 안에서 설명되지 않아요.":
+    "The North Greenhouse setting says the North Door won't open without the old key. In Ch. 12, Seoyun pushes it open empty-handed. No earlier chapter shows her getting the key, so the manuscript never explains how the door opened.",
   "무대::즐겨찾기": "Favorites",
   "무대::파일": "Files",
   "무대::가져오기": "Import",

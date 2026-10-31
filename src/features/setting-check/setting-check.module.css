@@ -435,6 +435,13 @@
   padding-bottom: 8px;
 }
 
+.columnTitle {
+  max-width: 680px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .viewport {
   position: relative;
   flex: 1;
@@ -804,7 +811,7 @@
   height: 26px;
   border-radius: var(--lk-radius-control);
   color: var(--lk-color-icon-default);
-  cursor: help;
+  cursor: default;
   transition:
     background-color 140ms var(--lk-ease),
     color 140ms var(--lk-ease);

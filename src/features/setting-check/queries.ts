@@ -65,7 +65,7 @@ export function useSettingCheckActions(projectId: string) {
       queryKey: queryKeys.settingChecks(projectId),
     });
   /*
-   * 판정은 어긋남 하나가 아니라 같은 근거 문장에 붙는다. 같은 회차의 다른 점검에 있는 같은 어긋남도
+   * 판정은 설정 충돌 하나가 아니라 같은 근거 문장에 붙는다. 같은 회차의 다른 점검에 있는 같은 설정 충돌도
    * 함께 바뀌므로, 고친 것은 바로 그리고 나머지 점검은 다시 읽는다.
    */
   const decided = async (finding: SettingCheckFinding) => {

@@ -89,7 +89,7 @@ export interface SeedSettingFinding {
   explanation: string;
   quote: string;
   sourceQuote: string;
-  /** 인용 가운데 어긋나는 표현 */
+  /** 인용 가운데 충돌하는 표현 */
   quoteFocus?: string;
   sourceFocus?: string;
   verdict?: { verdict: "INTENDED" | "NOT_CONFLICT"; reason: string | null };
@@ -104,7 +104,7 @@ export interface SeedSettingCheck {
   core: Record<string, number[]>;
   chapter: string;
   findings: SeedSettingFinding[];
-  /** 12화의 지난 점검에만 있던 어긋남. 그 뒤 고쳐서 최근 점검에는 없다 */
+  /** 12화의 지난 점검에만 있던 설정 충돌. 그 뒤 고쳐서 최근 점검에는 없다 */
   earlier: SeedSettingFinding[];
   chapters: Array<{
     chapter: string;

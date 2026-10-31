@@ -98,10 +98,10 @@ export function SettingCheckWatcher() {
             }),
             description:
               finished.counts.open > 0
-                ? t("어긋나 보이는 곳 {count}개를 찾았어요.", {
+                ? t("설정 충돌 {count}개를 찾았어요.", {
                     count: finished.counts.open,
                   })
-                : t("어긋나 보이는 곳이 없어요."),
+                : t("설정 충돌이 보이지 않아요."),
             action: { label: t("결과 보기"), onSelect: show },
           }
         : {

@@ -8,6 +8,7 @@ export interface OnboardingStep {
     | "graph"
     | "timeline"
     | "refresh"
+    | "check"
     | "chat"
     | "name"
     | "start";
@@ -50,6 +51,13 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     title: t("새 회차를 쓰면\n설정 문서 최신화"),
     body: t(
       "AI가 설정 문서에 바뀔 점을 찾고, 고르는 건 작가예요. 원고는 고치지 않아요.",
+    ),
+  },
+  {
+    id: "check",
+    title: t("설정 충돌은\nAI가 짚어요"),
+    body: t(
+      "회차를 앞 회차와 설정 문서에 대조해, 충돌하는 원고 문장과 근거를 이어 보여 줘요. 고칠지는 작가가 정해요.",
     ),
   },
   {

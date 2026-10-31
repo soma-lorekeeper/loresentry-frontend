@@ -27,10 +27,10 @@ function resultOf(run: SettingCheckRun) {
     case "DONE":
       return run.counts.open > 0
         ? {
-            text: t("어긋남 {count}", { count: run.counts.open }),
+            text: t("설정 충돌 {count}", { count: run.counts.open }),
             tone: "open" as const,
           }
-        : { text: t("어긋남 없음"), tone: null };
+        : { text: t("설정 충돌 없음"), tone: null };
   }
 }
 
@@ -132,9 +132,7 @@ export function Home({
           </Button>
         </div>
         <p className={styles.lede}>
-          {t(
-            "원고 한 편을 앞 회차와 설정 문서에 대조해 어긋나 보이는 곳을 찾아요.",
-          )}
+          {t("원고 한 편을 앞 회차와 설정 문서에 대조해 설정 충돌을 찾아요.")}
         </p>
         <div className={styles.pickRow}>
           <ChapterPicker

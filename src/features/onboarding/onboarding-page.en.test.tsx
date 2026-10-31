@@ -50,6 +50,7 @@ describe("OnboardingPage (English)", () => {
       "See links on one map",
       "Who appears in which chapter",
       "New chapter? Refresh setting docs",
+      "AI flags setting conflicts",
       "AI chat that knows your story",
       "Choose your pen name",
     ]) {

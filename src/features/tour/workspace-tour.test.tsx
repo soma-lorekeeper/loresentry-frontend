@@ -90,7 +90,7 @@ describe("WorkspaceTour", () => {
     renderTour();
 
     await card("원고는 여기서 써요");
-    expect(screen.getByRole("list", { name: "14단계 중 1단계" })).toBeVisible();
+    expect(screen.getByRole("list", { name: "16단계 중 1단계" })).toBeVisible();
     await actor.click(screen.getByRole("button", { name: "다음" }));
     await throughImport(actor);
     await card("속성 표로 문서를 이어요");
@@ -111,6 +111,12 @@ describe("WorkspaceTour", () => {
 
     const chat = await card("작품을 아는 AI 챗");
     expect(chat).toHaveTextContent("원고 문장을 드래그하면");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+
+    await card("다 쓴 회차는 설정과 대조해요");
+    expect(screen.getByTestId("tabs").textContent).toContain("file");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("점검 결과는 여기 모여요");
     await actor.click(screen.getByRole("button", { name: "다음" }));
 
     // 실제 최신화를 시작하지 않는다. 단추를 가리킨 뒤 예시 검토 창을 띄운다.
@@ -208,6 +214,10 @@ describe("WorkspaceTour", () => {
     await card("작품을 아는 AI 챗");
     expect(screen.getByRole("button", { name: "다음" })).toBeVisible();
     await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("다 쓴 회차는 설정과 대조해요");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("점검 결과는 여기 모여요");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
     await card("새 회차를 쓴 다음엔");
     expect(
       screen.getByRole("button", { name: "stage refresh" }),
@@ -255,6 +265,10 @@ describe("WorkspaceTour", () => {
     await actor.click(screen.getByRole("button", { name: "다음" }));
     await card("작품을 아는 AI 챗");
     await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("다 쓴 회차는 설정과 대조해요");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    await card("점검 결과는 여기 모여요");
+    await actor.click(screen.getByRole("button", { name: "다음" }));
     await card("새 회차를 쓴 다음엔");
     await actor.click(screen.getByRole("button", { name: "다음" }));
     await card("달라진 문서가 모여요");
@@ -283,6 +297,43 @@ describe("WorkspaceTour", () => {
         },
       },
       { refresh: false },
+    );
+
+    await card("원고는 여기서 써요");
+    expect(screen.getByRole("list", { name: "12단계 중 1단계" })).toBeVisible();
+    for (const next of [
+      "쓰던 원고는 가져와요",
+      "올려 두고, 확인하고, 가져와요",
+      "속성 표로 문서를 이어요",
+      "이은 관계는 관계도로 봐요",
+      "한 문서에 집중해요",
+      "회차별 등장은 타임라인에서",
+      "줄은 문서, 칸은 회차예요",
+      "작품을 아는 AI 챗",
+      "다 쓴 회차는 설정과 대조해요",
+      "점검 결과는 여기 모여요",
+    ]) {
+      await actor.click(screen.getByRole("button", { name: "다음" }));
+      await card(next);
+    }
+    expect(screen.getByRole("button", { name: "완료" })).toBeVisible();
+  });
+
+  it("leaves out the setting check while the server has none", async () => {
+    window.localStorage.setItem("loresentry.tour.workspace", "pending");
+    const actor = userEvent.setup();
+    renderTour(
+      {
+        refresh: {
+          latest: () =>
+            Promise.reject(new ServiceError("unavailable", "준비 중")),
+        },
+        settingChecks: {
+          summary: () =>
+            Promise.reject(new ServiceError("unavailable", "준비 중")),
+        },
+      },
+      { refresh: false, check: false },
     );
 
     await card("원고는 여기서 써요");
@@ -327,6 +378,8 @@ describe("WorkspaceTour", () => {
       "한 문서에 집중해요",
       "회차별 등장은 타임라인에서",
       "줄은 문서, 칸은 회차예요",
+      "다 쓴 회차는 설정과 대조해요",
+      "점검 결과는 여기 모여요",
     ]) {
       await actor.click(screen.getByRole("button", { name: "다음" }));
       await card(next);

@@ -5,10 +5,10 @@ export type SettingCheckStatus = "RUNNING" | "DONE" | "FAILED" | "CANCELLED";
 
 export type SettingCheckStage = "READING" | "FINDING" | "JUDGING";
 
-/** 작가의 판정. 다음 점검에서 같은 어긋남을 숨기고, 적은 이유를 판정 입력에 넣는다 */
+/** 작가의 판정. 다음 점검에서 같은 설정 충돌을 숨기고, 적은 이유를 판정 입력에 넣는다 */
 export type SettingCheckVerdict = "INTENDED" | "NOT_CONFLICT";
 
-/** SETTING 은 설정 문서와, MANUSCRIPT 는 앞 회차와 어긋난다 */
+/** SETTING 은 설정 문서와, MANUSCRIPT 는 앞 회차와 충돌한다 */
 export type SettingCheckFindingKind = "SETTING" | "MANUSCRIPT";
 
 export interface SettingCheckRead {
@@ -47,7 +47,7 @@ export interface SettingCheckSource {
   docType: DocumentType;
   ordinal: number | null;
   quote: string;
-  /** 근거 문장 가운데 어긋나는 표현. 문장 안에서 찾지 못하면 null 이다 */
+  /** 근거 문장 가운데 충돌하는 표현. 문장 안에서 찾지 못하면 null 이다 */
   quoteFocus: string | null;
 }
 
@@ -60,7 +60,7 @@ export interface SettingCheckFinding {
   explanation: string;
   /** 점검한 회차의 문장 */
   quote: string;
-  /** 회차 문장 가운데 어긋나는 표현 */
+  /** 회차 문장 가운데 충돌하는 표현 */
   quoteFocus: string | null;
   source: SettingCheckSource;
   verdict: SettingCheckVerdict | null;
@@ -71,7 +71,7 @@ export interface SettingCheckRunDetail extends SettingCheckRun {
   findings: SettingCheckFinding[];
 }
 
-/** 판정 기록의 한 줄. 판정이 붙은 가장 최근 점검의 어긋남과 그 회차다 */
+/** 판정 기록의 한 줄. 판정이 붙은 가장 최근 점검의 설정 충돌과 그 회차다 */
 export interface SettingCheckDecision {
   documentId: string;
   documentTitle: string;

@@ -18,7 +18,7 @@ export type StoredSettingFinding = Omit<
 > & { fingerprint: string };
 
 /**
- * mock 이 보관하는 점검 한 번. 어긋남 수는 판정과 맞춰 읽을 때 센다(서버처럼 fingerprint 로 잇는다).
+ * mock 이 보관하는 점검 한 번. 설정 충돌 수는 판정과 맞춰 읽을 때 센다(서버처럼 fingerprint 로 잇는다).
  *
  * @param startedAtMs 단계를 흉내 내는 기준 시각
  * @param outcome     끝날 때의 모습. `hang` 이면 끝나지 않는다(`?mock=settingChecks.job:hang`)
@@ -55,7 +55,7 @@ export function normalizeQuote(text: string) {
 }
 
 /**
- * 서버는 종류·근거 문서·두 인용으로 짓는다. mock 의 어긋남은 시드에서 오므로 인용 대신 시드 key 를
+ * 서버는 종류·근거 문서·두 인용으로 짓는다. mock 의 설정 충돌은 시드에서 오므로 인용 대신 시드 key 를
  * 써서, 한국어·영어 시드가 같은 판정 열쇠를 갖게 한다.
  */
 export function fingerprintOf(kind: string, sourceId: string, key: string) {
@@ -144,7 +144,7 @@ export function storedFinding(
 }
 
 /**
- * 예시 작품의 점검 기록. 12화는 세 번(가장 최근 것이 어긋남 셋·의도함 하나), 11화는 어긋남 없음,
+ * 예시 작품의 점검 기록. 12화는 세 번(가장 최근 것이 설정 충돌 셋·의도함 하나), 11화는 설정 충돌 없음,
  * 10화는 점검한 뒤 고친 회차, 9화는 의도함 하나다. 13·14·8화와 나머지는 점검하지 않았다.
  */
 export function seedSettingChecks(

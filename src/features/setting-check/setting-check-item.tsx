@@ -33,6 +33,7 @@ export function SettingCheckItem() {
       icon={running ? "loader-circle" : "scan-text"}
       label={t("설정 오류 점검")}
       selected={selected}
+      data-tour="setting-check"
       aria-busy={running || undefined}
       className={running ? styles.running : undefined}
       onClick={() => {
