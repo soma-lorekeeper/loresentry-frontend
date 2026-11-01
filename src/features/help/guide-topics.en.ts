@@ -270,7 +270,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
     title: "Setting check",
     summary: "Check a chapter against your settings for conflicts",
     lead: "Setting check compares one chapter with earlier chapters and your setting documents to find setting conflicts. Each conflict links the source sentence to its place in the chapter and explains why it conflicts. Your manuscript is never changed.",
-    updatedAt: "2026-10-31",
+    updatedAt: "2026-11-01",
     readMinutes: 3,
     facts: [
       { label: "Start from", value: "Chapter file tools · Sidebar" },
@@ -296,12 +296,12 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "verdict",
         title: "Leave a verdict",
-        body: "If a flagged place isn't something to fix, leave a verdict with the buttons on its card. A reason is optional.\n\n- Not a conflict: the check got it wrong and both can be true.\n- It's intended: you know it differs from the setting and wrote it on purpose.\n\nEither way, the next check won't list the same place under To review, and the AI takes your reason into account. Your verdicts gather per project under Decisions on the Setting check home screen, where you can undo them.",
+        body: "If a flagged place isn't something to fix, leave a verdict with the buttons on its card. A reason is optional.\n\n- Not a conflict: the check got it wrong and both can be true.\n- It's intended: you know it differs from the setting and wrote it on purpose.\n\nA verdict stays with the result of that check. When you check the same chapter again, the same conflict on the same sentence keeps your verdict and isn't listed under To review. The AI takes the verdicts and reasons you left on this chapter into account, along with the version each one was left on. The verdicts the next check will carry over gather under Decisions on the Setting check home screen, where you can undo them.",
       },
       {
         id: "changed",
         title: "After you edit the chapter",
-        body: "If the chapter changes after a check, the result says so above the cards. Select Check again to check the current text.\n\nThe number next to Setting check in the sidebar adds up what's left to review in each chapter's latest check.",
+        body: "A result shows the chapter exactly as it was checked. Next to the chapter name you'll see Checked version and its time, and that version is kept in the document's version history as Setting check.\n\nIf the chapter changes after a check, the result says so above the cards. Select Check again to check the current text; earlier results and verdicts stay as they were.\n\nThe number next to Setting check in the sidebar adds up what's left to review in each chapter's latest check.",
       },
     ],
     related: ["refresh", "files"],

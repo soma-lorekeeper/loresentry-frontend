@@ -53,6 +53,7 @@ describe("guide content (English build)", () => {
       "files",
       "writing",
       "refresh",
+      "check",
     ]);
     expect(searchTopics("ROWS TO SHOW").map((topic) => topic.id)).toEqual([
       "memo",

@@ -147,6 +147,6 @@ export default {
   "‘충돌 아니에요’나 ‘의도한 거예요’로 남기면 같은 곳을 다시 올리지 않고, 남긴 이유도 참고해요.":
     "Mark a place as “Not a conflict” or “It's intended” and the next check won't raise it again, and takes your reason into account.",
   "원고를 고치면 알려 줘요": "Edits don't go unnoticed",
-  "점검한 뒤 원고가 바뀌면 결과 위에 알리고, 그 자리에서 다시 점검해요.":
-    "If the chapter changes after a check, the result says so, and you can check again right there.",
+  "결과는 점검한 버전의 원고 그대로 남아요. 그 뒤 원고가 바뀌면 결과 위에 알리고, 그 자리에서 다시 점검해요.":
+    "A result keeps the chapter as it was checked. If the chapter changes later, the result says so, and you can check again right there.",
 } satisfies Messages;

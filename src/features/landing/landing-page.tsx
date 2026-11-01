@@ -477,7 +477,7 @@ export function LandingPage() {
             </Point>
             <Point icon="pencil-line" title={t("원고를 고치면 알려 줘요")}>
               {t(
-                "점검한 뒤 원고가 바뀌면 결과 위에 알리고, 그 자리에서 다시 점검해요.",
+                "결과는 점검한 버전의 원고 그대로 남아요. 그 뒤 원고가 바뀌면 결과 위에 알리고, 그 자리에서 다시 점검해요.",
               )}
             </Point>
           </ul>

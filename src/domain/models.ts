@@ -161,7 +161,7 @@ export interface Memo {
 // 서버 가정(DOCUMENT_EDITING_PROPOSAL §4.2): 버전은 그 시점의 제목·본문·속성 스냅샷
 // 전체를 복사해 둔 한 행이다.
 export type VersionKind =
-  "AUTO" | "NAMED" | "PRE_RESTORE" | "RESTORE" | "AI_APPLY";
+  "AUTO" | "NAMED" | "PRE_RESTORE" | "RESTORE" | "AI_APPLY" | "SETTING_CHECK";
 
 export interface DocumentVersion {
   id: string;

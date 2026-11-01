@@ -11,6 +11,7 @@ import { useWorkspace } from "@/features/workspace/workspace-context";
 import { t } from "@/i18n";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
+import { versionTimeLabel } from "@/shared/format";
 
 import { Board } from "./board";
 import { latestRun } from "./ledger";
@@ -75,12 +76,27 @@ export function Report({
   const latest = latestRun(summary, chapter.id);
   const done = latest?.status === "DONE";
   const detail = useSettingCheckRun(done ? latest.id : null);
+  const versionId = done ? latest.versionId : null;
+  const legacy = done && versionId === null;
+  const checked = useQuery({
+    queryKey: queryKeys.version(chapter.id, versionId ?? ""),
+    queryFn: () => services.versions.get(chapter.id, versionId ?? ""),
+    enabled: versionId !== null,
+    staleTime: Infinity,
+  });
   const chapterDoc = useQuery({
     queryKey: queryKeys.document(chapter.id),
     queryFn: () => services.documents.get(chapter.id),
-    enabled: done,
+    enabled: legacy,
   });
   const changed = done && revisionNo > latest.revisionNo;
+  const versionLabel = checked.data
+    ? t("점검한 버전 · {time}", {
+        time: versionTimeLabel(checked.data.createdAt),
+      })
+    : legacy
+      ? t("점검한 버전이 없어 지금 원고로 보여요")
+      : null;
 
   const header = (
     <>
@@ -92,6 +108,9 @@ export function Report({
         <h1 className={styles.chapterName} data-kind="manuscript">
           {chapter.title}
         </h1>
+        {versionLabel && (
+          <span className={styles.checkedVersion}>{versionLabel}</span>
+        )}
       </div>
       {changed && (
         <div className={styles.strip} role="status">
@@ -110,9 +129,11 @@ export function Report({
     </>
   );
 
-  if (done && detail.data?.id === latest.id && !chapterDoc.isPending) {
-    const paragraphs = chapterDoc.data
-      ? bodyBlocks(chapterDoc.data.body)
+  const ready = legacy ? !chapterDoc.isPending : checked.isSuccess;
+  if (done && detail.data?.id === latest.id && ready) {
+    const shown = checked.data?.snapshot.body ?? chapterDoc.data?.body;
+    const paragraphs = shown
+      ? bodyBlocks(shown)
           .map(blockToPlainText)
           .filter((text) => text.trim())
       : [];
@@ -189,12 +210,15 @@ export function Report({
         </div>
       </div>
     );
-  } else if (detail.isError) {
+  } else if (detail.isError || checked.isError) {
     body = (
       <QueryFailure
         title={t("점검 결과를 불러오지 못했어요")}
-        retrying={detail.isFetching}
-        onRetry={() => void detail.refetch()}
+        retrying={detail.isFetching || checked.isFetching}
+        onRetry={() => {
+          if (detail.isError) void detail.refetch();
+          if (checked.isError) void checked.refetch();
+        }}
       />
     );
   } else {

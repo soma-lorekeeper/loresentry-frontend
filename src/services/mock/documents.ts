@@ -283,6 +283,17 @@ export const mockVersions: VersionService = {
         .sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
     ),
 
+  get: (fileId, versionId) =>
+    simulate("versions.get", () => {
+      requireDocument(fileId);
+      const version = getDb().versions.find(
+        (v) => v.id === versionId && v.fileId === fileId,
+      );
+      if (!version)
+        throw new ServiceError("not-found", t("버전을 찾을 수 없어요."));
+      return version;
+    }),
+
   saveNamed: (fileId) =>
     simulate("versions.save", () => {
       const node = requireDocument(fileId);

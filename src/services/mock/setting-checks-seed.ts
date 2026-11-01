@@ -1,10 +1,9 @@
-import { bodyBlocks, bodyToPlainText } from "@/domain/document-body";
+import { bodyBlocks, bodyToPlainText, emptyBody } from "@/domain/document-body";
 import type { DocumentNode } from "@/domain/models";
 import type {
   SettingCheckFinding,
   SettingCheckRead,
   SettingCheckRun,
-  SettingCheckVerdict,
 } from "@/domain/setting-check";
 import { isCoreBlock } from "@/features/documents/editor/core-setting";
 
@@ -12,13 +11,13 @@ import type { MockDb } from "./db";
 import type { MockSeed, SeedSettingFinding } from "./seed-types";
 import { activeFiles, orderedTree } from "./tree";
 
-export type StoredSettingFinding = Omit<
-  SettingCheckFinding,
-  "verdict" | "reason"
-> & { fingerprint: string };
+export type StoredSettingFinding = SettingCheckFinding & {
+  fingerprint: string;
+  decidedAt: string | null;
+};
 
 /**
- * mock 이 보관하는 점검 한 번. 설정 충돌 수는 판정과 맞춰 읽을 때 센다(서버처럼 fingerprint 로 잇는다).
+ * mock 이 보관하는 점검 한 번. 판정은 그 점검의 설정 충돌에 붙는다(서버처럼).
  *
  * @param startedAtMs 단계를 흉내 내는 기준 시각
  * @param outcome     끝날 때의 모습. `hang` 이면 끝나지 않는다(`?mock=settingChecks.job:hang`)
@@ -30,20 +29,12 @@ export interface StoredSettingCheckRun {
   outcome: "done" | "fail" | "hang";
 }
 
-export interface StoredSettingVerdict {
-  verdict: SettingCheckVerdict;
-  reason: string | null;
-  decidedAt: string;
-}
-
 export interface MockSettingChecks {
   runs: StoredSettingCheckRun[];
-  /** `${projectId}|${fingerprint}` → 판정 */
-  verdicts: Record<string, StoredSettingVerdict>;
 }
 
 export function emptySettingChecks(): MockSettingChecks {
-  return { runs: [], verdicts: {} };
+  return { runs: [] };
 }
 
 export function normalizeQuote(text: string) {
@@ -60,10 +51,6 @@ export function normalizeQuote(text: string) {
  */
 export function fingerprintOf(kind: string, sourceId: string, key: string) {
   return [kind, sourceId, key].join("|");
-}
-
-export function verdictKey(projectId: string, fingerprint: string) {
-  return `${projectId}|${fingerprint}`;
 }
 
 export function manuscriptsOf(db: MockDb, projectId: string): DocumentNode[] {
@@ -139,8 +126,35 @@ export function storedFinding(
       quote: seed.sourceQuote,
       quoteFocus: seed.sourceFocus ?? null,
     },
+    verdict: null,
+    reason: null,
     fingerprint: fingerprintOf(seed.kind, sourceId, seed.key),
+    decidedAt: null,
   };
+}
+
+/** 점검이 읽은 판을 버전 기록에 남긴다. 서버의 SETTING_CHECK 버전과 같다 */
+export function checkVersion(
+  db: MockDb,
+  node: DocumentNode,
+  createdAt: string,
+) {
+  const stored = db.documents[node.id];
+  const id = `ver-check-${db.versions.length + 1}-${node.id}`;
+  db.versions.push({
+    id,
+    fileId: node.id,
+    kind: "SETTING_CHECK",
+    label: null,
+    createdAt,
+    snapshot: {
+      title: node.title,
+      docType: node.docType,
+      body: stored?.body ?? emptyBody(),
+      properties: stored?.properties ?? [],
+    },
+  });
+  return id;
 }
 
 /**
@@ -170,6 +184,7 @@ export function seedSettingChecks(
     if (!node) return;
     const runId = `check-${chapterKey}-${minutesAgo}`;
     const createdAt = now - minutesAgo * 60_000;
+    const decidedAt = new Date(createdAt + 5 * 60_000).toISOString();
     db.settingChecks.runs.push({
       run: {
         id: runId,
@@ -177,6 +192,7 @@ export function seedSettingChecks(
         documentId: node.id,
         documentTitle: node.title,
         revisionNo: Math.max(1, node.revisionNo - revisionBack),
+        versionId: checkVersion(db, node, new Date(createdAt).toISOString()),
         status: "DONE",
         stage: null,
         createdAt: new Date(createdAt).toISOString(),
@@ -184,24 +200,16 @@ export function seedSettingChecks(
         read: readScope(db, projectId, node.id),
         failureCode: null,
       },
-      findings: findings.flatMap(
-        (finding) => storedFinding(db, projectId, runId, finding) ?? [],
-      ),
+      findings: findings.flatMap((finding) => {
+        const stored = storedFinding(db, projectId, runId, finding);
+        if (!stored) return [];
+        return finding.verdict
+          ? { ...stored, ...finding.verdict, decidedAt }
+          : stored;
+      }),
       startedAtMs: createdAt,
       outcome: "done",
     });
-    for (const finding of findings) {
-      if (!finding.verdict) continue;
-      const fingerprint = fingerprintOf(
-        finding.kind,
-        `${projectId}:${finding.source}`,
-        finding.key,
-      );
-      db.settingChecks.verdicts[verdictKey(projectId, fingerprint)] = {
-        ...finding.verdict,
-        decidedAt: new Date(createdAt + 5 * 60_000).toISOString(),
-      };
-    }
   };
 
   const [door, patrol, harin, crack] = plan.findings;

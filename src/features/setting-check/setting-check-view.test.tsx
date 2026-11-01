@@ -2,6 +2,7 @@ import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { emptyBody } from "@/domain/document-body";
 import type { DocumentNode } from "@/domain/models";
 import { takeReveal } from "@/features/documents/reveal-request";
 import { createLayout } from "@/features/workspace/model/layout";
@@ -264,19 +265,26 @@ describe("setting check view", () => {
     ).toBeInTheDocument();
   });
 
-  it("says the chapter changed after the check and offers to check again", async () => {
+  it("keeps showing the checked version after the chapter changes and offers to check again", async () => {
     focusChapter(GLASS_GARDEN_ID, "glass-garden:ch-12");
     renderWithServices(<Harness />, {
       before: () => {
-        const node = getDb().files.find(
+        const db = getDb();
+        const node = db.files.find(
           (file): file is DocumentNode =>
             file.id === "glass-garden:ch-12" && file.kind === "document",
         )!;
         node.revisionNo += 1;
+        db.documents[node.id] = { ...db.documents[node.id], body: emptyBody() };
       },
     });
     await screen.findByRole("list", { name: "근거" }, LOADED);
     expect(screen.getByText("점검한 뒤 원고가 바뀌었어요")).toBeInTheDocument();
+    expect(
+      screen.getByText(/^점검한 버전 · (오늘|어제) \d\d:\d\d$/),
+    ).toBeInTheDocument();
+    const marks = screen.getByLabelText("대상 원고").querySelectorAll("mark");
+    expect(marks).toHaveLength(5);
     await userEvent.click(
       screen.getByRole("button", { name: "다시 점검하기" }),
     );
