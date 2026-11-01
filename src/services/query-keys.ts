@@ -17,6 +17,8 @@ export const queryKeys = {
   trash: (projectId: string) => ["files", projectId, "trash"] as const,
   document: (fileId: string) => ["document", fileId] as const,
   versions: (fileId: string) => ["versions", fileId] as const,
+  version: (fileId: string, versionId: string) =>
+    ["versions", fileId, versionId] as const,
   memos: (projectId: string, scope: MemoScope, fileId: string | null) =>
     ["memos", projectId, scope, fileId] as const,
   search: (projectId: string, query: string) =>

@@ -37,6 +37,7 @@ const KIND_LABEL: Record<VersionKind, string> = {
   PRE_RESTORE: t("복원 전 상태"),
   RESTORE: t("복원됨"),
   AI_APPLY: t("최신화 반영"),
+  SETTING_CHECK: t("설정 오류 점검"),
 };
 
 const monthDay = new Intl.DateTimeFormat(INTL_LOCALE[LOCALE], {

@@ -130,6 +130,7 @@ const VERSION_KINDS: Record<string, VersionKind> = {
   NAMED: "NAMED",
   RESTORE: "PRE_RESTORE",
   AI_APPLY: "AI_APPLY",
+  SETTING_CHECK: "SETTING_CHECK",
 };
 
 function toVersion(
@@ -368,6 +369,15 @@ export function createApiVersions(
         { operation: "versions.list" },
       );
       return body.versions.map((version) => toVersion(version, docType));
+    },
+
+    get: async (fileId, versionId) => {
+      const docType = await docTypeOf(fileId);
+      const version = await client.request<ApiVersion>(
+        `/files/${fileId}/versions/${versionId}`,
+        { operation: "versions.get" },
+      );
+      return toVersion(version, docType);
     },
 
     saveNamed: async (fileId, label) => {

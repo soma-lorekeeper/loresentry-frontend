@@ -140,4 +140,7 @@ export default {
   "중요 설정으로 표시": "Mark as key setting",
   "표시 풀기": "Unmark",
   "선택한 문단": "Selected paragraphs",
+  "점검한 버전 · {time}": "Checked version · {time}",
+  "점검한 버전이 없어 지금 원고로 보여요":
+    "The checked version wasn't kept, so this shows the current text",
 } satisfies Messages;

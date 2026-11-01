@@ -20,6 +20,7 @@ interface ApiRun {
   document_id: string;
   document_title: string;
   revision_no: number;
+  version_id?: string | null;
   status: SettingCheckStatus;
   stage: SettingCheckStage | null;
   created_at: string;
@@ -73,6 +74,7 @@ function toRun(api: ApiRun): SettingCheckRun {
     documentId: api.document_id,
     documentTitle: api.document_title,
     revisionNo: api.revision_no,
+    versionId: api.version_id ?? null,
     status: api.status,
     stage: api.stage ?? null,
     createdAt: api.created_at,

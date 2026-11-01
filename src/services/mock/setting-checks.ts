@@ -17,10 +17,10 @@ import { getMockControl, setMockRule, simulate } from "./control";
 import { getDb, nextId, persistDb, type MockDb } from "./db";
 import { SEED } from "./seed-world";
 import {
+  checkVersion,
   normalizeQuote,
   readScope,
   storedFinding,
-  verdictKey,
   type StoredSettingCheckRun,
   type StoredSettingFinding,
 } from "./setting-checks-seed";
@@ -33,48 +33,64 @@ export const SETTING_CHECK_TIMELINE_MS = {
   done: 4500,
 };
 
-function counts(db: MockDb, stored: StoredSettingCheckRun): SettingCheckCounts {
+function counts(stored: StoredSettingCheckRun): SettingCheckCounts {
   const result = { open: 0, intended: 0, notConflict: 0 };
   for (const finding of stored.findings) {
-    const verdict =
-      db.settingChecks.verdicts[
-        verdictKey(stored.run.projectId, finding.fingerprint)
-      ]?.verdict;
-    if (verdict === "INTENDED") result.intended += 1;
-    else if (verdict === "NOT_CONFLICT") result.notConflict += 1;
+    if (finding.verdict === "INTENDED") result.intended += 1;
+    else if (finding.verdict === "NOT_CONFLICT") result.notConflict += 1;
     else result.open += 1;
   }
   return result;
 }
 
-function toRun(db: MockDb, stored: StoredSettingCheckRun): SettingCheckRun {
-  return { ...stored.run, counts: counts(db, stored) };
+function toRun(stored: StoredSettingCheckRun): SettingCheckRun {
+  return { ...stored.run, counts: counts(stored) };
 }
 
-function toFinding(
-  db: MockDb,
-  projectId: string,
-  stored: StoredSettingFinding,
-): SettingCheckFinding {
-  const { fingerprint, ...finding } = stored;
-  const verdict = db.settingChecks.verdicts[verdictKey(projectId, fingerprint)];
+function toFinding(stored: StoredSettingFinding): SettingCheckFinding {
+  const { id, kind, core, confidence, explanation, quote, quoteFocus } = stored;
+  const { source, verdict, reason } = stored;
   return {
-    ...finding,
-    verdict: verdict?.verdict ?? null,
-    reason: verdict?.reason ?? null,
+    id,
+    kind,
+    core,
+    confidence,
+    explanation,
+    quote,
+    quoteFocus,
+    source,
+    verdict,
+    reason,
   };
 }
 
-function toDetail(
-  db: MockDb,
-  stored: StoredSettingCheckRun,
-): SettingCheckRunDetail {
-  return {
-    ...toRun(db, stored),
-    findings: stored.findings.map((finding) =>
-      toFinding(db, stored.run.projectId, finding),
-    ),
-  };
+function toDetail(stored: StoredSettingCheckRun): SettingCheckRunDetail {
+  return { ...toRun(stored), findings: stored.findings.map(toFinding) };
+}
+
+function newest(a: StoredSettingCheckRun, b: StoredSettingCheckRun) {
+  return b.run.createdAt.localeCompare(a.run.createdAt);
+}
+
+/** 회차의 설정 충돌마다, 그것이 나온 가장 최근 점검의 상태. 판정을 지운 것도 그대로다 */
+function latestStates(db: MockDb, documentId: string, except?: string) {
+  const states = new Map<
+    string,
+    { stored: StoredSettingCheckRun; finding: StoredSettingFinding }
+  >();
+  const runs = db.settingChecks.runs
+    .filter(
+      (stored) =>
+        stored.run.documentId === documentId &&
+        stored.run.status === "DONE" &&
+        stored.run.id !== except,
+    )
+    .sort(newest);
+  for (const stored of runs)
+    for (const finding of stored.findings)
+      if (!states.has(finding.fingerprint))
+        states.set(finding.fingerprint, { stored, finding });
+  return states;
 }
 
 /** 서버의 인용 확인처럼, 인용이 지금 원고에 그대로 있는 설정 충돌만 낸다 */
@@ -84,26 +100,49 @@ function detect(db: MockDb, stored: StoredSettingCheckRun) {
   if (documentId !== `${projectId}:${plan.chapter}`) return [];
   const body = db.documents[documentId]?.body;
   const text = normalizeQuote(body ? bodyToPlainText(body) : "");
-  return plan.findings.flatMap((finding) =>
-    text.includes(normalizeQuote(finding.quote))
-      ? (storedFinding(db, projectId, id, finding) ?? [])
-      : [],
-  );
+  const states = latestStates(db, documentId, id);
+  return plan.findings.flatMap((seed) => {
+    if (!text.includes(normalizeQuote(seed.quote))) return [];
+    const finding = storedFinding(db, projectId, id, seed);
+    if (!finding) return [];
+    const previous = states.get(finding.fingerprint)?.finding;
+    return previous?.verdict
+      ? {
+          ...finding,
+          verdict: previous.verdict,
+          reason: previous.reason,
+          decidedAt: previous.decidedAt,
+        }
+      : finding;
+  });
 }
 
 function advance(db: MockDb, now = Date.now()) {
   for (const stored of db.settingChecks.runs) {
     if (stored.run.status !== "RUNNING") continue;
     const elapsed = now - stored.startedAtMs;
-    if (
-      elapsed >= SETTING_CHECK_TIMELINE_MS.finding &&
-      !stored.run.read.settings
-    )
+    if (elapsed >= SETTING_CHECK_TIMELINE_MS.finding && !stored.run.versionId) {
       stored.run.read = readScope(
         db,
         stored.run.projectId,
         stored.run.documentId,
       );
+      const node = db.files.find(
+        (candidate): candidate is DocumentNode =>
+          candidate.id === stored.run.documentId &&
+          candidate.kind === "document",
+      );
+      if (node) {
+        stored.run.revisionNo = node.revisionNo;
+        stored.run.versionId = checkVersion(
+          db,
+          node,
+          new Date(
+            stored.startedAtMs + SETTING_CHECK_TIMELINE_MS.finding,
+          ).toISOString(),
+        );
+      }
+    }
     if (elapsed < SETTING_CHECK_TIMELINE_MS.done || stored.outcome === "hang") {
       stored.run.stage =
         elapsed < SETTING_CHECK_TIMELINE_MS.finding
@@ -150,10 +189,6 @@ function requireFinding(db: MockDb, findingId: string, operation: string) {
   );
 }
 
-function newest(a: StoredSettingCheckRun, b: StoredSettingCheckRun) {
-  return b.run.createdAt.localeCompare(a.run.createdAt);
-}
-
 /** `?mock=settingChecks.job:fail|once|hang` 은 다음 점검이 끝나는 모습을 정한다 */
 function outcomeOfNextJob(): StoredSettingCheckRun["outcome"] {
   const rule = getMockControl().rules["settingChecks.job"];
@@ -176,10 +211,10 @@ export const mockSettingChecks: SettingCheckService = {
         if (!latest.has(stored.run.documentId))
           latest.set(stored.run.documentId, stored);
       return {
-        running: running ? toRun(db, running) : null,
+        running: running ? toRun(running) : null,
         chapters: [...latest.values()].map((stored) => ({
           documentId: stored.run.documentId,
-          latest: toRun(db, stored),
+          latest: toRun(stored),
         })),
       };
     }),
@@ -195,41 +230,35 @@ export const mockSettingChecks: SettingCheckService = {
             stored.run.documentId === documentId,
         )
         .sort(newest)
-        .map((stored) => toRun(db, stored));
+        .map((stored) => toRun(stored));
     }),
 
   run: (runId) =>
     simulate("settingChecks.run", () => {
       const db = getDb();
       advance(db);
-      return toDetail(db, requireRun(db, runId, "settingChecks.run"));
+      return toDetail(requireRun(db, runId, "settingChecks.run"));
     }),
 
   verdicts: (projectId) =>
     simulate("settingChecks.verdicts", () => {
       const db = getDb();
       advance(db);
-      const runs = db.settingChecks.runs
-        .filter((stored) => stored.run.projectId === projectId)
-        .sort(newest);
+      const chapters = new Set(
+        db.settingChecks.runs
+          .filter((stored) => stored.run.projectId === projectId)
+          .map((stored) => stored.run.documentId),
+      );
       const decisions: SettingCheckDecision[] = [];
-      for (const [key, verdict] of Object.entries(db.settingChecks.verdicts)) {
-        if (!key.startsWith(`${projectId}|`)) continue;
-        const fingerprint = key.slice(projectId.length + 1);
-        for (const stored of runs) {
-          const finding = stored.findings.find(
-            (item) => item.fingerprint === fingerprint,
-          );
-          if (!finding) continue;
-          decisions.push({
-            documentId: stored.run.documentId,
-            documentTitle: stored.run.documentTitle,
-            decidedAt: verdict.decidedAt,
-            finding: toFinding(db, projectId, finding),
-          });
-          break;
-        }
-      }
+      for (const documentId of chapters)
+        for (const { stored, finding } of latestStates(db, documentId).values())
+          if (finding.verdict && finding.decidedAt)
+            decisions.push({
+              documentId,
+              documentTitle: stored.run.documentTitle,
+              decidedAt: finding.decidedAt,
+              finding: toFinding(finding),
+            });
       return decisions.sort((a, b) => b.decidedAt.localeCompare(a.decidedAt));
     }),
 
@@ -265,6 +294,7 @@ export const mockSettingChecks: SettingCheckService = {
           documentId,
           documentTitle: node.title,
           revisionNo: node.revisionNo,
+          versionId: null,
           status: "RUNNING",
           stage: "READING",
           createdAt: new Date(now).toISOString(),
@@ -284,7 +314,7 @@ export const mockSettingChecks: SettingCheckService = {
       };
       db.settingChecks.runs.push(stored);
       persistDb();
-      return toRun(db, stored);
+      return toRun(stored);
     }),
 
   cancel: (runId) =>
@@ -302,7 +332,7 @@ export const mockSettingChecks: SettingCheckService = {
   setVerdict: (findingId, verdict, reason) =>
     simulate("settingChecks.setVerdict", () => {
       const db = getDb();
-      const { stored, finding } = requireFinding(
+      const { finding } = requireFinding(
         db,
         findingId,
         "settingChecks.setVerdict",
@@ -314,25 +344,25 @@ export const mockSettingChecks: SettingCheckService = {
           t("입력을 다시 확인해 주세요."),
           "settingChecks.setVerdict",
         );
-      db.settingChecks.verdicts[
-        verdictKey(stored.run.projectId, finding.fingerprint)
-      ] = { verdict, reason: trimmed, decidedAt: new Date().toISOString() };
+      finding.verdict = verdict;
+      finding.reason = trimmed;
+      finding.decidedAt = new Date().toISOString();
       persistDb();
-      return toFinding(db, stored.run.projectId, finding);
+      return toFinding(finding);
     }),
 
   clearVerdict: (findingId) =>
     simulate("settingChecks.clearVerdict", () => {
       const db = getDb();
-      const { stored, finding } = requireFinding(
+      const { finding } = requireFinding(
         db,
         findingId,
         "settingChecks.clearVerdict",
       );
-      delete db.settingChecks.verdicts[
-        verdictKey(stored.run.projectId, finding.fingerprint)
-      ];
+      finding.verdict = null;
+      finding.reason = null;
+      finding.decidedAt = null;
       persistDb();
-      return toFinding(db, stored.run.projectId, finding);
+      return toFinding(finding);
     }),
 };

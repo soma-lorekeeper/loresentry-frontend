@@ -69,6 +69,7 @@ function run(overrides: Partial<SettingCheckRun>): SettingCheckRun {
     documentId: "12화",
     documentTitle: "12화",
     revisionNo: 5,
+    versionId: "ver-5",
     status: "DONE",
     stage: null,
     createdAt: "2026-10-27T12:00:00Z",

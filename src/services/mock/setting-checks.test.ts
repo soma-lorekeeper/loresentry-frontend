@@ -4,6 +4,7 @@ import { isServiceError } from "../errors";
 
 import { applyMockParam, clearMockRules, setMockLatency } from "./control";
 import { GLASS_GARDEN_ID, resetDb } from "./db";
+import { mockVersions } from "./documents";
 import { mockSettingChecks as checks } from "./setting-checks";
 import { SETTING_CHECK_TIMELINE_MS } from "./setting-checks";
 
@@ -151,9 +152,12 @@ describe("mock setting checks", () => {
     });
   });
 
-  it("keeps a verdict across runs and can take it back", async () => {
+  it("keeps a verdict on its own run and carries it into the next check", async () => {
     const [latest, earlier] = await checks.runs(GLASS_GARDEN_ID, doc("ch-12"));
     const door = (await checks.run(latest.id)).findings[0];
+    const same = (finding: { explanation: string }) =>
+      finding.explanation === door.explanation;
+    const before = (await checks.run(earlier.id)).findings.find(same);
 
     const decided = await checks.setVerdict(
       door.id,
@@ -164,18 +168,51 @@ describe("mock setting checks", () => {
       verdict: "NOT_CONFLICT",
       reason: "열쇠는 9화에서 받아요",
     });
-    const sameInEarlier = (await checks.run(earlier.id)).findings.find(
-      (finding) => finding.explanation === door.explanation,
-    );
-    expect(sameInEarlier?.verdict).toBe("NOT_CONFLICT");
+    expect((await checks.run(earlier.id)).findings.find(same)).toEqual(before);
     expect(
       (await checks.summary(GLASS_GARDEN_ID)).chapters.find(
         (chapter) => chapter.documentId === doc("ch-12"),
       )?.latest.counts,
     ).toEqual({ open: 5, intended: 1, notConflict: 1 });
 
+    const started = await checks.start(GLASS_GARDEN_ID, doc("ch-12"));
+    expect(started.versionId).toBeNull();
+    later(SETTING_CHECK_TIMELINE_MS.done);
+    const next = await checks.run(started.id);
+    expect(next.findings.find(same)).toMatchObject({
+      verdict: "NOT_CONFLICT",
+      reason: "열쇠는 9화에서 받아요",
+    });
+
     const cleared = await checks.clearVerdict(door.id);
     expect(cleared).toMatchObject({ verdict: null, reason: null });
+    expect((await checks.run(next.id)).findings.find(same)?.verdict).toBe(
+      "NOT_CONFLICT",
+    );
+  });
+
+  it("points each run at the version it read", async () => {
+    const [latest] = await checks.runs(GLASS_GARDEN_ID, doc("ch-12"));
+    expect(latest.versionId).not.toBeNull();
+    const version = await mockVersions.get(
+      latest.documentId,
+      latest.versionId ?? "",
+    );
+    expect(version).toMatchObject({
+      fileId: latest.documentId,
+      kind: "SETTING_CHECK",
+      createdAt: latest.createdAt,
+    });
+
+    const started = await checks.start(GLASS_GARDEN_ID, doc("ch-12"));
+    later(SETTING_CHECK_TIMELINE_MS.finding);
+    const reading = await checks.run(started.id);
+    expect(reading.versionId).not.toBeNull();
+    expect(
+      (await mockVersions.list(doc("ch-12"))).some(
+        (item) => item.id === reading.versionId,
+      ),
+    ).toBe(true);
   });
 
   it("keeps a ledger of verdicts with the newest finding of each", async () => {

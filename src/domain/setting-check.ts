@@ -5,7 +5,7 @@ export type SettingCheckStatus = "RUNNING" | "DONE" | "FAILED" | "CANCELLED";
 
 export type SettingCheckStage = "READING" | "FINDING" | "JUDGING";
 
-/** 작가의 판정. 다음 점검에서 같은 설정 충돌을 숨기고, 적은 이유를 판정 입력에 넣는다 */
+/** 작가의 판정. 그 점검의 설정 충돌에 붙고, 같은 회차의 다음 점검이 이어받아 판정 입력에 넣는다 */
 export type SettingCheckVerdict = "INTENDED" | "NOT_CONFLICT";
 
 /** SETTING 은 설정 문서와, MANUSCRIPT 는 앞 회차와 충돌한다 */
@@ -32,6 +32,7 @@ export interface SettingCheckRun {
   documentTitle: string;
   /** 점검한 판. 회차의 지금 판이 이보다 크면 점검한 뒤 고친 것이다 */
   revisionNo: number;
+  versionId: string | null;
   status: SettingCheckStatus;
   stage: SettingCheckStage | null;
   createdAt: IsoDateTime;
@@ -71,7 +72,7 @@ export interface SettingCheckRunDetail extends SettingCheckRun {
   findings: SettingCheckFinding[];
 }
 
-/** 판정 기록의 한 줄. 판정이 붙은 가장 최근 점검의 설정 충돌과 그 회차다 */
+/** 판정 기록의 한 줄. 회차마다 그 설정 충돌이 나온 가장 최근 점검의 판정이다 */
 export interface SettingCheckDecision {
   documentId: string;
   documentTitle: string;
