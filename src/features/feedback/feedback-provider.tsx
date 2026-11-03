@@ -1,5 +1,8 @@
 "use client";
 
+import { beginUsage } from "@/features/analytics/usage-analytics";
+import { useDialogUsage } from "@/features/analytics/usage-hooks";
+
 import { useMutation } from "@tanstack/react-query";
 import {
   createContext,
@@ -76,20 +79,31 @@ function FeedbackDialog({
   onClose: () => void;
   onSent: () => void;
 }) {
+  const dialogUsage = useDialogUsage("feedback", true);
   const services = useServices();
   const toast = useToast();
   const [page] = useState(currentPage);
   const send = useMutation({
-    mutationFn: () =>
-      services.feedback.send({
-        message: draft.trim(),
-        page,
-      }),
+    mutationFn: async () => {
+      const attempt = beginUsage(
+        "feedback_submit_started",
+        "feedback_submit_result",
+        { entry_point: "other" },
+      );
+      try {
+        await services.feedback.send({ message: draft.trim(), page });
+        attempt.finish({ outcome: "success" });
+      } catch (error) {
+        attempt.fail(error);
+        throw error;
+      }
+    },
     onSuccess: () => {
       toast({
         icon: "circle-check",
         title: t("피드백을 보냈어요"),
       });
+      dialogUsage.closed();
       onSent();
     },
   });
@@ -99,6 +113,7 @@ function FeedbackDialog({
 
   const submit = () => {
     if (empty || tooLong || pending) return;
+    dialogUsage.submitted();
     send.mutate();
   };
 
@@ -115,7 +130,12 @@ function FeedbackDialog({
   return (
     <DialogCard
       open
-      onClose={() => !pending && onClose()}
+      onClose={() => {
+        if (!pending) {
+          dialogUsage.closed();
+          onClose();
+        }
+      }}
       dismissible={!pending}
       size="md"
       title={t("피드백 보내기")}
@@ -125,7 +145,10 @@ function FeedbackDialog({
             size="md"
             icon="x"
             className={styles.ghost}
-            onClick={onClose}
+            onClick={() => {
+              dialogUsage.closed();
+              onClose();
+            }}
             disabled={pending}
           >
             {t("취소")}
@@ -148,6 +171,7 @@ function FeedbackDialog({
           label={t("내용")}
           value={draft}
           onChange={(event) => {
+            dialogUsage.edited();
             onDraft(event.target.value);
             if (send.isError) send.reset();
           }}

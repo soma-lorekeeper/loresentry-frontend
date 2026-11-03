@@ -1,10 +1,13 @@
 "use client";
 
+import type { EntryPoint } from "@/features/analytics/usage-schema";
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import type { Project, User, WithdrawalSurvey } from "@/domain/models";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
+import { withUsageAction } from "@/features/analytics/usage-analytics";
 
 export function useProjects() {
   const services = useServices();
@@ -71,7 +74,13 @@ export function useUpdateProject() {
       projectId: string;
       title: string;
       description: string;
-    }) => services.projects.saveSettings(projectId, { title, description }),
+    }) =>
+      withUsageAction(
+        "project",
+        "update_settings",
+        () => services.projects.saveSettings(projectId, { title, description }),
+        { entry_point: "project_list" },
+      ),
     (project: Project) => {
       queryClient.setQueryData(queryKeys.project(project.id), project);
       queryClient.setQueryData(queryKeys.projectSettings(project.id), {
@@ -82,33 +91,53 @@ export function useUpdateProject() {
   );
 }
 
-export function useTrashProject() {
+export function useTrashProject(entry_point: EntryPoint = "project_list") {
   const services = useServices();
   return useProjectMutation((projectId: string) =>
-    services.projects.moveToTrash(projectId),
+    withUsageAction(
+      "project",
+      "trash",
+      () => services.projects.moveToTrash(projectId),
+      { entry_point },
+    ),
   );
 }
 
 export function useRestoreProject() {
   const services = useServices();
   return useProjectMutation((projectId: string) =>
-    services.projects.restore(projectId),
+    withUsageAction(
+      "project",
+      "restore",
+      () => services.projects.restore(projectId),
+      { entry_point: "project_list" },
+    ),
   );
 }
 
 export function useDeleteProject() {
   const services = useServices();
   return useProjectMutation((projectId: string) =>
-    services.projects.deletePermanently(projectId),
+    withUsageAction(
+      "project",
+      "delete",
+      () => services.projects.deletePermanently(projectId),
+      { entry_point: "project_list" },
+    ),
   );
 }
 
-export function useUpdateAccount() {
+export function useUpdateAccount(entry_point: EntryPoint = "account_menu") {
   const services = useServices();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (displayName: string) =>
-      services.account.updateDisplayName(displayName),
+      withUsageAction(
+        "account",
+        "update_name",
+        () => services.account.updateDisplayName(displayName),
+        { entry_point },
+      ),
     onSuccess: (user) => {
       queryClient.setQueryData(queryKeys.account, user);
       queryClient.setQueryData(queryKeys.session, user);
@@ -118,7 +147,12 @@ export function useUpdateAccount() {
 
 export function useLogout() {
   const services = useServices();
-  return useMutation({ mutationFn: () => services.auth.logout() });
+  return useMutation({
+    mutationFn: () =>
+      withUsageAction("account", "logout", () => services.auth.logout(), {
+        entry_point: "account_menu",
+      }),
+  });
 }
 
 export function useCompleteOnboarding() {
@@ -146,6 +180,12 @@ export function useDeleteAccount() {
     }: {
       confirmationEmail: string;
       survey?: WithdrawalSurvey;
-    }) => services.account.deleteAccount(confirmationEmail, survey),
+    }) =>
+      withUsageAction(
+        "account",
+        "delete_account",
+        () => services.account.deleteAccount(confirmationEmail, survey),
+        { entry_point: "account_menu" },
+      ),
   });
 }

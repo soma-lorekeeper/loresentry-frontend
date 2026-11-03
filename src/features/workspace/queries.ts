@@ -2,13 +2,39 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import type { FileNode, TrashEntry } from "@/domain/models";
+import { indexNodes } from "./model/tree";
 import type { DocumentType } from "@/domain/document-types";
 import { useToast } from "@/design-system/primitives";
 import { t } from "@/i18n";
 import { invalidateProjectContent, queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
+import { withUsageAction } from "@/features/analytics/usage-analytics";
+import type { EntryPoint } from "@/features/analytics/usage-schema";
 
 import { announceFileCreated } from "./file-events";
+
+function useFileUsage(projectId: string) {
+  const client = useQueryClient();
+  return (fileId: string) => {
+    const tree =
+      client.getQueryData<FileNode[]>(queryKeys.tree(projectId)) ?? [];
+    const node =
+      indexNodes(tree).get(fileId) ??
+      client
+        .getQueryData<TrashEntry[]>(queryKeys.trash(projectId))
+        ?.find((entry) => entry.node.id === fileId)?.node;
+    return node
+      ? {
+          entity_kind:
+            node.kind === "document"
+              ? ("document" as const)
+              : ("episode" as const),
+          document_type: node.kind === "document" ? node.docType : undefined,
+        }
+      : {};
+  };
+}
 
 export function useProject(projectId: string) {
   const services = useServices();
@@ -55,7 +81,10 @@ function useFileMutation<Variables, Result>(
   });
 }
 
-export function useCreateFile(projectId: string) {
+export function useCreateFile(
+  projectId: string,
+  entry_point: EntryPoint = "file_menu",
+) {
   const services = useServices();
   return useFileMutation(
     projectId,
@@ -65,7 +94,16 @@ export function useCreateFile(projectId: string) {
       title: string;
       docType?: DocumentType;
     }) => {
-      const node = await services.files.create({ projectId, ...input });
+      const node = await withUsageAction(
+        "file",
+        "create",
+        () => services.files.create({ projectId, ...input }),
+        {
+          entry_point,
+          document_type: input.docType,
+          entity_kind: input.kind === "document" ? "document" : "episode",
+        },
+      );
       announceFileCreated(node);
       return node;
     },
@@ -74,10 +112,16 @@ export function useCreateFile(projectId: string) {
 
 export function useRenameFile(projectId: string) {
   const services = useServices();
+  const fileUsage = useFileUsage(projectId);
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ fileId, title }: { fileId: string; title: string }) =>
-      services.files.rename(fileId, title),
+      withUsageAction(
+        "file",
+        "rename",
+        () => services.files.rename(fileId, title),
+        { entry_point: "file_menu", ...fileUsage(fileId) },
+      ),
     onSuccess: async (node) => {
       await invalidateProjectContent(queryClient, projectId);
       await queryClient.invalidateQueries({
@@ -89,6 +133,7 @@ export function useRenameFile(projectId: string) {
 
 export function useMoveFile(projectId: string) {
   const services = useServices();
+  const fileUsage = useFileUsage(projectId);
   const toast = useToast();
   return useFileMutation(
     projectId,
@@ -100,7 +145,13 @@ export function useMoveFile(projectId: string) {
       fileId: string;
       parentId: string;
       beforeId: string | null;
-    }) => services.files.move(fileId, parentId, beforeId),
+    }) =>
+      withUsageAction(
+        "file",
+        "move",
+        () => services.files.move(fileId, parentId, beforeId),
+        { entry_point: "file_menu", ...fileUsage(fileId) },
+      ),
     () =>
       toast({
         icon: "circle-alert",
@@ -113,32 +164,52 @@ export function useMoveFile(projectId: string) {
 
 export function useTrashFile(projectId: string) {
   const services = useServices();
+  const fileUsage = useFileUsage(projectId);
   return useFileMutation(projectId, (fileId: string) =>
-    services.files.moveToTrash(fileId),
+    withUsageAction("file", "trash", () => services.files.moveToTrash(fileId), {
+      entry_point: "file_menu",
+      ...fileUsage(fileId),
+    }),
   );
 }
 
 export function useRestoreFile(projectId: string) {
   const services = useServices();
+  const fileUsage = useFileUsage(projectId);
   return useFileMutation(projectId, (fileId: string) =>
-    services.files.restore(fileId),
+    withUsageAction("file", "restore", () => services.files.restore(fileId), {
+      entry_point: "file_menu",
+      ...fileUsage(fileId),
+    }),
   );
 }
 
 export function useDeleteFile(projectId: string) {
   const services = useServices();
+  const fileUsage = useFileUsage(projectId);
   return useFileMutation(projectId, (fileId: string) =>
-    services.files.deletePermanently(fileId),
+    withUsageAction(
+      "file",
+      "delete",
+      () => services.files.deletePermanently(fileId),
+      { entry_point: "file_menu", ...fileUsage(fileId) },
+    ),
   );
 }
 
 export function useSetFavorite(projectId: string) {
   const services = useServices();
+  const fileUsage = useFileUsage(projectId);
   const toast = useToast();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ fileId, favorite }: { fileId: string; favorite: boolean }) =>
-      services.files.setFavorite(projectId, fileId, favorite),
+      withUsageAction(
+        "file",
+        favorite ? "favorite" : "unfavorite",
+        () => services.files.setFavorite(projectId, fileId, favorite),
+        { ...fileUsage(fileId) },
+      ),
     onError: () =>
       toast({
         icon: "circle-alert",
@@ -157,7 +228,12 @@ export function useEpisodeMutations(projectId: string) {
   const services = useServices();
   return {
     removeEpisode: useFileMutation(projectId, (episodeId: string) =>
-      services.files.deleteEpisode(episodeId),
+      withUsageAction(
+        "file",
+        "delete_episode",
+        () => services.files.deleteEpisode(episodeId),
+        { entry_point: "file_menu", entity_kind: "episode" },
+      ),
     ),
   };
 }

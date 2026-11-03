@@ -1,5 +1,7 @@
 "use client";
 
+import { trackUsage } from "@/features/analytics/usage-analytics";
+
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -153,7 +155,11 @@ export function SelectionAsk({
           type="button"
           className={styles.selectionCore}
           onClick={() => {
-            if (picked.core) toggleCore(picked.core.editor);
+            if (picked.core && toggleCore(picked.core.editor))
+              trackUsage("document_structure_changed", {
+                action: picked.core.marked ? "core_unmark" : "core_mark",
+                document_type: picked.quote.docType,
+              });
             close();
           }}
         >

@@ -1,5 +1,7 @@
 "use client";
 
+import { trackUsage } from "@/features/analytics/usage-analytics";
+
 import {
   useEffect,
   useLayoutEffect,
@@ -195,8 +197,18 @@ function CopyAnswer({ message }: { message: ChatMessage }) {
             await navigator.clipboard.writeText(
               answerPlainText(message.content, message.citations),
             );
+            trackUsage("chat_action", {
+              action: "copy_answer",
+              outcome: "success",
+              entry_point: "chat_conversation",
+            });
             setCopied(true);
           } catch {
+            trackUsage("chat_action", {
+              action: "copy_answer",
+              outcome: "rejected",
+              entry_point: "chat_conversation",
+            });
             setCopied(false);
           }
         }}
@@ -374,7 +386,14 @@ export function Conversation({
                       iconSize={13}
                       label={t("질문 고치기")}
                       className={styles.editButton}
-                      onClick={() => setEditing(message.id)}
+                      onClick={() => {
+                        trackUsage("chat_action", {
+                          action: "edit_question",
+                          outcome: "requested",
+                          entry_point: "chat_conversation",
+                        });
+                        setEditing(message.id);
+                      }}
                     />
                   )}
                   <div className={styles.ask}>

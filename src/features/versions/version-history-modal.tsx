@@ -1,5 +1,7 @@
 "use client";
 
+import { useDialogUsage } from "@/features/analytics/usage-hooks";
+
 import { useId, useState } from "react";
 
 import {
@@ -104,18 +106,22 @@ export function VersionHistoryModal({
   currentRevision: () => number;
   onRestored: (content: DocumentContent) => void;
 }) {
+  const dialogUsage = useDialogUsage(
+    "version_history",
+    open,
+    "document_header",
+  );
   const titleId = useId();
   const versions = useVersions(fileId, open);
-  const mutations = useVersionMutations(fileId);
+  const mutations = useVersionMutations(fileId, beforeSave, current.docType);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   // 좁은 화면에서는 두 문서를 나란히 둘 폭이 없다. 한 번에 한쪽만 보이고, 이 값으로 고른다.
   const [shown, setShown] = useState<"left" | "right">("left");
-  const [preparing, setPreparing] = useState(false);
+
   const list = versions.data ?? [];
   const selected =
     list.find((version) => version.id === selectedId) ?? list[0] ?? null;
-  const busy =
-    preparing || mutations.save.isPending || mutations.restore.isPending;
+  const busy = mutations.save.isPending || mutations.restore.isPending;
 
   /** 관계 칩에 그릴 문서. 그 뒤로 지워진 문서도 버전에는 남아 있어 이름만 대신 적는다 */
   const lookup = (id: string): DiffTarget => {
@@ -137,12 +143,7 @@ export function VersionHistoryModal({
   };
 
   const saveVersion = async () => {
-    setPreparing(true);
-    try {
-      await beforeSave();
-    } finally {
-      setPreparing(false);
-    }
+    dialogUsage.submitted();
     mutations.save.mutate(undefined, {
       onSuccess: (version) => setSelectedId(version.id),
     });
@@ -150,14 +151,9 @@ export function VersionHistoryModal({
 
   const restore = async () => {
     if (!selected || unsaved) return;
-    setPreparing(true);
-    try {
-      await beforeSave();
-    } finally {
-      setPreparing(false);
-    }
+    dialogUsage.submitted();
     mutations.restore.mutate(
-      { versionId: selected.id, revision: currentRevision() },
+      { versionId: selected.id, revision: currentRevision },
       {
         onSuccess: (content) => {
           onRestored(content);

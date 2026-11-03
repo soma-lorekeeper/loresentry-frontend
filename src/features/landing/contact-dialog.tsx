@@ -1,5 +1,8 @@
 "use client";
 
+import { trackUsage } from "@/features/analytics/usage-analytics";
+import { useDialogUsage } from "@/features/analytics/usage-hooks";
+
 import { useState } from "react";
 
 import { Button, DialogCard } from "@/design-system/primitives";
@@ -15,6 +18,7 @@ export function ContactDialog({
   open: boolean;
   onClose: () => void;
 }) {
+  const dialogUsage = useDialogUsage("contact", open, "landing_footer");
   const [copied, setCopied] = useState(false);
 
   const close = () => {
@@ -26,7 +30,17 @@ export function ContactDialog({
     try {
       await navigator.clipboard.writeText(email);
       setCopied(true);
+      trackUsage("landing_action", {
+        action: "contact_copy",
+        outcome: "success",
+        entry_point: "landing_footer",
+      });
     } catch {
+      trackUsage("landing_action", {
+        action: "contact_copy",
+        outcome: "rejected",
+        entry_point: "landing_footer",
+      });
       // 클립보드가 막힌 환경에서는 주소가 화면에 그대로 있으니 직접 고르면 된다.
     }
   };
@@ -36,6 +50,12 @@ export function ContactDialog({
    * 가입하므로 Gmail 쓰기 창을 새 탭으로 연다. 다른 메일을 쓰면 주소를 복사하면 된다.
    */
   const compose = () => {
+    dialogUsage.submitted();
+    trackUsage("landing_action", {
+      action: "contact_compose",
+      outcome: "requested",
+      entry_point: "landing_footer",
+    });
     window.open(
       `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}`,
       "_blank",

@@ -1,5 +1,9 @@
 "use client";
 
+import { beginUsage, trackUsage } from "@/features/analytics/usage-analytics";
+
+import { useUsageViewState } from "@/features/analytics/usage-hooks";
+
 import { EditorContent, useEditor, type Editor } from "@tiptap/react";
 import { useQueryClient } from "@tanstack/react-query";
 import {
@@ -254,6 +258,17 @@ export function DocumentView({
   // 단축키로 저장을 시키면 도구 막대의 저장 상태가 곧바로 "저장 중…" 을 보여 준다.
   const saveEcho = useSaveEcho(doc.status);
   const [editor, setEditor] = useState<Editor | null>(null);
+  const retryUsageLoad = useUsageViewState(
+    {
+      pending:
+        doc.query.isPending || (!doc.query.isError && (!editor || !doc.draft)),
+      refreshing: doc.query.isFetching,
+      outcome: doc.query.isError ? "error" : "ready",
+      error: doc.query.error,
+      document_type: doc.content?.docType,
+    },
+    "document",
+  );
   const [lockPending, setLockPending] = useState(false);
   const [versionsOpen, setVersionsOpen] = useState(false);
   const [checkConfirmOpen, setCheckConfirmOpen] = useState(false);
@@ -332,7 +347,10 @@ export function DocumentView({
               <Button
                 size="md"
                 icon="refresh-cw"
-                onClick={() => doc.query.refetch()}
+                onClick={() => {
+                  retryUsageLoad();
+                  void doc.query.refetch();
+                }}
               >
                 {t("다시 시도")}
               </Button>
@@ -390,10 +408,20 @@ export function DocumentView({
       refreshLockNotice();
       return;
     }
+    const attempt = beginUsage(
+      "document_action_started",
+      "document_action_result",
+      {
+        action: locked ? "unlock" : "lock",
+        document_type: content.docType,
+        entry_point: "document_header",
+      },
+    );
     setLockPending(true);
     try {
       await doc.session.save();
       const next = await services.documents.setLocked(fileId, !locked);
+      attempt.finish({ outcome: "success" });
       doc.session.replace(next);
       queryClient.setQueryData(queryKeys.document(fileId), next);
       void invalidateProjectContent(queryClient, projectId);
@@ -411,6 +439,7 @@ export function DocumentView({
             },
       );
     } catch (error) {
+      attempt.fail(error);
       // 그 사이에 최신화가 이 문서를 잠갔다. 지금 상태를 다시 읽어 안내와 단추를 맞춘다.
       if (isServiceError(error) && error.code === "refresh-locked") {
         refreshLockNotice();
@@ -464,10 +493,23 @@ export function DocumentView({
   };
 
   const exportAs = async (format: ExportFormat) => {
+    if (exporting.current || (format === "pdf" && !editor)) return;
+    const attempt = beginUsage(
+      "document_action_started",
+      "document_action_result",
+      {
+        action: "export",
+        format,
+        document_type: content.docType,
+        entry_point: "document_header",
+      },
+    );
     if (format === "pdf") {
       try {
         await exportPdf();
-      } catch {
+        attempt.finish({ outcome: "print_handoff" });
+      } catch (error) {
+        attempt.fail(error);
         exporting.current = false;
         setExportPending(false);
         toast({
@@ -486,12 +528,23 @@ export function DocumentView({
       const result = await services.documents.export(fileId, format);
       if (result.url) {
         download(result.url, result.fileName);
+        attempt.finish({ outcome: "download_handoff" });
         toast({
           icon: "download",
           title: t("내보내기 파일을 만들었어요."),
           description: result.fileName,
         });
       } else {
+        attempt.finish({
+          outcome: "blocked",
+          stage: "prepare",
+          error_category: "unavailable",
+        });
+        trackUsage("feature_notice_viewed", {
+          feature: "export",
+          notice_kind: "unavailable",
+          entry_point: "document_header",
+        });
         toast({
           icon: "info",
           title: t("{format} 내보내기를 준비하고 있어요.", {
@@ -500,7 +553,8 @@ export function DocumentView({
           description: t("이 형식은 서버가 연결되면 내려받을 수 있어요."),
         });
       }
-    } catch {
+    } catch (error) {
+      attempt.fail(error);
       toast({
         icon: "triangle-alert",
         title: t("내보내지 못했어요."),
@@ -750,6 +804,7 @@ export function DocumentView({
                   />
                 </div>
                 <PropertyTable
+                  saveRevision={doc.content?.revisionNo}
                   fileId={fileId}
                   docType={docType}
                   properties={draft.properties}
@@ -820,7 +875,10 @@ export function DocumentView({
           onClose={() => setCheckConfirmOpen(false)}
           onStart={() => {
             setCheckConfirmOpen(false);
-            void startCheck.begin(fileId, { openTab: true });
+            void startCheck.begin(fileId, {
+              openTab: true,
+              entryPoint: "document_header",
+            });
           }}
         />
       )}

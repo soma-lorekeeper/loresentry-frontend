@@ -1,5 +1,7 @@
 "use client";
 
+import { useUsageViewQuery } from "@/features/analytics/usage-hooks";
+
 import {
   useEffect,
   useLayoutEffect,
@@ -173,7 +175,7 @@ function MemoCard({
   focusSequence?: number;
 }) {
   const toast = useToast();
-  const update = useUpdateMemo(projectId);
+  const update = useUpdateMemo(projectId, memo.scope);
   const [editing, setEditing] = useState(false);
   const cardRef = useRef<HTMLLIElement>(null);
   useEffect(() => {
@@ -311,6 +313,11 @@ export function MemoList({
 }) {
   const toast = useToast();
   const memos = useMemos(projectId, scope, fileId);
+  const retryUsageLoad = useUsageViewQuery(
+    memos,
+    memos.data?.length === 0,
+    "memo",
+  );
   const create = useCreateMemo(projectId);
   const [ownComposing, setOwnComposing] = useState(false);
   const [deleting, setDeleting] = useState<Memo | null>(null);
@@ -341,7 +348,14 @@ export function MemoList({
         title={t("메모를 불러오지 못했어요")}
         description={t("작업공간::연결을 확인한 뒤 다시 시도해 주세요.")}
         action={
-          <Button size="md" icon="refresh-cw" onClick={() => memos.refetch()}>
+          <Button
+            size="md"
+            icon="refresh-cw"
+            onClick={() => {
+              retryUsageLoad();
+              void memos.refetch();
+            }}
+          >
             {t("다시 시도")}
           </Button>
         }

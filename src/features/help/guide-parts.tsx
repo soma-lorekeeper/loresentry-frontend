@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocalSearchUsage } from "@/features/analytics/usage-hooks";
+
 import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
@@ -75,6 +77,7 @@ export function GuideTopics({
 }) {
   const [query, setQuery] = useState("");
   const matches = searchTopics(query, topics);
+  useLocalSearchUsage(query, matches.length, "help");
   return (
     <div className={styles.listBody}>
       <SearchField

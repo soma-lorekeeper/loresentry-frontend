@@ -1,5 +1,7 @@
 "use client";
 
+import { useDialogUsage } from "@/features/analytics/usage-hooks";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -61,6 +63,11 @@ function DeleteProjectDialog({
   onClose: () => void;
   onDeleted: (project: Project) => void;
 }) {
+  const dialogUsage = useDialogUsage(
+    "project_delete",
+    project !== null,
+    "project_list",
+  );
   const remove = useDeleteProject();
   const busy = remove.isPending;
   const close = () => {
@@ -96,12 +103,13 @@ function DeleteProjectDialog({
             busy={busy}
             onClick={() =>
               project &&
+              (dialogUsage.submitted(),
               remove.mutate(project.id, {
                 onSuccess: () => {
                   remove.reset();
                   onDeleted(project);
                 },
-              })
+              }))
             }
           >
             {busy ? t("삭제 중…") : t("영구 삭제")}

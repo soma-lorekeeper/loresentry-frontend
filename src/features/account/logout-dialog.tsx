@@ -1,5 +1,7 @@
 "use client";
 
+import { useDialogUsage } from "@/features/analytics/usage-hooks";
+
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
@@ -21,25 +23,30 @@ export function LogoutDialog({
   user: User;
   onClose: () => void;
 }) {
+  const dialogUsage = useDialogUsage("logout", open, "account_menu");
   const router = useRouter();
   const queryClient = useQueryClient();
   const logout = useLogout();
 
   const close = () => {
     if (logout.isPending) return;
+    dialogUsage.closed();
     logout.reset();
     onClose();
   };
 
-  const confirm = () =>
+  const confirm = () => {
+    dialogUsage.submitted();
     logout.mutate(undefined, {
       onSuccess: () => {
+        dialogUsage.closed();
         queryClient.clear();
         // 다음에 랜딩을 열 때 버튼을 숨기지 않게, 로그인했다는 표시를 지운다.
         settleSessionHint(false);
         router.replace("/logout");
       },
     });
+  };
 
   const copy = logout.isPending
     ? {

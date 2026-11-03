@@ -1,5 +1,8 @@
 "use client";
 
+import { trackUsage } from "@/features/analytics/usage-analytics";
+import { useUsageViewState } from "@/features/analytics/usage-hooks";
+
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 
@@ -54,6 +57,22 @@ export function SettingCheckView({ paneId, active }: WorkspaceViewProps) {
     [groups],
   );
 
+  const retryUsageLoad = useUsageViewState(
+    {
+      pending: tree.isPending || summary.isPending,
+      refreshing: tree.isFetching || summary.isFetching,
+      outcome: isUnavailable(summary.error)
+        ? "unavailable"
+        : tree.isError || summary.isError
+          ? "error"
+          : chapters.length
+            ? "ready"
+            : "empty",
+      error: tree.error ?? summary.error,
+    },
+    "setting_check",
+  );
+
   if (isUnavailable(summary.error))
     return (
       <div className={styles.state}>
@@ -67,6 +86,7 @@ export function SettingCheckView({ paneId, active }: WorkspaceViewProps) {
           title={t("점검 기록을 불러오지 못했어요")}
           retrying={tree.isFetching || summary.isFetching}
           onRetry={() => {
+            retryUsageLoad();
             void tree.refetch();
             void summary.refetch();
           }}
@@ -114,7 +134,13 @@ export function SettingCheckView({ paneId, active }: WorkspaceViewProps) {
         decided={verdicts.data?.length}
         onStart={(documentId) => void start.begin(documentId)}
         onOpen={setFocused}
-        onLedger={() => setLedgerOpen(true)}
+        onLedger={() => {
+          trackUsage("setting_check_finding_action", {
+            action: "open_verdict_ledger",
+            entry_point: "check_home",
+          });
+          setLedgerOpen(true);
+        }}
       />
     );
 

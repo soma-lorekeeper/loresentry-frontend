@@ -1,5 +1,7 @@
 "use client";
 
+import { trackUsage } from "@/features/analytics/usage-analytics";
+
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -62,7 +64,16 @@ export function ProjectGuidePage({ user }: { user: User }) {
       section="guide"
       title={t("가이드::사용 가이드")}
       headerAction={
-        <Button size="md" onClick={() => router.push("/welcome/?replay=1")}>
+        <Button
+          size="md"
+          onClick={() => {
+            trackUsage("help_action", {
+              action: "replay_onboarding",
+              entry_point: "guide",
+            });
+            router.push("/welcome/?replay=1");
+          }}
+        >
           {t("처음 안내 다시 보기")}
         </Button>
       }

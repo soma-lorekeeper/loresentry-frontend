@@ -1,5 +1,8 @@
 "use client";
 
+import { trackUsage, usageFailure } from "@/features/analytics/usage-analytics";
+import { useVisibleUsage } from "@/features/analytics/usage-hooks";
+
 import { useRouter } from "next/navigation";
 import {
   useCallback,
@@ -357,8 +360,14 @@ export function OnboardingPage({
   }, [replay, user.onboardingCompleted, track]);
   useRecordAcquisition(!replay && !user.onboardingCompleted);
   const createSample = useCreateSampleProject();
-  const rename = useUpdateAccount();
+  const rename = useUpdateAccount("onboarding");
   const current = steps[step];
+  useVisibleUsage(
+    "onboarding_step_viewed",
+    { step_key: current.id },
+    !replay,
+    current.id,
+  );
   const onStart = step === last;
   const onName = current.id === "name";
   const trimmed = name.trim();
@@ -433,7 +442,22 @@ export function OnboardingPage({
     if (!replay)
       track("onboarding_start_selected", { start_choice: destination });
     if (!replay && !user.onboardingCompleted) {
-      await complete.mutateAsync();
+      const started = performance.now();
+      try {
+        await complete.mutateAsync();
+        trackUsage("onboarding_completion_result", {
+          outcome: "success",
+          start_choice: destination,
+          duration_seconds: (performance.now() - started) / 1000,
+        });
+      } catch (error) {
+        trackUsage("onboarding_completion_result", {
+          ...usageFailure(error),
+          start_choice: destination,
+          duration_seconds: (performance.now() - started) / 1000,
+        } as Parameters<typeof trackUsage<"onboarding_completion_result">>[1]);
+        throw error;
+      }
       track("tutorial_complete");
     }
     if (!replay) writeTour("pending");

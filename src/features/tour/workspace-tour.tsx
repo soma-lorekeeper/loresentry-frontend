@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  trackUsage,
+  suspendUsageAnalytics,
+} from "@/features/analytics/usage-analytics";
+
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import type { FileNode } from "@/domain/models";
@@ -427,6 +432,14 @@ export function WorkspaceTour() {
     () => buildSteps(tree.data ?? [], refreshAvailable),
     [tree.data, refreshAvailable],
   );
+  const releaseUsage = useRef<(() => void) | null>(null);
+  useEffect(
+    () => () => {
+      releaseUsage.current?.();
+      releaseUsage.current = null;
+    },
+    [],
+  );
   const openedSidebar = useRef(false);
   const before = useRef<{
     layout: WorkspaceLayout;
@@ -448,6 +461,9 @@ export function WorkspaceTour() {
   });
 
   const begin = useCallback(() => {
+    if (releaseUsage.current) return;
+    trackUsage("workspace_tour_started", { entry_point: "guide" });
+    releaseUsage.current = suspendUsageAnalytics();
     const current = latest.current;
     before.current = {
       layout: current.layout,
@@ -488,7 +504,9 @@ export function WorkspaceTour() {
 
   const { rect, ready } = useTargetRect(step ? step.target : null);
 
-  const end = useCallback(() => {
+  const end = useCallback((outcome: "completed" | "skipped" = "skipped") => {
+    if (releaseUsage.current)
+      trackUsage("workspace_tour_finished", { outcome });
     writeTour("done");
     setIndex(null);
     announceTourEnd();
@@ -502,6 +520,10 @@ export function WorkspaceTour() {
     }
     before.current = null;
     openedSidebar.current = false;
+    queueMicrotask(() => {
+      releaseUsage.current?.();
+      releaseUsage.current = null;
+    });
   }, []);
 
   const [resolving, setResolving] = useState<number | null>(null);
@@ -516,7 +538,7 @@ export function WorkspaceTour() {
       return;
     }
     const following = nextIndex(steps, index);
-    if (following === null) end();
+    if (following === null) end("completed");
     else setIndex(following);
   }, [end, index, steps]);
 
@@ -525,7 +547,7 @@ export function WorkspaceTour() {
     const frame = window.requestAnimationFrame(() => {
       setResolving(null);
       const following = nextIndex(steps, resolving);
-      if (following === null) end();
+      if (following === null) end("completed");
       else setIndex(following);
     });
     return () => window.cancelAnimationFrame(frame);
@@ -568,7 +590,7 @@ export function WorkspaceTour() {
     let following = nextIndex(steps, index);
     while (following !== null && steps[following].example)
       following = nextIndex(steps, following);
-    if (following === null) end();
+    if (following === null) end("completed");
     else setIndex(following);
   }, [end, index, steps]);
 
@@ -599,7 +621,7 @@ export function WorkspaceTour() {
         placement={step.placement}
         onBack={previousIndex(steps, index) === null ? null : back}
         onNext={next}
-        onSkip={end}
+        onSkip={() => end("skipped")}
       />
     </>
   );

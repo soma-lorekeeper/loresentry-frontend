@@ -1,5 +1,7 @@
 "use client";
 
+import { useDialogUsage } from "@/features/analytics/usage-hooks";
+
 import {
   useEffect,
   useId,
@@ -119,10 +121,14 @@ export function ImageCropDialog({
   }, [source]);
 
   const open = Boolean(file && source && crop);
+  const dialogUsage = useDialogUsage("image_crop", open, "document_header");
   const image = source ? sizeOf(source.image) : null;
 
   const update = (next: CropState) => {
-    if (image) setCrop(clampCrop(image, VIEW, next));
+    if (image) {
+      dialogUsage.edited();
+      setCrop(clampCrop(image, VIEW, next));
+    }
   };
   const zoomTo = (zoom: number) => {
     if (image && crop) setCrop(zoomAround(image, VIEW, crop, zoom));
@@ -171,6 +177,7 @@ export function ImageCropDialog({
 
   const confirm = async () => {
     if (!source || !crop) return;
+    dialogUsage.submitted();
     setSaving(true);
     try {
       const blob = await renderCrop(

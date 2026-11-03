@@ -1,5 +1,7 @@
 "use client";
 
+import { useDialogUsage } from "@/features/analytics/usage-hooks";
+
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -66,6 +68,7 @@ function AccountDeleteCard({
   user: User;
   onClose: () => void;
 }) {
+  const dialogUsage = useDialogUsage("account_delete", true, "account_menu");
   const router = useRouter();
   const queryClient = useQueryClient();
   const remove = useDeleteAccount();
@@ -86,12 +89,14 @@ function AccountDeleteCard({
   const close = () => {
     if (pending) return;
     remove.reset();
+    dialogUsage.closed();
     onClose();
   };
 
   const confirm = () => {
     if (!matches || pending) return;
     const answered = reasons.length > 0 || comment.trim().length > 0;
+    dialogUsage.submitted();
     remove.mutate(
       {
         confirmationEmail: typed.trim(),
@@ -99,6 +104,7 @@ function AccountDeleteCard({
       },
       {
         onSuccess: () => {
+          dialogUsage.closed();
           queryClient.clear();
           // 다음에 랜딩을 열 때 버튼을 숨기지 않게, 로그인했다는 표시를 지운다.
           settleSessionHint(false);

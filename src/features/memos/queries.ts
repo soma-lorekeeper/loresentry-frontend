@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { Memo, MemoScope } from "@/domain/models";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
+import { withUsageAction } from "@/features/analytics/usage-analytics";
 
 export function useMemos(
   projectId: string,
@@ -34,26 +35,41 @@ export function useCreateMemo(projectId: string) {
       scope: MemoScope;
       fileId: string | null;
       body: string;
-    }) => services.memos.create({ projectId, ...input }),
+    }) =>
+      withUsageAction(
+        "memo",
+        "create",
+        () => services.memos.create({ projectId, ...input }),
+        { memo_scope: input.scope, entry_point: "memo_panel" },
+      ),
     onSuccess: invalidate,
   });
 }
 
-export function useUpdateMemo(projectId: string) {
+export function useUpdateMemo(projectId: string, scope?: MemoScope) {
   const services = useServices();
   const invalidate = useInvalidateMemos(projectId);
   return useMutation({
     mutationFn: (input: { memoId: string; body: string }) =>
-      services.memos.update(input.memoId, input.body),
+      withUsageAction(
+        "memo",
+        "update",
+        () => services.memos.update(input.memoId, input.body),
+        { entry_point: "memo_panel", memo_scope: scope },
+      ),
     onSuccess: invalidate,
   });
 }
 
-export function useRemoveMemo(projectId: string) {
+export function useRemoveMemo(projectId: string, scope?: MemoScope) {
   const services = useServices();
   const invalidate = useInvalidateMemos(projectId);
   return useMutation({
-    mutationFn: (memoId: string) => services.memos.remove(memoId),
+    mutationFn: (memoId: string) =>
+      withUsageAction("memo", "delete", () => services.memos.remove(memoId), {
+        entry_point: "memo_panel",
+        memo_scope: scope,
+      }),
     onSuccess: invalidate,
   });
 }

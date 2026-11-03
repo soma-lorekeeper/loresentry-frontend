@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocalSearchUsage } from "@/features/analytics/usage-hooks";
+
 import { useMemo, useRef, useState, type KeyboardEvent } from "react";
 
 import { Icon, IconButton, Popover } from "@/design-system/primitives";
@@ -46,6 +48,7 @@ function SearchPanel({
     [needle, nodes],
   );
 
+  useLocalSearchUsage(query, results.length, "graph");
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key === "ArrowDown") {
       event.preventDefault();

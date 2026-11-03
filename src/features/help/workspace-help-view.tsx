@@ -1,5 +1,10 @@
 "use client";
 
+import { trackUsage } from "@/features/analytics/usage-analytics";
+import type { UsageParameters } from "@/features/analytics/usage-schema";
+
+import { useUsageViewQuery } from "@/features/analytics/usage-hooks";
+
 import { useQuery } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 
@@ -29,10 +34,21 @@ function useGuides() {
 
 export function WorkspaceHelpView() {
   const guides = useGuides();
+  const retryUsageLoad = useUsageViewQuery(
+    guides,
+    guides.data?.length === 0,
+    "help",
+  );
   const [page, setPage] = useState<HelpPage>({ kind: "topics" });
   const viewRef = useRef<HTMLDivElement>(null);
 
   const go = (next: HelpPage) => {
+    if (next.kind === "topic")
+      trackUsage("help_action", {
+        action: "topic_open",
+        entry_point: "guide",
+        topic_key: next.id as UsageParameters<"help_action">["topic_key"],
+      });
     setPage(next);
     viewRef.current?.scrollIntoView({ block: "start" });
   };
@@ -60,7 +76,14 @@ export function WorkspaceHelpView() {
             : t("가이드::연결을 확인한 뒤 다시 시도해 주세요.")
         }
         action={
-          <Button size="md" icon="refresh-cw" onClick={() => guides.refetch()}>
+          <Button
+            size="md"
+            icon="refresh-cw"
+            onClick={() => {
+              retryUsageLoad();
+              void guides.refetch();
+            }}
+          >
             {t("다시 시도")}
           </Button>
         }

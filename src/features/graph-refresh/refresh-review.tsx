@@ -67,6 +67,7 @@ export function RefreshReview({
   candidatesOf,
   onSelect,
   onChange,
+  onInteraction,
   onConfirm,
   onClose,
 }: {
@@ -82,9 +83,29 @@ export function RefreshReview({
   candidatesOf: (type: DocumentType, exceptId: string) => DocumentNode[];
   onSelect: (fileId: string) => void;
   onChange: (next: MergeState) => void;
+  onInteraction?: (
+    action:
+      | "choose_current"
+      | "choose_proposed"
+      | "edit_current"
+      | "edit_proposed"
+      | "reset",
+  ) => void;
   onConfirm: () => void;
   onClose: () => void;
 }) {
+  const commit = (
+    next: MergeState,
+    action:
+      | "choose_current"
+      | "choose_proposed"
+      | "edit_current"
+      | "edit_proposed"
+      | "reset",
+  ) => {
+    onInteraction?.(action);
+    onChange(next);
+  };
   const selected = proposals.find((p) => p.fileId === selectedId) ?? null;
   const resolvedCount = proposals.filter((p) =>
     isResolved(state, p.fileId),
@@ -93,11 +114,12 @@ export function RefreshReview({
   const remaining = selected ? remainingOf(state, selected.fileId) : 0;
   /** 모든 문서를 한쪽 버전으로 맞춘다 */
   const adoptAll = (side: "left" | "right") =>
-    onChange(
+    commit(
       proposals.reduce(
         (acc, proposal) => adoptDocument(acc, proposal.fileId, side),
         state,
       ),
+      side === "left" ? "choose_current" : "choose_proposed",
     );
 
   return (
@@ -123,7 +145,11 @@ export function RefreshReview({
         <Button size="sm" disabled={applying} onClick={() => adoptAll("right")}>
           {t("신규 버전 전체 반영")}
         </Button>
-        <Button size="sm" disabled={applying} onClick={() => onChange(start)}>
+        <Button
+          size="sm"
+          disabled={applying}
+          onClick={() => commit(start, "reset")}
+        >
           {t("변경 사항::되돌리기")}
         </Button>
         <IconButton
@@ -226,7 +252,10 @@ export function RefreshReview({
                 <Button
                   size="sm"
                   onClick={() =>
-                    onChange(adoptDocument(state, selected.fileId, "left"))
+                    commit(
+                      adoptDocument(state, selected.fileId, "left"),
+                      "choose_current",
+                    )
                   }
                 >
                   {t("현재 버전 반영")}
@@ -234,7 +263,10 @@ export function RefreshReview({
                 <Button
                   size="sm"
                   onClick={() =>
-                    onChange(adoptDocument(state, selected.fileId, "right"))
+                    commit(
+                      adoptDocument(state, selected.fileId, "right"),
+                      "choose_proposed",
+                    )
                   }
                 >
                   {t("신규 버전 반영")}
@@ -242,7 +274,10 @@ export function RefreshReview({
                 <Button
                   size="sm"
                   onClick={() =>
-                    onChange(resetDocument(state, selected.fileId, start))
+                    commit(
+                      resetDocument(state, selected.fileId, start),
+                      "reset",
+                    )
                   }
                 >
                   {t("변경 사항::되돌리기")}
@@ -255,6 +290,7 @@ export function RefreshReview({
                 lookup={lookup}
                 candidatesOf={candidatesOf}
                 onChange={onChange}
+                onInteraction={onInteraction}
               />
             </>
           )}

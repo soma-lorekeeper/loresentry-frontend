@@ -146,6 +146,7 @@ describe("installGoogleAnalytics", () => {
   });
   it("loads gtag.js once and turns off the automatic page view", () => {
     navigate("/workspace/", "projectId=p-1");
+    document.title = "Private manuscript title";
     installGoogleAnalytics(ID);
     installGoogleAnalytics(ID);
 
@@ -159,7 +160,11 @@ describe("installGoogleAnalytics", () => {
     expect(calls().slice(1)).toEqual([
       [
         "set",
-        { page_location: "http://localhost/workspace/", page_referrer: "" },
+        {
+          page_location: "http://localhost/workspace/",
+          page_referrer: "",
+          page_title: "Lore Sentry",
+        },
       ],
       ["config", ID, { send_page_view: false }],
     ]);
@@ -214,6 +219,7 @@ describe("GoogleAnalyticsTracker", () => {
       {
         page_location: "http://localhost/projects/",
         page_referrer: "https://loresentry.com/workspace/",
+        page_title: "Lore Sentry",
       },
     ]);
     expect(pageViews()[0][2]).toEqual({

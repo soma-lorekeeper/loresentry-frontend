@@ -1,5 +1,7 @@
 "use client";
 
+import { useDialogUsage } from "@/features/analytics/usage-hooks";
+
 import { useState } from "react";
 
 import {
@@ -62,6 +64,7 @@ function CreateProjectForm({
   onClose: () => void;
   onCreated: (project: Project) => void;
 }) {
+  const dialogUsage = useDialogUsage("project_create", open, "project_list");
   const create = useCreateProject();
   const track = useOnboardingAnalytics();
   const [title, setTitle] = useState("");
@@ -74,11 +77,13 @@ function CreateProjectForm({
     setTouched(true);
     if (empty || busy) return;
     track("project_create_started", { project_type: "standard" });
+    dialogUsage.submitted();
     create.mutate(
       { title, description },
       {
         onSuccess: (project) => {
           track("project_created", { project_type: "standard" });
+          dialogUsage.closed();
           onCreated(project);
         },
         onError: (error) => {
@@ -101,7 +106,12 @@ function CreateProjectForm({
   return (
     <DialogCard
       open={open}
-      onClose={() => !busy && onClose()}
+      onClose={() => {
+        if (!busy) {
+          dialogUsage.closed();
+          onClose();
+        }
+      }}
       dismissible={!busy}
       size="md"
       title={t("새 프로젝트 만들기")}
@@ -112,7 +122,10 @@ function CreateProjectForm({
           <Button
             size="md"
             className={styles.cancel}
-            onClick={onClose}
+            onClick={() => {
+              dialogUsage.closed();
+              onClose();
+            }}
             disabled={busy}
           >
             {t("취소")}
@@ -208,6 +221,11 @@ function EditProjectForm({
   onClose: () => void;
   onSaved: (project: Project) => void;
 }) {
+  const dialogUsage = useDialogUsage(
+    "project_edit",
+    Boolean(project),
+    "project_list",
+  );
   const update = useUpdateProject();
   const [title, setTitle] = useState(project?.title ?? "");
   const [description, setDescription] = useState(project?.description ?? "");
@@ -220,20 +238,31 @@ function EditProjectForm({
 
   const submit = () => {
     if (!project || empty || unchanged || busy) return;
+    dialogUsage.submitted();
     update.mutate(
       {
         projectId: project.id,
         title: trimmed,
         description: description.trim(),
       },
-      { onSuccess: onSaved },
+      {
+        onSuccess: (saved) => {
+          dialogUsage.closed();
+          onSaved(saved);
+        },
+      },
     );
   };
 
   return (
     <DialogCard
       open={project !== null}
-      onClose={() => !busy && onClose()}
+      onClose={() => {
+        if (!busy) {
+          dialogUsage.closed();
+          onClose();
+        }
+      }}
       dismissible={!busy}
       size="md"
       title={t("프로젝트 수정")}
@@ -244,7 +273,10 @@ function EditProjectForm({
           <Button
             size="md"
             className={styles.cancel}
-            onClick={onClose}
+            onClick={() => {
+              dialogUsage.closed();
+              onClose();
+            }}
             disabled={busy}
           >
             {t("취소")}
@@ -323,17 +355,24 @@ export function TrashProjectDialog({
   onClose: () => void;
   onTrashed: (project: Project) => void;
 }) {
+  const dialogUsage = useDialogUsage(
+    "project_trash",
+    Boolean(project),
+    "project_list",
+  );
   const trash = useTrashProject();
   const busy = trash.isPending;
 
   const close = () => {
     if (busy) return;
     trash.reset();
+    dialogUsage.closed();
     onClose();
   };
 
   const confirm = () => {
     if (!project) return;
+    dialogUsage.submitted();
     trash.mutate(project.id, {
       onSuccess: () => {
         trash.reset();

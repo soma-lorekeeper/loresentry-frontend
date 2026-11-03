@@ -7,9 +7,12 @@ import type {
   SettingCheckRunDetail,
   SettingCheckSummary,
   SettingCheckVerdict,
+  SettingCheckRun,
 } from "@/domain/setting-check";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
+import { beginUsage } from "@/features/analytics/usage-analytics";
+import { observeSettingCheck } from "@/features/analytics/setting-check-analytics";
 
 /** 점검이 도는 동안 다시 읽는 간격. 서버에서 1–3분 걸린다 */
 const SUMMARY_POLL_MS = 3000;
@@ -17,9 +20,16 @@ const RUN_POLL_MS = 2000;
 
 export function useSettingCheckSummary(projectId: string) {
   const services = useServices();
+  const client = useQueryClient();
   return useQuery({
     queryKey: queryKeys.settingCheckSummary(projectId),
-    queryFn: () => services.settingChecks.summary(projectId),
+    queryFn: async () => {
+      const summary = await services.settingChecks.summary(projectId);
+      observeSettingCheck(client, summary.running);
+      for (const chapter of summary.chapters)
+        observeSettingCheck(client, chapter.latest);
+      return summary;
+    },
     refetchInterval: (query) =>
       query.state.data?.running ? SUMMARY_POLL_MS : false,
   });
@@ -27,9 +37,14 @@ export function useSettingCheckSummary(projectId: string) {
 
 export function useSettingCheckRun(runId: string | null) {
   const services = useServices();
+  const client = useQueryClient();
   return useQuery({
     queryKey: queryKeys.settingCheckRun(runId ?? ""),
-    queryFn: () => services.settingChecks.run(runId!),
+    queryFn: async () => {
+      const run = await services.settingChecks.run(runId!);
+      observeSettingCheck(client, run);
+      return run;
+    },
     enabled: runId !== null,
     refetchInterval: (query) =>
       query.state.data?.status === "RUNNING" ? RUN_POLL_MS : false,
@@ -57,7 +72,13 @@ function patchFinding(
   };
 }
 
-export function useSettingCheckActions(projectId: string) {
+export function useSettingCheckActions(
+  projectId: string,
+  observation?: {
+    accepted: (run: SettingCheckRun) => void;
+    failed: (error: unknown) => void;
+  },
+) {
   const services = useServices();
   const queryClient = useQueryClient();
   const reload = () =>
@@ -81,8 +102,17 @@ export function useSettingCheckActions(projectId: string) {
 
   return {
     start: useMutation({
-      mutationFn: (documentId: string) =>
-        services.settingChecks.start(projectId, documentId),
+      mutationFn: async (documentId: string) => {
+        try {
+          const run = await services.settingChecks.start(projectId, documentId);
+          observation?.accepted(run);
+          observeSettingCheck(queryClient, run);
+          return run;
+        } catch (error) {
+          observation?.failed(error);
+          throw error;
+        }
+      },
       onSuccess: async (run) => {
         queryClient.setQueryData<SettingCheckSummary>(
           queryKeys.settingCheckSummary(projectId),
@@ -93,7 +123,21 @@ export function useSettingCheckActions(projectId: string) {
       onError: reload,
     }),
     cancel: useMutation({
-      mutationFn: (runId: string) => services.settingChecks.cancel(runId),
+      mutationFn: async (runId: string) => {
+        const attempt = beginUsage(
+          "setting_check_cancel_requested",
+          "setting_check_cancel_result",
+          { entry_point: "check_report" },
+        );
+        try {
+          const result = await services.settingChecks.cancel(runId);
+          attempt.finish({ outcome: "accepted" });
+          return result;
+        } catch (error) {
+          attempt.fail(error);
+          throw error;
+        }
+      },
       onSettled: async (_data, _error, runId) => {
         await Promise.all([
           reload(),
@@ -108,17 +152,50 @@ export function useSettingCheckActions(projectId: string) {
         findingId: string;
         verdict: SettingCheckVerdict;
         reason: string | null;
-      }) =>
-        services.settingChecks.setVerdict(
-          input.findingId,
-          input.verdict,
-          input.reason,
-        ),
+      }) => {
+        const attempt = beginUsage(
+          "setting_check_verdict_started",
+          "setting_check_verdict_result",
+          {
+            action: "set",
+            verdict: input.verdict === "INTENDED" ? "intended" : "not_conflict",
+            has_reason: input.reason?.trim() ? 1 : 0,
+            entry_point: "check_report",
+          },
+        );
+        return services.settingChecks
+          .setVerdict(input.findingId, input.verdict, input.reason)
+          .then(
+            (result) => {
+              attempt.finish({ outcome: "success" });
+              return result;
+            },
+            (error) => {
+              attempt.fail(error);
+              throw error;
+            },
+          );
+      },
       onSuccess: decided,
     }),
     clearVerdict: useMutation({
-      mutationFn: (findingId: string) =>
-        services.settingChecks.clearVerdict(findingId),
+      mutationFn: (findingId: string) => {
+        const attempt = beginUsage(
+          "setting_check_verdict_started",
+          "setting_check_verdict_result",
+          { action: "clear", entry_point: "check_report" },
+        );
+        return services.settingChecks.clearVerdict(findingId).then(
+          (result) => {
+            attempt.finish({ outcome: "success" });
+            return result;
+          },
+          (error) => {
+            attempt.fail(error);
+            throw error;
+          },
+        );
+      },
       onSuccess: decided,
     }),
   };

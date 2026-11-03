@@ -21,6 +21,7 @@ import { enableWebFonts } from "@/design-system/theme/web-fonts";
 import { settleLandings } from "@/features/analytics/acquisition";
 import { analyticsEnabled } from "@/features/analytics/google-analytics";
 import { GoogleAnalyticsTracker } from "@/features/analytics/google-analytics-tracker";
+import { configureUsageAnalytics } from "@/features/analytics/usage-analytics";
 import { FeedbackProvider } from "@/features/feedback/feedback-provider";
 import { createServices } from "@/services/create-services";
 import { deferServices } from "@/services/deferred-services";
@@ -118,12 +119,14 @@ export function AppProviders({ children }: { children: ReactNode }) {
     let active = true;
     loadRuntimeConfig().then((config) => {
       if (!active) return;
+      configureUsageAnalytics(config);
       // 붙잡아 둔 호출이 여기서 풀려, 읽어 온 설정의 출처로 나간다.
       deferred.settle(createServices(config));
       setLoaded(config);
     });
     return () => {
       active = false;
+      configureUsageAnalytics(null);
     };
   }, [deferred]);
 

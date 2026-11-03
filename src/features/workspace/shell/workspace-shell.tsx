@@ -9,6 +9,7 @@ import { SettingCheckWatcher } from "@/features/setting-check/setting-check-watc
 import { onTourEnd } from "@/features/tour/tour-state";
 import { WorkspaceTour } from "@/features/tour/workspace-tour";
 import { t } from "@/i18n";
+import { UsageViewBoundary } from "@/features/analytics/usage-hooks";
 
 import { ImportDialog } from "../import-dialog";
 import { SPLIT_RATIO, splitOf, type WorkspacePane } from "../model/layout";
@@ -70,11 +71,23 @@ function Pane({ pane, slot }: { pane: WorkspacePane; slot: number }) {
               hidden={!active}
               className={styles.panel}
             >
-              {tab.target.kind === "file" ? (
-                <DocumentViewHost {...props} fileId={tab.target.fileId} />
-              ) : (
-                WORKSPACE_VIEWS[tab.target.kind].render(props)
-              )}
+              <UsageViewBoundary
+                visible={active && focused}
+                paneVisible={active}
+                kind={
+                  tab.target.kind === "file"
+                    ? "document"
+                    : tab.target.kind === "setting-check"
+                      ? "setting_check"
+                      : tab.target.kind
+                }
+              >
+                {tab.target.kind === "file" ? (
+                  <DocumentViewHost {...props} fileId={tab.target.fileId} />
+                ) : (
+                  WORKSPACE_VIEWS[tab.target.kind].render(props)
+                )}
+              </UsageViewBoundary>
             </div>
           );
         })}

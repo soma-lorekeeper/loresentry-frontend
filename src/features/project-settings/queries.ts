@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ProjectSettings } from "@/domain/models";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
+import { withUsageAction } from "@/features/analytics/usage-analytics";
 
 export function useProjectSettings(projectId: string) {
   const services = useServices();
@@ -19,7 +20,12 @@ export function useSaveProjectSettings(projectId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (settings: ProjectSettings) =>
-      services.projects.saveSettings(projectId, settings),
+      withUsageAction(
+        "project",
+        "update_settings",
+        () => services.projects.saveSettings(projectId, settings),
+        { entry_point: "other" },
+      ),
     onSuccess: async (project) => {
       queryClient.setQueryData(queryKeys.project(projectId), project);
       queryClient.setQueryData(queryKeys.projectSettings(projectId), {

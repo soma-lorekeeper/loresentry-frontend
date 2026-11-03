@@ -76,6 +76,7 @@ export function installGoogleAnalytics(measurementId: string): Gtag {
   gtag("set", {
     page_location: pageLocation(window.location.href),
     page_referrer: pageReferrer(document.referrer),
+    page_title: "Lore Sentry",
   });
   gtag("config", measurementId, { send_page_view: false });
   const script = document.createElement("script");

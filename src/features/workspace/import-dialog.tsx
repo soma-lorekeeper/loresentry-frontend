@@ -1,5 +1,7 @@
 "use client";
 
+import { useDialogUsage } from "@/features/analytics/usage-hooks";
+
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
@@ -17,6 +19,11 @@ import { t } from "@/i18n";
 import { isServiceError } from "@/services/errors";
 import { invalidateProjectContent } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
+import {
+  beginUsage,
+  trackUsage,
+  usageFailure,
+} from "@/features/analytics/usage-analytics";
 
 import { categoryFolderOf } from "./model/tree";
 import { useFileTree } from "./queries";
@@ -71,7 +78,8 @@ function carriesFiles(event: DragEvent) {
  * 비워져야 하기 때문이다.
  */
 export function ImportDialog({ onClose }: { onClose: () => void }) {
-  const { projectId, open } = useWorkspace();
+  const { projectId, open, importEntryPoint } = useWorkspace();
+  const dialogUsage = useDialogUsage("import", true, importEntryPoint);
   const tree = useFileTree(projectId);
   const queryClient = useQueryClient();
   const services = useServices();
@@ -99,10 +107,11 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
   const receiving = dragging && !busy;
 
   /** 고르거나 끌어 놓은 파일을 목록에 더한다 */
-  const add = (files: readonly File[]) => {
+  const add = (files: readonly File[], input_method: "picker" | "drop") => {
     const known = new Set(staged.map((item) => item.key));
     const next: Staged[] = [];
     const unsupported: string[] = [];
+    let duplicates = 0;
     for (const file of files) {
       const format = importFormatOf(file.name);
       if (!format) {
@@ -111,12 +120,22 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
       }
       // 같은 파일을 다시 올린 것은 한 번만 담는다. 이름만 같은 다른 파일은 따로 담긴다.
       const key = `${file.name}:${file.size}:${file.lastModified}`;
-      if (known.has(key)) continue;
+      if (known.has(key)) {
+        duplicates++;
+        continue;
+      }
       known.add(key);
       next.push({ key, file, title: importTitleOf(file.name), format });
     }
     setStaged([...staged, ...next]);
     setRefused(unsupported);
+    dialogUsage.edited();
+    trackUsage("document_import_selected", {
+      accepted_count: next.length,
+      unsupported_count: unsupported.length,
+      duplicate_count: duplicates,
+      input_method,
+    });
   };
 
   /**
@@ -155,12 +174,29 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
       });
       open({ kind: "file", fileId: created[0].id });
     }
+    dialogUsage.closed();
     onClose();
   };
 
   /** 목록의 파일을 차례로 원고로 만든다 */
   const run = async () => {
-    if (!parent || busy) return;
+    if (!parent || busy || staged.length === 0) return;
+    const is_retry = failed > 0 ? 1 : 0;
+    const formats = new Set(staged.map((item) => item.format));
+    dialogUsage.submitted();
+    const attempt = beginUsage(
+      "document_import_started",
+      "document_import_result",
+      {
+        file_count: staged.length,
+        import_format: formats.size > 1 ? "mixed" : staged[0].format,
+        is_retry,
+        entry_point: importEntryPoint ?? "other",
+      },
+    );
+    let succeeded_count = 0;
+    let failed_count = 0;
+    let unknown_count = 0;
     setRefused([]);
     const created = [...made];
     const left: Staged[] = [];
@@ -170,8 +206,11 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
       try {
         nodeId ??= await importer.create(item.file, parent.id);
         await importer.fill(nodeId, item.file);
+        succeeded_count++;
         created.push({ id: nodeId, title: item.title });
       } catch (error) {
+        if (usageFailure(error).outcome === "unknown") unknown_count++;
+        else failed_count++;
         // 만들기까지 됐으면 그 id 를 남겨 둔다. 다시 시도할 때 원고가 하나 더 생기지 않는다.
         left.push({
           ...item,
@@ -187,6 +226,19 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
       }
     }
     // 새 원고가 파일 트리·그래프·검색에 보이게 한다. 파일마다가 아니라 한 번만 한다.
+    attempt.finish({
+      outcome:
+        succeeded_count === staged.length
+          ? "success"
+          : succeeded_count > 0
+            ? "partial"
+            : unknown_count > 0
+              ? "unknown"
+              : "failed",
+      succeeded_count,
+      failed_count,
+      unknown_count,
+    });
     await invalidateProjectContent(queryClient, projectId);
     setProgress(null);
     setMade(created);
@@ -219,7 +271,7 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
   useEffect(() => {
     dropRef.current = (files) => {
       setDragging(false);
-      if (!busy) add(files);
+      if (!busy) add(files, "drop");
     };
   });
   useEffect(() => {
@@ -335,7 +387,7 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
               accept={IMPORT_ACCEPT}
               hidden
               onChange={(event) => {
-                add(Array.from(event.target.files ?? []));
+                add(Array.from(event.target.files ?? []), "picker");
                 // 같은 파일을 다시 골라도 change 가 나도록 값을 비운다.
                 event.target.value = "";
               }}

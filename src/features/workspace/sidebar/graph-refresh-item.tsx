@@ -1,5 +1,7 @@
 "use client";
 
+import { useDialogUsage } from "@/features/analytics/usage-hooks";
+
 import { useRefreshAnalytics } from "@/features/analytics/refresh-analytics";
 
 import { useEffect, useState } from "react";
@@ -60,6 +62,11 @@ export function GraphRefreshItem() {
   const { start } = useRefreshActions(projectId);
   const [saving, setSaving] = useState(false);
   const [confirming, setConfirming] = useState(false);
+  const dialogUsage = useDialogUsage(
+    "refresh_start",
+    confirming,
+    "refresh_sidebar",
+  );
   const status = run.data?.status ?? "IDLE";
   const running = status === "RUNNING";
   const minutes = useElapsedMinutes(run.data?.startedAt ?? null, running);
@@ -141,6 +148,7 @@ export function GraphRefreshItem() {
     } finally {
       setSaving(false);
     }
+    dialogUsage.submitted();
     start.mutate(undefined, {
       onSuccess: ({ run: started, lockedFileIds }) => {
         if (started)

@@ -5,6 +5,7 @@ import { ConflictError, type DocumentService } from "@/services/ports";
 import { sameBody } from "@/domain/document-body";
 
 import { mergeParagraphs } from "./merge-text";
+import type { DocumentUsageObserver } from "@/features/analytics/document-usage";
 
 // DOCUMENT_EDITING_PROPOSAL §5.1: 0.8초 무입력 또는 첫 입력 후 5초 중 먼저 오는 쪽에 저장한다.
 export const SAVE_IDLE_MS = 800;
@@ -74,6 +75,7 @@ export class DocumentSession {
     private readonly documents: DocumentService,
     private readonly onSaved: (outcome: SaveOutcome) => void,
     private readonly newSaveId: () => string = () => crypto.randomUUID(),
+    private readonly usage: DocumentUsageObserver = {},
   ) {}
 
   subscribe = (listener: () => void) => {
@@ -86,6 +88,13 @@ export class DocumentSession {
   getSnapshot = () => this.snapshot;
 
   private set(patch: Partial<DocumentSessionSnapshot>) {
+    if (
+      patch.status === "error" ||
+      patch.status === "conflict" ||
+      patch.status === "locked" ||
+      patch.status === "expired"
+    )
+      this.usage.issue?.(patch.status);
     this.snapshot = { ...this.snapshot, ...patch };
     this.listeners.forEach((listener) => listener());
   }
@@ -107,6 +116,7 @@ export class DocumentSession {
   }
 
   hydrate(content: DocumentContent) {
+    this.usage.loaded?.(content.docType);
     if (content.revisionNo < this.revision) return;
     const incoming = toDraft(content);
     if (this.snapshot.draft && sameDraft(incoming, this.snapshot.draft)) {
@@ -142,6 +152,12 @@ export class DocumentSession {
     if (!current || this.snapshot.status === "locked") return;
     const draft = { ...current, ...patch };
     if (sameDraft(draft, current)) return;
+    this.usage.changed?.({
+      body: !sameBody(draft.body, current.body),
+      title: draft.title !== current.title,
+      properties:
+        JSON.stringify(draft.properties) !== JSON.stringify(current.properties),
+    });
     // 충돌 안내 중에도 계속 쓸 수 있지만, 사용자가 해결 방법을 고르기 전에는 보내지 않는다.
     if (
       this.snapshot.status === "conflict" ||
@@ -200,6 +216,7 @@ export class DocumentSession {
   }
 
   private async send(pending: DocumentDraft, saved: DocumentDraft) {
+    this.usage.saving?.();
     this.set({ status: "saving" });
     try {
       const content = await this.documents.save(this.fileId, {
@@ -209,6 +226,7 @@ export class DocumentSession {
       });
       this.revision = content.revisionNo;
       this.base = pending;
+      this.usage.saved?.();
       this.onSaved({
         content,
         titleChanged: saved.title !== pending.title,
@@ -261,6 +279,7 @@ export class DocumentSession {
   }
 
   keepMine() {
+    this.usage.recovering?.("keep_mine_saved");
     this.set({ status: "dirty" });
     return this.save();
   }
@@ -268,10 +287,12 @@ export class DocumentSession {
   async takeTheirs() {
     const fresh = await this.documents.get(this.fileId);
     this.replace(fresh);
+    this.usage.adopted?.();
     return fresh;
   }
 
   retry() {
+    this.usage.recovering?.("retry_saved");
     if (this.snapshot.status === "conflict") return Promise.resolve();
     this.set({ status: this.dirty ? "dirty" : "saved" });
     return this.save();

@@ -6,6 +6,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { invalidateProjectContent, queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 import { useOnboardingAnalytics } from "@/features/analytics/onboarding-analytics";
+import { DocumentUsageRecorder } from "@/features/analytics/document-usage";
 
 import { DocumentSession } from "./document-session";
 import { trackSession } from "./open-sessions";
@@ -14,6 +15,7 @@ export function useDocumentSession(fileId: string) {
   const services = useServices();
   const track = useOnboardingAnalytics();
   const queryClient = useQueryClient();
+  const [usage] = useState(() => new DocumentUsageRecorder());
   const query = useQuery({
     queryKey: queryKeys.document(fileId),
     queryFn: () => services.documents.get(fileId),
@@ -22,23 +24,30 @@ export function useDocumentSession(fileId: string) {
 
   const [session] = useState(
     () =>
-      new DocumentSession(fileId, services.documents, (outcome) => {
-        if (outcome.content.docType === "manuscript") track("manuscript_saved");
-        queryClient.setQueryData(queryKeys.document(fileId), outcome.content);
-        const projectId = outcome.content.projectId;
-        if (outcome.titleChanged || outcome.relationsChanged) {
-          void invalidateProjectContent(queryClient, projectId);
-        } else {
-          void queryClient.invalidateQueries({
-            queryKey: ["search", projectId],
-          });
-        }
-        if (outcome.relationsChanged) {
-          // 관계는 양방향이다. 서버가 반대쪽 문서에도 행을 넣으므로, 열어 둔 다른 탭이 그 문서를
-          // 붙들고 있으면 새 관계를 모른 채 저장해 방금 만든 관계를 지운다.
-          void queryClient.invalidateQueries({ queryKey: ["document"] });
-        }
-      }),
+      new DocumentSession(
+        fileId,
+        services.documents,
+        (outcome) => {
+          if (outcome.content.docType === "manuscript")
+            track("manuscript_saved");
+          queryClient.setQueryData(queryKeys.document(fileId), outcome.content);
+          const projectId = outcome.content.projectId;
+          if (outcome.titleChanged || outcome.relationsChanged) {
+            void invalidateProjectContent(queryClient, projectId);
+          } else {
+            void queryClient.invalidateQueries({
+              queryKey: ["search", projectId],
+            });
+          }
+          if (outcome.relationsChanged) {
+            // 관계는 양방향이다. 서버가 반대쪽 문서에도 행을 넣으므로, 열어 둔 다른 탭이 그 문서를
+            // 붙들고 있으면 새 관계를 모른 채 저장해 방금 만든 관계를 지운다.
+            void queryClient.invalidateQueries({ queryKey: ["document"] });
+          }
+        },
+        undefined,
+        usage,
+      ),
   );
 
   useEffect(() => {
@@ -47,16 +56,19 @@ export function useDocumentSession(fileId: string) {
 
   useEffect(() => {
     const flush = () => {
-      if (document.visibilityState === "hidden") void session.save();
+      if (document.visibilityState === "hidden") {
+        usage.flush();
+        void session.save();
+      }
     };
     const untrack = trackSession(session);
     document.addEventListener("visibilitychange", flush);
     return () => {
       untrack();
       document.removeEventListener("visibilitychange", flush);
-      void session.dispose();
+      void session.dispose().finally(() => usage.flush());
     };
-  }, [session]);
+  }, [session, usage]);
 
   const snapshot = useSyncExternalStore(
     session.subscribe,

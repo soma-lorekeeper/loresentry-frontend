@@ -1,5 +1,7 @@
 "use client";
 
+import { useDialogUsage } from "@/features/analytics/usage-hooks";
+
 import { useMemo, useRef, useState, type DragEvent } from "react";
 
 import {
@@ -443,6 +445,16 @@ export function WorkspaceSidebar() {
       move.mutate({ fileId: dragId, parentId: target.id, beforeId: null });
   };
 
+  const trashDialogUsage = useDialogUsage(
+    "file_trash",
+    dialog?.kind === "trash",
+    "file_menu",
+  );
+  const episodeDialogUsage = useDialogUsage(
+    "episode_delete",
+    dialog?.kind === "episode",
+    "file_menu",
+  );
   const confirmDialog = () => {
     if (!dialog) return;
     const done = () => {
@@ -450,6 +462,7 @@ export function WorkspaceSidebar() {
       setDialogError(false);
     };
     if (dialog.kind === "trash") {
+      trashDialogUsage.submitted();
       const ids = [dialog.node.id, ...descendantIds(index, dialog.node.id)];
       trash.mutate(dialog.node.id, {
         onSuccess: () => {
@@ -466,6 +479,7 @@ export function WorkspaceSidebar() {
         onError: () => setDialogError(true),
       });
     } else if (dialog.kind === "episode") {
+      episodeDialogUsage.submitted();
       episodes.removeEpisode.mutate(dialog.node.id, {
         onSuccess: done,
         onError: () => setDialogError(true),
@@ -605,7 +619,7 @@ export function WorkspaceSidebar() {
           label={t("가져오기")}
           data-tour="import"
           // 새 탭의 "가져오기"와 같은 창을 연다. 새 탭을 닫아 둔 채로도 원고를 들여올 수 있게 여기에도 둔다.
-          onClick={() => setImporting(true)}
+          onClick={() => setImporting(true, "sidebar")}
         />
         {UTILITY_NAV.map((item) => (
           <SidebarButton

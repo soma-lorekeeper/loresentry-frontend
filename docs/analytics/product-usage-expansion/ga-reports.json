@@ -1,0 +1,99 @@
+{
+  "verifiedOn": "2026-11-03",
+  "verificationMethod": "ego lite: published library, navigation, reopened report filters and metrics",
+  "accountId": "410899988",
+  "propertyId": "557572950",
+  "propertyName": "soma",
+  "collectionId": "16237975503",
+  "collectionName": "LoreSentry",
+  "publication": "all property users",
+  "applicationDeployment": "not performed",
+  "productionReceipt": "new instrumentation not verified",
+  "preservedTopics": [
+    "Refresh",
+    "Signup"
+  ],
+  "reports": [
+    {
+      "name": "설정 오류 탐지 실행 결과",
+      "reportId": "16260783298",
+      "topic": "설정 오류 탐지",
+      "url": "https://analytics.google.com/analytics/web/#/a410899988p557572950/reports/explorer?params=_u..nav%3Dmaui&ruid=37316729-FAC8-4A18-9673-B73729B96036&collectionId=16237975503&r=16260783298",
+      "filter": {
+        "dimension": "event_name",
+        "matchType": "begins_with",
+        "value": "setting_check_run_observed"
+      },
+      "defaultDimension": "Usage Outcome",
+      "metrics": [
+        "이벤트 수",
+        "총 사용자",
+        "활성 사용자당 이벤트 수",
+        "Usage Processing Seconds",
+        "Usage Finding Count"
+      ],
+      "verified": true
+    },
+    {
+      "name": "설정 오류 탐지 이벤트",
+      "reportId": "16260835081",
+      "topic": "설정 오류 탐지",
+      "url": "https://analytics.google.com/analytics/web/#/a410899988p557572950/reports/explorer?params=_u..nav%3Dmaui&ruid=2AE05FEF-4687-4176-8383-1331E809C51F&collectionId=16237975503&r=16260835081",
+      "filter": {
+        "dimension": "event_name",
+        "matchType": "begins_with",
+        "value": "setting_check_"
+      },
+      "defaultDimension": "이벤트 이름",
+      "metrics": [
+        "이벤트 수",
+        "총 사용자",
+        "활성 사용자당 이벤트 수"
+      ],
+      "verified": true
+    },
+    {
+      "name": "제품 사용 이벤트",
+      "reportId": "16260828136",
+      "topic": "제품 사용",
+      "url": "https://analytics.google.com/analytics/web/#/a410899988p557572950/reports/explorer?params=_u..nav%3Dmaui&ruid=018429AF-D423-4529-BDA1-BEF3F7F4DDAB&collectionId=16237975503&r=16260828136",
+      "filter": {
+        "dimension": "event_name",
+        "matchType": "matches_regex",
+        "value": "^(landing_action|action_dialog_|workspace_|project_action_|file_action_|document_|search_|exploration_action|memo_|chat_|feature_notice_viewed|setting_check_|refresh_review_|account_action_|preference_selected|onboarding_|help_action|feedback_).*"
+      },
+      "defaultDimension": "이벤트 이름",
+      "metrics": [
+        "이벤트 수",
+        "총 사용자",
+        "활성 사용자당 이벤트 수"
+      ],
+      "verified": true
+    },
+    {
+      "name": "AI 채팅 응답 결과",
+      "reportId": "16260962922",
+      "topic": "제품 사용",
+      "url": "https://analytics.google.com/analytics/web/#/a410899988p557572950/reports/explorer?params=_u..nav%3Dmaui&ruid=81A0A3D2-99F9-454E-A222-44EB862AF1B8&collectionId=16237975503&r=16260962922",
+      "filter": {
+        "dimension": "event_name",
+        "matchType": "matches_regex",
+        "value": "^chat_turn_result$"
+      },
+      "defaultDimension": "Usage Outcome",
+      "metrics": [
+        "이벤트 수",
+        "총 사용자",
+        "활성 사용자당 이벤트 수",
+        "Usage First Content Seconds",
+        "Usage Citation Count"
+      ],
+      "verified": true
+    }
+  ],
+  "catalogCoverage": {
+    "operationalEventNames": 55,
+    "covered": 55,
+    "excludedConditionalHelper": "action_result_resolved"
+  }
+}

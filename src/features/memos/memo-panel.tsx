@@ -1,5 +1,7 @@
 "use client";
 
+import { trackUsage } from "@/features/analytics/usage-analytics";
+
 import { useRef, useState } from "react";
 
 import {
@@ -129,7 +131,14 @@ export function MemoPanel({
           label={t("메모 위치")}
           options={DOCK_OPTIONS}
           value={dock}
-          onChange={onDock}
+          onChange={(next) => {
+            if (next !== dock)
+              trackUsage("memo_panel_action", {
+                action: next === "right" ? "dock_right" : "dock_bottom",
+                entry_point: "memo_panel",
+              });
+            onDock(next);
+          }}
           className={styles.dock}
         />
       </header>

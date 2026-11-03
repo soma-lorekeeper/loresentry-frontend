@@ -1,5 +1,8 @@
 "use client";
 
+import type { EntryPoint } from "@/features/analytics/usage-schema";
+import { trackUsage } from "@/features/analytics/usage-analytics";
+
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -12,13 +15,18 @@ import { useServices } from "@/services/services-context";
  * 페이지 이동이라 돌아오지 않고, 약관 동의와 결과 처리는 BFF 가 돌려보내는 `/login?result=` 이
  * 맡는다. mock 은 즉시 돌아오므로 그때만 아래 두 줄이 이어진다.
  */
-export function useStartWriting() {
+export function useStartWriting(entry_point: EntryPoint = "landing_body") {
   const services = useServices();
   const queryClient = useQueryClient();
   const router = useRouter();
   const [starting, setStarting] = useState(false);
 
   const start = async () => {
+    trackUsage("landing_action", {
+      action: "start_writing",
+      entry_point,
+      outcome: "requested",
+    });
     setStarting(true);
     try {
       await services.auth.startGoogleLogin("/projects");

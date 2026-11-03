@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  useVisibleUsage,
+  useUsageViewVisible,
+} from "@/features/analytics/usage-hooks";
+
 import { useQuery } from "@tanstack/react-query";
 
 import { Button, EmptyState, Icon } from "@/design-system/primitives";
@@ -81,6 +86,16 @@ export function Report({
     enabled: done,
   });
   const changed = done && revisionNo > latest.revisionNo;
+  const visible = useUsageViewVisible();
+  useVisibleUsage(
+    "setting_check_report_viewed",
+    {
+      finding_count: detail.data?.findings.length,
+      report_changed: changed ? 1 : 0,
+    },
+    visible && done && detail.data?.id === latest?.id && !chapterDoc.isPending,
+    latest?.id ?? "none",
+  );
 
   const header = (
     <>

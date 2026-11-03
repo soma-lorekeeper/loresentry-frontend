@@ -9,6 +9,7 @@ import {
 
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
+import { withUsageAction } from "@/features/analytics/usage-analytics";
 
 export function useChatAvailability(projectId: string) {
   const services = useServices();
@@ -80,7 +81,13 @@ export function useCreateChatSession(projectId: string) {
   const services = useServices();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: () => services.chat.createSession(projectId),
+    mutationFn: () =>
+      withUsageAction(
+        "chat_session",
+        "create",
+        () => services.chat.createSession(projectId),
+        { entry_point: "chat_home", creation_mode: "automatic" },
+      ),
     onSuccess: () => invalidateChat(queryClient, projectId),
   });
 }
@@ -90,7 +97,12 @@ export function useRenameChatSession(projectId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ sessionId, title }: { sessionId: string; title: string }) =>
-      services.chat.renameSession(sessionId, title),
+      withUsageAction(
+        "chat_session",
+        "rename",
+        () => services.chat.renameSession(sessionId, title),
+        { entry_point: "chat_conversation" },
+      ),
     onSuccess: () => invalidateChat(queryClient, projectId),
   });
 }
@@ -99,7 +111,13 @@ export function useDeleteChatSession(projectId: string) {
   const services = useServices();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (sessionId: string) => services.chat.deleteSession(sessionId),
+    mutationFn: (sessionId: string) =>
+      withUsageAction(
+        "chat_session",
+        "delete",
+        () => services.chat.deleteSession(sessionId),
+        { entry_point: "chat_conversation" },
+      ),
     onSuccess: (_, sessionId) => {
       queryClient.removeQueries({
         queryKey: queryKeys.chatMessages(sessionId),

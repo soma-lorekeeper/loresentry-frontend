@@ -13,6 +13,14 @@ import { saveOpenDocuments } from "@/features/documents/open-sessions";
 import type { ChatSendInput } from "@/services/ports";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
+import {
+  beginChatUsage,
+  beginUsage,
+  elapsedSeconds,
+  tagUsageError,
+  trackUsage,
+  usageFailure,
+} from "@/features/analytics/usage-analytics";
 
 import { invalidateChat } from "./queries";
 
@@ -60,6 +68,7 @@ export function useChatStreams(projectId: string) {
   const [completedAt, setCompletedAt] = useState(0);
   const controllers = useRef<Record<string, AbortController>>({});
   const forgotten = useRef(new Set<string>());
+  const userStops = useRef(new Set<string>());
 
   useEffect(() => {
     const live = controllers.current;
@@ -84,11 +93,31 @@ export function useChatStreams(projectId: string) {
     setStreams((all) => without(all, sessionId));
   };
 
-  const send = (sessionId: string, input: ChatSendInput) => {
-    if (controllers.current[sessionId]) return;
+  const send = (
+    sessionId: string,
+    input: ChatSendInput,
+    measured?: ReturnType<typeof beginUsage>,
+  ) => {
+    if (controllers.current[sessionId]) {
+      measured?.finish({
+        outcome: "blocked",
+        stage: "prepare",
+        error_category: "other",
+      });
+      return;
+    }
+    const attempt =
+      measured ??
+      beginChatUsage(
+        input.intent,
+        input.quote !== null,
+        input.replaces ? "edit" : "new",
+      );
+    let firstContent: number | undefined;
     const controller = new AbortController();
     controllers.current[sessionId] = controller;
     forgotten.current.delete(sessionId);
+    userStops.current.delete(sessionId);
     setInterrupted((all) => without(all, sessionId));
     setStreams((all) => ({
       ...all,
@@ -115,8 +144,14 @@ export function useChatStreams(projectId: string) {
       },
     }));
     saveOpenDocuments()
-      .then(() =>
-        services.chat.send(
+      .catch((error) => {
+        throw tagUsageError(error, {
+          outcome: "blocked",
+          stage: "save_documents",
+        });
+      })
+      .then(() => {
+        return services.chat.send(
           sessionId,
           input,
           {
@@ -131,19 +166,27 @@ export function useChatStreams(projectId: string) {
                 citations[index - 1] = citation;
                 return { citations };
               }),
-            onDelta: (text) =>
+            onDelta: (text) => {
+              if (text && firstContent === undefined)
+                firstContent = elapsedSeconds(attempt.started);
               update(sessionId, (stream) => ({
                 phase: "writing",
                 content: stream.content + text,
                 freshFrom: stream.content.length,
                 tick: stream.tick + 1,
-              })),
+              }));
+            },
           },
           controller.signal,
-        ),
-      )
+        );
+      })
       .then(
         async (turn) => {
+          attempt.finish({
+            outcome: "completed",
+            first_content_seconds: firstContent,
+            citation_count: turn.answer.citations.length,
+          });
           if (turn.usage)
             queryClient.setQueryData(queryKeys.chatUsage, turn.usage);
           else
@@ -155,6 +198,20 @@ export function useChatStreams(projectId: string) {
           setCompletedAt(Date.now());
         },
         async (error: unknown) => {
+          const failure = usageFailure(error);
+          attempt.finish({
+            ...failure,
+            outcome: userStops.current.has(sessionId)
+              ? "stopped"
+              : failure.outcome === "blocked"
+                ? "blocked"
+                : (failure.chat_outcome ??
+                  (failure.outcome === "rejected"
+                    ? "rejected"
+                    : "interrupted")),
+            first_content_seconds: firstContent,
+          });
+          userStops.current.delete(sessionId);
           void queryClient.invalidateQueries({ queryKey: queryKeys.chatUsage });
           if (forgotten.current.has(sessionId)) return finish(sessionId);
           await invalidateChat(queryClient, projectId, sessionId);
@@ -169,7 +226,13 @@ export function useChatStreams(projectId: string) {
       );
   };
 
-  const stop = (sessionId: string) => controllers.current[sessionId]?.abort();
+  const stop = (sessionId: string) => {
+    const controller = controllers.current[sessionId];
+    if (!controller) return;
+    userStops.current.add(sessionId);
+    trackUsage("chat_stop_requested", { entry_point: "chat_conversation" });
+    controller.abort();
+  };
 
   const forget = (sessionId: string) => {
     forgotten.current.add(sessionId);
@@ -179,9 +242,13 @@ export function useChatStreams(projectId: string) {
 
   const retry = (sessionId: string, messages: ChatMessage[]) => {
     const entry = interrupted[sessionId];
-    if (!entry) return;
+    if (!entry || controllers.current[sessionId]) return;
     const lastQuestion = [...messages].reverse().find((m) => m.role === "user");
-    send(sessionId, { ...entry.input, replaces: lastQuestion?.id ?? null });
+    send(
+      sessionId,
+      { ...entry.input, replaces: lastQuestion?.id ?? null },
+      beginChatUsage(entry.input.intent, entry.input.quote !== null, "retry"),
+    );
   };
 
   return {

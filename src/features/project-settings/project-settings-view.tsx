@@ -1,5 +1,7 @@
 "use client";
 
+import { useUsageViewQuery } from "@/features/analytics/usage-hooks";
+
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -57,7 +59,7 @@ function TrashDialog({
   const { projectId } = useWorkspace();
   const router = useRouter();
   const toast = useToast();
-  const trash = useTrashProject();
+  const trash = useTrashProject("other");
   const busy = trash.isPending;
   const close = () => {
     if (busy) return;
@@ -301,6 +303,7 @@ function SettingsForm({
 export function ProjectSettingsView({ tab, paneId }: WorkspaceViewProps) {
   const { projectId } = useWorkspace();
   const settings = useProjectSettings(projectId);
+  const retryUsageLoad = useUsageViewQuery(settings, false, "settings");
 
   return (
     <div className={styles.page}>
@@ -323,7 +326,10 @@ export function ProjectSettingsView({ tab, paneId }: WorkspaceViewProps) {
             <Button
               size="md"
               icon="refresh-cw"
-              onClick={() => settings.refetch()}
+              onClick={() => {
+                retryUsageLoad();
+                void settings.refetch();
+              }}
             >
               {t("다시 시도")}
             </Button>

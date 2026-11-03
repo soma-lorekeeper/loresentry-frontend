@@ -1,5 +1,17 @@
 "use client";
 
+import { useVisibleUsage } from "@/features/analytics/usage-hooks";
+import {
+  countBucket,
+  usageFailure,
+} from "@/features/analytics/usage-analytics";
+
+import {
+  beginChatUsage,
+  beginUsage,
+  trackUsage,
+} from "@/features/analytics/usage-analytics";
+
 import {
   useEffect,
   useRef,
@@ -252,6 +264,7 @@ export function ChatDock() {
   const lastLevel = useRef(level);
   const streams = useChatStreams(projectId);
   const createSession = useCreateChatSession(projectId);
+  const createError = useRef<unknown>(null);
   const creating = useRef<Promise<string | null> | null>(null);
   const submitting = useRef(false);
   const renameSession = useRenameChatSession(projectId);
@@ -275,6 +288,69 @@ export function ChatDock() {
 
   const needle = query.trim();
   const search = useChatSearch(projectId, needle);
+  const [measuredNeedle, setMeasuredNeedle] = useState("");
+  useEffect(() => {
+    const timer = window.setTimeout(() => setMeasuredNeedle(needle), 250);
+    return () => window.clearTimeout(timer);
+  }, [needle]);
+  const measuredSearch = useRef<{
+    needle: string;
+    attempt: ReturnType<typeof beginUsage>;
+  } | null>(null);
+  useEffect(() => {
+    if (measuredSearch.current?.needle !== measuredNeedle) {
+      measuredSearch.current?.attempt.finish({ outcome: "superseded" });
+      measuredSearch.current = measuredNeedle
+        ? {
+            needle: measuredNeedle,
+            attempt: beginUsage(
+              "search_request_started",
+              "search_request_result",
+              { search_scope: "chat", entry_point: "chat_home", is_retry: 0 },
+            ),
+          }
+        : null;
+    }
+    if (
+      measuredNeedle === needle &&
+      measuredNeedle &&
+      !search.isFetching &&
+      !search.isPlaceholderData &&
+      (search.isSuccess || search.isError)
+    )
+      measuredSearch.current?.attempt.finish(
+        search.isError
+          ? { outcome: "error", error_category: "other" }
+          : {
+              outcome: search.data.length ? "results" : "empty",
+              count_bucket: countBucket(search.data.length),
+            },
+      );
+  }, [
+    needle,
+    measuredNeedle,
+    search.isFetching,
+    search.isPlaceholderData,
+    search.isSuccess,
+    search.isError,
+    search.data,
+  ]);
+  useVisibleUsage(
+    "feature_notice_viewed",
+    { feature: "chat", notice_kind: "too_large", entry_point: "chat_launcher" },
+    notice && tooLarge,
+    "too_large",
+  );
+  useVisibleUsage(
+    "feature_notice_viewed",
+    {
+      feature: "chat",
+      notice_kind: "daily_limit",
+      entry_point: "chat_conversation",
+    },
+    windowOpen && level === "full",
+    "daily_limit",
+  );
   const sessionId = view.kind === "session" ? view.id : null;
   const messages = useChatMessages(sessionId);
   const session =
@@ -305,6 +381,15 @@ export function ChatDock() {
   );
 
   const goTo = (next: ChatView) => {
+    if (
+      next.kind === "session" &&
+      sessions.data?.some((item) => item.id === next.id)
+    )
+      trackUsage("chat_action", {
+        action: "open_session",
+        outcome: "requested",
+        entry_point: "chat_home",
+      });
     setView(next);
     setRenaming(false);
     setDeleting(false);
@@ -312,6 +397,19 @@ export function ChatDock() {
   };
 
   const openWindow = () => {
+    if (!windowOpen)
+      trackUsage("chat_window_opened", {
+        entry_point: "chat_launcher",
+        availability: ready
+          ? "available"
+          : tooLarge
+            ? "too_large"
+            : unavailable
+              ? "unavailable"
+              : availability.isError
+                ? "error"
+                : "loading",
+      });
     setWindowOpen(true);
     setNotice(false);
     setSeenAt(Date.now());
@@ -328,6 +426,7 @@ export function ChatDock() {
 
   const newSession = (): Promise<string | null> => {
     if (!creating.current) {
+      createError.current = null;
       creating.current = createSession
         .mutateAsync()
         .then(
@@ -335,7 +434,10 @@ export function ChatDock() {
             goTo({ kind: "session", id: created.id });
             return created.id;
           },
-          () => null,
+          (error: unknown) => {
+            createError.current = error;
+            return null;
+          },
         )
         .finally(() => {
           creating.current = null;
@@ -349,14 +451,19 @@ export function ChatDock() {
     content: string,
     intent: ChatIntent,
     withQuote: ChatQuote | null,
+    measured?: ReturnType<typeof beginUsage>,
   ) => {
     setTerm("");
-    streams.send(id, {
-      content,
-      intent,
-      quote: withQuote,
-      replaces: null,
-    });
+    streams.send(
+      id,
+      {
+        content,
+        intent,
+        quote: withQuote,
+        replaces: null,
+      },
+      measured,
+    );
   };
 
   const submit = async () => {
@@ -364,18 +471,37 @@ export function ChatDock() {
     submitting.current = true;
     const content = draft.trim();
     const attached = quote;
+    const attempt = beginChatUsage(
+      "ask",
+      attached !== null,
+      "new",
+      sessionId ? "chat_conversation" : "chat_home",
+    );
     try {
       const id = sessionId ?? (await newSession());
-      if (!id) return;
+      if (!id) {
+        const failure = usageFailure(createError.current);
+        attempt.finish({
+          ...failure,
+          outcome: failure.outcome === "rejected" ? "rejected" : "interrupted",
+          stage: "prepare",
+        });
+        return;
+      }
       setDraft("");
       setQuote(null);
-      sendTo(id, content, "ask", attached);
+      sendTo(id, content, "ask", attached, attempt);
     } finally {
       submitting.current = false;
     }
   };
 
   const attach = async (picked: ChatQuote) => {
+    trackUsage("chat_action", {
+      action: "attach_quote",
+      outcome: "success",
+      entry_point: "selection_toolbar",
+    });
     const target = selectionTarget(windowOpen, view);
     openWindow();
     setQuote(picked);
@@ -395,14 +521,29 @@ export function ChatDock() {
       focusInput();
       return;
     }
+    const attempt = beginChatUsage(intent, true, "new", "selection_toolbar");
     const id = target ?? (await newSession());
-    if (!id) return;
+    if (!id) {
+      const failure = usageFailure(createError.current);
+      attempt.finish({
+        ...failure,
+        outcome: failure.outcome === "rejected" ? "rejected" : "interrupted",
+        stage: "prepare",
+      });
+      return;
+    }
     setQuote(null);
     setDraft("");
-    sendTo(id, quickQuestion(intent), intent, picked);
+    sendTo(id, quickQuestion(intent), intent, picked, attempt);
   };
 
   const openCitation = (citation: ChatCitation) => {
+    trackUsage("chat_action", {
+      action: "open_citation",
+      outcome: "requested",
+      citation_kind: citation.kind,
+      entry_point: "chat_conversation",
+    });
     if (citation.kind === "document")
       open({ kind: "file", fileId: citation.fileId });
     else openMemo(citation.memoId);
@@ -439,7 +580,14 @@ export function ChatDock() {
       creating={createSession.isPending}
       onStop={() => sessionId && streams.stop(sessionId)}
       quote={quote}
-      onRemoveQuote={() => setQuote(null)}
+      onRemoveQuote={() => {
+        trackUsage("chat_action", {
+          action: "remove_quote",
+          outcome: "success",
+          entry_point: "chat_conversation",
+        });
+        setQuote(null);
+      }}
       placeholder={
         sessionId ? t("작품에 대해 물어보세요") : t("새 대화를 시작해 보세요")
       }
@@ -492,16 +640,30 @@ export function ChatDock() {
   );
 
   const pick = async (question: string) => {
+    trackUsage("chat_action", {
+      action: "use_suggestion",
+      outcome: "requested",
+      entry_point: "chat_home",
+    });
     setDraft(question);
     if (streams.busy) {
       setDraft(question);
       focusInput();
       return;
     }
+    const attempt = beginChatUsage("ask", false, "new", "chat_home");
     const id = sessionId ?? (await newSession());
-    if (!id) return;
+    if (!id) {
+      const failure = usageFailure(createError.current);
+      attempt.finish({
+        ...failure,
+        outcome: failure.outcome === "rejected" ? "rejected" : "interrupted",
+        stage: "prepare",
+      });
+      return;
+    }
     setDraft("");
-    sendTo(id, question, "ask", null);
+    sendTo(id, question, "ask", null, attempt);
   };
 
   const greeting = (
@@ -546,7 +708,21 @@ export function ChatDock() {
                   compact
                   title={t("대화 검색을 마치지 못했어요")}
                   retrying={search.isFetching}
-                  onRetry={() => void search.refetch()}
+                  onRetry={() => {
+                    measuredSearch.current = {
+                      needle: measuredNeedle,
+                      attempt: beginUsage(
+                        "search_request_started",
+                        "search_request_result",
+                        {
+                          entry_point: "chat_home",
+                          search_scope: "chat",
+                          is_retry: 1,
+                        },
+                      ),
+                    };
+                    void search.refetch();
+                  }}
                 />
               ) : search.data && search.data.length > 0 ? (
                 <>
@@ -562,6 +738,19 @@ export function ChatDock() {
                         now={now}
                         line={snippetLine(hit, needle)}
                         onClick={() => {
+                          const rank = (search.data?.indexOf(hit) ?? 0) + 1;
+                          trackUsage("search_result_selected", {
+                            entry_point: "chat_home",
+                            search_scope: "chat",
+                            rank_bucket:
+                              rank === 1
+                                ? "1"
+                                : rank <= 5
+                                  ? "2_5"
+                                  : rank <= 10
+                                    ? "6_10"
+                                    : "11_plus",
+                          });
                           goTo({ kind: "session", id: hit.session.id });
                           setTerm(needle);
                         }}
@@ -812,8 +1001,14 @@ export function ChatDock() {
         resting={resting}
         buttonRef={launcherRef}
         onClick={() => {
-          if (tooLarge) setNotice((v) => !v);
-          else if (windowOpen) closeWindow();
+          if (tooLarge) {
+            if (!notice)
+              trackUsage("chat_window_opened", {
+                entry_point: "chat_launcher",
+                availability: "too_large",
+              });
+            setNotice((v) => !v);
+          } else if (windowOpen) closeWindow();
           else openWindow();
         }}
       />

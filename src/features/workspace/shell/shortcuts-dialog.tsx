@@ -1,5 +1,7 @@
 "use client";
 
+import { useVisibleUsage } from "@/features/analytics/usage-hooks";
+
 import { Button, DialogCard } from "@/design-system/primitives";
 import { t } from "@/i18n";
 
@@ -20,6 +22,12 @@ export function ShortcutsDialog({
   onClose: () => void;
 }) {
   // 이 기기의 자판에 맞는 표기로 적는다(Mac 은 ⌘, 그 밖은 Ctrl).
+  useVisibleUsage(
+    "help_action",
+    { action: "shortcuts_open", entry_point: "guide" },
+    open,
+    "shortcuts",
+  );
   const mac = isMac();
   return (
     <DialogCard

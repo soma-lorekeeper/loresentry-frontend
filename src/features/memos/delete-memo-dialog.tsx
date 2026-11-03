@@ -21,7 +21,7 @@ export function DeleteMemoDialog({
   onClose: () => void;
 }) {
   const toast = useToast();
-  const remove = useRemoveMemo(projectId);
+  const remove = useRemoveMemo(projectId, memo?.scope);
   const busy = remove.isPending;
   const close = () => {
     if (busy) return;

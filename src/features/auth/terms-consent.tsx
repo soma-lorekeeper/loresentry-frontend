@@ -1,5 +1,7 @@
 "use client";
 
+import { withUsageAction } from "@/features/analytics/usage-analytics";
+
 import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button, DialogCard, StatusNotice } from "@/design-system/primitives";
@@ -79,7 +81,12 @@ export function TermsConsent({
     setError("");
     let stage: "terms" | "session" = "terms";
     try {
-      await auth.acceptTerms(terms.termsVersionId);
+      await withUsageAction(
+        "account",
+        "accept_terms",
+        () => auth.acceptTerms(terms.termsVersionId),
+        { entry_point: "onboarding" },
+      );
       stage = "session";
       await queryClient.cancelQueries();
       queryClient.clear();

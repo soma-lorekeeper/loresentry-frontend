@@ -1,12 +1,15 @@
 "use client";
 
+import type { EntryPoint } from "@/features/analytics/usage-schema";
+
+import { trackUsage } from "@/features/analytics/usage-analytics";
+
 import {
   createContext,
   useCallback,
   useContext,
   useEffect,
   useMemo,
-  useReducer,
   useRef,
   useState,
   type Dispatch,
@@ -98,7 +101,8 @@ interface WorkspaceContextValue {
    * 좁아져 접힌 사이드바, 닫힌 새 탭) 올려 둔 파일 목록이 남아야 하므로 열림을 여기에 둔다.
    */
   importing: boolean;
-  setImporting: (open: boolean) => void;
+  setImporting: (open: boolean, entryPoint?: EntryPoint) => void;
+  importEntryPoint: EntryPoint;
   memoFocus: { id: string; paneId: string; sequence: number } | null;
   openMemo: (memoId: string) => void;
 }
@@ -148,7 +152,44 @@ export function WorkspaceProvider({
 }) {
   const services = useServices();
   const toast = useToast();
-  const [layout, dispatch] = useReducer(layoutReducer, initialLayout);
+  const [layout, setLayout] = useState(initialLayout);
+  const layoutNow = useRef(layout);
+  useEffect(() => {
+    layoutNow.current = layout;
+  }, [layout]);
+  const dispatch = useCallback((action: LayoutAction) => {
+    const before = layoutNow.current;
+    const after = layoutReducer(before, action);
+    layoutNow.current = after;
+    setLayout(after);
+    if (JSON.stringify(before) === JSON.stringify(after)) return;
+    const name =
+      action.type === "split" || action.type === "openBeside"
+        ? "split"
+        : action.type === "moveTab"
+          ? action.from === action.to
+            ? "reorder_tab"
+            : "move_tab"
+          : action.type === "close"
+            ? "close_tab"
+            : action.type === "toggleSidebar" || action.type === "setSidebar"
+              ? "sidebar_toggle"
+              : null;
+    if (name)
+      trackUsage("workspace_action", {
+        action: name,
+        outcome: "changed",
+        entry_point: "other",
+      });
+    if (
+      action.type === "setPanels" &&
+      after.panels.memoOpen !== before.panels.memoOpen
+    )
+      trackUsage("memo_panel_action", {
+        action: after.panels.memoOpen ? "open" : "close",
+        entry_point: "document_header",
+      });
+  }, []);
   const pending = useRef<WorkspaceLayout | null>(null);
 
   /*
@@ -161,7 +202,15 @@ export function WorkspaceProvider({
    */
   const [narrow, setNarrow] = useState(matchesNarrow);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [importing, setImporting] = useState(false);
+  const [importing, setImportState] = useState(false);
+  const [importEntryPoint, setImportEntryPoint] = useState<EntryPoint>("other");
+  const setImporting = useCallback(
+    (open: boolean, entryPoint: EntryPoint = "other") => {
+      if (open) setImportEntryPoint(entryPoint);
+      setImportState(open);
+    },
+    [],
+  );
   const [memoFocus, setMemoFocus] =
     useState<WorkspaceContextValue["memoFocus"]>(null);
   useEffect(() => {
@@ -181,7 +230,7 @@ export function WorkspaceProvider({
       if (narrow) setDrawerOpen(open);
       else dispatch({ type: "setSidebar", open });
     },
-    [narrow],
+    [narrow, dispatch],
   );
 
   useEffect(() => {
@@ -204,17 +253,20 @@ export function WorkspaceProvider({
     [project.id, services],
   );
 
-  const open = useCallback<WorkspaceContextValue["open"]>((target, options) => {
-    if (target.kind === "memo") setMemoFocus(null);
-    dispatch({ type: "open", target, paneId: options?.paneId });
-  }, []);
+  const open = useCallback<WorkspaceContextValue["open"]>(
+    (target, options) => {
+      if (target.kind === "memo") setMemoFocus(null);
+      dispatch({ type: "open", target, paneId: options?.paneId });
+    },
+    [dispatch],
+  );
 
   const openBeside = useCallback<WorkspaceContextValue["openBeside"]>(
     (target, fromPaneId) => {
       if (narrow) dispatch({ type: "open", target, paneId: fromPaneId });
       else dispatch({ type: "openBeside", target, from: fromPaneId });
     },
-    [narrow],
+    [narrow, dispatch],
   );
 
   const openMemo = useCallback(
@@ -227,7 +279,7 @@ export function WorkspaceProvider({
       }));
       dispatch({ type: "open", target: { kind: "memo" }, paneId });
     },
-    [layout.activePaneId],
+    [layout.activePaneId, dispatch],
   );
 
   const guards = useRef(new Map<string, CloseGuard>());
@@ -313,7 +365,7 @@ export function WorkspaceProvider({
       }
       proceed();
     },
-    [toast],
+    [toast, dispatch],
   );
 
   const relocate = useCallback(
@@ -360,7 +412,7 @@ export function WorkspaceProvider({
       proceed();
       // toast 는 알림 제공자가 한 번 만들어 주는 함수라 바뀌지 않는다.
     },
-    [toast],
+    [toast, dispatch],
   );
 
   const activePane =
@@ -375,8 +427,8 @@ export function WorkspaceProvider({
       projectId: project.id,
       project,
       user,
-      layout,
       dispatch,
+      layout,
       activePane,
       activeFileId,
       narrow,
@@ -390,6 +442,7 @@ export function WorkspaceProvider({
       tabActionsOf,
       relocate,
       importing,
+      importEntryPoint,
       setImporting,
       memoFocus,
       openMemo,
@@ -397,6 +450,7 @@ export function WorkspaceProvider({
     [
       project,
       user,
+      dispatch,
       layout,
       activePane,
       activeFileId,
@@ -411,6 +465,8 @@ export function WorkspaceProvider({
       tabActionsOf,
       relocate,
       importing,
+      importEntryPoint,
+      setImporting,
       memoFocus,
       openMemo,
     ],

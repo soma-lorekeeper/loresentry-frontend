@@ -136,7 +136,10 @@ export function SettingCheckWatcher() {
             label: t("점검"),
             primary: true,
             onSelect: () =>
-              void latest.current.start.begin(chapter.id, { openTab: true }),
+              void latest.current.start.begin(chapter.id, {
+                openTab: true,
+                entryPoint: "check_toast",
+              }),
           },
         });
       }),

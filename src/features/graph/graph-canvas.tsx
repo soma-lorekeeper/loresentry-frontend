@@ -1,5 +1,7 @@
 "use client";
 
+import { useUsageViewState } from "@/features/analytics/usage-hooks";
+
 import { useCallback, useMemo, useState } from "react";
 
 import { useTheme } from "@/design-system/theme/theme-store";
@@ -48,6 +50,10 @@ export default function GraphCanvas({
   onSelect,
   onClearSelection,
 }: GraphCanvasProps) {
+  useUsageViewState(
+    { outcome: graph.nodes.length ? "ready" : "empty" },
+    "graph",
+  );
   const { mode } = useTheme();
   // 테마가 바뀌면 토큰 값을 다시 읽는다. mode 는 읽기 시점을 가르는 열쇠로만 쓴다.
   const palette = useMemo(() => (void mode, readPalette()), [mode]);

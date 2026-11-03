@@ -14,6 +14,7 @@ import type { DocumentType } from "@/domain/document-types";
 import { t } from "@/i18n";
 
 import { ServiceError } from "../errors";
+import { tagUsageError } from "@/features/analytics/usage-analytics";
 import type { ChatService, ChatTurn } from "../ports";
 
 import { toServiceError } from "./errors";
@@ -264,10 +265,13 @@ export function createApiChat(client: ApiClient): ChatService {
               };
             else if (event === "error") {
               if (payload.code === "CHAT_ANSWER_CANCELLED") throw stopped();
-              throw toServiceError(
-                { code: payload.code as string },
-                503,
-                "chat.send",
+              throw tagUsageError(
+                toServiceError(
+                  { code: payload.code as string },
+                  503,
+                  "chat.send",
+                ),
+                { chat_outcome: "failed", stage: "stream" },
               );
             }
           },

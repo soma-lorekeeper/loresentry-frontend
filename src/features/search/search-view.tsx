@@ -1,6 +1,14 @@
 "use client";
 
 import {
+  beginUsage,
+  countBucket,
+  trackUsage,
+  usageFailure,
+} from "@/features/analytics/usage-analytics";
+import { useUsageViewState } from "@/features/analytics/usage-hooks";
+
+import {
   useEffect,
   useMemo,
   useRef,
@@ -165,6 +173,11 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
   const { projectId, open, activePane } = useWorkspace();
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  const usageSearch = useRef<{
+    term: string;
+    attempt: ReturnType<typeof beginUsage>;
+  } | null>(null);
+  useUsageViewState({ outcome: "ready" }, "search");
   const measuredSearch = useRef({ term: "", reported: false });
   const [query, setQuery] = useState("");
   const [requested, setRequested] = useState("");
@@ -191,6 +204,46 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
     );
     return () => window.clearTimeout(timer);
   }, [term]);
+
+  useEffect(() => {
+    const current = usageSearch.current;
+    if (current && current.term !== term) {
+      current.attempt.finish({ outcome: "superseded" });
+      usageSearch.current = null;
+    }
+    if (requested && requested === term && !usageSearch.current)
+      usageSearch.current = {
+        term,
+        attempt: beginUsage("search_request_started", "search_request_result", {
+          search_scope: "project",
+          entry_point: "search",
+          is_retry: 0,
+        }),
+      };
+    const measured = usageSearch.current;
+    if (
+      measured?.term === requested &&
+      requested === term &&
+      !search.isFetching &&
+      (search.isSuccess || search.isError)
+    )
+      measured.attempt.finish(
+        search.isError
+          ? { ...usageFailure(search.error), outcome: "error" }
+          : {
+              outcome: search.data.length ? "results" : "empty",
+              count_bucket: countBucket(search.data.length),
+            },
+      );
+  }, [
+    requested,
+    term,
+    search.isFetching,
+    search.isSuccess,
+    search.isError,
+    search.data,
+    search.error,
+  ]);
 
   useEffect(() => {
     if (focused) inputRef.current?.focus();
@@ -268,8 +321,17 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
     return isDocument(node) ? (node.imageUrl ?? null) : null;
   };
 
-  const openHit = (hit: SearchHit) =>
+  const openHit = (hit: SearchHit) => {
+    const rank = hits.indexOf(hit) + 1;
+    trackUsage("search_result_selected", {
+      entry_point: "search",
+      search_scope: "project",
+      document_type: hit.docType,
+      rank_bucket:
+        rank === 1 ? "1" : rank <= 5 ? "2_5" : rank <= 10 ? "6_10" : "11_plus",
+    });
     open({ kind: "file", fileId: hit.fileId });
+  };
 
   const onFieldKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.nativeEvent.isComposing) return;
@@ -406,7 +468,21 @@ export function SearchView({ paneId, active }: WorkspaceViewProps) {
                 <Button
                   size="md"
                   icon="refresh-cw"
-                  onClick={() => search.refetch()}
+                  onClick={() => {
+                    usageSearch.current = {
+                      term,
+                      attempt: beginUsage(
+                        "search_request_started",
+                        "search_request_result",
+                        {
+                          search_scope: "project",
+                          entry_point: "search",
+                          is_retry: 1,
+                        },
+                      ),
+                    };
+                    void search.refetch();
+                  }}
                 >
                   {t("다시 시도")}
                 </Button>

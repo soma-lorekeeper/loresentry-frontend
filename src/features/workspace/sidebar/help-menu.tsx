@@ -1,5 +1,7 @@
 "use client";
 
+import { trackUsage } from "@/features/analytics/usage-analytics";
+
 import { useCallback, useRef, useState } from "react";
 
 import { Menu, SidebarButton } from "@/design-system/primitives";
@@ -49,7 +51,13 @@ export function HelpMenu({ selected }: { selected: boolean }) {
             id: "tour",
             label: t("작업공간 둘러보기"),
             icon: "panels-top-left",
-            onSelect: requestTour,
+            onSelect: () => {
+              trackUsage("help_action", {
+                action: "start_tour",
+                entry_point: "guide",
+              });
+              requestTour();
+            },
           },
           {
             id: "shortcuts",

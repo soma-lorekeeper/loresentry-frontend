@@ -1,5 +1,7 @@
 "use client";
 
+import { trackUsage } from "@/features/analytics/usage-analytics";
+
 import { useQuery } from "@tanstack/react-query";
 import {
   useCallback,
@@ -414,6 +416,11 @@ export function Board({
   }, [layout]);
 
   const activate = (id: string | null) => {
+    if (id !== null && id !== activeId)
+      trackUsage("setting_check_finding_action", {
+        action: "expand",
+        entry_point: "check_report",
+      });
     setActiveId(id);
     setEditing(null);
     scrollTarget.current = id;
@@ -480,6 +487,10 @@ export function Board({
   };
 
   const reveal = (finding: SettingCheckFinding) => {
+    trackUsage("setting_check_finding_action", {
+      action: "open_source",
+      entry_point: "check_report",
+    });
     requestReveal(finding.source.documentId, finding.source.quote);
     openBeside({ kind: "file", fileId: finding.source.documentId }, paneId);
   };
@@ -724,6 +735,10 @@ export function Board({
               label={t("어긋남 걸러 보기")}
               value={filter}
               onChange={(next) => {
+                trackUsage("setting_check_finding_action", {
+                  action: "filter",
+                  entry_point: "check_report",
+                });
                 setFilter(next);
                 setOpened(new Set());
                 activate(null);

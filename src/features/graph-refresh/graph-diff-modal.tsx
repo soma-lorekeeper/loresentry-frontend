@@ -1,5 +1,8 @@
 "use client";
 
+import { trackUsage } from "@/features/analytics/usage-analytics";
+import { useDialogUsage } from "@/features/analytics/usage-hooks";
+
 import { useQueryClient } from "@tanstack/react-query";
 import {
   useEffect,
@@ -35,7 +38,7 @@ import { useServices } from "@/services/services-context";
 
 import type { Lookup } from "./document-compare";
 import styles from "./graph-diff-modal.module.css";
-import { initMerge, type MergeState } from "./merge";
+import { initMerge, isResolved, type MergeState } from "./merge";
 import { refreshApplied, useRefreshActions, useRefreshReview } from "./queries";
 import { RefreshReview } from "./refresh-review";
 import { useDraftAutosave } from "./use-draft-autosave";
@@ -57,6 +60,18 @@ export function GraphDiffModal({
   open: boolean;
   onClose: () => void;
 }) {
+  const dialogUsage = useDialogUsage("refresh_review", open, "refresh_review");
+  const closeSnapshot = useRef({ had_local_edits: false, unmatched_count: 0 });
+  const closeReview = (reason: "dismissed" | "applied" | "ended") => {
+    trackUsage("refresh_review_closed", {
+      close_reason: reason,
+      had_local_edits: closeSnapshot.current.had_local_edits ? 1 : 0,
+      unmatched_count: closeSnapshot.current.unmatched_count,
+    });
+    if (reason === "applied") dialogUsage.submitted();
+    dialogUsage.closed();
+    onClose();
+  };
   const titleId = useId();
   const toast = useToast();
   const queryClient = useQueryClient();
@@ -71,7 +86,8 @@ export function GraphDiffModal({
     if (confirming || closing.current) return;
     closing.current = true;
     try {
-      if (!closeGuardRef.current || (await closeGuardRef.current())) onClose();
+      if (!closeGuardRef.current || (await closeGuardRef.current()))
+        closeReview("dismissed");
     } finally {
       closing.current = false;
     }
@@ -79,7 +95,7 @@ export function GraphDiffModal({
 
   // 확정했거나 실패해 검토가 이미 끝났다. 지금 상태를 다시 읽어 맞는 버튼을 보인다.
   const ended = () => {
-    onClose();
+    closeReview("ended");
     toast({ icon: "info", title: t("이미 끝난 최신화예요.") });
     void queryClient.invalidateQueries({
       queryKey: queryKeys.refresh(projectId),
@@ -116,7 +132,10 @@ export function GraphDiffModal({
           onConfirming={setConfirming}
           onReload={() => void review.refetch()}
           onEnded={ended}
-          onClose={onClose}
+          onClose={() => closeReview("applied")}
+          onUsageSnapshot={(snapshot) => {
+            closeSnapshot.current = snapshot;
+          }}
           onRequestClose={() => void close()}
           closeGuardRef={closeGuardRef}
         />
@@ -136,6 +155,7 @@ function ReviewSession({
   onEnded,
   onClose,
   onRequestClose,
+  onUsageSnapshot,
   closeGuardRef,
 }: {
   titleId: string;
@@ -148,6 +168,10 @@ function ReviewSession({
   onEnded: () => void;
   onClose: () => void;
   onRequestClose: () => void;
+  onUsageSnapshot: (snapshot: {
+    had_local_edits: boolean;
+    unmatched_count: number;
+  }) => void;
   closeGuardRef: RefObject<(() => Promise<boolean>) | null>;
 }) {
   const trackRefresh = useRefreshAnalytics();
@@ -159,6 +183,8 @@ function ReviewSession({
   const [uncertain, setUncertain] = useState(false);
   const busy = useRef(false);
   const appliedTracked = useRef(false);
+  const editEpisodes = useRef(new Set<string>());
+
   const tree = useFileTree(projectId);
   const index = useMemo(() => indexNodes(tree.data ?? []), [tree.data]);
   const proposals = detail.proposals;
@@ -190,6 +216,10 @@ function ReviewSession({
     },
     onEnded,
   });
+
+  useEffect(() => {
+    if (!autosave.pending) editEpisodes.current.clear();
+  }, [autosave.pending]);
 
   const { flush } = autosave;
   useEffect(() => {
@@ -343,6 +373,14 @@ function ReviewSession({
     }
   };
 
+  useEffect(() => {
+    onUsageSnapshot({
+      had_local_edits: state !== start,
+      unmatched_count: proposals.filter((p) => !isResolved(state, p.fileId))
+        .length,
+    });
+  }, [state, start, proposals, onUsageSnapshot]);
+
   const reasons =
     confirmError instanceof RefreshConfirmError
       ? confirmReasons(confirmError, lookup, proposals)
@@ -359,8 +397,36 @@ function ReviewSession({
       confirmDisabled={autosave.expired || uncertain}
       lookup={lookup}
       candidatesOf={candidatesOf}
-      onSelect={setSelectedId}
+      onSelect={(id) => {
+        trackUsage("refresh_review_action", {
+          action: "select_draft",
+          entry_point: "refresh_review",
+          draft_kind:
+            proposals.find((p) => p.fileId === id)?.kind === "added"
+              ? "new"
+              : "existing",
+        });
+        setSelectedId(id);
+      }}
       onChange={setState}
+      onInteraction={(action) => {
+        const emit = () =>
+          trackUsage("refresh_review_action", {
+            action,
+            entry_point: "refresh_review",
+            draft_kind:
+              proposals.find((p) => p.fileId === selectedId)?.kind === "added"
+                ? "new"
+                : "existing",
+          });
+        if (action === "edit_current" || action === "edit_proposed") {
+          const key = `${selectedId}:${action}`;
+          if (!editEpisodes.current.has(key)) {
+            editEpisodes.current.add(key);
+            emit();
+          }
+        } else emit();
+      }}
       onConfirm={() => void confirm()}
       onClose={onRequestClose}
       notice={

@@ -1,5 +1,7 @@
 "use client";
 
+import { trackUsage } from "@/features/analytics/usage-analytics";
+
 import { useRef, useState } from "react";
 
 import { Icon, Menu } from "@/design-system/primitives";
@@ -87,7 +89,14 @@ export function UserMenu({ user }: { user: User }) {
             onSelect: () => setDialog("account"),
           },
           { type: "separator", id: "separator" },
-          ...themeMenuEntries(theme.preference, theme.setPreference),
+          ...themeMenuEntries(theme.preference, (value) => {
+            trackUsage("preference_selected", {
+              preference: "theme",
+              value,
+              entry_point: "account_menu",
+            });
+            theme.setPreference(value);
+          }),
           { type: "separator", id: "separator-theme" },
           {
             id: "logout",

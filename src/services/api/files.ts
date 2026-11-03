@@ -8,6 +8,7 @@ import type { CreateFileInput, FileService } from "../ports";
 import type { FavoriteStore } from "./favorites";
 import type { ApiClient } from "./http";
 import { uploadImage } from "./images";
+import { tagUsageError } from "@/features/analytics/usage-analytics";
 import {
   categoryNodeId,
   documentTypeOf,
@@ -145,9 +146,12 @@ function unsupported(what: string): never {
 }
 
 function unsupportedError(what: string): ServiceError {
-  return new ServiceError(
-    "validation",
-    t("{what}는 아직 서버에 저장할 수 없어요.", { what }),
+  return tagUsageError(
+    new ServiceError(
+      "validation",
+      t("{what}는 아직 서버에 저장할 수 없어요.", { what }),
+    ),
+    { outcome: "blocked", stage: "prepare" },
   );
 }
 

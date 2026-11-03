@@ -33,7 +33,9 @@ vi.mock("./document-session", () => ({
     getSnapshot() {
       return null;
     }
-    dispose() {}
+    dispose() {
+      return Promise.resolve();
+    }
   },
 }));
 

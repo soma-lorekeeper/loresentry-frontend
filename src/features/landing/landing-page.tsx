@@ -1,5 +1,7 @@
 "use client";
 
+import { trackUsage } from "@/features/analytics/usage-analytics";
+
 import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
 
@@ -30,13 +32,40 @@ function useScrolled() {
   return scrolled;
 }
 
-function StartButton({ size = "lg" }: { size?: "sm" | "lg" }) {
+function StartButton({
+  size = "lg",
+  footer = false,
+}: {
+  size?: "sm" | "lg";
+  footer?: boolean;
+}) {
   const session = useSession();
-  const { start, starting } = useStartWriting();
+  const { start, starting } = useStartWriting(
+    size === "sm"
+      ? "landing_header"
+      : footer
+        ? "landing_footer"
+        : "landing_body",
+  );
   const className = cx(styles.button, styles.primary, styles[size]);
   if (session.data) {
     return (
-      <Link className={className} href="/projects/">
+      <Link
+        className={className}
+        href="/projects/"
+        onClick={() =>
+          trackUsage("landing_action", {
+            action: "start_writing",
+            entry_point:
+              size === "sm"
+                ? "landing_header"
+                : footer
+                  ? "landing_footer"
+                  : "landing_body",
+            outcome: "requested",
+          })
+        }
+      >
         {size === "sm" ? t("내 프로젝트") : t("내 프로젝트 열기")}
       </Link>
     );
@@ -227,7 +256,17 @@ export function LandingPage() {
 
   return (
     <div className={styles.page}>
-      <a className={styles.skip} href="#main">
+      <a
+        className={styles.skip}
+        href="#main"
+        onClick={() =>
+          trackUsage("landing_action", {
+            action: "section_jump",
+            entry_point: "landing_header",
+            outcome: "requested",
+          })
+        }
+      >
         {t("본문으로 건너뛰기")}
       </a>
       <Header onContact={openContact} />
@@ -510,7 +549,7 @@ export function LandingPage() {
             )}
           </p>
           <div className={styles.ctaRow}>
-            <StartButton />
+            <StartButton footer />
           </div>
         </section>
       </main>

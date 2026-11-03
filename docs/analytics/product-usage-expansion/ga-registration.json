@@ -1,0 +1,372 @@
+{
+  "observed_at": "2026-11-03T08:01:49.394Z",
+  "verification": "Saved GA custom definitions read and compared through ego lite UI",
+  "property_id": "557572950",
+  "stream_url": "https://loresentry.com",
+  "measurement_id": "G-FV1Y05NZQW",
+  "new_dimensions": 41,
+  "new_metrics": 16,
+  "dimension_quota": 50,
+  "metric_quota": 50,
+  "dimensions": [
+    {
+      "parameter": "start_choice",
+      "name": "Onboarding Start Choice",
+      "scope": "event"
+    },
+    {
+      "parameter": "project_type",
+      "name": "Project Type",
+      "scope": "event"
+    },
+    {
+      "parameter": "failure_reason",
+      "name": "Refresh Failure Reason",
+      "scope": "event"
+    },
+    {
+      "parameter": "failure_stage",
+      "name": "Refresh Failure Stage",
+      "scope": "event"
+    },
+    {
+      "parameter": "entry_point",
+      "name": "Usage Entry Point",
+      "scope": "event"
+    },
+    {
+      "parameter": "ui_locale",
+      "name": "Usage Ui Locale",
+      "scope": "event"
+    },
+    {
+      "parameter": "action",
+      "name": "Usage Action",
+      "scope": "event"
+    },
+    {
+      "parameter": "outcome",
+      "name": "Usage Outcome",
+      "scope": "event"
+    },
+    {
+      "parameter": "dialog_kind",
+      "name": "Usage Dialog Kind",
+      "scope": "event"
+    },
+    {
+      "parameter": "document_type",
+      "name": "Usage Document Type",
+      "scope": "event"
+    },
+    {
+      "parameter": "view_kind",
+      "name": "Usage View Kind",
+      "scope": "event"
+    },
+    {
+      "parameter": "error_category",
+      "name": "Usage Error Category",
+      "scope": "event"
+    },
+    {
+      "parameter": "stage",
+      "name": "Usage Stage",
+      "scope": "event"
+    },
+    {
+      "parameter": "is_retry",
+      "name": "Usage Is Retry",
+      "scope": "event"
+    },
+    {
+      "parameter": "entity_kind",
+      "name": "Usage Entity Kind",
+      "scope": "event"
+    },
+    {
+      "parameter": "issue_kind",
+      "name": "Usage Issue Kind",
+      "scope": "event"
+    },
+    {
+      "parameter": "resolution",
+      "name": "Usage Resolution",
+      "scope": "event"
+    },
+    {
+      "parameter": "format",
+      "name": "Usage Format",
+      "scope": "event"
+    },
+    {
+      "parameter": "input_method",
+      "name": "Usage Input Method",
+      "scope": "event"
+    },
+    {
+      "parameter": "import_format",
+      "name": "Usage Import Format",
+      "scope": "event"
+    },
+    {
+      "parameter": "search_scope",
+      "name": "Usage Search Scope",
+      "scope": "event"
+    },
+    {
+      "parameter": "count_bucket",
+      "name": "Usage Count Bucket",
+      "scope": "event"
+    },
+    {
+      "parameter": "rank_bucket",
+      "name": "Usage Rank Bucket",
+      "scope": "event"
+    },
+    {
+      "parameter": "area",
+      "name": "Usage Area",
+      "scope": "event"
+    },
+    {
+      "parameter": "memo_scope",
+      "name": "Usage Memo Scope",
+      "scope": "event"
+    },
+    {
+      "parameter": "availability",
+      "name": "Usage Availability",
+      "scope": "event"
+    },
+    {
+      "parameter": "send_mode",
+      "name": "Usage Send Mode",
+      "scope": "event"
+    },
+    {
+      "parameter": "intent",
+      "name": "Usage Intent",
+      "scope": "event"
+    },
+    {
+      "parameter": "has_quote",
+      "name": "Usage Has Quote",
+      "scope": "event"
+    },
+    {
+      "parameter": "citation_kind",
+      "name": "Usage Citation Kind",
+      "scope": "event"
+    },
+    {
+      "parameter": "creation_mode",
+      "name": "Usage Creation Mode",
+      "scope": "event"
+    },
+    {
+      "parameter": "feature",
+      "name": "Usage Feature",
+      "scope": "event"
+    },
+    {
+      "parameter": "notice_kind",
+      "name": "Usage Notice Kind",
+      "scope": "event"
+    },
+    {
+      "parameter": "start_mode",
+      "name": "Usage Start Mode",
+      "scope": "event"
+    },
+    {
+      "parameter": "report_changed",
+      "name": "Usage Report Changed",
+      "scope": "event"
+    },
+    {
+      "parameter": "finding_kind",
+      "name": "Usage Finding Kind",
+      "scope": "event"
+    },
+    {
+      "parameter": "is_core",
+      "name": "Usage Is Core",
+      "scope": "event"
+    },
+    {
+      "parameter": "verdict",
+      "name": "Usage Verdict",
+      "scope": "event"
+    },
+    {
+      "parameter": "draft_kind",
+      "name": "Usage Draft Kind",
+      "scope": "event"
+    },
+    {
+      "parameter": "close_reason",
+      "name": "Usage Close Reason",
+      "scope": "event"
+    },
+    {
+      "parameter": "had_local_edits",
+      "name": "Usage Had Local Edits",
+      "scope": "event"
+    },
+    {
+      "parameter": "preference",
+      "name": "Usage Preference",
+      "scope": "event"
+    },
+    {
+      "parameter": "value",
+      "name": "Usage Value",
+      "scope": "event"
+    },
+    {
+      "parameter": "step_key",
+      "name": "Usage Step Key",
+      "scope": "event"
+    },
+    {
+      "parameter": "topic_key",
+      "name": "Usage Topic Key",
+      "scope": "event"
+    }
+  ],
+  "metrics": [
+    {
+      "parameter": "created_document_count",
+      "name": "Refresh Created Documents",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "input_document_count",
+      "name": "Refresh Input Documents",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "new_document_draft_count",
+      "name": "Refresh New Document Drafts",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "duration_seconds",
+      "name": "Refresh Ready Duration",
+      "scope": "event",
+      "unit": "seconds"
+    },
+    {
+      "parameter": "draft_count",
+      "name": "Refresh Review Drafts",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "updated_document_count",
+      "name": "Refresh Updated Documents",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "save_attempt_count",
+      "name": "Usage Save Attempts",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "save_success_count",
+      "name": "Usage Save Success Count",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "save_issue_count",
+      "name": "Usage Save Issue Count",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "active_edit_seconds",
+      "name": "Usage Active Edit Seconds",
+      "scope": "event",
+      "unit": "seconds"
+    },
+    {
+      "parameter": "accepted_count",
+      "name": "Usage Accepted Count",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "unsupported_count",
+      "name": "Usage Unsupported Count",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "duplicate_count",
+      "name": "Usage Duplicate Count",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "file_count",
+      "name": "Usage File Count",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "succeeded_count",
+      "name": "Usage Succeeded Count",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "failed_count",
+      "name": "Usage Failed Count",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "unknown_count",
+      "name": "Usage Unknown Count",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "first_content_seconds",
+      "name": "Usage First Content Seconds",
+      "scope": "event",
+      "unit": "seconds"
+    },
+    {
+      "parameter": "citation_count",
+      "name": "Usage Citation Count",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "finding_count",
+      "name": "Usage Finding Count",
+      "scope": "event",
+      "unit": "count"
+    },
+    {
+      "parameter": "processing_seconds",
+      "name": "Usage Processing Seconds",
+      "scope": "event",
+      "unit": "seconds"
+    },
+    {
+      "parameter": "unmatched_count",
+      "name": "Usage Unmatched Count",
+      "scope": "event",
+      "unit": "count"
+    }
+  ]
+}

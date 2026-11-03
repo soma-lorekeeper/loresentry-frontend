@@ -1,5 +1,8 @@
 "use client";
 
+import { trackUsage } from "@/features/analytics/usage-analytics";
+import { useUsageViewState } from "@/features/analytics/usage-hooks";
+
 import dynamic from "next/dynamic";
 import {
   isUnavailable,
@@ -49,6 +52,16 @@ function isNodeKind(value: string): value is NodeKind {
 export function GraphView() {
   const { projectId, layout, dispatch, open } = useWorkspace();
   const graph = useProjectGraph(projectId);
+  const retryUsageLoad = useUsageViewState(
+    {
+      pending:
+        !graph.isError || Boolean(graph.data && !isUnavailable(graph.error)),
+      refreshing: graph.isFetching,
+      outcome: isUnavailable(graph.error) ? "unavailable" : "error",
+      error: graph.error,
+    },
+    "graph",
+  );
   const favorites = useFavorites(projectId);
   const controls = useRef<GraphControls | null>(null);
   const episodeRef = useRef<HTMLButtonElement>(null);
@@ -96,7 +109,12 @@ export function GraphView() {
     [favorites.data],
   );
 
-  const saveView = (next: { kinds?: NodeKind[]; episodeIds?: string[] }) =>
+  const saveView = (next: { kinds?: NodeKind[]; episodeIds?: string[] }) => {
+    trackUsage("exploration_action", {
+      area: "graph",
+      action: next.kinds ? "filter_kind" : "filter_episode",
+      entry_point: "graph",
+    });
     dispatch({
       type: "setGraphView",
       graphView: {
@@ -104,6 +122,7 @@ export function GraphView() {
         episodeIds: next.episodeIds ?? episodeIds,
       },
     });
+  };
 
   const episodeLabel =
     episodeIds.length === 0
@@ -136,23 +155,38 @@ export function GraphView() {
 
   // 검색에서 고르면 그 노드 하나만 남긴다. 찾던 것을 바로 가운데에 두려는 동작이다.
   const pick = (id: string) => {
+    trackUsage("exploration_action", {
+      area: "graph",
+      action: "select_node",
+      entry_point: "graph",
+    });
     setSelectedIds([id]);
     controls.current?.centerOn(id);
   };
 
   // 캔버스에서 누른 노드는 고른 목록에 더한다. 이미 고른 노드를 다시 누르면 그것만 뺀다.
   // 그래서 노드를 차례로 누르면 각 노드의 1-hop 이 합쳐져 보인다.
-  const toggleSelected = useCallback(
-    (node: { id: string }) =>
-      setSelectedIds((current) =>
-        current.includes(node.id)
-          ? current.filter((id) => id !== node.id)
-          : [...current, node.id],
-      ),
-    [],
-  );
+  const toggleSelected = useCallback((node: { id: string }) => {
+    trackUsage("exploration_action", {
+      area: "graph",
+      action: "select_node",
+      entry_point: "graph",
+    });
+    setSelectedIds((current) =>
+      current.includes(node.id)
+        ? current.filter((id) => id !== node.id)
+        : [...current, node.id],
+    );
+  }, []);
   // 빈 배경을 누르면 모두 푼다. force-graph 에 넘기는 함수라 identity 를 고정한다.
-  const clearSelected = useCallback(() => setSelectedIds([]), []);
+  const clearSelected = useCallback(() => {
+    trackUsage("exploration_action", {
+      area: "graph",
+      action: "clear_selection",
+      entry_point: "graph",
+    });
+    setSelectedIds([]);
+  }, []);
 
   // 범례의 별은 지금 보이는 노드 가운데 즐겨찾기가 있을 때만 뜻이 있다.
   const hasFavorites =
@@ -193,13 +227,31 @@ export function GraphView() {
             icon="minus"
             iconSize={14}
             label={t("축소")}
-            onClick={() => controls.current?.zoomBy(1 / ZOOM_STEP)}
+            onClick={() => {
+              if (controls.current) {
+                trackUsage("exploration_action", {
+                  area: "graph",
+                  action: "zoom_button",
+                  entry_point: "graph",
+                });
+                controls.current.zoomBy(1 / ZOOM_STEP);
+              }
+            }}
           />
           <button
             type="button"
             className={styles.zoomValue}
             aria-label={t("100%로 보기")}
-            onClick={() => controls.current?.zoomTo(1)}
+            onClick={() => {
+              if (controls.current) {
+                trackUsage("exploration_action", {
+                  area: "graph",
+                  action: "zoom_button",
+                  entry_point: "graph",
+                });
+                controls.current.zoomTo(1);
+              }
+            }}
           >
             {Math.round(zoom * 100)}%
           </button>
@@ -207,14 +259,32 @@ export function GraphView() {
             icon="plus"
             iconSize={14}
             label={t("확대")}
-            onClick={() => controls.current?.zoomBy(ZOOM_STEP)}
+            onClick={() => {
+              if (controls.current) {
+                trackUsage("exploration_action", {
+                  area: "graph",
+                  action: "zoom_button",
+                  entry_point: "graph",
+                });
+                controls.current.zoomBy(ZOOM_STEP);
+              }
+            }}
           />
         </div>
         <Button
           size="md"
           icon="scan"
           className={styles.fit}
-          onClick={() => controls.current?.fit()}
+          onClick={() => {
+            if (controls.current) {
+              trackUsage("exploration_action", {
+                area: "graph",
+                action: "fit",
+                entry_point: "graph",
+              });
+              controls.current.fit();
+            }
+          }}
         >
           {t("화면 맞춤")}
         </Button>
@@ -236,7 +306,10 @@ export function GraphView() {
                 <Button
                   size="md"
                   icon="refresh-cw"
-                  onClick={() => graph.refetch()}
+                  onClick={() => {
+                    retryUsageLoad();
+                    void graph.refetch();
+                  }}
                 >
                   {t("다시 시도")}
                 </Button>
@@ -299,7 +372,14 @@ export function GraphView() {
             graph={data}
             nodeIds={selectedIds}
             onClose={clearSelected}
-            onOpen={(id) => open({ kind: "file", fileId: id })}
+            onOpen={(id) => {
+              trackUsage("exploration_action", {
+                area: "graph",
+                action: "open_document",
+                entry_point: "graph",
+              });
+              open({ kind: "file", fileId: id });
+            }}
           />
         )}
       </div>

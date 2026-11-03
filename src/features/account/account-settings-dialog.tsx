@@ -1,5 +1,7 @@
 "use client";
 
+import { useDialogUsage } from "@/features/analytics/usage-hooks";
+
 import { useId, useState } from "react";
 
 import {
@@ -43,16 +45,22 @@ export function AccountSettingsDialog({
   onClose,
   onDeleteAccount,
 }: AccountSettingsDialogProps) {
+  const dialogUsage = useDialogUsage("account_settings", open, "account_menu");
+  const close = () => {
+    dialogUsage.closed();
+    onClose();
+  };
   return (
     <Modal
       open={open}
-      onClose={onClose}
+      onClose={close}
       label={t("계정 설정")}
       className={styles.dialog}
     >
       <AccountSettingsForm
         key={user.displayName}
         user={user}
+        dialogUsage={dialogUsage}
         onClose={onClose}
         onDeleteAccount={onDeleteAccount}
       />
@@ -64,7 +72,9 @@ function AccountSettingsForm({
   user,
   onClose,
   onDeleteAccount,
+  dialogUsage,
 }: {
+  dialogUsage: ReturnType<typeof useDialogUsage>;
   user: User;
   onClose: () => void;
   onDeleteAccount: () => void;
@@ -87,6 +97,7 @@ function AccountSettingsForm({
 
   const save = () => {
     if (invalid || !changed) return;
+    dialogUsage.submitted();
     update.mutate(trimmed, {
       onSuccess: (next) => {
         setSavedName(next.displayName);
@@ -112,7 +123,10 @@ function AccountSettingsForm({
           icon="x"
           label={t("계정 설정 닫기")}
           className={styles.close}
-          onClick={onClose}
+          onClick={() => {
+            dialogUsage.closed();
+            onClose();
+          }}
         />
       </div>
       <form
@@ -128,6 +142,7 @@ function AccountSettingsForm({
           required
           value={name}
           onChange={(event) => {
+            dialogUsage.edited();
             setName(event.target.value);
             update.reset();
           }}

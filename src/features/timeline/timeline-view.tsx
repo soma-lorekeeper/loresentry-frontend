@@ -1,5 +1,11 @@
 "use client";
 
+import { useLocalSearchUsage } from "@/features/analytics/usage-hooks";
+
+import { trackUsage } from "@/features/analytics/usage-analytics";
+
+import { useUsageViewQuery } from "@/features/analytics/usage-hooks";
+
 import {
   useMemo,
   useRef,
@@ -187,6 +193,7 @@ function RowFilter({
   const matches = rows.filter((row) =>
     row.name.toLocaleLowerCase().includes(needle),
   );
+  useLocalSearchUsage(query, matches.length, "timeline");
   const toggle = (id: string) => {
     const next = new Set(hidden);
     if (next.has(id)) next.delete(id);
@@ -308,6 +315,12 @@ export function TimelineView() {
     [graph.data, episodeIds, favoriteSet],
   );
 
+  const retryUsageLoad = useUsageViewQuery(
+    graph,
+    table?.columns.length === 0,
+    "timeline",
+  );
+
   if (graph.isPending) return <div className={styles.view} aria-busy="true" />;
   if (!graph.data || !table)
     return (
@@ -316,7 +329,14 @@ export function TimelineView() {
         icon="triangle-alert"
         title={t("타임라인을 불러오지 못했어요")}
         action={
-          <Button size="md" icon="refresh-cw" onClick={() => graph.refetch()}>
+          <Button
+            size="md"
+            icon="refresh-cw"
+            onClick={() => {
+              retryUsageLoad();
+              void graph.refetch();
+            }}
+          >
             {t("다시 시도")}
           </Button>
         }
@@ -343,6 +363,12 @@ export function TimelineView() {
       event.preventDefault();
       move(...step);
     } else if (event.key === "Enter" && column) {
+      trackUsage("exploration_action", {
+        area: "timeline",
+        action: "open_document",
+        entry_point: "timeline",
+        document_type: "manuscript",
+      });
       open({ kind: "file", fileId: column.chapterId });
     }
   };
@@ -369,6 +395,11 @@ export function TimelineView() {
           }))}
           selected={episodeIds}
           onChange={(ids) => {
+            trackUsage("exploration_action", {
+              area: "timeline",
+              action: "filter_episode",
+              entry_point: "timeline",
+            });
             setEpisodeIds(ids);
             setSelected(0);
           }}
@@ -393,7 +424,18 @@ export function TimelineView() {
           </div>
         )}
         <span className={styles.spacer} />
-        <RowFilter table={table} hidden={hidden} onChange={setHidden} />
+        <RowFilter
+          table={table}
+          hidden={hidden}
+          onChange={(next) => {
+            trackUsage("exploration_action", {
+              area: "timeline",
+              action: "filter_row",
+              entry_point: "timeline",
+            });
+            setHidden(next);
+          }}
+        />
       </div>
 
       {total === 0 ? (
@@ -442,10 +484,23 @@ export function TimelineView() {
                     aria-selected={index === current}
                     className={styles.chapter}
                     title={chapter.title}
-                    onClick={() => setSelected(index)}
-                    onDoubleClick={() =>
-                      open({ kind: "file", fileId: chapter.chapterId })
-                    }
+                    onClick={() => {
+                      trackUsage("exploration_action", {
+                        area: "timeline",
+                        action: "select_chapter",
+                        entry_point: "timeline",
+                      });
+                      setSelected(index);
+                    }}
+                    onDoubleClick={() => {
+                      trackUsage("exploration_action", {
+                        area: "timeline",
+                        action: "open_document",
+                        entry_point: "timeline",
+                        document_type: "manuscript",
+                      });
+                      open({ kind: "file", fileId: chapter.chapterId });
+                    }}
                   >
                     {chapter.name}
                   </button>
@@ -477,14 +532,19 @@ export function TimelineView() {
                     data-kind={group.kind ?? undefined}
                     data-favorites={group.id === FAVORITES_GROUP || undefined}
                     aria-expanded={!isCollapsed}
-                    onClick={() =>
+                    onClick={() => {
+                      trackUsage("exploration_action", {
+                        area: "timeline",
+                        action: "toggle_group",
+                        entry_point: "timeline",
+                      });
                       setCollapsed((current) => {
                         const next = new Set(current);
                         if (next.has(group.id)) next.delete(group.id);
                         else next.add(group.id);
                         return next;
-                      })
-                    }
+                      });
+                    }}
                   >
                     <Icon
                       name={isCollapsed ? "folder" : "folder-open"}
@@ -508,9 +568,15 @@ export function TimelineView() {
                           role="rowheader"
                           data-kind={row.kind}
                           className={styles.rowLabel}
-                          onClick={() =>
-                            open({ kind: "file", fileId: row.nodeId })
-                          }
+                          onClick={() => {
+                            trackUsage("exploration_action", {
+                              area: "timeline",
+                              action: "open_document",
+                              entry_point: "timeline",
+                              document_type: row.kind,
+                            });
+                            open({ kind: "file", fileId: row.nodeId });
+                          }}
                         >
                           <DocumentAvatar
                             docType={row.kind}

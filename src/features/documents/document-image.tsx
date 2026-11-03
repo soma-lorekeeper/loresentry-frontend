@@ -9,6 +9,7 @@ import { t } from "@/i18n";
 import { invalidateProjectContent } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 import { cx } from "@/shared/cx";
+import { withUsageAction } from "@/features/analytics/usage-analytics";
 
 import styles from "./document-image.module.css";
 import { ImageCropDialog } from "./image-crop-dialog";
@@ -71,13 +72,33 @@ export function DocumentImageSlot({
     });
 
   const upload = useMutation({
-    mutationFn: (image: Blob) => services.files.setImage(fileId, image),
+    mutationFn: (image: Blob) =>
+      withUsageAction(
+        "file",
+        "set_image",
+        () => services.files.setImage(fileId, image),
+        {
+          entry_point: "document_header",
+          document_type: docType,
+          entity_kind: "document",
+        },
+      ),
     onSuccess: () => invalidateProjectContent(queryClient, projectId),
     onError: failed,
     onSettled: () => setPending(null),
   });
   const remove = useMutation({
-    mutationFn: () => services.files.clearImage(fileId),
+    mutationFn: () =>
+      withUsageAction(
+        "file",
+        "clear_image",
+        () => services.files.clearImage(fileId),
+        {
+          entry_point: "document_header",
+          document_type: docType,
+          entity_kind: "document",
+        },
+      ),
     onSuccess: () => invalidateProjectContent(queryClient, projectId),
     onError: failed,
   });

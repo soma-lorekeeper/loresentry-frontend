@@ -1,5 +1,7 @@
 "use client";
 
+import { trackUsage } from "@/features/analytics/usage-analytics";
+
 import { useMemo, useRef, useState, type KeyboardEvent } from "react";
 
 import {
@@ -29,6 +31,7 @@ import { t } from "@/i18n";
 import styles from "./property-table.module.css";
 
 interface PropertyTableProps {
+  saveRevision?: number;
   fileId: string;
   docType: DocumentType;
   properties: DocumentProperty[];
@@ -473,6 +476,7 @@ export function PropertyTable({
   episode,
   episodes,
   readOnly,
+  saveRevision,
   coreCount = 0,
   onRevealCore,
   movePending = false,
@@ -487,14 +491,68 @@ export function PropertyTable({
   const [addOpen, setAddOpen] = useState(false);
   const meta = DOCUMENT_TYPE_META[docType];
 
-  const replace = (id: string, next: DocumentProperty) =>
+  const structureEpisodes = useRef(new Map<string, number | undefined>());
+  const recordStructure = (action: "alias_change" | "relation_description") => {
+    if (
+      structureEpisodes.current.has(action) &&
+      structureEpisodes.current.get(action) === saveRevision
+    )
+      return;
+    structureEpisodes.current.set(action, saveRevision);
+    trackUsage("document_structure_changed", {
+      action,
+      document_type: docType,
+    });
+  };
+  const structure = (
+    before: DocumentProperty | undefined,
+    after: DocumentProperty | undefined,
+  ) => {
+    if (JSON.stringify(before) === JSON.stringify(after)) return;
+    if ((after ?? before)?.kind === "text") {
+      if ((after ?? before)?.key === "alias") recordStructure("alias_change");
+      return;
+    }
+    if (before?.kind === "relation" || after?.kind === "relation") {
+      const oldIds = before?.kind === "relation" ? before.targetIds : [];
+      const newIds = after?.kind === "relation" ? after.targetIds : [];
+      if (newIds.some((id) => !oldIds.includes(id)))
+        trackUsage("document_structure_changed", {
+          action: "relation_add",
+          document_type: docType,
+        });
+      if (oldIds.some((id) => !newIds.includes(id)))
+        trackUsage("document_structure_changed", {
+          action: "relation_remove",
+          document_type: docType,
+        });
+      if (
+        before?.kind === "relation" &&
+        after?.kind === "relation" &&
+        JSON.stringify(before.descriptions) !==
+          JSON.stringify(after.descriptions)
+      )
+        recordStructure("relation_description");
+    }
+  };
+  const replace = (id: string, next: DocumentProperty) => {
+    structure(
+      properties.find((property) => property.id === id),
+      next,
+    );
     onChange(
       properties.some((property) => property.id === id)
         ? properties.map((property) => (property.id === id ? next : property))
         : [...properties, next],
     );
-  const remove = (id: string) =>
+  };
+  const remove = (id: string) => {
+    structure(
+      properties.find((property) => property.id === id),
+      undefined,
+    );
     onChange(properties.filter((property) => property.id !== id));
+  };
 
   const addEntries: MenuEntry[] = [
     {

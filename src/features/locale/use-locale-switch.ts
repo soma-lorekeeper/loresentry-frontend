@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  trackUsage,
+  withUsageAction,
+} from "@/features/analytics/usage-analytics";
+
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -19,11 +24,21 @@ export function useLocaleSwitch() {
   const [pending, setPending] = useState(false);
   const switchTo = async (locale: Locale) => {
     if (pending) return;
+    trackUsage("preference_selected", {
+      preference: "locale",
+      value: locale,
+      entry_point: "account_menu",
+    });
     setPending(true);
     const user = queryClient.getQueryData<User | null>(queryKeys.session);
     if (user) {
       try {
-        const updated = await services.account.updateLocale(locale);
+        const updated = await withUsageAction(
+          "account",
+          "sync_locale",
+          () => services.account.updateLocale(locale),
+          { entry_point: "account_menu" },
+        );
         queryClient.setQueryData(queryKeys.session, updated);
         setLocaleSync(null);
       } catch {

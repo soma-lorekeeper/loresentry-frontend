@@ -1,5 +1,7 @@
 "use client";
 
+import { useUsageViewQuery } from "@/features/analytics/usage-hooks";
+
 import { useMemo } from "react";
 
 import { Button, Icon } from "@/design-system/primitives";
@@ -22,7 +24,8 @@ import styles from "./new-tab.module.css";
 export function NewTabView() {
   const { project, projectId, open, setImporting } = useWorkspace();
   const tree = useFileTree(projectId);
-  const create = useCreateFile(projectId);
+  const retryUsageLoad = useUsageViewQuery(tree, false, "new");
+  const create = useCreateFile(projectId, "new_tab");
   const nodes = useMemo(() => tree.data ?? [], [tree.data]);
 
   // 서버 가정: "최근에 연 파일"은 서버가 사용자별 열람 기록으로 돌려준다. mock은 최근 수정 순으로 대신한다.
@@ -60,7 +63,10 @@ export function NewTabView() {
         <QueryFailure
           title={t("파일 목록을 불러오지 못했어요")}
           retrying={tree.isFetching}
-          onRetry={() => void tree.refetch()}
+          onRetry={() => {
+            retryUsageLoad();
+            void tree.refetch();
+          }}
         />
       </div>
     );
@@ -128,7 +134,7 @@ export function NewTabView() {
           <button
             type="button"
             className={styles.import}
-            onClick={() => setImporting(true)}
+            onClick={() => setImporting(true, "new_tab")}
           >
             <Icon name="upload" size={14} />
             {t("가져오기")}

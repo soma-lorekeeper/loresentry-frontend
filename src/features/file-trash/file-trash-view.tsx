@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  useDialogUsage,
+  useUsageViewQuery,
+} from "@/features/analytics/usage-hooks";
+
 import { useState } from "react";
 
 import {
@@ -41,6 +46,11 @@ function DeleteEntryDialog({
 }) {
   const { projectId } = useWorkspace();
   const toast = useToast();
+  const dialogUsage = useDialogUsage(
+    "file_delete",
+    entry !== null,
+    "file_menu",
+  );
   const remove = useDeleteFile(projectId);
   const busy = remove.isPending;
   const close = () => {
@@ -85,6 +95,7 @@ function DeleteEntryDialog({
             busy={busy}
             onClick={() =>
               entry &&
+              (dialogUsage.submitted(),
               remove.mutate(entry.node.id, {
                 onSuccess: () => {
                   remove.reset();
@@ -97,7 +108,7 @@ function DeleteEntryDialog({
                     }),
                   });
                 },
-              })
+              }))
             }
           >
             {busy ? t("작업공간::삭제 중…") : t("영구 삭제")}
@@ -118,6 +129,11 @@ export function FileTrashView() {
   const { projectId, open } = useWorkspace();
   const toast = useToast();
   const trash = useFileTrash(projectId);
+  const retryUsageLoad = useUsageViewQuery(
+    trash,
+    trash.data?.length === 0,
+    "trash",
+  );
   const restore = useRestoreFile(projectId);
   const tree = useFileTree(projectId);
   const [failedId, setFailedId] = useState<string | null>(null);
@@ -181,7 +197,10 @@ export function FileTrashView() {
               <Button
                 size="md"
                 icon="refresh-cw"
-                onClick={() => trash.refetch()}
+                onClick={() => {
+                  retryUsageLoad();
+                  void trash.refetch();
+                }}
               >
                 {t("다시 시도")}
               </Button>

@@ -1,6 +1,11 @@
 "use client";
 
 import {
+  useDialogUsage,
+  useVisibleUsage,
+} from "@/features/analytics/usage-hooks";
+
+import {
   Button,
   DialogBullets,
   DialogCard,
@@ -21,6 +26,21 @@ export function StartCheckDialog({
   onClose: () => void;
   onStart: () => void;
 }) {
+  const dialogUsage = useDialogUsage(
+    "setting_check_start",
+    open,
+    "document_header",
+  );
+  useVisibleUsage(
+    "feature_notice_viewed",
+    {
+      feature: "setting_check",
+      notice_kind: "concurrent",
+      entry_point: "document_header",
+    },
+    open && runningTitle !== null,
+    "concurrent",
+  );
   return (
     <DialogCard
       open={open}
@@ -40,7 +60,10 @@ export function StartCheckDialog({
             variant="primary"
             icon="scan-text"
             disabled={runningTitle !== null}
-            onClick={onStart}
+            onClick={() => {
+              dialogUsage.submitted();
+              onStart();
+            }}
           >
             {t("점검 시작")}
           </Button>

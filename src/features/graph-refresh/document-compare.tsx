@@ -322,6 +322,7 @@ export function DocumentCompare({
   lookup,
   candidatesOf,
   onChange,
+  onInteraction,
 }: {
   proposal: RefreshProposal;
   state: MergeState;
@@ -330,7 +331,27 @@ export function DocumentCompare({
   lookup: Lookup;
   candidatesOf: (type: DocumentType, exceptId: string) => DocumentNode[];
   onChange: (next: MergeState) => void;
+  onInteraction?: (
+    action:
+      | "choose_current"
+      | "choose_proposed"
+      | "edit_current"
+      | "edit_proposed"
+      | "reset",
+  ) => void;
 }) {
+  const commit = (
+    next: MergeState,
+    action:
+      | "choose_current"
+      | "choose_proposed"
+      | "edit_current"
+      | "edit_proposed"
+      | "reset",
+  ) => {
+    onInteraction?.(action);
+    onChange(next);
+  };
   const id = proposal.fileId;
   const docs = { left: state.left.get(id), right: state.right.get(id) };
   const both = !!docs.left && !!docs.right;
@@ -400,7 +421,10 @@ export function DocumentCompare({
             <Arrows
               label={t("문서 전체")}
               onPush={(direction) =>
-                onChange(pushDocument(state, id, direction))
+                commit(
+                  pushDocument(state, id, direction),
+                  direction === ">>" ? "choose_current" : "choose_proposed",
+                )
               }
             />
           )}
@@ -453,17 +477,27 @@ export function DocumentCompare({
                     side === "left" ? t("현재 버전 제목") : t("신규 버전 제목")
                   }
                   onChange={(value) =>
-                    onChange(editTitle(state, id, side, value))
+                    commit(
+                      editTitle(state, id, side, value),
+                      side === "left" ? "edit_current" : "edit_proposed",
+                    )
                   }
                 />
               ),
-              (direction) => onChange(pushTitle(state, id, direction)),
+              (direction) =>
+                commit(
+                  pushTitle(state, id, direction),
+                  direction === ">>" ? "choose_current" : "choose_proposed",
+                ),
             )}
 
           {rows.map((line) => {
             const sample = (line.left ?? line.right)!;
             const write = (side: SideName, next: DocumentProperty) =>
-              onChange(editProperty(state, id, side, line.key, next));
+              commit(
+                editProperty(state, id, side, line.key, next),
+                side === "left" ? "edit_current" : "edit_proposed",
+              );
 
             if (sample.kind === "text") {
               const text = (side: SideName) => {
@@ -495,7 +529,10 @@ export function DocumentCompare({
                   />
                 ),
                 (direction) =>
-                  onChange(pushProperty(state, id, line.key, direction)),
+                  commit(
+                    pushProperty(state, id, line.key, direction),
+                    direction === ">>" ? "choose_current" : "choose_proposed",
+                  ),
               );
             }
 
@@ -527,7 +564,10 @@ export function DocumentCompare({
                 />
               ),
               (direction) =>
-                onChange(pushProperty(state, id, line.key, direction)),
+                commit(
+                  pushProperty(state, id, line.key, direction),
+                  direction === ">>" ? "choose_current" : "choose_proposed",
+                ),
             );
           })}
         </div>
@@ -536,9 +576,17 @@ export function DocumentCompare({
           left={docs.left ? bodyLines(docs.left.body) : undefined}
           right={docs.right ? bodyLines(docs.right.body) : undefined}
           onPush={(hunk, direction) =>
-            onChange(pushBodyHunk(state, id, hunk, direction))
+            commit(
+              pushBodyHunk(state, id, hunk, direction),
+              direction === ">>" ? "choose_current" : "choose_proposed",
+            )
           }
-          onEdit={(side, text) => onChange(editBody(state, id, side, text))}
+          onEdit={(side, text) =>
+            commit(
+              editBody(state, id, side, text),
+              side === "left" ? "edit_current" : "edit_proposed",
+            )
+          }
         />
       </div>
     </div>

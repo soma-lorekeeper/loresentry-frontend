@@ -7,6 +7,7 @@ import { useServices } from "@/services/services-context";
 import { bodyFromPlainText } from "@/domain/document-body";
 import { markdownToBody } from "@/features/documents/editor/body-markdown";
 import { useOnboardingAnalytics } from "@/features/analytics/onboarding-analytics";
+import { tagUsageError } from "@/features/analytics/usage-analytics";
 
 /** 파일 선택 창이 보여 줄 형식. 실제로 받을지는 {@link importFormatOf} 가 이름으로 다시 본다 */
 export const IMPORT_ACCEPT = ".txt,.md,.markdown,text/plain,text/markdown";
@@ -62,8 +63,12 @@ export function useImportDocument(projectId: string) {
       },
       /** 만들어 둔 원고에 파일의 글을 담는다 */
       fill: async (nodeId: string, file: File) => {
-        const text = await file.text();
-        const doc = await services.documents.get(nodeId);
+        const text = await file.text().catch((error) => {
+          throw tagUsageError(error, { outcome: "rejected", stage: "prepare" });
+        });
+        const doc = await services.documents.get(nodeId).catch((error) => {
+          throw tagUsageError(error, { outcome: "blocked", stage: "prepare" });
+        });
         await services.documents.save(nodeId, {
           draft: {
             title: doc.title,
