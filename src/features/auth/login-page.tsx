@@ -3,25 +3,39 @@
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 
 import { useRuntimeConfig } from "@/app/providers";
 import {
   useOnboardingAnalytics,
   useRegistrationAnalytics,
 } from "@/features/analytics/onboarding-analytics";
-import { Icon, StatusNotice } from "@/design-system/primitives";
+import {
+  Button,
+  Icon,
+  IconButton,
+  StatusNotice,
+  TextField,
+} from "@/design-system/primitives";
 import { LanguageSwitch } from "@/features/locale/language-switch";
 import { policyHref } from "@/i18n/preference";
 import { t } from "@/i18n";
 import { finishAuthNavigation } from "@/services/api/auth-transition";
-import type { AuthFailure } from "@/services/ports";
+import { ServiceError } from "@/services/errors";
+import type { AuthFailure, PasswordAuthOutcome } from "@/services/ports";
 import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 
 import { TermsConsent } from "./terms-consent";
 import { GoogleMark } from "./google-mark";
 import styles from "./login-page.module.css";
+import {
+  LOGIN_ID_MAX,
+  loginIdError,
+  normalizeLoginId,
+  PASSWORD_MAX,
+  passwordError,
+} from "./password-rules";
 import {
   clearOAuthReturnTo,
   readOAuthReturnTo,
@@ -30,6 +44,14 @@ import {
 import { useSession } from "./session-gate";
 
 type LoginStatus = "idle" | "processing" | AuthFailure;
+type Mode = "login" | "signup";
+
+interface FieldErrors {
+  loginId?: string;
+  password?: string;
+  passwordConfirm?: string;
+  form?: string;
+}
 
 const COPY: Record<LoginStatus, { title: string; action: string }> = {
   idle: { title: t("로그인"), action: t("Google로 계속하기") },
@@ -147,9 +169,26 @@ export function LoginPage() {
         ? oauthReturnTo
         : null;
 
+  const [mode, setMode] = useState<Mode>("login");
+  const [loginId, setLoginId] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [submitting, setSubmitting] = useState(false);
+  const alive = useRef(true);
+  const formId = useId();
+  useEffect(() => {
+    alive.current = true;
+    return () => {
+      alive.current = false;
+    };
+  }, []);
+
   const status = requested;
   const copy = COPY[status];
   const processing = status === "processing";
+  const busy = processing || submitting || showTerms;
   const navigating = useRef(false);
 
   useEffect(() => {
@@ -240,6 +279,93 @@ export function LoginPage() {
     }
   };
 
+  const settle = async (outcome: PasswordAuthOutcome) => {
+    if (outcome === "terms-required") {
+      router.replace(
+        `/login?result=terms_required${
+          returnTo ? `&returnTo=${encodeURIComponent(returnTo)}` : ""
+        }`,
+      );
+      return;
+    }
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    const user = await services.auth.getSession();
+    if (!user)
+      throw new ServiceError(
+        "unknown",
+        t("로그인을 완료하지 못했어요. 다시 시도해 주세요."),
+      );
+    if (!alive.current) return;
+    queryClient.setQueryData(queryKeys.session, user);
+    track(mode === "signup" ? "sign_up" : "login", { method: "password" });
+    router.replace(returnTo ?? "/projects");
+  };
+
+  const switchMode = (next: Mode) => {
+    setMode(next);
+    setErrors({});
+    setPassword("");
+    setPasswordConfirm("");
+    setShowPassword(false);
+  };
+
+  const clearError = (...keys: (keyof FieldErrors)[]) => {
+    if (!keys.some((key) => errors[key])) return;
+    setErrors((current) => {
+      const next = { ...current };
+      keys.forEach((key) => delete next[key]);
+      return next;
+    });
+  };
+
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (busy) return;
+    const next: FieldErrors = {};
+    const idError = loginIdError(loginId);
+    const pwError = passwordError(password);
+    const confirmError =
+      mode === "signup" && !pwError && password !== passwordConfirm
+        ? t("비밀번호가 서로 달라요.")
+        : null;
+    if (idError) next.loginId = idError;
+    if (pwError) next.password = pwError;
+    if (confirmError) next.passwordConfirm = confirmError;
+    if (Object.keys(next).length) {
+      setErrors(next);
+      return;
+    }
+    setErrors({});
+    setSubmitting(true);
+    track("login_start", { method: "password" });
+    const id = normalizeLoginId(loginId);
+    try {
+      const outcome =
+        mode === "login"
+          ? await services.auth.loginWithPassword({ loginId: id, password })
+          : await services.auth.signUpWithPassword({ loginId: id, password });
+      await settle(outcome);
+    } catch (cause) {
+      if (!alive.current) return;
+      const message =
+        cause instanceof ServiceError
+          ? cause.message
+          : t("로그인을 완료하지 못했어요. 다시 시도해 주세요.");
+      if (cause instanceof ServiceError && cause.code === "duplicate")
+        setErrors({ loginId: message });
+      else setErrors({ form: message });
+      track("auth_failed", {
+        failure_stage: "password",
+        failure_reason: cause instanceof ServiceError ? cause.code : "other",
+      });
+    } finally {
+      if (alive.current) setSubmitting(false);
+    }
+  };
+
+  const signup = mode === "signup";
+
   return (
     <main className={styles.page}>
       <Link
@@ -254,14 +380,16 @@ export function LoginPage() {
       </Link>
 
       <div className={styles.card}>
-        <h1 className={styles.title}>{copy.title}</h1>
+        <h1 className={styles.title}>
+          {signup ? t("계정 만들기") : copy.title}
+        </h1>
 
         <div className={styles.actions}>
           <button
             type="button"
             className={styles.googleButton}
             onClick={start}
-            disabled={processing || showTerms}
+            disabled={busy}
             aria-busy={processing || undefined}
           >
             {processing ? (
@@ -290,6 +418,106 @@ export function LoginPage() {
             </StatusNotice>
           )}
         </div>
+
+        <div className={styles.divider} role="separator">
+          <span>{t("또는")}</span>
+        </div>
+
+        <form
+          className={styles.form}
+          onSubmit={submit}
+          noValidate
+          aria-busy={submitting || undefined}
+          aria-labelledby={`${formId}-legend`}
+        >
+          <span id={`${formId}-legend`} className="lk-visually-hidden">
+            {signup ? t("아이디로 계정 만들기") : t("아이디로 로그인")}
+          </span>
+          <TextField
+            label={t("아이디")}
+            value={loginId}
+            onChange={(event) => {
+              setLoginId(event.target.value.toLowerCase());
+              clearError("loginId", "form");
+            }}
+            error={errors.loginId}
+            hint={signup ? t("영문 소문자·숫자·._- 3~32자") : undefined}
+            maxLength={LOGIN_ID_MAX}
+            autoComplete="username"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
+            disabled={busy}
+            required
+          />
+          <div className={styles.passwordField}>
+            <TextField
+              label={t("비밀번호")}
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(event) => {
+                setPassword(event.target.value);
+                clearError("password", "form");
+              }}
+              error={errors.password}
+              hint={signup ? t("공백 없이 8자 이상") : undefined}
+              maxLength={PASSWORD_MAX}
+              autoComplete={signup ? "new-password" : "current-password"}
+              disabled={busy}
+              required
+            />
+            <IconButton
+              icon={showPassword ? "eye-off" : "eye"}
+              label={showPassword ? t("비밀번호 숨기기") : t("비밀번호 보기")}
+              aria-pressed={showPassword}
+              className={styles.passwordToggle}
+              onClick={() => setShowPassword((value) => !value)}
+              disabled={busy}
+              iconSize={16}
+            />
+          </div>
+          {signup && (
+            <TextField
+              label={t("비밀번호 확인")}
+              type={showPassword ? "text" : "password"}
+              value={passwordConfirm}
+              onChange={(event) => {
+                setPasswordConfirm(event.target.value);
+                clearError("passwordConfirm", "form");
+              }}
+              error={errors.passwordConfirm}
+              maxLength={PASSWORD_MAX}
+              autoComplete="new-password"
+              disabled={busy}
+              required
+            />
+          )}
+          {errors.form && (
+            <StatusNotice tone="error">{errors.form}</StatusNotice>
+          )}
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            className={styles.submit}
+            busy={submitting}
+            disabled={busy}
+          >
+            {signup ? t("계정 만들기") : t("로그인")}
+          </Button>
+        </form>
+
+        <p className={styles.switch}>
+          {signup ? t("이미 계정이 있어요.") : t("계정이 없으세요?")}{" "}
+          <button
+            type="button"
+            className={styles.switchButton}
+            onClick={() => switchMode(signup ? "login" : "signup")}
+            disabled={busy}
+          >
+            {signup ? t("로그인") : t("계정 만들기")}
+          </button>
+        </p>
 
         {showTerms && (
           <TermsConsent

@@ -112,3 +112,115 @@ describe("LoginPage", () => {
     expect(routerMock.replace).not.toHaveBeenCalled();
   });
 });
+
+describe("LoginPage password form", () => {
+  const fill = async (
+    user: ReturnType<typeof userEvent.setup>,
+    loginId: string,
+    password: string,
+    confirm?: string,
+  ) => {
+    await user.type(screen.getByLabelText("아이디"), loginId);
+    await user.type(screen.getByLabelText("비밀번호"), password);
+    if (confirm !== undefined)
+      await user.type(screen.getByLabelText("비밀번호 확인"), confirm);
+  };
+
+  it("logs in with the demo credentials and moves on", async () => {
+    const user = userEvent.setup();
+    renderWithServices(<LoginPage />);
+    await fill(user, "Writer", "password1");
+    await user.click(screen.getByRole("button", { name: "로그인" }));
+    await waitFor(() =>
+      expect(routerMock.replace).toHaveBeenCalledWith("/projects"),
+    );
+    expect(getDb().signedIn).toBe(true);
+  });
+
+  it("shows the server's message for a wrong password and stays", async () => {
+    const user = userEvent.setup();
+    renderWithServices(<LoginPage />);
+    await fill(user, "writer", "wrong-password");
+    await user.click(screen.getByRole("button", { name: "로그인" }));
+    expect(
+      await screen.findByText("아이디 또는 비밀번호가 맞지 않아요."),
+    ).toBeVisible();
+    expect(routerMock.replace).not.toHaveBeenCalled();
+    expect(getDb().signedIn).toBe(false);
+  });
+
+  it("validates before sending anything", async () => {
+    const user = userEvent.setup();
+    const loginWithPassword = vi.fn();
+    renderWithServices(<LoginPage />, { auth: { loginWithPassword } });
+    await fill(user, "a!", "short");
+    await user.click(screen.getByRole("button", { name: "로그인" }));
+    expect(
+      screen.getByText("아이디는 영문 소문자·숫자·._- 3~32자로 입력해 주세요."),
+    ).toBeVisible();
+    expect(
+      screen.getByText("비밀번호는 공백 없이 8~72자로 입력해 주세요."),
+    ).toBeVisible();
+    expect(loginWithPassword).not.toHaveBeenCalled();
+  });
+
+  it("creates an account and moves on to onboarding-ready state", async () => {
+    const user = userEvent.setup();
+    renderWithServices(<LoginPage />);
+    await user.click(screen.getByRole("button", { name: "계정 만들기" }));
+    expect(screen.getByRole("heading", { name: "계정 만들기" })).toBeVisible();
+    await fill(user, "judge1", "correct-horse-7", "correct-horse-7");
+    await user.click(screen.getByRole("button", { name: "계정 만들기" }));
+    await waitFor(() =>
+      expect(routerMock.replace).toHaveBeenCalledWith("/projects"),
+    );
+    expect(getDb().user.displayName).toBe("judge1");
+    expect(getDb().user.onboardingCompleted).toBe(false);
+  });
+
+  it("refuses to sign up when the two passwords differ", async () => {
+    const user = userEvent.setup();
+    const signUpWithPassword = vi.fn(async () => "authenticated" as const);
+    renderWithServices(<LoginPage />, { auth: { signUpWithPassword } });
+    await user.click(screen.getByRole("button", { name: "계정 만들기" }));
+    await fill(user, "judge1", "correct-horse-7", "correct-horse-8");
+    await user.click(screen.getByRole("button", { name: "계정 만들기" }));
+    expect(screen.getByText("비밀번호가 서로 달라요.")).toBeVisible();
+    expect(screen.getByLabelText("비밀번호 확인")).toHaveAttribute(
+      "aria-invalid",
+      "true",
+    );
+    expect(signUpWithPassword).not.toHaveBeenCalled();
+    expect(routerMock.replace).not.toHaveBeenCalled();
+  });
+
+  it("marks a taken id on the field", async () => {
+    const user = userEvent.setup();
+    renderWithServices(<LoginPage />);
+    await user.click(screen.getByRole("button", { name: "계정 만들기" }));
+    await fill(user, "writer", "correct-horse-7", "correct-horse-7");
+    await user.click(screen.getByRole("button", { name: "계정 만들기" }));
+    expect(await screen.findByText("이미 사용 중인 아이디예요.")).toBeVisible();
+    expect(screen.getByLabelText("아이디")).toHaveAttribute(
+      "aria-invalid",
+      "true",
+    );
+    expect(routerMock.replace).not.toHaveBeenCalled();
+  });
+
+  it("hands a consent-pending signup to the terms flow", async () => {
+    const user = userEvent.setup();
+    setSearchParams("returnTo=%2Fworkspace");
+    renderWithServices(<LoginPage />, {
+      auth: { signUpWithPassword: async () => "terms-required" },
+    });
+    await user.click(screen.getByRole("button", { name: "계정 만들기" }));
+    await fill(user, "judge2", "correct-horse-7", "correct-horse-7");
+    await user.click(screen.getByRole("button", { name: "계정 만들기" }));
+    await waitFor(() =>
+      expect(routerMock.replace).toHaveBeenCalledWith(
+        "/login?result=terms_required&returnTo=%2Fworkspace",
+      ),
+    );
+  });
+});
