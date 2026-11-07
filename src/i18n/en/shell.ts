@@ -184,7 +184,8 @@ export default {
   비밀번호: "Password",
   "비밀번호 보기": "Show password",
   "비밀번호 숨기기": "Hide password",
-  "비워 두면 아이디를 써요": "Leave blank to use your ID",
+  "비밀번호 확인": "Confirm password",
+  "비밀번호가 서로 달라요.": "The passwords don't match.",
   "영문 소문자·숫자·._- 3~32자": "3–32 lowercase letters, digits or . _ -",
   "공백 없이 8자 이상": "8 or more characters, no spaces",
   "계정이 없으세요?": "Don't have an account?",
@@ -195,7 +196,6 @@ export default {
   "비밀번호를 입력해 주세요.": "Enter your password.",
   "비밀번호는 공백 없이 8~72자로 입력해 주세요.":
     "Passwords are 8–72 characters with no spaces.",
-  "이름은 50자까지 쓸 수 있어요.": "Names can be up to 50 characters.",
   "이미 사용 중인 아이디예요.": "That ID is already taken.",
   "아이디 또는 비밀번호가 맞지 않아요.": "The ID or password is incorrect.",
   "Google 로그인이 취소됐어요.": "Google login was canceled.",

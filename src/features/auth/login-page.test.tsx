@@ -118,9 +118,12 @@ describe("LoginPage password form", () => {
     user: ReturnType<typeof userEvent.setup>,
     loginId: string,
     password: string,
+    confirm?: string,
   ) => {
     await user.type(screen.getByLabelText("아이디"), loginId);
     await user.type(screen.getByLabelText("비밀번호"), password);
+    if (confirm !== undefined)
+      await user.type(screen.getByLabelText("비밀번호 확인"), confirm);
   };
 
   it("logs in with the demo credentials and moves on", async () => {
@@ -166,21 +169,36 @@ describe("LoginPage password form", () => {
     renderWithServices(<LoginPage />);
     await user.click(screen.getByRole("button", { name: "계정 만들기" }));
     expect(screen.getByRole("heading", { name: "계정 만들기" })).toBeVisible();
-    await fill(user, "judge1", "correct-horse-7");
-    await user.type(screen.getByLabelText("이름"), "심사위원");
+    await fill(user, "judge1", "correct-horse-7", "correct-horse-7");
     await user.click(screen.getByRole("button", { name: "계정 만들기" }));
     await waitFor(() =>
       expect(routerMock.replace).toHaveBeenCalledWith("/projects"),
     );
-    expect(getDb().user.displayName).toBe("심사위원");
+    expect(getDb().user.displayName).toBe("judge1");
     expect(getDb().user.onboardingCompleted).toBe(false);
+  });
+
+  it("refuses to sign up when the two passwords differ", async () => {
+    const user = userEvent.setup();
+    const signUpWithPassword = vi.fn(async () => "authenticated" as const);
+    renderWithServices(<LoginPage />, { auth: { signUpWithPassword } });
+    await user.click(screen.getByRole("button", { name: "계정 만들기" }));
+    await fill(user, "judge1", "correct-horse-7", "correct-horse-8");
+    await user.click(screen.getByRole("button", { name: "계정 만들기" }));
+    expect(screen.getByText("비밀번호가 서로 달라요.")).toBeVisible();
+    expect(screen.getByLabelText("비밀번호 확인")).toHaveAttribute(
+      "aria-invalid",
+      "true",
+    );
+    expect(signUpWithPassword).not.toHaveBeenCalled();
+    expect(routerMock.replace).not.toHaveBeenCalled();
   });
 
   it("marks a taken id on the field", async () => {
     const user = userEvent.setup();
     renderWithServices(<LoginPage />);
     await user.click(screen.getByRole("button", { name: "계정 만들기" }));
-    await fill(user, "writer", "correct-horse-7");
+    await fill(user, "writer", "correct-horse-7", "correct-horse-7");
     await user.click(screen.getByRole("button", { name: "계정 만들기" }));
     expect(await screen.findByText("이미 사용 중인 아이디예요.")).toBeVisible();
     expect(screen.getByLabelText("아이디")).toHaveAttribute(
@@ -197,7 +215,7 @@ describe("LoginPage password form", () => {
       auth: { signUpWithPassword: async () => "terms-required" },
     });
     await user.click(screen.getByRole("button", { name: "계정 만들기" }));
-    await fill(user, "judge2", "correct-horse-7");
+    await fill(user, "judge2", "correct-horse-7", "correct-horse-7");
     await user.click(screen.getByRole("button", { name: "계정 만들기" }));
     await waitFor(() =>
       expect(routerMock.replace).toHaveBeenCalledWith(

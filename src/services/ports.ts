@@ -50,9 +50,7 @@ export interface PasswordLoginInput {
   password: string;
 }
 
-export interface PasswordSignUpInput extends PasswordLoginInput {
-  displayName?: string;
-}
+export type PasswordSignUpInput = PasswordLoginInput;
 
 export interface TermsView {
   termsVersionId: string;

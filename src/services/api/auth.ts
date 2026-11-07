@@ -125,14 +125,10 @@ export function createApiAuth(client: ApiClient): AuthService {
         { login_id: loginId, password },
         "auth.passwordLogin",
       ),
-    signUpWithPassword: ({ loginId, password, displayName }) =>
+    signUpWithPassword: ({ loginId, password }) =>
       passwordRequest(
         "/auth/password/signup",
-        {
-          login_id: loginId,
-          password,
-          ...(displayName?.trim() ? { display_name: displayName.trim() } : {}),
-        },
+        { login_id: loginId, password },
         "auth.passwordSignUp",
       ),
     claimRegistrationAnalytics: async (kind) => {

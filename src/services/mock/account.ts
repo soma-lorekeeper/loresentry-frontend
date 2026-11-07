@@ -71,7 +71,7 @@ export const mockAuth: AuthService = {
       if (passwords.get(id) !== password) throw invalidCredentials();
       return signInAs(undefined, false);
     }),
-  signUpWithPassword: ({ loginId, password, displayName }) =>
+  signUpWithPassword: ({ loginId, password }) =>
     simulate("auth.passwordSignUp", () => {
       const id = loginId.trim().toLowerCase();
       if (passwords.has(id))
@@ -81,7 +81,7 @@ export const mockAuth: AuthService = {
           "auth.passwordSignUp",
         );
       passwords.set(id, password);
-      return signInAs(displayName || id, true);
+      return signInAs(id, true);
     }),
   claimRegistrationAnalytics: async () => false,
   getTerms: () =>

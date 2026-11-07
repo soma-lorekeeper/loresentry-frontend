@@ -30,8 +30,6 @@ import { TermsConsent } from "./terms-consent";
 import { GoogleMark } from "./google-mark";
 import styles from "./login-page.module.css";
 import {
-  displayNameError,
-  DISPLAY_NAME_MAX,
   LOGIN_ID_MAX,
   loginIdError,
   normalizeLoginId,
@@ -51,7 +49,7 @@ type Mode = "login" | "signup";
 interface FieldErrors {
   loginId?: string;
   password?: string;
-  displayName?: string;
+  passwordConfirm?: string;
   form?: string;
 }
 
@@ -174,7 +172,7 @@ export function LoginPage() {
   const [mode, setMode] = useState<Mode>("login");
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
-  const [displayName, setDisplayName] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
@@ -308,6 +306,7 @@ export function LoginPage() {
     setMode(next);
     setErrors({});
     setPassword("");
+    setPasswordConfirm("");
     setShowPassword(false);
   };
 
@@ -326,10 +325,13 @@ export function LoginPage() {
     const next: FieldErrors = {};
     const idError = loginIdError(loginId);
     const pwError = passwordError(password);
-    const nameError = mode === "signup" ? displayNameError(displayName) : null;
+    const confirmError =
+      mode === "signup" && !pwError && password !== passwordConfirm
+        ? t("비밀번호가 서로 달라요.")
+        : null;
     if (idError) next.loginId = idError;
     if (pwError) next.password = pwError;
-    if (nameError) next.displayName = nameError;
+    if (confirmError) next.passwordConfirm = confirmError;
     if (Object.keys(next).length) {
       setErrors(next);
       return;
@@ -342,11 +344,7 @@ export function LoginPage() {
       const outcome =
         mode === "login"
           ? await services.auth.loginWithPassword({ loginId: id, password })
-          : await services.auth.signUpWithPassword({
-              loginId: id,
-              password,
-              displayName: displayName.trim() || undefined,
-            });
+          : await services.auth.signUpWithPassword({ loginId: id, password });
       await settle(outcome);
     } catch (cause) {
       if (!alive.current) return;
@@ -480,18 +478,18 @@ export function LoginPage() {
           </div>
           {signup && (
             <TextField
-              label={t("이름")}
-              labelHint={t("선택")}
-              value={displayName}
+              label={t("비밀번호 확인")}
+              type={showPassword ? "text" : "password"}
+              value={passwordConfirm}
               onChange={(event) => {
-                setDisplayName(event.target.value);
-                clearError("displayName");
+                setPasswordConfirm(event.target.value);
+                clearError("passwordConfirm", "form");
               }}
-              error={errors.displayName}
-              hint={t("비워 두면 아이디를 써요")}
-              maxLength={DISPLAY_NAME_MAX}
-              autoComplete="nickname"
+              error={errors.passwordConfirm}
+              maxLength={PASSWORD_MAX}
+              autoComplete="new-password"
               disabled={busy}
+              required
             />
           )}
           {errors.form && (
