@@ -150,13 +150,15 @@ function AccountSettingsForm({
           readOnly={update.isPending}
           autoComplete="name"
         />
-        <TextField
-          density="settings"
-          label={t("이메일")}
-          labelHint={t("Google 계정")}
-          value={user.email}
-          readOnly
-        />
+        {user.email && (
+          <TextField
+            density="settings"
+            label={t("이메일")}
+            labelHint={t("Google 계정")}
+            value={user.email}
+            readOnly
+          />
+        )}
         <LanguageField />
       </form>
       <SaveBar

@@ -1,6 +1,11 @@
 import { t } from "@/i18n";
 
-import type { AccountService, AuthService, TermsView } from "../ports";
+import type {
+  AccountService,
+  AuthService,
+  PasswordAuthOutcome,
+  TermsView,
+} from "../ports";
 import { ServiceError } from "../errors";
 
 import { simulate } from "./control";
@@ -29,7 +34,55 @@ function requirePending() {
   }
 }
 
+const DEMO_PASSWORDS: ReadonlyArray<[string, string]> = [
+  ["writer", "password1"],
+];
+let passwords = new Map(DEMO_PASSWORDS);
+export function resetMockPasswords() {
+  passwords = new Map(DEMO_PASSWORDS);
+}
+function invalidCredentials() {
+  return new ServiceError(
+    "validation",
+    t("아이디 또는 비밀번호가 맞지 않아요."),
+    "auth.passwordLogin",
+  );
+}
+function signInAs(
+  displayName: string | undefined,
+  fresh: boolean,
+): PasswordAuthOutcome {
+  const db = getDb();
+  db.signedIn = true;
+  if (fresh)
+    db.user = {
+      ...db.user,
+      displayName: displayName?.trim() || db.user.displayName,
+      onboardingCompleted: false,
+    };
+  persistDb();
+  return "authenticated";
+}
+
 export const mockAuth: AuthService = {
+  loginWithPassword: ({ loginId, password }) =>
+    simulate("auth.passwordLogin", () => {
+      const id = loginId.trim().toLowerCase();
+      if (passwords.get(id) !== password) throw invalidCredentials();
+      return signInAs(undefined, false);
+    }),
+  signUpWithPassword: ({ loginId, password, displayName }) =>
+    simulate("auth.passwordSignUp", () => {
+      const id = loginId.trim().toLowerCase();
+      if (passwords.has(id))
+        throw new ServiceError(
+          "duplicate",
+          t("이미 사용 중인 아이디예요."),
+          "auth.passwordSignUp",
+        );
+      passwords.set(id, password);
+      return signInAs(displayName || id, true);
+    }),
   claimRegistrationAnalytics: async () => false,
   getTerms: () =>
     simulate("auth.terms", () => {

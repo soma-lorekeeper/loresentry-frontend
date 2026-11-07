@@ -43,6 +43,17 @@ import type { WorkspaceLayout } from "@/features/workspace/model/layout";
 
 export type AuthFailure = "canceled" | "failed" | "expired";
 
+export type PasswordAuthOutcome = "authenticated" | "terms-required";
+
+export interface PasswordLoginInput {
+  loginId: string;
+  password: string;
+}
+
+export interface PasswordSignUpInput extends PasswordLoginInput {
+  displayName?: string;
+}
+
 export interface TermsView {
   termsVersionId: string;
   version: string;
@@ -60,6 +71,8 @@ export interface AuthService {
   // 서버 가정: Google OAuth는 Gateway/BFF가 리다이렉트로 처리하고, 프론트는 시작만 요청한다.
   // 복귀 URL의 query(`?auth=canceled|failed|expired`)로 실패 사유를 전달받는다고 가정한다.
   startGoogleLogin(returnTo: string): Promise<void>;
+  loginWithPassword(input: PasswordLoginInput): Promise<PasswordAuthOutcome>;
+  signUpWithPassword(input: PasswordSignUpInput): Promise<PasswordAuthOutcome>;
   logout(): Promise<void>;
 }
 

@@ -3,7 +3,12 @@ import { isLocale, LOCALE, t } from "@/i18n";
 import { rememberOAuthReturnTo } from "@/features/auth/return-to";
 
 import { ServiceError } from "../errors";
-import type { AccountService, AuthService, TermsView } from "../ports";
+import type {
+  AccountService,
+  AuthService,
+  PasswordAuthOutcome,
+  TermsView,
+} from "../ports";
 
 import { withAuthTransition } from "./auth-transition";
 import type { ApiClient } from "./http";
@@ -80,8 +85,56 @@ function toTerms(value: unknown): TermsView {
   };
 }
 
+function toPasswordOutcome(
+  value: unknown,
+  operation: string,
+): PasswordAuthOutcome {
+  const status = (value as { status?: unknown } | null)?.status;
+  if (status === "AUTHENTICATED") return "authenticated";
+  if (status === "TERMS_REQUIRED") return "terms-required";
+  throw new ServiceError(
+    "unknown",
+    t("서버 응답을 확인할 수 없어요."),
+    operation,
+  );
+}
+
 export function createApiAuth(client: ApiClient): AuthService {
+  const passwordRequest = (
+    path: string,
+    body: Record<string, string>,
+    operation: string,
+  ) =>
+    withAuthTransition(async () =>
+      toPasswordOutcome(
+        await client.request<unknown>(path, {
+          method: "POST",
+          body,
+          operation,
+          expectedStatus: 200,
+          authTransition: true,
+        }),
+        operation,
+      ),
+    );
+
   return {
+    loginWithPassword: ({ loginId, password }) =>
+      passwordRequest(
+        "/auth/password/login",
+        { login_id: loginId, password },
+        "auth.passwordLogin",
+      ),
+    signUpWithPassword: ({ loginId, password, displayName }) =>
+      passwordRequest(
+        "/auth/password/signup",
+        {
+          login_id: loginId,
+          password,
+          ...(displayName?.trim() ? { display_name: displayName.trim() } : {}),
+        },
+        "auth.passwordSignUp",
+      ),
     claimRegistrationAnalytics: async (kind) => {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 2500);

@@ -35,6 +35,10 @@ const CODE_TO_SERVICE_ERROR: Record<string, ServiceErrorCode> = {
   ACCOUNT_UNAVAILABLE: "network",
   USER_NOT_FOUND: "not-found",
   LOGIN_UNAVAILABLE: "network",
+  LOGIN_ID_TAKEN: "duplicate",
+  INVALID_CREDENTIALS: "validation",
+  INVALID_LOGIN_ID: "validation",
+  INVALID_PASSWORD: "validation",
   INVALID_PROJECT_NAME: "validation",
   INVALID_PROJECT_DESCRIPTION: "validation",
   INVALID_FILE_TITLE: "validation",
@@ -114,6 +118,10 @@ const MESSAGES: Partial<Record<ServiceErrorCode, string>> = {
 };
 
 const CODE_MESSAGES: Record<string, string> = {
+  LOGIN_ID_TAKEN: t("이미 사용 중인 아이디예요."),
+  INVALID_CREDENTIALS: t("아이디 또는 비밀번호가 맞지 않아요."),
+  INVALID_LOGIN_ID: t("아이디는 영문 소문자·숫자·._- 3~32자로 입력해 주세요."),
+  INVALID_PASSWORD: t("비밀번호는 공백 없이 8~72자로 입력해 주세요."),
   CHAT_DAILY_LIMIT_REACHED: t("오늘 AI 챗 사용량을 다 썼어요."),
   INVALID_FEEDBACK: t("내용을 1~2,000자로 적어 주세요."),
   FEEDBACK_RATE_LIMITED: t(
