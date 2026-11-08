@@ -109,7 +109,7 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  max-width: 220px;
+  max-width: 260px;
   height: 26px;
   padding: 0 10px 0 9px;
   border-radius: 999px;
@@ -131,7 +131,10 @@
   );
 }
 
+/* 이름은 줄이지 않는다. 설명이 길어져도 이름이 먼저 잘리면 어느 문서인지 알 수 없다. */
 .chipLabel {
+  flex: none;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -139,11 +142,13 @@
 
 /*
  * 관계 설명. 칩 안에 붙되 이름보다 약하게 보여야 한다 — 이름이 무엇인지가 먼저고 설명은 곁말이다.
+ * 이름이 쓰고 남은 폭만 쓰고, 넘치면 말줄임표로 줄인다(전문은 호버 설명으로 본다).
  * 적힌 설명은 늘 보이고, 비어 있으면 칩에 올리거나 포커스했을 때만 "설명" 자리를 보인다.
  */
 .chipNote,
 .chipNoteAdd {
-  max-width: 160px;
+  flex: 0 1 auto;
+  min-width: 0;
   overflow: hidden;
   padding: 0 4px;
   border-radius: var(--lk-radius-control);

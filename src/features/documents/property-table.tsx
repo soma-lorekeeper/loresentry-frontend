@@ -2,13 +2,20 @@
 
 import { trackUsage } from "@/features/analytics/usage-analytics";
 
-import { useMemo, useRef, useState, type KeyboardEvent } from "react";
+import {
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type KeyboardEvent,
+} from "react";
 
 import {
   Icon,
   IconButton,
   Menu,
   Popover,
+  Tooltip,
   type MenuEntry,
 } from "@/design-system/primitives";
 import {
@@ -139,6 +146,60 @@ function RelationPicker({
   );
 }
 
+/**
+ * 칩 안의 관계 설명. 문서 이름이 먼저라 설명은 남은 폭만 쓰고, 넘치면 말줄임표로 줄인다.
+ * 줄여진 설명은 올려 두면 호버 설명으로 전부 보인다 — 다 보이는 설명에는 띄우지 않는다.
+ */
+function ChipNote({
+  note,
+  title,
+  readOnly,
+  onEdit,
+}: {
+  note: string;
+  title: string;
+  readOnly: boolean;
+  onEdit: () => void;
+}) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const [clipped, setClipped] = useState(false);
+
+  useLayoutEffect(() => {
+    const element = ref.current;
+    if (!element || !note) {
+      setClipped(false);
+      return;
+    }
+    const measure = () =>
+      setClipped(element.scrollWidth > element.clientWidth + 1);
+    measure();
+    if (typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [note]);
+
+  return (
+    <>
+      <button
+        ref={ref}
+        type="button"
+        className={note ? styles.chipNote : styles.chipNoteAdd}
+        disabled={readOnly}
+        aria-label={
+          note
+            ? t("{title} 관계 설명 고치기", { title })
+            : t("{title} 관계 설명 적기", { title })
+        }
+        onClick={onEdit}
+      >
+        {note || t("관계 칩::설명")}
+      </button>
+      {clipped && <Tooltip anchorRef={ref} label={note} multiline />}
+    </>
+  );
+}
+
 function RelationRow({
   property,
   fileId,
@@ -257,19 +318,12 @@ function RelationRow({
                 />
               ) : (
                 (note || !readOnly) && (
-                  <button
-                    type="button"
-                    className={note ? styles.chipNote : styles.chipNoteAdd}
-                    disabled={readOnly}
-                    aria-label={
-                      note
-                        ? t("{title} 관계 설명 고치기", { title: node.title })
-                        : t("{title} 관계 설명 적기", { title: node.title })
-                    }
-                    onClick={() => setDescribing(node.id)}
-                  >
-                    {note || t("관계 칩::설명")}
-                  </button>
+                  <ChipNote
+                    note={note}
+                    title={node.title}
+                    readOnly={readOnly}
+                    onEdit={() => setDescribing(node.id)}
+                  />
                 )
               )}
               {!readOnly && (
