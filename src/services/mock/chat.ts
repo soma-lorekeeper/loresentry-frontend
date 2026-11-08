@@ -237,10 +237,12 @@ async function stream(
 
 function searchText(message: ChatMessage) {
   const quote = message.quote?.text ?? "";
-  const body = message.content.replace(/\[\[(\d+)\]\]/g, (_, index) => {
-    const citation = message.citations[Number(index) - 1];
-    return citation ? ` ${citation.title} ` : "";
-  });
+  const body = message.content
+    .replace(/\[\[action:[^\]\s]+\]\]/g, "")
+    .replace(/\[\[(\d+)\]\]/g, (_, index) => {
+      const citation = message.citations[Number(index) - 1];
+      return citation ? ` ${citation.title} ` : "";
+    });
   return `${quote} ${body}`.replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
 }
 

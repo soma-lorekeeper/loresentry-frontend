@@ -45,6 +45,7 @@ export function compileChatMarkup(
 
 export function chatPreview(content: string, citations: ChatCitation[]) {
   const flat = content
+    .replace(/\[\[action:[^\]\s]+\]\]/g, "")
     .replace(
       /\[\[(\d+)\]\]/g,
       (marker: string, index: string, offset: number) => {

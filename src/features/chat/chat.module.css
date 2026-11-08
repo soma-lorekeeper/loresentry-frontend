@@ -1718,3 +1718,39 @@
     animation: none;
   }
 }
+
+.shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.shortcut {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px 6px 9px;
+  border: 1px solid var(--lk-color-border-subtle);
+  border-radius: 999px;
+  background: var(--lk-color-surface-default);
+  color: var(--lk-color-text-primary);
+  font: inherit;
+  font-size: var(--lk-font-size-caption);
+  line-height: 1.3;
+  cursor: pointer;
+  transition:
+    background-color 140ms var(--lk-ease),
+    border-color 140ms var(--lk-ease);
+}
+
+.shortcut:hover,
+.shortcut:focus-visible {
+  border-color: var(--lk-color-border-strong);
+  background: var(--lk-color-surface-sunken);
+}
+
+.shortcut > svg {
+  flex: none;
+  color: var(--lk-color-icon-default);
+}

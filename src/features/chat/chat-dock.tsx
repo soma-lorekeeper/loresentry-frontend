@@ -48,7 +48,11 @@ import { t } from "@/i18n";
 import { cx } from "@/shared/cx";
 import { formatNumber, relativeTime } from "@/shared/format";
 
+import { requestHelpTopic } from "@/features/help/help-request";
+import { requestTour } from "@/features/tour/tour-state";
+
 import { useWorkspace } from "../workspace/workspace-context";
+import type { ChatShortcut } from "./shortcuts";
 import { AiMark } from "./ai-mark";
 import { highlight } from "./answer";
 import { Composer } from "./composer";
@@ -92,6 +96,7 @@ function suggestions() {
     t("가장 최근 회차에서 무슨 일이 있었어?"),
     t("주요 인물과 연결된 설정을 정리해 줘"),
     t("주인공이 처음 흔들리는 장면은 어디야?"),
+    t("처음인데 어떻게 시작하면 돼?"),
   ];
 }
 
@@ -250,7 +255,8 @@ function TooLarge({
 }
 
 export function ChatDock() {
-  const { projectId, user, open, openMemo, narrow } = useWorkspace();
+  const { projectId, user, open, openMemo, narrow, setImporting } =
+    useWorkspace();
   const availability = useChatAvailability(projectId);
   const unavailable = isUnavailable(availability.error);
   const tooLarge = availability.data?.status === "too-large";
@@ -547,6 +553,24 @@ export function ChatDock() {
     if (citation.kind === "document")
       open({ kind: "file", fileId: citation.fileId });
     else openMemo(citation.memoId);
+    if (narrow) setWindowOpen(false);
+  };
+
+  const runShortcut = (shortcut: ChatShortcut) => {
+    trackUsage("chat_action", {
+      action: "open_shortcut",
+      outcome: "requested",
+      shortcut_kind: shortcut.kind,
+      entry_point: "chat_conversation",
+    });
+    if (shortcut.kind === "tour") requestTour();
+    else if (shortcut.kind === "import")
+      setImporting(true, "chat_conversation");
+    else if (shortcut.kind === "view") open({ kind: shortcut.view });
+    else {
+      requestHelpTopic(shortcut.topic, shortcut.section);
+      open({ kind: "help" });
+    }
     if (narrow) setWindowOpen(false);
   };
 
@@ -870,6 +894,7 @@ export function ChatDock() {
           interruption={interruption}
           term={term}
           onOpenCitation={openCitation}
+          onAction={runShortcut}
           onRetry={() => streams.retry(session.id, messages.data ?? [])}
           onEditSend={editSend}
           empty={

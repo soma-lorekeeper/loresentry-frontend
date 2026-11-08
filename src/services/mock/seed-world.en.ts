@@ -30,6 +30,9 @@ const CHAT_LENA =
 const CHAT_OPEN =
   "Among the chapters that have text, the first is **the moment in Ch. 12 when she grips the handle of the North Door**. [[doc:Ch. 12 · Night of the Fracture|When she laid her hand on the handle, a cold tremor climbed up her wrist.]]\nUp to that point Seoyun is drawn only as a recorder watching the fractures over three patrols. Here she hesitates for the first time, and setting the lantern down before she “slowly” pushes the door shows it.\nThere is an earlier candidate. In Ch. 11 she and Harin look up at the cracked pane in silence, which reads more like a warning of unease than wavering. [[doc:Ch. 11 · The Glass Garden|The two of them looked up at the cracked pane without a word.]]\nCh. 1–8 and 10 have no text yet, so I left them out. Ask again once you've written them.";
 
+const CHAT_HELP =
+  "Lore Sentry keeps one story's chapters, setting documents, notes and the links between them in a single project, and everything you write saves automatically.\n- If you already have chapters, press Import in the sidebar and upload text (.txt) or Markdown (.md) files.\n- Link related chapters and characters in a setting document's property table and the relationship map and timeline draw themselves.\n- After a new chapter, Refresh setting docs finds what to add to your setting documents.\n New here? Take the workspace tour first.\n[[action:tour]][[action:guide:start]][[action:import]]";
+
 const EPISODES: SeedEpisode[] = [
   {
     key: "ep-1",
@@ -495,6 +498,10 @@ export const EN_SEED: MockSeed = {
       { keywords: ["lena", "linked", "main character"], answer: CHAT_LENA },
       { keywords: ["waver", "break"], answer: CHAT_OPEN },
       { keywords: ["latest", "door", "voice", "hear"], answer: CHAT_DOOR },
+      {
+        keywords: ["how do i", "how to", "get started", "new here", "import"],
+        answer: CHAT_HELP,
+      },
     ],
     quotedChapter: "Ch. 12 · Night of the Fracture",
     quoted: {

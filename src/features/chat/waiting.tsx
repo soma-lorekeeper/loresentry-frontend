@@ -78,6 +78,11 @@ function describe(activity: ChatActivity, current: boolean): Row {
         label: t("작품 지도 확인"),
         meta: t("문서 {count}개", { count: activity.documents }),
       };
+    case "guide":
+      return {
+        icon: current ? "spinner" : "check",
+        label: current ? t("사용 가이드를 읽는 중") : t("사용 가이드 읽음"),
+      };
     case "think":
       return {
         icon: "spinner",

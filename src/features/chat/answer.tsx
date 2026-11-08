@@ -9,6 +9,12 @@ import type { ChatCitation } from "@/domain/models";
 import { t } from "@/i18n";
 
 import styles from "./chat.module.css";
+import {
+  type ChatShortcut,
+  shortcutIcon,
+  shortcutLabel,
+  splitShortcuts,
+} from "./shortcuts";
 
 type Part =
   | { type: "text" | "strong"; text: string; start: number }
@@ -23,7 +29,7 @@ const INLINE = /\*\*(.+?)\*\*|\[\[(\d+)\]\]/g;
 
 function settle(content: string, streaming: boolean) {
   if (!streaming) return content;
-  let text = content.replace(/\[\[?\d*\]?$/, "");
+  let text = content.replace(/\[\[?[^[\]]*\]?$/, "");
   const bold = text.match(/\*\*/g)?.length ?? 0;
   if (bold % 2 === 1) {
     const at = text.lastIndexOf("**");
@@ -81,8 +87,8 @@ export function citationTitle(citation: ChatCitation) {
 }
 
 export function answerPlainText(content: string, citations: ChatCitation[]) {
-  return content
-    .replace(/\s*\[\[(\d+)\]\]/g, (_, index) => {
+  return splitShortcuts(content)
+    .text.replace(/\s*\[\[(\d+)\]\]/g, (_, index) => {
       const citation = citations[Number(index) - 1];
       return citation ? ` (${citationTitle(citation)})` : "";
     })
@@ -186,10 +192,35 @@ function CiteChip({
   );
 }
 
+function Shortcuts({
+  shortcuts,
+  onAction,
+}: {
+  shortcuts: ChatShortcut[];
+  onAction: (shortcut: ChatShortcut) => void;
+}) {
+  return (
+    <div className={styles.shortcuts} role="group" aria-label={t("바로 가기")}>
+      {shortcuts.map((shortcut) => (
+        <button
+          key={shortcut.id}
+          type="button"
+          className={styles.shortcut}
+          onClick={() => onAction(shortcut)}
+        >
+          <Icon name={shortcutIcon(shortcut)} size={13} />
+          <span>{shortcutLabel(shortcut)}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
 export function Answer({
   content,
   citations,
   onOpen,
+  onAction,
   streaming = false,
   freshFrom = Number.POSITIVE_INFINITY,
   tick = 0,
@@ -198,12 +229,14 @@ export function Answer({
   content: string;
   citations: ChatCitation[];
   onOpen: (citation: ChatCitation) => void;
+  onAction?: (shortcut: ChatShortcut) => void;
   streaming?: boolean;
   freshFrom?: number;
   tick?: number;
   term?: string;
 }) {
-  const blocks = parseAnswer(settle(content, streaming));
+  const { text, shortcuts } = splitShortcuts(settle(content, streaming));
+  const blocks = parseAnswer(text);
   const rendered = blocks.map((block, b) => {
     const nodes = block.parts.map((part, p) => {
       if (part.type === "cite")
@@ -260,6 +293,10 @@ export function Answer({
       <p key="caret">
         <span className={styles.caret} />
       </p>,
+    );
+  if (shortcuts.length > 0 && onAction)
+    out.push(
+      <Shortcuts key="shortcuts" shortcuts={shortcuts} onAction={onAction} />,
     );
   return <div className={styles.answer}>{out}</div>;
 }

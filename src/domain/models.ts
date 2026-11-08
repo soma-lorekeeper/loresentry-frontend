@@ -238,6 +238,7 @@ export interface ChatActivityDocument {
 
 export type ChatActivity =
   | { kind: "map"; documents: number }
+  | { kind: "guide" }
   | { kind: "think"; step: number; mustAnswer: boolean }
   | {
       kind: "read";
