@@ -296,17 +296,22 @@
   border-top: 1px solid var(--lk-color-border-subtle);
 }
 
+.filterPopover {
+  width: 160px;
+}
+
 .filterActions {
   display: flex;
+  flex-direction: column;
   gap: 2px;
 }
 
 .filterAction {
-  flex: 1;
   height: 32px;
   padding: 0 var(--lk-space-2);
   border-radius: var(--lk-radius-control);
   color: var(--lk-color-text-secondary);
+  text-align: left;
   font-size: var(--lk-font-size-label);
   transition: background-color 120ms var(--lk-ease);
 }

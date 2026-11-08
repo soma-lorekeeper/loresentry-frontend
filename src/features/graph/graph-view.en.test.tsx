@@ -53,7 +53,6 @@ describe("GraphView (English build)", () => {
     const legend = await screen.findByRole("list", { name: "Legend" });
     expect(within(legend).getByText("Favorites")).toBeInTheDocument();
 
-    await actor.click(screen.getByRole("button", { name: "Category filter" }));
     const filter = screen.getByRole("group", { name: "Category filter" });
     expect(
       within(filter).getByRole("button", { name: "Select all" }),

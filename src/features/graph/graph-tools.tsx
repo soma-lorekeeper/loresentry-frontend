@@ -190,7 +190,7 @@ export function GraphTools({
 }) {
   const searchRef = useRef<HTMLButtonElement>(null);
   const filterRef = useRef<HTMLButtonElement>(null);
-  const [open, setOpen] = useState<"search" | "filter" | null>(null);
+  const [open, setOpen] = useState<"search" | "filter" | null>("filter");
   const filtered = kinds.size < NODE_KINDS.length;
   return (
     <div className={styles.tools}>
@@ -241,7 +241,7 @@ export function GraphTools({
             filterRef.current?.focus();
           }}
           placement="bottom-end"
-          className={styles.popover}
+          className={cx(styles.popover, styles.filterPopover)}
         >
           <FilterPanel kinds={kinds} onChange={onKindsChange} />
         </Popover>
