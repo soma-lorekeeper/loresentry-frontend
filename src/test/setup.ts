@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/vitest";
 
 import { cleanup } from "@testing-library/react";
-import { afterEach } from "vitest";
+import { afterEach, beforeEach } from "vitest";
 
 class MemoryStorage implements Storage {
   private store = new Map<string, string>();
@@ -43,6 +43,12 @@ if (!HTMLDialogElement.prototype.showModal) {
     this.dispatchEvent(new Event("close"));
   };
 }
+
+// 검토 가이드는 본 적 없으면 변경 사항 창이 열릴 때 저절로 떠서 다른 테스트를 가린다. 가이드를
+// 시험하는 테스트만 이 키를 지우고 연다.
+beforeEach(() => {
+  window.localStorage.setItem("loresentry.guide.refresh-review", "done");
+});
 
 afterEach(() => {
   cleanup();

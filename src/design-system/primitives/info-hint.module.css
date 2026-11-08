@@ -1,0 +1,19 @@
+.hint {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  color: var(--lk-color-text-secondary);
+  opacity: 0.75;
+  transition:
+    color 140ms var(--lk-ease),
+    opacity 140ms var(--lk-ease);
+}
+
+.hint:hover {
+  color: var(--lk-color-text-primary);
+  opacity: 1;
+}

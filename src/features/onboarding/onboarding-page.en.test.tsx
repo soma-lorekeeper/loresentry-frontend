@@ -49,7 +49,7 @@ describe("OnboardingPage (English)", () => {
       "Link documents with properties",
       "See links on one map",
       "Who appears in which chapter",
-      "New chapter? Refresh setting docs",
+      "New chapter? AI doc suggestions",
       "AI chat that knows your story",
       "Choose your pen name",
     ]) {
@@ -115,7 +115,7 @@ describe("AppWindow (English)", () => {
     const text = container.textContent ?? "";
     expect(hangul(text)).toEqual([]);
     expect(text).toContain("The Glass Garden Records");
-    expect(text).toContain("Refresh setting docs");
+    expect(text).toContain("AI setting doc suggestions");
     expect(text).toContain("Favorites");
   });
 

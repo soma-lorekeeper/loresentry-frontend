@@ -319,8 +319,7 @@ export default {
   "게시 전 초안입니다. 최초 공개·시행일은 운영 원문 등록 시 확정합니다.":
     "This is a draft before publication. The first publication and effective date will be set when the official text is registered.",
 
-  "검토를 기다리는 최신화 결과가 있어요.":
-    "A refresh result is waiting for review.",
-  "설정 문서 최신화 결과를 확정해야 잠금이 풀려요.":
-    "It unlocks only when the setting document refresh results are applied.",
+  "검토를 기다리는 제안 결과가 있어요.": "Suggestions are waiting for review.",
+  "AI의 설정 문서 작성 제안 결과를 확정해야 잠금이 풀려요.":
+    "It unlocks only when the AI suggestion results are applied.",
 } satisfies Messages;

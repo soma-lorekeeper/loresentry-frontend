@@ -20,8 +20,9 @@ import { useWorkspace } from "@/features/workspace/workspace-context";
 import { t } from "@/i18n";
 
 import { CoachMark } from "./coach-mark";
-import type { Placement, Rect } from "./place-card";
+import type { Placement } from "./place-card";
 import { TourRefreshExample } from "./refresh-example";
+import { findTarget, present, useTargetRect } from "./target-rect";
 import {
   announceTourEnd,
   onTourRequest,
@@ -52,7 +53,6 @@ interface TourStep {
   example?: boolean;
 }
 
-const FIND_TIMEOUT_MS = 2500;
 const PRESS_TIMEOUT_MS = 2500;
 
 function buildSteps(
@@ -200,7 +200,7 @@ function buildSteps(
     refreshAvailable && {
       title: t("새 회차를 쓴 다음엔"),
       body: t(
-        "설정 문서 최신화가 바뀐 원고를 읽고 설정 문서에 더할 점을 찾아요. 결과를 확정할 때까지 읽은 문서는 잠겨요.",
+        "AI의 설정 문서 작성 제안이 바뀐 원고를 읽고 설정 문서에 더할 점을 찾아요. 결과를 확정할 때까지 읽은 문서는 잠겨요.",
       ),
       action: t("다음을 누르면 예시 결과를 열어요."),
       // 단추 하나가 아니라 그 자리를 가리킨다. 최신화가 이미 돌거나 검토를 기다리면 단추 모양이 바뀐다.
@@ -239,10 +239,6 @@ function buildSteps(
     },
   ];
   return steps.filter((step): step is TourStep => step !== false);
-}
-
-function present(name: string) {
-  return findTarget(name) !== null;
 }
 
 function eligible(step: TourStep) {
@@ -325,94 +321,6 @@ function useAppears(
       window.cancelAnimationFrame(frame);
     };
   }, [names]);
-}
-
-function findTarget(name: string) {
-  const candidates = document.querySelectorAll<HTMLElement>(
-    `[data-tour="${name}"]`,
-  );
-  return (
-    Array.from(candidates).find(
-      (node) => node.isConnected && !node.closest("[hidden]"),
-    ) ?? null
-  );
-}
-
-function visibleRect(node: HTMLElement): Rect {
-  const box = node.getBoundingClientRect();
-  const top = Math.max(box.top, 8);
-  const bottom = Math.min(box.bottom, window.innerHeight - 8);
-  return {
-    left: box.left,
-    top,
-    width: box.width,
-    height: Math.max(0, bottom - top),
-  };
-}
-
-interface TargetState {
-  name: string | null;
-  rect: Rect | null;
-  missing: boolean;
-}
-
-function useTargetRect(name: string | null) {
-  const [state, setState] = useState<TargetState>({
-    name: null,
-    rect: null,
-    missing: false,
-  });
-
-  useEffect(() => {
-    if (!name) return;
-    const target = name;
-    let node: HTMLElement | null = null;
-    let frame = 0;
-    const started = performance.now();
-    const measure = () => {
-      if (!node) return;
-      if (!node.isConnected || node.closest("[hidden]")) {
-        observer?.disconnect();
-        node = null;
-        frame = window.requestAnimationFrame(look);
-        return;
-      }
-      setState({ name: target, rect: visibleRect(node), missing: false });
-    };
-    const observer =
-      typeof ResizeObserver === "undefined"
-        ? null
-        : new ResizeObserver(measure);
-    function look() {
-      node = findTarget(target);
-      if (node) {
-        node.scrollIntoView?.({ block: "nearest", inline: "nearest" });
-        measure();
-        observer?.observe(node);
-        return;
-      }
-      if (performance.now() - started > FIND_TIMEOUT_MS) {
-        setState({ name: target, rect: null, missing: true });
-        return;
-      }
-      frame = window.requestAnimationFrame(look);
-    }
-    frame = window.requestAnimationFrame(look);
-    window.addEventListener("resize", measure);
-    window.addEventListener("scroll", measure, true);
-    return () => {
-      window.cancelAnimationFrame(frame);
-      observer?.disconnect();
-      window.removeEventListener("resize", measure);
-      window.removeEventListener("scroll", measure, true);
-    };
-  }, [name]);
-
-  const current = state.name === name ? state : null;
-  return {
-    rect: current?.rect ?? null,
-    ready: current !== null && (current.rect !== null || current.missing),
-  };
 }
 
 export function WorkspaceTour() {

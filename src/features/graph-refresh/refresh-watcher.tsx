@@ -16,20 +16,9 @@ import { GraphDiffModal } from "./graph-diff-modal";
 import { refreshLocksChanged, useRefreshRun } from "./queries";
 import { onRefreshReviewRequest, requestRefreshReview } from "./review-request";
 
-/** 결과를 기다리던 최신화가 끝났을 때의 알림. 어느 경우든 잠금이 바뀌었다 */
+/** 결과를 기다리던 제안이 끝났을 때의 알림. READY 는 알리는 대신 검토 창을 바로 연다 */
 function finishedNotice(run: RefreshRun) {
   switch (run.status) {
-    case "READY":
-      return {
-        icon: "git-compare-arrows" as const,
-        title: t("최신화 결과가 도착했어요."),
-        description: t("결과를 확정할 때까지 관련 문서는 잠겨 있어요."),
-        action: {
-          label: t("검토하기"),
-          icon: "arrow-right" as const,
-          onSelect: requestRefreshReview,
-        },
-      };
     case "NO_CHANGE":
       return {
         icon: "circle-check" as const,
@@ -39,7 +28,7 @@ function finishedNotice(run: RefreshRun) {
     case "FAILED":
       return {
         icon: "triangle-alert" as const,
-        title: t("설정 문서 최신화를 마치지 못했어요."),
+        title: t("AI의 설정 문서 작성 제안을 마치지 못했어요."),
         description:
           run.error?.code === "TIMED_OUT"
             ? t(
@@ -60,9 +49,9 @@ function finishedNotice(run: RefreshRun) {
  * <ul>
  *   <li>들어올 때 서버에서 상태를 읽는다. 결과를 기다리는 중(RUNNING)이면 끝날 때까지 다시 읽는다 — 다른
  *       브라우저나 새로 로그인한 곳에서 시작한 최신화도 이어서 본다.
- *   <li>기다리던 최신화가 끝나면 알리고, 잠금이 바뀐 문서를 다시 읽는다. 들어왔을 때 이미 끝나 있던
- *       최신화는 알리지 않는다.
- *   <li>검토 창을 띄운다. 사이드바가 닫혀 있어도 알림·편집기 안내의 "검토하기"로 열 수 있게 여기 둔다.
+ *   <li>기다리던 제안이 끝나면 잠금이 바뀐 문서를 다시 읽는다. 결과(READY)는 검토 창을 바로 열고,
+ *       나머지만 알린다. 들어왔을 때 이미 끝나 있던 제안은 알리지도 열지도 않는다.
+ *   <li>검토 창을 띄운다. 사이드바가 닫혀 있어도 편집기 안내의 "검토하기"로 열 수 있게 여기 둔다.
  * </ul>
  */
 export function RefreshWatcher() {
@@ -88,9 +77,12 @@ export function RefreshWatcher() {
       data.status === "RUNNING"
     )
       return;
-    if (data.status === "READY")
+    if (data.status === "READY") {
       trackRefresh("refresh_result_ready", refreshReadyParameters(data));
-    else if (data.status === "NO_CHANGE")
+      // 끝나기를 기다리던 결과다. 알림을 거치지 않고 검토 창을 바로 연다. 요청을 듣는 쪽이
+      // 새 결과의 id 로 다시 등록된 다음에 닿도록 한 박자 늦춘다.
+      window.setTimeout(requestRefreshReview, 0);
+    } else if (data.status === "NO_CHANGE")
       trackRefresh("refresh_result_no_change");
     else if (data.status === "FAILED")
       trackRefresh("refresh_result_failed", {

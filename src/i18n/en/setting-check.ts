@@ -4,6 +4,8 @@ import { plural } from "./helpers";
 /** 설정 오류 점검: 점검 탭, 사이드바 항목, 원고 도구 막대, 설정 문서의 중요 설정 표시 */
 export default {
   "설정 오류 점검": "Setting check",
+  "이 회차가 앞 회차나 설정 문서와 어긋나는 곳을 AI가 찾아요. 결과는 근거 문장과 함께 보여요.":
+    "AI checks this chapter against earlier chapters and your setting documents, and shows each finding with its evidence.",
   "설정 오류 점검 (준비 중)": "Setting check (coming soon)",
   "확인할 것 {count}개": plural("{count} to review", "{count} to review"),
   "점검 중 · 결과 보기": "Checking · View results",

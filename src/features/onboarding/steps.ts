@@ -47,7 +47,7 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
   },
   {
     id: "refresh",
-    title: t("새 회차를 쓰면\n설정 문서 최신화"),
+    title: t("새 회차를 쓰면\nAI의 설정 문서 작성 제안"),
     body: t(
       "AI가 설정 문서에 바뀔 점을 찾고, 고르는 건 작가예요. 원고는 고치지 않아요.",
     ),

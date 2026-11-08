@@ -246,7 +246,7 @@ export const mockDocuments: DocumentService = {
       if (node.refreshLocked) {
         throw new ServiceError(
           "refresh-locked",
-          t("설정 문서 최신화 결과를 확정해야 잠금이 풀려요."),
+          t("AI의 설정 문서 작성 제안 결과를 확정해야 잠금이 풀려요."),
         );
       }
       node.locked = locked;

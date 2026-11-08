@@ -282,7 +282,7 @@ function tick(projectId: string): StoredRefreshRun | null {
 function requireReady(projectId: string, runId: string): StoredRefreshRun {
   const entry = tick(projectId);
   if (!entry || entry.run.id !== runId || entry.run.status !== "READY") {
-    throw new ServiceError("not-found", t("이미 끝난 최신화예요."));
+    throw new ServiceError("not-found", t("이미 끝난 제안이에요."));
   }
   return entry;
 }
@@ -336,17 +336,17 @@ export const mockRefresh: RefreshService = {
       if (entry?.run.status === "RUNNING") {
         throw new ServiceError(
           "busy",
-          t("이미 설정 문서 최신화를 진행하고 있어요."),
+          t("이미 AI의 설정 문서 작성 제안을 진행하고 있어요."),
         );
       }
       if (entry?.run.status === "READY") {
         throw new ServiceError(
           "busy",
-          t("검토를 기다리는 최신화 결과가 있어요."),
+          t("검토를 기다리는 제안 결과가 있어요."),
         );
       }
       const db = getDb();
-      // 서버는 지난 최신화 뒤 바뀐 문서를 모두 보낸다. 여기서는 최근 원고 세 편으로 대신한다.
+      // 서버는 지난 제안 뒤 바뀐 문서를 모두 보낸다. 여기서는 최근 원고 세 편으로 대신한다.
       const sources = db.files
         .filter(
           (f) =>
@@ -387,7 +387,7 @@ export const mockRefresh: RefreshService = {
     simulate("refresh.review", () => {
       const entry = tick(projectId);
       if (!entry || entry.run.id !== runId) {
-        throw new ServiceError("not-found", t("이미 끝난 최신화예요."));
+        throw new ServiceError("not-found", t("이미 끝난 제안이에요."));
       }
       return { ...entry.run, proposals: entry.proposals };
     }),
@@ -397,7 +397,7 @@ export const mockRefresh: RefreshService = {
       const entry = requireReady(projectId, runId);
       const proposal = entry.proposals.find((p) => p.id === draftId);
       if (!proposal) {
-        throw new ServiceError("not-found", t("이미 끝난 최신화예요."));
+        throw new ServiceError("not-found", t("이미 끝난 제안이에요."));
       }
       if (proposal.draftRevision !== input.draftRevision) {
         throw new RefreshDraftConflict({

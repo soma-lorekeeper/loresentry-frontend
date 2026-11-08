@@ -41,6 +41,19 @@
   letter-spacing: -0.02em;
 }
 
+.confirmAnchor,
+.adoptAll {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--lk-space-2);
+}
+
+/* 비활성 단추는 포인터 사건을 삼켜 겉 span 의 호버 설명이 뜨지 않는다. 지나가게 한다. */
+.confirmAnchor > button:disabled {
+  pointer-events: none;
+}
+
 .title > span {
   margin-left: var(--lk-space-2);
   color: var(--lk-color-text-secondary);

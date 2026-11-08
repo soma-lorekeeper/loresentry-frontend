@@ -1,12 +1,13 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 
 import {
   Button,
   EmptyState,
   Icon,
   IconButton,
+  Tooltip,
 } from "@/design-system/primitives";
 import {
   DOCUMENT_TYPE_META,
@@ -38,7 +39,7 @@ const KIND_MARK: Record<RefreshProposal["kind"], string> = {
 };
 
 /**
- * "변경 사항" 창의 화면. 달라진 문서의 목록과, 고른 문서의 현재 버전·신규 버전 비교.
+ * "변경 사항" 창의 화면. 달라진 문서의 목록과, 고른 문서의 현재 버전·제안 버전 비교.
  *
  * <p><b>화면만 그린다.</b> 무엇을 보일지(제안, 지금까지 고른 상태)와 눌렀을 때 할 일은 모두
  * 바깥에서 받는다. 그래서 두 곳이 같은 화면을 쓴다:
@@ -63,6 +64,7 @@ export function RefreshReview({
   applying = false,
   confirmDisabled = false,
   notice,
+  guide,
   lookup,
   candidatesOf,
   onSelect,
@@ -70,6 +72,7 @@ export function RefreshReview({
   onInteraction,
   onConfirm,
   onClose,
+  onGuide,
 }: {
   titleId?: string;
   proposals: RefreshProposal[];
@@ -79,6 +82,8 @@ export function RefreshReview({
   applying?: boolean;
   confirmDisabled?: boolean;
   notice?: ReactNode;
+  /** 창 위에 띄울 코치마크 가이드. 실제 검토 창만 넘긴다(예시 창은 투어가 설명한다) */
+  guide?: ReactNode;
   lookup: Lookup;
   candidatesOf: (type: DocumentType, exceptId: string) => DocumentNode[];
   onSelect: (fileId: string) => void;
@@ -93,6 +98,8 @@ export function RefreshReview({
   ) => void;
   onConfirm: () => void;
   onClose: () => void;
+  /** ‘가이드’ 단추가 누를 일. 실제 검토 창만 넘긴다 */
+  onGuide?: () => void;
 }) {
   const commit = (
     next: MergeState,
@@ -110,8 +117,10 @@ export function RefreshReview({
   const resolvedCount = proposals.filter((p) =>
     isResolved(state, p.fileId),
   ).length;
+  const unresolvedCount = proposals.length - resolvedCount;
   const allResolved = resolvedCount === proposals.length;
   const remaining = selected ? remainingOf(state, selected.fileId) : 0;
+  const confirmRef = useRef<HTMLSpanElement>(null);
   /** 모든 문서를 한쪽 버전으로 맞춘다 */
   const adoptAll = (side: "left" | "right") =>
     commit(
@@ -129,22 +138,45 @@ export function RefreshReview({
           {t("변경 사항")}{" "}
           <span>{t("문서 {count}개", { count: proposals.length })}</span>
         </h2>
-        <Button
-          size="sm"
-          variant={allResolved ? "primary" : "outline"}
-          data-tour="diff-confirm"
-          disabled={!allResolved || confirmDisabled}
-          busy={applying}
-          onClick={onConfirm}
-        >
-          {t("반영 확정")}
-        </Button>
-        <Button size="sm" disabled={applying} onClick={() => adoptAll("left")}>
-          {t("현재 버전 전체 반영")}
-        </Button>
-        <Button size="sm" disabled={applying} onClick={() => adoptAll("right")}>
-          {t("신규 버전 전체 반영")}
-        </Button>
+        {/* 비활성 단추는 포인터 사건을 내지 않는다. 겉의 span 이 호버를 받아 왜 안 되는지 말한다. */}
+        <span ref={confirmRef} className={styles.confirmAnchor}>
+          <Button
+            size="sm"
+            variant={allResolved ? "primary" : "outline"}
+            data-tour="diff-confirm"
+            disabled={!allResolved || confirmDisabled}
+            busy={applying}
+            onClick={onConfirm}
+          >
+            {t("반영 확정")}
+          </Button>
+        </span>
+        {!allResolved && (
+          <Tooltip
+            anchorRef={confirmRef}
+            multiline
+            label={t(
+              "아직 두 쪽이 다른 문서가 {count}개 있어요. 모든 문서의 두 쪽을 같게 만들면 반영할 수 있어요.",
+              { count: unresolvedCount },
+            )}
+          />
+        )}
+        <span className={styles.adoptAll} data-tour="diff-adopt-all">
+          <Button
+            size="sm"
+            disabled={applying}
+            onClick={() => adoptAll("left")}
+          >
+            {t("현재 버전 전체 반영")}
+          </Button>
+          <Button
+            size="sm"
+            disabled={applying}
+            onClick={() => adoptAll("right")}
+          >
+            {t("제안 버전 전체 반영")}
+          </Button>
+        </span>
         <Button
           size="sm"
           disabled={applying}
@@ -152,6 +184,16 @@ export function RefreshReview({
         >
           {t("변경 사항::되돌리기")}
         </Button>
+        {onGuide && (
+          <Button
+            size="sm"
+            icon="circle-help"
+            disabled={applying}
+            onClick={onGuide}
+          >
+            {t("변경 사항::가이드")}
+          </Button>
+        )}
         <IconButton
           icon="x"
           iconSize={16}
@@ -241,7 +283,11 @@ export function RefreshReview({
                   </span>
                 )}
               </div>
-              <div className={styles.status} role="status">
+              <div
+                className={styles.status}
+                role="status"
+                data-tour="diff-adopt"
+              >
                 <span>
                   {remaining === 0
                     ? t("✓ 두 버전이 같아져서 반영이 끝났어요")
@@ -269,7 +315,7 @@ export function RefreshReview({
                     )
                   }
                 >
-                  {t("신규 버전 반영")}
+                  {t("제안 버전 반영")}
                 </Button>
                 <Button
                   size="sm"
@@ -296,6 +342,7 @@ export function RefreshReview({
           )}
         </div>
       </div>
+      {guide}
     </div>
   );
 }

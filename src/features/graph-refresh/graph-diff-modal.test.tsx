@@ -109,7 +109,7 @@ describe("GraphDiffModal", () => {
       }),
     );
     const description = within(dialog).getByRole("textbox", {
-      name: "신규 버전 설명",
+      name: "제안 버전 설명",
     });
     await actor.clear(description);
     await actor.type(description, "로그인 후에도 보존할 검토 내용");
@@ -173,7 +173,7 @@ describe("GraphDiffModal", () => {
     const dialog = await screen.findByRole("dialog");
     await actor.click(
       await within(dialog).findByRole("button", {
-        name: "신규 버전 전체 반영",
+        name: "제안 버전 전체 반영",
       }),
     );
     await within(dialog).findByRole(
@@ -219,7 +219,7 @@ describe("GraphDiffModal", () => {
     const dialog = await screen.findByRole("dialog");
     await actor.click(
       await within(dialog).findByRole("button", {
-        name: "신규 버전 전체 반영",
+        name: "제안 버전 전체 반영",
       }),
     );
     await actor.click(
@@ -250,7 +250,7 @@ describe("GraphDiffModal", () => {
     const dialog = await screen.findByRole("dialog");
     await actor.click(
       await within(dialog).findByRole("button", {
-        name: "신규 버전 전체 반영",
+        name: "제안 버전 전체 반영",
       }),
     );
     await actor.click(
@@ -290,7 +290,7 @@ describe("GraphDiffModal", () => {
     const dialog = await screen.findByRole("dialog");
     await actor.click(
       await within(dialog).findByRole("button", {
-        name: "신규 버전 전체 반영",
+        name: "제안 버전 전체 반영",
       }),
     );
     const apply = within(dialog).getByRole("button", { name: "반영 확정" });
@@ -323,7 +323,7 @@ describe("GraphDiffModal", () => {
     });
     expect(confirm).toBeDisabled();
     await actor.click(
-      within(dialog).getByRole("button", { name: "신규 버전 전체 반영" }),
+      within(dialog).getByRole("button", { name: "제안 버전 전체 반영" }),
     );
     await waitFor(() => expect(confirm).toBeEnabled());
   });
@@ -337,7 +337,7 @@ describe("GraphDiffModal", () => {
     const dialog = await screen.findByRole("dialog");
     await actor.click(
       await within(dialog).findByRole("button", {
-        name: "신규 버전 전체 반영",
+        name: "제안 버전 전체 반영",
       }),
     );
     await actor.click(
@@ -413,7 +413,7 @@ describe("GraphDiffModal", () => {
     expect(within(dialog).getByRole("status")).toHaveTextContent("1군데");
 
     const right = within(dialog).getByRole("textbox", {
-      name: "신규 버전 설명",
+      name: "제안 버전 설명",
     });
     await actor.clear(right);
     await actor.type(right, "정원사");
@@ -482,7 +482,7 @@ describe("GraphDiffModal", () => {
     const dialog = await screen.findByRole("dialog");
     await actor.click(
       await within(dialog).findByRole("button", {
-        name: "신규 버전 전체 반영",
+        name: "제안 버전 전체 반영",
       }),
     );
     await actor.click(
@@ -503,14 +503,14 @@ describe("GraphDiffModal", () => {
     services.refresh = {
       ...services.refresh,
       confirm: () =>
-        Promise.reject(new ServiceError("not-found", "이미 끝난 최신화예요.")),
+        Promise.reject(new ServiceError("not-found", "이미 끝난 제안이에요.")),
     };
     const { onClose } = renderModal(review.id, services);
 
     const dialog = await screen.findByRole("dialog");
     await actor.click(
       await within(dialog).findByRole("button", {
-        name: "신규 버전 전체 반영",
+        name: "제안 버전 전체 반영",
       }),
     );
     await actor.click(
@@ -519,7 +519,78 @@ describe("GraphDiffModal", () => {
 
     await waitFor(() => expect(onClose).toHaveBeenCalled());
     expect(
-      await screen.findByText("이미 끝난 최신화예요."),
+      await screen.findByText("이미 끝난 제안이에요."),
     ).toBeInTheDocument();
+  });
+
+  it("walks the review guide on first open and remembers it was seen", async () => {
+    const actor = userEvent.setup();
+    const review = await readyReview();
+    window.localStorage.removeItem("loresentry.guide.refresh-review");
+    renderModal(review.id);
+
+    expect(
+      await screen.findByText("AI가 제안한 문서들이에요"),
+    ).toBeInTheDocument();
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    expect(
+      await screen.findByText("왼쪽은 현재, 오른쪽은 제안"),
+    ).toBeInTheDocument();
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    expect(
+      await screen.findByText("두 쪽을 같게 만들어요"),
+    ).toBeInTheDocument();
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    expect(
+      await screen.findByText("한쪽을 통째로 받을 수도 있어요"),
+    ).toBeInTheDocument();
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    expect(await screen.findByText("모든 문서를 한 번에")).toBeInTheDocument();
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    expect(await screen.findByText("다 정하면 반영 확정")).toBeInTheDocument();
+    await actor.click(screen.getByRole("button", { name: "완료" }));
+
+    expect(screen.queryByText("다 정하면 반영 확정")).toBeNull();
+    expect(window.localStorage.getItem("loresentry.guide.refresh-review")).toBe(
+      "done",
+    );
+  });
+
+  it("explains on hover why the disabled apply button can't be pressed yet", async () => {
+    const actor = userEvent.setup();
+    const review = await readyReview();
+    renderModal(review.id);
+
+    const dialog = await screen.findByRole("dialog");
+    const confirm = await within(dialog).findByRole("button", {
+      name: "반영 확정",
+    });
+    expect(confirm).toBeDisabled();
+    await actor.hover(confirm.parentElement!);
+    expect(
+      await screen.findByText(
+        `아직 두 쪽이 다른 문서가 ${review.proposals.length}개 있어요. 모든 문서의 두 쪽을 같게 만들면 반영할 수 있어요.`,
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("replays the guide from the header button after it was seen", async () => {
+    const actor = userEvent.setup();
+    const review = await readyReview();
+    renderModal(review.id);
+
+    const dialog = await screen.findByRole("dialog");
+    // 열리면 목록 맨 위 문서가 골라진 채라 비교가 바로 보인다.
+    expect(await within(dialog).findByText("현재 버전")).toBeInTheDocument();
+    expect(within(dialog).getByText("제안 버전")).toBeInTheDocument();
+    expect(screen.queryByText("AI가 제안한 문서들이에요")).toBeNull();
+    await actor.click(
+      await within(dialog).findByRole("button", { name: "가이드" }),
+    );
+    expect(
+      await screen.findByText("AI가 제안한 문서들이에요"),
+    ).toBeInTheDocument();
+    await actor.click(screen.getByRole("button", { name: "건너뛰기" }));
+    expect(screen.queryByText("AI가 제안한 문서들이에요")).toBeNull();
   });
 });

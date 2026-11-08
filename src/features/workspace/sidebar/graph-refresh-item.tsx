@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import {
   Button,
   DialogCard,
+  InfoHint,
   SidebarButton,
   useToast,
 } from "@/design-system/primitives";
@@ -76,7 +77,7 @@ export function GraphRefreshItem() {
     return (
       <SidebarButton
         icon="clock-3"
-        label={t("설정 문서 최신화 (준비 중)")}
+        label={t("AI의 설정 문서 작성 제안 (준비 중)")}
         disabled
       />
     );
@@ -86,7 +87,7 @@ export function GraphRefreshItem() {
     return (
       <QueryFailure
         compact
-        title={t("최신화 상태를 불러오지 못했어요")}
+        title={t("제안 상태를 불러오지 못했어요")}
         retrying={run.isFetching}
         onRetry={() => void run.refetch()}
       />
@@ -95,7 +96,7 @@ export function GraphRefreshItem() {
     return (
       <SidebarButton
         icon="loader-circle"
-        label={t("최신화 상태를 불러오는 중…")}
+        label={t("제안 상태를 불러오는 중…")}
         disabled
         aria-busy="true"
       />
@@ -107,8 +108,8 @@ export function GraphRefreshItem() {
         icon="loader-circle"
         label={
           minutes > 0
-            ? t("설정 문서 최신화 중… {minutes}분", { minutes })
-            : t("설정 문서 최신화 중…")
+            ? t("AI가 제안 작성 중… {minutes}분", { minutes })
+            : t("AI가 제안 작성 중…")
         }
         data-tour="refresh-running"
         disabled
@@ -118,12 +119,17 @@ export function GraphRefreshItem() {
     );
   }
 
+  const hint = t(
+    "바뀐 원고를 AI가 읽고 설정 문서에 더하거나 고칠 내용을 제안해요. 제안은 검토에서 확정해야 반영돼요.",
+  );
+
   if (status === "READY") {
     return (
       <SidebarButton
         icon="git-compare-arrows"
         label={t("작업공간::변경 사항 반영")}
         data-tour="refresh-review"
+        trailing={<InfoHint text={hint} />}
         onClick={requestRefreshReview}
       />
     );
@@ -140,7 +146,7 @@ export function GraphRefreshItem() {
         });
         toast({
           icon: "triangle-alert",
-          title: t("문서를 저장하지 못해 최신화를 시작하지 않았어요."),
+          title: t("문서를 저장하지 못해 제안을 시작하지 않았어요."),
           description: t("저장하지 못한 문서를 확인하고 다시 시도해 주세요."),
         });
         return;
@@ -167,8 +173,8 @@ export function GraphRefreshItem() {
               }
             : {
                 icon: "info",
-                title: t("최신화할 변경이 없어요."),
-                description: t("지난 최신화 뒤 고친 문서가 없어요."),
+                title: t("제안할 변경이 없어요."),
+                description: t("지난 제안 뒤 고친 문서가 없어요."),
               },
         );
       },
@@ -178,7 +184,7 @@ export function GraphRefreshItem() {
         });
         toast({
           icon: "triangle-alert",
-          title: t("설정 문서 최신화를 시작하지 못했어요."),
+          title: t("AI의 설정 문서 작성 제안을 시작하지 못했어요."),
           description: isServiceError(error)
             ? error.message
             : t("작업공간::잠시 후 다시 시도해 주세요."),
@@ -191,17 +197,18 @@ export function GraphRefreshItem() {
     <>
       <SidebarButton
         icon="refresh-cw"
-        label={t("작업공간::설정 문서 최신화")}
+        label={t("작업공간::AI의 설정 문서 작성 제안")}
         data-tour="refresh-start"
+        trailing={<InfoHint text={hint} />}
         onClick={() => setConfirming(true)}
       />
       {/* 시작하면 읽는 문서가 결과를 확정할 때까지 잠긴다. 쓰던 회차가 갑자기 잠기지 않게 먼저 묻는다. */}
       <DialogCard
         open={confirming}
         onClose={() => setConfirming(false)}
-        title={t("설정 문서 최신화를 시작할까요?")}
+        title={t("AI의 설정 문서 작성 제안을 시작할까요?")}
         description={t(
-          "지난 최신화 뒤 고친 원고와 설정 문서를 AI가 읽어요. 읽는 문서는 결과를 확정할 때까지 편집할 수 없어요.",
+          "지난 제안 뒤 고친 원고와 설정 문서를 AI가 읽어요. 읽는 문서는 결과를 확정할 때까지 편집할 수 없어요.",
         )}
         actions={
           <>
@@ -217,7 +224,7 @@ export function GraphRefreshItem() {
                 void begin();
               }}
             >
-              {t("최신화 시작")}
+              {t("제안 시작")}
             </Button>
           </>
         }
