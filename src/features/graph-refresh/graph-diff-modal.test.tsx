@@ -541,6 +541,12 @@ describe("GraphDiffModal", () => {
       await screen.findByText("두 쪽을 같게 만들어요"),
     ).toBeInTheDocument();
     await actor.click(screen.getByRole("button", { name: "다음" }));
+    expect(
+      await screen.findByText("한쪽을 통째로 받을 수도 있어요"),
+    ).toBeInTheDocument();
+    await actor.click(screen.getByRole("button", { name: "다음" }));
+    expect(await screen.findByText("모든 문서를 한 번에")).toBeInTheDocument();
+    await actor.click(screen.getByRole("button", { name: "다음" }));
     expect(await screen.findByText("다 정하면 반영 확정")).toBeInTheDocument();
     await actor.click(screen.getByRole("button", { name: "완료" }));
 
@@ -548,6 +554,24 @@ describe("GraphDiffModal", () => {
     expect(window.localStorage.getItem("loresentry.guide.refresh-review")).toBe(
       "done",
     );
+  });
+
+  it("explains on hover why the disabled apply button can't be pressed yet", async () => {
+    const actor = userEvent.setup();
+    const review = await readyReview();
+    renderModal(review.id);
+
+    const dialog = await screen.findByRole("dialog");
+    const confirm = await within(dialog).findByRole("button", {
+      name: "반영 확정",
+    });
+    expect(confirm).toBeDisabled();
+    await actor.hover(confirm.parentElement!);
+    expect(
+      await screen.findByText(
+        `아직 두 쪽이 다른 문서가 ${review.proposals.length}개 있어요. 모든 문서의 두 쪽을 같게 만들면 반영할 수 있어요.`,
+      ),
+    ).toBeInTheDocument();
   });
 
   it("replays the guide from the header button after it was seen", async () => {

@@ -57,6 +57,22 @@ const STEPS: readonly GuideStep[] = [
     placement: ["top", "bottom", "left"],
   },
   {
+    title: t("한쪽을 통째로 받을 수도 있어요"),
+    body: t(
+      "‘현재 버전 반영’은 지금 문서를 그대로 두고, ‘제안 버전 반영’은 AI 제안을 통째로 받아요. ‘되돌리기’는 이 문서에서 고른 것을 처음으로 돌려요.",
+    ),
+    target: "diff-adopt",
+    placement: ["bottom", "top"],
+  },
+  {
+    title: t("모든 문서를 한 번에"),
+    body: t(
+      "위의 ‘현재 버전 전체 반영’·‘제안 버전 전체 반영’은 남은 문서 전부를 한쪽 버전으로 맞춰요.",
+    ),
+    target: "diff-adopt-all",
+    placement: ["bottom", "left"],
+  },
+  {
     title: t("다 정하면 반영 확정"),
     body: t(
       "모든 문서가 확정되면 ‘반영 확정’이 켜져요. 반영하면 잠긴 문서가 풀리고, 반영 전 상태는 버전 기록에 남아요.",

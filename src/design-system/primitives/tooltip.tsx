@@ -118,6 +118,24 @@ export function Tooltip({
   );
 }
 
+/**
+ * 설명이 설 층. 떠 있는 대화상자(top layer)는 body 에 둔 것을 모두 덮으므로, 대화상자가 열려
+ * 있으면 그 안에 그린다 — 대화상자 안 단추의 설명이 대화상자에 가려지지 않게.
+ */
+function layerHost(): HTMLElement {
+  const open = Array.from(
+    document.querySelectorAll<HTMLElement>("dialog[open]"),
+  );
+  const modal = open.filter((dialog) => {
+    try {
+      return dialog.matches(":modal");
+    } catch {
+      return true;
+    }
+  });
+  return modal.at(-1) ?? document.body;
+}
+
 function Bubble({ anchorRef, label, shortcut, multiline }: TooltipProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState<{ top: number; left: number }>();
@@ -152,6 +170,6 @@ function Bubble({ anchorRef, label, shortcut, multiline }: TooltipProps) {
       {label}
       {shortcut && <span className={styles.shortcut}>{shortcut}</span>}
     </div>,
-    document.body,
+    layerHost(),
   );
 }

@@ -1,12 +1,13 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 
 import {
   Button,
   EmptyState,
   Icon,
   IconButton,
+  Tooltip,
 } from "@/design-system/primitives";
 import {
   DOCUMENT_TYPE_META,
@@ -116,8 +117,10 @@ export function RefreshReview({
   const resolvedCount = proposals.filter((p) =>
     isResolved(state, p.fileId),
   ).length;
+  const unresolvedCount = proposals.length - resolvedCount;
   const allResolved = resolvedCount === proposals.length;
   const remaining = selected ? remainingOf(state, selected.fileId) : 0;
+  const confirmRef = useRef<HTMLSpanElement>(null);
   /** 모든 문서를 한쪽 버전으로 맞춘다 */
   const adoptAll = (side: "left" | "right") =>
     commit(
@@ -135,22 +138,45 @@ export function RefreshReview({
           {t("변경 사항")}{" "}
           <span>{t("문서 {count}개", { count: proposals.length })}</span>
         </h2>
-        <Button
-          size="sm"
-          variant={allResolved ? "primary" : "outline"}
-          data-tour="diff-confirm"
-          disabled={!allResolved || confirmDisabled}
-          busy={applying}
-          onClick={onConfirm}
-        >
-          {t("반영 확정")}
-        </Button>
-        <Button size="sm" disabled={applying} onClick={() => adoptAll("left")}>
-          {t("현재 버전 전체 반영")}
-        </Button>
-        <Button size="sm" disabled={applying} onClick={() => adoptAll("right")}>
-          {t("제안 버전 전체 반영")}
-        </Button>
+        {/* 비활성 단추는 포인터 사건을 내지 않는다. 겉의 span 이 호버를 받아 왜 안 되는지 말한다. */}
+        <span ref={confirmRef} className={styles.confirmAnchor}>
+          <Button
+            size="sm"
+            variant={allResolved ? "primary" : "outline"}
+            data-tour="diff-confirm"
+            disabled={!allResolved || confirmDisabled}
+            busy={applying}
+            onClick={onConfirm}
+          >
+            {t("반영 확정")}
+          </Button>
+        </span>
+        {!allResolved && (
+          <Tooltip
+            anchorRef={confirmRef}
+            multiline
+            label={t(
+              "아직 두 쪽이 다른 문서가 {count}개 있어요. 모든 문서의 두 쪽을 같게 만들면 반영할 수 있어요.",
+              { count: unresolvedCount },
+            )}
+          />
+        )}
+        <span className={styles.adoptAll} data-tour="diff-adopt-all">
+          <Button
+            size="sm"
+            disabled={applying}
+            onClick={() => adoptAll("left")}
+          >
+            {t("현재 버전 전체 반영")}
+          </Button>
+          <Button
+            size="sm"
+            disabled={applying}
+            onClick={() => adoptAll("right")}
+          >
+            {t("제안 버전 전체 반영")}
+          </Button>
+        </span>
         <Button
           size="sm"
           disabled={applying}
@@ -257,7 +283,11 @@ export function RefreshReview({
                   </span>
                 )}
               </div>
-              <div className={styles.status} role="status">
+              <div
+                className={styles.status}
+                role="status"
+                data-tour="diff-adopt"
+              >
                 <span>
                   {remaining === 0
                     ? t("✓ 두 버전이 같아져서 반영이 끝났어요")

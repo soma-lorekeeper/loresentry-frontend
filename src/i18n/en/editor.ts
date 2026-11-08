@@ -202,6 +202,14 @@ export default {
   "두 쪽을 같게 만들어요": "Make both sides match",
   "가운데 화살표로 한쪽 값을 다른 쪽에 넣어요. 두 쪽이 같아지면 그 문서는 확정되고 목록에 체크가 붙어요.":
     "Use the middle arrows to move a value across. Once both sides match, the document is settled and gets a check in the list.",
+  "한쪽을 통째로 받을 수도 있어요": "Or take one side whole",
+  "‘현재 버전 반영’은 지금 문서를 그대로 두고, ‘제안 버전 반영’은 AI 제안을 통째로 받아요. ‘되돌리기’는 이 문서에서 고른 것을 처음으로 돌려요.":
+    "‘Use current’ keeps the document as it is; ‘Use proposed’ takes the AI's version whole. ‘Reset’ returns this document's choices to the start.",
+  "모든 문서를 한 번에": "All documents at once",
+  "위의 ‘현재 버전 전체 반영’·‘제안 버전 전체 반영’은 남은 문서 전부를 한쪽 버전으로 맞춰요.":
+    "‘Use current for all’ and ‘Use proposed for all’ above settle every remaining document to one side.",
+  "아직 두 쪽이 다른 문서가 {count}개 있어요. 모든 문서의 두 쪽을 같게 만들면 반영할 수 있어요.":
+    "{count} documents still differ. Make both sides match in every document to apply.",
   "다 정하면 반영 확정": "Settle everything, then apply",
   "모든 문서가 확정되면 ‘반영 확정’이 켜져요. 반영하면 잠긴 문서가 풀리고, 반영 전 상태는 버전 기록에 남아요.":
     "Once every document is settled, ‘Apply changes’ lights up. Applying unlocks the documents, and the state before applying stays in version history.",
