@@ -160,19 +160,19 @@ export default {
   "선택 해제": "Clear selection",
 
   "현재 버전": "Current",
-  "신규 버전": "Proposed",
+  "제안 버전": "Proposed",
   "현재 버전 본문": "Body (current)",
-  "신규 버전 본문": "Body (proposed)",
+  "제안 버전 본문": "Body (proposed)",
   "{name} 본문": "Body ({name})",
   "{name}의 {label}": "{label} ({name})",
   "현재 버전 제목": "Title (current)",
-  "신규 버전 제목": "Title (proposed)",
+  "제안 버전 제목": "Title (proposed)",
   "현재 버전 {label}": "{label} (current)",
-  "신규 버전 {label}": "{label} (proposed)",
+  "제안 버전 {label}": "{label} (proposed)",
   "본문 {line}번째 줄": "Body line {line}",
-  "{label}: 현재 버전 값을 신규 버전에 넣기":
+  "{label}: 현재 버전 값을 제안 버전에 넣기":
     "{label}: copy current into proposed",
-  "{label}: 신규 버전 값을 현재 버전에 넣기":
+  "{label}: 제안 버전 값을 현재 버전에 넣기":
     "{label}: copy proposed into current",
   "새 문서": "New document",
   "{label}에서 {title} 빼기": "Remove {title} from {label}",
@@ -180,7 +180,7 @@ export default {
   "문서 전체": "Whole document",
   "현재 버전에는 없는 문서예요.":
     "This document doesn't exist in the current version.",
-  "신규 버전에서 사라진 문서예요.":
+  "제안 버전에서 사라진 문서예요.":
     "This document was removed in the proposed version.",
   "변경 종류::수정": "Modified",
   "변경 종류::추가": "Added",
@@ -189,9 +189,22 @@ export default {
   "문서 {count}개": plural("{count} document", "{count} documents"),
   "반영 확정": "Apply changes",
   "현재 버전 전체 반영": "Use current for all",
-  "신규 버전 전체 반영": "Use proposed for all",
+  "제안 버전 전체 반영": "Use proposed for all",
   "변경 사항::되돌리기": "Reset",
+  "변경 사항::가이드": "Guide",
   "변경 사항 닫기": "Close changes",
+  "AI가 제안한 문서들이에요": "These documents carry AI suggestions",
+  "왼쪽 목록이 AI가 고치거나 만들자고 제안한 문서예요. ‘~’는 고칠 문서, ‘+’는 새로 만들 문서예요.":
+    "The list on the left shows documents the AI proposes to edit or create. ‘~’ marks an edit, ‘+’ marks a new document.",
+  "왼쪽은 현재, 오른쪽은 제안": "Current on the left, proposed on the right",
+  "왼쪽이 지금 문서의 현재 버전, 오른쪽이 AI가 쓴 제안 버전이에요. 양쪽 모두 그 자리에서 직접 고칠 수 있어요.":
+    "The left side is the document's current version; the right side is the AI's proposed version. You can edit both in place.",
+  "두 쪽을 같게 만들어요": "Make both sides match",
+  "가운데 화살표로 한쪽 값을 다른 쪽에 넣어요. 두 쪽이 같아지면 그 문서는 확정되고 목록에 체크가 붙어요.":
+    "Use the middle arrows to move a value across. Once both sides match, the document is settled and gets a check in the list.",
+  "다 정하면 반영 확정": "Settle everything, then apply",
+  "모든 문서가 확정되면 ‘반영 확정’이 켜져요. 반영하면 잠긴 문서가 풀리고, 반영 전 상태는 버전 기록에 남아요.":
+    "Once every document is settled, ‘Apply changes’ lights up. Applying unlocks the documents, and the state before applying stays in version history.",
   "달라진 문서": "Changed documents",
   "변경 {count}": "Changed {count}",
   "확정 {count}": "Resolved {count}",
@@ -210,7 +223,7 @@ export default {
     "{count} differences left",
   ),
   "현재 버전 반영": "Use current",
-  "신규 버전 반영": "Use proposed",
+  "제안 버전 반영": "Use proposed",
   "변경 사항을 반영하지 못했어요.": "Couldn't apply the changes.",
   "새 탭에서 로그인": "Sign in in a new tab",
   "다시 저장": "Save again",
@@ -242,7 +255,7 @@ export default {
   "수동 저장": "Saved manually",
   "복원 전 상태": "State before restore",
   복원됨: "Restored",
-  "최신화 반영": "From refresh",
+  "제안 반영": "From AI suggestions",
   "복원 전": "Before restore",
   "삭제된 파일": "Deleted file",
   "버전을 복원하지 못했어요. 문서가 잠겨 있거나 다른 곳에서 먼저 바뀌었을 수 있어요.":
@@ -264,20 +277,19 @@ export default {
     "Some edits aren't saved yet. Save them before you restore.",
   "버전 저장": "Save version",
   "이 버전으로 복원": "Restore this version",
-  "설정 문서 최신화를 마치지 못했어요.":
-    "Setting document refresh didn't finish.",
+  "AI의 설정 문서 작성 제안을 마치지 못했어요.":
+    "AI setting doc suggestions did not finish.",
 
   // 그래프 최신화 잠금과 검토
-  "설정 문서 최신화로 잠김": "Locked by setting document refresh",
+  "AI의 설정 문서 작성 제안으로 잠김": "Locked by AI setting doc suggestions",
   검토하기: "Review",
-  "최신화 결과가 도착했어요.": "The refresh results are in.",
   "새로 반영할 내용이 없어요.": "Nothing new to apply.",
   "잠근 문서를 다시 편집할 수 있어요.": "Locked documents can be edited again.",
   "한 시간 안에 결과가 오지 않았어요. 잠근 문서는 다시 편집할 수 있어요.":
     "No results came within an hour. Locked documents can be edited again.",
   "잠근 문서는 다시 편집할 수 있어요. 잠시 후 다시 시도해 주세요.":
     "Locked documents can be edited again. Try again later.",
-  "이미 끝난 최신화예요.": "This refresh has already ended.",
+  "이미 끝난 제안이에요.": "These suggestions have already ended.",
   "변경 사항을 불러오지 못했어요": "Couldn't load the changes",
   "다른 곳에서 먼저 고친 내용으로 바꿨어요.":
     "Updated with changes saved elsewhere.",
@@ -303,20 +315,18 @@ export default {
   "그대로 반영할 수 없는 내용이 있어요.":
     "Something can't be applied as it is.",
   "AI가 읽은 뒤 바뀐 문서": "Changed after the AI read it",
-  "설정 문서 최신화가 잠근 문서예요.":
-    "Setting document refresh locked this document.",
+  "AI의 설정 문서 작성 제안이 잠근 문서예요.":
+    "AI setting doc suggestions locked this document.",
   "결과가 오면 검토해 확정할 때 풀려요.":
     "It unlocks when the results arrive and you apply them.",
   "검토에서 ‘반영 확정’을 누르면 풀려요.":
     "It unlocks when you select ‘Apply changes’ in the review.",
-  "설정 문서 최신화 결과를 기다리고 있어요. 확정할 때까지 잠겨 있어요.":
-    "Waiting for setting document refresh results. It stays locked until you apply them.",
+  "AI의 설정 문서 작성 제안 결과를 기다리고 있어요. 확정할 때까지 잠겨 있어요.":
+    "Waiting for AI suggestion results. It stays locked until you apply them.",
   "잠긴 문서를 다시 편집할 수 있어요. 반영한 내용은 버전 기록에 남아요.":
     "Locked documents can be edited again. What you applied is kept in version history.",
-  "결과를 확정할 때까지 관련 문서는 잠겨 있어요.":
-    "Related documents stay locked until you apply the results.",
-  "문서를 저장하지 못해 최신화를 시작하지 않았어요.":
-    "Refresh wasn't started because some documents couldn't be saved.",
+  "문서를 저장하지 못해 제안을 시작하지 않았어요.":
+    "Suggestions weren't started because some documents couldn't be saved.",
   "저장하지 못한 문서를 확인하고 다시 시도해 주세요.":
     "Check the unsaved documents and try again.",
   "서버 내용으로 다시 불러오기": "Reload the server version",

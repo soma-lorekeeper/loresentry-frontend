@@ -5,6 +5,7 @@ import { useDialogUsage } from "@/features/analytics/usage-hooks";
 
 import { useQueryClient } from "@tanstack/react-query";
 import {
+  useCallback,
   useEffect,
   useId,
   useMemo,
@@ -41,6 +42,11 @@ import styles from "./graph-diff-modal.module.css";
 import { initMerge, isResolved, type MergeState } from "./merge";
 import { refreshApplied, useRefreshActions, useRefreshReview } from "./queries";
 import { RefreshReview } from "./refresh-review";
+import {
+  markReviewGuideSeen,
+  ReviewGuide,
+  reviewGuideSeen,
+} from "./review-guide";
 import { useDraftAutosave } from "./use-draft-autosave";
 
 /**
@@ -96,7 +102,7 @@ export function GraphDiffModal({
   // 확정했거나 실패해 검토가 이미 끝났다. 지금 상태를 다시 읽어 맞는 버튼을 보인다.
   const ended = () => {
     closeReview("ended");
-    toast({ icon: "info", title: t("이미 끝난 최신화예요.") });
+    toast({ icon: "info", title: t("이미 끝난 제안이에요.") });
     void queryClient.invalidateQueries({
       queryKey: queryKeys.refresh(projectId),
     });
@@ -201,6 +207,23 @@ function ReviewSession({
   );
   const [state, setState] = useState<MergeState>(start);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [guiding, setGuiding] = useState(false);
+  // 가이드는 비교 화면을 짚으므로 문서 하나를 골라 놓고 시작한다.
+  const beginGuide = useCallback(() => {
+    if (proposals.length === 0) return;
+    setSelectedId((current) => current ?? proposals[0].fileId);
+    setGuiding(true);
+  }, [proposals]);
+  const guidedOnce = useRef(false);
+  useEffect(() => {
+    if (guidedOnce.current || reviewGuideSeen()) return;
+    guidedOnce.current = true;
+    beginGuide();
+  }, [beginGuide]);
+  const endGuide = () => {
+    markReviewGuideSeen();
+    setGuiding(false);
+  };
   const autosave = useDraftAutosave({
     projectId,
     runId: detail.id,
@@ -397,6 +420,7 @@ function ReviewSession({
       confirmDisabled={autosave.expired || uncertain}
       lookup={lookup}
       candidatesOf={candidatesOf}
+      onGuide={beginGuide}
       onSelect={(id) => {
         trackUsage("refresh_review_action", {
           action: "select_draft",
@@ -517,6 +541,7 @@ function ReviewSession({
           )}
         </>
       }
+      guide={guiding && <ReviewGuide onEnd={endGuide} />}
     />
   );
 }

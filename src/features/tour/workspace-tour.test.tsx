@@ -261,7 +261,7 @@ describe("WorkspaceTour", () => {
 
     // 예시 창의 화살표와 확정은 실제처럼 움직이고, 확정하면 투어가 끝난다.
     await actor.click(
-      screen.getByRole("button", { name: "신규 버전 전체 반영" }),
+      screen.getByRole("button", { name: "제안 버전 전체 반영" }),
     );
     await actor.click(screen.getByRole("button", { name: "반영 확정" }));
 

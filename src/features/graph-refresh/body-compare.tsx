@@ -37,7 +37,7 @@ interface Props {
   onPush?: (hunk: Hunk, direction: Direction) => void;
   /** 한쪽 글 전체가 바뀌었다. 주지 않으면 고칠 수 없는 글로 그린다 */
   onEdit?: (side: SideName, text: string) => void;
-  /** 두 쪽 본문을 읽어 줄 이름. 주지 않으면 "현재 버전 본문"·"신규 버전 본문" 이다 */
+  /** 두 쪽 본문을 읽어 줄 이름. 주지 않으면 "현재 버전 본문"·"제안 버전 본문" 이다 */
   labels?: Record<SideName, string>;
   /**
    * 달라진 줄 안에서 바뀐 낱말을 한 번 더 짚는가(기본). 끄면 줄의 띠만 남는다 — 버전 기록은
@@ -198,7 +198,7 @@ export function BodyCompare({
   const present = { left: left !== undefined, right: right !== undefined };
   const names = labels ?? {
     left: t("현재 버전 본문"),
-    right: t("신규 버전 본문"),
+    right: t("제안 버전 본문"),
   };
 
   return (
@@ -404,7 +404,7 @@ function Marks({
         />
       )}
       {/*
-        두 띠를 잇는 리본. 왼쪽 변이 현재 버전 구간의 높이, 오른쪽 변이 신규 버전 구간의 높이다.
+        두 띠를 잇는 리본. 왼쪽 변이 현재 버전 구간의 높이, 오른쪽 변이 제안 버전 구간의 높이다.
         한쪽이 비면 쐐기가 되어 어느 쪽에서 나온 줄인지 보인다. 감싸는 칸은 도형이 행 높이를
         밀어 올리지 않게 하려는 것이다.
       */}
@@ -429,7 +429,7 @@ function Marks({
               <IconButton
                 icon="chevrons-right"
                 iconSize={14}
-                label={t("{label}: 현재 버전 값을 신규 버전에 넣기", { label })}
+                label={t("{label}: 현재 버전 값을 제안 버전에 넣기", { label })}
                 onClick={() => onPush(hunk, ">>")}
               />
             )}
@@ -437,7 +437,7 @@ function Marks({
               <IconButton
                 icon="chevrons-left"
                 iconSize={14}
-                label={t("{label}: 신규 버전 값을 현재 버전에 넣기", { label })}
+                label={t("{label}: 제안 버전 값을 현재 버전에 넣기", { label })}
                 onClick={() => onPush(hunk, "<<")}
               />
             )}

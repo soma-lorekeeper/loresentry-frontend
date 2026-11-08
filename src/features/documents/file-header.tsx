@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 
 import {
   Icon,
+  InfoHint,
   Menu,
   Tooltip,
   type IconName,
@@ -136,15 +137,18 @@ export function FileHeader({
               className={settingCheck.running ? styles.spin : undefined}
             />
             <span className={styles.checkLabel}>{t("설정 오류 점검")}</span>
+            {!settingCheck.running && (
+              <InfoHint
+                className={styles.checkHint}
+                text={t(
+                  "이 회차가 앞 회차나 설정 문서와 어긋나는 곳을 AI가 찾아요. 결과는 근거 문장과 함께 보여요.",
+                )}
+              />
+            )}
           </button>
-          <Tooltip
-            anchorRef={checkRef}
-            label={
-              settingCheck.running
-                ? t("점검 중 · 결과 보기")
-                : t("설정 오류 점검")
-            }
-          />
+          {settingCheck.running && (
+            <Tooltip anchorRef={checkRef} label={t("점검 중 · 결과 보기")} />
+          )}
         </>
       )}
       <Action
@@ -179,7 +183,7 @@ export function FileHeader({
         icon={locked ? "lock" : "lock-open"}
         label={
           refreshLocked
-            ? t("설정 문서 최신화로 잠김")
+            ? t("AI의 설정 문서 작성 제안으로 잠김")
             : locked
               ? t("잠금 해제")
               : t("잠금")

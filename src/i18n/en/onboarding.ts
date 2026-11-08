@@ -16,7 +16,8 @@ export default {
   "누가 몇 화에\n나오는지": "Who appears\nin which chapter",
   "회차를 열로, 인물과 장소를 행으로 놓고 등장한 회차를 막대로 그려요.":
     "Chapters run across as columns, characters and places down as rows, and bars mark where each one appears.",
-  "새 회차를 쓰면\n설정 문서 최신화": "New chapter?\nRefresh setting docs",
+  "새 회차를 쓰면\nAI의 설정 문서 작성 제안":
+    "New chapter?\nAI doc suggestions",
   "AI가 설정 문서에 바뀔 점을 찾고, 고르는 건 작가예요. 원고는 고치지 않아요.":
     "AI finds what should change in your setting documents, and you decide what to keep. Your manuscript stays untouched.",
   "작품을 아는\nAI 챗": "AI chat that\nknows your story",
@@ -167,8 +168,8 @@ export default {
   "무대::관계도": "Relationship map",
   "무대::타임라인": "Timeline",
   "무대::메모": "Notes",
-  "무대::설정 문서 최신화": "Refresh setting docs",
-  "무대::설정 문서 최신화 중…": "Refreshing docs…",
+  "무대::AI의 설정 문서 작성 제안": "AI setting doc suggestions",
+  "무대::AI가 제안 작성 중…": "Writing suggestions…",
   "무대::변경 사항 반영": "Apply changes",
   "무대::즐겨찾기": "Favorites",
   "무대::파일": "Files",
@@ -194,8 +195,8 @@ export default {
   "무대::문서": "Document",
   "무대::작품": "Project",
 
-  "설정 문서 최신화가 바뀐 원고를 읽고 설정 문서에 더할 점을 찾아요. 결과를 확정할 때까지 읽은 문서는 잠겨요.":
-    "Setting document refresh reads the chapters you changed and finds what to add to your setting documents. The documents it read stay locked until you confirm the results.",
+  "AI의 설정 문서 작성 제안이 바뀐 원고를 읽고 설정 문서에 더할 점을 찾아요. 결과를 확정할 때까지 읽은 문서는 잠겨요.":
+    "AI setting doc suggestions read the chapters you changed and find what to add to your setting documents. The documents it read stay locked until you confirm the results.",
   "다음을 누르면 예시 결과를 열어요.": "Click Next to open an example result.",
   "예시 결과예요. ‘~’는 고칠 문서, ‘+’는 새로 만들 문서예요.":
     "This is an example result. ‘~’ marks documents to edit and ‘+’ new documents to create.",

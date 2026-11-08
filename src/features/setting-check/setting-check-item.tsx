@@ -1,6 +1,6 @@
 "use client";
 
-import { SidebarButton } from "@/design-system/primitives";
+import { InfoHint, SidebarButton } from "@/design-system/primitives";
 import { isUnavailable } from "@/features/common/preparing-state";
 import { activeTabOf } from "@/features/workspace/model/layout";
 import { useWorkspace } from "@/features/workspace/workspace-context";
@@ -47,7 +47,13 @@ export function SettingCheckItem() {
           >
             {count}
           </span>
-        ) : undefined
+        ) : (
+          <InfoHint
+            text={t(
+              "이 회차가 앞 회차나 설정 문서와 어긋나는 곳을 AI가 찾아요. 결과는 근거 문장과 함께 보여요.",
+            )}
+          />
+        )
       }
     />
   );

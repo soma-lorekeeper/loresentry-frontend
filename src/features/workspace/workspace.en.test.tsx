@@ -137,7 +137,7 @@ describe("workspace (English build)", () => {
     }
     expect(
       await within(nav).findByRole("button", {
-        name: "Refresh setting docs",
+        name: "AI setting doc suggestions",
       }),
     ).toBeInTheDocument();
     expect(

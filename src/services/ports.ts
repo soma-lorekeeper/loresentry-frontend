@@ -205,7 +205,7 @@ export interface GraphService {
 
 /** 최신화 요청의 결과 */
 export interface RefreshStarted {
-  /** 결과를 기다리는 새 run. 지난 최신화 뒤 바뀐 문서가 없어 시작하지 않았으면 null 이다 */
+  /** 결과를 기다리는 새 run. 지난 제안 뒤 바뀐 문서가 없어 시작하지 않았으면 null 이다 */
   run: RefreshRun | null;
   /** 이번 최신화가 잠근 문서. 결과를 검토해 확정할 때까지(또는 실패할 때까지) 편집할 수 없다 */
   lockedFileIds: string[];

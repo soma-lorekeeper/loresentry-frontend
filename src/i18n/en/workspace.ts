@@ -121,11 +121,13 @@ export default {
   ),
   "섹션 삭제": "Delete section",
 
-  "설정 문서 최신화 (준비 중)": "Refresh setting docs (soon)",
+  "AI의 설정 문서 작성 제안 (준비 중)": "AI setting doc suggestions (soon)",
   "작업공간::변경 사항 반영": "Apply changes",
-  "작업공간::설정 문서 최신화": "Refresh setting docs",
-  "설정 문서 최신화를 시작하지 못했어요.":
-    "Couldn't start the setting document refresh.",
+  "작업공간::AI의 설정 문서 작성 제안": "AI setting doc suggestions",
+  "바뀐 원고를 AI가 읽고 설정 문서에 더하거나 고칠 내용을 제안해요. 제안은 검토에서 확정해야 반영돼요.":
+    "AI reads your changed chapters and suggests what to add or fix in your setting documents. Nothing changes until you review and apply.",
+  "AI의 설정 문서 작성 제안을 시작하지 못했어요.":
+    "Couldn't start AI setting doc suggestions.",
 
   "작업공간::도움말": "Help",
   "도움말 메뉴": "Help menu",
@@ -320,15 +322,15 @@ export default {
     "Locked {count} document.",
     "Locked {count} documents.",
   ),
-  "최신화할 변경이 없어요.": "Nothing to refresh.",
-  "지난 최신화 뒤 고친 문서가 없어요.":
-    "No documents changed since the last refresh.",
-  "설정 문서 최신화 중…": "Refreshing docs…",
-  "설정 문서 최신화 중… {minutes}분": "Refreshing docs… {minutes} min",
-  "설정 문서 최신화를 시작할까요?": "Start a setting document refresh?",
-  "지난 최신화 뒤 고친 원고와 설정 문서를 AI가 읽어요. 읽는 문서는 결과를 확정할 때까지 편집할 수 없어요.":
-    "AI reads the chapters and setting documents you changed since the last refresh. The documents it reads can't be edited until you apply the results.",
-  "최신화 시작": "Start refresh",
+  "제안할 변경이 없어요.": "Nothing to suggest.",
+  "지난 제안 뒤 고친 문서가 없어요.":
+    "No documents changed since the last suggestions.",
+  "AI가 제안 작성 중…": "Writing suggestions…",
+  "AI가 제안 작성 중… {minutes}분": "Writing suggestions… {minutes} min",
+  "AI의 설정 문서 작성 제안을 시작할까요?": "Start AI setting doc suggestions?",
+  "지난 제안 뒤 고친 원고와 설정 문서를 AI가 읽어요. 읽는 문서는 결과를 확정할 때까지 편집할 수 없어요.":
+    "AI reads the chapters and setting documents you changed since the last suggestions. The documents it reads can't be edited until you apply the results.",
+  "제안 시작": "Start suggestions",
   "결과를 확정할 때까지 편집할 수 없어요.":
     "They can't be edited until you apply the results.",
 } satisfies Messages;

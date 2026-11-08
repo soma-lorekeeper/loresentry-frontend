@@ -425,7 +425,7 @@ export function editBody(
   }));
 }
 
-/** 문서 하나를 한쪽 값으로 통째로 맞춘다. 문서 막대의 "현재/신규 버전 반영" */
+/** 문서 하나를 한쪽 값으로 통째로 맞춘다. 문서 막대의 "현재/제안 버전 반영" */
 export function adoptDocument(
   state: MergeState,
   docId: string,

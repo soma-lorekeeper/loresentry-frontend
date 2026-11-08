@@ -38,7 +38,7 @@ const KIND_MARK: Record<RefreshProposal["kind"], string> = {
 };
 
 /**
- * "변경 사항" 창의 화면. 달라진 문서의 목록과, 고른 문서의 현재 버전·신규 버전 비교.
+ * "변경 사항" 창의 화면. 달라진 문서의 목록과, 고른 문서의 현재 버전·제안 버전 비교.
  *
  * <p><b>화면만 그린다.</b> 무엇을 보일지(제안, 지금까지 고른 상태)와 눌렀을 때 할 일은 모두
  * 바깥에서 받는다. 그래서 두 곳이 같은 화면을 쓴다:
@@ -63,6 +63,7 @@ export function RefreshReview({
   applying = false,
   confirmDisabled = false,
   notice,
+  guide,
   lookup,
   candidatesOf,
   onSelect,
@@ -70,6 +71,7 @@ export function RefreshReview({
   onInteraction,
   onConfirm,
   onClose,
+  onGuide,
 }: {
   titleId?: string;
   proposals: RefreshProposal[];
@@ -79,6 +81,8 @@ export function RefreshReview({
   applying?: boolean;
   confirmDisabled?: boolean;
   notice?: ReactNode;
+  /** 창 위에 띄울 코치마크 가이드. 실제 검토 창만 넘긴다(예시 창은 투어가 설명한다) */
+  guide?: ReactNode;
   lookup: Lookup;
   candidatesOf: (type: DocumentType, exceptId: string) => DocumentNode[];
   onSelect: (fileId: string) => void;
@@ -93,6 +97,8 @@ export function RefreshReview({
   ) => void;
   onConfirm: () => void;
   onClose: () => void;
+  /** ‘가이드’ 단추가 누를 일. 실제 검토 창만 넘긴다 */
+  onGuide?: () => void;
 }) {
   const commit = (
     next: MergeState,
@@ -143,7 +149,7 @@ export function RefreshReview({
           {t("현재 버전 전체 반영")}
         </Button>
         <Button size="sm" disabled={applying} onClick={() => adoptAll("right")}>
-          {t("신규 버전 전체 반영")}
+          {t("제안 버전 전체 반영")}
         </Button>
         <Button
           size="sm"
@@ -152,6 +158,16 @@ export function RefreshReview({
         >
           {t("변경 사항::되돌리기")}
         </Button>
+        {onGuide && (
+          <Button
+            size="sm"
+            icon="circle-help"
+            disabled={applying}
+            onClick={onGuide}
+          >
+            {t("변경 사항::가이드")}
+          </Button>
+        )}
         <IconButton
           icon="x"
           iconSize={16}
@@ -269,7 +285,7 @@ export function RefreshReview({
                     )
                   }
                 >
-                  {t("신규 버전 반영")}
+                  {t("제안 버전 반영")}
                 </Button>
                 <Button
                   size="sm"
@@ -296,6 +312,7 @@ export function RefreshReview({
           )}
         </div>
       </div>
+      {guide}
     </div>
   );
 }

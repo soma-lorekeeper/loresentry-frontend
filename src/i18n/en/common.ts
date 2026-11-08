@@ -69,8 +69,8 @@ export default {
   "즐겨찾기를 불러오는 중…": "Loading favorites…",
   "파일 목록을 다시 불러오면 즐겨찾기도 확인할 수 있어요.":
     "Reload the file list to see your favorites.",
-  "최신화 상태를 불러오지 못했어요": "Couldn't load the refresh status",
-  "최신화 상태를 불러오는 중…": "Loading refresh status…",
+  "제안 상태를 불러오지 못했어요": "Couldn't load the suggestion status",
+  "제안 상태를 불러오는 중…": "Loading suggestion status…",
   "대화 목록을 불러오지 못했어요": "Couldn't load conversations",
   "대화 검색을 마치지 못했어요": "Couldn't search conversations",
   "대화 내용을 불러오지 못했어요": "Couldn't load this conversation",

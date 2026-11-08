@@ -72,13 +72,13 @@ function Arrows({
       <IconButton
         icon="chevrons-right"
         iconSize={14}
-        label={t("{label}: 현재 버전 값을 신규 버전에 넣기", { label })}
+        label={t("{label}: 현재 버전 값을 제안 버전에 넣기", { label })}
         onClick={() => onPush(">>")}
       />
       <IconButton
         icon="chevrons-left"
         iconSize={14}
-        label={t("{label}: 신규 버전 값을 현재 버전에 넣기", { label })}
+        label={t("{label}: 제안 버전 값을 현재 버전에 넣기", { label })}
         onClick={() => onPush("<<")}
       />
     </span>
@@ -414,7 +414,7 @@ export function DocumentCompare({
 
   return (
     <div className={styles.compare} data-tour="diff-compare">
-      <div className={styles.heads}>
+      <div className={styles.heads} data-tour="diff-columns">
         <span>{t("현재 버전")}</span>
         <span className={styles.headGutter}>
           {!both && (docs.left || docs.right) && (
@@ -429,7 +429,7 @@ export function DocumentCompare({
             />
           )}
         </span>
-        <span>{t("신규 버전")}</span>
+        <span>{t("제안 버전")}</span>
       </div>
 
       <div className={styles.sheets}>
@@ -451,7 +451,7 @@ export function DocumentCompare({
                 >
                   {side === "left"
                     ? t("현재 버전에는 없는 문서예요.")
-                    : t("신규 버전에서 사라진 문서예요.")}
+                    : t("제안 버전에서 사라진 문서예요.")}
                 </p>
               ))}
             </>
@@ -474,7 +474,7 @@ export function DocumentCompare({
                   value={doc.title}
                   segments={titleMarks ? titleMarks[side] : null}
                   label={
-                    side === "left" ? t("현재 버전 제목") : t("신규 버전 제목")
+                    side === "left" ? t("현재 버전 제목") : t("제안 버전 제목")
                   }
                   onChange={(value) =>
                     commit(
@@ -518,7 +518,7 @@ export function DocumentCompare({
                     label={
                       side === "left"
                         ? t("현재 버전 {label}", { label: line.label })
-                        : t("신규 버전 {label}", { label: line.label })
+                        : t("제안 버전 {label}", { label: line.label })
                     }
                     onChange={(value) =>
                       write(side, {
@@ -556,7 +556,7 @@ export function DocumentCompare({
                   label={
                     side === "left"
                       ? t("현재 버전 {label}", { label: line.label })
-                      : t("신규 버전 {label}", { label: line.label })
+                      : t("제안 버전 {label}", { label: line.label })
                   }
                   lookup={lookup}
                   candidates={candidatesOf(sample.targetType, id)}

@@ -103,3 +103,8 @@
     animation-duration: 2400ms;
   }
 }
+
+/* 좁은 도구 줄에서는 단추가 아이콘 하나로 줄어든다. 힌트 아이콘도 함께 숨는다. */
+[data-tight] .checkHint {
+  display: none;
+}
