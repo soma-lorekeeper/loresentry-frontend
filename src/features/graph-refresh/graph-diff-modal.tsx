@@ -206,9 +206,11 @@ function ReviewSession({
     [proposals],
   );
   const [state, setState] = useState<MergeState>(start);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  // 창이 열리면 목록 맨 위 문서가 골라진 채로 시작한다. 빈 안내 대신 비교를 바로 본다.
+  const [selectedId, setSelectedId] = useState<string | null>(
+    proposals[0]?.fileId ?? null,
+  );
   const [guiding, setGuiding] = useState(false);
-  // 가이드는 비교 화면을 짚으므로 문서 하나를 골라 놓고 시작한다.
   const beginGuide = useCallback(() => {
     if (proposals.length === 0) return;
     setSelectedId((current) => current ?? proposals[0].fileId);

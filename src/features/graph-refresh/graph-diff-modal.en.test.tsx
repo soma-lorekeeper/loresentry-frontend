@@ -58,17 +58,17 @@ describe("GraphDiffModal (English build)", () => {
         name: `Changes ${count} documents`,
       }),
     ).toBeInTheDocument();
-    expect(
-      within(dialog).getByText(`${count} documents changed`),
-    ).toBeInTheDocument();
     expect(within(dialog).getByText(`Changed ${count}`)).toBeInTheDocument();
     for (const name of [
       "Apply changes",
       "Use current for all",
       "Use proposed for all",
-      "Reset",
     ])
       expect(within(dialog).getByRole("button", { name })).toBeInTheDocument();
+    // 문서가 미리 골라져 있어 머리와 문서 줄의 "Reset" 이 함께 있다.
+    expect(
+      within(dialog).getAllByRole("button", { name: "Reset" }).length,
+    ).toBeGreaterThan(0);
 
     const modified = run.proposals.find((p) => p.kind === "modified")!;
     const list = within(dialog).getByRole("navigation", {

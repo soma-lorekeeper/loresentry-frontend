@@ -556,6 +556,9 @@ describe("GraphDiffModal", () => {
     renderModal(review.id);
 
     const dialog = await screen.findByRole("dialog");
+    // 열리면 목록 맨 위 문서가 골라진 채라 비교가 바로 보인다.
+    expect(await within(dialog).findByText("현재 버전")).toBeInTheDocument();
+    expect(within(dialog).getByText("제안 버전")).toBeInTheDocument();
     expect(screen.queryByText("AI가 제안한 문서들이에요")).toBeNull();
     await actor.click(
       await within(dialog).findByRole("button", { name: "가이드" }),
