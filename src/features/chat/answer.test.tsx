@@ -95,3 +95,53 @@ describe("answerPlainText", () => {
     );
   });
 });
+
+describe("shortcuts in an answer", () => {
+  it("shows the markers as buttons and keeps them out of the text", () => {
+    const picked: string[] = [];
+    render(
+      <Answer
+        content={
+          "가져오기를 누르세요.\n[[action:import]][[action:guide:writing#import]]"
+        }
+        citations={[]}
+        onOpen={() => {}}
+        onAction={(shortcut) => picked.push(shortcut.id)}
+      />,
+    );
+    expect(screen.getByText("가져오기를 누르세요.")).toBeTruthy();
+    const group = screen.getByRole("group", { name: "바로 가기" });
+    const buttons = group.querySelectorAll("button");
+    expect([...buttons].map((b) => b.textContent)).toEqual([
+      "가져오기 열기",
+      "가이드 · 쓰던 원고 가져오기",
+    ]);
+    buttons[1].click();
+    expect(picked).toEqual(["guide:writing#import"]);
+    expect(screen.queryByText(/action:/)).toBeNull();
+  });
+
+  it("hides the buttons without a handler and strips markers from plain text", () => {
+    render(
+      <Answer
+        content={"답이에요.\n[[action:tour]]"}
+        citations={[]}
+        onOpen={() => {}}
+      />,
+    );
+    expect(screen.queryByRole("group")).toBeNull();
+    expect(answerPlainText("답이에요.\n[[action:tour]]", [])).toBe("답이에요.");
+  });
+
+  it("does not flash a half-streamed marker", () => {
+    render(
+      <Answer
+        content={"답이에요. [[action:gui"}
+        citations={[]}
+        onOpen={() => {}}
+        streaming
+      />,
+    );
+    expect(screen.queryByText(/action/)).toBeNull();
+  });
+});

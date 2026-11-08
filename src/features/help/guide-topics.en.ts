@@ -27,7 +27,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "layout",
         title: "Find your way around",
-        body: "The sidebar on the left holds, from top to bottom:\n\n- The account menu and project switcher: jump to another project or back to your project list.\n- Search · Relationship map · Timeline · Notes: views across the whole project.\n- Refresh setting docs: finds new details and relationships in your chapters and proposes them.\n- Favorites: the documents you open most.\n- Files: chapters and setting documents, grouped in category folders.\n- Import · Trash · Settings · Help\n\nSelect Tour the workspace in Help to see the guided tour of the screen again.",
+        body: "The sidebar on the left holds, from top to bottom:\n\n- The account menu and project switcher: jump to another project or back to your project list.\n- Search · Relationship map · Timeline · Notes: views across the whole project.\n- Refresh setting docs: finds new details and relationships in your chapters and proposes them.\n- Setting check: the AI finds where a chapter contradicts your setting documents or earlier chapters.\n- Favorites: the documents you open most.\n- Files: chapters and setting documents, grouped in category folders.\n- Import · Trash · Settings · Help\n\nSelect Tour the workspace in Help to see the guided tour of the screen again.",
       },
       {
         id: "write",
@@ -99,7 +99,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       {
         id: "create",
         title: "Create a document",
-        body: "Create one from any of these:\n\n- The more menu (⋯) at the top of Files, then a category.\n- A category folder's more menu, then its add item, such as Add character.\n- A category under Create new on a new tab.\n\nIn the sidebar a name field appears. Type a name and press Enter to create and open the document. Press Esc or leave the name empty to cancel.",
+        body: "Create one from any of these:\n\n- The more menu (⋯) at the top of Files, then a category.\n- A category folder's more menu, then its add item, such as Add character.\n- A category under Create new on a new tab.\n\nIn the sidebar a name field appears. Type a name and press Enter to create and open the document. Press Esc or leave the name empty to cancel. If a document with that name already exists in the same folder, the notice ‘Something with this name already exists here.’ appears and nothing is created, so pick another name. Renaming works the same way.",
       },
       {
         id: "organize",
@@ -263,7 +263,7 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
         body: "Your choices are saved as you go. Close the review or open it in another browser or device, and select Apply changes in the sidebar to pick up where you left off. A new refresh can't start until you confirm the review.",
       },
     ],
-    related: ["explore", "writing"],
+    related: ["explore", "writing", "setting-check"],
   },
   {
     id: "memo",
@@ -354,6 +354,48 @@ export const GUIDE_TOPICS_EN: GuideTopic[] = [
       },
     ],
     related: ["writing", "memo"],
+  },
+  {
+    id: "setting-check",
+    title: "AI setting check",
+    summary:
+      "Find where a chapter contradicts your settings or earlier chapters",
+    lead: "Setting check takes one chapter and has the AI look for sentences that seem to contradict your setting documents or the facts of earlier chapters. The result is a list of mismatches. You judge each one as ‘Intended’ or ‘Not a conflict’, and the next check reads those verdicts. The AI never edits your manuscript.",
+    updatedAt: "2026-11-08",
+    readMinutes: 4,
+    facts: [
+      { label: "Start from", value: "‘Setting check’ in the sidebar" },
+      { label: "Checks", value: "one chapter" },
+      { label: "Takes", value: "usually 1–3 minutes" },
+    ],
+    sections: [
+      {
+        id: "run",
+        title: "Starting a check",
+        body: "Press ‘Setting check’ in the sidebar to open the check screen. Pick the chapter at the top, press ‘Start check’, then confirm in the dialog. With no chapters in the project the screen says there is nothing to check and the button stays off.\n\nA check usually takes 1–3 minutes and you can keep writing elsewhere. While it runs you see the stages ‘Reading earlier chapters and settings’ and ‘Looking for mismatches’. A new check on the same chapter cannot start until the running one finishes.",
+      },
+      {
+        id: "read",
+        title: "What it reads",
+        body: "It reads the chosen chapter, the chapters before it and the setting documents. Paragraphs you marked as ‘core setting’ in a setting document count as facts that must hold and are compared first. When an earlier chapter and a setting document disagree, that is reported too.\n\nIf you edit the chapter after a check, the result shows ‘The chapter changed after this check’ and ‘Check again’ gives you a fresh result.",
+      },
+      {
+        id: "mark",
+        title: "Marking core settings",
+        body: "Select a paragraph in a setting document’s body and press ‘Mark as core setting’ in the small bar that appears. Marked paragraphs are counted in the ‘Core settings’ row of the property table, and ‘Unmark’ in the same bar removes the mark. Checks work without any marks, but marking the facts that matter makes mismatches more precise.",
+      },
+      {
+        id: "findings",
+        title: "Reading and judging mismatches",
+        body: "The result pairs each suspicious sentence of the chapter with the sentence of the setting document or earlier chapter it clashes with. ‘View in {title}’ jumps to that sentence. Items the AI is unsure about carry ‘Low confidence’.\n\nEach item takes one of three verdicts.\n\n- To check: not reviewed yet. Fix the chapter or change the setting.\n- Intended: you wrote it that way on purpose. Write the reason and the next check reads it instead of raising the same place again.\n- Not a conflict: the AI misread it. The reason you write is used by the next check.\n\nVerdicts save immediately and ‘Undo’ returns an item to ‘To check’. When nothing clashes, the result says every fact in the setting documents was kept.",
+      },
+      {
+        id: "history",
+        title: "Past checks and verdicts",
+        body: "‘Past checks’ at the bottom of the screen lists each chapter’s result: the number of mismatches, none, or a failed check. ‘Verdict log’ shows every ‘Intended’ and ‘Not a conflict’ verdict in one place, where you can undo them. The sidebar item shows how many mismatches are still ‘To check’.",
+      },
+    ],
+    related: ["refresh", "files", "writing"],
   },
   {
     id: "trash",

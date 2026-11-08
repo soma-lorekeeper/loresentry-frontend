@@ -59,6 +59,7 @@ interface ApiMessage {
 
 type ApiActivity =
   | { kind: "map"; documents: number }
+  | { kind: "guide" }
   | { kind: "think"; step: number; must_answer: boolean }
   | {
       kind: "read";

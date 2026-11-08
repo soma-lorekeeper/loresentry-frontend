@@ -23,6 +23,7 @@ import { t } from "@/i18n";
 
 import { Answer, answerPlainText, highlight } from "./answer";
 import { QuoteCard } from "./composer";
+import type { ChatShortcut } from "./shortcuts";
 import type { ChatInterruption, ChatStream } from "./use-chat-streams";
 import { useElapsed } from "./use-chat-streams";
 import { Waiting } from "./waiting";
@@ -291,6 +292,7 @@ export function Conversation({
   interruption,
   term,
   onOpenCitation,
+  onAction,
   onRetry,
   onEditSend,
   empty,
@@ -302,6 +304,7 @@ export function Conversation({
   interruption: ChatInterruption | null;
   term: string;
   onOpenCitation: (citation: ChatCitation) => void;
+  onAction?: (shortcut: ChatShortcut) => void;
   onRetry: () => void;
   onEditSend: (message: ChatMessage, content: string) => void;
   empty: ReactNode;
@@ -412,6 +415,7 @@ export function Conversation({
                   content={message.content}
                   citations={message.citations}
                   onOpen={onOpenCitation}
+                  onAction={onAction}
                   term={term}
                 />
                 <CopyAnswer message={message} />
@@ -430,6 +434,7 @@ export function Conversation({
               content={stream.content}
               citations={stream.citations}
               onOpen={onOpenCitation}
+              onAction={onAction}
               streaming
               freshFrom={stream.freshFrom}
               tick={stream.tick}

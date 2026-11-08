@@ -6,7 +6,7 @@ import type { UsageParameters } from "@/features/analytics/usage-schema";
 import { useUsageViewQuery } from "@/features/analytics/usage-hooks";
 
 import { useQuery } from "@tanstack/react-query";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Button, EmptyState } from "@/design-system/primitives";
 import {
@@ -18,10 +18,19 @@ import { queryKeys } from "@/services/query-keys";
 import { useServices } from "@/services/services-context";
 
 import { GuideArticle, GuideTopics } from "./guide-parts";
+import { onHelpRequest, sectionAnchor, takeHelpRequest } from "./help-request";
 import parts from "./guide-parts.module.css";
 import styles from "./workspace-help-view.module.css";
 
-type HelpPage = { kind: "topics" } | { kind: "topic"; id: string };
+type HelpPage =
+  { kind: "topics" } | { kind: "topic"; id: string; section?: string | null };
+
+function requestedPage(): HelpPage {
+  const request = takeHelpRequest();
+  return request
+    ? { kind: "topic", id: request.topic, section: request.section }
+    : { kind: "topics" };
+}
 
 function useGuides() {
   const services = useServices();
@@ -39,8 +48,17 @@ export function WorkspaceHelpView() {
     guides.data?.length === 0,
     "help",
   );
-  const [page, setPage] = useState<HelpPage>({ kind: "topics" });
+  const [page, setPage] = useState<HelpPage>(requestedPage);
   const viewRef = useRef<HTMLDivElement>(null);
+
+  const topicShown = page.kind === "topic" && guides.isSuccess ? page.id : null;
+  const sectionShown = page.kind === "topic" ? (page.section ?? null) : null;
+  useEffect(() => {
+    if (!topicShown || !sectionShown) return;
+    document
+      .getElementById(sectionAnchor(topicShown, sectionShown))
+      ?.scrollIntoView({ block: "start" });
+  }, [topicShown, sectionShown]);
 
   const go = (next: HelpPage) => {
     if (next.kind === "topic")
@@ -52,6 +70,12 @@ export function WorkspaceHelpView() {
     setPage(next);
     viewRef.current?.scrollIntoView({ block: "start" });
   };
+
+  useEffect(() =>
+    onHelpRequest((request) =>
+      go({ kind: "topic", id: request.topic, section: request.section }),
+    ),
+  );
 
   const topic =
     page.kind === "topic"
