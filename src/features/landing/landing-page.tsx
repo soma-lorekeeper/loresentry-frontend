@@ -494,7 +494,7 @@ export function LandingPage() {
               {t("밤에 쓰는 날엔 어두운 테마로 바꿔요.")}
             </Point>
             <Point icon="book-open" title={t("예시 프로젝트")}>
-              {t("「유리 정원의 기록」으로 먼저 눌러 보고 시작해요.")}
+              {t("「별이 없는 세자」로 먼저 눌러 보고 시작해요.")}
             </Point>
           </ul>
         </section>
