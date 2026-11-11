@@ -797,9 +797,9 @@ PDF 내보내기는 화면을 찍지 않고 따로 지은 지면을 인쇄한다
 
 공개 랜딩(`src/features/landing/`)은 같은 세계를 더 크게, 더 움직이게 쓴다. 같은 `--lk-*` 색, `--lk-font-stack-display`의 Wanted Sans 800 헤드라인, `--lk-ease` 이징을 쓰고, 기능은 실제 작업공간 창(온보딩과 같은 장면)을 줄여 보여 준다.
 
-- **골격:** 책상색 바닥, 본문 최대 1240px + 좌우 `clamp(16px, 5vw, 100px)`, 64px 머리글(8px 넘게 스크롤하면 아래에 `border-default` 선). 장 사이 `clamp(120px, 14vw, 200px)`. 960px 이하 한 열, 520px 이하 CTA 폭 100%.
+- **골격:** 책상색 바닥, 본문 최대 1240px + 좌우 `clamp(16px, 5vw, 100px)`, 64px 머리글(8px 넘게 스크롤하면 아래에 `border-default` 선). 장 사이 `clamp(120px, 14vw, 200px)`. 960px 이하 한 열, 520px 이하 머리글의 로그인 숨김.
 - **글자:** landing-display / landing-headline / landing-headline-sm 헤드라인(`text-wrap: balance`, 의도한 줄바꿈), landing-lede와 landing-body 설명(`text-secondary` 450), 기본 16px/1.6, 랜딩 전체 `word-break: keep-all`.
-- **단추:** lg 52px(좌우 24px, 17px), sm 36px(좌우 14px, 15px), 7px. 주(청록, hover 14% 가라앉음), 보조(흰 면 + 선, hover에서 선이 `text-secondary`로 짙어짐), quiet. "Google로 시작하기"에는 흰 원 안의 Google 마크.
+- **단추:** 머리글에만 있다. sm 36px(좌우 14px, 15px), 7px. 로그아웃이면 quiet "로그인"과 주(청록, hover 14% 가라앉음) "회원가입"(`/login/?mode=signup`), 로그인이면 주 "내 프로젝트". 본문(첫 화면·맺음)에는 시작 단추를 두지 않는다(2026-11-11 사용자 결정).
 - **Story Thread:** 원고 속 이름 "레나 아르벨"에서 캐릭터 색 2.5px 실이 내려와 창과 창 사이 빈자리를 지나며 창들을 차례로 꿴다. 실은 화면 70% 선까지 스크롤한 만큼 그려지고, 마디(바닥색 원 + 2px 캐릭터 색 테두리)가 커지며 나타난다.
 - **Scene Frame:** 1000×640 캔버스를 자리 폭에 맞춰 `scale()`로 줄인다(최소 0.56배, 그보다 좁으면 사이드바 쪽을 잘라 낸다). 화면 아래 30% 선을 넘으면 불투명도 0.4→1(520ms), 16px 올라옴(620ms)으로 켜지고 장면 동작을 한 번 재생한다. 900ms 뒤 따라가는 인물의 자리에 바닥색 3px 틈 + 캐릭터 색 2px 고리가 1100ms 동안 한 번 떠올랐다 사라진다.
 - **준비 중 표시:** AI 최신화처럼 서버가 없는 기능은 시계 아이콘이 붙은 알약으로 숨기지 않고 밝힌다.

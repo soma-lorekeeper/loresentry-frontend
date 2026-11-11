@@ -146,7 +146,7 @@
 /*
  * 로그인에 따라 달라지는 버튼은, 로그인한 적이 있는 브라우저에서 로그인 여부가 확인될 때까지 숨긴다
  * (features/auth/session-hint.ts). HTML 은 누구에게나 로그아웃 모습이라, 그대로 두면 로그인한
- * 사람에게 "Google로 시작하기" 가 보였다가 "내 프로젝트 열기" 로 바뀐다.
+ * 사람에게 "로그인"·"회원가입" 이 보였다가 "내 프로젝트" 로 바뀐다.
  *
  * 자리는 그대로 두고 보이지만 않게 한다. 버튼이 나타날 때 주변이 밀리지 않는다. 헤더는 버튼의 폭이
  * 바뀌면 언어 버튼도 따라 움직이므로 묶음째 숨긴다.
@@ -154,8 +154,7 @@
  * 스크립트가 끝내 오지 않으면 속성을 지울 사람이 없다. 그때도 버튼이 영영 사라지지 않게 4초 뒤에는
  * 드러낸다.
  */
-:global(html[data-session="pending"]) .headerActions,
-:global(html[data-session="pending"]) .ctaRow {
+:global(html[data-session="pending"]) .headerActions {
   visibility: hidden;
   animation: sessionReveal 0s linear 4s forwards;
 }
@@ -186,20 +185,10 @@
     color 160ms var(--ease);
 }
 
-.button:disabled {
-  cursor: progress;
-}
-
 .sm {
   height: 36px;
   padding: 0 14px;
   font-size: 15px;
-}
-
-.lg {
-  height: 52px;
-  padding: 0 24px;
-  font-size: 17px;
 }
 
 .primary {
@@ -207,35 +196,12 @@
   color: var(--lk-color-text-on-accent);
 }
 
-.primary:hover:not(:disabled) {
+.primary:hover {
   background: color-mix(
     in srgb,
     var(--lk-color-accent-primary) 86%,
     var(--lk-color-text-primary)
   );
-}
-
-.primary:disabled {
-  background: color-mix(
-    in srgb,
-    var(--lk-color-accent-primary) 70%,
-    var(--lk-color-bg-canvas)
-  );
-}
-
-.secondary {
-  border-color: var(--lk-color-border-default);
-  background: var(--lk-color-surface-default);
-  color: var(--lk-color-text-primary);
-}
-
-.secondary:hover {
-  border-color: var(--lk-color-text-secondary);
-}
-
-.buttonIcon {
-  flex: none;
-  color: var(--lk-color-icon-default);
 }
 
 .quiet {
@@ -245,24 +211,6 @@
 
 .quiet:hover {
   color: var(--lk-color-text-primary);
-}
-
-.googleDisc {
-  display: inline-grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #fff;
-}
-
-.googleDisc svg {
-  width: 15px;
-  height: 15px;
-}
-
-.spin {
-  animation: spin 900ms linear infinite;
 }
 
 /* 이야기 ---------------------------------------------------------------- */
@@ -356,14 +304,6 @@
   margin-top: 20px;
   font-size: 17px;
   line-height: 1.7;
-}
-
-.ctaRow {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 36px;
 }
 
 /* 첫 화면 --------------------------------------------------------------- */
@@ -723,10 +663,6 @@
   text-align: center;
 }
 
-.closing .body {
-  max-width: 30em;
-}
-
 /* 바닥글 ---------------------------------------------------------------- */
 
 .footer {
@@ -782,12 +718,6 @@
   grid-column: 1 / -1;
   color: var(--lk-color-text-secondary);
   font-size: 13px;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 @keyframes followedCue {
@@ -854,10 +784,6 @@
   .headerActions .quiet {
     display: none;
   }
-
-  .ctaRow .button {
-    width: 100%;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -880,10 +806,6 @@
 
   .frameShown :global([data-followed]),
   .frameShown :global(span[data-followed] > span:first-child) {
-    animation: none;
-  }
-
-  .spin {
     animation: none;
   }
 }

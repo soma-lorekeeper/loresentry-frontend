@@ -42,7 +42,7 @@ afterEach(() => {
 
 describe("session hint", () => {
   /**
-   * 처음 온 사람과 검색 로봇에게는 버튼을 숨기지 않는다. 숨기면 가장 중요한 "Google로 시작하기" 가
+   * 처음 온 사람과 검색 로봇에게는 버튼을 숨기지 않는다. 숨기면 가장 중요한 "회원가입" 이
    * 스크립트가 올 때까지 보이지 않는다.
    */
   it("shows the buttons at once to someone who has never signed in here", () => {
@@ -117,7 +117,6 @@ describe("session hint", () => {
 
     expect(createSessionHintScript()).toContain('dataset.session="pending"');
     expect(rule).toContain(".headerActions");
-    expect(rule).toContain(".ctaRow");
     expect(rule).toContain("visibility: hidden");
     // 스크립트가 오지 않아도 버튼이 영영 숨겨지지 않는다.
     expect(rule).toMatch(/animation: sessionReveal 0s linear \d+s forwards/);

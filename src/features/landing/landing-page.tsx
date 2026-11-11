@@ -8,7 +8,6 @@ import { useEffect, useState, type ReactNode } from "react";
 import { useRuntimeConfig } from "@/app/providers";
 import { Icon, type IconName } from "@/design-system/primitives";
 import { DOCUMENT_TYPES, DOCUMENT_TYPE_META } from "@/domain/document-types";
-import { GoogleMark } from "@/features/auth/google-mark";
 import { useSession } from "@/features/auth/session-gate";
 import { LanguageSwitch } from "@/features/locale/language-switch";
 import { policyHref } from "@/i18n/preference";
@@ -18,7 +17,6 @@ import { cx } from "@/shared/cx";
 import { ContactDialog } from "./contact-dialog";
 import { SceneFrame } from "./scene-frame";
 import { StoryThread } from "./story-thread";
-import { useStartWriting } from "./use-start-writing";
 import styles from "./landing.module.css";
 
 function useScrolled() {
@@ -30,96 +28,6 @@ function useScrolled() {
     return () => window.removeEventListener("scroll", read);
   }, []);
   return scrolled;
-}
-
-type CtaEntry = "landing_header" | "landing_body" | "landing_footer";
-type BodyEntry = Exclude<CtaEntry, "landing_header">;
-
-function MyProjectsLink({ entry }: { entry: CtaEntry }) {
-  const header = entry === "landing_header";
-  return (
-    <Link
-      className={cx(
-        styles.button,
-        styles.primary,
-        header ? styles.sm : styles.lg,
-      )}
-      href="/projects/"
-      onClick={() =>
-        trackUsage("landing_action", {
-          action: "start_writing",
-          entry_point: entry,
-          outcome: "requested",
-        })
-      }
-    >
-      {header ? t("내 프로젝트") : t("내 프로젝트 열기")}
-    </Link>
-  );
-}
-
-function GoogleStartButton({ entry }: { entry: BodyEntry }) {
-  const { start, starting } = useStartWriting(entry);
-  return (
-    <button
-      type="button"
-      className={cx(styles.button, styles.primary, styles.lg)}
-      onClick={start}
-      disabled={starting}
-      aria-busy={starting || undefined}
-    >
-      {starting ? (
-        <Icon name="loader-circle" size={18} className={styles.spin} />
-      ) : (
-        <span className={styles.googleDisc}>
-          <GoogleMark />
-        </span>
-      )}
-      {starting ? t("Google로 이동 중…") : t("Google로 시작하기")}
-    </button>
-  );
-}
-
-function SignUpLink({ entry }: { entry: CtaEntry }) {
-  const header = entry === "landing_header";
-  return (
-    <Link
-      className={cx(
-        styles.button,
-        header ? styles.primary : styles.secondary,
-        header ? styles.sm : styles.lg,
-      )}
-      href="/login/?mode=signup"
-      onClick={() =>
-        trackUsage("landing_action", {
-          action: "sign_up",
-          entry_point: entry,
-          outcome: "requested",
-        })
-      }
-    >
-      {!header && (
-        <Icon name="user-round-plus" size={18} className={styles.buttonIcon} />
-      )}
-      {header ? t("회원가입") : t("아이디로 가입하기")}
-    </Link>
-  );
-}
-
-function StartActions({ entry }: { entry: BodyEntry }) {
-  const session = useSession();
-  return (
-    <div className={styles.ctaRow}>
-      {session.data ? (
-        <MyProjectsLink entry={entry} />
-      ) : (
-        <>
-          <GoogleStartButton entry={entry} />
-          <SignUpLink entry={entry} />
-        </>
-      )}
-    </div>
-  );
 }
 
 function Header({ onContact }: { onContact?: () => void }) {
@@ -147,7 +55,19 @@ function Header({ onContact }: { onContact?: () => void }) {
         <div className={styles.headerActions}>
           <LanguageSwitch className={styles.language} />
           {session.data ? (
-            <MyProjectsLink entry="landing_header" />
+            <Link
+              className={cx(styles.button, styles.primary, styles.sm)}
+              href="/projects/"
+              onClick={() =>
+                trackUsage("landing_action", {
+                  action: "start_writing",
+                  entry_point: "landing_header",
+                  outcome: "requested",
+                })
+              }
+            >
+              {t("내 프로젝트")}
+            </Link>
           ) : (
             <>
               <Link
@@ -156,7 +76,19 @@ function Header({ onContact }: { onContact?: () => void }) {
               >
                 {t("랜딩::로그인")}
               </Link>
-              <SignUpLink entry="landing_header" />
+              <Link
+                className={cx(styles.button, styles.primary, styles.sm)}
+                href="/login/?mode=signup"
+                onClick={() =>
+                  trackUsage("landing_action", {
+                    action: "sign_up",
+                    entry_point: "landing_header",
+                    outcome: "requested",
+                  })
+                }
+              >
+                {t("회원가입")}
+              </Link>
             </>
           )}
         </div>
@@ -314,7 +246,6 @@ export function LandingPage() {
               "웹소설 작가를 위한 집필 에디터이자 AI 에이전트예요.<br/>회차를 쓰면 설정 문서에 바뀔 점을 AI가 찾아 두고, 반영은 작가가 골라요.",
             )}
           </p>
-          <StartActions entry="landing_body" />
           <SceneFrame
             scene="editor"
             eager
@@ -572,12 +503,6 @@ export function LandingPage() {
           <h2 id="closing-title" className={styles.h2}>
             {tRich("첫 회차부터<br/>이어 써 보세요")}
           </h2>
-          <p className={styles.body}>
-            {t(
-              "Google 계정이나 아이디 하나로 바로 시작해요. 처음 들어오면 예시 프로젝트로 지금 본 화면을 직접 눌러 볼 수 있어요.",
-            )}
-          </p>
-          <StartActions entry="landing_footer" />
         </section>
       </main>
 

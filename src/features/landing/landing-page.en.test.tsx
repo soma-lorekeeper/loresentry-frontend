@@ -31,15 +31,13 @@ describe("LandingPage (English build)", () => {
   it("shows the landing copy in English", async () => {
     renderWithServices(<LandingPage />);
 
+    const header = (await screen.findByRole("banner")) as HTMLElement;
+    const signUp = screen.getByRole("link", { name: "Sign up" });
+    expect(header).toContainElement(signUp);
+    expect(signUp.getAttribute("href")).toMatch(/^\/login\/?\?mode=signup$/);
     expect(
-      await screen.findAllByRole("button", { name: "Start with Google" }),
-    ).toHaveLength(2);
-    expect(
-      screen.getByRole("link", { name: "Sign up" }).getAttribute("href"),
-    ).toMatch(/^\/login\/?\?mode=signup$/);
-    expect(
-      screen.getAllByRole("link", { name: "Sign up with an ID" }),
-    ).toHaveLength(2);
+      screen.queryByRole("button", { name: /Google/ }),
+    ).not.toBeInTheDocument();
     expect(
       screen.getByRole("heading", { level: 1, name: /AI guards your lore/ }),
     ).toBeInTheDocument();

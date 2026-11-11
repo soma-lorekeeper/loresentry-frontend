@@ -7,11 +7,7 @@ export default {
   문의하기: "Contact",
   "랜딩::로그인": "Log in",
   회원가입: "Sign up",
-  "아이디로 가입하기": "Sign up with an ID",
   "내 프로젝트": "My projects",
-  "내 프로젝트 열기": "Open my projects",
-  "Google로 시작하기": "Start with Google",
-  "Google로 이동 중…": "Going to Google…",
 
   "이야기는 작가가 쓰고,<br/>세계관은 AI가 지켜요":
     "You write the story.<br/>AI guards your lore.",
@@ -104,8 +100,6 @@ export default {
     "Ask questions and get answers based on your story's material. We're building it now.",
 
   "첫 회차부터<br/>이어 써 보세요": "Start at chapter one<br/>and keep writing",
-  "Google 계정이나 아이디 하나로 바로 시작해요. 처음 들어오면 예시 프로젝트로 지금 본 화면을 직접 눌러 볼 수 있어요.":
-    "All you need is a Google account or an ID. The first time you come in, you can click through the screens you just saw in a sample project.",
 
   "이 성과는 2026년도 과학기술정보통신부의 재원으로 정보통신기획평가원의 지원을 받아 수행된 결과물임 <code>(IITP-2026-AI·SW마에스트로)</code>":
     "This work was supported by the Institute of Information & Communications Technology Planning & Evaluation(IITP) grant funded by the Ministry of Science and ICT(MSIT) <code>(IITP-2026-AI·SW Maestro)</code>",
