@@ -94,7 +94,7 @@ export default {
   "밤에 쓰는 날엔 어두운 테마로 바꿔요.":
     "Switch to the dark theme when you write at night.",
   "예시 프로젝트": "A sample project",
-  "「유리 정원의 기록」으로 먼저 눌러 보고 시작해요.":
+  "「별이 없는 세자」로 먼저 눌러 보고 시작해요.":
     "Click around “The Glass Garden Records” first, then begin.",
   "작품 자료를 바탕으로 묻고 답하는 대화예요. 지금 만들고 있어요.":
     "Ask questions and get answers based on your story's material. We're building it now.",

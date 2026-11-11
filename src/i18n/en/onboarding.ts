@@ -35,7 +35,7 @@ export default {
   "안내를 마치지 못했어요. 다시 시도해 주세요.":
     "Couldn't finish onboarding. Please try again.",
   "예시 프로젝트 둘러보기": "Explore the sample project",
-  "‘유리 정원의 기록’으로 직접 눌러 봐요.":
+  "‘별이 없는 세자’로 직접 눌러 봐요.":
     "Click around “The Glass Garden Records” yourself.",
   "온보딩::새 프로젝트 만들기": "Create a new project",
   "제목만 정하면 바로 시작해요.": "Just give it a title and start writing.",

@@ -313,7 +313,7 @@ function StartChoices({
         "sample",
         "book-open",
         t("예시 프로젝트 둘러보기"),
-        t("‘유리 정원의 기록’으로 직접 눌러 봐요."),
+        t("‘별이 없는 세자’로 직접 눌러 봐요."),
         0,
       )}
       {card(
