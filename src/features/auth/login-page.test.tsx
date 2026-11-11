@@ -178,6 +178,16 @@ describe("LoginPage password form", () => {
     expect(getDb().user.onboardingCompleted).toBe(false);
   });
 
+  it("opens straight on the sign-up form from the landing link", async () => {
+    setSearchParams("mode=signup");
+    renderWithServices(<LoginPage />);
+    expect(
+      await screen.findByRole("heading", { name: "계정 만들기" }),
+    ).toBeVisible();
+    expect(screen.getByLabelText("비밀번호 확인")).toBeVisible();
+    expect(screen.getByRole("button", { name: "로그인" })).toBeInTheDocument();
+  });
+
   it("refuses to sign up when the two passwords differ", async () => {
     const user = userEvent.setup();
     const signUpWithPassword = vi.fn(async () => "authenticated" as const);

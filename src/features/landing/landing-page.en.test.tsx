@@ -35,8 +35,11 @@ describe("LandingPage (English build)", () => {
       await screen.findAllByRole("button", { name: "Start with Google" }),
     ).toHaveLength(2);
     expect(
-      screen.getByRole("button", { name: "Get started" }),
-    ).toBeInTheDocument();
+      screen.getByRole("link", { name: "Sign up" }).getAttribute("href"),
+    ).toMatch(/^\/login\/?\?mode=signup$/);
+    expect(
+      screen.getAllByRole("link", { name: "Sign up with an ID" }),
+    ).toHaveLength(2);
     expect(
       screen.getByRole("heading", { level: 1, name: /AI guards your lore/ }),
     ).toBeInTheDocument();

@@ -223,6 +223,21 @@
   );
 }
 
+.secondary {
+  border-color: var(--lk-color-border-default);
+  background: var(--lk-color-surface-default);
+  color: var(--lk-color-text-primary);
+}
+
+.secondary:hover {
+  border-color: var(--lk-color-text-secondary);
+}
+
+.buttonIcon {
+  flex: none;
+  color: var(--lk-color-icon-default);
+}
+
 .quiet {
   background: transparent;
   color: var(--lk-color-text-secondary);

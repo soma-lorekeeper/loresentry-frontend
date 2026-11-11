@@ -32,66 +32,93 @@ function useScrolled() {
   return scrolled;
 }
 
-function StartButton({
-  size = "lg",
-  footer = false,
-}: {
-  size?: "sm" | "lg";
-  footer?: boolean;
-}) {
-  const session = useSession();
-  const { start, starting } = useStartWriting(
-    size === "sm"
-      ? "landing_header"
-      : footer
-        ? "landing_footer"
-        : "landing_body",
+type CtaEntry = "landing_header" | "landing_body" | "landing_footer";
+type BodyEntry = Exclude<CtaEntry, "landing_header">;
+
+function MyProjectsLink({ entry }: { entry: CtaEntry }) {
+  const header = entry === "landing_header";
+  return (
+    <Link
+      className={cx(
+        styles.button,
+        styles.primary,
+        header ? styles.sm : styles.lg,
+      )}
+      href="/projects/"
+      onClick={() =>
+        trackUsage("landing_action", {
+          action: "start_writing",
+          entry_point: entry,
+          outcome: "requested",
+        })
+      }
+    >
+      {header ? t("내 프로젝트") : t("내 프로젝트 열기")}
+    </Link>
   );
-  const className = cx(styles.button, styles.primary, styles[size]);
-  if (session.data) {
-    return (
-      <Link
-        className={className}
-        href="/projects/"
-        onClick={() =>
-          trackUsage("landing_action", {
-            action: "start_writing",
-            entry_point:
-              size === "sm"
-                ? "landing_header"
-                : footer
-                  ? "landing_footer"
-                  : "landing_body",
-            outcome: "requested",
-          })
-        }
-      >
-        {size === "sm" ? t("내 프로젝트") : t("내 프로젝트 열기")}
-      </Link>
-    );
-  }
+}
+
+function GoogleStartButton({ entry }: { entry: BodyEntry }) {
+  const { start, starting } = useStartWriting(entry);
   return (
     <button
       type="button"
-      className={className}
+      className={cx(styles.button, styles.primary, styles.lg)}
       onClick={start}
       disabled={starting}
       aria-busy={starting || undefined}
     >
-      {size === "lg" &&
-        (starting ? (
-          <Icon name="loader-circle" size={18} className={styles.spin} />
-        ) : (
-          <span className={styles.googleDisc}>
-            <GoogleMark />
-          </span>
-        ))}
-      {starting
-        ? t("Google로 이동 중…")
-        : size === "lg"
-          ? t("Google로 시작하기")
-          : t("랜딩::시작하기")}
+      {starting ? (
+        <Icon name="loader-circle" size={18} className={styles.spin} />
+      ) : (
+        <span className={styles.googleDisc}>
+          <GoogleMark />
+        </span>
+      )}
+      {starting ? t("Google로 이동 중…") : t("Google로 시작하기")}
     </button>
+  );
+}
+
+function SignUpLink({ entry }: { entry: CtaEntry }) {
+  const header = entry === "landing_header";
+  return (
+    <Link
+      className={cx(
+        styles.button,
+        header ? styles.primary : styles.secondary,
+        header ? styles.sm : styles.lg,
+      )}
+      href="/login/?mode=signup"
+      onClick={() =>
+        trackUsage("landing_action", {
+          action: "sign_up",
+          entry_point: entry,
+          outcome: "requested",
+        })
+      }
+    >
+      {!header && (
+        <Icon name="user-round-plus" size={18} className={styles.buttonIcon} />
+      )}
+      {header ? t("회원가입") : t("아이디로 가입하기")}
+    </Link>
+  );
+}
+
+function StartActions({ entry }: { entry: BodyEntry }) {
+  const session = useSession();
+  return (
+    <div className={styles.ctaRow}>
+      {session.data ? (
+        <MyProjectsLink entry={entry} />
+      ) : (
+        <>
+          <GoogleStartButton entry={entry} />
+          <SignUpLink entry={entry} />
+        </>
+      )}
+    </div>
   );
 }
 
@@ -119,15 +146,19 @@ function Header({ onContact }: { onContact?: () => void }) {
         </nav>
         <div className={styles.headerActions}>
           <LanguageSwitch className={styles.language} />
-          {!session.data && (
-            <Link
-              className={cx(styles.button, styles.quiet, styles.sm)}
-              href="/login/"
-            >
-              {t("랜딩::로그인")}
-            </Link>
+          {session.data ? (
+            <MyProjectsLink entry="landing_header" />
+          ) : (
+            <>
+              <Link
+                className={cx(styles.button, styles.quiet, styles.sm)}
+                href="/login/"
+              >
+                {t("랜딩::로그인")}
+              </Link>
+              <SignUpLink entry="landing_header" />
+            </>
           )}
-          <StartButton size="sm" />
         </div>
       </div>
     </header>
@@ -283,9 +314,7 @@ export function LandingPage() {
               "웹소설 작가를 위한 집필 에디터이자 AI 에이전트예요.<br/>회차를 쓰면 설정 문서에 바뀔 점을 AI가 찾아 두고, 반영은 작가가 골라요.",
             )}
           </p>
-          <div className={styles.ctaRow}>
-            <StartButton />
-          </div>
+          <StartActions entry="landing_body" />
           <SceneFrame
             scene="editor"
             eager
@@ -545,12 +574,10 @@ export function LandingPage() {
           </h2>
           <p className={styles.body}>
             {t(
-              "Google 계정 하나면 바로 시작해요. 처음 들어오면 예시 프로젝트로 지금 본 화면을 직접 눌러 볼 수 있어요.",
+              "Google 계정이나 아이디 하나로 바로 시작해요. 처음 들어오면 예시 프로젝트로 지금 본 화면을 직접 눌러 볼 수 있어요.",
             )}
           </p>
-          <div className={styles.ctaRow}>
-            <StartButton footer />
-          </div>
+          <StartActions entry="landing_footer" />
         </section>
       </main>
 

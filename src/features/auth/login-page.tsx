@@ -169,7 +169,9 @@ export function LoginPage() {
         ? oauthReturnTo
         : null;
 
-  const [mode, setMode] = useState<Mode>("login");
+  const [mode, setMode] = useState<Mode>(() =>
+    searchParams.get("mode") === "signup" ? "signup" : "login",
+  );
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");

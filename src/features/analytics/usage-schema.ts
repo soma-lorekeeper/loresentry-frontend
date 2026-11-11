@@ -203,6 +203,7 @@ export const USAGE_EVENTS = {
     ...entry,
     action: choices(
       "start_writing",
+      "sign_up",
       "contact_copy",
       "contact_compose",
       "section_jump",
