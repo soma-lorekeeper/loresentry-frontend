@@ -8,7 +8,6 @@ import { useEffect, useState, type ReactNode } from "react";
 import { useRuntimeConfig } from "@/app/providers";
 import { Icon, type IconName } from "@/design-system/primitives";
 import { DOCUMENT_TYPES, DOCUMENT_TYPE_META } from "@/domain/document-types";
-import { GoogleMark } from "@/features/auth/google-mark";
 import { useSession } from "@/features/auth/session-gate";
 import { LanguageSwitch } from "@/features/locale/language-switch";
 import { policyHref } from "@/i18n/preference";
@@ -18,7 +17,6 @@ import { cx } from "@/shared/cx";
 import { ContactDialog } from "./contact-dialog";
 import { SceneFrame } from "./scene-frame";
 import { StoryThread } from "./story-thread";
-import { useStartWriting } from "./use-start-writing";
 import styles from "./landing.module.css";
 
 function useScrolled() {
@@ -30,69 +28,6 @@ function useScrolled() {
     return () => window.removeEventListener("scroll", read);
   }, []);
   return scrolled;
-}
-
-function StartButton({
-  size = "lg",
-  footer = false,
-}: {
-  size?: "sm" | "lg";
-  footer?: boolean;
-}) {
-  const session = useSession();
-  const { start, starting } = useStartWriting(
-    size === "sm"
-      ? "landing_header"
-      : footer
-        ? "landing_footer"
-        : "landing_body",
-  );
-  const className = cx(styles.button, styles.primary, styles[size]);
-  if (session.data) {
-    return (
-      <Link
-        className={className}
-        href="/projects/"
-        onClick={() =>
-          trackUsage("landing_action", {
-            action: "start_writing",
-            entry_point:
-              size === "sm"
-                ? "landing_header"
-                : footer
-                  ? "landing_footer"
-                  : "landing_body",
-            outcome: "requested",
-          })
-        }
-      >
-        {size === "sm" ? t("내 프로젝트") : t("내 프로젝트 열기")}
-      </Link>
-    );
-  }
-  return (
-    <button
-      type="button"
-      className={className}
-      onClick={start}
-      disabled={starting}
-      aria-busy={starting || undefined}
-    >
-      {size === "lg" &&
-        (starting ? (
-          <Icon name="loader-circle" size={18} className={styles.spin} />
-        ) : (
-          <span className={styles.googleDisc}>
-            <GoogleMark />
-          </span>
-        ))}
-      {starting
-        ? t("Google로 이동 중…")
-        : size === "lg"
-          ? t("Google로 시작하기")
-          : t("랜딩::시작하기")}
-    </button>
-  );
 }
 
 function Header({ onContact }: { onContact?: () => void }) {
@@ -119,15 +54,43 @@ function Header({ onContact }: { onContact?: () => void }) {
         </nav>
         <div className={styles.headerActions}>
           <LanguageSwitch className={styles.language} />
-          {!session.data && (
+          {session.data ? (
             <Link
-              className={cx(styles.button, styles.quiet, styles.sm)}
-              href="/login/"
+              className={cx(styles.button, styles.primary, styles.sm)}
+              href="/projects/"
+              onClick={() =>
+                trackUsage("landing_action", {
+                  action: "start_writing",
+                  entry_point: "landing_header",
+                  outcome: "requested",
+                })
+              }
             >
-              {t("랜딩::로그인")}
+              {t("내 프로젝트")}
             </Link>
+          ) : (
+            <>
+              <Link
+                className={cx(styles.button, styles.quiet, styles.sm)}
+                href="/login/"
+              >
+                {t("랜딩::로그인")}
+              </Link>
+              <Link
+                className={cx(styles.button, styles.primary, styles.sm)}
+                href="/login/?mode=signup"
+                onClick={() =>
+                  trackUsage("landing_action", {
+                    action: "sign_up",
+                    entry_point: "landing_header",
+                    outcome: "requested",
+                  })
+                }
+              >
+                {t("회원가입")}
+              </Link>
+            </>
           )}
-          <StartButton size="sm" />
         </div>
       </div>
     </header>
@@ -283,9 +246,6 @@ export function LandingPage() {
               "웹소설 작가를 위한 집필 에디터이자 AI 에이전트예요.<br/>회차를 쓰면 설정 문서에 바뀔 점을 AI가 찾아 두고, 반영은 작가가 골라요.",
             )}
           </p>
-          <div className={styles.ctaRow}>
-            <StartButton />
-          </div>
           <SceneFrame
             scene="editor"
             eager
@@ -543,14 +503,6 @@ export function LandingPage() {
           <h2 id="closing-title" className={styles.h2}>
             {tRich("첫 회차부터<br/>이어 써 보세요")}
           </h2>
-          <p className={styles.body}>
-            {t(
-              "Google 계정 하나면 바로 시작해요. 처음 들어오면 예시 프로젝트로 지금 본 화면을 직접 눌러 볼 수 있어요.",
-            )}
-          </p>
-          <div className={styles.ctaRow}>
-            <StartButton footer />
-          </div>
         </section>
       </main>
 

@@ -260,7 +260,7 @@ describe("AppProviders", () => {
   });
 
   /**
-   * 화면이 먼저 뜨므로 설정이 오기 전에 버튼을 누를 수 있다. 랜딩의 "Google로 시작하기"가 그렇다.
+   * 화면이 먼저 뜨므로 설정이 오기 전에 버튼을 누를 수 있다. 로그인 화면의 "Google로 계속하기"가 그렇다.
    * 그 호출도 설정을 기다렸다가 올바른 출처로 가야 한다.
    */
   it("holds a click made before the config arrives, then sends it to the loaded source", async () => {
