@@ -28,7 +28,7 @@ function finishedNotice(run: RefreshRun) {
     case "FAILED":
       return {
         icon: "triangle-alert" as const,
-        title: t("AI의 설정 문서 작성 제안을 마치지 못했어요."),
+        title: t("AI의 설정 문서 편집 제안을 마치지 못했어요."),
         description:
           run.error?.code === "TIMED_OUT"
             ? t(

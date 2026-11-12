@@ -77,7 +77,7 @@ export function GraphRefreshItem() {
     return (
       <SidebarButton
         icon="clock-3"
-        label={t("AI의 설정 문서 작성 제안 (준비 중)")}
+        label={t("AI의 설정 문서 편집 제안 (준비 중)")}
         disabled
       />
     );
@@ -184,7 +184,7 @@ export function GraphRefreshItem() {
         });
         toast({
           icon: "triangle-alert",
-          title: t("AI의 설정 문서 작성 제안을 시작하지 못했어요."),
+          title: t("AI의 설정 문서 편집 제안을 시작하지 못했어요."),
           description: isServiceError(error)
             ? error.message
             : t("작업공간::잠시 후 다시 시도해 주세요."),
@@ -197,7 +197,7 @@ export function GraphRefreshItem() {
     <>
       <SidebarButton
         icon="refresh-cw"
-        label={t("작업공간::AI의 설정 문서 작성 제안")}
+        label={t("작업공간::AI의 설정 문서 편집 제안")}
         data-tour="refresh-start"
         trailing={<InfoHint text={hint} />}
         onClick={() => setConfirming(true)}
@@ -206,7 +206,7 @@ export function GraphRefreshItem() {
       <DialogCard
         open={confirming}
         onClose={() => setConfirming(false)}
-        title={t("AI의 설정 문서 작성 제안을 시작할까요?")}
+        title={t("AI의 설정 문서 편집 제안을 시작할까요?")}
         description={t(
           "지난 제안 뒤 고친 원고와 설정 문서를 AI가 읽어요. 읽는 문서는 결과를 확정할 때까지 편집할 수 없어요.",
         )}

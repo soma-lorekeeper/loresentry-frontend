@@ -58,7 +58,7 @@ export default {
 
   "mock::메모를 찾을 수 없어요.": "Couldn't find this note.",
 
-  "이미 AI의 설정 문서 작성 제안을 진행하고 있어요.":
+  "이미 AI의 설정 문서 편집 제안을 진행하고 있어요.":
     "AI setting doc suggestions are already running.",
 
   "대화를 찾을 수 없어요.": "Couldn't find this conversation.",

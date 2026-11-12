@@ -180,14 +180,14 @@ function SideItem({
 function RefreshItem({ scene }: { scene: Scene }) {
   if (scene !== "refresh") {
     return (
-      <SideItem icon="refresh-cw" label={t("무대::AI의 설정 문서 작성 제안")} />
+      <SideItem icon="refresh-cw" label={t("무대::AI의 설정 문서 편집 제안")} />
     );
   }
   return (
     <div className={styles.refreshItem} data-focus="refresh">
       <span className={cx(styles.refreshState, styles.refreshIdle)}>
         <Icon name="refresh-cw" size={13} />
-        {t("무대::AI의 설정 문서 작성 제안")}
+        {t("무대::AI의 설정 문서 편집 제안")}
       </span>
       <span className={cx(styles.refreshState, styles.refreshRunning)}>
         <Icon name="loader-circle" size={13} className={styles.spin} />

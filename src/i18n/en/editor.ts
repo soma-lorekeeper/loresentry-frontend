@@ -285,11 +285,11 @@ export default {
     "Some edits aren't saved yet. Save them before you restore.",
   "버전 저장": "Save version",
   "이 버전으로 복원": "Restore this version",
-  "AI의 설정 문서 작성 제안을 마치지 못했어요.":
+  "AI의 설정 문서 편집 제안을 마치지 못했어요.":
     "AI setting doc suggestions did not finish.",
 
   // 그래프 최신화 잠금과 검토
-  "AI의 설정 문서 작성 제안으로 잠김": "Locked by AI setting doc suggestions",
+  "AI의 설정 문서 편집 제안으로 잠김": "Locked by AI setting doc suggestions",
   검토하기: "Review",
   "새로 반영할 내용이 없어요.": "Nothing new to apply.",
   "잠근 문서를 다시 편집할 수 있어요.": "Locked documents can be edited again.",
@@ -323,13 +323,13 @@ export default {
   "그대로 반영할 수 없는 내용이 있어요.":
     "Something can't be applied as it is.",
   "AI가 읽은 뒤 바뀐 문서": "Changed after the AI read it",
-  "AI의 설정 문서 작성 제안이 잠근 문서예요.":
+  "AI의 설정 문서 편집 제안이 잠근 문서예요.":
     "AI setting doc suggestions locked this document.",
   "결과가 오면 검토해 확정할 때 풀려요.":
     "It unlocks when the results arrive and you apply them.",
   "검토에서 ‘반영 확정’을 누르면 풀려요.":
     "It unlocks when you select ‘Apply changes’ in the review.",
-  "AI의 설정 문서 작성 제안 결과를 기다리고 있어요. 확정할 때까지 잠겨 있어요.":
+  "AI의 설정 문서 편집 제안 결과를 기다리고 있어요. 확정할 때까지 잠겨 있어요.":
     "Waiting for AI suggestion results. It stays locked until you apply them.",
   "잠긴 문서를 다시 편집할 수 있어요. 반영한 내용은 버전 기록에 남아요.":
     "Locked documents can be edited again. What you applied is kept in version history.",

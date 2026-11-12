@@ -320,6 +320,6 @@ export default {
     "This is a draft before publication. The first publication and effective date will be set when the official text is registered.",
 
   "검토를 기다리는 제안 결과가 있어요.": "Suggestions are waiting for review.",
-  "AI의 설정 문서 작성 제안 결과를 확정해야 잠금이 풀려요.":
+  "AI의 설정 문서 편집 제안 결과를 확정해야 잠금이 풀려요.":
     "It unlocks only when the AI suggestion results are applied.",
 } satisfies Messages;
