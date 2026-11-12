@@ -302,7 +302,7 @@ function Row({
 function LockMark({ refreshLocked }: { refreshLocked: boolean }) {
   const ref = useRef<HTMLSpanElement>(null);
   const label = refreshLocked
-    ? t("AI의 설정 문서 작성 제안으로 잠김")
+    ? t("AI의 설정 문서 편집 제안으로 잠김")
     : t("잠김");
   return (
     <>

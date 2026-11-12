@@ -183,7 +183,7 @@ export function FileHeader({
         icon={locked ? "lock" : "lock-open"}
         label={
           refreshLocked
-            ? t("AI의 설정 문서 작성 제안으로 잠김")
+            ? t("AI의 설정 문서 편집 제안으로 잠김")
             : locked
               ? t("잠금 해제")
               : t("잠금")

@@ -425,12 +425,12 @@ export function LandingPage() {
             focus={[446, 976]}
             className={styles.refreshFrame}
             label={t(
-              "AI의 설정 문서 작성 제안의 변경 사항 창. 레나 아르벨의 현재 버전과 제안 버전이 나란히 놓이고, 바뀐 설명과 관련 장소가 표시된다.",
+              "AI의 설정 문서 편집 제안의 변경 사항 창. 레나 아르벨의 현재 버전과 제안 버전이 나란히 놓이고, 바뀐 설명과 관련 장소가 표시된다.",
             )}
           />
           <ol className={styles.steps}>
             <li>
-              <b>{t("AI의 설정 문서 작성 제안을 눌러요")}</b>
+              <b>{t("AI의 설정 문서 편집 제안을 눌러요")}</b>
               {t("AI가 새 원고를 읽는 동안에도 계속 쓸 수 있어요.")}
             </li>
             <li>

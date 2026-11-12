@@ -115,7 +115,7 @@ describe("GraphRefreshItem", () => {
     const untrack = trackSession(session);
     try {
       await actor.click(
-        await screen.findByRole("button", { name: "AI의 설정 문서 작성 제안" }),
+        await screen.findByRole("button", { name: "AI의 설정 문서 편집 제안" }),
       );
       await actor.click(
         await screen.findByRole("button", { name: "제안 시작" }),
@@ -131,7 +131,7 @@ describe("GraphRefreshItem", () => {
         bodyFromPlainText("저장되어야 할 새 원고"),
       );
       await actor.click(
-        await screen.findByRole("button", { name: "AI의 설정 문서 작성 제안" }),
+        await screen.findByRole("button", { name: "AI의 설정 문서 편집 제안" }),
       );
       await actor.click(
         await screen.findByRole("button", { name: "제안 시작" }),
@@ -150,11 +150,11 @@ describe("GraphRefreshItem", () => {
     const alert = await screen.findByRole("alert");
     expect(alert).toHaveTextContent("제안 상태를 불러오지 못했어요");
     expect(
-      screen.queryByRole("button", { name: "AI의 설정 문서 작성 제안" }),
+      screen.queryByRole("button", { name: "AI의 설정 문서 편집 제안" }),
     ).toBeNull();
     await actor.click(within(alert).getByRole("button", { name: "다시 시도" }));
     expect(
-      await screen.findByRole("button", { name: "AI의 설정 문서 작성 제안" }),
+      await screen.findByRole("button", { name: "AI의 설정 문서 편집 제안" }),
     ).toBeEnabled();
   });
 
@@ -164,10 +164,10 @@ describe("GraphRefreshItem", () => {
     renderRefresh({ refresh: { start } });
 
     await actor.click(
-      await screen.findByRole("button", { name: "AI의 설정 문서 작성 제안" }),
+      await screen.findByRole("button", { name: "AI의 설정 문서 편집 제안" }),
     );
     const dialog = await screen.findByRole("dialog", {
-      name: "AI의 설정 문서 작성 제안을 시작할까요?",
+      name: "AI의 설정 문서 편집 제안을 시작할까요?",
     });
     await actor.click(within(dialog).getByRole("button", { name: "취소" }));
     expect(start).not.toHaveBeenCalled();
@@ -179,7 +179,7 @@ describe("GraphRefreshItem", () => {
     renderRefresh();
 
     await actor.click(
-      await screen.findByRole("button", { name: "AI의 설정 문서 작성 제안" }),
+      await screen.findByRole("button", { name: "AI의 설정 문서 편집 제안" }),
     );
     await actor.click(await screen.findByRole("button", { name: "제안 시작" }));
 
@@ -241,10 +241,10 @@ describe("GraphRefreshItem", () => {
     renderRefresh({ refresh: { latest: async () => run("FAILED") } });
 
     expect(
-      await screen.findByRole("button", { name: "AI의 설정 문서 작성 제안" }),
+      await screen.findByRole("button", { name: "AI의 설정 문서 편집 제안" }),
     ).toBeInTheDocument();
     expect(
-      screen.queryByText("AI의 설정 문서 작성 제안을 마치지 못했어요."),
+      screen.queryByText("AI의 설정 문서 편집 제안을 마치지 못했어요."),
     ).toBeNull();
   });
 

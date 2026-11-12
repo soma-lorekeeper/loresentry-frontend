@@ -110,7 +110,7 @@ const MESSAGES: Partial<Record<ServiceErrorCode, string>> = {
   "not-found": t("찾을 수 없어요."),
   locked: t("잠긴 문서는 편집할 수 없어요."),
   "refresh-locked": t(
-    "AI의 설정 문서 작성 제안 결과를 확정해야 잠금이 풀려요.",
+    "AI의 설정 문서 편집 제안 결과를 확정해야 잠금이 풀려요.",
   ),
   busy: t("처리 중이에요. 잠시 뒤 다시 시도해 주세요."),
   network: t("서버에 연결할 수 없어요."),
@@ -142,7 +142,7 @@ const CODE_MESSAGES: Record<string, string> = {
   PROJECT_NOT_TRASHED: t("휴지통으로 옮긴 뒤에 삭제할 수 있어요."),
   FILE_NOT_TRASHED: t("휴지통으로 옮긴 뒤에 삭제할 수 있어요."),
   DOCUMENT_LOCKED: t("잠긴 문서는 편집할 수 없어요."),
-  REFRESH_IN_PROGRESS: t("이미 AI의 설정 문서 작성 제안을 진행하고 있어요."),
+  REFRESH_IN_PROGRESS: t("이미 AI의 설정 문서 편집 제안을 진행하고 있어요."),
   REFRESH_REVIEW_PENDING: t("검토를 기다리는 제안 결과가 있어요."),
   REFRESH_UNAVAILABLE: t("잠시 뒤 다시 시도해 주세요."),
   REFRESH_NOT_READY: t("이미 끝난 제안이에요."),

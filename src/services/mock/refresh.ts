@@ -336,7 +336,7 @@ export const mockRefresh: RefreshService = {
       if (entry?.run.status === "RUNNING") {
         throw new ServiceError(
           "busy",
-          t("이미 AI의 설정 문서 작성 제안을 진행하고 있어요."),
+          t("이미 AI의 설정 문서 편집 제안을 진행하고 있어요."),
         );
       }
       if (entry?.run.status === "READY") {
