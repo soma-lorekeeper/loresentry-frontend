@@ -15,10 +15,14 @@ describe("ShutdownNotice", () => {
     expect(
       await screen.findByRole("heading", { name: "서비스 종료 안내" }),
     ).toBeInTheDocument();
-    expect(screen.getByText(/2026년 11월 29일에 서비스를 종료/)).toBeVisible();
-    expect(screen.getByText(/'내보내기'/)).toBeVisible();
     expect(
-      screen.getByText(/2026년 12월 29일까지는.*contact@loresentry\.com/),
+      screen.getByText(/2026년 11월 29일에 서비스를 종료합니다\./),
+    ).toBeVisible();
+    expect(screen.getByText(/'내보내기'를 누르면 됩니다\./)).toBeVisible();
+    expect(
+      screen.getByText(
+        /2026년 12월 29일까지는.*contact@loresentry\.com 에 요청하시면.*보내 드립니다\./,
+      ),
     ).toBeVisible();
   });
 

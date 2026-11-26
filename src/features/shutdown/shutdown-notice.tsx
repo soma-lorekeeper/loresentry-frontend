@@ -51,24 +51,24 @@ export function ShutdownNotice({ contactEmail }: { contactEmail: string }) {
   const items: Array<{ icon: IconName; text: string }> = [
     {
       icon: "log-out",
-      text: t("종료 후에는 로그인하거나 원고를 열 수 없어요."),
+      text: t("종료 후에는 로그인하거나 원고를 열 수 없습니다."),
     },
     {
       icon: "download",
       text: t(
-        "보관할 원고와 설정 문서는 종료 전에 내려받아 주세요. 문서를 열고 위쪽의 '내보내기'를 누르면 돼요. 문서마다 따로 내려받아야 해요.",
+        "보관할 원고와 설정 문서는 종료 전에 내려받아 주시기 바랍니다. 문서를 열고 위쪽의 '내보내기'를 누르면 됩니다. 문서마다 따로 내려받아야 합니다.",
       ),
     },
     {
       icon: "mail",
       text: t(
-        "종료 후에도 2026년 12월 29일까지는 가입한 이메일로 {email} 에 요청하시면 원고와 설정 문서를 파일로 보내 드려요.",
+        "종료 후에도 2026년 12월 29일까지는 가입한 이메일로 {email} 에 요청하시면 원고와 설정 문서를 파일로 보내 드립니다.",
         { email },
       ),
     },
     {
       icon: "trash-2",
-      text: t("보관한 데이터는 2026년 12월 29일 이후 모두 파기해요."),
+      text: t("보관한 데이터는 2026년 12월 29일 이후 모두 파기합니다."),
     },
   ];
 
@@ -79,7 +79,7 @@ export function ShutdownNotice({ contactEmail }: { contactEmail: string }) {
       size="md"
       title={t("서비스 종료 안내")}
       description={t(
-        "Lore Sentry는 2026년 11월 29일에 서비스를 종료해요. 그동안 이용해 주셔서 감사합니다.",
+        "Lore Sentry는 2026년 11월 29일에 서비스를 종료합니다. 그동안 이용해 주셔서 감사합니다.",
       )}
       closeLabel={t("닫기")}
       actions={
