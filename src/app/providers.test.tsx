@@ -37,6 +37,7 @@ beforeEach(() => {
   window.localStorage.removeItem("ls.auth-transition");
   requested = [];
   window.sessionStorage.clear();
+  window.sessionStorage.setItem("ls.shutdown-notice.seen", "1");
   window.history.replaceState({}, "", "/");
   mockList = vi.spyOn(mockProjects, "list");
   const held = new Promise<void>((resolve) => {

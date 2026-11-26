@@ -23,6 +23,7 @@ import { analyticsEnabled } from "@/features/analytics/google-analytics";
 import { GoogleAnalyticsTracker } from "@/features/analytics/google-analytics-tracker";
 import { configureUsageAnalytics } from "@/features/analytics/usage-analytics";
 import { FeedbackProvider } from "@/features/feedback/feedback-provider";
+import { ShutdownNotice } from "@/features/shutdown/shutdown-notice";
 import { createServices } from "@/services/create-services";
 import { deferServices } from "@/services/deferred-services";
 import { createMockServices } from "@/services/mock";
@@ -142,7 +143,12 @@ export function AppProviders({ children }: { children: ReactNode }) {
       <QueryClientProvider client={queryClient}>
         <ServicesProvider services={deferred.services}>
           <ToastProvider>
-            <FeedbackProvider>{children}</FeedbackProvider>
+            <FeedbackProvider>
+              {children}
+              <ShutdownNotice
+                contactEmail={(loaded ?? PRERENDER_CONFIG).contactEmail}
+              />
+            </FeedbackProvider>
           </ToastProvider>
         </ServicesProvider>
       </QueryClientProvider>
