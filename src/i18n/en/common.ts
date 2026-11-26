@@ -37,6 +37,18 @@ export default {
     "The language changed on this device, but couldn't be saved to your account.",
   "계정 언어 다시 저장": "Retry saving account language",
   "내보내기 중…": "Exporting…",
+
+  "서비스 종료 안내": "Service closing notice",
+  "Lore Sentry는 2026년 11월 29일에 서비스를 종료해요. 그동안 이용해 주셔서 감사합니다.":
+    "Lore Sentry closes on November 29, 2026. Thank you for writing with us.",
+  "종료 후에는 로그인하거나 원고를 열 수 없어요.":
+    "After that date you can't log in or open your manuscripts.",
+  "보관할 원고와 설정 문서는 종료 전에 내려받아 주세요. 문서를 열고 위쪽의 '내보내기'를 누르면 돼요. 문서마다 따로 내려받아야 해요.":
+    "Download the manuscripts and setting documents you want to keep before then. Open a document and choose Export at the top. Each document is exported separately.",
+  "종료 후에도 2026년 12월 29일까지는 가입한 이메일로 {email} 에 요청하시면 원고와 설정 문서를 파일로 보내 드려요.":
+    "Until December 29, 2026 you can still write to {email} from the email address you signed up with, and we'll send your manuscripts and setting documents as files.",
+  "보관한 데이터는 2026년 12월 29일 이후 모두 파기해요.":
+    "All stored data is destroyed after December 29, 2026.",
   "휴지통에서 복원했어요.": "Restored from trash.",
   "‘{title}’을 ‘{location}’에 복원했어요.":
     "Restored ‘{title}’ to ‘{location}’.",
